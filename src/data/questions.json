@@ -4354,7 +4354,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Encrypting the system's dati",
+          "it": "Cifrare i dati del sistema",
           "en": "Encrypting the system's data"
         },
         "correct": false
@@ -6074,7 +6074,7 @@
       {
         "id": "B",
         "text": {
-          "it": "A discover which systems have been affected",
+          "it": "Per scoprire quali sistemi sono stati interessati",
           "en": "To discover which systems have been affected"
         },
         "correct": false
@@ -6234,7 +6234,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Documenting il nuovo policy in un change request e submitting il request a change management",
+          "it": "Documentare la nuova policy in una richiesta di cambiamento e inviare la richiesta alla gestione dei cambiamenti",
           "en": "Documenting the new policy in a change request and submitting the request to change management"
         },
         "correct": false
@@ -6242,7 +6242,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Testing il policy in un non-production environment prima enabling il policy in il production rete",
+          "it": "Testare la policy in un ambiente non di produzione prima di attivarla nella rete di produzione",
           "en": "Testing the policy in a non-production environment before enabling the policy in the production network"
         },
         "correct": true
@@ -6250,7 +6250,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Disabling any intrusion prevention signatures su il “deny any” policy prior a enabling il nuovo policy",
+          "it": "Disabilitare eventuali firme di intrusion prevention sulla policy \"deny any\" prima di attivare la nuova policy",
           "en": "Disabling any intrusion prevention signatures on the “deny any” policy prior to enabling the new policy"
         },
         "correct": false
@@ -6258,7 +6258,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Including un “allow any” policy above il “deny any” policy",
+          "it": "Includere una policy \"allow any\" sopra la policy \"deny any\"",
           "en": "Including an “allow any” policy above the “deny any” policy"
         },
         "correct": false
@@ -6444,7 +6444,7 @@
       {
         "id": "A",
         "text": {
-          "it": "accesso controllo list",
+          "it": "Lista di controllo degli accessi",
           "en": "Access control list"
         },
         "correct": false
@@ -6452,7 +6452,7 @@
       {
         "id": "B",
         "text": {
-          "it": "applicazione allow list",
+          "it": "Application allow list",
           "en": "Application allow list"
         },
         "correct": true
@@ -6528,7 +6528,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Testing input validation su il utente input fields",
+          "it": "Testare la validazione degli input nei campi di input dell'utente",
           "en": "Testing input validation on the user input fields"
         },
         "correct": false
@@ -6536,7 +6536,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Performing code signing su azienda-developed software",
+          "it": "Eseguire code signing sul software sviluppato dall'azienda",
           "en": "Performing code signing on company-developed software"
         },
         "correct": true
@@ -6544,7 +6544,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Performing static code analysis su il software",
+          "it": "Eseguire l'analisi statica del codice sul software",
           "en": "Performing static code analysis on the software"
         },
         "correct": false
@@ -6552,7 +6552,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Ensuring sicuro cookies sono use",
+          "it": "Garantire l'utilizzo di cookie sicuri",
           "en": "Ensuring secure cookies are use"
         },
         "correct": false
@@ -6654,7 +6654,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Conduct un audit.",
+          "it": "Condurre un audit.",
           "en": "Conduct an audit."
         },
         "correct": false
@@ -6662,7 +6662,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Initiate un penetration test.",
+          "it": "Avviare un penetration test.",
           "en": "Initiate a penetration test."
         },
         "correct": false
@@ -6670,7 +6670,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Rescan il rete.",
+          "it": "Eseguire nuovamente la scansione della rete.",
           "en": "Rescan the network."
         },
         "correct": true
@@ -6678,7 +6678,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Submit un report.",
+          "it": "Presentare un report.",
           "en": "Submit a report."
         },
         "correct": false
@@ -7242,7 +7242,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Reporting phishing attempts o other suspicious activities",
+          "it": "Segnalare tentativi di phishing o altre attività sospette",
           "en": "Reporting phishing attempts or other suspicious activities"
         },
         "correct": true
@@ -7250,7 +7250,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Detecting insider threats using anomalous behavior recognition",
+          "it": "Rilevare minacce interne tramite il riconoscimento di comportamenti anomali",
           "en": "Detecting insider threats using anomalous behavior recognition"
         },
         "correct": false
@@ -7258,7 +7258,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Verifying information quando modifying wire transfer dati",
+          "it": "Verificare le informazioni quando si modificano i dati dei bonifici bancari",
           "en": "Verifying information when modifying wire transfer data"
         },
         "correct": false
@@ -7266,7 +7266,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Performing social engineering come part di third-party penetration testing",
+          "it": "Eseguire social engineering nell'ambito di un penetration testing di terze parti",
           "en": "Performing social engineering as part of third-party penetration testing"
         },
         "correct": false
@@ -7284,7 +7284,7 @@
       {
         "id": "A",
         "text": {
-          "it": "SYN packets da multiple sources (Web server): Botnet - Abilitare DDoS protection",
+          "it": "Pacchetti SYN da fonti multiple (Web server): Botnet - Abilitare la protezione DDoS",
           "en": "SYN packets from multiple sources (Web server): Botnet - Enable DDoS protection"
         },
         "correct": true
@@ -7292,7 +7292,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Remote commands execution (utente): RAT - Disabilitare remote accesso services",
+          "it": "Esecuzione di comandi remoti (Utente): RAT - Disabilitare i servizi di accesso remoto",
           "en": "Remote commands execution (User): RAT - Disable remote access services"
         },
         "correct": true
@@ -7300,7 +7300,7 @@
       {
         "id": "C",
         "text": {
-          "it": "SQL datibase compromise con well-known credentials (datibase server): Worm - Patch vulnerable systems",
+          "it": "Compromissione del database SQL con credenziali note (Database server): Worm - Applicare patch ai sistemi vulnerabili",
           "en": "SQL database compromise with well-known credentials (Database server): Worm - Patch vulnerable systems"
         },
         "correct": true
@@ -7308,7 +7308,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Hardware monitors utente input (Executive): Keylogger - Implementare 2FA using push notification",
+          "it": "Hardware che monitora l'input dell'utente (Executive): Keylogger - Implementare 2FA tramite notifica push",
           "en": "Hardware monitors user input (Executive): Keylogger - Implement 2FA using push notification"
         },
         "correct": true
@@ -7316,7 +7316,7 @@
       {
         "id": "E",
         "text": {
-          "it": "Hidden accesso in internally developed applicazione (applicazione): Backdoor - Conduct un code revisione",
+          "it": "Accesso nascosto in un'applicazione sviluppata internamente (Applicazione): Backdoor - Effettuare una revisione del codice",
           "en": "Hidden access in internally developed application (Application): Backdoor - Conduct a code review"
         },
         "correct": true
@@ -7560,7 +7560,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Changing il remote desktop port a un non-standard number",
+          "it": "Modificare la porta del remote desktop con un numero non standard",
           "en": "Changing the remote desktop port to a non-standard number"
         },
         "correct": false
@@ -7568,7 +7568,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Setting up un VPN e placing il jump server inside il firewall",
+          "it": "Configurare una VPN e posizionare il jump server all'interno del firewall",
           "en": "Setting up a VPN and placing the jump server inside the firewall"
         },
         "correct": true
@@ -7576,7 +7576,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Using un proxy per web connections da il remote desktop server",
+          "it": "Utilizzare un proxy per le connessioni web dal server di desktop remoto",
           "en": "Using a proxy for web connections from the remote desktop server"
         },
         "correct": false
@@ -7584,7 +7584,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Connecting il remote server a il domain e increasing il password length",
+          "it": "Collegare il server remoto al dominio e aumentare la lunghezza della password",
           "en": "Connecting the remote server to the domain and increasing the password length"
         },
         "correct": false
@@ -7644,7 +7644,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Remote accesso points should fail closed.",
+          "it": "I punti di accesso remoto devono fallire in modalità chiusa.",
           "en": "Remote access points should fail closed."
         },
         "correct": false
@@ -7652,7 +7652,7 @@
       {
         "id": "B",
         "text": {
-          "it": "logging controlloli should fail open.",
+          "it": "I controlli di logging devono fallire in modalità aperta.",
           "en": "Logging controls should fail open."
         },
         "correct": false
@@ -7660,7 +7660,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Safety controlloli should fail open.",
+          "it": "I controlli di sicurezza fisica devono fallire in modalità aperta.",
           "en": "Safety controls should fail open."
         },
         "correct": true
@@ -7668,7 +7668,7 @@
       {
         "id": "D",
         "text": {
-          "it": "logical security controlloli should fail closed.",
+          "it": "I controlli di sicurezza logica devono fallire in modalità chiusa.",
           "en": "Logical security controls should fail closed."
         },
         "correct": false
@@ -8642,7 +8642,7 @@
       {
         "id": "D",
         "text": {
-          "it": "applicazione allow list",
+          "it": "Application allow list",
           "en": "Application allow list"
         },
         "correct": true
@@ -8886,7 +8886,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Deploying un SASE solution a remote dipendenti",
+          "it": "Distribuire una soluzione SASE ai dipendenti remoti",
           "en": "Deploying a SASE solution to remote employees"
         },
         "correct": true
@@ -8894,7 +8894,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Building un load-balanced VPN solution con redundant internet",
+          "it": "Costruire una soluzione VPN con bilanciamento del carico e connessione Internet ridondante",
           "en": "Building a load-balanced VPN solution with redundant internet"
         },
         "correct": false
@@ -8902,7 +8902,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Purchasing un low-cost SD-WAN solution per VPN traffic",
+          "it": "Acquistare una soluzione SD-WAN a basso costo per il traffico VPN",
           "en": "Purchasing a low-cost SD-WAN solution for VPN traffic"
         },
         "correct": false
@@ -8910,7 +8910,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Using un cloud provider a create additional VPN concentrators",
+          "it": "Utilizzare un cloud provider per creare concentratori VPN aggiuntivi",
           "en": "Using a cloud provider to create additional VPN concentrators"
         },
         "correct": false
@@ -10841,7 +10841,7 @@
     "id": "SCREEN_293",
     "objective": "3.1",
     "text": {
-      "it": "Un'azienda is redesigning its infrastructure and wants to reduce the number of physical servers in use. Quale delle seguenti architectures is meglio suited for this goal?",
+      "it": "Un'azienda sta riprogettando la propria infrastruttura e vuole ridurre il numero di server fisici in uso. Quale delle seguenti architetture è più adatta a questo obiettivo?",
       "en": "A company is redesigning its infrastructure and wants to reduce the number of physical servers in use. Which of the following architectures is best suited for this goal?"
     },
     "options": [
@@ -10883,14 +10883,14 @@
     "id": "SCREEN_294",
     "objective": "4.4",
     "text": {
-      "it": "A bank set up a new server that contains customers' PII. Quale delle seguenti dovrebbe the bank use to make sure the sensitive dati is not modified?",
+      "it": "Una banca ha configurato un nuovo server contenente i dati PII dei clienti. Quale delle seguenti dovrebbe la banca utilizzare per garantire che i dati sensibili non vengano modificati?",
       "en": "A bank set up a new server that contains customers' PII. Which of the following should the bank use to make sure the sensitive data is not modified?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Full disk crittografia",
+          "it": "Crittografia del disco completo",
           "en": "Full disk encryption"
         },
         "correct": false
@@ -10898,7 +10898,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Network accesso control",
+          "it": "Controllo degli accessi di rete",
           "en": "Network access control"
         },
         "correct": false
@@ -10967,7 +10967,7 @@
     "id": "SCREEN_298",
     "objective": "4.5",
     "text": {
-      "it": "The CIRT is reviewing an incidente that involved a human resources recruiter exfiltrating sensitive company dati. The CIRT found that the recruiter was able to use HTTP over port 53 to upload documents to a web server. Quale delle seguenti sicurezza infrastructure devices could have identified and blocked this activity?",
+      "it": "Il CIRT sta analizzando un incidente che ha coinvolto un recruiter delle risorse umane nell'esfiltrazione di dati aziendali sensibili. Il CIRT ha scoperto che il recruiter era in grado di utilizzare HTTP sulla porta 53 per caricare documenti su un web server. Quale dei seguenti dispositivi di infrastruttura di sicurezza avrebbe potuto identificare e bloccare questa attività?",
       "en": "The CIRT is reviewing an incident that involved a human resources recruiter exfiltrating sensitive company data. The CIRT found that the recruiter was able to use HTTP over port 53 to upload documents to a web server. Which of the following security infrastructure devices could have identified and blocked this activity?"
     },
     "options": [
@@ -11009,7 +11009,7 @@
     "id": "SCREEN_299",
     "objective": "3.2",
     "text": {
-      "it": "An enterprise is working with a third party and deve allow accesso between the internal retes of both parties for a secure file migration. The solution deve ensure crittografia is applied to all traffic that is traversing the retes. Quale delle seguenti solutions dovrebbe più probabilmente be implemented?",
+      "it": "Un'azienda sta collaborando con una terza parte e deve consentire l'accesso tra le reti interne di entrambe le parti per una migrazione sicura dei file. La soluzione deve garantire che la crittografia sia applicata a tutto il traffico che attraversa le reti. Quale delle seguenti soluzioni dovrebbe essere implementata con maggiore probabilità?",
       "en": "An enterprise is working with a third party and needs to allow access between the internal networks of both parties for a secure file migration. The solution needs to ensure encryption is applied to all traffic that is traversing the networks. Which of the following solutions should most likely be implemented?"
     },
     "options": [
@@ -11219,7 +11219,7 @@
     "id": "SCREEN_304",
     "objective": "2.4",
     "text": {
-      "it": "Un amministratore di sistema viene avvisato che un server web esterno non funziona correttamente. L'amministratore esamina i seguenti log del firewall relativi al traffico verso il web server: ... Quale dei seguenti attacchi è probabilmente in corso?",
+      "it": "Un amministratore di sistema viene avvisato che un server web esterno non funziona correttamente. L'amministratore esamina i seguenti log del firewall relativi al traffico verso il web server: Date | Time | SourceIP | SPort|Flag| DestIP | DPort; 2023-01-25 01:45:09.102 98.123.45.100 4560 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 95.123.45.101 3361 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 99.123.45.102 3662 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 89.123.45.103 5663 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 98.123.45.104 4064 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 80.123.45.105 4365 SYN 100.50.20.7 443. Quale dei seguenti attacchi è probabilmente in corso?",
       "en": "A systems administrator is advised that an external web server is not functioning property. The administrator reviews the following firewall logs containing traffic going to the web server: Date | Time | SourceIP | SPort|Flag| DestIP | DPort; 2023-01-25 01:45:09.102 98.123.45.100 4560 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 95.123.45.101 3361 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 99.123.45.102 3662 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 89.123.45.103 5663 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 98.123.45.104 4064 SYN 100.50.20.7 443; 2023-01-25 01:45:09.102 80.123.45.105 4365 SYN 100.50.20.7 443. Which of the following attacks is likely occurring?"
     },
     "options": [
@@ -14357,7 +14357,7 @@
     "id": "SCREEN_384",
     "objective": "2.4",
     "text": {
-      "it": "Un amministratore di sistema nota che un sistema di test è offline. Indagando, trova che i server sono online e accessibili, ma il sistema di monitoraggio mostra che Test01 e Test02 sono giù. Quale delle seguenti è la causa più probabile dell'outage?",
+      "it": "Un amministratore di sistema nota che un sistema di test è offline. Indagando, scopre che i server sono online e accessibili da qualsiasi dispositivo nella rete dei server. L'amministratore esamina le seguenti informazioni dal sistema di monitoraggio: Server name / IP / Traffic sent / Traffic received / Status. File01 10.12.14.13 2654812 23185 Up. DC01 10.12.15.2 168741 65481 Up. Test01 10.25.1.3 14872 654123168 Down. Test02 10.25.1.4 16941 651321685 Down. DC02 10.12.15.3 32145 32158 Up. Finance01 10.18.1.14 12374 6548 Up. Quale delle seguenti è la causa più probabile dell'interruzione?",
       "en": "A systems administrator notices that a testing system is down. While investigating, the systems administrator finds that the servers are online and accessible from any device on the server network. The administrator reviews the following information from the monitoring system: Server name / IP / Traffic sent / Traffic received / Status. File01 10.12.14.13 2654812 23185 Up. DC01 10.12.15.2 168741 65481 Up. Test01 10.25.1.3 14872 654123168 Down. Test02 10.25.1.4 16941 651321685 Down. DC02 10.12.15.3 32145 32158 Up. Finance01 10.18.1.14 12374 6548 Up. Which of the following is the most likely cause of the outage?"
     },
     "options": [
@@ -14498,7 +14498,7 @@
       {
         "id": "A",
         "text": {
-          "it": "End utenti will be required a consider il classification di dati that can be used in documents.",
+          "it": "Gli utenti finali saranno tenuti a considerare la classificazione dei dati che possono essere utilizzati nei documenti.",
           "en": "End users will be required to consider the classification of data that can be used in documents."
         },
         "correct": false
@@ -14506,7 +14506,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Il policy will result in il creation di accesso levels per each level di classification.",
+          "it": "La policy comporterà la creazione di livelli di accesso per ciascun livello di classificazione.",
           "en": "The policy will result in the creation of access levels for each level of classification."
         },
         "correct": false
@@ -14514,7 +14514,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Il organization will have il ability a create sicurezza requirements based su classification levels.",
+          "it": "L'organizzazione avrà la capacità di creare requisiti di sicurezza in base ai livelli di classificazione.",
           "en": "The organization will have the ability to create security requirements based on classification levels."
         },
         "correct": true
@@ -14522,7 +14522,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Security analistas will be able a see il classification di dati within un document before opening it.",
+          "it": "Gli analisti della sicurezza saranno in grado di vedere la classificazione dei dati all'interno di un documento prima di aprirlo.",
           "en": "Security analysts will be able to see the classification of data within a document before opening it."
         },
         "correct": false
@@ -14716,7 +14716,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Il amministratore should allow SAN certificates in il browser configuration.",
+          "it": "L'amministratore dovrebbe consentire i certificati SAN nella configurazione del browser.",
           "en": "The administrator should allow SAN certificates in the browser configuration."
         },
         "correct": false
@@ -14724,7 +14724,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Il amministratore needs a install il server certificate into il local truststore.",
+          "it": "L'amministratore deve installare il certificato del server nel truststore locale.",
           "en": "The administrator needs to install the server certificate into the local truststore."
         },
         "correct": true
@@ -14732,7 +14732,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Il amministratore should request that il secure LDAP port be opened a il server.",
+          "it": "L'amministratore dovrebbe richiedere che la porta LDAP sicura venga aperta verso il server.",
           "en": "The administrator should request that the secure LDAP port be opened to the server."
         },
         "correct": false
@@ -14740,7 +14740,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Il amministratore needs a increase il TLS version su il organization's RA.",
+          "it": "L'amministratore deve aumentare la versione TLS sulla RA dell'organizzazione.",
           "en": "The administrator needs to increase the TLS version on the organization's RA."
         },
         "correct": false
@@ -14800,7 +14800,7 @@
       {
         "id": "A",
         "text": {
-          "it": "A spraying attacco was usato per determine which credentials a use.",
+          "it": "È stato utilizzato un attacco di password spraying per determinare quali credenziali usare.",
           "en": "A spraying attack was used to determine which credentials to use."
         },
         "correct": false
@@ -14808,7 +14808,7 @@
       {
         "id": "B",
         "text": {
-          "it": "A packet capture tool was usato per steal il password.",
+          "it": "È stato utilizzato uno strumento di cattura dei pacchetti per rubare la password.",
           "en": "A packet capture tool was used to steal the password."
         },
         "correct": true
@@ -14816,7 +14816,7 @@
       {
         "id": "C",
         "text": {
-          "it": "A remote-accesso Trojan was usato per install il malware.",
+          "it": "È stato utilizzato un Trojan ad accesso remoto per installare il malware.",
           "en": "A remote-access Trojan was used to install the malware."
         },
         "correct": false
@@ -14824,7 +14824,7 @@
       {
         "id": "D",
         "text": {
-          "it": "A dictionary attacco was usato per log in as il server amministratore.",
+          "it": "È stato utilizzato un attacco a dizionario per accedere come amministratore del server.",
           "en": "A dictionary attack was used to log in as the server administrator."
         },
         "correct": false
@@ -14969,7 +14969,7 @@
     "id": "SCREEN_400",
     "objective": "2.4",
     "text": {
-      "it": "Un analista di sicurezza ha ricevuto una segnalazione di fuga di dati proprietari verso l'esterno. L'analista sta analizzando il PCAP e nota traffico tra un server interno e un host esterno che include ... Quale delle seguenti è stata più probabilmente usata per esfiltrare i dati?",
+      "it": "Un analista di sicurezza ha ricevuto una segnalazione che informazioni proprietarie sensibili sono state divulgate al pubblico. L'analista sta esaminando il PCAP e nota il seguente traffico tra un server interno e un host esterno: 12:47:22.327233 PPPoE [ses 0x8122] IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto IPv6 (41), length 331) 10.5.1.1 > 52.165.16.154: IP6 (hlim E3, next-header TCP (6) payload length: 271) 2001:67c:2158:a019::ace.53104 > 2001:0:5ef5:79fd:380c:dddd:a601:24fa.13788: Flags [P.], cksum 0xd7ee (correct), seq 97:348, ack 102, win 16444, length 251. Quale delle seguenti è stata più probabilmente utilizzata per esfiltrare i dati?",
       "en": "A security analyst received a tip that sensitive proprietary information was leaked to the public. The analyst is reviewing the PCAP and notices traffic between an internal server and an external host that includes the following: 12:47:22.327233 PPPoE [ses 0x8122] IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto IPv6 (41), length 331) 10.5.1.1 > 52.165.16.154: IP6 (hlim E3, next-header TCP (6) payload length: 271) 2001:67c:2158:a019::ace.53104 > 2001:0:5ef5:79fd:380c:dddd:a601:24fa.13788: Flags [P.], cksum 0xd7ee (correct), seq 97:348, ack 102, win 16444, length 251. Which of the following was most likely used to exfiltrate the data?"
     },
     "options": [
@@ -15000,7 +15000,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Broken cifratura",
+          "it": "Crittografia compromessa",
           "en": "Broken encryption"
         },
         "correct": false
@@ -15286,7 +15286,7 @@
       {
         "id": "A",
         "text": {
-          "it": "Configure un RADIUS server a manage dispositivo autenticazione.",
+          "it": "Configurare un server RADIUS per gestire l'autenticazione dei dispositivi.",
           "en": "Configure a RADIUS server to manage device authentication."
         },
         "correct": false
@@ -15294,7 +15294,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Use 802.1X su all dispositivos connecting a wireless.",
+          "it": "Utilizzare 802.1X su tutti i dispositivi che si connettono alla rete wireless.",
           "en": "Use 802.1X on all devices connecting to wireless."
         },
         "correct": false
@@ -15302,7 +15302,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Add un guest captive portal requiring visitors a accept terms e conditions.",
+          "it": "Aggiungere un captive portal per gli ospiti che richieda loro di accettare i termini e le condizioni.",
           "en": "Add a guest captive portal requiring visitors to accept terms and conditions."
         },
         "correct": true
@@ -15310,7 +15310,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Allow per new dispositivos a be connected via WPS.",
+          "it": "Consentire la connessione di nuovi dispositivi tramite WPS.",
           "en": "Allow for new devices to be connected via WPS."
         },
         "correct": false
@@ -15715,7 +15715,7 @@
     "id": "SCREEN_418",
     "objective": "2.4",
     "text": {
-      "it": "Un'organizzazione ha subito una violazione che ha permesso a un attaccante di inviare bonifici fraudolenti da un PC blindato esclusivamente verso il conto dell'attaccante tramite connessioni remote. Un analista trova un altro PC contenente malware e tra i comandi eseguiti trova 'mimikatz.exe ... sekurlsa::pth ...'. Quale delle seguenti descrive meglio come l'attaccante ha ottenuto l'accesso al PC blindato?",
+      "it": "Un'organizzazione ha subito una violazione della sicurezza che ha consentito a un attaccante di inviare bonifici bancari fraudolenti da un PC blindato esclusivamente verso il conto bancario dell'attaccante tramite connessioni remote. Un analista di sicurezza sta creando una cronologia degli eventi e ha trovato un altro PC sulla rete contenente malware. Esaminando la cronologia dei comandi, l'analista trova quanto segue: PS> .\\mimikatz.exe \"sekurlsa::pth /user:localadmin /domain:corp-domain.com /ntlm:B4B9B02E1F29A3CF193EAB28C8D617D3F327\" Quale delle seguenti descrive meglio come l'attaccante ha ottenuto l'accesso al PC blindato?",
       "en": "An organization experienced a security breach that allowed an attacker to send fraudulent wire transfers from a hardened PC exclusively to the attacker's bank through remote connections. A security analyst is creating a timeline of events and has found a different PC on the network containing malware. Upon reviewing the command history, the analyst finds the following: PS> .\\mimikatz.exe \"sekurlsa::pth /user:localadmin /domain:corp-domain.com /ntlm:B4B9B02E1F29A3CF193EAB28C8D617D3F327\" Which of the following best describes how the attacker gained access to the hardened PC?"
     },
     "options": [
@@ -15807,7 +15807,7 @@
     "id": "SCREEN_420",
     "objective": "2.2",
     "text": {
-      "it": "Un analista di sicurezza esamina i log DNS e nota un trasferimento di zona AXFR che rivela host interni. Quale delle seguenti tecniche di attacco è stata molto probabilmente utilizzata?",
+      "it": "Un analista di sicurezza sta esaminando i log sul server DNS di un'organizzazione e nota il seguente frammento insolito: Log from named: post-processed 20230102 0045L ... qry_source: 124.22.158.37 TCP/53 qry_dest: 52.165.16.154 TCP/53 qry_dest: 10.100.50.5 TCP/53 qry_type: AXFR | zone int.comptia.org ------------------| www A 10.100.50.21 ------------------| dns A 10.100.5.5 ------------------| adds A 10.101.10.10 ------------------| fshare A 10.101.10.20 ------------------| sip A 10.100.5.11 ... Quale delle seguenti tecniche di attacco è stata molto probabilmente utilizzata?",
       "en": "A security analyst is reviewing the logs on an organization's DNS server and notices the following unusual snippet: Log from named: post-processed 20230102 0045L ... qry_source: 124.22.158.37 TCP/53 qry_dest: 52.165.16.154 TCP/53 qry_dest: 10.100.50.5 TCP/53 qry_type: AXFR | zone int.comptia.org ------------------| www A 10.100.50.21 ------------------| dns A 10.100.5.5 ------------------| adds A 10.101.10.10 ------------------| fshare A 10.101.10.20 ------------------| sip A 10.100.5.11 ... Which of the following attack techniques was most likely used?"
     },
     "options": [
@@ -16893,7 +16893,7 @@
       }
     ],
     "explanation": {
-      "it": "Simulation item transcribed from the screenshot prompt and normalized to multiple-choice format to comply with the XML schema.",
+      "it": "Elemento di simulazione trascritto dal prompt dello screenshot e normalizzato in formato a scelta multipla per conformarsi allo schema XML.",
       "en": "Simulation item transcribed from the screenshot prompt and normalized to multiple-choice format to comply with the XML schema."
     }
   },
@@ -18981,7 +18981,7 @@
     "id": "SCREEN_497",
     "objective": "4.1",
     "text": {
-      "it": "Un organizzazione issued nuovo laptops a tutti dipendenti e wants a provide web filtering both in e out di il office senza configuring additional accesso a il rete. Quale delle seguenti types di web filtering dovrebbe un amministratore di sistema configurare?",
+      "it": "Un'organizzazione ha fornito nuovi laptop a tutti i dipendenti e vuole implementare il filtraggio web sia in ufficio che fuori, senza configurare accessi aggiuntivi alla rete. Quale dei seguenti tipi di filtraggio web dovrebbe configurare un amministratore di sistema?",
       "en": "An organization issued new laptops to all employees and wants to provide web filtering both in and out of the office without configuring additional access to the network. Which of the following types of web filtering should a systems administrator configure?"
     },
     "options": [
@@ -19065,7 +19065,7 @@
     "id": "SCREEN_499",
     "objective": "4.1",
     "text": {
-      "it": "Quale delle seguenti provides il best protection against unwanted o insecure communications a e da un dispositivo?",
+      "it": "Quale delle seguenti fornisce la migliore protezione contro comunicazioni indesiderate o non sicure da e verso un dispositivo?",
       "en": "Which of the following provides the best protection against unwanted or insecure communications to and from a device?"
     },
     "options": [
@@ -19088,7 +19088,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Intrusion detection sistema",
+          "it": "Sistema di rilevamento delle intrusioni",
           "en": "Intrusion detection system"
         },
         "correct": false
@@ -19149,7 +19149,7 @@
     "id": "SCREEN_501",
     "objective": "4.1",
     "text": {
-      "it": "Un dipendente who was working remotely lost un mobile dispositivo containing azienda dati. Quale delle seguenti provides il best solution a prevenire future dati loss?",
+      "it": "Un dipendente che lavorava da remoto ha perso un dispositivo mobile contenente dati aziendali. Quale delle seguenti fornisce la soluzione migliore per prevenire future perdite di dati?",
       "en": "An employee who was working remotely lost a mobile device containing company data. Which of the following provides the best solution to prevent future data loss?"
     },
     "options": [
@@ -19390,7 +19390,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Ensure only TLS e other encrypted protocols sono selected per use on il rete, e only permit authorized traffic via secure protocols.",
+          "it": "Assicurarsi che solo TLS e altri protocolli cifrati siano selezionati per l'uso in rete, e consentire solo il traffico autorizzato tramite protocolli sicuri.",
           "en": "Ensure only TLS and other encrypted protocols are selected for use on the network, and only permit authorized traffic via secure protocols."
         },
         "correct": true
@@ -19398,7 +19398,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Configurare il perimeter IPS a block inbound HTTPS directory traversal traffic, e verify che signatures sono updated on un daily basis.",
+          "it": "Configurare l'IPS perimetrale per bloccare il traffico HTTPS in ingresso con directory traversal, e verificare che le firme siano aggiornate quotidianamente.",
           "en": "Configure the perimeter IPS to block inbound HTTPS directory traversal traffic, and verify that signatures are updated on a daily basis."
         },
         "correct": false
@@ -19406,7 +19406,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Ensure il EDR software monitors per unauthorized applicazioni che could essere used by threat actors, e configurare alerts per il sicurezza team.",
+          "it": "Assicurarsi che il software EDR monitori le applicazioni non autorizzate che potrebbero essere utilizzate dagli attori delle minacce, e configurare avvisi per il team di sicurezza.",
           "en": "Ensure the EDR software monitors for unauthorized applications that could be used by threat actors, and configure alerts for the security team."
         },
         "correct": false
@@ -19417,14 +19417,14 @@
     "id": "SCREEN_507",
     "objective": "4.4",
     "text": {
-      "it": "Quale delle seguenti definitions descrive meglio il concept di log correlation?",
+      "it": "Quale delle seguenti definizioni descrive meglio il concetto di correlazione dei log?",
       "en": "Which of the following definitions best describes the concept of log correlation?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Combining relevant log da multiple sources into one location",
+          "it": "Combinare i log rilevanti da più fonti in un'unica posizione",
           "en": "Combining relevant logs from multiple sources into one location"
         },
         "correct": false
@@ -19432,7 +19432,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Searching e processing dati a identificare patterns di malicious activity",
+          "it": "Cercare ed elaborare dati per identificare schemi di attività malevole",
           "en": "Searching and processing data to identify patterns of malicious activity"
         },
         "correct": true
@@ -19440,7 +19440,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Making un record di il events che occur in il sistema",
+          "it": "Creare un registro degli eventi che si verificano nel sistema",
           "en": "Making a record of the events that occur in the system"
         },
         "correct": false
@@ -19448,7 +19448,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Analyzing il log files di il sistema components",
+          "it": "Analizzare i file di log dei componenti del sistema",
           "en": "Analyzing the log files of the system components"
         },
         "correct": false
@@ -19501,14 +19501,14 @@
     "id": "SCREEN_509",
     "objective": "3.4",
     "text": {
-      "it": "Quale delle seguenti è il best way a validate il integrity e availability di un disaster ripristino site?",
+      "it": "Quale delle seguenti è il modo migliore per validare l'integrità e la disponibilità di un sito di disaster recovery?",
       "en": "Which of the following is the best way to validate the integrity and availability of a disaster recovery site?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Lead un simulated failover.",
+          "it": "Eseguire un failover simulato.",
           "en": "Lead a simulated failover."
         },
         "correct": true
@@ -19516,7 +19516,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Conduct un tabletop exercise.",
+          "it": "Condurre un tabletop exercise.",
           "en": "Conduct a tabletop exercise."
         },
         "correct": false
@@ -19524,7 +19524,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Periodically test il generators.",
+          "it": "Testare periodicamente i generatori.",
           "en": "Periodically test the generators."
         },
         "correct": false
@@ -19532,7 +19532,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Develop requirements per database cifratura.",
+          "it": "Sviluppare i requisiti per la cifratura del database.",
           "en": "Develop requirements for database encryption."
         },
         "correct": false
@@ -19543,7 +19543,7 @@
     "id": "SCREEN_510",
     "objective": "2.3",
     "text": {
-      "it": "Quale delle seguenti allows un exploit a go undetected by il operating sistema?",
+      "it": "Quale delle seguenti consente a un exploit di passare inosservato dal sistema operativo?",
       "en": "Which of the following allows an exploit to go undetected by the operating system?"
     },
     "options": [
@@ -19711,7 +19711,7 @@
     "id": "SCREEN_514",
     "objective": "5.5",
     "text": {
-      "it": "Quale delle seguenti descrive meglio il concept di information essendo stored outside di its country di origin while still essendo subject a il laws e requirements di il country di origin?",
+      "it": "Quale delle seguenti descrive meglio il concetto di informazioni archiviate al di fuori del paese di origine pur rimanendo soggette alle leggi e ai requisiti del paese di origine?",
       "en": "Which of the following best describes the concept of information being stored outside of its country of origin while still being subject to the laws and requirements of the country of origin?"
     },
     "options": [
@@ -19837,7 +19837,7 @@
     "id": "SCREEN_517",
     "objective": "2.2",
     "text": {
-      "it": "Un penetration tester enters un office building at il same time as un group di dipendenti despite non having un accesso badge. Quale delle seguenti attacco types è il penetration tester performing?",
+      "it": "Un penetration tester entra in un edificio aziendale contemporaneamente a un gruppo di dipendenti, pur non avendo un badge di accesso. Quale dei seguenti tipi di attacco sta eseguendo il penetration tester?",
       "en": "A penetration tester enters an office building at the same time as a group of employees despite not having an access badge. Which of the following attack types is the penetration tester performing?"
     },
     "options": [
@@ -19921,7 +19921,7 @@
     "id": "SCREEN_519",
     "objective": "4.3",
     "text": {
-      "it": "Quale delle seguenti dovrebbe un organizzazione focus on il most when making decisions about vulnerabilità prioritization?",
+      "it": "Su quale delle seguenti dovrebbe concentrarsi maggiormente un'organizzazione quando prende decisioni sulla prioritizzazione delle vulnerabilità?",
       "en": "Which of the following should an organization focus on the most when making decisions about vulnerability prioritization?"
     },
     "options": [
@@ -19963,7 +19963,7 @@
     "id": "SCREEN_520",
     "objective": "4.4",
     "text": {
-      "it": "Un organizzazione needs a monitor its utenti’ activities in order a prevenire insider threats. Quale delle seguenti solutions sarebbe help il organizzazione achieve questo goal?",
+      "it": "Un'organizzazione ha bisogno di monitorare le attività dei propri utenti al fine di prevenire le minacce interne. Quale delle seguenti soluzioni aiuterebbe l'organizzazione a raggiungere questo obiettivo?",
       "en": "An organization needs to monitor its users’ activities in order to prevent insider threats. Which of the following solutions would help the organization achieve this goal?"
     },
     "options": [
@@ -19978,7 +19978,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Accesso controllo lists",
+          "it": "Liste di controllo degli accessi",
           "en": "Access control lists"
         },
         "correct": false
@@ -19986,7 +19986,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Identity e accesso gestione",
+          "it": "Gestione dell'identità e degli accessi",
           "en": "Identity and access management"
         },
         "correct": false
@@ -19994,7 +19994,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Rete intrusion detection sistema",
+          "it": "Sistema di rilevamento delle intrusioni di rete",
           "en": "Network intrusion detection system"
         },
         "correct": false
@@ -20005,7 +20005,7 @@
     "id": "SCREEN_521",
     "objective": "2.2",
     "text": {
-      "it": "Un customer di un large azienda receives un phone call da someone claiming a work per il azienda e asking per il customer’s credit card information. Il customer sees il caller ID è il same as il company's main phone number. Quale delle seguenti attacchi è il customer più probabilmente un target di?",
+      "it": "Il cliente di una grande azienda riceve una telefonata da qualcuno che afferma di lavorare per l'azienda e chiede le informazioni della carta di credito del cliente. Il cliente nota che il caller ID corrisponde al numero di telefono principale dell'azienda. Quale dei seguenti attacchi è il cliente più probabilmente vittima?",
       "en": "A customer of a large company receives a phone call from someone claiming to work for the company and asking for the customer’s credit card information. The customer sees the caller ID is the same as the company's main phone number. Which of the following attacks is the customer most likely a target of?"
     },
     "options": [
@@ -20089,7 +20089,7 @@
     "id": "SCREEN_523",
     "objective": "1.4",
     "text": {
-      "it": "When trying a accesso un internal website, un dipendente reports che un prompt displays, stating che il site è insecure. Quale delle seguenti certificate types è il site più probabilmente using?",
+      "it": "Tentando di accedere a un sito web interno, un dipendente segnala che viene visualizzato un avviso che indica che il sito è non sicuro. Quale dei seguenti tipi di certificato sta utilizzando più probabilmente il sito?",
       "en": "When trying to access an internal website, an employee reports that a prompt displays, stating that the site is insecure. Which of the following certificate types is the site most likely using?"
     },
     "options": [
@@ -20215,7 +20215,7 @@
     "id": "SCREEN_526",
     "objective": "1.4",
     "text": {
-      "it": "Il private key per un website was stolen, e un nuovo certificate has been issued. Quale delle seguenti needs a essere updated next?",
+      "it": "La chiave privata di un sito web è stata rubata ed è stato emesso un nuovo certificato. Quale delle seguenti operazioni deve essere eseguita successivamente?",
       "en": "The private key for a website was stolen, and a new certificate has been issued. Which of the following needs to be updated next?"
     },
     "options": [
@@ -20341,14 +20341,14 @@
     "id": "SCREEN_529",
     "objective": "2.5",
     "text": {
-      "it": "Un organization's web servers host un online ordering sistema. Il organizzazione discovers che il servers sono vulnerable a un malicious JavaScript injection, which could allow attackers a accesso customer payment information. Quale delle seguenti mitigation strategies sarebbe essere most effective per preventing un attacco on il organization's web servers? (Scegli due.)",
+      "it": "I server web di un'organizzazione ospitano un sistema di ordinazione online. L'organizzazione scopre che i server sono vulnerabili a un'iniezione JavaScript malevola, che potrebbe consentire agli attaccanti di accedere alle informazioni di pagamento dei clienti. Quale delle seguenti strategie di mitigazione sarebbe più efficace per prevenire un attacco sui server web dell'organizzazione? (Scegliere due.)",
       "en": "An organization's web servers host an online ordering system. The organization discovers that the servers are vulnerable to a malicious JavaScript injection, which could allow attackers to access customer payment information. Which of the following mitigation strategies would be most effective for preventing an attack on the organization's web servers? (Choose two.)"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Regularly updating server software e patches",
+          "it": "Aggiornare regolarmente il software del server e le patch",
           "en": "Regularly updating server software and patches"
         },
         "correct": true
@@ -20356,7 +20356,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Implementing strong password policy",
+          "it": "Implementare una policy di password robuste",
           "en": "Implementing strong password policies"
         },
         "correct": false
@@ -20364,7 +20364,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Encrypting sensitive dati at rest e in transit",
+          "it": "Cifrare i dati sensibili a riposo e in transito",
           "en": "Encrypting sensitive data at rest and in transit"
         },
         "correct": false
@@ -20372,7 +20372,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Utilizing un web-applicazione firewall",
+          "it": "Utilizzare un web application firewall",
           "en": "Utilizing a web-application firewall"
         },
         "correct": true
@@ -20380,7 +20380,7 @@
       {
         "id": "E",
         "text": {
-          "it": "Performing regular vulnerabilità scans",
+          "it": "Eseguire scansioni di vulnerabilità regolari",
           "en": "Performing regular vulnerability scans"
         },
         "correct": false
@@ -20388,7 +20388,7 @@
       {
         "id": "F",
         "text": {
-          "it": "Removing payment information da il servers",
+          "it": "Rimuovere le informazioni di pagamento dai server",
           "en": "Removing payment information from the servers"
         },
         "correct": false
@@ -20441,7 +20441,7 @@
     "id": "SCREEN_531",
     "objective": "2.3",
     "text": {
-      "it": "During un SQL update di un database, un temporary field che was created was replaced by un attacker in order a allow accesso a il sistema. Quale delle seguenti descrive meglio questo type di vulnerabilità?",
+      "it": "Durante un aggiornamento SQL di un database, un campo temporaneo creato è stato sostituito da un attaccante per consentire l'accesso al sistema. Quale delle seguenti descrive meglio questo tipo di vulnerabilità?",
       "en": "During a SQL update of a database, a temporary field that was created was replaced by an attacker in order to allow access to the system. Which of the following best describes this type of vulnerability?"
     },
     "options": [
@@ -20525,7 +20525,7 @@
     "id": "SCREEN_533",
     "objective": "4.8",
     "text": {
-      "it": "Quale delle seguenti elements di digitale forensics dovrebbe un azienda use if it needs a ensure il integrity di evidence?",
+      "it": "Quale degli elementi della digital forensics dovrebbe utilizzare un'azienda per garantire l'integrità delle prove?",
       "en": "Which of the following elements of digital forensics should a company use if it needs to ensure the integrity of evidence?"
     },
     "options": [
@@ -20567,14 +20567,14 @@
     "id": "SCREEN_534",
     "objective": "4.9",
     "text": {
-      "it": "Un azienda suffered un critico incident where 30GB di dati was exfiltrated da il corporate rete. Quale delle seguenti actions è il most efficient way a identificare where il sistema dati was exfiltrated da e what location il attacker sent il dati a?",
+      "it": "Un'azienda ha subito un incidente critico in cui 30 GB di dati sono stati esfiltrati dalla rete aziendale. Quale delle seguenti azioni è il modo più efficiente per identificare da dove sono stati esfiltrati i dati di sistema e verso quale destinazione l'attaccante ha inviato i dati?",
       "en": "A company suffered a critical incident where 30GB of data was exfiltrated from the corporate network. Which of the following actions is the most efficient way to identify where the system data was exfiltrated from and what location the attacker sent the data to?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Analizzare firewall e rete log per large amounts di outbound traffic a external IP addresses o domains.",
+          "it": "Analizzare i log del firewall e della rete per grandi quantità di traffico in uscita verso indirizzi IP o domini esterni.",
           "en": "Analyze firewall and network logs for large amounts of outbound traffic to external IP addresses or domains."
         },
         "correct": true
@@ -20582,7 +20582,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Analizzare IPS e IDS log a find il IP addresses used by il attacker per reconnaissance scans.",
+          "it": "Analizzare i log IPS e IDS per trovare gli indirizzi IP utilizzati dall'attaccante per le scansioni di ricognizione.",
           "en": "Analyze IPS and IDS logs to find the IP addresses used by the attacker for reconnaissance scans."
         },
         "correct": false
@@ -20590,7 +20590,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Analizzare endpoint e applicazione log a see whether file-sharing programs were running on il azienda sistemi.",
+          "it": "Analizzare i log degli endpoint e delle applicazioni per verificare se erano in esecuzione programmi di condivisione file sui sistemi aziendali.",
           "en": "Analyze endpoint and application logs to see whether file-sharing programs were running on the company systems."
         },
         "correct": false
@@ -20598,7 +20598,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Analizzare external vulnerabilità scans e automated reports a identificare il sistemi il attacker could have exploited un remote code vulnerabilità.",
+          "it": "Analizzare le scansioni di vulnerabilità esterne e i report automatici per identificare i sistemi che l'attaccante avrebbe potuto sfruttare con una vulnerabilità di esecuzione remota del codice.",
           "en": "Analyze external vulnerability scans and automated reports to identify the systems the attacker could have exploited a remote code vulnerability."
         },
         "correct": false
@@ -20609,14 +20609,14 @@
     "id": "SCREEN_535",
     "objective": "5.5",
     "text": {
-      "it": "Quale delle seguenti describes il procedures un penetration tester deve follow while conducting un test?",
+      "it": "Quale delle seguenti descrive le procedure che un penetration tester deve seguire durante l'esecuzione di un test?",
       "en": "Which of the following describes the procedures a penetration tester must follow while conducting a test?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Rules di engagement",
+          "it": "Regole di ingaggio",
           "en": "Rules of engagement"
         },
         "correct": true
@@ -20624,7 +20624,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Rules di acceptance",
+          "it": "Regole di accettazione",
           "en": "Rules of acceptance"
         },
         "correct": false
@@ -20632,7 +20632,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Rules di understanding",
+          "it": "Regole di comprensione",
           "en": "Rules of understanding"
         },
         "correct": false
@@ -20640,7 +20640,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Rules di execution",
+          "it": "Regole di esecuzione",
           "en": "Rules of execution"
         },
         "correct": false
@@ -20735,7 +20735,7 @@
     "id": "SCREEN_538",
     "objective": "2.3",
     "text": {
-      "it": "Quale delle seguenti può essere used a compromise un sistema che è running un RTOS?",
+      "it": "Quale delle seguenti può essere utilizzata per compromettere un sistema che esegue un RTOS?",
       "en": "Which of the following can be used to compromise a system that is running an RTOS?"
     },
     "options": [
@@ -20758,7 +20758,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Replay attacco",
+          "it": "Attacco replay",
           "en": "Replay attack"
         },
         "correct": false
@@ -20819,14 +20819,14 @@
     "id": "SCREEN_540",
     "objective": "4.5",
     "text": {
-      "it": "Un sicurezza architect wants a prevenire dipendenti da receiving malicious attachments by email. Quale delle seguenti functions dovrebbe il chosen solution do?",
+      "it": "Un architetto della sicurezza vuole impedire ai dipendenti di ricevere allegati malevoli via email. Quali delle seguenti funzioni dovrebbe svolgere la soluzione scelta?",
       "en": "A security architect wants to prevent employees from receiving malicious attachments by email. Which of the following functions should the chosen solution do?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Apply IP address reputation dati.",
+          "it": "Applicare dati di reputazione degli indirizzi IP.",
           "en": "Apply IP address reputation data."
         },
         "correct": false
@@ -20834,7 +20834,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Tap e monitor il email feed.",
+          "it": "Intercettare e monitorare il flusso di email.",
           "en": "Tap and monitor the email feed."
         },
         "correct": false
@@ -20903,7 +20903,7 @@
     "id": "SCREEN_542",
     "objective": "3.3",
     "text": {
-      "it": "Quale delle seguenti è il main consideration when un legacy sistema che è un critico part di un company's infrastructure cannot essere replaced?",
+      "it": "Quale delle seguenti è la considerazione principale quando un sistema legacy che è una parte critica dell'infrastruttura aziendale non può essere sostituito?",
       "en": "Which of the following is the main consideration when a legacy system that is a critical part of a company's infrastructure cannot be replaced?"
     },
     "options": [
@@ -20945,14 +20945,14 @@
     "id": "SCREEN_543",
     "objective": "1.1",
     "text": {
-      "it": "Quale delle seguenti è un compensating controllo per providing utente accesso a un high-rischio website?",
+      "it": "Quale delle seguenti è un controllo compensativo per fornire agli utenti l'accesso a un sito web ad alto rischio?",
       "en": "Which of the following is a compensating control for providing user access to a high-risk website?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Enabling threat prevention features on il firewall",
+          "it": "Abilitare le funzionalità di prevenzione delle minacce sul firewall",
           "en": "Enabling threat prevention features on the firewall"
         },
         "correct": true
@@ -20960,7 +20960,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Configuring un SIEM tool a capture tutti web traffic",
+          "it": "Configurare uno strumento SIEM per acquisire tutto il traffico web",
           "en": "Configuring a SIEM tool to capture all web traffic"
         },
         "correct": false
@@ -20968,7 +20968,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Setting firewall rules a allow traffic da any port a che destination",
+          "it": "Impostare regole del firewall per consentire il traffico da qualsiasi porta verso quella destinazione",
           "en": "Setting firewall rules to allow traffic from any port to that destination"
         },
         "correct": false
@@ -20976,7 +20976,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Blocking che website on il endpoint protection software",
+          "it": "Bloccare quel sito web nel software di protezione degli endpoint",
           "en": "Blocking that website on the endpoint protection software"
         },
         "correct": false
@@ -20987,14 +20987,14 @@
     "id": "SCREEN_544",
     "objective": "4.1",
     "text": {
-      "it": "Un organizzazione è implementing un COPE mobile dispositivo gestione policy. Quale delle seguenti dovrebbe il organizzazione include in il COPE policy? (Scegli due.)",
+      "it": "Un'organizzazione sta implementando una policy di gestione dei dispositivi mobili COPE. Quale delle seguenti dovrebbe includere l'organizzazione nella policy COPE? (Scegliere due.)",
       "en": "An organization is implementing a COPE mobile device management policy. Which of the following should the organization include in the COPE policy? (Choose two.)"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Remote wiping di il dispositivo",
+          "it": "Cancellazione remota del dispositivo",
           "en": "Remote wiping of the device"
         },
         "correct": true
@@ -21002,7 +21002,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Dati cifratura",
+          "it": "Cifratura dei dati",
           "en": "Data encryption"
         },
         "correct": true
@@ -21010,7 +21010,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Requiring passwords con eight characters",
+          "it": "Richiedere password con otto caratteri",
           "en": "Requiring passwords with eight characters"
         },
         "correct": false
@@ -21018,7 +21018,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Dati usage caps",
+          "it": "Limiti di utilizzo dei dati",
           "en": "Data usage caps"
         },
         "correct": false
@@ -21026,7 +21026,7 @@
       {
         "id": "E",
         "text": {
-          "it": "Dipendente dati ownership",
+          "it": "Proprietà dei dati del dipendente",
           "en": "Employee data ownership"
         },
         "correct": false
@@ -21034,7 +21034,7 @@
       {
         "id": "F",
         "text": {
-          "it": "Personal applicazione store accesso",
+          "it": "Accesso al negozio di applicazioni personale",
           "en": "Personal application store access"
         },
         "correct": false
@@ -21087,7 +21087,7 @@
     "id": "SCREEN_546",
     "objective": "5.5",
     "text": {
-      "it": "Un organizzazione wants un third-party vendor a do un penetration test che targets un specific dispositivo. Il organizzazione has provided basic information about il dispositivo. Quale delle seguenti descrive meglio questo kind di penetration test?",
+      "it": "Un'organizzazione vuole che un fornitore terzo effettui un penetration test su un dispositivo specifico. L'organizzazione ha fornito informazioni di base sul dispositivo. Quale delle seguenti descrive meglio questo tipo di penetration test?",
       "en": "An organization wants a third-party vendor to do a penetration test that targets a specific device. The organization has provided basic information about the device. Which of the following best describes this kind of penetration test?"
     },
     "options": [
@@ -21171,7 +21171,7 @@
     "id": "SCREEN_548",
     "objective": "5.1",
     "text": {
-      "it": "Quale delle seguenti techniques può essere used a sanitize il dati contained on un hard drive while allowing per il hard drive a essere repurposed?",
+      "it": "Quale delle seguenti tecniche può essere utilizzata per sanificare i dati contenuti in un hard drive consentendo al contempo il riutilizzo dell'hard drive?",
       "en": "Which of the following techniques can be used to sanitize the data contained on a hard drive while allowing for the hard drive to be repurposed?"
     },
     "options": [
@@ -21297,14 +21297,14 @@
     "id": "SCREEN_551",
     "objective": "5.4",
     "text": {
-      "it": "Un amministratore di sistema discovers un sistema che è no longer receiving support da il vendor. However, questo sistema e its environment sono critico a running il aziendali, cannot essere modified, e deve stay online. Quale delle seguenti rischio treatments è il most appropriate in questo situation?",
+      "it": "Un amministratore di sistema scopre un sistema che non riceve più supporto dal vendor. Tuttavia, questo sistema e il suo ambiente sono critici per il funzionamento aziendale, non possono essere modificati e devono rimanere online. Quale dei seguenti trattamenti del rischio è il più appropriato in questa situazione?",
       "en": "A systems administrator discovers a system that is no longer receiving support from the vendor. However, this system and its environment are critical to running the business, cannot be modified, and must stay online. Which of the following risk treatments is the most appropriate in this situation?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Reject",
+          "it": "Rifiutare",
           "en": "Reject"
         },
         "correct": false
@@ -21312,7 +21312,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Accept",
+          "it": "Accettare",
           "en": "Accept"
         },
         "correct": true
@@ -21320,7 +21320,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Transfer",
+          "it": "Trasferire",
           "en": "Transfer"
         },
         "correct": false
@@ -21328,7 +21328,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Avoid",
+          "it": "Evitare",
           "en": "Avoid"
         },
         "correct": false
@@ -21381,14 +21381,14 @@
     "id": "SCREEN_553",
     "objective": "3.4",
     "text": {
-      "it": "Quale delle seguenti sarebbe essere il best solution a deploy un low-cost standby site che includes hardware e internet accesso?",
+      "it": "Quale delle seguenti sarebbe la soluzione migliore per implementare un sito di standby a basso costo che includa hardware e accesso a Internet?",
       "en": "Which of the following would be the best solution to deploy a low-cost standby site that includes hardware and internet access?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Ripristino site",
+          "it": "Sito di recovery",
           "en": "Recovery site"
         },
         "correct": false
@@ -21423,7 +21423,7 @@
     "id": "SCREEN_554",
     "objective": "1.1",
     "text": {
-      "it": "Un organizzazione needs a determine how many dipendenti sono accessing il building each day in order a configurare il proper accesso controlli. Quale delle seguenti controllo types best meets questo requirement?",
+      "it": "Un'organizzazione ha bisogno di determinare quanti dipendenti accedono all'edificio ogni giorno per configurare i controlli di accesso appropriati. Quale dei seguenti tipi di controllo soddisfa meglio questo requisito?",
       "en": "An organization needs to determine how many employees are accessing the building each day in order to configure the proper access controls. Which of the following control types best meets this requirement?"
     },
     "options": [
@@ -21465,7 +21465,7 @@
     "id": "SCREEN_555",
     "objective": "3.2",
     "text": {
-      "it": "Un organizzazione wants a implementare un secure solution per remote utenti. Il utenti handle sensitive PHI on un regular basis e need a accesso un internally developed corporate applicazione. Quale delle seguenti best meet il organization's sicurezza requirements? (Scegli due.)",
+      "it": "Un'organizzazione vuole implementare una soluzione sicura per gli utenti remoti. Gli utenti gestiscono regolarmente PHI sensibili e devono accedere a un'applicazione aziendale sviluppata internamente. Quale delle seguenti soddisfa meglio i requisiti di sicurezza dell'organizzazione? (Scegliere due.)",
       "en": "An organization wants to implement a secure solution for remote users. The users handle sensitive PHI on a regular basis and need to access an internally developed corporate application. Which of the following best meet the organization's security requirements? (Choose two.)"
     },
     "options": [
@@ -21480,7 +21480,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Perimeter rete",
+          "it": "Rete perimetrale",
           "en": "Perimeter network"
         },
         "correct": false
@@ -21565,7 +21565,7 @@
     "id": "SCREEN_557",
     "objective": "3.1",
     "text": {
-      "it": "Un sicurezza consultant è working con un client che wants a physically isolate its secure sistemi. Quale delle seguenti descrive meglio questo architecture?",
+      "it": "Un consulente di sicurezza sta lavorando con un cliente che vuole isolare fisicamente i propri sistemi sicuri. Quale delle seguenti descrive meglio questa architettura?",
       "en": "A security consultant is working with a client that wants to physically isolate its secure systems. Which of the following best describes this architecture?"
     },
     "options": [
@@ -21607,7 +21607,7 @@
     "id": "SCREEN_558",
     "objective": "3.1",
     "text": {
-      "it": "Un azienda è in il process di migrating a cloud-based services. Il azienda’s IT department has limited resources per migration e ongoing support. Quale delle seguenti best meets il azienda’s needs?",
+      "it": "Un'azienda è in fase di migrazione verso servizi cloud. Il dipartimento IT dell'azienda dispone di risorse limitate per la migrazione e il supporto continuativo. Quale delle seguenti soddisfa meglio le esigenze dell'azienda?",
       "en": "A company is in the process of migrating to cloud-based services. The company’s IT department has limited resources for migration and ongoing support. Which of the following best meets the company’s needs?"
     },
     "options": [
@@ -21733,7 +21733,7 @@
     "id": "SCREEN_561",
     "objective": "3.1",
     "text": {
-      "it": "Quale delle seguenti descrive meglio il benefits di un microservices architecture when compared a un monolithic architecture? (Scegli due.)",
+      "it": "Quale delle seguenti descrive meglio i vantaggi di un'architettura a microservizi rispetto a un'architettura monolitica? (Scegliere due.)",
       "en": "Which of the following best describe the benefits of a microservices architecture when compared to a monolithic architecture? (Choose two.)"
     },
     "options": [
@@ -21791,7 +21791,7 @@
     "id": "SCREEN_562",
     "objective": "2.2",
     "text": {
-      "it": "Un user's workstation becomes unresponsive e displays un ransom note demanding payment a decrypt files. Before il attacco, il utente opened un resume they received in un message, browsed il company's website, e installed OS updates. Quale delle seguenti è il più probabilmente vector di questo attacco?",
+      "it": "La workstation di un utente smette di rispondere e visualizza una richiesta di riscatto che richiede un pagamento per decifrare i file. Prima dell'attacco, l'utente ha aperto un curriculum ricevuto in un messaggio, ha navigato sul sito web aziendale e ha installato aggiornamenti del sistema operativo. Quale delle seguenti è il vettore più probabile di questo attacco?",
       "en": "A user's workstation becomes unresponsive and displays a ransom note demanding payment to decrypt files. Before the attack, the user opened a resume they received in a message, browsed the company's website, and installed OS updates. Which of the following is the most likely vector of this attack?"
     },
     "options": [
@@ -22085,7 +22085,7 @@
     "id": "SCREEN_569",
     "objective": "2.1",
     "text": {
-      "it": "Un government official receives un blank envelope containing photos e un note instructing il official a wire un large sum di money by midnight a prevenire il photos da essendo leaked on il internet. Quale delle seguenti descrive meglio il threat actor's intent?",
+      "it": "Un funzionario governativo riceve una busta bianca contenente foto e un biglietto che lo istruisce a trasferire una grossa somma di denaro entro mezzanotte per evitare che le foto vengano divulgate su Internet. Quale delle seguenti descrive meglio l'intento dell'attore della minaccia?",
       "en": "A government official receives a blank envelope containing photos and a note instructing the official to wire a large sum of money by midnight to prevent the photos from being leaked on the internet. Which of the following best describes the threat actor's intent?"
     },
     "options": [
@@ -22169,7 +22169,7 @@
     "id": "SCREEN_571",
     "objective": "5.1",
     "text": {
-      "it": "Quale delle seguenti sarebbe un amministratore della sicurezza use a comply con un secure baseline during un patch update?",
+      "it": "Quale delle seguenti utilizzerebbe un amministratore della sicurezza per conformarsi a una baseline sicura durante un aggiornamento di patch?",
       "en": "Which of the following would a security administrator use to comply with a secure baseline during a patch update?"
     },
     "options": [
@@ -22463,7 +22463,7 @@
     "id": "SCREEN_578",
     "objective": "5.2",
     "text": {
-      "it": "Due a un cyberattacco, Un'azienda's IT systems were non operational per un extended period di time. Il azienda wants a measure come quickly il systems deve essere restored in order per ridurre al minimo business disruption. Quale delle seguenti sarebbe il azienda più probabilmente use?",
+      "it": "A causa di un attacco informatico, i sistemi IT di un'azienda non sono stati operativi per un periodo prolungato. L'azienda vuole misurare con quale rapidità i sistemi devono essere ripristinati per ridurre al minimo l'interruzione dell'attività. Quale delle seguenti utilizzerebbe più probabilmente l'azienda?",
       "en": "Due to a cyberattack, a company's IT systems were not operational for an extended period of time. The company wants to measure how quickly the systems must be restored in order to minimize business disruption. Which of the following would the company most likely use?"
     },
     "options": [
@@ -22597,7 +22597,7 @@
     "id": "SCREEN_581",
     "objective": "4.5",
     "text": {
-      "it": "Un'organizzazione purchased un critical business application containing sensitive dati. Il organizzazione sarebbe like a garantire quello il application è non exploited by common dati exfiltration attacchi. Quale delle seguenti approaches sarebbe migliore help a fulfill questo requirement?",
+      "it": "Un'organizzazione ha acquistato un'applicazione aziendale critica contenente dati sensibili. L'organizzazione vorrebbe garantire che l'applicazione non venga sfruttata da comuni attacchi di esfiltrazione dei dati. Quale dei seguenti approcci aiuterebbe meglio a soddisfare questo requisito?",
       "en": "An organization purchased a critical business application containing sensitive data. The organization would like to ensure that the application is not exploited by common data exfiltration attacks. Which of the following approaches would best help to fulfill this requirement?"
     },
     "options": [
@@ -22639,7 +22639,7 @@
     "id": "SCREEN_582",
     "objective": "3.4",
     "text": {
-      "it": "Un'azienda wants a improve il availability di its application con un solution quello requires minimal effort nel caso un server necessita a essere replaced o added. Quale delle seguenti sarebbe essere il best solution a meet questi objectives?",
+      "it": "Un'azienda vuole migliorare la disponibilità della propria applicazione con una soluzione che richieda il minimo sforzo nel caso in cui un server debba essere sostituito o aggiunto. Quale delle seguenti sarebbe la soluzione migliore per raggiungere questi obiettivi?",
       "en": "A company wants to improve the availability of its application with a solution that requires minimal effort in the event a server needs to be replaced or added. Which of the following would be the best solution to meet these objectives?"
     },
     "options": [
@@ -22807,7 +22807,7 @@
     "id": "SCREEN_586",
     "objective": "2.4",
     "text": {
-      "it": "Un amministratore di sistema è rivedereing il VPN log e notices quello during non-working hours un utente è accessing il azienda file server e information è being transferred a un suspicious IP address. Quale delle seguenti threats è più probabilmente occurring?",
+      "it": "Un amministratore di sistema sta esaminando i log VPN e nota che durante le ore non lavorative un utente accede al file server aziendale e vengono trasferiti dati verso un indirizzo IP sospetto. Quale delle seguenti minacce è la più probabile?",
       "en": "A systems administrator is reviewing the VPN logs and notices that during non-working hours a user is accessing the company file server and information is being transferred to a suspicious IP address. Which of the following threats is most likely occurring?"
     },
     "options": [
@@ -22822,7 +22822,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Root o trust",
+          "it": "Root of trust",
           "en": "Root or trust"
         },
         "correct": false
@@ -22830,7 +22830,7 @@
       {
         "id": "C",
         "text": {
-          "it": "dati exfiltration",
+          "it": "Esfiltrazione dei dati",
           "en": "Data exfiltration"
         },
         "correct": true
@@ -22838,7 +22838,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Blackmail",
+          "it": "Ricatto",
           "en": "Blackmail"
         },
         "correct": false
@@ -22849,7 +22849,7 @@
     "id": "SCREEN_587",
     "objective": "1.2",
     "text": {
-      "it": "Un'azienda discovers suspicious transactions quello were entered into il company's datibase e attached a un utente account quello was created as un trap per malicious activity. Quale delle seguenti è il utente account un example di?",
+      "it": "Un'azienda scopre transazioni sospette che sono state inserite nel database aziendale e associate a un account utente creato come trappola per attività malevole. Quale delle seguenti è un esempio dell'account utente?",
       "en": "A company discovers suspicious transactions that were entered into the company's database and attached to a user account that was created as a trap for malicious activity. Which of the following is the user account an example of?"
     },
     "options": [
@@ -22933,7 +22933,7 @@
     "id": "SCREEN_589",
     "objective": "2.2",
     "text": {
-      "it": "Un'azienda's accounting department receives un urgent payment message da il company's bank domain con instructions a wire transfer funds. Il sender requests quello il transfer essere completed as soon as possible. Quale delle seguenti attacchi è described?",
+      "it": "Il reparto contabilità di un'azienda riceve un messaggio di pagamento urgente dal dominio bancario dell'azienda con istruzioni per effettuare un bonifico bancario. Il mittente richiede che il trasferimento venga completato il prima possibile. Quale dei seguenti attacchi è descritto?",
       "en": "A company's accounting department receives an urgent payment message from the company's bank domain with instructions to wire transfer funds. The sender requests that the transfer be completed as soon as possible. Which of the following attacks is described?"
     },
     "options": [
@@ -23185,14 +23185,14 @@
     "id": "SCREEN_595",
     "objective": "4.4",
     "text": {
-      "it": "Un'azienda captures log-in details e rivederes them each week a identify conditions such as excessive log-in attempts e frequent lockouts. Quale delle seguenti dovrebbe Un analista di sicurezza recommend a improve sicurezza compliance monitoring?",
+      "it": "Un'azienda acquisisce i dettagli di accesso e li esamina ogni settimana per identificare condizioni come tentativi di accesso eccessivi e blocchi frequenti. Quale delle seguenti dovrebbe raccomandare un analista di sicurezza per migliorare il monitoraggio della conformità alla sicurezza?",
       "en": "A company captures log-in details and reviews them each week to identify conditions such as excessive log-in attempts and frequent lockouts. Which of the following should a security analyst recommend to improve security compliance monitoring?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Including il date e person chi rivedereed il information in un report",
+          "it": "Includere la data e la persona che ha esaminato le informazioni in un report",
           "en": "Including the date and person who reviewed the information in a report"
         },
         "correct": false
@@ -23200,7 +23200,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Adding automated alerting quando anomalies occur",
+          "it": "Aggiungere avvisi automatici quando si verificano anomalie",
           "en": "Adding automated alerting when anomalies occur"
         },
         "correct": true
@@ -23208,7 +23208,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Requiring un statement each week quello no exceptions were noted",
+          "it": "Richiedere una dichiarazione settimanale che non siano state rilevate eccezioni",
           "en": "Requiring a statement each week that no exceptions were noted"
         },
         "correct": false
@@ -23216,7 +23216,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Masking il utentename in un report a protect privacy",
+          "it": "Mascherare il nome utente in un report per proteggere la privacy",
           "en": "Masking the username in a report to protect privacy"
         },
         "correct": false
@@ -23227,7 +23227,7 @@
     "id": "SCREEN_596",
     "objective": "3.2",
     "text": {
-      "it": "Un sicurezza team è in il process di hardening il rete against externally crafted malicious packets. Quale delle seguenti è il più secure method a protect il interno rete?",
+      "it": "Un team di sicurezza sta rafforzando la rete contro pacchetti malevoli creati esternamente. Quale dei seguenti è il metodo più sicuro per proteggere la rete interna?",
       "en": "A security team is in the process of hardening the network against externally crafted malicious packets. Which of the following is the most secure method to protect the internal network?"
     },
     "options": [
@@ -23250,7 +23250,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Intrusion prevenireion systems",
+          "it": "Sistemi di prevenzione delle intrusioni",
           "en": "Intrusion prevention systems"
         },
         "correct": true
@@ -23258,7 +23258,7 @@
       {
         "id": "D",
         "text": {
-          "it": "rete controllo accessi",
+          "it": "Controllo degli accessi di rete",
           "en": "Network access control"
         },
         "correct": false
@@ -23266,7 +23266,7 @@
       {
         "id": "E",
         "text": {
-          "it": "rete allow list",
+          "it": "Network allow list",
           "en": "Network allow list"
         },
         "correct": false
@@ -23361,7 +23361,7 @@
     "id": "SCREEN_599",
     "objective": "4.6",
     "text": {
-      "it": "Un'azienda wants a add un MFA solution per tutti dipendenti chi access il corporate rete remotely. Log-in requisiti include something you know, sono, e have. Il azienda wants un solution quello fa non require purchasing third-party applications o specialized hardware. Quale delle seguenti MFA solutions sarebbe migliore meet il company's requisiti?",
+      "it": "Un'azienda vuole aggiungere una soluzione MFA per tutti i dipendenti che accedono alla rete aziendale da remoto. I requisiti di accesso includono qualcosa che si conosce, si è e si possiede. L'azienda desidera una soluzione che non richieda l'acquisto di applicazioni di terze parti o hardware specializzato. Quale delle seguenti soluzioni MFA soddisferebbe meglio i requisiti dell'azienda?",
       "en": "A company wants to add an MFA solution for all employees who access the corporate network remotely. Log-in requirements include something you know, are, and have. The company wants a solution that does not require purchasing third-party applications or specialized hardware. Which of the following MFA solutions would best meet the company's requirements?"
     },
     "options": [
@@ -23376,7 +23376,7 @@
       {
         "id": "B",
         "text": {
-          "it": "sicurezza questions e un one-time passcode sent via email",
+          "it": "Domande di sicurezza e un codice monouso inviato via email",
           "en": "Security questions and a one-time passcode sent via email"
         },
         "correct": false
@@ -23384,7 +23384,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Voice e fingerprint verification con un SMS one-time passcode",
+          "it": "Verifica vocale e dell'impronta digitale con un codice monouso via SMS",
           "en": "Voice and fingerprint verification with an SMS one-time passcode"
         },
         "correct": false
@@ -23392,7 +23392,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Mobile application-generated, one-time passcode con facial recognition",
+          "it": "Codice monouso generato da applicazione mobile con riconoscimento facciale",
           "en": "Mobile application-generated, one-time passcode with facial recognition"
         },
         "correct": true
@@ -23445,7 +23445,7 @@
     "id": "SCREEN_601",
     "objective": "4.7",
     "text": {
-      "it": "Un sicurezza manager wants per ridurre il number di steps required a identify e contain basic threats. Quale delle seguenti sarà help achieve questo goal?",
+      "it": "Un responsabile della sicurezza vuole ridurre il numero di passaggi necessari per identificare e contenere le minacce di base. Quale delle seguenti aiuterà a raggiungere questo obiettivo?",
       "en": "A security manager wants to reduce the number of steps required to identify and contain basic threats. Which of the following will help achieve this goal?"
     },
     "options": [
@@ -23529,7 +23529,7 @@
     "id": "SCREEN_603",
     "objective": "4.3",
     "text": {
-      "it": "Quale delle seguenti describes il più effective way a address OS vulnerabilità after they sono identified?",
+      "it": "Quale delle seguenti descrive il modo più efficace per affrontare le vulnerabilità del sistema operativo dopo che sono state identificate?",
       "en": "Which of the following describes the most effective way to address OS vulnerabilities after they are identified?"
     },
     "options": [
@@ -23544,7 +23544,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Removal di unnecessary software",
+          "it": "Rimozione del software non necessario",
           "en": "Removal of unnecessary software"
         },
         "correct": false
@@ -23613,7 +23613,7 @@
     "id": "SCREEN_605",
     "objective": "4.1",
     "text": {
-      "it": "Un'azienda è implementareing un policy a allow dipendenti a use their personal equipment per work. However, il azienda wants a garantire quello solo company-approved applications può essere installed. Quale delle seguenti addresses questo concern?",
+      "it": "Un'azienda sta implementando una policy per consentire ai dipendenti di utilizzare le proprie attrezzature personali per lavoro. Tuttavia, l'azienda vuole garantire che possano essere installate solo applicazioni approvate dall'azienda. Quale delle seguenti risponde a questa preoccupazione?",
       "en": "A company is implementing a policy to allow employees to use their personal equipment for work. However, the company wants to ensure that only company-approved applications can be installed. Which of the following addresses this concern?"
     },
     "options": [
@@ -23739,14 +23739,14 @@
     "id": "SCREEN_608",
     "objective": "2.3",
     "text": {
-      "it": "Quale delle seguenti è un example di memory injection?",
+      "it": "Quale delle seguenti è un esempio di memory injection?",
       "en": "Which of the following is an example of memory injection?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Two processes access il same variable, allowing one a cause un privilege escalation.",
+          "it": "Due processi accedono alla stessa variabile, consentendo a uno di causare un'escalation dei privilegi.",
           "en": "Two processes access the same variable, allowing one to cause a privilege escalation."
         },
         "correct": false
@@ -23754,7 +23754,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Un process receives un unexpected amount di dati, which causes malicious code a essere executed.",
+          "it": "Un processo riceve una quantità imprevista di dati, il che causa l'esecuzione di codice malevolo.",
           "en": "A process receives an unexpected amount of data, which causes malicious code to be executed."
         },
         "correct": false
@@ -23762,7 +23762,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Malicious code è copied a il allocated space di un already running process.",
+          "it": "Il codice malevolo viene copiato nello spazio allocato di un processo già in esecuzione.",
           "en": "Malicious code is copied to the allocated space of an already running process."
         },
         "correct": true
@@ -23770,7 +23770,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Un executable è overwritten su il disk, e malicious code runs il next time it è executed.",
+          "it": "Un eseguibile viene sovrascritto sul disco, e il codice malevolo viene eseguito la prossima volta che viene avviato.",
           "en": "An executable is overwritten on the disk, and malicious code runs the next time it is executed."
         },
         "correct": false
@@ -23865,14 +23865,14 @@
     "id": "SCREEN_611",
     "objective": "3.1",
     "text": {
-      "it": "Un customer has un contract con un CSP e wants a identify which controls dovrebbe essere implementareato in il IaaS enclave. Quale delle seguenti è più probabilmente a contain questo information?",
+      "it": "Un cliente ha un contratto con un CSP e vuole identificare quali controlli dovrebbero essere implementati nell'enclave IaaS. Quale delle seguenti è più probabile che contenga queste informazioni?",
       "en": "A customer has a contract with a CSP and wants to identify which controls should be implemented in the IaaS enclave. Which of the following is most likely to contain this information?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Statement di work",
+          "it": "Dichiarazione di lavoro",
           "en": "Statement of work"
         },
         "correct": false
@@ -23991,14 +23991,14 @@
     "id": "SCREEN_614",
     "objective": "4.6",
     "text": {
-      "it": "Un amministratore wants a automate un account permissions update per un large number di accounts. Quale delle seguenti sarebbe migliore accomplish questo task?",
+      "it": "Un amministratore vuole automatizzare l'aggiornamento dei permessi di account per un grande numero di account. Quale delle seguenti consentirebbe di svolgere al meglio questo compito?",
       "en": "An administrator wants to automate an account permissions update for a large number of accounts. Which of the following would best accomplish this task?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "sicurezza groups",
+          "it": "Gruppi di sicurezza",
           "en": "Security groups"
         },
         "correct": false
@@ -24014,7 +24014,7 @@
       {
         "id": "C",
         "text": {
-          "it": "utente provisioning",
+          "it": "Provisioning degli utenti",
           "en": "User provisioning"
         },
         "correct": true
@@ -24075,7 +24075,7 @@
     "id": "SCREEN_616",
     "objective": "4.8",
     "text": {
-      "it": "Various azienda stakeholders meet a discuss roles e responsibilities nel caso di un sicurezza breach quello sarebbe affect offshore offices. Quale delle seguenti è questo un example di?",
+      "it": "Vari stakeholder aziendali si riuniscono per discutere ruoli e responsabilità in caso di una violazione della sicurezza che riguardi uffici offshore. Di quale delle seguenti è questo un esempio?",
       "en": "Various company stakeholders meet to discuss roles and responsibilities in the event of a security breach that would affect offshore offices. Which of the following is this an example of?"
     },
     "options": [
@@ -24117,14 +24117,14 @@
     "id": "SCREEN_617",
     "objective": "3.3",
     "text": {
-      "it": "Quale delle seguenti è un example di un dati protection strategy quello uses tokenization?",
+      "it": "Quale delle seguenti è un esempio di strategia di protezione dei dati che utilizza la tokenizzazione?",
       "en": "Which of the following is an example of a data protection strategy that uses tokenization?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Encrypting datibases containing sensitive dati",
+          "it": "Cifrare i database contenenti dati sensibili",
           "en": "Encrypting databases containing sensitive data"
         },
         "correct": false
@@ -24132,7 +24132,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Replacing sensitive dati con surrogate values",
+          "it": "Sostituire i dati sensibili con valori surrogati",
           "en": "Replacing sensitive data with surrogate values"
         },
         "correct": true
@@ -24140,7 +24140,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Removing sensitive dati da production systems",
+          "it": "Rimuovere i dati sensibili dai sistemi di produzione",
           "en": "Removing sensitive data from production systems"
         },
         "correct": false
@@ -24148,7 +24148,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Hashing sensitive dati in critical systems",
+          "it": "Applicare l'hashing ai dati sensibili nei sistemi critici",
           "en": "Hashing sensitive data in critical systems"
         },
         "correct": false
@@ -24201,7 +24201,7 @@
     "id": "SCREEN_619",
     "objective": "4.1",
     "text": {
-      "it": "Quale delle seguenti types di identification methods può essere performed su un deployed application during runtime?",
+      "it": "Quale dei seguenti tipi di metodi di identificazione può essere eseguito su un'applicazione distribuita durante il runtime?",
       "en": "Which of the following types of identification methods can be performed on a deployed application during runtime?"
     },
     "options": [
@@ -24411,7 +24411,7 @@
     "id": "SCREEN_634",
     "objective": "4.6",
     "text": {
-      "it": "Un'azienda wants a garantire dipendenti sono allowed a copy files da un virtual desktop during il workday but sono restricted during non-working hours. Quale delle seguenti sicurezza measures dovrebbe il/lUn'azienda set up?",
+      "it": "Un'azienda vuole garantire che i dipendenti possano copiare file da un desktop virtuale durante l'orario lavorativo, ma siano limitati nelle ore non lavorative. Quale delle seguenti misure di sicurezza dovrebbe implementare l'azienda?",
       "en": "A company wants to ensure employees are allowed to copy files from a virtual desktop during the workday but are restricted during non-working hours. Which of the following security measures should the company set up?"
     },
     "options": [
@@ -24426,7 +24426,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Role-based controllo accessi",
+          "it": "Controllo degli accessi basato sui ruoli",
           "en": "Role-based access control"
         },
         "correct": false
@@ -24434,7 +24434,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Time-based controllo accessi",
+          "it": "Controllo degli accessi basato sul tempo",
           "en": "Time-based access control"
         },
         "correct": true
@@ -24442,7 +24442,7 @@
       {
         "id": "D",
         "text": {
-          "it": "rete controllo accessi",
+          "it": "Controllo degli accessi di rete",
           "en": "Network access control"
         },
         "correct": false
@@ -24453,7 +24453,7 @@
     "id": "SCREEN_635",
     "objective": "5.1",
     "text": {
-      "it": "dipendenti sign un agreement quello restricts specific activities quando leaving il azienda. Violating il agreement può result in legal consequences. Quale delle seguenti agreements fa questo best describe?",
+      "it": "I dipendenti firmano un accordo che limita specifiche attività quando lasciano l'azienda. La violazione dell'accordo può avere conseguenze legali. Quale dei seguenti accordi descrive meglio questo scenario?",
       "en": "Employees sign an agreement that restricts specific activities when leaving the company. Violating the agreement can result in legal consequences. Which of the following agreements does this best describe?"
     },
     "options": [
@@ -24805,7 +24805,7 @@
     "id": "SCREEN_643",
     "objective": "4.4",
     "text": {
-      "it": "Un analista di sicurezza notices unusual behavior su il rete. Il IDS su il rete was non able a detect il activities. Quale delle seguenti dovrebbe il/lUn analista di sicurezza use a help il IDS detect such attacchi in futuro?",
+      "it": "Un analista di sicurezza nota un comportamento insolito sulla rete. L'IDS sulla rete non è riuscito a rilevare le attività. Quale delle seguenti dovrebbe utilizzare l'analista di sicurezza per aiutare l'IDS a rilevare tali attacchi in futuro?",
       "en": "A security analyst notices unusual behavior on the network. The IDS on the network was not able to detect the activities. Which of the following should the security analyst use to help the IDS detect such attacks in the future?"
     },
     "options": [
@@ -24931,14 +24931,14 @@
     "id": "SCREEN_646",
     "objective": "1.1",
     "text": {
-      "it": "Un'organizzazione has un nuovo regulatory requirement a implementare corrective controls su un financial sistema. Quale delle seguenti è il più probabilmente reason per il nuovo requirement?",
+      "it": "Un'organizzazione ha un nuovo requisito normativo per implementare controlli correttivi su un sistema finanziario. Quale delle seguenti è la ragione più probabile per il nuovo requisito?",
       "en": "An organization has a new regulatory requirement to implement corrective controls on a financial system. Which of the following is the most likely reason for the new requirement?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "A defend against insider threats altering banking details",
+          "it": "Per difendersi dalle minacce interne che alterano i dati bancari",
           "en": "To defend against insider threats altering banking details"
         },
         "correct": false
@@ -24946,7 +24946,7 @@
       {
         "id": "B",
         "text": {
-          "it": "A garantire quello errors sono non passed a other systems",
+          "it": "Per garantire che gli errori non vengano trasferiti ad altri sistemi",
           "en": "To ensure that errors are not passed to other systems"
         },
         "correct": true
@@ -24954,7 +24954,7 @@
       {
         "id": "C",
         "text": {
-          "it": "A allow per business insurance a essere purchased",
+          "it": "Per consentire l'acquisto di un'assicurazione aziendale",
           "en": "To allow for business insurance to be purchased"
         },
         "correct": false
@@ -24962,7 +24962,7 @@
       {
         "id": "D",
         "text": {
-          "it": "A prevenire unauthorized changes a financial dati",
+          "it": "Per prevenire modifiche non autorizzate ai dati finanziari",
           "en": "To prevent unauthorized changes to financial data"
         },
         "correct": false
@@ -25015,14 +25015,14 @@
     "id": "SCREEN_648",
     "objective": "1.4",
     "text": {
-      "it": "Quale delle seguenti describes il difference between encryption e hashing?",
+      "it": "Quale delle seguenti descrive la differenza tra crittografia e hashing?",
       "en": "Which of the following describes the difference between encryption and hashing?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Encryption protects dati in transit, while hashing protects dati at rest.",
+          "it": "La crittografia protegge i dati in transito, mentre l'hashing protegge i dati a riposo.",
           "en": "Encryption protects data in transit, while hashing protects data at rest."
         },
         "correct": false
@@ -25030,7 +25030,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Encryption replaces cleartext con ciphertext, while hashing calculates un checksum.",
+          "it": "La crittografia sostituisce il testo in chiaro con il testo cifrato, mentre l'hashing calcola un checksum.",
           "en": "Encryption replaces cleartext with ciphertext, while hashing calculates a checksum."
         },
         "correct": true
@@ -25038,7 +25038,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Encryption garantires dati integrity, while hashing garantires dati confidentiality.",
+          "it": "La crittografia garantisce l'integrità dei dati, mentre l'hashing garantisce la riservatezza dei dati.",
           "en": "Encryption ensures data integrity, while hashing ensures data confidentiality."
         },
         "correct": false
@@ -25046,7 +25046,7 @@
       {
         "id": "D",
         "text": {
-          "it": "Encryption uses un public-key exchange, while hashing uses un private key.",
+          "it": "La crittografia utilizza uno scambio di chiavi pubbliche, mentre l'hashing utilizza una chiave privata.",
           "en": "Encryption uses a public-key exchange, while hashing uses a private key."
         },
         "correct": false
@@ -25057,14 +25057,14 @@
     "id": "SCREEN_649",
     "objective": "5.6",
     "text": {
-      "it": "Un sicurezza report shows quello during un two-week test period, 80% di dipendenti unwittingly disclosed their SSO credentials quando accessing un esterno website. Il organizzazione purposely created il website a simulate un cost-free password complexity test. Quale delle seguenti sarebbe migliore help reduce il number di visits a similar websites in futuro?",
+      "it": "Un report di sicurezza mostra che durante un periodo di test di due settimane, l'80% dei dipendenti ha inconsapevolmente divulgato le proprie credenziali SSO durante l'accesso a un sito web esterno. L'organizzazione ha creato intenzionalmente il sito web per simulare un test di complessità della password gratuito. Quale delle seguenti aiuterebbe meglio a ridurre il numero di visite a siti web simili in futuro?",
       "en": "A security report shows that during a two-week test period, 80% of employees unwittingly disclosed their SSO credentials when accessing an external website. The organization purposely created the website to simulate a cost-free password complexity test. Which of the following would best help reduce the number of visits to similar websites in the future?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Block tutti outbound traffic da il intranet.",
+          "it": "Bloccare tutto il traffico in uscita dall'intranet.",
           "en": "Block all outbound traffic from the intranet."
         },
         "correct": false
@@ -25072,7 +25072,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Introduce un campaign a recognize phishing attempts.",
+          "it": "Introdurre una campagna per riconoscere i tentativi di phishing.",
           "en": "Introduce a campaign to recognize phishing attempts."
         },
         "correct": true
@@ -25080,7 +25080,7 @@
       {
         "id": "C",
         "text": {
-          "it": "Restrict internet access per il dipendenti chi disclosed credentials.",
+          "it": "Limitare l'accesso a Internet per i dipendenti che hanno divulgato le credenziali.",
           "en": "Restrict internet access for the employees who disclosed credentials."
         },
         "correct": false
@@ -25088,7 +25088,7 @@
       {
         "id": "D",
         "text": {
-          "it": "implementare un deny list di websites.",
+          "it": "Implementare una deny list di siti web.",
           "en": "Implement a deny list of websites."
         },
         "correct": false
@@ -25141,7 +25141,7 @@
     "id": "SCREEN_651",
     "objective": "5.1",
     "text": {
-      "it": "Un'organizzazione è developing un sicurezza program quello conveys il responsibilities associated con il general operation di systems e software within il organizzazione. Quale delle seguenti documents sarebbe più probabilmente communicate questi expectations?",
+      "it": "Un'organizzazione sta sviluppando un programma di sicurezza che comunica le responsabilità associate alla gestione generale dei sistemi e del software all'interno dell'organizzazione. Quale dei seguenti documenti comunicherebbe più probabilmente queste aspettative?",
       "en": "An organization is developing a security program that conveys the responsibilities associated with the general operation of systems and software within the organization. Which of the following documents would most likely communicate these expectations?"
     },
     "options": [
@@ -25225,7 +25225,7 @@
     "id": "SCREEN_653",
     "objective": "3.2",
     "text": {
-      "it": "Quale delle seguenti è il best way a provide secure, remote access per dipendenti while minimizing il exposure di Un'azienda's interno rete?",
+      "it": "Quale delle seguenti è il modo migliore per fornire accesso remoto sicuro ai dipendenti riducendo al minimo l'esposizione della rete interna aziendale?",
       "en": "Which of the following is the best way to provide secure, remote access for employees while minimizing the exposure of a company's internal network?"
     },
     "options": [
@@ -25267,14 +25267,14 @@
     "id": "SCREEN_654",
     "objective": "4.1",
     "text": {
-      "it": "Un'azienda wants a track modifications a il code quello è utilizzato per build nuovo virtual server. Quale delle seguenti sarà il azienda più probabilmente deploy?",
+      "it": "Un'azienda vuole tracciare le modifiche al codice utilizzato per costruire nuovi server virtuali. Quale delle seguenti implementerà più probabilmente l'azienda?",
       "en": "A company wants to track modifications to the code that is used to build new virtual servers. Which of the following will the company most likely deploy?"
     },
     "options": [
       {
         "id": "A",
         "text": {
-          "it": "Change management ticketing sistema",
+          "it": "Sistema di ticketing per la gestione dei cambiamenti",
           "en": "Change management ticketing system"
         },
         "correct": false
@@ -25282,7 +25282,7 @@
       {
         "id": "B",
         "text": {
-          "it": "Behavioral analizzarer",
+          "it": "Analizzatore comportamentale",
           "en": "Behavioral analyzer"
         },
         "correct": false
@@ -25351,7 +25351,7 @@
     "id": "SCREEN_656",
     "objective": "5.2",
     "text": {
-      "it": "While conducting un business continuity tabletop exercise, il sicurezza team becomes concerned by potential impact se un generator was a develop un fault during failover. Quale delle seguenti è il team più probabilmente a consider in regard a risk management activities?",
+      "it": "Durante un esercizio di tabletop sulla continuità aziendale, il team di sicurezza si preoccupa del potenziale impatto se un generatore dovesse sviluppare un guasto durante il failover. Quale delle seguenti è più probabile che il team consideri in relazione alle attività di gestione del rischio?",
       "en": "While conducting a business continuity tabletop exercise, the security team becomes concerned by potential impact if a generator was to develop a fault during failover. Which of the following is the team most likely to consider in regard to risk management activities?"
     },
     "options": [
