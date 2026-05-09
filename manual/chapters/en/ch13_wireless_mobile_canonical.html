@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — CH13: Wireless and Mobile</title>
+  <link rel="stylesheet" href="../../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="security_plus_sy0_701_guida.html">General index</a>
+      <span>Domain 4 — Security Operations</span>
+      <span>CH13 — Wireless and Mobile</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Language selector">
+      <span>Language:</span>
+      <a href="../ch13_wireless_mobile_canonical.html">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="ch13_wireless_mobile_canonical.html" aria-current="page">EN</a>
+    </div>
+    <header>
+      <h1>CH13 — Wireless and Mobile</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 4 (parziale) — Objective 4.1
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Covered objectives:</strong>
+        <span class="objectives-tag">4.1 parz.</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p><strong>Prerequisites:</strong>
+        <a href="ch7_crittografia_pki_canonical.html">CH7 — Crittografia e PKI</a> ·
+        <a href="ch8_identity_access_management_canonical.html">CH8 — IAM e autenticazione</a> ·
+        <a href="ch12_network_security_canonical.html">CH12 — Architettura di rete</a>
+      </p>
+      <p><strong>Related chapters:</strong>
+        <a href="ch11_endpoint_architecture_canonical.html">CH11 — Endpoint e hardening</a> ·
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Chapter index">
+        <div class="toc-section">Objective 4.1</div>
+
+        <div class="toc-section">Wireless Devices</div>
+        <a href="#obj-wireless-devices">Wireless devices</a>
+        <a href="#site-survey">↳ Site Survey</a>
+        <a href="#heat-map">↳ Heat Map</a>
+
+        <div class="toc-section">Mobile Solutions</div>
+        <a href="#obj-mobile-solutions">Mobile solutions</a>
+        <a href="#mdm">↳ MDM</a>
+        <a href="#deployment-models">↳ Modelli di deployment</a>
+        <a href="#byod">  ↳ BYOD</a>
+        <a href="#cope">  ↳ COPE</a>
+        <a href="#cyod">  ↳ CYOD</a>
+        <a href="#connection-methods">↳ Connection Methods</a>
+        <a href="#conn-cellular">  ↳ Cellular</a>
+        <a href="#conn-wifi">  ↳ Wi-Fi</a>
+        <a href="#conn-bluetooth">  ↳ Bluetooth</a>
+
+        <div class="toc-section">Wireless Security Settings</div>
+        <a href="#obj-wireless-security">Wireless security settings</a>
+        <a href="#wpa3">↳ WPA3</a>
+        <a href="#aaa-radius">↳ AAA / RADIUS</a>
+        <a href="#crypto-protocols">↳ Protocolli crittografici</a>
+        <a href="#auth-protocols">↳ Protocolli di autenticazione</a>
+
+        <div class="toc-section">Summary</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE: WIRELESS DEVICES
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-wireless-devices">
+          <h2>Objective 4.1 — Wireless Devices: Installation Considerations</h2>
+          <p>
+            I dispositivi wireless — access point, controller WLAN, antenne direzionali, repeater — non si installano
+            in modo casuale. La loro posizione fisica influenza direttamente la sicurezza della rete: un AP mal
+            posizionato può irradiare il segnale oltre i confini dell'edificio, rendendo possibile l'intercettazione
+            del traffico dall'esterno. Due strumenti sono fondamentali per pianificare correttamente un'installazione
+            wireless: il <strong>site survey</strong> e la <strong>heat map</strong>.
+          </p>
+
+          <!-- ── Site Survey ── -->
+          <h3 id="site-survey">Site Survey</h3>
+          <p>
+            Un <strong>site survey</strong> è un processo sistematico di analisi dell'ambiente fisico e radio prima
+            di installare o modificare una rete wireless. Il suo scopo è triplice: garantire la copertura nelle aree
+            richieste, minimizzare le interferenze e impedire che il segnale fuoriesca in zone non autorizzate.
+            Un site survey professionale comprende sia un'analisi fisica (planimetria, materiali delle pareti, ostacoli
+            metallici, sorgenti di interferenza) sia un'analisi dello spettro radio con strumenti dedicati per
+            identificare canali già occupati e sorgenti di rumore.
+          </p>
+          <p>
+            Dal punto di vista della sicurezza, il site survey permette di decidere la potenza di trasmissione degli
+            AP in modo da limitare la propagazione oltre il perimetro desiderato: un segnale che raggiunge il parcheggio
+            o la strada è un segnale che un attaccante con un laptop può sfruttare. Ridurre la potenza al minimo
+            necessario per coprire l'area operativa è una misura di hardening elementare ma spesso trascurata.
+          </p>
+          <p>
+            Il site survey viene ripetuto periodicamente o quando cambia la planimetria dell'edificio, perché muri,
+            arredi e nuovi apparati modificano la propagazione del segnale in modo non prevedibile a priori.
+          </p>
+
+          <div class="example-box">
+            <strong>Practical example — Site Survey in a hospital</strong><br>
+            Un ospedale vuole estendere la Wi-Fi ai reparti. Prima di installare gli AP, il team IT esegue un site
+            survey per identificare le interferenze generate dai dispositivi medicali (alcuni operano a 2,4 GHz),
+            le zone con pareti in cemento armato che attenuano fortemente il segnale e le aree in cui il segnale
+            non deve uscire (sale operatorie, archivi). Il risultato è una mappa con la posizione ottimale di ogni
+            AP, la potenza consigliata e i canali da usare per evitare sovrapposizioni.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-A — Site Survey</strong><br>
+            Se la domanda chiede <em>cosa fare PRIMA di installare una rete wireless</em>, la risposta è quasi sempre
+            <strong>site survey</strong>. L'esame lo propone anche in scenari in cui si vuole ridurre il leakage del
+            segnale al di fuori del perimetro aziendale: il site survey identifica dove il segnale esce, la soluzione
+            è ridurre la potenza degli AP o aggiungere schermature fisiche.
+          </div>
+
+          <!-- ── Heat Map ── -->
+          <h3 id="heat-map">Heat Map</h3>
+          <p>
+            Una <strong>heat map</strong> è la rappresentazione visiva della distribuzione della potenza del segnale
+            Wi-Fi su una planimetria. Usa una scala cromatica (tipicamente dal rosso — segnale forte — al blu o viola
+            — segnale assente) per mostrare a colpo d'occhio dove la copertura è adeguata, dove ci sono zone d'ombra
+            e dove il segnale fuoriesce indesiderato.
+          </p>
+          <p>
+            Le heat map vengono generate con software specializzati (es. Ekahau, AirMagnet) che combinano la posizione
+            degli AP, i parametri di trasmissione e i dati rilevati da misurazioni sul campo. Hanno due utilizzi
+            principali: in fase di <em>progettazione</em> (heat map predittiva basata su modelli) e in fase di
+            <em>verifica</em> dopo l'installazione (heat map passiva basata su misurazioni reali). La differenza tra
+            le due rivela problemi imprevisti come riflessioni, zone morte o segnale che supera il perimetro.
+          </p>
+          <p>
+            In ambito sicurezza, la heat map è lo strumento per dimostrare che il segnale non raggiunge aree sensibili.
+            Se la heat map mostra segnale forte oltre i confini dell'edificio, il problema va corretto prima di
+            mettere in produzione la rete.
+          </p>
+
+          <div class="pitfall">
+            <strong>⚠ PITFALL — Site Survey vs Heat Map</strong><br>
+            Molti candidati confondono i due termini. Il <strong>site survey</strong> è il <em>processo</em> completo
+            di analisi dell'ambiente (fisico + radio + pianificazione). La <strong>heat map</strong> è uno degli
+            <em>output</em> del site survey: la mappa grafica della copertura. Non sono sinonimi. Un site survey
+            produce una heat map come risultato, ma include molto di più (analisi interferenze, scelta canali,
+            calcolo potenza, documentazione).
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Site Survey</th>
+                <th>Heat Map</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">What it is</td>
+                <td>Pre-installation analysis process</td>
+                <td>Visual output of signal distribution</td>
+              </tr>
+              <tr>
+                <td class="label">When used</td>
+                <td>Before installing/modifying the network</td>
+                <td>During design and after installation</td>
+              </tr>
+              <tr>
+                <td class="label">Security purpose</td>
+                <td>Avoid signal leakage, reduce interference</td>
+                <td>Visually verify that signal does not leave the perimeter</td>
+              </tr>
+              <tr>
+                <td class="label">Tools</td>
+                <td>Spectrum analyzer, floor plans, RSSI meters</td>
+                <td>Software such as Ekahau, AirMagnet, NetSpot</td>
+              </tr>
+              <tr>
+                <td class="label">Relationship</td>
+                <td>Parent process</td>
+                <td>Site survey output</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE: MOBILE SOLUTIONS
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-mobile-solutions">
+          <h2>Objective 4.1 — Mobile Solutions</h2>
+          <p>
+            La gestione sicura dei dispositivi mobili è una delle sfide operative più concrete per i team di sicurezza
+            moderni. Smartphone, tablet e laptop aziendali portano dati sensibili fuori dal perimetro aziendale ogni
+            giorno. La sezione 4.1 richiede di conoscere tre aree: <strong>MDM</strong> (come si gestiscono i
+            dispositivi), i <strong>modelli di deployment</strong> (a chi appartiene il dispositivo e con quale
+            politica) e i <strong>metodi di connessione</strong> (cellular, Wi-Fi, Bluetooth).
+          </p>
+
+          <!-- ── MDM ── -->
+          <h3 id="mdm">Mobile Device Management (MDM)</h3>
+          <p>
+            Il <strong>Mobile Device Management</strong> (MDM) è un insieme di tecnologie e policy che permettono
+            a un'organizzazione di gestire, monitorare, proteggere e configurare da remoto i dispositivi mobili
+            utilizzati dai dipendenti. Il concetto si è evoluto nel tempo verso soluzioni più ampie chiamate
+            <strong>UEM</strong> (Unified Endpoint Management), che gestiscono anche laptop, desktop e IoT dalla
+            stessa console, ma l'esame Security+ usa ancora prevalentemente il termine MDM.
+          </p>
+          <p>
+            Il funzionamento si basa su un <em>agente</em> (app installata sul dispositivo) che comunica con un
+            <em>server MDM</em> aziendale. Tramite questa comunicazione, l'amministratore può applicare policy,
+            ricevere inventario e log, e inviare comandi. Le capacità principali di un MDM includono:
+          </p>
+
+          <dl class="termlist">
+            <dt>Application Management</dt>
+            <dd>
+              Il MDM controlla quali applicazioni possono essere installate, aggiornate o rimosse. Può distribuire
+              app aziendali automaticamente (whitelist), bloccare categorie di app pericolose (blacklist) e impedire
+              lo sideloading di APK non firmati su Android. Questo limita la superficie di attacco e garantisce che
+              solo software approvato giri sul dispositivo.
+            </dd>
+
+            <dt>Remote Wipe</dt>
+            <dd>
+              In caso di furto o smarrimento, il MDM permette di cancellare da remoto tutti i dati del dispositivo.
+              Il wipe può essere <em>full wipe</em> (ripristino completo alle impostazioni di fabbrica) o
+              <em>selective wipe</em> (cancellazione dei soli dati aziendali, lasciando i dati personali intatti).
+              Il selective wipe è essenziale nei modelli BYOD per rispettare la privacy del dipendente.
+            </dd>
+
+            <dt>Containerization</dt>
+            <dd>
+              La containerizzazione crea un "contenitore" cifrato e isolato sul dispositivo in cui vivono le app e i
+              dati aziendali. Le app all'interno del container non possono comunicare con le app personali e viceversa.
+              Questo approccio permette di separare nettamente la vita lavorativa da quella personale sullo stesso
+              dispositivo fisico, riducendo il rischio che un'app personale malevola acceda a dati aziendali.
+            </dd>
+
+            <dt>Geofencing</dt>
+            <dd>
+              Il geofencing definisce perimetri geografici virtuali basati su GPS o Wi-Fi. Quando un dispositivo
+              esce da un'area autorizzata (es. l'edificio aziendale), il MDM può automaticamente bloccare l'accesso
+              a certi dati, richiedere una riautenticazione o inviare un alert all'amministratore. Utile per proteggere
+              dati classificati che non devono lasciare una certa area geografica.
+            </dd>
+
+            <dt>Screen Lock / Passcode Enforcement</dt>
+            <dd>
+              Il MDM può imporre requisiti minimi per il blocco schermo: lunghezza minima del PIN, complessità della
+              password, timeout massimo prima del blocco automatico. Senza questa policy, un dispositivo lasciato
+              incustodito potrebbe essere accessibile da chiunque senza alcuna barriera.
+            </dd>
+
+            <dt>Full Device Encryption</dt>
+            <dd>
+              Il MDM verifica che la cifratura completa del dispositivo sia attiva e può bloccare l'accesso alla
+              rete aziendale per dispositivi non cifrati. La cifratura garantisce che, anche in caso di furto fisico,
+              i dati non siano accessibili senza le credenziali corrette.
+            </dd>
+
+            <dt>Push Notifications / Configuration Profiles</dt>
+            <dd>
+              Il MDM distribuisce profili di configurazione che impostano automaticamente VPN, certificati aziendali,
+              account email, DNS e proxy. Questo elimina la necessità di configurazione manuale da parte dell'utente
+              e garantisce che tutti i dispositivi seguano lo stesso standard di sicurezza.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Practical example — MDM in uno studio legale</strong><br>
+            Uno studio legale distribuisce ai soci iPad aziendali con un profilo MDM. Il profilo impone: PIN di almeno
+            8 caratteri, cifratura AES-256, VPN sempre attiva verso il server dello studio, whitelist delle sole app
+            approvate (Office 365, app di firma digitale, client email aziendale). Se un socio perde l'iPad a un
+            convegno, l'IT Manager invia un selective wipe che cancella i documenti legali riservati in 5 minuti,
+            lasciando le foto personali intatte.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-B — MDM: selective wipe vs full wipe</strong><br>
+            L'esame propone spesso uno scenario BYOD in cui un dipendente lascia l'azienda o perde il telefono
+            personale. La risposta corretta è quasi sempre <strong>selective wipe</strong> (cancella solo i dati
+            aziendali) e non full wipe (che cancellerebbe anche i dati personali del dipendente, con potenziali
+            implicazioni legali). Se il dispositivo è aziendale (COPE), il full wipe è appropriato.
+          </div>
+
+          <!-- ── Deployment Models ── -->
+          <h3 id="deployment-models">Modelli di Deployment</h3>
+          <p>
+            Il modello di deployment definisce <em>a chi appartiene il dispositivo</em> e <em>qual è la politica
+            di uso accettabile</em>. La scelta del modello ha impatto diretto sul livello di controllo che
+            l'organizzazione può esercitare sul dispositivo e sui dati che vi risiedono.
+          </p>
+
+          <h4 id="byod">BYOD — Bring Your Own Device</h4>
+          <p>
+            Nel modello <strong>BYOD</strong>, il dipendente usa il proprio dispositivo personale per accedere
+            alle risorse aziendali. Il vantaggio è economico (l'azienda non acquista hardware) e di produttività
+            (il dipendente usa un dispositivo che già conosce). Lo svantaggio è il minor controllo: l'IT non può
+            gestire il dispositivo come se fosse aziendale, non può imporre tutti i requisiti di hardening e deve
+            rispettare la privacy del dipendente. Il MDM con containerizzazione e selective wipe è la risposta
+            tecnica standard per il BYOD.
+          </p>
+
+          <h4 id="cope">COPE — Corporate-Owned, Personally Enabled</h4>
+          <p>
+            Nel modello <strong>COPE</strong>, l'azienda acquista e gestisce il dispositivo, ma consente al
+            dipendente di usarlo anche per scopi personali (entro limiti definiti dalla policy). L'organizzazione
+            ha il controllo completo: può imporre qualsiasi configurazione, eseguire full wipe, installare
+            qualsiasi agente di monitoraggio. Il dipendente ottiene un dispositivo moderno senza costi personali,
+            ma deve accettare che l'IT possa vedere e gestire tutto il dispositivo, comprese (in teoria) le attività
+            personali. Questo modello richiede una policy AUP (Acceptable Use Policy) molto chiara.
+          </p>
+
+          <h4 id="cyod">CYOD — Choose Your Own Device</h4>
+          <p>
+            Nel modello <strong>CYOD</strong>, l'azienda propone un catalogo ristretto di dispositivi approvati
+            tra cui il dipendente può scegliere. Il dispositivo rimane aziendale e gestito centralmente dall'IT,
+            ma il dipendente ha una certa libertà di scelta (modello, sistema operativo, dimensione). Questo
+            approccio bilancia standardizzazione (l'IT gestisce solo modelli conosciuti) e soddisfazione del
+            dipendente (non usa un dispositivo che non gli piace).
+          </p>
+
+          <div class="pitfall">
+            <strong>⚠ PITFALL — BYOD vs COPE vs CYOD</strong><br>
+            La distinzione che l'esame testa più spesso è tra BYOD e COPE. Ricorda:
+            <strong>BYOD</strong> = dispositivo del <em>dipendente</em>, minor controllo IT, selective wipe.
+            <strong>COPE</strong> = dispositivo dell'<em>azienda</em>, controllo totale IT, full wipe ammesso.
+            <strong>CYOD</strong> = dispositivo dell'<em>azienda</em> scelto dal dipendente da un catalogo.
+            Quando uno scenario descrive un'azienda che vuole il <em>massimo controllo</em>, la risposta è COPE.
+            Quando lo scenario parla di <em>ridurre i costi hardware</em>, la risposta è BYOD.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Modello</th>
+                <th>Proprietà dispositivo</th>
+                <th>Controllo IT</th>
+                <th>Costo azienda</th>
+                <th>Privacy dipendente</th>
+                <th>Wipe consentito</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">BYOD</td>
+                <td>Dipendente</td>
+                <td>Basso (solo container)</td>
+                <td>Minimo</td>
+                <td>Alta</td>
+                <td>Selective wipe</td>
+              </tr>
+              <tr>
+                <td class="label">COPE</td>
+                <td>Azienda</td>
+                <td>Totale</td>
+                <td>Alto</td>
+                <td>Bassa</td>
+                <td>Full wipe</td>
+              </tr>
+              <tr>
+                <td class="label">CYOD</td>
+                <td>Azienda</td>
+                <td>Alto (da catalogo)</td>
+                <td>Alto</td>
+                <td>Media</td>
+                <td>Full wipe</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ── Connection Methods ── -->
+          <h3 id="connection-methods">Connection Methods</h3>
+          <p>
+            I metodi di connessione descrivono come i dispositivi mobili si collegano alle reti. Ogni tecnologia
+            ha caratteristiche, rischi e misure di mitigazione differenti che l'esame testa separatamente.
+          </p>
+
+          <h4 id="conn-cellular">Cellular</h4>
+          <p>
+            La connettività <strong>cellulare</strong> (2G/3G/4G LTE/5G) è gestita da operatori di
+            telecomunicazioni su infrastruttura pubblica. Il dispositivo si connette a tower radio (celle) che
+            instradano il traffico verso Internet o verso reti aziendali tramite APN dedicati. Dal punto di vista
+            della sicurezza, la rete cellulare è un canale di trasmissione su infrastruttura di terze parti:
+            l'organizzazione non controlla la tratta tra il dispositivo e Internet. Le misure di sicurezza
+            principali sono la cifratura del traffico a livello applicativo (TLS) e l'uso di VPN aziendale
+            per incanalare il traffico verso le risorse interne.
+          </p>
+          <p>
+            Un vettore di attacco rilevante nelle reti cellulari è l'<em>IMSI catcher</em> (o "Stingray"):
+            un dispositivo che simula una torre cellulare legittima per intercettare comunicazioni. La
+            mitigazione è l'uso di VPN e protocolli cifrati end-to-end, non la fiducia nella cifratura
+            fornita dall'operatore.
+          </p>
+
+          <h4 id="conn-wifi">Wi-Fi</h4>
+          <p>
+            La connessione <strong>Wi-Fi</strong> è la tecnologia di accesso locale più diffusa negli ambienti
+            aziendali. I dispositivi mobili si connettono agli access point tramite i protocolli 802.11
+            (a/b/g/n/ac/ax). I rischi principali nei contesti mobili sono due: la connessione automatica a reti
+            Wi-Fi già conosciute (che può essere sfruttata con attacchi <em>evil twin</em>) e l'uso di reti
+            Wi-Fi pubbliche non cifrate. Le policy MDM possono disabilitare la connessione automatica a reti
+            non aziendali e forzare l'uso della VPN su qualsiasi rete non fidata.
+          </p>
+          <p>
+            Un altro rischio è il <em>rogue access point</em>: un AP non autorizzato connesso alla rete aziendale
+            che offre connettività senza i controlli di sicurezza previsti. Il modo per rilevarlo è il WIDS
+            (Wireless Intrusion Detection System) o la scansione periodica degli AP attivi.
+          </p>
+
+          <h4 id="conn-bluetooth">Bluetooth</h4>
+          <p>
+            Il <strong>Bluetooth</strong> è una tecnologia di comunicazione a corto raggio (tipicamente
+            fino a 10 metri, versioni LE fino a 100 metri) usata per collegare periferiche (cuffie, tastiere,
+            mouse, veicoli) e per trasferimenti dati tra dispositivi vicini. Opera nella banda a 2,4 GHz con
+            frequency hopping per ridurre le interferenze.
+          </p>
+          <p>
+            Dal punto di vista della sicurezza, i rischi principali legati a Bluetooth includono il
+            <em>bluejacking</em> (invio non richiesto di messaggi), il <em>bluesnarfing</em>
+            (accesso non autorizzato ai dati del dispositivo), e il <em>bluebugging</em>
+            (controllo remoto del dispositivo). La difesa principale è disabilitare il Bluetooth
+            quando non serve e usare la modalità <em>non-discoverable</em> per evitare che il dispositivo
+            sia visibile ad altri. Il processo di pairing deve avvenire in ambienti fidati: un attaccante
+            nelle vicinanze può tentare un pairing non autorizzato se il dispositivo è in modalità discoverable.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-C — Bluetooth: rischi e mitigazioni</strong><br>
+            L'esame collega spesso Bluetooth a scenari di ufficio aperto o ambienti pubblici. La risposta
+            standard a "come si riduce il rischio Bluetooth" è: disabilitare Bluetooth quando non usato,
+            impostare il dispositivo come <em>non-discoverable</em>, e non accettare richieste di pairing
+            da fonti sconosciute. L'uso del PIN o della cifratura durante il pairing è il meccanismo tecnico
+            di protezione fornito dal protocollo.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Metodo</th>
+                <th>Portata tipica</th>
+                <th>Infrastruttura</th>
+                <th>Rischio principale</th>
+                <th>Mitigazione chiave</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Cellular</td>
+                <td>Km (celle radio)</td>
+                <td>Operatore TLC (terze parti)</td>
+                <td>IMSI catcher, intercettazione</td>
+                <td>VPN, TLS end-to-end</td>
+              </tr>
+              <tr>
+                <td class="label">Wi-Fi</td>
+                <td>30–100 m (AP)</td>
+                <td>AP aziendale o pubblico</td>
+                <td>Evil twin, rogue AP</td>
+                <td>WPA3, 802.1X, VPN su reti non fidate</td>
+              </tr>
+              <tr>
+                <td class="label">Bluetooth</td>
+                <td>10–100 m (LE)</td>
+                <td>Peer-to-peer (nessuna)</td>
+                <td>Bluesnarfing, bluebugging</td>
+                <td>Non-discoverable, disabilitare se non usato</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE: WIRELESS SECURITY SETTINGS
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-wireless-security">
+          <h2>Objective 4.1 — Wireless Security Settings</h2>
+          <p>
+            Le impostazioni di sicurezza wireless definiscono come vengono protette autenticazione, integrità e
+            confidenzialità delle comunicazioni su reti Wi-Fi. L'obiettivo 4.1 identifica quattro aree:
+            <strong>WPA3</strong>, <strong>AAA/RADIUS</strong>, <strong>protocolli crittografici</strong> e
+            <strong>protocolli di autenticazione</strong>.
+          </p>
+
+          <!-- ── WPA3 ── -->
+          <h3 id="wpa3">Wi-Fi Protected Access 3 (WPA3)</h3>
+          <p>
+            <strong>WPA3</strong> è lo standard di sicurezza Wi-Fi di ultima generazione, ratificato dalla Wi-Fi
+            Alliance nel 2018 per superare le vulnerabilità di WPA2 (in particolare l'attacco KRACK e la
+            debolezza nella fase di handshake a quattro vie). WPA3 introduce miglioramenti significativi
+            sia per le reti personali che per quelle enterprise.
+          </p>
+
+          <dl class="termlist">
+            <dt>WPA3-Personal (WPA3-SAE)</dt>
+            <dd>
+              Sostituisce il Pre-Shared Key (PSK) di WPA2 con <strong>SAE</strong> (Simultaneous Authentication
+              of Equals), noto anche come Dragonfly Handshake. SAE è un protocollo di key agreement basato su
+              crittografia a curva ellittica (ECC) che non trasmette mai la chiave o un derivato diretto sulla
+              rete. Anche se un attaccante cattura tutto il traffico della fase di handshake, non può recuperare
+              la password con attacchi dizionario offline come era possibile con WPA2-PSK. SAE offre anche
+              <strong>Perfect Forward Secrecy</strong> (PFS): ogni sessione usa chiavi di sessione diverse,
+              quindi compromettere una chiave non espone le sessioni precedenti.
+            </dd>
+
+            <dt>WPA3-Enterprise</dt>
+            <dd>
+              Potenzia WPA2-Enterprise aggiungendo la modalità opzionale a <strong>192-bit security</strong>
+              (Suite-B) progettata per ambienti governativi e ad alta criticità. Usa GCMP-256 per la
+              cifratura dei dati, HMAC-SHA-384 per l'integrità e ECDHE/ECDSA-384 per lo scambio di chiavi
+              e l'autenticazione. La base rimane 802.1X + RADIUS + EAP come in WPA2-Enterprise,
+              ma con primitive crittografiche più forti.
+            </dd>
+
+            <dt>Protected Management Frames (PMF)</dt>
+            <dd>
+              WPA3 rende obbligatoria la protezione dei management frame (802.11w), che in WPA2 era opzionale.
+              I management frame (come i frame di deautenticazione e disassociazione) erano storicamente in
+              chiaro, rendendo possibili attacchi di deauthentication flooding. Con PMF, questi frame sono
+              cifrati e autenticati, eliminando questa categoria di attacchi DoS wireless.
+            </dd>
+
+            <dt>Enhanced Open (OWE)</dt>
+            <dd>
+              Per le reti aperte (senza password, come quelle di hotel o aeroporti), WPA3 introduce
+              <strong>OWE</strong> (Opportunistic Wireless Encryption). OWE cifra il traffico tra ogni
+              dispositivo e l'AP senza richiedere una password condivisa, usando ECDH per negoziare una
+              chiave unica per ciascuna sessione. Protegge dalla semplice intercettazione passiva del
+              traffico su reti aperte.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>⚠ PITFALL — WPA2-PSK vs WPA3-SAE</strong><br>
+            L'esame usa spesso scenari in cui un attaccante ha catturato un handshake WPA2 e sta eseguendo
+            un attacco dizionario offline per trovare la password. Con WPA2-PSK questo è possibile perché
+            l'handshake contiene un derivato della password verificabile offline. Con WPA3-SAE NON è più
+            possibile perché SAE non espone mai un valore verificabile offline: la risposta corretta in
+            questi scenari è "migrare a WPA3-SAE" o "SAE previene questo tipo di attacco".
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>WPA2-Personal</th>
+                <th>WPA3-Personal (SAE)</th>
+                <th>WPA2-Enterprise</th>
+                <th>WPA3-Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Autenticazione</td>
+                <td>PSK (4-way handshake)</td>
+                <td>SAE (Dragonfly)</td>
+                <td>802.1X + RADIUS + EAP</td>
+                <td>802.1X + RADIUS + EAP</td>
+              </tr>
+              <tr>
+                <td class="label">Cifratura dati</td>
+                <td>CCMP (AES-128)</td>
+                <td>CCMP (AES-128)</td>
+                <td>CCMP (AES-128)</td>
+                <td>GCMP-256 (modalità 192-bit)</td>
+              </tr>
+              <tr>
+                <td class="label">Forward Secrecy</td>
+                <td>No</td>
+                <td>Sì (PFS nativo)</td>
+                <td>Dipende da EAP</td>
+                <td>Sì</td>
+              </tr>
+              <tr>
+                <td class="label">PMF</td>
+                <td>Opzionale</td>
+                <td>Obbligatorio</td>
+                <td>Opzionale</td>
+                <td>Obbligatorio</td>
+              </tr>
+              <tr>
+                <td class="label">Vulnerabile a dict. attack offline</td>
+                <td>Sì</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td class="label">Uso tipico</td>
+                <td>Reti domestiche/PMI</td>
+                <td>Reti domestiche/PMI</td>
+                <td>Reti enterprise</td>
+                <td>Reti enterprise / gov</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-D — WPA3: cosa ricordare per l'esame</strong><br>
+            I punti chiave di WPA3 su cui l'esame si concentra: (1) <strong>SAE</strong> previene gli attacchi
+            dizionario offline che colpivano WPA2-PSK; (2) <strong>PMF obbligatorio</strong> previene gli
+            attacchi di deautenticazione; (3) <strong>PFS</strong> protegge le sessioni precedenti anche se la
+            chiave corrente viene compromessa; (4) <strong>OWE</strong> cifra le reti aperte. Se la domanda
+            chiede quale miglioramento WPA3 porta rispetto a WPA2, è quasi sempre SAE + PMF.
+          </div>
+
+          <!-- ── AAA / RADIUS ── -->
+          <h3 id="aaa-radius">AAA / RADIUS</h3>
+          <p>
+            <strong>AAA</strong> è un framework che struttura il controllo degli accessi in tre funzioni separate:
+            <strong>Authentication</strong> (verificare l'identità), <strong>Authorization</strong>
+            (determinare cosa l'identità verificata può fare) e <strong>Accounting</strong>
+            (registrare cosa ha fatto). Nelle reti wireless enterprise, AAA è implementato tramite il protocollo
+            <strong>RADIUS</strong> (Remote Authentication Dial-In User Service).
+          </p>
+          <p>
+            In uno scenario Wi-Fi enterprise, il flusso AAA funziona così: il dispositivo si connette all'AP
+            (supplicant), l'AP agisce da <em>authenticator</em> e inoltra le credenziali al server RADIUS
+            (<em>authentication server</em>) tramite il protocollo 802.1X. Il server RADIUS verifica le
+            credenziali (spesso confrontandole con Active Directory o un database LDAP), e solo dopo una risposta
+            positiva l'AP concede l'accesso alla rete. Ogni utente ha credenziali individuali: non esiste
+            una password di rete condivisa come nel PSK.
+          </p>
+          <p>
+            Questo approccio ha vantaggi critici per la sicurezza: quando un dipendente lascia l'azienda,
+            si disabilita solo il suo account e l'accesso è revocato immediatamente su tutti gli AP senza
+            dover cambiare la password di rete. L'accounting di RADIUS registra chi si è connesso, quando,
+            da quale dispositivo e per quanto tempo, fornendo un audit trail completo.
+          </p>
+
+          <dl class="termlist">
+            <dt>RADIUS (Remote Authentication Dial-In User Service)</dt>
+            <dd>
+              Protocollo client/server che centralizza l'autenticazione. Usa UDP (porte 1812 per
+              autenticazione, 1813 per accounting). Le comunicazioni tra AP e server RADIUS sono cifrate
+              con uno shared secret. RADIUS supporta diversi metodi EAP per l'autenticazione degli utenti.
+            </dd>
+
+            <dt>TACACS+ (Terminal Access Controller Access-Control System Plus)</dt>
+            <dd>
+              Alternativa Cisco a RADIUS, usata principalmente per l'accesso privilegiato ai dispositivi
+              di rete (router, switch). Usa TCP (porta 49) e cifra l'intero payload (non solo la password
+              come RADIUS). Security+ lo cita per completezza ma l'esame si concentra su RADIUS per il
+              wireless. La differenza chiave: RADIUS separa autenticazione da autorizzazione in modo
+              meno granulare; TACACS+ li separa completamente e cifra tutto il body.
+            </dd>
+
+            <dt>802.1X (Port-Based Network Access Control)</dt>
+            <dd>
+              Standard IEEE che definisce il meccanismo di accesso a livello di porta (fisica o wireless).
+              Prevede tre ruoli: <em>supplicant</em> (dispositivo client), <em>authenticator</em>
+              (switch o AP che controlla l'accesso alla porta), <em>authentication server</em>
+              (RADIUS server). Finché il supplicant non è autenticato, la porta è in stato
+              "unauthorized" e permette solo il traffico EAP (non il traffico dati).
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Practical example — AAA in una rete universitaria</strong><br>
+            Un'università usa 802.1X + RADIUS per la rete Wi-Fi "UniSecure". Quando uno studente si connette,
+            il laptop invia le credenziali universitarie (username + password). L'AP le inoltra al server RADIUS,
+            che le verifica nell'Active Directory universitario. Se valide, RADIUS risponde con un Access-Accept
+            e include gli attributi di autorizzazione: VLAN 20 (studenti), bandwidth policy, accesso consentito
+            solo a Internet (no rete interna). Quando lo studente si laurea, l'account viene disabilitato nell'AD
+            e l'accesso Wi-Fi è automaticamente revocato su tutti i 200 AP del campus.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-E — RADIUS vs PSK per reti enterprise</strong><br>
+            L'esame propone scenari in cui si chiede perché un'azienda dovrebbe usare RADIUS invece di
+            WPA2/WPA3-PSK. Le risposte corrette sono: (1) gestione individuale degli account (revoca
+            immediata), (2) audit trail per compliance, (3) impossibilità di condivisione non autorizzata
+            della password di rete (che è individuale). Se la domanda chiede "quale soluzione è più
+            scalabile per 500 dipendenti", la risposta è RADIUS + 802.1X.
+          </div>
+
+          <!-- ── Cryptographic Protocols ── -->
+          <h3 id="crypto-protocols">Protocolli Crittografici</h3>
+          <p>
+            I protocolli crittografici wireless definiscono come vengono cifrati i dati trasmessi tra il
+            dispositivo e l'access point. Conoscere la differenza tra TKIP, CCMP e GCMP è fondamentale
+            perché l'esame ne testa direttamente l'associazione con gli standard WPA.
+          </p>
+
+          <dl class="termlist">
+            <dt>TKIP — Temporal Key Integrity Protocol</dt>
+            <dd>
+              Introdotto con WPA (WPA1) come soluzione transitoria per migliorare la sicurezza del WEP
+              senza richiedere la sostituzione dell'hardware. TKIP usa RC4 (come WEP) ma aggiunge un
+              meccanismo di rotazione dinamica delle chiavi (una chiave temporale diversa per ogni pacchetto)
+              e un Message Integrity Check (MIC, chiamato Michael). Nonostante questi miglioramenti, TKIP
+              è oggi considerato deprecato perché usa RC4, un cifrario a flusso con vulnerabilità note.
+              WPA3 non supporta TKIP. Se si usa ancora TKIP in una rete, è un segnale di configurazione
+              obsoleta e insicura.
+            </dd>
+
+            <dt>CCMP — Counter Mode with Cipher Block Chaining Message Authentication Code Protocol</dt>
+            <dd>
+              Introdotto con WPA2, CCMP è il protocollo crittografico standard per le reti Wi-Fi moderne.
+              Usa <strong>AES-128</strong> in modalità Counter Mode (CTR) per la cifratura e CBC-MAC per
+              l'integrità. A differenza di TKIP, CCMP non è una patch ma una progettazione sicura da zero.
+              Fornisce confidenzialità, integrità dei dati e autenticazione dell'origine. È ancora sicuro
+              e rimane il protocollo di default in WPA2 e WPA3-Personal.
+            </dd>
+
+            <dt>GCMP — Galois/Counter Mode Protocol</dt>
+            <dd>
+              Introdotto con WPA3 e richiesto nella modalità enterprise a 192-bit, GCMP usa
+              <strong>AES in modalità GCM</strong> (Galois/Counter Mode). GCM combina cifratura e
+              autenticazione in un'unica operazione parallelizzabile, rendendolo più efficiente di CCMP
+              su hardware moderno. GCMP-128 è usato in WPA3-Personal, GCMP-256 è richiesto in
+              WPA3-Enterprise 192-bit. GCM offre prestazioni superiori a CCMP specialmente su hardware
+              con supporto AES-NI.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>⚠ PITFALL — TKIP vs CCMP vs GCMP: quale standard li usa?</strong><br>
+            Associazione da memorizzare per l'esame:<br>
+            <strong>WEP</strong> → RC4 (nessun protocollo moderno, tutto vulnerabile)<br>
+            <strong>WPA (WPA1)</strong> → TKIP + RC4 (deprecato)<br>
+            <strong>WPA2</strong> → CCMP + AES-128 (sicuro, ancora in uso)<br>
+            <strong>WPA3</strong> → GCMP + AES (GCMP-128 personal, GCMP-256 enterprise 192-bit)<br>
+            Se la domanda chiede quale protocollo crittografico usa WPA3 in modalità enterprise a 192-bit,
+            la risposta è <strong>GCMP-256</strong>.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Protocollo</th>
+                <th>Standard WPA</th>
+                <th>Cifrario base</th>
+                <th>Lunghezza chiave</th>
+                <th>Stato</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">WEP (RC4)</td>
+                <td>WEP (pre-WPA)</td>
+                <td>RC4</td>
+                <td>40/104 bit</td>
+                <td>Insicuro, deprecato</td>
+              </tr>
+              <tr>
+                <td class="label">TKIP</td>
+                <td>WPA1</td>
+                <td>RC4 (con rotazione chiavi)</td>
+                <td>128 bit</td>
+                <td>Deprecato, non usare</td>
+              </tr>
+              <tr>
+                <td class="label">CCMP</td>
+                <td>WPA2 / WPA3</td>
+                <td>AES-CTR + CBC-MAC</td>
+                <td>128 bit</td>
+                <td>Sicuro, standard corrente</td>
+              </tr>
+              <tr>
+                <td class="label">GCMP-128</td>
+                <td>WPA3-Personal</td>
+                <td>AES-GCM</td>
+                <td>128 bit</td>
+                <td>Sicuro, WPA3</td>
+              </tr>
+              <tr>
+                <td class="label">GCMP-256</td>
+                <td>WPA3-Enterprise 192-bit</td>
+                <td>AES-GCM</td>
+                <td>256 bit</td>
+                <td>Sicuro, alta criticità</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ── Authentication Protocols ── -->
+          <h3 id="auth-protocols">Protocolli di Autenticazione</h3>
+          <p>
+            I protocolli di autenticazione wireless operano all'interno del framework 802.1X e definiscono
+            il meccanismo specifico con cui un supplicant dimostra la propria identità al server RADIUS.
+            Il framework generale è <strong>EAP</strong> (Extensible Authentication Protocol), che è un
+            "carrier protocol" — non implementa l'autenticazione direttamente, ma definisce il formato
+            dei messaggi in cui i metodi EAP specifici vengono trasportati.
+          </p>
+
+          <dl class="termlist">
+            <dt>EAP — Extensible Authentication Protocol</dt>
+            <dd>
+              Framework generico e estendibile per l'autenticazione. Non è un protocollo di autenticazione
+              di per sé, ma una struttura che supporta molti metodi (EAP-TLS, PEAP, EAP-TTLS, ecc.).
+              EAP opera sopra la connessione di livello 2 (Ethernet o Wi-Fi) prima che venga concesso
+              l'accesso IP. Il messaggio EAP viene incapsulato in EAPOL (EAP over LAN) tra supplicant
+              e authenticator, e in RADIUS tra authenticator e authentication server.
+            </dd>
+
+            <dt>EAP-TLS — EAP Transport Layer Security</dt>
+            <dd>
+              Il metodo EAP considerato più sicuro. Richiede un <strong>certificato digitale sia sul client
+              che sul server</strong>, creando autenticazione mutua basata su PKI. Il client presenta il
+              proprio certificato al server RADIUS, e il server presenta il proprio al client. Poiché
+              richiede certificati installati su ogni dispositivo client, EAP-TLS ha un overhead
+              amministrativo elevato (gestione PKI, distribuzione certificati) ma offre la massima
+              garanzia di autenticità da entrambe le parti.
+            </dd>
+
+            <dt>PEAP — Protected EAP</dt>
+            <dd>
+              PEAP crea prima un tunnel TLS (simile a HTTPS) usando il <strong>solo certificato del server</strong>
+              per autenticare il server al client. All'interno di questo tunnel cifrato, viene poi eseguita
+              l'autenticazione del client con credenziali semplici (tipicamente username + password, tramite
+              MSCHAPv2). PEAP è molto diffuso in ambienti enterprise perché richiede il certificato solo sul
+              server RADIUS (non sui client), semplificando enormemente la gestione. Il client verifica il
+              certificato del server per evitare attacchi MITM, ma non viceversa.
+            </dd>
+
+            <dt>EAP-TTLS — EAP Tunneled TLS</dt>
+            <dd>
+              Simile a PEAP: crea un tunnel TLS usando il certificato del server, e al suo interno esegue
+              l'autenticazione del client. La differenza principale è che EAP-TTLS è più flessibile riguardo
+              al metodo di autenticazione interno al tunnel (supporta PAP, CHAP, MSCHAPv2, MD5, ecc.),
+              mentre PEAP tipicamente usa solo MSCHAPv2. EAP-TTLS è lo standard IETF; PEAP è una
+              proposta Microsoft/Cisco ma più diffusa nella pratica.
+            </dd>
+
+            <dt>EAP-FAST — EAP Flexible Authentication via Secure Tunneling</dt>
+            <dd>
+              Sviluppato da Cisco come alternativa a PEAP che non richiede certificati. Usa un
+              <em>Protected Access Credential</em> (PAC) pre-condiviso per stabilire il tunnel invece
+              di un certificato. Meno diffuso nelle implementazioni standard, ma citato negli obiettivi
+              come opzione Cisco.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>⚠ PITFALL — EAP-TLS vs PEAP: certificati</strong><br>
+            La differenza critica è <strong>chi ha bisogno del certificato</strong>:
+            <ul>
+              <li><strong>EAP-TLS</strong>: certificato su <em>client E server</em> → autenticazione mutua → più sicuro, più complesso</li>
+              <li><strong>PEAP / EAP-TTLS</strong>: certificato solo sul <em>server</em> → client usa password → più semplice da gestire</li>
+            </ul>
+            Se la domanda chiede quale metodo EAP "richiede certificati su tutti i dispositivi" o "offre
+            la maggiore sicurezza", la risposta è <strong>EAP-TLS</strong>. Se la domanda chiede quale
+            è "più semplice da gestire in un'azienda con molti dipendenti", la risposta è
+            <strong>PEAP</strong>.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Metodo EAP</th>
+                <th>Cert. server</th>
+                <th>Cert. client</th>
+                <th>Tunnel TLS</th>
+                <th>Auth. interna</th>
+                <th>Complessità gestione</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">EAP-TLS</td>
+                <td>Sì</td>
+                <td>Sì (su ogni client)</td>
+                <td>Sì</td>
+                <td>Certificato</td>
+                <td>Alta (PKI completa)</td>
+              </tr>
+              <tr>
+                <td class="label">PEAP</td>
+                <td>Sì</td>
+                <td>No</td>
+                <td>Sì</td>
+                <td>MSCHAPv2 / password</td>
+                <td>Media</td>
+              </tr>
+              <tr>
+                <td class="label">EAP-TTLS</td>
+                <td>Sì</td>
+                <td>No</td>
+                <td>Sì</td>
+                <td>PAP/CHAP/MSCHAPv2</td>
+                <td>Media</td>
+              </tr>
+              <tr>
+                <td class="label">EAP-FAST</td>
+                <td>No (usa PAC)</td>
+                <td>No</td>
+                <td>Sì (tramite PAC)</td>
+                <td>Password / PAC</td>
+                <td>Bassa</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Practical example — Scelta del metodo EAP in una media impresa</strong><br>
+            Una media impresa con 300 dipendenti deve scegliere il metodo EAP per la Wi-Fi aziendale. Ha
+            già un server Active Directory e un server RADIUS (FreeRADIUS). Non ha una CA interna. La
+            scelta più pratica è <strong>PEAP + MSCHAPv2</strong>: basta installare un certificato sul
+            server RADIUS (anche da Let's Encrypt o CA commerciale), e i dipendenti si autenticano con
+            le credenziali AD esistenti. Non serve distribuire certificati client. Se in futuro l'azienda
+            cresce e implementa una PKI interna, potrà migrare a EAP-TLS per la massima sicurezza.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-F — Quadro riepilogativo Wireless Security Settings</strong><br>
+            Per l'esame, tieni a mente questa mappa:
+            <ul>
+              <li>Rete personale sicura → <strong>WPA3-SAE</strong> (protegge da attacchi dizionario)</li>
+              <li>Rete enterprise → <strong>WPA3-Enterprise + 802.1X + RADIUS</strong></li>
+              <li>Cifratura dati WPA2 → <strong>CCMP/AES</strong></li>
+              <li>Cifratura dati WPA3 enterprise 192-bit → <strong>GCMP-256</strong></li>
+              <li>Autenticazione con certificati su tutti i client → <strong>EAP-TLS</strong></li>
+              <li>Autenticazione con password + tunnel TLS → <strong>PEAP</strong> o <strong>EAP-TTLS</strong></li>
+              <li>Prevenzione deauth flooding → <strong>PMF (802.11w)</strong>, obbligatorio in WPA3</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard — CH13 Wireless e Mobile</h2>
+          <ul class="flashcard">
+            <li><strong>Site Survey</strong> — Analisi fisica e radio dell'ambiente prima di installare una rete Wi-Fi; identifica interferenze, zone d'ombra e leakage del segnale.</li>
+            <li><strong>Heat Map</strong> — Rappresentazione visiva su planimetria della distribuzione del segnale Wi-Fi; è un output del site survey, non un sinonimo.</li>
+            <li><strong>MDM (Mobile Device Management)</strong> — Piattaforma centralizzata per gestire dispositivi mobili: policy, remote wipe, containerizzazione, geofencing, app management.</li>
+            <li><strong>Selective Wipe</strong> — Cancella solo i dati aziendali dal dispositivo, lasciando quelli personali; usato nei modelli BYOD.</li>
+            <li><strong>BYOD</strong> — Dispositivo di proprietà del dipendente; minor controllo IT, selective wipe, containerizzazione per separare dati aziendali.</li>
+            <li><strong>COPE</strong> — Dispositivo aziendale con uso personale consentito; massimo controllo IT, full wipe ammesso.</li>
+            <li><strong>CYOD</strong> — Dispositivo aziendale scelto dal dipendente da un catalogo approvato; controllo elevato + flessibilità di scelta.</li>
+            <li><strong>WPA3-SAE (Dragonfly)</strong> — Sostituisce PSK di WPA2; impedisce attacchi dizionario offline grazie a key agreement ECC, offre Perfect Forward Secrecy.</li>
+            <li><strong>PMF (Protected Management Frames)</strong> — Obbligatorio in WPA3; cifra i management frame impedendo attacchi di deautenticazione (DoS wireless).</li>
+            <li><strong>TKIP</strong> — Protocollo crittografico di WPA1 basato su RC4; deprecato, non deve essere usato in ambienti moderni.</li>
+            <li><strong>CCMP</strong> — Protocollo crittografico di WPA2; usa AES-128 in CTR mode + CBC-MAC; sicuro e ancora standard corrente.</li>
+            <li><strong>GCMP-256</strong> — Protocollo crittografico di WPA3-Enterprise 192-bit; usa AES-GCM a 256 bit; richiesto in ambienti ad alta criticità.</li>
+            <li><strong>AAA</strong> — Framework: Authentication (chi sei), Authorization (cosa puoi fare), Accounting (cosa hai fatto). Implementato via RADIUS nelle reti wireless.</li>
+            <li><strong>RADIUS</strong> — Protocollo di autenticazione centralizzata (UDP 1812/1813); usato con 802.1X per reti enterprise; ogni utente ha credenziali individuali.</li>
+            <li><strong>802.1X</strong> — Standard per il controllo degli accessi port-based; prevede supplicant (client), authenticator (AP/switch), authentication server (RADIUS).</li>
+            <li><strong>EAP-TLS</strong> — Metodo EAP più sicuro; richiede certificato digitale sia sul client che sul server; autenticazione mutua basata su PKI.</li>
+            <li><strong>PEAP</strong> — Crea un tunnel TLS con certificato solo sul server, poi autentica il client con password (MSCHAPv2); più semplice da gestire di EAP-TLS.</li>
+            <li><strong>OWE (Enhanced Open)</strong> — Cifratura opportunistica per reti Wi-Fi aperte senza password; protegge dalla semplice intercettazione passiva.</li>
+          </ul>
+        </section>
+
+        <!-- ── Navigazione tra capitoli ── -->
+        <div class="chapter-nav">
+          <a href="ch12_network_security_canonical.html" class="secondary">← CH12 — Architettura di rete</a>
+          <a href="ch14_incident_response_canonical.html">CH14 — Incident Response →</a>
+        </div>
+
+      </main>
+    </div><!-- fine .layout -->
+  </div><!-- fine .page -->
+</div><!-- fine .container -->
+
+  <script src="../../quiz_data.js"></script>
+  <script src="../../script/chapter-quiz-loader.js"></script>
+  <script src="../../script/lang-preference.js"></script>
+</body>
+</html>

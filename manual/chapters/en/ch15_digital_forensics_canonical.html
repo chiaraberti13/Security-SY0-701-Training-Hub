@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — CH15: Digital Forensics</title>
+  <link rel="stylesheet" href="../../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="security_plus_sy0_701_guida.html">General index</a>
+      <span>Domain 4 — Security Operations</span>
+      <span>CH15 — Digital Forensics</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Language selector">
+      <span>Language:</span>
+      <a href="../ch15_digital_forensics_canonical.html">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="ch15_digital_forensics_canonical.html" aria-current="page">EN</a>
+    </div>
+    <header>
+      <h1>CH15 — Digital Forensics</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Domain 4 — Security Operations
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Covered objectives:</strong>
+        <span class="objectives-tag">4.8 parz.</span>
+        <span class="objectives-tag">4.9</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p><strong>Prerequisites:</strong>
+        <a href="ch14_incident_response_canonical.html">CH14 — Incident Response</a> — la digital forensics è una componente del ciclo di risposta agli incidenti.
+      </p>
+      <p><strong>Related chapters:</strong>
+        <a href="ch12_network_security_canonical.html">CH12 — Monitoring e operazioni di rete</a> ·
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance e conformità</a> ·
+        <a href="ch17_risk_privacy_third_party_canonical.html">CH17 — Rischi e Privacy</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Chapter index">
+        <div class="toc-section">Objective 4.8 (partial)</div>
+        <a href="#obj-4-8">Digital Forensics</a>
+        <a href="#forensics-intro">↳ Cos'è la digital forensics</a>
+        <a href="#legal-hold">↳ Legal Hold and Preservation</a>
+        <a href="#ediscovery">↳ E-discovery and EDRM</a>
+        <a href="#volatility">↳ Order of Volatility</a>
+        <a href="#acquisition">↳ Acquisition</a>
+        <a href="#chain-of-custody">↳ Chain of Custody</a>
+        <a href="#reporting">↳ Reporting</a>
+
+        <div class="toc-section">Objective 4.9</div>
+        <a href="#obj-4-9">Data sources for investigations</a>
+        <a href="#log-data">↳ Log Data</a>
+        <a href="#firewall-logs">↳ Firewall logs</a>
+        <a href="#app-logs">↳ Application logs</a>
+        <a href="#endpoint-logs">↳ Endpoint logs</a>
+        <a href="#os-logs">↳ OS-specific security logs</a>
+        <a href="#ips-ids-logs">↳ IPS/IDS logs</a>
+        <a href="#network-logs">↳ Network logs</a>
+        <a href="#metadata">↳ Metadata</a>
+        <a href="#data-sources">↳ Data Sources</a>
+        <a href="#vuln-scans">↳ Vulnerability scans</a>
+        <a href="#automated-reports">↳ Automated reports</a>
+        <a href="#dashboards">↳ Dashboards</a>
+        <a href="#packet-captures">↳ Packet captures</a>
+
+        <div class="toc-section">Summary</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 4.8 — DIGITAL FORENSICS
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-4-8">
+          <h2>Objective 4.8 (partial) — Digital Forensics</h2>
+          <p>
+            La <strong>digital forensics</strong> è la disciplina che permette di raccogliere, preservare, analizzare e presentare prove digitali in modo metodico, ripetibile e giuridicamente difendibile. Non si tratta semplicemente di recuperare file da un sistema compromesso: ogni azione deve rispettare procedure precise perché le prove restino integre e ammissibili. Un errore procedurale — come avviare il sistema prima di acquisirne la memoria — può rendere inutilizzabile l'intera indagine in sede legale.
+          </p>
+          <p>
+            Il campo si applica in contesti diversi: contenziosi civili e penali, indagini interne su dipendenti, risposta agli incidenti di sicurezza informatica e supporto a operazioni di intelligence. In tutti questi casi il filo conduttore è lo stesso: <em>raccogliere i dati senza alterarli, documentare ogni passaggio e poter dimostrare l'integrità del processo</em>.
+          </p>
+
+          <!-- ─── Cos'è la digital forensics ─────────────────── -->
+          <h3 id="forensics-intro">What is digital forensics</h3>
+          <p>
+            La digital forensics si occupa degli <strong>artefatti digitali</strong>: qualsiasi elemento generato dall'uso di sistemi informatici che possa aiutare a ricostruire eventi. Gli artefatti includono file di log, contenuto della RAM, immagini di disco, traffico di rete catturato, metadati, snapshot di macchine virtuali, registri di sistema e molto altro.
+          </p>
+          <p>
+            Un'attività forense valida deve produrre osservazioni documentate, conclusioni supportate da prove tracciabili, timeline coerenti costruite a partire da timestamp e metadati, e documentazione sufficiente perché il lavoro possa essere verificato o ripetuto da terzi indipendenti. Questo ultimo punto — la <strong>riproducibilità</strong> — è ciò che distingue l'analisi forense da un semplice esame tecnico.
+          </p>
+
+          <dl class="termlist">
+            <dt>Digital Artifact</dt>
+            <dd>Qualsiasi elemento digitale che possa contribuire a ricostruire eventi su un sistema: file, log, contenuto di memoria, metadati, traffico di rete, snapshot, registri di configurazione. Non tutti gli artefatti hanno lo stesso valore probatorio: la rilevanza dipende dalla natura dell'indagine e dal contesto.</dd>
+
+            <dt>Forensic Acquisition</dt>
+            <dd>Processo di copia fedele e verificabile di un supporto o di una fonte di dati. Si distingue da una copia logica perché riproduce l'intero contenuto fisico del supporto — compresi spazi non allocati, file eliminati e slack space — senza modificare i dati originali.</dd>
+
+            <dt>Write Blocker</dt>
+            <dd>Dispositivo hardware o funzione software che consente di leggere un supporto impedendo qualsiasi scrittura. Il suo uso è obbligatorio nell'acquisizione forense: senza write blocker, anche solo montare un disco può aggiornare timestamp o metadati, compromettendo l'integrità della prova.</dd>
+
+            <dt>Hash Forense</dt>
+            <dd>Valore crittografico (tipicamente MD5 o SHA-256) calcolato sull'immagine originale e sulla copia acquisita. Se i due hash coincidono, la copia è bit-per-bit identica all'originale. L'hash è il meccanismo principale con cui si dimostra l'integrità di un reperto digitale.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.8-A</strong> — Nelle domande scenario sulla digital forensics, la sequenza corretta è sempre: <em>non toccare nulla → documentare lo stato iniziale → acquisire con write blocker → calcolare hash → verificare integrità</em>. Se la domanda chiede quale sia la prima cosa da fare, la risposta quasi sempre riguarda la preservazione o la documentazione, non l'analisi.
+          </div>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Acquisizione di un laptop compromesso</strong><br>
+            Un dipendente viene sospettato di esfiltrazione di dati. Il laptop viene sequestrato. L'analista <em>non</em> lo accende, collega il disco a un write blocker hardware, esegue <code>dd if=/dev/sda of=/evidence/laptop.img bs=4M</code>, calcola l'hash SHA-256 dell'immagine e lo confronta con l'hash del disco originale. Solo se coincidono l'immagine viene accettata come prova forense. Tutta la procedura viene documentata sul modulo di chain of custody.
+          </div>
+
+          <!-- ─── Legal Hold and Preservation ──────────────────── -->
+          <h3 id="legal-hold">Legal Hold and Preservation</h3>
+          <p>
+            Quando un'organizzazione è coinvolta in un contenzioso reale o anticipato, può ricevere un avviso di <strong>legal hold</strong> (detto anche <em>litigation hold</em>): una direttiva legale che impone di sospendere qualsiasi processo ordinario che potrebbe alterare, eliminare o rendere irrecuperabili dati potenzialmente rilevanti per la causa. Questo avviso ha effetto immediato e riguarda tutti i tipi di supporto: email, file su server, backup, dispositivi mobili, log di sistema.
+          </p>
+          <p>
+            La <strong>preservation</strong> è la fase operativa del legal hold: consiste nel mettere in atto tutte le misure tecniche e organizzative necessarie a garantire che i dati non vengano modificati. Ciò può includere la sospensione di policy automatiche di cancellazione, la creazione di copie di salvaguardia, la disattivazione della sovrascrittura dei log circolari e l'isolamento dei sistemi di archiviazione.
+          </p>
+          <p>
+            Il rischio più grave in questa fase è la <strong>spoliation of evidence</strong>: l'alterazione, distruzione, occultamento o gestione negligente di prove rilevanti, anche non intenzionale. I tribunali possono trarre conclusioni negative dalla spoliation — ad esempio assumere che i dati distrutti fossero sfavorevoli alla parte che li ha persi. Per questo le organizzazioni devono avere procedure di legal hold già pronte <em>prima</em> di ricevere la notifica.
+          </p>
+
+          <dl class="termlist">
+            <dt>Legal Hold (Litigation Hold)</dt>
+            <dd>Ordine o obbligo legale che impone la conservazione integrale di tutti i dati potenzialmente rilevanti per un procedimento. Sospende policy di retention, cancellazione automatica e sovrascrittura. Chi la riceve ha l'obbligo immediato di applicarla a tutti i custodi dei dati coinvolti.</dd>
+
+            <dt>Preservation</dt>
+            <dd>Insieme delle misure tecniche e organizzative adottate per garantire che i dati soggetti a legal hold non vengano modificati, cancellati o resi irrecuperabili. Include sospensione di backup circolari, copia in sola lettura, isolamento dei sistemi di archiviazione e notifica ai dipendenti responsabili.</dd>
+
+            <dt>Spoliation of Evidence</dt>
+            <dd>Distruzione, alterazione, occultamento, ritardo nella consegna o trattenimento improprio di prove rilevanti. Può essere intenzionale o colposa. Le conseguenze legali includono sanzioni processuali, negative inference (il giudice può presumere che i dati distrutti fossero sfavorevoli) e, nei casi più gravi, accuse penali.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Legal Hold vs Preservation</strong><br>
+            <em>Legal hold</em> è la <strong>notifica legale</strong> che impone l'obbligo di conservazione — è un atto giuridico, emesso da un avvocato o da un'autorità. <em>Preservation</em> è la <strong>risposta tecnica e operativa</strong> a quella notifica — è ciò che il reparto IT e il CISO fanno concretamente. L'esame li distingue: se la domanda chiede "chi emette il legal hold?" la risposta è il team legale; se chiede "come si risponde?" la risposta riguarda le misure di preservation.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.8-B</strong> — Se uno scenario descrive un'azienda che ha continuato a cancellare automaticamente le email dopo aver ricevuto una notifica legale, il termine corretto è <em>spoliation</em>. Non si tratta di un errore tecnico ma di una violazione legale, anche se non intenzionale. L'organizzazione è responsabile dal momento della ricezione della legal hold.
+          </div>
+
+          <!-- ─── E-discovery and EDRM ──────────────────────────── -->
+          <h3 id="ediscovery">E-discovery and EDRM</h3>
+          <p>
+            L'<strong>e-discovery</strong> (electronic discovery) è il processo di identificazione, raccolta, revisione, analisi e produzione di informazioni elettroniche in risposta a una richiesta legale. È la versione digitale della discovery tradizionale: invece di cercare e produrre documenti cartacei, si lavora con file, email, database, log e qualsiasi altra forma di dato elettronico.
+          </p>
+          <p>
+            Il modello di riferimento del settore è l'<strong>EDRM</strong> (Electronic Discovery Reference Model), che organizza il processo in fasi sequenziali, ognuna con obiettivi e responsabilità precise. Conoscere l'EDRM è importante perché permette a un'organizzazione di capire a che punto si trova nel processo e quali obblighi ha in ciascuna fase.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Fase EDRM</th>
+                <th>Obiettivo</th>
+                <th>Esempio di attività</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Information Governance</td>
+                <td>Capire quali dati esistono e come sono gestiti prima che sorga una causa</td>
+                <td>Mappatura dei sistemi di archiviazione, policy di retention</td>
+              </tr>
+              <tr>
+                <td class="label">Identification</td>
+                <td>Individuare dove si trovano le informazioni potenzialmente rilevanti</td>
+                <td>Ricerca su server, email, cloud, dispositivi mobili</td>
+              </tr>
+              <tr>
+                <td class="label">Preservation</td>
+                <td>Impedire modifica o distruzione dei dati rilevanti</td>
+                <td>Legal hold, sospensione cancellazione automatica</td>
+              </tr>
+              <tr>
+                <td class="label">Collection</td>
+                <td>Raccogliere i dati in modo forense e documentato</td>
+                <td>Acquisizione immagini, export email, copia log</td>
+              </tr>
+              <tr>
+                <td class="label">Processing</td>
+                <td>Ridurre il volume, eliminare duplicati, preparare i dati</td>
+                <td>De-duplicazione, estrazione testo, conversione formati</td>
+              </tr>
+              <tr>
+                <td class="label">Review</td>
+                <td>Verificare la rilevanza e i privilegi legali dei documenti</td>
+                <td>Revisione da parte di avvocati, tagging, redazione</td>
+              </tr>
+              <tr>
+                <td class="label">Analysis</td>
+                <td>Identificare pattern, soggetti, timeline e collegamenti</td>
+                <td>Analisi dei metadati, timeline degli eventi, ricerche keyword</td>
+              </tr>
+              <tr>
+                <td class="label">Production</td>
+                <td>Consegnare i documenti alle parti in formato concordato</td>
+                <td>Export in PDF, TIFF, formato nativo con load file</td>
+              </tr>
+              <tr>
+                <td class="label">Presentation</td>
+                <td>Usare le prove in sede processuale o in trattativa</td>
+                <td>Presentazione in udienza, deposizioni, settlement</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.8-C</strong> — L'esame non richiede di memorizzare tutte le fasi EDRM in sequenza, ma è importante capire che <em>e-discovery</em> è un processo strutturato che va dalla governance iniziale fino alla presentazione in tribunale. Nelle domande scenario, se viene chiesto "quale fase dell'e-discovery riguarda il blocco della cancellazione automatica?" la risposta è <em>Preservation</em>, non Collection.
+          </div>
+
+          <!-- ─── Order of Volatility ────────────────────────── -->
+          <h3 id="volatility">Order of Volatility — Capture first what disappears first</h3>
+          <p>
+            L'<strong>order of volatility</strong> è il principio fondamentale che guida la sequenza di acquisizione in un'indagine forense: si raccolgono per primi i dati più volatili, cioè quelli che rischiano di perdersi irreversibilmente nel minor tempo possibile. Spegnere un sistema senza prima acquisire la memoria RAM significa perdere per sempre processi attivi, connessioni di rete aperte, chiavi crittografiche caricate, credenziali temporanee e qualsiasi dato che non era ancora stato scritto su disco.
+          </p>
+          <p>
+            La volatilità non è solo una questione di spegnimento: anche operazioni banali come aprire un browser o eseguire un comando possono sovrascrivere la cache della CPU, aggiornare la tabella ARP o modificare timestamp. Per questo l'analista deve intervenire il meno possibile sul sistema live, raccogliendo i dati nel corretto ordine.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Priorità</th>
+                <th>Fonte dati</th>
+                <th>Perché è volatile</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">1 — Massima</td>
+                <td>Registri CPU e cache L1/L2/L3</td>
+                <td>Cambia a ogni ciclo di clock, persa allo spegnimento immediato</td>
+              </tr>
+              <tr>
+                <td class="label">2</td>
+                <td>RAM (memoria fisica)</td>
+                <td>Sparisce allo spegnimento; contiene processi, chiavi, connessioni</td>
+              </tr>
+              <tr>
+                <td class="label">3</td>
+                <td>Swap space / pagefile</td>
+                <td>Estensione virtuale della RAM su disco; parzialmente persistente</td>
+              </tr>
+              <tr>
+                <td class="label">4</td>
+                <td>Connessioni di rete aperte, ARP cache, tabella di routing</td>
+                <td>Cancellate alla disconnessione o allo spegnimento</td>
+              </tr>
+              <tr>
+                <td class="label">5</td>
+                <td>Processi in esecuzione, handle aperti</td>
+                <td>Terminati allo spegnimento; non tracciati su disco</td>
+              </tr>
+              <tr>
+                <td class="label">6</td>
+                <td>File temporanei, log circolari del kernel</td>
+                <td>Sovrascritti periodicamente o al riavvio</td>
+              </tr>
+              <tr>
+                <td class="label">7</td>
+                <td>Disco fisso / SSD (dati persistenti)</td>
+                <td>Sopravvive allo spegnimento; può essere modificato da successive scritture</td>
+              </tr>
+              <tr>
+                <td class="label">8 — Minima</td>
+                <td>Backup remoti, log su server centralizzati</td>
+                <td>Maggiormente persistenti; richiedono accesso a sistemi esterni</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Malware in memoria</strong><br>
+            Un analista risponde a un alert su un server Windows sospettato di essere compromesso da un malware fileless. Il malware fileless vive esclusivamente in RAM e non scrive mai su disco. Se l'analista spegne il server prima di acquisire la memoria, il malware — e tutte le sue tracce — sparisce per sempre. La procedura corretta è: acquisire la RAM con <code>FTK Imager</code> o <code>WinPmem</code> mentre il sistema è ancora acceso, poi acquisire il disco, poi spegnere.
+          </div>
+
+          <!-- ─── Acquisition ────────────────────────────────── -->
+          <h3 id="acquisition">Acquisition — Tipi di acquisizione forense</h3>
+          <p>
+            L'acquisizione forense è il processo con cui si crea una copia verificabile di una fonte di dati senza alterare l'originale. Esistono diversi tipi di acquisizione a seconda della natura del supporto e dell'obiettivo dell'indagine.
+          </p>
+
+          <dl class="termlist">
+            <dt>Bit-by-Bit Copy (Immagine fisica)</dt>
+            <dd>Copia settore per settore dell'intero supporto, inclusi spazi non allocati, file eliminati, slack space e residui di dati precedenti. È il gold standard forense perché preserva tutto il contenuto fisico del disco. Prodotta con strumenti come <code>dd</code>, FTK Imager o dcfldd. Richiede write blocker per non alterare l'originale.</dd>
+
+            <dt>Logical Copy</dt>
+            <dd>Copia del solo contenuto logico: file e cartelle visibili. Non cattura spazio non allocato, file eliminati o slack space. Più rapida e meno ingombrante della copia fisica, ma non adatta a indagini che richiedono il recupero di dati cancellati. Utile per e-discovery dove interessa solo il contenuto accessibile.</dd>
+
+            <dt>Memory Acquisition (RAM Dump)</dt>
+            <dd>Acquisizione del contenuto della memoria volatile di sistema. Indispensabile per analizzare malware fileless, processi sospetti, connessioni attive e chiavi crittografiche. Strumenti comuni: FTK Imager (Windows), WinPmem, LiME (Linux Loadable Kernel Module).</dd>
+
+            <dt>Network Acquisition</dt>
+            <dd>Cattura del traffico di rete tramite packet capture (PCAP). Richiede accesso a una porta SPAN (port mirror) dello switch o a un TAP di rete. Strumenti: Wireshark, tcpdump, NetworkMiner. Permette di analizzare comunicazioni, protocolli usati e dati trasferiti durante l'incidente.</dd>
+
+            <dt>Cloud Acquisition</dt>
+            <dd>Acquisizione di dati da ambienti cloud (IaaS, SaaS, PaaS). Significativamente più complessa perché dipende dalla cooperazione del provider, dai contratti (audit clause), dalla giurisdizione e dalla disponibilità di API forensi. Spesso limitata a log di accesso, configurazioni e snapshot anziché al contenuto fisico dei server.</dd>
+
+            <dt>Virtual Machine / Container Acquisition</dt>
+            <dd>Acquisizione di snapshot di VM o di dati da container. Gli snapshot preservano lo stato completo della macchina virtuale in un momento preciso. I container sono più difficili perché effimeri per natura: terminati, perdono tutti i dati non persistiti su volumi esterni.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Copia forense vs copia logica</strong><br>
+            Una copia logica fatta con un normale software di backup <strong>non è una prova forense</strong>. Mancano spazi non allocati, file eliminati e la verifica di integrità tramite hash. Se la domanda d'esame chiede quale tipo di copia sia ammissibile come prova, la risposta è sempre la <em>bit-by-bit copy con hash verificato</em>, non un backup tradizionale.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.8-D</strong> — Negli scenari su cloud forensics, ricorda che il provider controlla l'infrastruttura fisica. Un'organizzazione non può semplicemente "estrarre il disco" da un server cloud. Dipende dalle API del provider, dall'audit clause nel contratto e dalla giurisdizione. Se la domanda menziona difficoltà nell'acquisizione forense in ambiente cloud, l'ostacolo principale è sempre il <em>controllo del provider sull'hardware fisico</em>.
+          </div>
+
+          <!-- ─── Chain of Custody ───────────────────────────── -->
+          <h3 id="chain-of-custody">Chain of Custody</h3>
+          <p>
+            La <strong>chain of custody</strong> (catena di custodia) è la documentazione continua e verificabile di chi ha avuto accesso a una prova digitale, quando, per quale scopo e con quali risultati. Ogni volta che un reperto viene trasferito, esaminato, copiato o archiviato, il trasferimento viene registrato con firma, data, ora e motivazione.
+          </p>
+          <p>
+            Lo scopo è garantire l'<strong>ammissibilità</strong> della prova in sede legale. Un avvocato difensore può mettere in discussione l'intero valore probatorio di una prova digitale se dimostra che la chain of custody ha avuto interruzioni o lacune — ad esempio, se non è documentato chi aveva accesso al reperto in un determinato periodo. La chain of custody non protegge solo dall'accusa di manomissione: protegge anche da errori umani non intenzionali.
+          </p>
+
+          <dl class="termlist">
+            <dt>Chain of Custody</dt>
+            <dd>Registro documentale che traccia ciascun passaggio di custodia di una prova: chi la ha raccolta, dove era conservata, chi l'ha esaminata, quando è stata trasferita e in quale condizione si trovava a ogni trasferimento. Deve essere continua dal momento della raccolta fino alla presentazione in tribunale.</dd>
+
+            <dt>Admissibility (Ammissibilità)</dt>
+            <dd>Requisito che una prova deve soddisfare per essere accettata in un procedimento legale. Per le prove digitali, i criteri principali sono: integrità verificabile tramite hash, chain of custody documentata, acquisizione con metodi accettati, e assenza di contaminazione. Una prova non ammissibile non può essere usata in giudizio.</dd>
+
+            <dt>Provenance</dt>
+            <dd>Tracciabilità dell'origine di un dato: da dove viene, com'è stato acquisito, quali trasformazioni ha subito. La provenance è ciò che consente a un esperto indipendente di ripercorrere il processo e verificarne la correttezza.</dd>
+
+            <dt>Non-Repudiation</dt>
+            <dd>Proprietà che rende impossibile negare l'autenticità di un'azione o di un dato. In contesto forense, si ottiene attraverso hash crittografici, timestamp firmati digitalmente e log immutabili. Se un hash è stato calcolato all'acquisizione e coincide con quello calcolato in sede processuale, nessuno può affermare che la prova è stata alterata.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Elemento da documentare</th>
+                <th>Perché è critico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Identificazione univoca del reperto</td>
+                <td>Evita confusione tra prove multiple; garantisce tracciabilità</td>
+              </tr>
+              <tr>
+                <td class="label">Data e ora dell'acquisizione</td>
+                <td>Ancora temporale per le analisi successive</td>
+              </tr>
+              <tr>
+                <td class="label">Identità di chi ha raccolto la prova</td>
+                <td>Responsabilità personale in caso di contestazione</td>
+              </tr>
+              <tr>
+                <td class="label">Hash dell'originale e della copia</td>
+                <td>Verifica di integrità; base dell'ammissibilità</td>
+              </tr>
+              <tr>
+                <td class="label">Ogni trasferimento di custodia</td>
+                <td>Nessuna lacuna temporale; nessuna opportunità di manomissione non documentata</td>
+              </tr>
+              <tr>
+                <td class="label">Condizioni di conservazione</td>
+                <td>Prova che il reperto non è stato esposto ad agenti di alterazione</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.8-E</strong> — Negli scenari dove qualcuno ha accesso fisico a un reperto senza documentazione, la risposta corretta descrive sempre una violazione della chain of custody. L'esame testa la comprensione che anche un accesso non intenzionale non documentato può rendere la prova contestabile.
+          </div>
+
+          <!-- ─── Reporting ──────────────────────────────────── -->
+          <h3 id="reporting">Reporting</h3>
+          <p>
+            Il <strong>report forense</strong> è il prodotto finale dell'indagine: il documento che traduce il lavoro tecnico in conclusioni comprensibili, supportate da prove, e difendibili in qualsiasi contesto — legale, manageriale o tecnico. Un'analisi forense eccellente ha valore zero se non viene comunicata in modo efficace.
+          </p>
+          <p>
+            Un buon report forense è completo ma non ridondante: include tutto ciò che è necessario per capire il processo e le conclusioni, senza sommergere il lettore di dettagli irrilevanti. Deve essere scritto in modo che anche chi non ha competenze tecniche approfondite possa capire cosa è successo, mentre al tempo stesso deve contenere dettagli tecnici sufficienti perché un esperto indipendente possa verificare il lavoro.
+          </p>
+
+          <dl class="termlist">
+            <dt>Executive Summary</dt>
+            <dd>Sezione iniziale del report destinata al management e ai legali. Descrive in linguaggio accessibile cosa è stato indagato, cosa è stato trovato e quali sono le conclusioni principali. Non contiene dettagli tecnici approfonditi.</dd>
+
+            <dt>Methodology Section</dt>
+            <dd>Sezione che descrive il processo forense: strumenti usati, versioni degli strumenti, metodi di acquisizione, parametri configurati, ipotesi fatte e limitazioni incontrate. Consente la riproducibilità del processo.</dd>
+
+            <dt>Findings Section</dt>
+            <dd>Sezione con i risultati tecnici dettagliati per ciascun supporto o sistema esaminato. Include artefatti trovati, timeline degli eventi, connessioni identificate e prove che supportano le conclusioni.</dd>
+
+            <dt>Conclusions and Recommendations</dt>
+            <dd>Sintesi finale che collega le prove alle conclusioni e, quando opportuno, include raccomandazioni operative per prevenire il ripetersi dell'evento.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Report di risposta a un ransomware</strong><br>
+            Dopo un attacco ransomware, il report forense include: (1) Executive summary per il board con impatto stimato e timeline; (2) Sezione metodologica che spiega come sono state acquisite le immagini dei server cifrati; (3) Findings con il vettore di accesso iniziale identificato (RDP esposto con credenziali deboli), il movimento laterale documentato nei Windows Event Log, e l'orario esatto di deployment del ransomware; (4) Raccomandazioni: disabilitare RDP pubblico, implementare MFA, segmentare la rete.
+          </div>
+
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 4.9 — FONTI DATI PER LE INDAGINI
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-4-9">
+          <h2>Objective 4.9 — Fonti dati per supportare un'indagine</h2>
+          <p>
+            Un'indagine di sicurezza si basa sulla capacità di raccogliere, correlare e interpretare dati provenienti da fonti eterogenee. Nessuna fonte da sola è sufficiente: la ricostruzione di un incidente richiede la correlazione tra log di rete, log di sistema, dati degli endpoint, alert degli strumenti di rilevamento e catture di traffico. L'obiettivo 4.9 mappa esattamente queste fonti — cosa producono, perché sono utili e quando sono la fonte giusta per rispondere a una domanda investigativa specifica.
+          </p>
+
+          <!-- ─── LOG DATA ───────────────────────────────────── -->
+          <h3 id="log-data">Log Data</h3>
+          <p>
+            I <strong>log</strong> sono registrazioni automatiche di eventi generati da sistemi, applicazioni e dispositivi di rete. Sono la fonte dati più comune in un'indagine di sicurezza. Il loro valore forense dipende da tre fattori: l'accuratezza del timestamp (sincronizzazione NTP), la completezza (quali eventi vengono loggati e a quale livello di verbosità) e l'integrità (i log non sono stati manomessi o cancellati).
+          </p>
+
+          <h4 id="firewall-logs">Firewall Logs</h4>
+          <p>
+            I <strong>log del firewall</strong> registrano le decisioni di filtraggio del traffico: connessioni permesse, connessioni bloccate, regole applicate, indirizzi IP sorgente e destinazione, porte, protocolli e timestamp. Sono fondamentali per ricostruire comunicazioni sospette, identificare tentativi di port scanning, rilevare connessioni verso IP malevoli o C2 (command and control), e verificare se un host interno ha tentato di comunicare con l'esterno in modo anomalo.
+          </p>
+          <p>
+            La limitazione principale dei log firewall è che mostrano solo il traffico che attraversa il perimetro: il traffico laterale (east-west) tra sistemi interni non viene registrato da un firewall perimetrale. Per questo motivo nelle architetture moderne si aggiungono firewall interni e micro-segmentazione.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.9-A</strong> — Se uno scenario chiede "dove trovi evidenza di una connessione non autorizzata verso un IP esterno?" la risposta primaria è il <em>firewall log</em>. Se chiede "dove trovi evidenza di movimento laterale interno?" i firewall log perimetrali non bastano: servono log di rete interni o log degli endpoint.
+          </div>
+
+          <h4 id="app-logs">Application Logs</h4>
+          <p>
+            I <strong>log applicativi</strong> sono generati dalle singole applicazioni — web server (Apache, Nginx, IIS), database (MySQL, MSSQL), application server, CRM, ERP — e registrano eventi specifici del loro funzionamento: richieste ricevute, autenticazioni, query eseguite, errori, transazioni, accessi a risorse. Sono la fonte principale per investigare compromissioni a livello applicativo come SQL injection, XSS, abuso di API o accesso non autorizzato a funzionalità.
+          </p>
+          <p>
+            Un log di web server come Apache registra ogni richiesta HTTP con metodo, URL, user agent, codice di risposta e bytes trasferiti. In un'indagine su un'intrusione web, questo log permette di identificare la payload usata nell'attacco, l'orario esatto e le risorse accedute successivamente.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — SQL Injection nei log applicativi</strong><br>
+            Un log Apache contiene: <code>GET /search.php?q='%20OR%20'1'='1 HTTP/1.1 200</code>. La stringa <code>' OR '1'='1</code> URL-encoded è una classica firma di SQL injection. Il codice di risposta 200 indica che la richiesta è stata accettata. L'analista correla questo evento con il log del database e trova una query insolita eseguita sullo stesso timestamp, confermando l'exploit riuscito.
+          </div>
+
+          <h4 id="endpoint-logs">Endpoint Logs</h4>
+          <p>
+            I <strong>log degli endpoint</strong> provengono da workstation, laptop e server: includono eventi di processo (avvio/terminazione), accessi al filesystem, modifiche al registro di sistema, connessioni di rete avviate dal sistema, installazioni di software, errori applicativi. Strumenti come Sysmon (Windows) e auditd (Linux) amplificano enormemente la visibilità sugli endpoint, registrando eventi a granularità molto alta.
+          </p>
+          <p>
+            Gli endpoint log sono critici per rilevare tecniche post-exploitation: persistence (nuovi servizi o chiavi di registro), privilege escalation (token manipulation), credential dumping (accesso a LSASS), e lateral movement (uso di PsExec, WMI, SMB). Senza log degli endpoint, molte di queste tecniche restano invisibili.
+          </p>
+
+          <h4 id="os-logs">OS-Specific Security Logs</h4>
+          <p>
+            I <strong>log di sicurezza specifici del sistema operativo</strong> sono generati dai meccanismi di audit integrati nel SO. Su Windows, il principale è il <strong>Windows Security Event Log</strong> (accessibile tramite Event Viewer), che registra eventi come autenticazioni (Event ID 4624/4625), creazione di account (4720), escalation di privilegi (4672), accesso a file (4663) e policy change (4719). Su Linux, <code>/var/log/auth.log</code> e <code>/var/log/secure</code> registrano autenticazioni sudo e accessi SSH.
+          </p>
+          <p>
+            Questi log sono spesso il primo posto dove cercare credenziali brute-forced, account creati dall'attaccante, accesso a file sensibili e abusi di privilegi amministrativi.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Windows Event ID</th>
+                <th>Evento</th>
+                <th>Rilevanza investigativa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">4624</td>
+                <td>Successful logon</td>
+                <td>Chi si è autenticato, quando e come (interactive, network, batch)</td>
+              </tr>
+              <tr>
+                <td class="label">4625</td>
+                <td>Failed logon</td>
+                <td>Tentativi falliti; pattern di brute force</td>
+              </tr>
+              <tr>
+                <td class="label">4648</td>
+                <td>Logon with explicit credentials</td>
+                <td>Uso di credenziali diverse (pass-the-hash, RunAs)</td>
+              </tr>
+              <tr>
+                <td class="label">4672</td>
+                <td>Special privileges assigned</td>
+                <td>Assegnazione di privilegi elevati a un account</td>
+              </tr>
+              <tr>
+                <td class="label">4720</td>
+                <td>User account created</td>
+                <td>Creazione di account backdoor da parte dell'attaccante</td>
+              </tr>
+              <tr>
+                <td class="label">4688</td>
+                <td>New process created</td>
+                <td>Avvio di processi sospetti; fileless execution</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.9-B</strong> — Nelle domande scenario che chiedono dove trovare evidenza di un accesso non autorizzato a un sistema Windows, il <em>Windows Security Event Log</em> è la risposta attesa. Se la domanda specifica "accesso remoto tramite credenziali rubate", gli Event ID 4624 (tipo di logon = Network o RemoteInteractive) sono il punto di partenza.
+          </div>
+
+          <h4 id="ips-ids-logs">IPS/IDS Logs</h4>
+          <p>
+            I <strong>log degli IDS/IPS</strong> (Intrusion Detection/Prevention System) contengono alert generati da corrispondenze tra traffico osservato e firme di attacchi noti, oppure da anomalie rilevate da modelli comportamentali. Ogni alert include tipicamente: timestamp, IP sorgente e destinazione, regola o firma scattata, severità e, per gli IPS, se il traffico è stato bloccato o solo registrato.
+          </p>
+          <p>
+            Il valore principale dei log IDS/IPS è la <strong>pre-classificazione</strong>: il sistema ha già identificato il traffico come potenzialmente malevolo e lo ha correlato a una tecnica d'attacco specifica. Questo riduce il lavoro dell'analista rispetto all'analisi manuale di raw packet capture. Il limite è il tasso di falsi positivi, che richiede capacità di triage.
+          </p>
+
+          <div class="pitfall">
+            <strong>PITFALL — IDS vs IPS nei log</strong><br>
+            Un <em>IDS</em> genera alert ma non blocca il traffico: i suoi log mostrano cosa è stato rilevato, ma non garantiscono che l'attacco non sia riuscito. Un <em>IPS</em> può bloccare il traffico: i suoi log mostrano sia gli alert sia le azioni di blocco. In un'indagine, un alert IDS senza blocco significa che l'attacco ha potuto continuare e occorre verificare gli altri log.
+          </div>
+
+          <h4 id="network-logs">Network Logs</h4>
+          <p>
+            I <strong>network log</strong> registrano il flusso del traffico di rete a livelli diversi di granularità. I <strong>NetFlow / sFlow / IPFIX</strong> registrano metadati delle conversazioni di rete (chi ha parlato con chi, quando, quanto traffico, quale porta) senza conservare il contenuto dei pacchetti. I log DNS registrano tutte le query di risoluzione nomi. I log DHCP tracciano assegnazioni di indirizzi IP nel tempo.
+          </p>
+          <p>
+            Nei network log risiede spesso la prova del movimento laterale: se un host interno A improvvisamente inizia a effettuare connessioni verso dozzine di altri host interni su porte SMB, questo pattern emerge chiaramente nei NetFlow anche senza packet capture. Allo stesso modo, query DNS verso domini generati algoritmicamente (DGA) sono visibili nei log DNS prima ancora di analizzare il payload.
+          </p>
+
+          <h4 id="metadata">Metadata</h4>
+          <p>
+            I <strong>metadati</strong> sono dati sui dati: informazioni strutturate associate a un file, a un'email, a un'immagine o a qualsiasi altro oggetto digitale, che descrivono attributi come autore, data di creazione, data di modifica, dimensione, strumento usato per creare il file, posizione geografica (per le fotografie) e molto altro.
+          </p>
+          <p>
+            In un'indagine forense, i metadati sono spesso più rivelatori del contenuto stesso. Un documento Word inviato come prova di alibi potrebbe avere nei metadati l'orario di ultima modifica che contraddice la narrativa. Una fotografia condivisa potrebbe contenere nelle metadati EXIF le coordinate GPS di dove è stata scattata. Le email includono metadati di routing (header) che rivelano il percorso reale del messaggio e il vero IP del mittente.
+          </p>
+
+          <dl class="termlist">
+            <dt>File Metadata</dt>
+            <dd>Attributi del filesystem associati a un file: timestamp di creazione (Created), ultima modifica (Modified), ultimo accesso (Accessed) e, su NTFS, anche quando i metadati del file sono stati modificati (MFT Entry Modified). La sigla MACE (Modified, Accessed, Created, Entry Modified) è usata in forensics per identificare i quattro timestamp principali.</dd>
+
+            <dt>Email Header Metadata</dt>
+            <dd>Informazioni di routing incluse nelle email: server di origine, IP del client che ha inviato il messaggio, salti SMTP, timestamp di ogni hop, Message-ID. Permettono di tracciare la vera origine di un'email anche se il campo "From" è falsificato.</dd>
+
+            <dt>EXIF Metadata</dt>
+            <dd>Metadati incorporati nelle immagini digitali: marca e modello della fotocamera, impostazioni di scatto, data e ora, e — se la funzione è attiva — coordinate GPS della posizione in cui la foto è stata scattata. Spesso trascurati dagli utenti, sono una fonte preziosa in indagini che coinvolgono immagini.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.9-C</strong> — Nelle domande su metadati, ricorda che i timestamp del filesystem possono essere modificati (timestomping è una tecnica di anti-forensics usata dagli attaccanti). L'esame può presentare scenari dove i timestamp dei file sembrano normali ma altri indicatori smentiscono la timeline: in questi casi, la risposta corretta menzionerà il rischio di timestomping e la necessità di correlare fonti multiple.
+          </div>
+
+          <!-- ─── DATA SOURCES ───────────────────────────────── -->
+          <h3 id="data-sources">Data Sources</h3>
+          <p>
+            Oltre ai log, un'indagine di sicurezza si avvale di fonti dati strutturate prodotte da strumenti specializzati: scanner di vulnerabilità, piattaforme SIEM, dashboard operative e catture di traffico. Queste fonti non sostituiscono i log, ma li integrano con informazioni pre-elaborate, aggregate o contestualizzate.
+          </p>
+
+          <h4 id="vuln-scans">Vulnerability Scans</h4>
+          <p>
+            I <strong>risultati di scansioni di vulnerabilità</strong> prodotti da strumenti come Nessus, Qualys, OpenVAS o Rapid7 InsightVM costituiscono una fonte dati preziosa in un'indagine. Non solo rilevano vulnerabilità attive, ma documentano lo stato di sicurezza del sistema in un momento preciso: versioni di software installate, porte aperte, servizi attivi, configurazioni errate e CVE applicabili.
+          </p>
+          <p>
+            In un'indagine post-incidente, confrontare i risultati di una scansione pre-incidente con quelli di una scansione post-incidente può rivelare nuovi servizi installati, porte aperte dall'attaccante per persistence, e modifiche alla configurazione. Inoltre, i report di vulnerabilità forniscono il contesto su quale exploit potrebbe essere stato usato per compromettere un sistema vulnerabile.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Vulnerability scan nell'indagine post-breach</strong><br>
+            Un'organizzazione subisce una compromissione. Il team forense esegue una scansione Nessus sul server compromesso e scopre che è in ascolto sulla porta 4444 (porta tipica di Metasploit reverse shell) — porta che non era presente nella scansione della settimana precedente. Questo è un indicatore immediato che l'attaccante ha lasciato una backdoor attiva, e il dato emerge dai risultati dello scanner in pochi secondi.
+          </div>
+
+          <h4 id="automated-reports">Automated Reports</h4>
+          <p>
+            I <strong>report automatici</strong> generati da SIEM, EDR (Endpoint Detection and Response), piattaforme SOAR e strumenti di compliance forniscono sintesi periodiche dello stato di sicurezza: trend di alert, top offender, riepilogi di eventi, cambiamenti di configurazione, compliance gap. In un'indagine, questi report forniscono contesto storico — permettono di vedere se un comportamento anomalo è una novità o fa parte di un pattern ricorrente.
+          </p>
+          <p>
+            Un report automatico del SIEM che mostra un picco anomalo di autenticazioni fallite la notte prima dell'incidente può essere la prova che l'attaccante ha condotto un brute force prima di ottenere accesso — informazione che difficilmente emergerebbe analizzando i singoli log evento per evento.
+          </p>
+
+          <h4 id="dashboards">Dashboards</h4>
+          <p>
+            Le <strong>dashboard</strong> di sicurezza — nei SIEM (Splunk, QRadar, Microsoft Sentinel), nelle piattaforme EDR (CrowdStrike Falcon, SentinelOne) o negli strumenti di network monitoring (Darktrace, ExtraHop) — offrono una visualizzazione aggregata e in tempo reale dello stato di sicurezza. Permettono a un analista di identificare rapidamente anomalie visive che nei log raw richiederebbero ore di analisi.
+          </p>
+          <p>
+            In un contesto investigativo, le dashboard permettono di formulare ipotesi iniziali sulla portata di un incidente (quanti sistemi sono coinvolti? quale è la finestra temporale?) prima di scendere nel dettaglio dei log. Sono particolarmente utili per il triage iniziale e per identificare quali fonti dati approfondire.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.9-D</strong> — Le dashboard forniscono visibilità aggregata e in tempo reale, ma non sono prove forensi dirette. Nelle domande scenario che chiedono quale fonte usare per <em>dimostrare</em> che un evento è avvenuto, la risposta sono i log o i packet capture, non le dashboard. Le dashboard servono per <em>rilevare e triagizzare</em>, non per documentare prove.
+          </div>
+
+          <h4 id="packet-captures">Packet Captures</h4>
+          <p>
+            Le <strong>catture di traffico di rete</strong> (PCAP — Packet CAPture) sono la fonte dati più granulare disponibile in un'indagine di rete: registrano il contenuto completo di ogni pacchetto, inclusi header e payload. Strumenti come Wireshark, tcpdump e NetworkMiner permettono di analizzare i PCAP per ricostruire sessioni TCP, identificare protocolli usati, estrarre file trasferiti, decodificare comandi, e identificare signature di malware nel traffico.
+          </p>
+          <p>
+            I packet capture hanno due limiti principali: la dimensione (il traffico su reti ad alta velocità genera PCAP enormi in poco tempo) e la cifratura (HTTPS, TLS, VPN cifrano il payload, rendendo visibili solo i metadati della connessione). Per questo nelle organizzazioni moderne si combinano PCAP con analisi di NetFlow (per volume e metadati) e con TLS inspection (decifrazione e re-cifratura dove consentita dalle policy).
+          </p>
+
+          <dl class="termlist">
+            <dt>PCAP (Packet CAPture)</dt>
+            <dd>File che contiene il dump completo di pacchetti di rete catturati da un'interfaccia. È il formato standard per la cattura di traffico, leggibile da Wireshark e dalla maggior parte degli strumenti di analisi di rete. Un PCAP è considerato una prova forense di rete quando acquisito con i dovuti controlli di integrità.</dd>
+
+            <dt>SPAN Port (Switch Port Analyzer)</dt>
+            <dd>Funzionalità degli switch gestiti che replica il traffico di una o più porte (o di una VLAN intera) verso una porta di monitoraggio. È il metodo principale per acquisire traffico di rete in un'infrastruttura commutata senza rompere le connessioni esistenti.</dd>
+
+            <dt>Network TAP (Test Access Point)</dt>
+            <dd>Dispositivo hardware inline che copia fisicamente il traffico di rete verso un sistema di monitoraggio. A differenza di una SPAN port, non impegna risorse dello switch ed è considerato più affidabile per acquisizioni forensi, perché non può perdere pacchetti per limitazioni di banda dello switch.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Fonte dati</th>
+                <th>Granularità</th>
+                <th>Uso principale in un'indagine</th>
+                <th>Limitazione principale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Firewall Logs</td>
+                <td>Connessioni (IP, porta, protocollo)</td>
+                <td>Traffico perimetrale, IP malevoli, blocchi</td>
+                <td>Non vede traffico east-west interno</td>
+              </tr>
+              <tr>
+                <td class="label">Application Logs</td>
+                <td>Richieste applicative, errori, auth</td>
+                <td>Attacchi web, SQL injection, auth abuse</td>
+                <td>Solo eventi dell'applicazione specifica</td>
+              </tr>
+              <tr>
+                <td class="label">Endpoint Logs</td>
+                <td>Processi, file, registry, rete locale</td>
+                <td>Post-exploitation, persistence, pivoting</td>
+                <td>Richiede agent installato; volume elevato</td>
+              </tr>
+              <tr>
+                <td class="label">OS Security Logs</td>
+                <td>Autenticazioni, policy, accessi file</td>
+                <td>Accesso non autorizzato, account abuse</td>
+                <td>Configurazione audit spesso disabilitata</td>
+              </tr>
+              <tr>
+                <td class="label">IPS/IDS Logs</td>
+                <td>Alert pre-classificati su firme/anomalie</td>
+                <td>Rilevamento rapido, triage iniziale</td>
+                <td>Falsi positivi; non cattura payloads</td>
+              </tr>
+              <tr>
+                <td class="label">Network Logs (NetFlow)</td>
+                <td>Metadati conversazioni di rete</td>
+                <td>Movimento laterale, volume anomalo, DGA</td>
+                <td>Nessun payload; non vede dentro TLS</td>
+              </tr>
+              <tr>
+                <td class="label">Metadata</td>
+                <td>Attributi di file, email, immagini</td>
+                <td>Timeline degli eventi, origine dei file</td>
+                <td>Modificabile (timestomping, stripping)</td>
+              </tr>
+              <tr>
+                <td class="label">Vulnerability Scans</td>
+                <td>Stato di sicurezza del sistema</td>
+                <td>Contesto pre/post incidente, vettori di attacco</td>
+                <td>Snapshot puntuale; non real-time</td>
+              </tr>
+              <tr>
+                <td class="label">Packet Captures</td>
+                <td>Contenuto completo dei pacchetti</td>
+                <td>Ricostruzione sessioni, estrazione file, firma malware</td>
+                <td>Volume enorme; cifratura TLS limita visibilità</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>PITFALL — Packet capture vs NetFlow</strong><br>
+            L'esame mette spesso a confronto queste due fonti. <em>Packet capture</em> conserva il <strong>contenuto completo</strong> di ogni pacchetto (header + payload) ma produce file enormi e non scala sulle reti veloci. <em>NetFlow</em> conserva solo i <strong>metadati delle conversazioni</strong> (chi ha parlato con chi, quando, quanto) senza payload. Se la domanda chiede "quale fonte permette di ricostruire il contenuto esatto di una sessione HTTP?" la risposta è il packet capture. Se chiede "quale fonte scala su una rete ad alto traffico per rilevare movimento laterale?" la risposta è NetFlow.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.9-E</strong> — Nelle domande scenario che descrivono un'indagine, la parola chiave "correlate" è il segnale che bisogna usare più fonti dati insieme. Un SIEM è spesso la risposta corretta quando la domanda chiede come correlare log da fonti diverse in un unico punto di analisi. Ricorda: il SIEM non genera dati, li <em>aggrega e correla</em> da tutte le altre fonti.
+          </div>
+
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Digital Forensics</strong> — Disciplina che acquisisce, preserva, analizza e documenta prove digitali in modo ripetibile e giuridicamente difendibile.</li>
+            <li><strong>Legal Hold (Litigation Hold)</strong> — Ordine legale che impone la conservazione integrale di tutti i dati rilevanti per un procedimento; sospende policy di cancellazione automatica.</li>
+            <li><strong>Preservation</strong> — Risposta tecnica e operativa a un legal hold: misure concrete per impedire modifica o perdita dei dati (sospensione backup circolari, copia in sola lettura, isolamento).</li>
+            <li><strong>Spoliation of Evidence</strong> — Alterazione, distruzione, occultamento o trattenimento improprio di prove rilevanti; può essere intenzionale o colposa; ha conseguenze legali gravi.</li>
+            <li><strong>E-Discovery</strong> — Processo di identificazione, raccolta, revisione, analisi e produzione di informazioni elettroniche in risposta a una richiesta legale.</li>
+            <li><strong>EDRM</strong> — Electronic Discovery Reference Model; struttura in fasi (Information Governance → Identification → Preservation → Collection → Processing → Review → Analysis → Production → Presentation).</li>
+            <li><strong>Order of Volatility</strong> — Principio che impone di acquisire prima i dati più volatili: CPU cache → RAM → Swap → Connessioni di rete → Processi → File temporanei → Disco → Backup remoti.</li>
+            <li><strong>Write Blocker</strong> — Dispositivo o funzione che impedisce scritture su un supporto durante l'acquisizione forense; obbligatorio per non alterare l'originale.</li>
+            <li><strong>Chain of Custody</strong> — Registro documentale continuo di chi ha avuto accesso a una prova, quando, per quale scopo; garantisce l'ammissibilità in sede legale.</li>
+            <li><strong>Bit-by-Bit Copy</strong> — Copia forense settore per settore dell'intero supporto (inclusi spazi non allocati e file eliminati); verificata tramite hash; gold standard forense.</li>
+            <li><strong>Hash forense</strong> — Valore MD5/SHA-256 calcolato sull'originale e sulla copia; se coincidono, l'integrità è dimostrata; base dell'ammissibilità della prova digitale.</li>
+            <li><strong>Admissibility</strong> — Requisito che rende una prova utilizzabile in giudizio; richiede integrità verificata, chain of custody documentata, metodo di acquisizione accettato.</li>
+            <li><strong>Firewall Logs</strong> — Registrano connessioni permesse/bloccate, IP, porte, protocolli; utili per traffico perimetrale; non vedono il traffico east-west interno.</li>
+            <li><strong>OS-Specific Security Logs</strong> — Log di audit del sistema operativo; su Windows il Security Event Log (Event ID 4624, 4625, 4720, 4688); fonte primaria per autenticazioni e abuse di account.</li>
+            <li><strong>Metadata</strong> — Dati sui dati: timestamp MACE, intestazioni email, coordinate GPS nelle immagini; possono essere modificati (timestomping) dagli attaccanti.</li>
+            <li><strong>Packet Capture (PCAP)</strong> — Dump completo dei pacchetti di rete inclusi header e payload; massima granularità; limitato da volume e cifratura TLS.</li>
+            <li><strong>NetFlow / Network Logs</strong> — Metadati delle conversazioni di rete (chi, quando, quanto) senza payload; scalabile ad alto traffico; utile per rilevare movimento laterale.</li>
+            <li><strong>Vulnerability Scan</strong> — Snapshot dello stato di sicurezza di un sistema; in un'indagine post-incidente, confrontarlo con scansioni precedenti rivela modifiche apportate dall'attaccante.</li>
+            <li><strong>SPAN Port / Network TAP</strong> — Meccanismi per catturare traffico di rete: SPAN replica via switch (software), TAP replica via dispositivo hardware inline (più affidabile per forensics).</li>
+            <li><strong>Cloud Forensics</strong> — Acquisizione forense in cloud dipende da contratti (audit clause), API del provider, giurisdizione; impossibile accedere all'hardware fisico direttamente.</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             NAVIGAZIONE CAPITOLI
+        ════════════════════════════════════════════════════════ -->
+        <div class="chapter-nav">
+          <a href="ch14_incident_response_canonical.html">← CH14 — Incident Response</a>
+          <a href="ch16_governance_compliance_policy_canonical.html" class="secondary">CH16 — Governance e conformità →</a>
+        </div>
+
+      </main>
+    </div><!-- .layout -->
+
+  </div><!-- .page -->
+</div><!-- .container -->
+
+  <script src="../../quiz_data.js"></script>
+  <script src="../../script/chapter-quiz-loader.js"></script>
+  <script src="../../script/lang-preference.js"></script>
+</body>
+</html>

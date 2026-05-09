@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — CH12: Network Architecture and Security</title>
+  <link rel="stylesheet" href="../../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="security_plus_sy0_701_guida.html">General index</a>
+      <span>Domain 3 — Security Architecture</span>
+      <span>CH12 — Network Architecture and Security</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Language selector">
+      <span>Language:</span>
+      <a href="../ch12_network_security_canonical.html">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="ch12_network_security_canonical.html" aria-current="page">EN</a>
+    </div>
+    <header>
+      <h1>CH12 — Network Architecture and Security</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Domain 3 · Objectives 3.1 and 3.2
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Covered objectives:</strong>
+        <span class="objectives-tag">3.1</span>
+        <span class="objectives-tag">3.2</span>
+        <span class="objectives-tag">4.5</span>
+        <span class="weight-badge">D3 = 18% · D4 = 28%</span>
+      </p>
+      <p><strong>Prerequisites:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Foundations and Governance</a>
+        (triade CIA, tipi di controllo, Zero Trust base) ·
+        <a href="ch7_crittografia_pki_canonical.html">CH7 — Cryptography</a>
+        (TLS, IPSec, PKI).
+      </p>
+      <p><strong>Related chapters:</strong>
+        <a href="ch8_identity_access_management_canonical.html">CH8 — IAM</a> ·
+        <a href="ch10_cloud_virtualizzazione_canonical.html">CH10 — Cloud and Virtualization</a> ·
+        <a href="ch11_endpoint_architecture_canonical.html">CH11 — Endpoint</a> ·
+        <a href="ch13_wireless_mobile_canonical.html">CH13 — Wireless and Mobile</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Chapter index">
+        <div class="toc-section">Objective 3.1</div>
+        <a href="#obj-3-1">Architectural models</a>
+        <a href="#cloud">↳ Cloud</a>
+        <a href="#iac-serverless">↳ IaC, Serverless, Microservices</a>
+        <a href="#network-infra">↳ Network: air gap, segm., SDN</a>
+        <a href="#on-prem-central">↳ On-prem, centralized/decentralized</a>
+        <a href="#container-virt">↳ Containers and Virtualization</a>
+        <a href="#iot-ics">↳ IoT, ICS/SCADA, RTOS, Embedded</a>
+        <a href="#ha">↳ High Availability</a>
+        <a href="#considerations">↳ Architectural considerations</a>
+
+        <div class="toc-section">Objective 3.2</div>
+        <a href="#obj-3-2">Secure infrastructure</a>
+        <a href="#placement-zones">↳ Device placement e zone</a>
+        <a href="#attack-surface">↳ Attack surface</a>
+        <a href="#failure-modes">↳ Failure modes</a>
+        <a href="#device-attr">↳ Device attributes</a>
+        <a href="#appliances">↳ Network appliances</a>
+        <a href="#port-security">↳ Port security, 802.1X, EAP</a>
+        <a href="#firewall-types">↳ Firewall types</a>
+        <a href="#vpn-tunneling">↳ VPN e tunneling</a>
+        <a href="#sdwan-sase">↳ SD-WAN e SASE</a>
+        <a href="#nac-zerotrust">↳ NAC e Zero Trust</a>
+        <a href="#deception">↳ Deception technology</a>
+        <a href="#secure-protocols">↳ Secure protocols and services</a>
+        <a href="#network-attacks">↳ Network attacks</a>
+        <a href="#effective-controls">↳ Selecting effective controls</a>
+
+        <div class="toc-section">Objective 4.5</div>
+        <a href="#obj-4-5">Enhancing enterprise capabilities</a>
+        <a href="#fw-rules">↳ Firewall: rules e screened subnet</a>
+        <a href="#ids-ips-ops">↳ IDS/IPS: trends e signatures</a>
+        <a href="#web-filter">↳ Web filter</a>
+        <a href="#os-security">↳ OS security: Group Policy, SELinux</a>
+        <a href="#secure-protocols-45">↳ Secure protocols: selection</a>
+        <a href="#dns-filtering">↳ DNS filtering</a>
+        <a href="#email-security-45">↳ Consolidated email security</a>
+        <a href="#fim">↳ File Integrity Monitoring</a>
+        <a href="#dlp-45">↳ DLP</a>
+        <a href="#nac-45">↳ NAC</a>
+        <a href="#edr-xdr">↳ EDR / XDR</a>
+        <a href="#ueba">↳ User Behavior Analytics</a>
+
+        <div class="toc-section">Summary</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBJECTIVE 3.1
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-3-1">
+          <h2>Objective 3.1 — Architectural models e loro implicazioni di sicurezza</h2>
+          <p>
+            L'obiettivo 3.1 richiede di saper confrontare i modelli architetturali moderni dal punto di vista della sicurezza. Non si tratta solo di sapere <em>cosa sono</em> cloud, container o IoT, ma di capire <em>quali rischi introduce ciascun modello</em>, chi è responsabile dei controlli e quali trade-off di sicurezza emergono in ogni scenario. L'esame propone spesso scenari ibridi in cui l'architettura scelta vincola o abilita determinate misure di sicurezza.
+          </p>
+
+          <!-- ── Cloud ── -->
+          <h3 id="cloud">Cloud: responsabilità, ibrido e terze parti</h3>
+          <div class="example-box">
+            <strong>📖 Study note — This chapter vs CH10</strong><br>
+            Questo capitolo tratta il cloud, la virtualizzazione, IaC, serverless, microservizi e container dal punto di vista dell'<em>architettura di sicurezza</em> (obiettivo 3.1: implicazioni di sicurezza dei modelli architetturali). Il capitolo <a href="ch10_cloud_virtualizzazione_canonical.html">CH10 — Cloud and Virtualization</a> è il riferimento di approfondimento per questi stessi argomenti: modelli di servizio (IaaS/PaaS/SaaS), modelli di deployment (public/private/hybrid/community), vulnerability cloud-specifiche (VM escape, resource reuse), e tutti i dettagli operativi. Studia entrambi i capitoli per una copertura completa del dominio 3.1.
+          </div>
+          <p>
+            Il cloud non è un'entità monolitica: è un modello di erogazione di risorse computazionali attraverso infrastrutture gestite da terzi. La questione centrale della sicurezza nel cloud non riguarda la tecnologia in sé, ma la <strong>distribuzione delle responsabilità</strong> tra il fornitore e il cliente — concetto formalizzato nella <strong>shared responsibility matrix</strong>.
+          </p>
+
+          <dl class="termlist">
+            <dt>Shared Responsibility Matrix</dt>
+            <dd>Documento o schema che definisce, per ogni livello dello stack (hardware fisico, rete, sistema operativo, piattaforma, dati, applicazioni, identità), chi è responsabile della sicurezza: il provider, il cliente o entrambi. Nel modello IaaS il cliente gestisce OS, middleware e applicazioni; nel PaaS il provider copre anche OS e runtime; nel SaaS il provider copre quasi tutto salvo la gestione delle identità e dei dati. Fraintendere queste responsabilità è una delle cause principali di violazioni cloud: il cliente assume che il provider abbia protetto qualcosa che era invece suo compito configurare.</dd>
+
+            <dt>Hybrid Considerations</dt>
+            <dd>Un'architettura ibrida combina risorse on-premises con risorse cloud, collegate tramite VPN, ExpressRoute o link dedicati. La complessità di sicurezza aumenta perché esistono due piani di gestione separati, policy che devono essere coerenti tra i due ambienti, e flussi di traffico che attraversano confini meno controllabili. Un asset critico on-premises non deve essere reso accidentalmente raggiungibile dalla componente cloud tramite una configurazione permissiva o una subnet mal segmentata.</dd>
+
+            <dt>Third-Party Vendors</dt>
+            <dd>L'uso di vendor terzi introduce rischio di supply chain e di concentrazione. Se un fornitore cloud subisce un'interruzione o una violazione, l'impatto può propagarsi ai clienti. L'approccio di sicurezza richiede valutazione del vendor, contratti con clausole di sicurezza, audit periodici, piani di uscita (exit strategy) e comprensione di come i dati vengono trattati e dove risiedono fisicamente.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Modello</th>
+                <th>Gestito dal provider</th>
+                <th>Gestito dal cliente</th>
+                <th>Rischio principale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">IaaS</td>
+                <td>Hardware, rete fisica, storage fisico</td>
+                <td>OS, middleware, applicazioni, dati, identità</td>
+                <td>Configurazione errata di OS e rete</td>
+              </tr>
+              <tr>
+                <td class="label">PaaS</td>
+                <td>Hardware, OS, runtime, framework</td>
+                <td>Applicazioni, dati, identità</td>
+                <td>Vulnerabilità nel codice applicativo</td>
+              </tr>
+              <tr>
+                <td class="label">SaaS</td>
+                <td>Tutto lo stack tecnologico</td>
+                <td>Dati, identità, controllo accessi</td>
+                <td>Account takeover, DLP, shadow IT</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.1-A</strong> — Quando l'esame chiede "chi è responsabile di X in un ambiente SaaS?", la risposta quasi sempre ricade sul <em>cliente</em> per dati e identità, e sul <em>provider</em> per l'infrastruttura sottostante. La shared responsibility matrix non elimina responsabilità: le ridistribuisce.
+          </div>
+
+          <!-- ── IaC, Serverless, Microservices ── -->
+          <h3 id="iac-serverless">Infrastructure as Code, Serverless e Microservices</h3>
+
+          <dl class="termlist">
+            <dt>Infrastructure as Code (IaC)</dt>
+            <dd>IaC è l'approccio che definisce e provisiona l'infrastruttura tramite file di configurazione (Terraform, CloudFormation, Ansible) anziché operazioni manuali. Da un lato abilita configurazioni ripetibili e verificabili; dall'altro introduce rischi specifici: se i template contengono credenziali hard-coded, permessi eccessivi o configurazioni insicure, ogni deployment propaga automaticamente quelle vulnerabilità. La sicurezza in IaC richiede code review dei template, scan automatizzati (policy-as-code), gestione dei segreti esterna e version control con approvazione delle modifiche.</dd>
+
+            <dt>Serverless</dt>
+            <dd>Nell'architettura serverless le funzioni vengono eseguite in ambienti effimeri gestiti dal provider (AWS Lambda, Azure Functions). Il cliente non amministra OS o server, quindi la superficie di attacco si riduce su quel piano — ma si sposta sulle funzioni stesse e sulle loro integrazioni. I rischi principali includono injection nelle funzioni, gestione errata dei permessi IAM (principio del minimo privilegio spesso violato), attacchi alla catena di eventi e mancanza di visibilità sui log di esecuzione.
+            </dd>
+
+            <dt>Microservices</dt>
+            <dd>L'architettura a microservizi decompone un'applicazione monolitica in servizi piccoli e indipendenti che comunicano via API. La sicurezza perimetrale tradizionale non è più sufficiente: ogni servizio deve autenticare le richieste ricevute, anche da altri servizi interni. I rischi includono esposizione non intenzionale di API, assenza di autenticazione inter-servizio, lateral movement più facile se un servizio è compromesso e complessità di logging e tracciamento degli eventi su decine o centinaia di servizi.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>WARNING — IaC vs Serverless</strong> — IaC descrive <em>come viene creata</em> l'infrastruttura (via codice anziché manualmente). Serverless descrive un <em>modello di esecuzione</em> (funzioni effimere senza gestione del server). Possono coesistere: un'infrastruttura serverless può essere deployata via IaC.
+          </div>
+
+          <!-- ── Network infrastructure ── -->
+          <h3 id="network-infra">Infrastruttura di rete: isolamento fisico, segmentazione logica, SDN</h3>
+          <p>
+            La rete è il sistema nervoso dell'infrastruttura: connette tutto, trasporta i dati e — se non progettata con attenzione — permette agli attaccanti di muoversi lateralmente da un sistema compromesso verso risorse critiche. I tre concetti fondamentali di questa sezione rispondono alla domanda: <em>come posso limitare la portata di un incidente separando i sistemi?</em>
+          </p>
+
+          <dl class="termlist">
+            <dt>Physical Isolation / Air Gap</dt>
+            <dd>L'air gap è la separazione fisica completa tra due sistemi o reti: non esistono cavi, connessioni wireless o link di rete comuni. È la misura di isolamento più forte possibile e viene usata per proteggere sistemi altamente sensibili (reti industriali classificate, sistemi di controllo di centrali nucleari, reti militari). La limitazione dell'air gap è operativa: il trasferimento di dati richiede media fisici (USB, CD), che diventano essi stessi vettori di attacco. Il caso Stuxnet ha dimostrato che un air gap non è invalicabile se i supporti rimovibili non sono controllati.</dd>
+
+            <dt>Logical Segmentation</dt>
+            <dd>La segmentazione logica usa configurazioni software — VLAN, subnet IP, access control list — per separare gruppi di sistemi sulla stessa infrastruttura fisica. È molto più flessibile e meno costosa dell'isolamento fisico, ma la sua efficacia dipende dalla correttezza della configurazione. Un inter-VLAN routing mal configurato, un trunking non ristretto o una ACL permissiva possono annullare la separazione. La segmentazione logica riduce il blast radius di un incidente, limitando la capacità dell'attaccante di muoversi lateralmente.</dd>
+
+            <dt>Software-Defined Networking (SDN)</dt>
+            <dd>SDN separa il piano di controllo (control plane, che decide come instradare il traffico) dal piano dati (data plane, che esegue l'inoltro). Un controller centralizzato programma i dispositivi di rete via API, rendendo possibile una gestione dinamica e automatizzata delle policy. Dal punto di vista della sicurezza, SDN abilita microsegmentazione granulare, policy applicate in modo coerente su tutta la rete e risposta automatica agli incidenti. Il rischio principale è che il controller SDN diventi un single point of failure e un obiettivo ad alto valore: se compromesso, l'attaccante controlla l'intera topologia di rete.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — VLAN per segmentare una rete ospedaliera</strong><br>
+            Un ospedale separa i dispositivi medici IoT (pompe di infusione, monitor) su una VLAN dedicata, gli endpoint clinici su un'altra VLAN, e i sistemi amministrativi su una terza. Il traffico tra VLAN è controllato da un firewall interno. Se un dispositivo IoT viene compromesso, l'attaccante non può raggiungere direttamente il sistema EHR (Electronic Health Record) perché la VLAN lo separa e il firewall blocca il traffico non autorizzato.
+          </div>
+
+          <!-- ── On-premises, centralizzato/decentralizzato ── -->
+          <h3 id="on-prem-central">On-premises, centralizzato vs. decentralizzato</h3>
+
+          <dl class="termlist">
+            <dt>On-Premises</dt>
+            <dd>Nell'architettura on-premises l'organizzazione gestisce direttamente hardware, software, rete e sicurezza all'interno dei propri data center. Il vantaggio è il controllo totale: la responsabilità della sicurezza non è condivisa con terzi. Lo svantaggio è il costo operativo elevato, la necessità di competenze interne e il rischio che i sistemi non vengano aggiornati tempestivamente perché la gestione è interamente a carico dell'organizzazione.</dd>
+
+            <dt>Centralizzato vs. Decentralizzato</dt>
+            <dd>Un modello centralizzato concentra il controllo e la gestione in un unico punto o team: semplifica l'applicazione delle policy, la visibilità e l'auditing, ma crea single point of failure e colli di bottiglia. Un modello decentralizzato distribuisce controllo e risorse tra più sedi, team o unità: aumenta resilienza e riduce la dipendenza da un centro unico, ma rende più difficile garantire coerenza delle policy e visibilità complessiva sugli eventi di sicurezza.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.1-B</strong> — Negli scenari di esame che riguardano la gestione dei log o l'applicazione delle policy, centralizzato è associato a maggiore controllo e visibilità, decentralizzato a maggiore resilienza ma minore coerenza. Un SIEM centralizzato è l'esempio tipico.
+          </div>
+
+          <!-- ── Containerization, Virtualization ── -->
+          <h3 id="container-virt">Containerizzazione e Virtualizzazione</h3>
+
+          <dl class="termlist">
+            <dt>Virtualization</dt>
+            <dd>La virtualizzazione crea macchine virtuali (VM) che condividono le risorse hardware fisiche tramite un hypervisor. Ogni VM ha il proprio OS guest e opera in modo isolato dalle altre. Il rischio principale è l'<em>hypervisor attack</em> o <em>VM escape</em>: se un attaccante riesce a uscire dalla VM e accedere all'hypervisor, può compromettere tutte le VM sull'host. La protezione richiede patch regolari dell'hypervisor, separazione delle VM per livello di sensibilità e controllo degli accessi amministrativi al livello di virtualizzazione.</dd>
+
+            <dt>Containerization</dt>
+            <dd>I container (Docker, Kubernetes) condividono il kernel del sistema operativo host ma isolano processi, filesystem e rete tramite namespace e cgroup. Sono più leggeri delle VM ma l'isolamento è meno forte: una vulnerabilità nel kernel può potenzialmente permettere l'escape dal container. I rischi includono immagini container con vulnerabilità note, configurazioni privilegiate non necessarie, assenza di scansione delle immagini nel pipeline CI/CD e comunicazione non controllata tra container nello stesso cluster. La sicurezza richiede immagini minime (distroless), scansione automatica, principio del minimo privilegio nei pod e policy di rete Kubernetes.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Aspetto</th>
+                <th>VM (Virtualizzazione)</th>
+                <th>Container</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Isolamento</td>
+                <td>Forte (kernel separato)</td>
+                <td>Moderato (kernel condiviso)</td>
+              </tr>
+              <tr>
+                <td class="label">Overhead</td>
+                <td>Alto (OS guest completo)</td>
+                <td>Basso (solo processo + librerie)</td>
+              </tr>
+              <tr>
+                <td class="label">Rischio escape</td>
+                <td>VM escape via hypervisor</td>
+                <td>Container escape via kernel vuln</td>
+              </tr>
+              <tr>
+                <td class="label">Surface di attacco</td>
+                <td>Hypervisor, OS guest, rete VM</td>
+                <td>Kernel host, immagine, orchestratore</td>
+              </tr>
+              <tr>
+                <td class="label">Velocità di avvio</td>
+                <td>Minuti</td>
+                <td>Secondi / millisecondi</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ── IoT, ICS/SCADA, RTOS, Embedded ── -->
+          <h3 id="iot-ics">IoT, ICS/SCADA, RTOS e sistemi embedded</h3>
+          <p>
+            Questi sistemi condividono una caratteristica fondamentale dal punto di vista della sicurezza: sono progettati per una funzione specifica, spesso operano in ambienti non tradizionali, e nella maggior parte dei casi non possono essere aggiornati facilmente — o non possono essere aggiornati affatto.
+          </p>
+
+          <dl class="termlist">
+            <dt>IoT (Internet of Things)</dt>
+            <dd>I dispositivi IoT (telecamere IP, smart building, sensori industriali, device medicali) connettono al mondo digitale oggetti fisici che storicamente non erano in rete. Il problema di sicurezza centrale è che questi dispositivi usano spesso firmware con vulnerabilità note, credenziali di default non cambiate, protocolli proprietari non cifrati e capacità di patch minima o nulla. Quando un dispositivo IoT viene compromesso, può essere usato come punto di pivot verso reti più critiche, oppure aggregato in una botnet per attacchi DDoS (vedi Mirai). La mitigazione principale è la <em>segmentazione di rete</em>: i dispositivi IoT devono stare su VLAN separate e non avere accesso diretto ai sistemi aziendali.</dd>
+
+            <dt>ICS / SCADA</dt>
+            <dd>I sistemi Industrial Control System e Supervisory Control and Data Acquisition controllano processi fisici in settori critici: energia, acqua, petrolio, manifattura. Sono progettati per disponibilità e deterministismo, non per sicurezza informatica. Spesso girano su OS obsoleti non aggiornabili (Windows XP embedded), usano protocolli industriali senza autenticazione (Modbus, DNP3) e non tollerano interruzioni di servizio per installare patch. Il collegamento di questi sistemi a reti aziendali o a Internet — fenomeno crescente — ha creato nuove superfici di attacco critiche. La difesa si basa su air gap o segmentazione molto stretta, monitoraggio anomalie, e controlli fisici sull'accesso ai PLC (Programmable Logic Controller).</dd>
+
+            <dt>RTOS (Real-Time Operating System)</dt>
+            <dd>Un RTOS è un sistema operativo progettato per eseguire task entro vincoli temporali precisi e deterministici. Viene usato in sistemi embedded critici (automotive, aerospace, dispositivi medicali). Le vulnerabilità RTOS sono particolarmente gravi perché questi sistemi controllano funzioni fisiche dove un ritardo o un errore può avere conseguenze sulla vita umana. La gestione delle patch è difficile perché ogni aggiornamento deve essere validato rigorosamente per non alterare il comportamento deterministico.</dd>
+
+            <dt>Embedded Systems</dt>
+            <dd>I sistemi embedded sono hardware con software integrato, progettati per svolgere una funzione specifica e spesso con risorse computazionali limitate. Router consumer, telecamere di sicurezza, stampanti, switch non gestiti sono tutti sistemi embedded. L'incapacità di patch (inability to patch) è la criticità principale: se il produttore non rilascia aggiornamenti — o ha cessato il supporto — l'unica opzione di sicurezza è l'isolamento di rete o la sostituzione del dispositivo.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.1-C</strong> — Quando l'esame menziona ICS/SCADA o sistemi con "inability to patch", la risposta corretta per mitigare il rischio è quasi sempre <em>segmentazione di rete</em> o <em>controllo compensativo</em> (es. firewall dedicato, monitoraggio anomalie), non "applicare la patch".
+          </div>
+
+          <div class="pitfall">
+            <strong>WARNING — IoT vs ICS/SCADA</strong> — IoT è un termine generico per dispositivi connessi (consumer e industriali). ICS/SCADA è specifico per sistemi di controllo industriale. Un sensore in una fabbrica può essere sia IoT (connesso a Internet) sia parte di un ICS (controlla un processo fisico). La differenza rilevante per l'esame è che ICS/SCADA implica impatto su infrastrutture critiche e vincoli operativi molto più stringenti.
+          </div>
+
+          <!-- ── High Availability ── -->
+          <h3 id="ha">High Availability</h3>
+
+          <dl class="termlist">
+            <dt>High Availability (HA)</dt>
+            <dd>L'alta disponibilità è la proprietà di un sistema di continuare a funzionare anche in presenza di guasti, manutenzioni o picchi di carico. Si ottiene eliminando i single point of failure tramite ridondanza: componenti duplicati, cluster attivo-attivo o attivo-passivo, load balancing, failover automatico. Dal punto di vista della sicurezza, HA protegge la disponibilità — uno dei tre pilastri della triade CIA — e riduce l'impatto degli attacchi DDoS, dei guasti hardware e delle finestre di patching. Un sistema HA non garantisce sicurezza intrinsecamente: se entrambi i nodi condividono una vulnerabilità, entrambi sono esposti.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Cluster attivo-attivo per un firewall</strong><br>
+            Due firewall in cluster attivo-attivo condividono la stessa policy e lo stato delle connessioni. Se il primo guasta, il secondo continua a gestire tutto il traffico senza interruzione. Se invece i due firewall non sono sincronizzati sullo stato, le connessioni stabilite vengono abbattute al failover — impatto diverso ma accettabile in molti contesti.
+          </div>
+
+          <!-- ── Architectural considerations ── -->
+          <h3 id="considerations">Architectural considerations di sicurezza</h3>
+          <p>
+            Ogni scelta architetturale comporta trade-off che devono essere valutati esplicitamente. L'obiettivo 3.1 chiede di saper confrontare queste dimensioni, non solo elencarle.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Considerazione</th>
+                <th>Definizione in chiave sicurezza</th>
+                <th>Esempio di trade-off</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Availability</td>
+                <td>Il sistema deve restare operativo per gli utenti legittimi</td>
+                <td>Controlli stringenti possono ridurre disponibilità (es. CAPTCHA, MFA)</td>
+              </tr>
+              <tr>
+                <td class="label">Resilience</td>
+                <td>Capacità di resistere e recuperare da eventi avversi</td>
+                <td>Ridondanza costa ma riduce il blast radius</td>
+              </tr>
+              <tr>
+                <td class="label">Cost</td>
+                <td>Il costo del controllo deve essere proporzionato al rischio</td>
+                <td>Un HSM per dati pubblici è sproporzionato</td>
+              </tr>
+              <tr>
+                <td class="label">Responsiveness</td>
+                <td>Latenza introdotta dai controlli di sicurezza</td>
+                <td>Ispezione TLS profonda aumenta la latenza</td>
+              </tr>
+              <tr>
+                <td class="label">Scalability</td>
+                <td>I controlli devono scalare con il carico</td>
+                <td>Un IPS in linea che non scala crea collo di bottiglia</td>
+              </tr>
+              <tr>
+                <td class="label">Ease of Deployment</td>
+                <td>Complessità di installazione e configurazione</td>
+                <td>Soluzione sicura ma impossibile da configurare correttamente = rischio</td>
+              </tr>
+              <tr>
+                <td class="label">Risk Transference</td>
+                <td>Spostare il rischio su terzi (assicurazione, outsourcing)</td>
+                <td>Assicurazione cyber non elimina il danno reputazionale</td>
+              </tr>
+              <tr>
+                <td class="label">Ease of Recovery</td>
+                <td>Velocità e semplicità di ripristino post-incidente</td>
+                <td>Backup cifrato senza chiave = impossibile recupero</td>
+              </tr>
+              <tr>
+                <td class="label">Patch Availability</td>
+                <td>Disponibilità di aggiornamenti di sicurezza dal vendor</td>
+                <td>Sistemi in supporto attivo possono essere patchati</td>
+              </tr>
+              <tr>
+                <td class="label">Inability to Patch</td>
+                <td>Impossibilità di applicare patch (legacy, embedded, ICS)</td>
+                <td>Richiede controlli compensativi (isolamento, monitoraggio)</td>
+              </tr>
+              <tr>
+                <td class="label">Power</td>
+                <td>Requisiti energetici dei controlli di sicurezza</td>
+                <td>Crittografia hardware su dispositivo IoT può esaurire la batteria</td>
+              </tr>
+              <tr>
+                <td class="label">Compute</td>
+                <td>Risorse computazionali richieste dai controlli</td>
+                <td>Sistemi embedded con CPU limitata non possono eseguire TLS con DH key exchange pesante</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.1-D</strong> — Quando l'esame descrive un sistema legacy o embedded che non può essere aggiornato, ricerca sempre la risposta che include <em>compensating control</em> (isolamento, segmentazione, monitoraggio) come mitigazione. "Applicare la patch" non è una risposta valida se il testo dice che il sistema non la supporta.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 3.2
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-3-2">
+          <h2>Objective 3.2 — Applicare principi di sicurezza all'infrastruttura enterprise</h2>
+          <p>
+            Mentre il 3.1 chiede di confrontare modelli architetturali, il 3.2 è applicativo: dato uno scenario, devi scegliere il controllo corretto da applicare. Le domande tipiche descrivono un'architettura di rete e chiedono dove posizionare un dispositivo, quale tipo di firewall usare, come configurare una VPN o come ridurre la superficie d'attacco. Il filo conduttore è la <strong>difesa in profondità</strong>: nessun singolo controllo è sufficiente, e la loro combinazione coerente è ciò che protegge davvero l'infrastruttura.
+          </p>
+
+          <!-- ── Device placement e zone ── -->
+          <h3 id="placement-zones">Device placement e Security Zones</h3>
+          <p>
+            Dove si posiziona un dispositivo di sicurezza determina cosa può vedere, cosa può bloccare e quale impatto ha sulle prestazioni. Un firewall collocato male protegge parzialmente; un IPS fuori dalla traiettoria del traffico non blocca nulla.
+          </p>
+
+          <dl class="termlist">
+            <dt>Device Placement</dt>
+            <dd>La collocazione di un dispositivo di rete o di sicurezza deve essere decisa in funzione del traffico che deve ispezionare o controllare. Un firewall perimetrale si posiziona tra Internet e la rete interna; un firewall interno si posiziona tra segmenti di rete diversi. Un IPS deve essere in linea nel percorso del traffico per poter bloccare; un IDS può essere passivo (tap/SPAN). Il load balancer si posiziona davanti ai server di backend. Un jump server si posiziona in una zona separata, accessibile solo da indirizzi di management autorizzati.</dd>
+
+            <dt>Security Zones</dt>
+            <dd>Una security zone è una porzione di rete con livello di trust, funzione o requisiti di sicurezza omogenei. La suddivisione in zone consente di applicare policy diverse in base alla zona e di controllare il traffico tra zone. Le zone tipiche includono: Internet (non trusted), DMZ (semi-trusted, server pubblici), LAN interna (trusted), Management Zone (alta sicurezza, accesso ristretto), Guest Network (non trusted, accesso limitato). Il traffico tra zone è sempre mediato da un firewall o da un proxy che applica le policy appropriate.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Zona</th>
+                <th>Livello di trust</th>
+                <th>Contenuto tipico</th>
+                <th>Connettività</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Internet</td>
+                <td>Non trusted</td>
+                <td>Utenti anonimi, traffico in ingresso</td>
+                <td>Solo verso DMZ, mai verso LAN</td>
+              </tr>
+              <tr>
+                <td class="label">DMZ</td>
+                <td>Semi-trusted</td>
+                <td>Web server, mail relay, DNS esterno</td>
+                <td>Da Internet su porte specifiche; verso LAN controllato</td>
+              </tr>
+              <tr>
+                <td class="label">LAN Interna</td>
+                <td>Trusted</td>
+                <td>Workstation, server interni, stampanti</td>
+                <td>Verso DMZ e Internet controllato</td>
+              </tr>
+              <tr>
+                <td class="label">Management Zone</td>
+                <td>Alta sicurezza</td>
+                <td>Jump server, console admin, SIEM</td>
+                <td>Solo da host autorizzati, OOB se possibile</td>
+              </tr>
+              <tr>
+                <td class="label">Guest Network</td>
+                <td>Non trusted</td>
+                <td>Dispositivi visitatori, BYOD</td>
+                <td>Solo verso Internet, mai verso risorse interne</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — DMZ per un web server pubblico</strong><br>
+            Un'azienda espone il proprio web server pubblico nella DMZ. Il firewall esterno permette traffico HTTP/HTTPS dall'Internet verso il web server. Il firewall interno permette solo le richieste del web server verso il database applicativo nella LAN, su una porta specifica. Anche se il web server venisse compromesso, l'attaccante non potrebbe raggiungere direttamente gli altri server interni perché il firewall interno blocca il traffico non autorizzato.
+          </div>
+
+          <!-- ── Attack surface ── -->
+          <h3 id="attack-surface">Attack surface e Connettività</h3>
+
+          <dl class="termlist">
+            <dt>Attack Surface</dt>
+            <dd>La superficie d'attacco è l'insieme di tutti i punti da cui un soggetto non autorizzato potrebbe tentare di ottenere accesso, interagire con il sistema o causare un impatto. Include porte aperte, servizi esposti, interfacce di management raggiungibili, credenziali deboli, software non aggiornato, dispositivi personali connessi, API pubbliche e qualsiasi altro vettore potenziale. Ridurre la superficie d'attacco è uno dei principi fondamentali della sicurezza: ogni servizio non necessario esposto è un rischio evitabile. La revisione periodica di ciò che è raggiungibile dall'esterno — e perché — è una pratica di hardening essenziale.</dd>
+
+            <dt>Connectivity</dt>
+            <dd>La connettività include non solo la velocità e il tipo di collegamento (fibra, WAN, wireless) ma anche la ridondanza dei percorsi, la separazione fisica (due link su percorsi fisici distinti per evitare che un unico scavo interrompa entrambi), la dipendenza da un singolo ISP e la capacità di QoS per garantire priorità al traffico critico. In termini di sicurezza, una connessione non ridondante è un single point of failure che un attaccante può sfruttare per un attacco di tipo denial-of-service a livello infrastrutturale.</dd>
+          </dl>
+
+          <!-- ── Failure modes ── -->
+          <h3 id="failure-modes">Failure modes: Fail-Open e Fail-Closed</h3>
+
+          <dl class="termlist">
+            <dt>Fail-Open</dt>
+            <dd>In modalità fail-open, se un dispositivo di sicurezza (firewall, IPS, NAC) smette di funzionare o subisce un guasto, il traffico continua a passare liberamente senza controllo. Questa configurazione privilegia la disponibilità: il servizio rimane operativo anche in assenza del controllo di sicurezza. È appropriata per ambienti dove l'interruzione del servizio ha un costo molto elevato (ospedali, processi industriali critici), ma introduce un rischio di sicurezza: durante il guasto, traffico malevolo potrebbe passare indisturbato.</dd>
+
+            <dt>Fail-Closed</dt>
+            <dd>In modalità fail-closed, un guasto del dispositivo di sicurezza blocca tutto il traffico. La sicurezza è garantita anche in caso di guasto, ma il servizio viene interrotto. È la scelta appropriata quando la riservatezza e l'integrità dei dati hanno priorità sulla disponibilità (es. sistemi finanziari, reti militari, dati sanitari sensibili). In questo caso la disponibilità viene garantita tramite ridondanza del dispositivo stesso, non rinunciando alla sicurezza in caso di guasto.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>WARNING — Fail-Open vs Fail-Closed</strong> — Fail-open privilegia la <em>disponibilità</em> in caso di guasto. Fail-closed privilegia la <em>sicurezza</em> in caso di guasto. L'esame propone spesso scenari in cui l'organizzazione deve scegliere: se il testo dice "l'operatività non deve mai interrompersi" → fail-open. Se dice "la sicurezza dei dati è prioritaria" → fail-closed. Non sono né buoni né cattivi di per sé: dipendono dal contesto.
+          </div>
+
+          <!-- ── Device attributes ── -->
+          <h3 id="device-attr">Attributi dei dispositivi: Active/Passive, Inline/Tap</h3>
+
+          <dl class="termlist">
+            <dt>Active vs. Passive</dt>
+            <dd>Un dispositivo attivo può interagire con il traffico: bloccarlo, modificarlo, rispondere a eventi. Un IPS è attivo. Un dispositivo passivo monitora il traffico senza interagire: raccoglie dati, rileva anomalie, genera alert, ma non blocca nulla. Un IDS in modalità passiva è un esempio. La scelta tra attivo e passivo dipende dal trade-off tra capacità di risposta immediata (attivo) e rischio di false positive che interrompono traffico legittimo (problema principale dei dispositivi attivi).</dd>
+
+            <dt>Inline vs. Tap/Monitor</dt>
+            <dd>Un dispositivo inline è inserito fisicamente nel percorso del traffico: ogni pacchetto deve passare attraverso di esso. Questo permette di bloccare il traffico, ma introduce latenza e diventa un single point of failure se non ridondato. Un dispositivo tap (o porta SPAN su uno switch) riceve una copia del traffico senza essere nel percorso diretto: non può bloccare nulla ma non introduce latenza e non causa interruzioni. Un IDS viene tipicamente deployato in modalità tap/monitor; un IPS deve essere inline per bloccare.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Combinazione</th>
+                <th>Dispositivo tipico</th>
+                <th>Può bloccare?</th>
+                <th>Introduce latenza?</th>
+                <th>Single point of failure?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Active + Inline</td>
+                <td>IPS, Firewall</td>
+                <td>Sì</td>
+                <td>Sì</td>
+                <td>Sì (se non ridondato)</td>
+              </tr>
+              <tr>
+                <td class="label">Passive + Tap</td>
+                <td>IDS, Network sensor</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td class="label">Active + Tap</td>
+                <td>NAC out-of-band</td>
+                <td>Indirettamente (via switch)</td>
+                <td>No</td>
+                <td>No</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ── Network appliances ── -->
+          <h3 id="appliances">Network Appliances</h3>
+
+          <dl class="termlist">
+            <dt>Jump Server (Bastion Host)</dt>
+            <dd>Un jump server è un sistema rafforzato e monitorato che funge da punto di accesso controllato per amministrare sistemi in zone di rete ad alta sicurezza. Gli amministratori devono autenticarsi al jump server prima di poter accedere ai sistemi target, e tutte le sessioni vengono registrate per auditing. Questo riduce la superficie di attacco: invece di esporre le console di management di decine di server, si espone un singolo punto fortemente controllato. Il jump server deve essere a sua volta protetto con MFA, hardening rigoroso e accesso molto ristretto.</dd>
+
+            <dt>Proxy Server</dt>
+            <dd>Un proxy è un intermediario che riceve richieste per conto di un client e le invia verso la destinazione, ricevendo e restituendo la risposta. Il <em>forward proxy</em> si frappone tra i client interni e Internet: può filtrare contenuti, applicare policy di navigazione, registrare il traffico e anonimizzare le richieste verso l'esterno. Il <em>reverse proxy</em> si frappone tra Internet e i server interni: può distribuire il carico, terminare TLS, filtrare richieste malevole e nascondere la struttura interna dei server. Entrambi offrono un punto centralizzato per l'applicazione di policy e la registrazione del traffico.</dd>
+
+            <dt>IPS / IDS</dt>
+            <dd>L'Intrusion Detection System (IDS) rileva traffico anomalo o malevolo e genera alert, senza interagire con il flusso. L'Intrusion Prevention System (IPS) è in linea e può bloccare attivamente il traffico identificato come malevolo. Entrambi possono usare <em>signature-based detection</em> (confronto con pattern noti) oppure <em>anomaly-based detection</em> (baseline del comportamento normale, alert per deviazioni). L'anomaly-based genera più false positive ma rileva attacchi zero-day; il signature-based è più preciso ma cieco alle minacce non catalogate.</dd>
+
+            <dt>Load Balancer</dt>
+            <dd>Il load balancer distribuisce il traffico in ingresso tra più server backend, aumentando disponibilità e scalabilità. Può operare in modalità <em>active/active</em> (tutti i server gestiscono traffico contemporaneamente) o <em>active/passive</em> (uno è standby e attiva solo al fallimento del principale). Gli algoritmi di distribuzione includono round-robin, least connections, IP hash e weighted balancing. Dal punto di vista della sicurezza, il load balancer riduce l'impatto di DDoS (distribuisce il carico), offre un punto centralizzato per la terminazione TLS e nasconde la struttura interna dei server.</dd>
+
+            <dt>Sensors</dt>
+            <dd>I sensori di rete sono componenti — fisici o software — che raccolgono dati sul traffico, sugli eventi e sullo stato dei sistemi per alimentare sistemi di monitoraggio e analisi (SIEM, NDR). Possono essere collocati in punti strategici della rete (confini di zona, segmenti critici) per garantire visibilità sugli eventi di sicurezza. Un sensore passivo usa tap o porte SPAN; un sensore attivo può interagire con il sistema di management per rispondere agli eventi.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.2-A</strong> — Le domande su network appliances chiedono spesso "quale dispositivo usare per...". Schema rapido: bloccare traffico malevolo in tempo reale → <strong>IPS</strong>; rilevare e loggare senza bloccare → <strong>IDS</strong>; accesso amministrativo controllato a zone critiche → <strong>jump server</strong>; distribuire carico e garantire disponibilità → <strong>load balancer</strong>; filtrare traffico web in uscita dei client → <strong>forward proxy</strong>.
+          </div>
+
+          <!-- ── Port security ── -->
+          <h3 id="port-security">Port Security, 802.1X ed EAP</h3>
+
+          <dl class="termlist">
+            <dt>Port Security</dt>
+            <dd>La port security è una funzionalità degli switch gestiti che limita il numero e/o il tipo di indirizzi MAC ammessi su una porta. Se un dispositivo non autorizzato tenta di connettersi, la porta può essere bloccata (shutdown), il traffico scartato (protect/restrict) o generato un alert. Non sostituisce NAC o 802.1X, ma offre un livello di controllo a livello 2 contro connessioni non autorizzate, MAC spoofing e overflow della tabella CAM. La tabella CAM di uno switch ha dimensione limitata: se riempita con MAC falsi (CAM overflow attack), lo switch non riesce ad associare traffico unicast a porte specifiche e inizia a fare flooding broadcast, esponendo il traffico a tutti i segmenti.</dd>
+
+            <dt>802.1X</dt>
+            <dd>IEEE 802.1X è uno standard per il controllo degli accessi basato su porta. Prima che un dispositivo ottenga accesso alla rete (cablata o wireless), deve autenticarsi tramite un server RADIUS o TACACS+. Il meccanismo coinvolge tre attori: il <em>supplicant</em> (il client che richiede l'accesso), l'<em>authenticator</em> (lo switch o l'access point che controlla la porta) e l'<em>authentication server</em> (tipicamente RADIUS). L'authenticator blocca tutto il traffico sulla porta tranne il traffico di autenticazione finché le credenziali non sono state verificate. 802.1X è la base tecnica per NAC basati su autenticazione di porta.</dd>
+
+            <dt>EAP (Extensible Authentication Protocol)</dt>
+            <dd>EAP è il framework di autenticazione usato all'interno di 802.1X. Non è un protocollo di autenticazione esso stesso, ma un contenitore che supporta diversi metodi: EAP-TLS (usa certificati client e server, il più sicuro), PEAP (incapsula EAP in un tunnel TLS, richiede solo il certificato del server), EAP-TTLS, EAP-FAST e altri. La scelta del metodo EAP influenza il livello di sicurezza: EAP-TLS richiede infrastruttura PKI ma offre mutua autenticazione forte; PEAP è più semplice da deployare ma richiede che i client validino correttamente il certificato del server per non essere vulnerabili ad attacchi MITM.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Metodo EAP</th>
+                <th>Certificato server</th>
+                <th>Certificato client</th>
+                <th>Sicurezza</th>
+                <th>Complessità deploy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">EAP-TLS</td>
+                <td>Sì</td>
+                <td>Sì (PKI richiesta)</td>
+                <td>Molto alta</td>
+                <td>Alta</td>
+              </tr>
+              <tr>
+                <td class="label">PEAP</td>
+                <td>Sì</td>
+                <td>No (credenziali utente)</td>
+                <td>Alta (se cert. validato)</td>
+                <td>Media</td>
+              </tr>
+              <tr>
+                <td class="label">EAP-TTLS</td>
+                <td>Sì</td>
+                <td>No</td>
+                <td>Alta</td>
+                <td>Media</td>
+              </tr>
+              <tr>
+                <td class="label">EAP-MD5</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Bassa (deprecato)</td>
+                <td>Bassa</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>WARNING — Port Security vs 802.1X</strong> — Port security filtra per <em>indirizzo MAC</em> e si configura sullo switch in modo statico o dinamico. 802.1X autentica l'<em>identità dell'utente o del dispositivo</em> tramite un server centralizzato. Un attaccante può falsificare un MAC (MAC spoofing) per aggirare port security; non può falsificare facilmente le credenziali 802.1X. Per ambienti critici, usa entrambi.
+          </div>
+
+          <!-- ── Firewall types ── -->
+          <h3 id="firewall-types">Tipi di Firewall</h3>
+
+          <dl class="termlist">
+            <dt>Layer 4 Firewall (Stateless e Stateful)</dt>
+            <dd>Un firewall stateless di livello 4 prende decisioni su singoli pacchetti in base a IP sorgente/destinazione, porta e protocollo, senza tenere traccia dello stato delle connessioni. È veloce ma primitivo: non distingue se un pacchetto fa parte di una sessione legittima o è un pacchetto forgiato. Un firewall stateful tiene traccia dello stato delle connessioni TCP/UDP (SYN, SYN-ACK, ACK, ecc.): permette solo il traffico che corrisponde a sessioni stabilite o attese. I firewall stateful sono la baseline moderna; i firewall stateless sono usati in scenari specifici dove la velocità è critica (ACL su router ad alta velocità).</dd>
+
+            <dt>Layer 7 Firewall</dt>
+            <dd>Un firewall di livello 7 ispeziona il payload applicativo, non solo header IP/TCP. Può riconoscere e filtrare traffico in base all'applicazione (anche se usa porte non standard), ai contenuti della richiesta, all'utente autenticato e al contesto. Richiede più risorse computazionali rispetto a un firewall L4, ma offre visibilità e controllo su ciò che davvero transita nella rete, indipendentemente dalla porta usata.</dd>
+
+            <dt>Next-Generation Firewall (NGFW)</dt>
+            <dd>Un NGFW combina le funzionalità di un firewall stateful con ispezione profonda dei pacchetti (DPI), Application Awareness (identificazione dell'applicazione indipendentemente dalla porta), controllo dell'identità dell'utente (integrazione con Active Directory), SSL inspection e, spesso, funzionalità IPS integrate. Un NGFW non è solo un firewall più grande: è una piattaforma di sicurezza che fornisce visibilità e controllo a livello applicativo, il che è indispensabile quando la maggior parte del traffico aziendale transita su HTTPS.</dd>
+
+            <dt>Unified Threat Management (UTM)</dt>
+            <dd>Un UTM integra in un unico dispositivo o appliance molteplici funzioni di sicurezza: firewall, IDS/IPS, antivirus, antispam, filtro web, VPN, DLP e talvolta WAF. Il vantaggio è la semplicità gestionale e la riduzione dei costi per organizzazioni di medie dimensioni. Lo svantaggio è che se il dispositivo UTM è compromesso o guasta, si perdono tutte le funzioni di sicurezza contemporaneamente. Nei grandi ambienti enterprise, i componenti vengono spesso separati per resilienza e scalabilità.</dd>
+
+            <dt>Web Application Firewall (WAF)</dt>
+            <dd>Un WAF protegge specificamente le applicazioni web dalle minacce a livello applicativo: SQL injection, cross-site scripting (XSS), CSRF, SSRF, e le vulnerabilità della OWASP Top 10. Opera comprendendo il protocollo HTTP/HTTPS e la semantica delle applicazioni web, includendo le API REST/SOAP. Un firewall tradizionale non vede la differenza tra una richiesta HTTP legittima e una che contiene un payload SQL injection: entrambe arrivano sulla porta 443. Il WAF analizza il contenuto della richiesta e può bloccare quelle che corrispondono a pattern di attacco noti o che violano il modello di sicurezza positivo configurato.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Opera a</th>
+                <th>Punto di forza</th>
+                <th>Limite principale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Stateless L4</td>
+                <td>L3/L4</td>
+                <td>Velocità, semplicità</td>
+                <td>Non tiene stato, facilmente aggirabile</td>
+              </tr>
+              <tr>
+                <td class="label">Stateful L4</td>
+                <td>L3/L4</td>
+                <td>Tracking connessioni, baseline moderna</td>
+                <td>Cieco al payload applicativo</td>
+              </tr>
+              <tr>
+                <td class="label">NGFW</td>
+                <td>L3–L7</td>
+                <td>App awareness, DPI, identità utente</td>
+                <td>Costo, complessità, latenza SSL inspection</td>
+              </tr>
+              <tr>
+                <td class="label">UTM</td>
+                <td>L3–L7</td>
+                <td>Tutto-in-uno, semplice per PMI</td>
+                <td>Single point of failure, non scala bene</td>
+              </tr>
+              <tr>
+                <td class="label">WAF</td>
+                <td>L7 (HTTP)</td>
+                <td>Protegge app web, API, OWASP Top 10</td>
+                <td>Solo traffico web/API</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.2-B</strong> — Schema rapido per i firewall: se lo scenario menziona <em>applicazioni web, SQL injection, XSS, API</em> → <strong>WAF</strong>. Se menziona <em>ispezione del traffico applicativo, visibilità per-application, user identity</em> → <strong>NGFW</strong>. Se menziona <em>piccola azienda, tutto-in-uno, semplice</em> → <strong>UTM</strong>. Se menziona solo indirizzi IP e porte → <strong>stateful L4</strong>.
+          </div>
+
+          <!-- ── VPN e tunneling ── -->
+          <h3 id="vpn-tunneling">VPN, Tunneling e Accesso Remoto</h3>
+          <p>
+            Le VPN proteggono le comunicazioni su reti non fidate creando canali virtuali cifrati. L'esame distingue sia i protocolli usati sia le architetture di deployment.
+          </p>
+
+          <dl class="termlist">
+            <dt>Virtual Private Network (VPN)</dt>
+            <dd>Una VPN crea un collegamento virtuale cifrato tra due endpoint attraverso una rete pubblica o non fidata. Garantisce riservatezza (cifratura del traffico), integrità (rilevamento di modifiche in transito) e, con autenticazione forte, anche autenticità delle parti. Le VPN non risolvono tutti i problemi di sicurezza: se il client che si connette è compromesso, la VPN trasporta il traffico malevolo nella rete interna. Per questo motivo le VPN moderni si integrano con controlli di postura del dispositivo.</dd>
+
+            <dt>Remote Access VPN</dt>
+            <dd>La remote access VPN connette singoli utenti alla rete aziendale da qualsiasi posizione. Il client installa un software VPN che stabilisce un tunnel verso un concentratore VPN. È la tecnologia base per lo smart working e l'accesso da remoto degli amministratori. Può essere basata su IPSec (client nativo del SO o applicazione dedicata) oppure su SSL/TLS (portal web-based o thin client, più facile da usare senza software aggiuntivo).</dd>
+
+            <dt>Site-to-Site VPN</dt>
+            <dd>La site-to-site VPN collega permanentemente due reti fisicamente distinte (due uffici, un ufficio e un data center). Il tunnel è stabilito tra i gateway VPN delle due reti; gli utenti non devono fare nulla di speciale. Tipicamente implementata con IPSec, è la tecnologia tradizionale per connettere branch office. SD-WAN sta gradualmente sostituendo questo approccio nei contesti che richiedono più flessibilità.</dd>
+
+            <dt>Split Tunnel vs Full Tunnel</dt>
+            <dd>In modalità <em>full tunnel</em>, tutto il traffico del client — incluso quello verso Internet — passa attraverso il concentratore VPN. Questo garantisce visibilità e controllo completo, ma aumenta il carico sul concentratore e può introdurre latenza per il traffico non aziendale. In modalità <em>split tunnel</em>, solo il traffico destinato alla rete aziendale passa nel tunnel; il resto va direttamente su Internet. Lo split tunnel riduce il carico ma introduce un rischio: il client può essere esposto a minacce su Internet mentre è connesso alla rete aziendale, creando un potenziale vettore di movimento laterale.</dd>
+
+            <dt>TLS Tunneling</dt>
+            <dd>TLS (Transport Layer Security) può essere usato non solo per proteggere singole sessioni applicative, ma anche come meccanismo di tunneling per VPN SSL. Il vantaggio è che TLS usa la porta 443 (HTTPS), raramente bloccata dai firewall, il che lo rende più facile da usare in contesti con restrizioni di rete. La versione corrente è TLS 1.3; le versioni precedenti (SSL, TLS 1.0, TLS 1.1) sono deprecate perché vulnerabili.</dd>
+
+            <dt>IPSec</dt>
+            <dd>IPSec è una suite di protocolli per autenticare e cifrare il traffico IP a livello 3. Si compone di due protocolli principali: <em>AH (Authentication Header)</em>, che garantisce autenticità e integrità ma non riservatezza, e <em>ESP (Encapsulating Security Payload)</em>, che garantisce anche la cifratura del payload. IPSec può operare in <em>transport mode</em> (protegge solo il payload, mantiene l'header IP originale) o in <em>tunnel mode</em> (incapsula l'intero pacchetto in un nuovo pacchetto IP — usato nelle VPN site-to-site). IKE (Internet Key Exchange) gestisce la negoziazione delle chiavi.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>WARNING — Split Tunnel vs Full Tunnel</strong> — Split tunnel è più efficiente ma meno controllato: il traffico Internet non passa per i controlli aziendali. Full tunnel è più sicuro e visibile ma crea un collo di bottiglia sul concentratore VPN. Non esiste la risposta "sempre migliore": dipende dal modello di minaccia e dai requisiti operativi.
+          </div>
+
+          <div class="example-box">
+            <strong>Esempio pratico — IPSec site-to-site tra due uffici</strong><br>
+            La sede principale di Milano e quella di Roma sono collegate da un tunnel IPSec ESP in tunnel mode. Il traffico tra i due uffici è completamente cifrato e autenticato. Le chiavi vengono rinegoziate periodicamente tramite IKEv2. Se la connessione Internet cade, il tunnel cade con essa — per garantire disponibilità si affiancano due link Internet su provider diversi con failover automatico.
+          </div>
+
+          <!-- ── SD-WAN e SASE ── -->
+          <h3 id="sdwan-sase">SD-WAN e SASE</h3>
+
+          <dl class="termlist">
+            <dt>SD-WAN (Software-Defined Wide Area Network)</dt>
+            <dd>SD-WAN applica i principi del Software-Defined Networking alla WAN aziendale. Un controller centralizzato gestisce dinamicamente più link WAN (MPLS, Internet broadband, LTE/5G) per ottimizzare costo, latenza, affidabilità e sicurezza. Le policy di routing sono basate su applicazione, non su protocollo: il traffico VoIP può essere inviato sul link a bassa latenza, i backup sul link economico. Dal punto di vista della sicurezza, SD-WAN integra spesso cifratura del traffico tra i nodi, segmentazione dell'applicazione e visibilità centralizzata. Il rischio principale è che la console di management SD-WAN, se compromessa, permetterebbe di modificare il routing dell'intera rete geografica.</dd>
+
+            <dt>SASE (Secure Access Service Edge)</dt>
+            <dd>SASE è un modello architetturale, non un singolo prodotto, che unisce funzionalità di rete (SD-WAN, QoS) e funzionalità di sicurezza (CASB, SWG, ZTNA, FWaaS) in un servizio cloud distribuito. L'idea centrale è che gli utenti — indipendentemente da dove si trovano — accedono alle risorse attraverso un edge cloud vicino a loro, che applica le policy di sicurezza prima che il traffico raggiunga la destinazione. SASE è la risposta architetturale all'era del lavoro distribuito, dove il perimetro di rete tradizionale non esiste più. L'identità dell'utente e la postura del dispositivo diventano il nuovo perimetro.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Aspetto</th>
+                <th>VPN Tradizionale</th>
+                <th>SD-WAN</th>
+                <th>SASE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Modello</td>
+                <td>Hub-and-spoke, concentratore centrale</td>
+                <td>Multi-link ottimizzato, controller centrale</td>
+                <td>Cloud distribuito, edge vicino all'utente</td>
+              </tr>
+              <tr>
+                <td class="label">Sicurezza</td>
+                <td>Cifratura punto-punto</td>
+                <td>Cifratura + policy applicazione</td>
+                <td>Zero Trust, CASB, SWG, FWaaS integrati</td>
+              </tr>
+              <tr>
+                <td class="label">Scalabilità</td>
+                <td>Limitata dal concentratore</td>
+                <td>Alta (dynamic routing)</td>
+                <td>Molto alta (cloud native)</td>
+              </tr>
+              <tr>
+                <td class="label">Caso d'uso</td>
+                <td>Remote access classico</td>
+                <td>Connettività branch office</td>
+                <td>Workforce distribuito, cloud-first</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ── NAC e Zero Trust ── -->
+          <h3 id="nac-zerotrust">NAC, Zero Trust e protezioni Layer 2</h3>
+
+          <dl class="termlist">
+            <dt>Network Access Control (NAC)</dt>
+            <dd>NAC è un framework tecnologico che verifica l'identità e la postura di sicurezza di un dispositivo prima o durante l'accesso alla rete, decidendo se ammettere il dispositivo, confinarlo in quarantena o bloccare l'accesso. La verifica della postura include: sistema operativo aggiornato, antivirus attivo e aggiornato, disk encryption attiva, configurazione conforme alle policy aziendali. NAC può operare con un <em>agente</em> installato sul dispositivo (postura più precisa) o <em>senza agente</em> (analisi passiva del traffico, meno precisa). Il post-admission NAC continua a monitorare il dispositivo anche dopo che è stato ammesso, revocando l'accesso se la postura degrada.</dd>
+
+            <dt>Zero Trust Network Access (ZTNA)</dt>
+            <dd>Zero Trust è un modello di sicurezza che elimina l'assunzione implicita di fiducia basata sulla posizione di rete: essere sulla rete interna non garantisce accesso. Ogni richiesta viene valutata in base a identità verificata, postura del dispositivo, contesto (orario, posizione geografica, comportamento recente) e policy di accesso. Il concetto chiave è "never trust, always verify". L'implementazione tecnica si basa su un <em>Policy Engine</em> (che decide), un <em>Policy Administrator</em> (che comunica la decisione) e un <em>Policy Enforcement Point</em> (che applica la decisione bloccando o permettendo il traffico).</dd>
+
+            <dt>Protezioni Layer 2</dt>
+            <dd>Oltre a port security e 802.1X, esistono meccanismi specifici per proteggere la rete a livello 2: <em>BPDU Guard</em> blocca messaggi STP su porte di accesso, prevenendo attacchi Spanning Tree che potrebbero alterare la topologia di rete. <em>DHCP Snooping</em> impedisce a server DHCP non autorizzati di distribuire configurazioni IP false (un vettore per attacchi MITM). <em>Dynamic ARP Inspection (DAI)</em> valida le risposte ARP contro la tabella DHCP snooping, prevenendo ARP poisoning. <em>Storm Control</em> limita il traffico broadcast/multicast per prevenire loop e broadcast storm.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.2-C</strong> — Negli scenari Zero Trust, l'elemento che blocca o permette il traffico è il <em>Policy Enforcement Point</em> (PEP). Il <em>Policy Engine</em> prende la decisione ma non la applica direttamente. Non confondere i due ruoli: il PEP è il "cancello", il Policy Engine è il "giudice".
+          </div>
+
+          <!-- ── Deception ── -->
+          <h3 id="deception">Deception Technology</h3>
+
+          <dl class="termlist">
+            <dt>Honeypot</dt>
+            <dd>Un honeypot è un sistema deliberatamente vulnerabile o attraente, progettato per attirare gli attaccanti e osservare le loro tecniche senza che possano causare danni reali. Può imitare un server web, un database, un controllore industriale o qualsiasi altro asset di valore. Il valore principale non è bloccare l'attacco, ma raccogliere intelligence: quali strumenti usa l'attaccante, quali vulnerabilità cerca, come si muove dopo l'accesso iniziale. Una <em>honeynet</em> è un insieme di honeypot che simula una rete completa. Gli honeypot devono essere isolati dalla rete produttiva per evitare che un attaccante usi l'honeypot come pivot.</dd>
+
+            <dt>Honeytoken</dt>
+            <dd>Un honeytoken è un dato fittizio ma monitorato: può essere un file con un nome attraente (es. "passwords.xlsx"), una credenziale falsa in un database, un URL esca nei log, o un record DNS non pubblicizzato. Se qualcuno accede al file, usa la credenziale o richiede l'URL, si genera automaticamente un alert che indica una possibile violazione. Gli honeytoken sono particolarmente efficaci per rilevare accessi non autorizzati a dati sensibili, perché un utente legittimo non dovrebbe mai accedere a dati fittizi che conosce solo chi ha deployato il sistema.</dd>
+
+            <dt>Honeyfile</dt>
+            <dd>Un honeyfile è un tipo specifico di honeytoken: un file progettato per sembrare prezioso (budget, segreti commerciali, credenziali) ma che non contiene dati reali. Viene collocato in posizioni dove un attaccante che effettua lateral movement potrebbe trovarlo. Sistemi DLP o canary token integrati segnalano l'apertura, la copia o l'esfiltrazione del file.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Honeytoken per rilevare credential stuffing interno</strong><br>
+            Un'azienda inserisce nel proprio Active Directory un account utente fittizio con nome plausibile, password nota e zero utilizzo legittimo. Se qualcuno tenta di autenticarsi con quell'account — anche dall'interno della rete — si attiva immediatamente un alert SIEM. Qualsiasi tentativo di uso di quell'account indica quasi certamente un attaccante che ha estratto credenziali dalla directory.
+          </div>
+
+          <!-- ── Secure protocols ── -->
+          <h3 id="secure-protocols">Protocolli sicuri, servizi di rete e gestione sicura</h3>
+          <p>
+            Una rete sicura non dipende solo dall'architettura, ma anche dall'uso di protocolli che garantiscono riservatezza e integrità del traffico. Il principio fondamentale è che i protocolli storici sono nati in un'era in cui la sicurezza non era una priorità: molti trasmettono credenziali e dati in chiaro. La sostituzione con le controparti sicure è un requisito minimo di hardening.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Protocollo insicuro</th>
+                <th>Porta</th>
+                <th>Protocollo sicuro</th>
+                <th>Porta</th>
+                <th>Meccanismo di protezione</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">HTTP</td>
+                <td>TCP 80</td>
+                <td>HTTPS</td>
+                <td>TCP 443</td>
+                <td>TLS</td>
+              </tr>
+              <tr>
+                <td class="label">Telnet</td>
+                <td>TCP 23</td>
+                <td>SSH</td>
+                <td>TCP 22</td>
+                <td>Cifratura simmetrica + autenticazione</td>
+              </tr>
+              <tr>
+                <td class="label">FTP</td>
+                <td>TCP 20/21</td>
+                <td>SFTP / FTPS</td>
+                <td>TCP 22 / TCP 990</td>
+                <td>SSH (SFTP) / TLS (FTPS)</td>
+              </tr>
+              <tr>
+                <td class="label">IMAP</td>
+                <td>TCP 143</td>
+                <td>IMAPS</td>
+                <td>TCP 993</td>
+                <td>TLS</td>
+              </tr>
+              <tr>
+                <td class="label">POP3</td>
+                <td>TCP 110</td>
+                <td>POP3S</td>
+                <td>TCP 995</td>
+                <td>TLS</td>
+              </tr>
+              <tr>
+                <td class="label">LDAP</td>
+                <td>TCP 389</td>
+                <td>LDAPS</td>
+                <td>TCP 636</td>
+                <td>TLS</td>
+              </tr>
+              <tr>
+                <td class="label">RTP</td>
+                <td>UDP variabile</td>
+                <td>SRTP</td>
+                <td>UDP variabile</td>
+                <td>AES + HMAC</td>
+              </tr>
+              <tr>
+                <td class="label">SNMP v1/v2</td>
+                <td>UDP 161/162</td>
+                <td>SNMPv3</td>
+                <td>UDP 161/162</td>
+                <td>Autenticazione + privacy opzionale</td>
+              </tr>
+              <tr>
+                <td class="label">DNS</td>
+                <td>UDP/TCP 53</td>
+                <td>DNSSEC</td>
+                <td>UDP/TCP 53</td>
+                <td>Firma digitale (non cifratura)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="termlist">
+            <dt>TLS e Perfect Forward Secrecy</dt>
+            <dd>TLS 1.3 è la versione corrente del protocollo di sicurezza per i dati in transito. Una proprietà fondamentale da comprendere è la <em>Perfect Forward Secrecy (PFS)</em>: con PFS, ogni sessione TLS usa chiavi di sessione efimere (es. ECDHE) generate al momento. Se in futuro un attaccante compromettesse la chiave privata del server, non potrebbe decifrare le sessioni passate perché le chiavi di sessione non sono mai state derivate dalla chiave permanente. Senza PFS (RSA key exchange), tutte le sessioni passate catturate diventerebbero decifrabili.</dd>
+
+            <dt>DNS Security (DNSSEC e DNS Filtering)</dt>
+            <dd>Il DNS tradizionale non ha meccanismi di autenticazione: una risposta DNS falsificata è indistinguibile da una legittima. DNSSEC aggiunge firme digitali alle risposte DNS, permettendo ai resolver di verificare che la risposta provenga dal server autoritativo legittimo. Importante: DNSSEC garantisce autenticità e integrità, non riservatezza (le query DNS in chiaro sono visibili; DNS-over-HTTPS o DNS-over-TLS risolvono questo problema). Il DNS filtering blocca la risoluzione di domini noti come malevoli o di phishing, prevenendo la connessione a infrastructure di comando e controllo del malware.</dd>
+
+            <dt>Email Security: SPF, DKIM, DMARC</dt>
+            <dd>Il protocollo SMTP non autentica il mittente: chiunque può inviare email fingendo qualsiasi indirizzo. SPF (Sender Policy Framework) è un record DNS che elenca i server autorizzati a inviare email per un dominio. DKIM (DomainKeys Identified Mail) aggiunge una firma crittografica al messaggio, che il destinatario può verificare usando la chiave pubblica nel DNS del mittente. DMARC (Domain-based Message Authentication, Reporting and Conformance) usa SPF e DKIM per validare i messaggi e definisce una policy su cosa fare con quelli che non superano la validazione (quarantena, rifiuto, report). Senza questi tre meccanismi, il dominio aziendale può essere impersonato in attacchi di phishing.</dd>
+
+            <dt>Out-of-Band Management</dt>
+            <dd>La gestione fuori banda (OOB) usa un canale di comunicazione separato dalla rete dati produttiva per accedere alle console di management dei dispositivi di rete. Questo significa che anche se la rete dati è compromessa, intasata o down, l'amministratore può ancora accedere ai dispositivi per diagnosticare e ripristinare. L'OOB si implementa tramite VLAN di management dedicate, reti fisicamente separate, accesso seriale (console port) o soluzioni cloud-based di management.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.2-D</strong> — Per le email, ricorda l'ordine delle responsabilità: <strong>SPF</strong> verifica il server mittente, <strong>DKIM</strong> firma il contenuto, <strong>DMARC</strong> coordina e definisce la policy. Se una email fallisce SPF ma DKIM è valido, DMARC può comunque accettarla se la policy lo prevede. L'esame può chiedere quale meccanismo serve per "impedire lo spoofing del mittente" (SPF) o "verificare l'integrità del messaggio" (DKIM).
+          </div>
+
+          <!-- ── Network attacks ── -->
+          <h3 id="network-attacks">Network attacks principali</h3>
+
+          <dl class="termlist">
+            <dt>On-Path Attack (MitM)</dt>
+            <dd>In un attacco on-path (detto anche Man-in-the-Middle), l'attaccante si inserisce nella traiettoria delle comunicazioni tra due parti: può leggere, modificare o iniettare traffico a loro insaputa. Tecnicamente si ottiene tramite ARP poisoning, DNS spoofing, rogue access point, DHCP starvation seguita da rogue DHCP, o compromise di dispositivi di rete intermedi. Le contromisure includono: uso pervasivo di TLS/HTTPS con HSTS, DNSSEC, certificati che impediscono l'intercettazione, 802.1X, DAI (Dynamic ARP Inspection) e monitoraggio anomalie di traffico.</dd>
+
+            <dt>SSL Stripping</dt>
+            <dd>SSL stripping è una variante dell'attacco on-path in cui l'attaccante intercetta una connessione HTTP iniziale e impedisce che diventi HTTPS, mantenendo il traffico in chiaro verso la vittima pur comunicando con HTTPS verso il server. La vittima vede HTTP nel browser e i dati viaggiano in chiaro verso l'attaccante. La contromisura principale è HSTS (HTTP Strict Transport Security): il browser ricorda che un sito richiede sempre HTTPS e rifiuta automaticamente connessioni HTTP, anche se dovesse ricevere una risposta in chiaro.</dd>
+
+            <dt>DNS Poisoning e Domain Hijacking</dt>
+            <dd>Il DNS poisoning inserisce risposte DNS false nella cache di un resolver, reindirizzando gli utenti verso server controllati dall'attaccante. Il domain hijacking è un attacco più ampio: l'attaccante compromette l'account del registrar del dominio e modifica la configurazione DNS ufficiale, reindirizzando tutto il traffico del dominio. La modifica del file <code>/etc/hosts</code> locale può avere lo stesso effetto su singoli endpoint poiché ha priorità sulla risoluzione DNS. DNSSEC protegge dall'avvelenamento della cache ma non dal domain hijacking (che avviene a livello di registrar).</dd>
+
+            <dt>Replay Attack</dt>
+            <dd>In un attacco replay, l'attaccante cattura un messaggio o una credenziale valida (token di autenticazione, pacchetto firmato) e lo ritrasmette successivamente per ottenere accesso non autorizzato. Il sistema ricevente, vedendo un messaggio apparentemente valido, lo accetta. Le contromisure includono timestamp nelle richieste (che scadono rapidamente), nonce (valori casuali usati una sola volta), session ID non riutilizzabili e protocolli che richiedono la verifica dell'unicità del messaggio ricevuto.</dd>
+
+            <dt>DDoS (Distributed Denial of Service)</dt>
+            <dd>Un attacco DDoS usa molteplici sistemi (spesso una botnet) per saturare le risorse di un servizio o della rete rendendolo non disponibile agli utenti legittimi. Si distinguono tre categorie principali: attacchi <em>volumetrici</em> (UDP flood, ICMP flood — saturano la banda), attacchi di <em>protocollo</em> (SYN flood, Smurf — esauriscono risorse dello stack di rete) e attacchi <em>applicativi</em> (HTTP flood, slowloris — consumano risorse del server applicativo con richieste complesse). Attacchi <em>riflessi e amplificati</em> usano servizi legittimi come amplificatori: una piccola richiesta con IP sorgente falsificato (dell'obiettivo) genera una risposta molto più grande diretta all'obiettivo.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo DDoS</th>
+                <th>Meccanismo</th>
+                <th>Esempio</th>
+                <th>Contromisura principale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Volumetrico</td>
+                <td>Saturazione della banda</td>
+                <td>UDP flood, ICMP flood</td>
+                <td>Scrubbing center, rate limiting ISP</td>
+              </tr>
+              <tr>
+                <td class="label">Protocollo</td>
+                <td>Esaurimento risorse stack TCP/IP</td>
+                <td>SYN flood, Smurf</td>
+                <td>SYN cookies, firewall stateful</td>
+              </tr>
+              <tr>
+                <td class="label">Applicativo</td>
+                <td>Richieste che consumano risorse server</td>
+                <td>HTTP GET flood, Slowloris</td>
+                <td>WAF, rate limiting, CDN</td>
+              </tr>
+              <tr>
+                <td class="label">Amplificato/Riflesso</td>
+                <td>Amplificazione tramite servizi legittimi</td>
+                <td>DNS amplification, NTP amplification</td>
+                <td>BCP38 (filtro anti-spoofing), blocco UDP aperto</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>WARNING — DoS vs DDoS</strong> — Un attacco DoS proviene da una singola sorgente; un DDoS da molteplici sorgenti coordinate (botnet). La distinzione è importante non solo tecnicamente, ma anche per la risposta: bloccare un singolo IP è inutile contro un DDoS da migliaia di sorgenti. Il termine "amplified" indica che il traffico di risposta è maggiore di quello di richiesta; "reflected" indica che la risposta è indirizzata alla vittima (IP sorgente falsificato) tramite un riflettore.
+          </div>
+
+          <!-- ── Selecting effective controls ── -->
+          <h3 id="effective-controls">Selezione dei controlli efficaci</h3>
+          <p>
+            L'obiettivo 3.2 si chiude con "selection of effective controls". Non si tratta solo di sapere cosa fa ogni dispositivo, ma di saper scegliere il controllo giusto per un contesto specifico, considerando il modello di minaccia, i vincoli operativi, il costo e la fattibilità tecnica.
+          </p>
+
+          <dl class="termlist">
+            <dt>Principi per la selezione dei controlli</dt>
+            <dd>Un controllo efficace deve essere: (1) proporzionato al rischio che mitiga; (2) compatibile con l'ambiente tecnico e operativo; (3) sostenibile nel tempo (gestibile, monitorabile, aggiornabile); (4) verificabile — deve essere possibile testare che il controllo funzioni come previsto. Un controllo perfetto sulla carta ma impossibile da gestire correttamente in produzione è spesso peggio di un controllo più semplice ma ben implementato. La scelta deve anche considerare che alcuni controlli sono compensativi: non eliminano il rischio ma lo riducono a un livello accettabile quando il controllo primario non è disponibile.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Selezione controlli per un sistema ICS non patchabile</strong><br>
+            Un PLC che controlla una pompa idrica usa firmware del 2008 non aggiornabile. Il rischio è alto, ma non si può patchare. I controlli efficaci in questo caso: (1) air gap o VLAN dedicata con firewall che consente solo il protocollo industriale necessario e solo dagli host autorizzati; (2) IDS passivo sul segmento per monitorare anomalie di traffico; (3) accesso fisico ristretto al pannello del PLC; (4) procedure operative che vietano l'inserimento di supporti rimovibili. Nessun controllo singolo è sufficiente: è la loro combinazione che riduce il rischio a livelli accettabili.
+          </div>
+        </section>
+
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 4.5
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-4-5">
+          <h2>Objective 4.5 — Modificare le capacità enterprise per potenziare la sicurezza</h2>
+          <p>
+            L'obiettivo 4.5 è operativo: non descrive le architetture (come il 3.2) ma chiede di sapere <em>come configurare e usare</em> i controlli di sicurezza per rafforzare concretamente la postura di sicurezza di un'organizzazione. Ogni controllo qui non è solo una definizione da memorizzare: è un meccanismo che va capito nel suo funzionamento reale, nei suoi limiti e nel suo caso d'uso specifico. Le domande d'esame propongono scenari e chiedono quale controllo attivare, come configurarlo, o quale combinazione di controlli è più efficace.
+          </p>
+
+          <!-- ── Firewall: rules e screened subnet ── -->
+          <h3 id="fw-rules">Firewall — Rules, Access Lists, Ports/Protocols, Screened Subnets</h3>
+          <dl class="termlist">
+            <dt>Firewall rules e Access Control Lists (ACL)</dt>
+            <dd>
+              Le regole firewall sono l'implementazione del principio di least privilege a livello di rete: definiscono esplicitamente quale traffico è permesso e quale è negato, basandosi su criteri come IP sorgente/destinazione, porta, protocollo e direzione. Le ACL sono la forma più comune di regola firewall: ogni entry specifica un'azione (permit/deny), il protocollo, gli indirizzi IP e le porte. Le regole vengono elaborate in ordine sequenziale (top-down) e la prima regola che corrisponde viene applicata; l'ordine è quindi critico. La best practice è sempre la regola implicita di "deny all" alla fine dell'ACL: tutto ciò che non è esplicitamente permesso è negato. Sui firewall stateful, le regole definiscono il traffico iniziante la sessione; il traffico di ritorno di sessioni già stabilite viene automaticamente permesso.
+            </dd>
+
+            <dt>Port e protocol filtering</dt>
+            <dd>
+              I firewall possono filtrare il traffico in base alla porta (TCP/UDP 0-65535) e al protocollo (TCP, UDP, ICMP, ESP, AH…). Il port filtering è il meccanismo con cui si implementa la regola "blocca tutto, apri solo ciò che serve": un web server dovrebbe avere solo le porte 80 e 443 aperte verso l'esterno, nulla di più. La chiusura delle porte non usate è una delle tecniche di hardening fondamentali (obj 2.5). Attenzione: un firewall layer 4 filtra su porta e IP ma non può ispezionare il contenuto del payload — un attacco applicativo passera comunque se la porta è aperta. Per questo servono WAF e NGFW.
+            </dd>
+
+            <dt>Screened Subnet (DMZ — Demilitarized Zone)</dt>
+            <dd>
+              Una screened subnet è un segmento di rete separato, posizionato tra la rete interna (trusted) e Internet (untrusted), creato con due firewall in cascata (o un firewall con tre interfacce). Ospita i server che devono essere accessibili dall'esterno — web server pubblici, server email, server DNS, reverse proxy — mantenendoli separati dai sistemi interni sensibili. Il principio è che anche se un server nella DMZ viene compromesso, l'attaccante non può accedere direttamente alla rete interna perché è presente un secondo firewall (il firewall interno) che separa la DMZ dai sistemi interni. È diverso da un semplice NAT o da un singolo firewall: la screened subnet crea un vero compartimento isolato.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Architettura DMZ per un'applicazione web</strong><br>
+            Un'azienda espone un'applicazione web al pubblico. Architettura con screened subnet: Internet → Firewall esterno (permette solo TCP 80/443 verso il web server in DMZ) → DMZ (web server, reverse proxy) → Firewall interno (permette solo TCP 443 verso il server applicativo nella rete interna, solo da IP del reverse proxy) → Rete interna (server applicativo, database). Anche se un attaccante compromette il web server in DMZ, il firewall interno blocca qualsiasi tentativo di raggiungere il database o i sistemi interni. Senza DMZ, un web server compromesso avrebbe accesso diretto alla rete interna.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.5-A — Screened subnet</strong> — Nei vecchi documenti CompTIA la screened subnet era chiamata DMZ. SY0-701 usa il termine "screened subnet" — riconoscila come sinonimo operativo di DMZ. La caratteristica definitoria è la presenza di due firewall (o due zone di firewall) che isolano il segmento intermedio sia da Internet sia dalla rete interna.
+          </div>
+
+          <!-- ── IDS/IPS: trends e signatures ── -->
+          <h3 id="ids-ips-ops">IDS/IPS operativo — Trends e Signatures</h3>
+          <dl class="termlist">
+            <dt>Signature-based detection</dt>
+            <dd>
+              Il metodo di detection più diffuso: il motore IDS/IPS confronta il traffico di rete o il comportamento di sistema con un database di pattern noti (firme/signatures) associati ad attacchi noti. Ogni firma identifica un attacco specifico: una sequenza di bytes, un pattern di header, una stringa nel payload. Vantaggio: pochissimi falsi positivi quando le firme sono accurate — se il pattern corrisponde esattamente, l'attacco è quasi certamente reale. Svantaggio: efficace solo contro attacchi noti; un attacco zero-day o una variante leggermente modificata di un attacco noto non viene rilevata (false negative). Le firme devono essere aggiornate regolarmente, analogamente alle definizioni antivirus.
+            </dd>
+
+            <dt>Trend/anomaly-based detection (behavioral)</dt>
+            <dd>
+              Il sistema stabilisce una baseline del comportamento normale (traffico tipico, volumi, pattern di accesso) e genera alert quando rileva deviazioni significative dalla baseline. Non richiede la conoscenza dell'attacco specifico: un aumento anomalo di traffico ICMP, un accesso a un server alle 3 di notte da un'IP mai vista, o un processo che apre un numero inusuale di file sono tutti anomalie che possono indicare un attacco. Vantaggio: può rilevare attacchi zero-day e attacchi sconosciuti. Svantaggio: più falsi positivi (un picco di traffico legittimo durante una promozione viene rilevato come anomalia). Richiede un periodo di learning per stabilire la baseline.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>WARNING — IDS vs IPS in modalità operativa</strong> — IDS: passivo, monitora e genera alert, non blocca. IPS: inline, può bloccare attivamente il traffico. Una firma IDS con molti falsi positivi è fastidiosa ma non causa downtime. Una firma IPS con molti falsi positivi può bloccare traffico legittimo e causare interruzioni di servizio. Per questo i nuovi IPS spesso iniziano in modalità detection-only (come IDS) e passano a blocking solo dopo validazione delle firme.
+          </div>
+
+          <!-- ── Web Filter ── -->
+          <h3 id="web-filter">Web Filter — Filtro del traffico web</h3>
+          <dl class="termlist">
+            <dt>Web filter</dt>
+            <dd>
+              Un web filter è un sistema che ispeziona e controlla il traffico HTTP/HTTPS in uscita dalla rete aziendale, con lo scopo di bloccare accessi a siti malevoli o non appropriati, prevenire download di malware, e applicare policy di utilizzo accettabile. È distinto dal WAF (che protegge le applicazioni web in entrata): il web filter protegge gli utenti interni da siti web esterni pericolosi. Implementato come proxy esplicito, proxy trasparente, o agente sul dispositivo.
+            </dd>
+
+            <dt>Agent-based web filter</dt>
+            <dd>
+              Un agente software installato su ogni dispositivo che intercetta il traffico web direttamente sull'endpoint, indipendentemente dalla rete a cui è connesso. Vantaggio critico: funziona anche per dispositivi fuori dalla rete aziendale (laptop di dipendenti in smart working, utenti in viaggio). Le policy vengono aggiornate centralmente e l'agente le applica ovunque. Questo è il modello usato dalle soluzioni Zero Trust Network Access (ZTNA) e da prodotti come Zscaler, Cisco Umbrella con agente.
+            </dd>
+
+            <dt>Centralized proxy</dt>
+            <dd>
+              Tutto il traffico web degli utenti è instradato attraverso un server proxy centrale prima di raggiungere Internet. Il proxy applica le policy: blocco di categorie di siti (gambling, social media, malware domains), ispezione SSL/TLS (man-in-the-middle legittimo con certificato aziendale per ispezionare il traffico HTTPS cifrato), logging di tutto il traffico. Vantaggio: visibilità centralizzata completa. Svantaggio: single point of failure e bottleneck di performance; non funziona nativamente per dispositivi fuori rete senza VPN.
+            </dd>
+
+            <dt>URL scanning e Content categorization</dt>
+            <dd>
+              Il web filter può bloccare gli accessi in base all'URL specifico (URL scanning — lista di URL malevoli noti, aggiornata in tempo reale da feed di threat intelligence) o in base alla categoria del sito (content categorization — pornografia, gioco d'azzardo, social media, malware, phishing, ecc.). La categorizzazione è basata su database mantenuti dal vendor (es. Cisco Talos, Symantec WebPulse) che classificano miliardi di URL. Le policy aziendali possono bloccare intere categorie o specifici URL.
+            </dd>
+
+            <dt>Block rules e Reputation</dt>
+            <dd>
+              Oltre alle categorie, i web filter moderni integrano sistemi di reputazione: ogni URL e ogni dominio ha un punteggio di reputazione (0-100) basato su età del dominio, comportamento storico, pattern di registrazione, presenza in blacklist. Un dominio registrato ieri con un IP in un range noto per malware ha reputazione bassa e viene bloccato anche se non è ancora in nessuna blacklist specifica. Le block rules personalizzate permettono all'organizzazione di aggiungere eccezioni (whitelist di siti utili ma con bassa reputazione) o di bloccare siti specifici non già in una categoria predefinita.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.5-B — Web filter vs WAF</strong> — Web filter: protegge gli utenti interni che accedono a Internet (traffico in uscita). WAF: protegge le applicazioni web dell'organizzazione dagli attaccanti esterni (traffico in entrata). Direzione opposta, scopo opposto. Scenario: "Un dipendente visita un sito di phishing" → web filter. Scenario: "Un attaccante invia una SQL injection alla nostra app web" → WAF.
+          </div>
+
+          <!-- ── OS Security ── -->
+          <h3 id="os-security">OS Security — Group Policy e SELinux</h3>
+          <dl class="termlist">
+            <dt>Group Policy (Windows)</dt>
+            <dd>
+              Group Policy è il meccanismo di configurazione e gestione centralizzata della sicurezza per ambienti Windows Active Directory. Tramite Group Policy Objects (GPO) collegati a siti, domini o OU (Organizational Units), un amministratore può applicare configurazioni di sicurezza a migliaia di macchine contemporaneamente senza doverle configurare individualmente. Le policy possono coprire: password policy (lunghezza minima, complessità, scadenza), screen lock automatico, disabilitazione di porte USB, configurazione del firewall Windows, installazione di certificati radice, restrizioni sulle applicazioni eseguibili (AppLocker/Software Restriction Policies), configurazioni di IE/Edge, audit policy (quali eventi loggare), e molto altro. Group Policy è uno strumento fondamentale per garantire che tutti i sistemi aziendali aderiscano a una baseline di sicurezza comune, automaticamente e in modo verificabile.
+            </dd>
+
+            <dt>SELinux (Security-Enhanced Linux)</dt>
+            <dd>
+              SELinux è un modulo di sicurezza del kernel Linux che implementa Mandatory Access Control (MAC) a livello di kernel, aggiungendo un ulteriore strato di controllo sopra i permessi Unix tradizionali (DAC). Sviluppato originariamente dalla NSA e integrato nel kernel Linux mainline dal 2003. Il principio è il least privilege applicato a processi e file: ogni processo ha un contesto di sicurezza (label) e ogni file/socket/device ha un contesto; le policy SELinux definiscono quali operazioni sono permesse tra contesti. Anche se un processo viene compromesso (es. Apache con una vulnerabilità), SELinux limita cosa quel processo può fare: non può accedere a file system arbitrari, non può aprire connessioni di rete non permesse dalla policy. Modalità operative: Enforcing (policy applicate, violazioni bloccate e loggiate), Permissive (violazioni solo loggiate, non bloccate — utile per il debug di policy), Disabled (SELinux disattivato). Usato di default in RHEL, CentOS, Fedora. AppArmor è l'alternativa usata in Ubuntu/Debian con approccio simile ma policy basate su path.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — SELinux e contenimento di un Apache compromesso</strong><br>
+            Un server web Apache con SELinux in modalità Enforcing viene compromesso tramite una vulnerabilità RCE nel modulo PHP. L'attaccante ottiene l'esecuzione di codice nel contesto del processo Apache. Con SELinux: il processo Apache ha il contesto "httpd_t". La policy SELinux permette a "httpd_t" di leggere file con contesto "httpd_sys_content_t" (i file del web) ma non di leggere /etc/passwd, non di scrivere in /tmp, non di aprire connessioni verso IP arbitrari. L'attaccante è contenuto nel compartimento SELinux del processo Apache. Senza SELinux (solo permessi Unix), il processo Apache gira come utente "apache" o "www-data" che spesso ha accesso a molte più risorse del necessario.
+          </div>
+
+          <!-- ── Protocolli sicuri ── -->
+          <h3 id="secure-protocols-45">Implementazione di protocolli sicuri — Selezione, Porte, Transport</h3>
+          <dl class="termlist">
+            <dt>Protocol selection</dt>
+            <dd>
+              La selezione del protocollo corretto è il primo passo per garantire sicurezza nelle comunicazioni. Per ogni servizio, esiste quasi sempre una versione sicura del protocollo corrispondente che va preferita: HTTP → HTTPS (TLS), FTP → SFTP o FTPS, Telnet → SSH, SNMP v1/v2 → SNMP v3 (autenticazione e cifratura), LDAP → LDAPS, DNS → DNS over HTTPS (DoH) o DNS over TLS (DoT), NTP → NTP con autenticazione, RDP con NLA (Network Level Authentication). La regola generale è: se esiste una versione del protocollo con cifratura e autenticazione, usare quella, sempre. I protocolli legacy in chiaro (Telnet, FTP, SNMP v1) devono essere disabilitati.
+            </dd>
+
+            <dt>Port selection</dt>
+            <dd>
+              Ogni servizio usa porte standard (well-known ports: 0-1023, registered ports: 1024-49151). Spostare un servizio su una porta non standard (security through obscurity) riduce il rumore di scanner automatici ma non è sicurezza reale — qualsiasi scanner come nmap rileva i servizi indipendentemente dalla porta. La vera sicurezza non viene dalla porta non standard ma dalla combinazione di: protocollo sicuro, autenticazione forte, e firewall che limita chi può accedere a quella porta. Nota: alcune porte sono associate a traffico malevolo noto e possono essere bloccate proattivamente dai firewall aziendali.
+            </dd>
+
+            <dt>Transport method</dt>
+            <dd>
+              Il metodo di trasporto definisce come i dati vengono incapsulati e protetti durante la trasmissione. Le scelte principali: TLS/SSL per il layer applicativo su TCP; IPSec in modalità transport (protegge solo il payload IP, usato in VPN host-to-host) o tunnel (incapsula l'intero pacchetto IP, usato in VPN site-to-site); SSH come tunnel generico per protocolli non nativamente sicuri (SSH tunneling/port forwarding); HTTPS come combinazione di HTTP + TLS. La scelta del metodo di trasporto dipende dal contesto: accesso remoto di singolo utente → SSL/TLS VPN; connessione tra due sedi aziendali → IPSec tunnel; accesso sicuro a un servizio web → HTTPS/TLS.
+            </dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Protocollo insicuro</th>
+                <th>Porta</th>
+                <th>Protocollo sicuro</th>
+                <th>Porta sicura</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>HTTP</td><td>80</td><td>HTTPS (TLS)</td><td>443</td></tr>
+              <tr><td>FTP</td><td>21</td><td>SFTP / FTPS</td><td>22 / 990</td></tr>
+              <tr><td>Telnet</td><td>23</td><td>SSH</td><td>22</td></tr>
+              <tr><td>SMTP (plain)</td><td>25</td><td>SMTPS / STARTTLS</td><td>465 / 587</td></tr>
+              <tr><td>LDAP</td><td>389</td><td>LDAPS</td><td>636</td></tr>
+              <tr><td>SNMP v1/v2</td><td>161/162</td><td>SNMPv3</td><td>161/162</td></tr>
+              <tr><td>RDP (senza NLA)</td><td>3389</td><td>RDP + NLA + TLS</td><td>3389</td></tr>
+              <tr><td>DNS</td><td>53</td><td>DoH / DoT</td><td>443 / 853</td></tr>
+            </tbody>
+          </table>
+
+          <!-- ── DNS Filtering ── -->
+          <h3 id="dns-filtering">DNS Filtering</h3>
+          <dl class="termlist">
+            <dt>DNS filtering</dt>
+            <dd>
+              Il DNS filtering intercetta le query DNS degli utenti e blocca la risoluzione di domini classificati come malevoli (malware C2, phishing, botnet), violazioni di policy (domini di categorie bloccate), o con bassa reputazione. Funziona a un livello più profondo rispetto ai web filter URL-based: agisce prima ancora che la connessione HTTP/HTTPS venga stabilita. Se il dominio è bloccato, la query DNS non viene risolta (risposta NXDOMAIN o redirect a una pagina di blocco), impedendo qualsiasi connessione al sito. Può bloccare anche malware che usa DNS per la comunicazione con il C2 (Command and Control) — DNS tunneling, domain generation algorithms (DGA). Implementato via: DNS server aziendale che usa feed di threat intelligence, o servizi cloud-based come Cisco Umbrella che fungono da recursive DNS resolver con filtering integrato.
+            </dd>
+          </dl>
+
+          <!-- ── Email Security ── -->
+          <h3 id="email-security-45">Email Security — DMARC, DKIM, SPF, Gateway</h3>
+          <p>
+            La sicurezza email è fondamentale perché l'email è il vettore principale di phishing, BEC, e distribuzione di malware. I tre standard di autenticazione email — SPF, DKIM, DMARC — lavorano insieme in modo gerarchico e complementare.
+          </p>
+
+          <dl class="termlist">
+            <dt>SPF — Sender Policy Framework</dt>
+            <dd>
+              Record DNS TXT che elenca i server IP autorizzati a inviare email per conto di un dominio. Quando un server ricevente riceve un'email da example.com, interroga il DNS per il record SPF di example.com e verifica che l'IP del server mittente sia nell'elenco autorizzato. Se non lo è, l'email può essere classificata come spam o rifiutata (dipende dalla policy SPF: ~all = soft fail, -all = hard fail). SPF protegge contro l'envelope spoofing (il dominio nella busta SMTP), ma non autentica il From: visibile nell'header del messaggio.
+            </dd>
+
+            <dt>DKIM — DomainKeys Identified Mail</dt>
+            <dd>
+              Il server mittente firma crittograficamente ogni email con una chiave privata. La firma viene aggiunta nell'header DKIM-Signature. Il server ricevente recupera la chiave pubblica corrispondente dal DNS del dominio mittente e verifica la firma. Se la verifica passa: il messaggio non è stato modificato in transito e proviene effettivamente dal server che ha la chiave privata. DKIM autentica il corpo del messaggio e alcuni header (incluso il From: header), proteggendo contro la modifica in transito e contro alcuni tipi di spoofing più sofisticati.
+            </dd>
+
+            <dt>DMARC — Domain-based Message Authentication Reporting and Conformance</dt>
+            <dd>
+              DMARC si sovrappone a SPF e DKIM aggiungendo due funzionalità critiche: (1) Policy di enforcement — definisce cosa fare con le email che falliscono SPF o DKIM: none (solo monitoraggio), quarantine (manda in spam), reject (rifiuta); (2) Reporting — richiede ai server riceventi di inviare report XML al proprietario del dominio con statistiche su tutte le email ricevute che dichiarano di venire da quel dominio. Questo permette al proprietario del dominio di scoprire chi sta abusando del suo dominio per phishing. DMARC aggiunge anche il concetto di "alignment": il dominio nel From: header deve allinearsi con il dominio verificato da SPF o DKIM.
+            </dd>
+
+            <dt>Email Security Gateway</dt>
+            <dd>
+              Un Email Security Gateway (ESG) o Secure Email Gateway (SEG) è un sistema inline che ispeziona tutto il traffico email in entrata e in uscita prima che raggiunga i server interni. Funzionalità tipiche: anti-spam (filtri bayesiani, reputazione IP), anti-malware (sandbox degli allegati per rilevare malware zero-day), protezione anti-phishing (URL scanning, impersonation detection, DMARC enforcement), DLP (prevenzione dell'esfiltrazione di dati sensibili via email), cifratura delle email in uscita. Prodotti: Proofpoint, Mimecast, Cisco Email Security. Può essere on-premise, cloud-based, o ibrido.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.5-C — Ordine SPF/DKIM/DMARC</strong> — Mnemonico: SPF = "chi manda" (IP autorizzati nel DNS). DKIM = "cosa manda" (firma sul contenuto). DMARC = "cosa fare se le verifiche falliscono" + reporting. Se lo scenario chiede "come prevenire lo spoofing del dominio email" → DMARC con policy reject. "Come verificare l'integrità del contenuto email" → DKIM. "Come autorizzare i server di invio" → SPF.
+          </div>
+
+          <!-- ── File Integrity Monitoring ── -->
+          <h3 id="fim">File Integrity Monitoring (FIM)</h3>
+          <dl class="termlist">
+            <dt>File Integrity Monitoring</dt>
+            <dd>
+              FIM è un controllo detective che monitora continuamente file e directory critici del sistema per rilevare modifiche non autorizzate. Funziona calcolando l'hash crittografico (SHA-256) di ogni file monitorato a intervalli regolari e confrontandolo con l'hash baseline. Se il file è stato modificato, l'hash cambia e viene generato un alert. I file critici da monitorare includono: file di sistema operativo (kernel, librerie di sistema), file di configurazione (/etc/passwd, /etc/sudoers, configurazioni di firewall e web server), log di sistema (per rilevare tampering dei log), file di configurazione delle applicazioni. FIM è un requisito esplicito in PCI-DSS (Requisito 11.5). Strumenti: AIDE (Advanced Intrusion Detection Environment) su Linux, Tripwire, Qualys FIM, e le funzionalità FIM integrate in prodotti SIEM ed EDR.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — FIM rileva un rootkit</strong><br>
+            Un attaccante compromette un server Linux e installa un rootkit che modifica /sbin/ifconfig per nascondere l'interfaccia di rete usata per la comunicazione C2. FIM rileva che l'hash di /sbin/ifconfig è cambiato rispetto alla baseline e genera un alert critico. Il team SOC investiga e rileva il compromesso. Senza FIM, il rootkit sarebbe rimasto invisibile perché il suo scopo è esattamente nascondersi dai tool di sistema.
+          </div>
+
+          <!-- ── DLP ── -->
+          <h3 id="dlp-45">DLP — Data Loss Prevention</h3>
+          <dl class="termlist">
+            <dt>Data Loss Prevention</dt>
+            <dd>
+              DLP è un insieme di tecnologie e policy che monitorano, rilevano e bloccano la trasmissione non autorizzata di dati sensibili fuori dall'organizzazione. Il DLP ispeziona il contenuto dei dati — non solo i metadati — alla ricerca di pattern che indicano informazioni sensibili: numeri di carta di credito (pattern PAN), codici fiscali, indirizzi email, contenuto classificato. Può essere implementato a livello di rete (Network DLP: ispeziona il traffico in uscita — email, web upload, FTP), di endpoint (Endpoint DLP: agente sul dispositivo che controlla copia su USB, stampa, upload da browser), o di cloud (Cloud DLP/CASB: monitora i dati nelle applicazioni SaaS). Esempi di policy DLP: bloccare l'email in uscita che contiene più di 5 numeri di carta di credito, impedire il copia-incolla di dati classificati in email non cifrate, bloccare l'upload di file con classificazione "Confidential" verso Google Drive personale.
+            </dd>
+          </dl>
+
+          <!-- ── NAC ── -->
+          <h3 id="nac-45">NAC — Network Access Control (approfondimento operativo)</h3>
+          <dl class="termlist">
+            <dt>Network Access Control — postura del dispositivo</dt>
+            <dd>
+              Oltre all'autenticazione (già coperta in CH8 e in questo capitolo per il 3.2), il NAC valuta la <em>postura di sicurezza</em> del dispositivo che tenta di connettersi. Prima di ammettere il dispositivo alla rete, il NAC verifica: sistema operativo aggiornato (patch level), antivirus attivo e aggiornato, firewall locale attivo, nessun malware noto rilevato. Se il dispositivo non rispetta la policy, viene messo in quarantena in una VLAN di remediation dove può solo scaricare aggiornamenti, non accedere alle risorse aziendali. Dopo la remediation, viene ricontrollato e ammesso. Questo garantisce che solo i dispositivi conformi alla baseline di sicurezza aziendale possano accedere alla rete, indipendentemente dall'identità dell'utente.
+            </dd>
+          </dl>
+
+          <!-- ── EDR/XDR ── -->
+          <h3 id="edr-xdr">EDR e XDR — Detection and Response avanzata</h3>
+          <dl class="termlist">
+            <dt>EDR — Endpoint Detection and Response</dt>
+            <dd>
+              EDR è una classe di soluzione di sicurezza che sostituisce e supera il tradizionale antivirus. Mentre l'antivirus si basa principalmente sulle firme di malware noti, EDR monitora continuamente e in profondità il comportamento dei processi sull'endpoint: esecuzione di processi, accessi al file system, connessioni di rete, modifiche al registro, uso di API di sistema. Le capacità chiave: rilevamento di minacce avanzate che sfuggono all'antivirus (fileless malware, living-off-the-land attacks che abusano di tool legittimi come PowerShell, WMI); response: isolamento automatico dell'endpoint compromesso dalla rete, kill dei processi malevoli, rollback dei file cifrati da ransomware; investigation: telemetria dettagliata di tutto ciò che è avvenuto sull'endpoint, usata per il threat hunting e la digital forensics. Prodotti: CrowdStrike Falcon, Microsoft Defender for Endpoint, SentinelOne, Carbon Black.
+            </dd>
+
+            <dt>XDR — Extended Detection and Response</dt>
+            <dd>
+              XDR estende le capacità EDR oltre l'endpoint, correlando dati di telemetria da più fonti: endpoint (EDR), rete (NDR — Network Detection and Response), email, cloud, identità (IAM). L'obiettivo è superare i silos di sicurezza: una minaccia che si muove lateralmente attraverso la rete, compromette un account cloud e installa backdoor su più endpoint genera alert separati in sistemi diversi. XDR correla questi alert in una singola "storia" dell'attacco (attack story/kill chain), permettendo ai security analyst di capire rapidamente la portata e il percorso dell'incidente. Riduce il Mean Time to Detect (MTTD) e il Mean Time to Respond (MTTR). Prodotti: Microsoft Defender XDR, Palo Alto Cortex XDR, CrowdStrike Falcon XDR.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>WARNING — EDR vs Antivirus vs XDR</strong> — Antivirus: signature-based, rileva malware noti. EDR: behavioral + signature, rileva malware noti E comportamenti anomali sull'endpoint, con capacità di response e investigation. XDR: correla telemetria da endpoint + rete + cloud + email in una visione unificata. Sequenza evolutiva: AV → EDR → XDR. XDR non sostituisce EDR: lo include e lo estende.
+          </div>
+
+          <!-- ── UEBA ── -->
+          <h3 id="ueba">User Behavior Analytics (UBA/UEBA)</h3>
+          <dl class="termlist">
+            <dt>User Behavior Analytics / User and Entity Behavior Analytics</dt>
+            <dd>
+              UEBA usa tecniche di machine learning e analisi statistica per costruire un profilo baseline del comportamento normale di ogni utente e entità (dispositivo, applicazione, account di servizio) e rilevare deviazioni che possono indicare un account compromesso, una minaccia interna, o un attacco in corso. A differenza degli IDS signature-based, UEBA non ha bisogno di conoscere il pattern specifico dell'attacco: rileva le anomalie rispetto alla normalità individuale. Esempi di anomalie rilevabili: un utente che accede a 10 volte il numero normale di file in un'ora (possibile esfiltrazione dati o ransomware), un account che accede a risorse mai visitate in 12 mesi (lateral movement post-compromissione), accesso da una posizione geografica impossibile (impossible travel — es. login da Milano alle 9:00 e da Tokyo alle 9:30), un account di servizio che inizia ad accedere a dati mai toccati prima (indicatore di compromissione). I sistemi UEBA moderni sono spesso integrati nei SIEM (Microsoft Sentinel con UEBA, Splunk UBA, Securonix).
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.5-D — Scenario UEBA</strong> — Indicatore chiave per riconoscere una domanda UEBA: lo scenario descrive comportamento anomalo di un utente ("accede a risorse inusuali", "login da posizione impossibile", "download di grandi volumi di dati a notte fonda") e chiede quale sistema lo avrebbe rilevato. La risposta è UEBA o User Behavior Analytics. Se lo scenario menziona "impossible travel" specificamente, anche Zero Trust con accesso adattivo (adaptive identity) è una risposta corretta, ma la tecnologia sottostante di rilevamento è UEBA.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo — CH12</h2>
+          <ul class="flashcard">
+            <li><strong>Shared Responsibility Matrix</strong> — Schema che definisce chi è responsabile della sicurezza a ogni livello dello stack cloud (provider vs. cliente); in SaaS il cliente gestisce dati e identità.</li>
+            <li><strong>Air Gap</strong> — Separazione fisica completa tra reti; massima protezione ma vulnerabile ai supporti rimovibili (vedi Stuxnet).</li>
+            <li><strong>Logical Segmentation (VLAN)</strong> — Separazione software tramite VLAN/subnet; flessibile ma aggirabile da configurazioni errate di inter-VLAN routing.</li>
+            <li><strong>SDN</strong> — Separa control plane e data plane; il controller centralizzato è un obiettivo ad alto valore e deve essere protetto rigorosamente.</li>
+            <li><strong>ICS/SCADA + Inability to Patch</strong> — Sistemi di controllo industriale spesso non aggiornabili; la mitigazione è sempre segmentazione stretta e controlli compensativi, non patch.</li>
+            <li><strong>Fail-Open vs Fail-Closed</strong> — Fail-open privilegia disponibilità in caso di guasto; fail-closed privilegia sicurezza. La scelta dipende dal contesto, non da una regola universale.</li>
+            <li><strong>Inline vs Tap/Monitor</strong> — Inline = può bloccare, introduce latenza, SPOF. Tap/Monitor = non blocca, non introduce latenza. IPS → inline; IDS → tap/monitor.</li>
+            <li><strong>802.1X + EAP-TLS</strong> — Autenticazione basata su porta con certificati client e server; il metodo EAP più sicuro ma richiede infrastruttura PKI completa.</li>
+            <li><strong>WAF vs NGFW</strong> — WAF protegge applicazioni web (SQL injection, XSS, API); NGFW fa ispezione del traffico applicativo con Application Awareness e gestione dell'identità utente.</li>
+            <li><strong>Split Tunnel</strong> — Solo il traffico verso la rete aziendale passa nel tunnel VPN; più efficiente ma il client rimane esposto a Internet durante la connessione.</li>
+            <li><strong>SASE</strong> — Combina SD-WAN + sicurezza cloud (CASB, SWG, ZTNA) in un servizio distribuito; l'identità e la postura del dispositivo sostituiscono il perimetro di rete.</li>
+            <li><strong>Perfect Forward Secrecy (PFS)</strong> — Chiavi di sessione efimere (ECDHE); la compromissione futura della chiave privata del server non decifra le sessioni passate.</li>
+            <li><strong>DNSSEC</strong> — Firma digitale delle risposte DNS; garantisce autenticità e integrità ma NON riservatezza (non cifra le query).</li>
+            <li><strong>SPF / DKIM / DMARC</strong> — SPF autorizza i server mittenti; DKIM firma il messaggio; DMARC coordina e definisce la policy su messaggi non conformi.</li>
+            <li><strong>SSL Stripping</strong> — Downgrade da HTTPS a HTTP in un attacco on-path; contromisura principale è HSTS (browser ricorda che il sito richiede sempre HTTPS).</li>
+            <li><strong>SYN Flood</strong> — Attacco DDoS di protocollo: apre handshake TCP senza completarli, esaurendo le risorse del server; contromisura: SYN cookies.</li>
+            <li><strong>Amplified DDoS</strong> — IP sorgente falsificato + richiesta piccola → risposta enorme diretta alla vittima tramite un servizio legittimo (es. DNS amplification × 30-50).</li>
+            <li><strong>Honeytoken</strong> — Dato fittizio monitorato; se viene acceduto, copiato o esfiltrato segnala quasi certamente un accesso non autorizzato.</li>
+            <li><strong>NAC pre-admission vs post-admission</strong> — Pre-admission: verifica postura prima di ammettere il dispositivo. Post-admission: monitora continuamente e revoca l'accesso se la postura degrada.</li>
+            <li><strong>Screened Subnet (DMZ)</strong> — Segmento di rete tra due firewall che isola i server pubblici (web, email) sia da Internet sia dalla rete interna. Anche se il server in DMZ viene compromesso, il firewall interno blocca l'accesso ai sistemi interni.</li>
+            <li><strong>Web filter: agent-based vs centralized proxy</strong> — Agent-based: funziona anche fuori rete aziendale (laptop in smart working). Centralized proxy: visibilità centralizzata ma non copre dispositivi fuori VPN.</li>
+            <li><strong>Web filter vs WAF</strong> — Web filter: protegge utenti interni da siti esterni malevoli (traffico uscente). WAF: protegge applicazioni web aziendali da attaccanti esterni (traffico entrante).</li>
+            <li><strong>Group Policy</strong> — Meccanismo Windows/AD per applicare configurazioni di sicurezza centralizzate a migliaia di macchine: password policy, screen lock, disabilitazione USB, AppLocker, audit policy.</li>
+            <li><strong>SELinux</strong> — MAC a livello kernel Linux. Anche se un processo è compromesso, SELinux lo confina al suo contesto: non può accedere a file o aprire connessioni non permesse dalla policy. Modalità: Enforcing, Permissive, Disabled.</li>
+            <li><strong>DNS filtering</strong> — Blocca la risoluzione DNS di domini malevoli prima che la connessione HTTP/HTTPS venga stabilita. Efficace contro C2 su DNS, phishing, DGA malware.</li>
+            <li><strong>FIM — File Integrity Monitoring</strong> — Calcola hash dei file di sistema e li confronta con la baseline. Se l'hash cambia → file modificato → alert. Requisito PCI-DSS. Rileva rootkit e tampering dei log.</li>
+            <li><strong>DLP — Data Loss Prevention</strong> — Ispeziona il contenuto dei dati per rilevare e bloccare trasmissioni non autorizzate di informazioni sensibili (rete, endpoint, cloud/CASB).</li>
+            <li><strong>EDR vs XDR</strong> — EDR: behavioral detection + response sull'endpoint. XDR: correla telemetria da endpoint + rete + email + cloud in una visione unificata dell'attacco.</li>
+            <li><strong>UEBA</strong> — Machine learning su comportamento utente/entità. Rileva anomalie: impossible travel, accesso inusuale a risorse, volumi anomali di download. Tipicamente integrato nel SIEM.</li>
+            <li><strong>Policy Enforcement Point (PEP)</strong> — In Zero Trust è il componente che blocca o permette il traffico in base alle decisioni del Policy Engine; è il "cancello", non il "giudice".</li>
+          </ul>
+        </section>
+
+        <!-- ══ NAVIGAZIONE CAPITOLI ════════════════════════════ -->
+        <div class="chapter-nav">
+          <a href="ch11_endpoint_architecture_canonical.html">← CH11 — Endpoint Security</a>
+          <a href="ch13_wireless_mobile_canonical.html" class="secondary">CH13 — Wireless and Mobile →</a>
+        </div>
+
+      </main>
+    </div><!-- /layout -->
+  </div><!-- /page -->
+</div><!-- /container -->
+
+  <script src="../../quiz_data.js"></script>
+  <script src="../../script/chapter-quiz-loader.js"></script>
+  <script src="../../script/lang-preference.js"></script>
+</body>
+</html>

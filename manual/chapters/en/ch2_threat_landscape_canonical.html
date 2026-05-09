@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — CH2: Threat Landscape</title>
+  <link rel="stylesheet" href="../../style/style.css" />
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="security_plus_sy0_701_guida.html">Study guide index</a>
+      <span>Domain 2 — Threats, Vulnerabilities &amp; Mitigations</span>
+      <span>CH2 — Threat Landscape</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Language selector">
+      <span>Language:</span>
+      <a href="../ch2_threat_landscape_canonical.html">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="ch2_threat_landscape_canonical.html" aria-current="page">EN</a>
+    </div>
+    <header>
+      <h1>CH2 — Threat Landscape</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Domain 2 · Objectives 2.1 and 2.2
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Covered objectives:</strong>
+        <span class="objectives-tag">2.1</span>
+        <span class="objectives-tag">2.2</span>
+        <span class="weight-badge">D2 = 22%</span>
+      </p>
+      <p><strong>Prerequisites:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Foundations and Governance</a>
+        (triade CIA, tipi di controllo).
+      </p>
+      <p><strong>Related chapters:</strong>
+        <a href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">CH3 — Malware</a> ·
+        <a href="ch4_social_engineering_password_attacks_canonical.html">CH4 — Social engineering</a> ·
+        <a href="ch5_vulnerability_management_canonical.html">CH5 — Vulnerability Management</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Chapter table of contents">
+        <div class="toc-section">Objective 2.1</div>
+        <a href="#obj-2-1">Threat actors and motivations</a>
+        <a href="#actors">↳ Threat actor types</a>
+        <a href="#attributes">↳ Actor attributes</a>
+        <a href="#motivations">↳ Motivations</a>
+
+        <div class="toc-section">Objective 2.2</div>
+        <a href="#obj-2-2">Threat vectors and attack surfaces</a>
+        <a href="#message-based">↳ Message-based vectors</a>
+        <a href="#image-file-voice">↳ Image, file, and voice</a>
+        <a href="#removable">↳ Removable devices</a>
+        <a href="#vulnerable-software">↳ Vulnerable software</a>
+        <a href="#unsupported">↳ Unsupported systems</a>
+        <a href="#unsecure-networks">↳ Unsecure networks</a>
+        <a href="#ports-credentials">↳ Open ports and default credentials</a>
+        <a href="#supply-chain">↳ Supply chain</a>
+        <a href="#social-engineering">↳ Human vectors / Social engineering</a>
+
+        <div class="toc-section">Summary</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="main-content">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 2.1 — THREAT ACTORS E MOTIVAZIONI
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-2-1">
+          <h2>Objective 2.1 — Threat actors and motivations</h2>
+          <p>
+            Un <strong>threat actor</strong> (attore della minaccia) è qualsiasi entità — individuale, collettiva o statale —
+            capace di intraprendere azioni con impatto negativo sulla riservatezza, integrità o disponibilità dei sistemi
+            informativi di un bersaglio. Per difendersi efficacemente è indispensabile capire <em>chi</em> attacca,
+            <em>con quali risorse</em> lo fa e <em>perché</em>: la risposta a queste tre domande guida la selezione dei
+            controlli di sicurezza appropriati e il livello di investimento giustificato. L'esame SY0-701 richiede di
+            saper classificare un attore partendo da un scenario e di abbinarlo alla motivazione più probabile.
+          </p>
+
+          <!-- ─── Tipi di threat actor ─── -->
+          <h3 id="actors">Threat actor types</h3>
+
+          <dl class="termlist">
+            <dt>Nation-state (Stato-nazione)</dt>
+            <dd>
+              Gruppo di hacker sponsorizzato o direttamente controllato da un governo. Dispone di budget illimitati,
+              team di specialisti e accesso a vulnerabilità zero-day sviluppate o acquistate appositamente. Gli obiettivi
+              tipici sono infrastrutture critiche (reti elettriche, sistemi idrici), sistemi militari, enti governativi
+              e aziende strategiche. La caratteristica distintiva è la <em>persistenza</em>: un nation-state può
+              rimanere nascosto in un sistema per mesi o anni (Advanced Persistent Threat — APT) prima di agire.
+              Esempi storici documentati: attacchi a centrali nucleari, furto di piani industriali da aziende aerospaziali,
+              interferenze elettorali tramite campagne di disinformazione.
+            </dd>
+
+            <dt>Unskilled attacker (Script kiddie)</dt>
+            <dd>
+              Attore con competenze tecniche limitate che utilizza strumenti preconfezionati, exploit pubblici e
+              tutorial disponibili online senza necessariamente comprenderne il funzionamento. Il termine "script
+              kiddie" deriva dal fatto che questi attori eseguono script scritti da altri. Non per questo sono
+              innocui: attacchi di massa indiscriminati, defacement di siti web e scansioni automatizzate di
+              massa sono spesso opera di questo profilo. La loro pericolosità è proporzionale alla diffusione
+              degli strumenti automatici disponibili.
+            </dd>
+
+            <dt>Hacktivist</dt>
+            <dd>
+              Attivista che usa tecniche di hacking per sostenere una causa politica, sociale o ideologica.
+              L'obiettivo non è il guadagno finanziario ma il danno reputazionale, il defacement di siti,
+              la pubblicazione di dati riservati (doxing) o l'interruzione di servizi di organizzazioni
+              considerate avversarie. I gruppi hacktivisti agiscono spesso in modo coordinato ma senza
+              una struttura formale, rendendo difficile l'attribuzione. La motivazione filosofica/politica
+              è l'elemento che li distingue dagli altri attori.
+            </dd>
+
+            <dt>Insider threat (Minaccia interna)</dt>
+            <dd>
+              Dipendente, ex-dipendente, contractor o chiunque abbia accesso legittimo ai sistemi
+              dell'organizzazione e lo utilizzi in modo dannoso. È la minaccia statisticamente più costosa
+              perché l'insider conosce già l'architettura interna, le policy, i punti deboli e — soprattutto —
+              ha già superato i controlli perimetrali. Si distingue tra insider <em>malevolo</em> (agisce
+              consapevolmente per danno o guadagno) e insider <em>negligente</em> (causa danni involontariamente,
+              ad esempio aprendo un allegato di phishing). Il monitoraggio comportamentale (User and Entity
+              Behavior Analytics — UEBA) è lo strumento principale di difesa.
+            </dd>
+
+            <dt>Organized crime (Criminalità organizzata)</dt>
+            <dd>
+              Gruppi criminali strutturati che operano con logica di business: hanno una gerarchia,
+              specializzazioni interne (sviluppatori, money mule, operatori di campagne spam), obiettivi
+              finanziari chiari e spesso offrono servizi sul dark web (Ransomware-as-a-Service, phishing
+              kit). La criminalità organizzata è responsabile della grande maggioranza degli attacchi
+              ransomware, delle frodi bancarie e dei mercati di credenziali rubate. A differenza del
+              nation-state, il loro obiettivo primario è il profitto rapido e misurabile.
+            </dd>
+
+            <dt>Shadow IT</dt>
+            <dd>
+              Sistemi, applicazioni o servizi cloud adottati dai dipendenti o reparti aziendali senza
+              approvazione o supervisione del team IT/sicurezza. Non è un attore esterno in senso stretto,
+              ma rappresenta una superficie di attacco interna: un account Dropbox personale usato per
+              trasferire documenti aziendali, una app SaaS non approvata che riceve dati sensibili, o
+              un server non catalogato attivo su una porta interna. Il problema è che questi sistemi
+              sfuggono ai processi di patch management, ai controlli di accesso centralizzati e ai
+              log di sicurezza dell'organizzazione.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>Exam tip — 2.1 Threat actors:</strong> L'esame presenta spesso un breve scenario
+            ("un dipendente scontento ha scaricato dati prima di licenziarsi" → insider threat malevolo;
+            "un gruppo attacca aziende farmaceutiche per pubblicarne i prezzi" → hacktivist; "un attacco
+            persiste da 18 mesi su infrastrutture energetiche" → nation-state/APT). Abbina sempre
+            l'attore alla motivazione più coerente con il contesto dello scenario.
+          </div>
+
+          <!-- ─── Attributi degli attori ─── -->
+          <h3 id="attributes">Actor attributes</h3>
+          <p>
+            Oltre al tipo, ogni threat actor si caratterizza su tre assi che determinano quanto sia
+            pericoloso e difficile da rilevare:
+          </p>
+
+          <dl class="termlist">
+            <dt>Internal / External (Interno / Esterno)</dt>
+            <dd>
+              Un attore <strong>interno</strong> ha già accesso fisico o logico legittimo alla rete
+              dell'organizzazione: può operare senza dover violare il perimetro e i suoi movimenti
+              si confondono con il traffico normale. Un attore <strong>esterno</strong> deve invece
+              superare le difese perimetrali (firewall, VPN, portali esposti) prima di poter agire.
+              Questa distinzione è fondamentale perché un insider malintenzionato vanifica la maggior
+              parte dei controlli di sicurezza perimetrale.
+            </dd>
+
+            <dt>Resources / Funding (Risorse e finanziamenti)</dt>
+            <dd>
+              Le risorse disponibili determinano la qualità e la quantità degli strumenti impiegati.
+              Uno script kiddie usa tool gratuiti e botnet in affitto; la criminalità organizzata ha
+              budget per acquistare zero-day e assumere specialisti; un nation-state può finanziare
+              team di centinaia di ricercatori a tempo pieno. Risorse elevate si traducono in attacchi
+              più sofisticati, più persistenti e più difficili da attribuire.
+            </dd>
+
+            <dt>Level of sophistication / Capability (Livello di sofisticazione)</dt>
+            <dd>
+              Misura la capacità tecnica dell'attore: sa sviluppare malware personalizzato? Conosce
+              tecniche di evasione degli EDR? Ha accesso a zero-day proprietari? Un basso livello
+              di sofisticazione significa attacchi opportunistici e rumorosi (facili da rilevare);
+              un alto livello significa attacchi mirati, silenziosi e difficili da distinguere da
+              attività legittime. I nation-state sono generalmente gli attori più sofisticati.
+            </dd>
+          </dl>
+
+          <table>
+            <caption>Confronto tra i principali threat actor</caption>
+            <thead>
+              <tr>
+                <th>Attore</th>
+                <th>Provenienza</th>
+                <th>Risorse</th>
+                <th>Sofisticazione</th>
+                <th>Motivazione principale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Nation-state</td>
+                <td>Esterna</td>
+                <td>Molto alte</td>
+                <td>Molto alta (APT)</td>
+                <td>Spionaggio, guerra, disruption</td>
+              </tr>
+              <tr>
+                <td class="label">Organized crime</td>
+                <td>Esterna</td>
+                <td>Alte</td>
+                <td>Alta</td>
+                <td>Guadagno finanziario</td>
+              </tr>
+              <tr>
+                <td class="label">Hacktivist</td>
+                <td>Esterna</td>
+                <td>Variabili</td>
+                <td>Media</td>
+                <td>Convinzioni politiche/etiche</td>
+              </tr>
+              <tr>
+                <td class="label">Insider threat</td>
+                <td>Interna</td>
+                <td>Medie (accesso privilegiato)</td>
+                <td>Media / bassa</td>
+                <td>Vendetta, guadagno, negligenza</td>
+              </tr>
+              <tr>
+                <td class="label">Unskilled attacker</td>
+                <td>Esterna</td>
+                <td>Basse</td>
+                <td>Bassa</td>
+                <td>Notorietà, noia, guadagno minore</td>
+              </tr>
+              <tr>
+                <td class="label">Shadow IT</td>
+                <td>Interna</td>
+                <td>Variabili</td>
+                <td>Bassa (rischio involontario)</td>
+                <td>Convenienza, produttività</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ─── Motivazioni ─── -->
+          <h3 id="motivations">Motivations</h3>
+          <p>
+            Comprendere la motivazione di un attore permette di anticipare i target probabili e la
+            tipologia di danno atteso. L'obiettivo 2.1 elenca esplicitamente le seguenti motivazioni:
+          </p>
+
+          <dl class="termlist">
+            <dt>Data exfiltration (Esfiltrazione di dati)</dt>
+            <dd>
+              L'obiettivo è sottrarre dati — credenziali, proprietà intellettuale, dati personali,
+              segreti commerciali — per rivenderli, usarli come leverage o per ottenere vantaggio
+              competitivo. È la motivazione più comune in assoluto e trasversale a quasi tutti gli
+              attori (nation-state, organized crime, insider malevolo).
+            </dd>
+
+            <dt>Espionage (Spionaggio)</dt>
+            <dd>
+              Raccolta sistematica e silenziosa di informazioni su governi, aziende o individui
+              a beneficio di un competitor o di uno stato. Si distingue dall'esfiltrazione generica
+              per il focus su intelligence strategica di lungo periodo. Tipicamente associato ai
+              nation-state e ad attori con APT capabilities.
+            </dd>
+
+            <dt>Service disruption (Interruzione del servizio)</dt>
+            <dd>
+              L'obiettivo non è rubare dati ma rendere inaccessibili sistemi e servizi. Il vettore
+              tipico è il DDoS (Distributed Denial of Service) o il ransomware che blocca i sistemi.
+              Motivazioni: ritorsione (hacktivist), estorsione (organized crime), sabotaggio strategico
+              (nation-state contro infrastrutture critiche).
+            </dd>
+
+            <dt>Blackmail (Ricatto)</dt>
+            <dd>
+              L'attore acquisisce dati compromettenti (foto private, comunicazioni riservate, segreti
+              aziendali) e minaccia di pubblicarli se non viene pagato. Tecniche comuni: ransomware
+              con doppia estorsione (prima cifra i dati, poi minaccia di pubblicarli), sextortion,
+              furto di email aziendali sensibili. Tipico della criminalità organizzata.
+            </dd>
+
+            <dt>Financial gain (Guadagno finanziario)</dt>
+            <dd>
+              La motivazione più diffusa nel cybercrime. Include ransomware, frodi bancarie, furto
+              di carte di credito, criptomining non autorizzato, BEC (Business Email Compromise)
+              e qualsiasi schema che converta l'attacco in denaro direttamente o indirettamente.
+            </dd>
+
+            <dt>Philosophical / Political beliefs (Convinzioni filosofiche/politiche)</dt>
+            <dd>
+              Motivazione tipica degli hacktivisti: l'attacco è un atto di protesta o un mezzo per
+              amplificare un messaggio. I bersagli sono organizzazioni percepite come nemiche della
+              causa (governi, multinazionali, enti religiosi). Il guadagno economico è assente o
+              secondario; il danno reputazionale e la visibilità pubblica sono gli obiettivi primari.
+            </dd>
+
+            <dt>Ethical (Etica)</dt>
+            <dd>
+              Attore che viola sistemi convinto di agire per il bene comune: esporre vulnerabilità
+              su sistemi pubblici, pubblicare dati di enti corrotti, o effettuare test non autorizzati
+              per "dimostrare" un problema. Pur con intenzioni dichiaratamente buone, si configura
+              comunque come attività illegale. Va distinto dal bug bounty hunter che opera entro
+              programmi autorizzati.
+            </dd>
+
+            <dt>Revenge (Vendetta)</dt>
+            <dd>
+              Motivazione tipica dell'insider malevolo o dell'ex-dipendente: risponde a un torto
+              percepito (licenziamento, mancata promozione, conflitto con il management). L'attacco
+              è mirato e intenzionale, e chi lo esegue conosce già il sistema. È una delle categorie
+              più pericolose perché combina conoscenza interna e motivazione forte.
+            </dd>
+
+            <dt>Disruption / Chaos</dt>
+            <dd>
+              Alcuni attori non hanno un obiettivo specifico: vogliono semplicemente creare disordine,
+              dimostrare che un sistema è vulnerabile, o testare le proprie capacità. Worm autoriproduttivi
+              lanciati senza controllo o attacchi che causano danni collaterali non previsti rientrano
+              in questa categoria.
+            </dd>
+
+            <dt>War (Guerra)</dt>
+            <dd>
+              Il cyber-warfare è ormai un componente permanente dei conflitti moderni. Lo stato utilizza
+              le proprie capacità offensive per sabotare infrastrutture nemiche (reti elettriche, sistemi
+              di comando), raccogliere intelligence militare e influenzare l'opinione pubblica del paese
+              avversario. La distinzione tra spionaggio e guerra cibernetica è spesso sottile e dipende
+              dall'impatto delle azioni compiute.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — abbinare attore e motivazione:</strong>
+            Un'azienda farmaceutica subisce un accesso non autorizzato che rimane silenzioso per 14 mesi.
+            I log mostrano esfiltrazioni periodiche di file di ricerca sulle formule di nuovi farmaci.
+            Non viene richiesto riscatto. Profilo: <strong>nation-state</strong> con motivazione
+            <strong>espionaggio / data exfiltration</strong>. Il lungo periodo di dormienza e l'assenza
+            di richieste economiche escludono la criminalità organizzata; il target strategico e le
+            risorse necessarie per restare nascosti 14 mesi indicano un attore sponsorizzato da uno stato.
+          </div>
+
+          <div class="pitfall">
+            <strong>Pitfall — Shadow IT ≠ attacco deliberato:</strong>
+            Shadow IT non è un attore malevolo nel senso classico: è un rischio introdotto
+            inconsapevolmente da dipendenti che usano strumenti non approvati per convenienza.
+            L'esame potrebbe presentare uno scenario in cui un breach avviene tramite un'app
+            SaaS non catalogata usata da un marketing manager. La risposta corretta non è
+            "insider threat malevolo" ma "shadow IT" — la differenza è nell'<em>intenzionalità</em>:
+            assente in shadow IT, presente nell'insider threat malevolo.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 2.2 — THREAT VECTORS E ATTACK SURFACES
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-2-2">
+          <h2>Objective 2.2 — Threat vectors and attack surfaces</h2>
+          <p>
+            Un <strong>threat vector</strong> (vettore di attacco) è il percorso o il meccanismo
+            che un attore usa per raggiungere il proprio obiettivo — il "come" entra nel sistema.
+            La <strong>attack surface</strong> (superficie di attacco) è l'insieme di tutti i punti
+            esposti attraverso cui un attore potrebbe potenzialmente attaccare: ogni servizio
+            esposto, ogni software installato, ogni utente con accesso a un sistema contribuisce
+            ad ampliarla. Ridurre la superficie di attacco è uno dei principi fondamentali
+            dell'hardening. L'obiettivo 2.2 elenca i vettori principali che compaiono nell'esame.
+          </p>
+
+          <!-- ─── Message-based ─── -->
+          <h3 id="message-based">Message-based vectors</h3>
+          <p>
+            I vettori basati su messaggi sfruttano i canali di comunicazione per consegnare
+            payload malevoli o ingannare l'utente a compiere azioni dannose. Sono i vettori
+            di attacco più frequenti in assoluto perché chiunque disponga di un indirizzo email,
+            numero di telefono o account di messaggistica istantanea è un potenziale bersaglio.
+          </p>
+
+          <dl class="termlist">
+            <dt>Email</dt>
+            <dd>
+              Il vettore di attacco numero uno nelle statistiche di breach. Un'email malevola
+              può contenere: allegati con macro o exploit embedded (documenti Office, PDF),
+              link a siti di phishing, o payload direttamente nel corpo del messaggio.
+              La email è efficace perché supera facilmente il perimetro di rete (la porta 25/SMTP
+              è spesso aperta) e fa leva sulla fiducia dell'utente verso mittenti noti o apparentemente
+              legittimi. Tecniche di protezione: filtri anti-spam, sandbox per allegati, DMARC/DKIM/SPF,
+              formazione degli utenti.
+            </dd>
+
+            <dt>SMS (Short Message Service)</dt>
+            <dd>
+              I messaggi di testo sono un vettore crescente per attacchi di <em>smishing</em>
+              (phishing via SMS). L'utente riceve un SMS che simula una notifica bancaria, un pacco
+              in consegna o un avviso di account compromesso, con un link a una pagina malevola.
+              L'SMS ha tassi di apertura molto più alti della email e gli utenti spesso abbassano
+              la guardia su dispositivi mobili personali.
+            </dd>
+
+            <dt>Instant Messaging (IM)</dt>
+            <dd>
+              Piattaforme come Teams, Slack, WhatsApp, Telegram o Discord sono usate per inviare
+              link malevoli, file infetti o per instaurare conversazioni di ingegneria sociale.
+              Spesso le policy di sicurezza aziendali si concentrano sulla email trascurando
+              i canali IM, che diventano quindi un percorso meno controllato. Il <em>spear
+              phishing</em> via IM è particolarmente efficace in contesti aziendali.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>Exam tip — Message-based vectors:</strong> Quando l'esame descrive un attacco
+            ricevuto su un dispositivo mobile tramite messaggio di testo con un link → smishing via SMS.
+            Se l'attacco arriva su Teams o Slack in un contesto lavorativo → vettore IM. La distinzione
+            tra i tre sotto-vettori (email / SMS / IM) è spesso il discrimine tra le opzioni di risposta.
+          </div>
+
+          <!-- ─── Image, file e voice ─── -->
+          <h3 id="image-file-voice">Image-based, file-based, and voice-call vectors</h3>
+
+          <dl class="termlist">
+            <dt>Image-based (Basato su immagini)</dt>
+            <dd>
+              Un file immagine apparentemente innocuo può nascondere codice malevolo tramite tecniche
+              come la <em>steganografia</em> (dati nascosti nei bit meno significativi dei pixel)
+              o sfruttare vulnerabilità nei parser di immagini (es. buffer overflow nel rendering
+              di un PNG o JPEG malformato). Attacchi image-based sono usati anche per esfiltrare
+              dati nascondendo informazioni in immagini che vengono trasmesse all'esterno.
+              Meno comuni ma particolarmente insidiosi perché spesso non controllati dai filtri
+              tradizionali.
+            </dd>
+
+            <dt>File-based (Basato su file)</dt>
+            <dd>
+              Qualsiasi tipo di file può potenzialmente essere un vettore: documenti Office con macro
+              malevole, PDF con JavaScript exploit, archivi ZIP che sfruttano vulnerabilità
+              dello zip-slip (path traversal), installer eseguibili trojanzati, o script (.bat,
+              .ps1, .vbs) con payload nascosti. Il vettore file-based è spesso combinato con
+              altri (es. allegato email, file su USB, download da sito compromesso).
+            </dd>
+
+            <dt>Voice call (Chiamata vocale)</dt>
+            <dd>
+              Attacchi condotti tramite telefonate vocali. Il <em>vishing</em> (voice phishing)
+              è la tecnica più comune: l'attaccante impersona supporto tecnico, una banca,
+              un'autorità governativa o un collega per estorcere credenziali, codici OTP o
+              far eseguire azioni all'utente (installare software di accesso remoto, effettuare
+              bonifici). L'intelligenza artificiale sta rendendo le voice call ancora più pericolose
+              grazie al voice cloning: è possibile replicare la voce di un dirigente aziendale
+              con pochi secondi di audio campione.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — vishing con AI voice cloning:</strong>
+            Un CFO riceve una chiamata dalla voce — perfettamente riconoscibile — del CEO che chiede
+            di effettuare un bonifico urgente a un conto estero prima della chiusura dei mercati.
+            Questa tecnica si chiama <em>deepfake audio</em> ed è già stata documentata in attacchi
+            reali che hanno causato perdite di milioni di dollari. Contromisura: verificare sempre
+            la richiesta tramite un secondo canale di comunicazione indipendente prima di eseguire
+            transazioni finanziarie urgenti.
+          </div>
+
+          <!-- ─── Dispositivi removibili ─── -->
+          <h3 id="removable">Removable devices</h3>
+
+          <dl class="termlist">
+            <dt>Removable device (Dispositivo removibile)</dt>
+            <dd>
+              USB drive, hard disk esterni, schede SD, CD/DVD e qualsiasi supporto fisico
+              che può essere connesso a un sistema per trasferire dati o codice. I dispositivi
+              removibili bypassano completamente le difese di rete: un USB infetto inserito
+              in un laptop aziendale porta malware direttamente sul sistema senza mai transitare
+              per firewall o IPS. Questa tecnica fu usata nell'attacco Stuxnet (2010) contro
+              impianti nucleari iraniani air-gapped. Le contromisure includono la disabilitazione
+              delle porte USB via policy di gruppo, il controllo degli endpoint (EDR), e l'uso
+              di sistemi DLP che rilevano l'inserimento di dispositivi non autorizzati.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>Pitfall — Air-gap ≠ sicurezza assoluta:</strong>
+            Un sistema air-gapped (completamente isolato dalla rete) non è immune agli attacchi
+            se i dispositivi fisici possono essere introdotti nell'ambiente. Il vettore removable
+            device è specificamente progettato per superare l'isolamento fisico. L'esame potrebbe
+            chiedere quale vettore è più efficace contro sistemi air-gapped: la risposta è
+            removable device, non network-based.
+          </div>
+
+          <!-- ─── Software vulnerabile ─── -->
+          <h3 id="vulnerable-software">Software vulnerabile</h3>
+
+          <dl class="termlist">
+            <dt>Vulnerable software — Client-based</dt>
+            <dd>
+              Software installato localmente sul dispositivo dell'utente (browser, client email,
+              lettori PDF, suite Office, plugin) che contiene vulnerabilità note o zero-day.
+              Un attaccante può sfruttare queste vulnerabilità tramite un file malevolo, una
+              pagina web appositamente costruita (drive-by download), o un link che scatena
+              l'exploit nel momento in cui il file viene aperto dall'applicazione client.
+              Richiede che il software sia installato ed eseguito dall'utente finale.
+            </dd>
+
+            <dt>Vulnerable software — Agentless</dt>
+            <dd>
+              A differenza dei client-based, i vettori agentless non richiedono software installato
+              sul dispositivo della vittima: sfruttano protocolli, servizi o interfacce web
+              direttamente accessibili via rete (es. una pagina di login con SQL injection, un
+              endpoint API non autenticato, un servizio RPC esposto). Sono spesso più scalabili
+              perché non dipendono dall'interazione dell'utente e possono essere esplorati
+              automaticamente da scanner di vulnerabilità.
+            </dd>
+          </dl>
+
+          <table>
+            <caption>Client-based vs. Agentless: confronto</caption>
+            <thead>
+              <tr>
+                <th>Caratteristica</th>
+                <th>Client-based</th>
+                <th>Agentless</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Richiede software installato?</td>
+                <td>Sì</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td class="label">Richiede interazione utente?</td>
+                <td>Spesso sì (aprire file, cliccare link)</td>
+                <td>No (automatizzabile)</td>
+              </tr>
+              <tr>
+                <td class="label">Esempi tipici</td>
+                <td>Browser exploit, macro Office, plugin vulnerabili</td>
+                <td>SQL injection su web app, API non autenticate, RCE su servizi esposti</td>
+              </tr>
+              <tr>
+                <td class="label">Rilevamento</td>
+                <td>EDR, antivirus, filtri email</td>
+                <td>WAF, IDS/IPS, patch management, scansioni di rete</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ─── Sistemi non supportati ─── -->
+          <h3 id="unsupported">Unsupported systems and applications</h3>
+
+          <dl class="termlist">
+            <dt>Unsupported systems and applications</dt>
+            <dd>
+              Sistema operativo o applicazione per cui il produttore ha cessato il supporto e
+              non rilascia più patch di sicurezza (End-of-Life — EoL). Windows XP, Windows 7,
+              versioni legacy di Java, PHP 5.x sono esempi classici. Questi sistemi accumulano
+              vulnerabilità note e non patchate nel tempo, diventando bersagli privilegiati
+              perché gli exploit sono documentati pubblicamente (CVE) e funzionanti. Spesso
+              si trovano in ambienti OT/ICS, ospedali, ATM e sistemi embedded dove l'aggiornamento
+              è complesso o costoso. La mitigazione quando non si può aggiornare prevede
+              segmentazione di rete, controlli compensativi e monitoraggio intensivo.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>Exam tip — EoL vs. unsupported:</strong> L'esame usa i termini in modo
+            intercambiabile. Quando uno scenario descrive un sistema non aggiornabile o un
+            software per cui il vendor non rilascia più patch, la categoria di vettore è
+            "unsupported systems/applications". La risposta di mitigazione preferita è
+            <em>segmentazione di rete</em> + <em>controlli compensativi</em>, non la semplice
+            accettazione del rischio.
+          </div>
+
+          <!-- ─── Reti non sicure ─── -->
+          <h3 id="unsecure-networks">Unsecure networks</h3>
+
+          <dl class="termlist">
+            <dt>Wireless (Reti Wi-Fi non sicure)</dt>
+            <dd>
+              Reti Wi-Fi pubbliche o aziendali configurate in modo insicuro (senza cifratura WPA3/WPA2,
+              con WEP obsoleto, senza autenticazione 802.1X, o con SSID che impersonano reti legittime).
+              Un attaccante in prossimità fisica può effettuare attacchi evil twin (AP fasullo che
+              replica il nome della rete legittima), catturare traffico non cifrato, o effettuare
+              MITM (man-in-the-middle) su sessioni HTTP. I dipendenti che si connettono a Wi-Fi
+              pubblici da laptop aziendali espongono potenzialmente le credenziali corporate.
+            </dd>
+
+            <dt>Wired (Reti cablate non sicure)</dt>
+            <dd>
+              Reti cablate prive di segmentazione, senza autenticazione 802.1X sulle porte degli
+              switch, con accesso fisico non controllato ai jack di rete. Un attaccante con
+              accesso fisico a un'area non presidiata (sala conferenze, corridoio, reception)
+              può connettere un laptop o un rogue device alla rete interna. Anche il VLAN hopping
+              (salto tra VLAN tramite double tagging) è un attacco specifico alle reti cablate
+              mal configurate.
+            </dd>
+
+            <dt>Bluetooth</dt>
+            <dd>
+              Il Bluetooth introduce una superficie di attacco wireless a corto raggio ma spesso
+              trascurata. Vulnerabilità principali: <em>Bluejacking</em> (invio non richiesto
+              di messaggi), <em>Bluesnarfing</em> (accesso non autorizzato a dati del dispositivo),
+              <em>Bluebugging</em> (controllo del dispositivo). I dispositivi che lasciano il
+              Bluetooth sempre attivo in modalità discoverable amplificano il rischio. Headset,
+              tastiere e mouse wireless Bluetooth in ambienti aziendali sono un vettore spesso
+              sottovalutato.
+            </dd>
+          </dl>
+
+          <!-- ─── Porte e credenziali ─── -->
+          <h3 id="ports-credentials">Open service ports and default credentials</h3>
+
+          <dl class="termlist">
+            <dt>Open service ports (Porte di servizio aperte)</dt>
+            <dd>
+              Ogni servizio di rete in ascolto su una porta TCP/UDP è un potenziale vettore di
+              attacco. Porte aperte non necessarie ampliano la superficie di attacco esponendo
+              servizi che potrebbero essere vulnerabili. Uno scanner Nmap che trova la porta 3389
+              (RDP) aperta su internet sa che può tentare brute force o sfruttare vulnerabilità
+              note di RDP (es. BlueKeep). Il principio di least functionality impone di chiudere
+              tutte le porte non strettamente necessarie e di limitare l'accesso alle porte
+              necessarie solo agli IP autorizzati.
+            </dd>
+
+            <dt>Default credentials (Credenziali predefinite)</dt>
+            <dd>
+              Router, switch, firewall, stampanti, telecamere IP, sistemi SCADA e dispositivi IoT
+              vengono spediti con credenziali di default documentate pubblicamente (admin/admin,
+              admin/password, root/root). Se queste credenziali non vengono cambiate al momento
+              dell'installazione, chiunque conosca il modello del dispositivo — informazione
+              spesso rilevabile da banner o intestazioni HTTP — può accedervi. Shodan.io è un motore
+              di ricerca che indicizza dispositivi connessi a internet con credenziali di default,
+              rendendo questo vettore banalmente sfruttabile su scala globale.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — default credentials su telecamere IP:</strong>
+            Un penetration tester effettua una scansione Shodan per il marchio di telecamere IP
+            installate in un campus universitario. Trova 14 telecamere raggiungibili su internet
+            con interfaccia web sulla porta 80. Prova le credenziali di default (admin/1234):
+            12 su 14 concedono accesso immediato. Ha ora accesso al live feed di aule, corridoi
+            e laboratori — e potenzialmente alla rete interna a cui le telecamere sono connesse.
+            Costo dell'attacco: 0. Costo della prevenzione: 5 minuti per dispositivo al momento
+            dell'installazione.
+          </div>
+
+          <div class="pitfall">
+            <strong>Pitfall — Open ports ≠ vulnerabilità confermata:</strong>
+            Una porta aperta indica un servizio in ascolto, non necessariamente una vulnerabilità.
+            La vulnerabilità dipende dalla versione del software, dalla configurazione e dall'esistenza
+            di exploit disponibili. L'esame può presentare scenari in cui una scansione di porte
+            è il primo passo di un attacco (reconnaissance) ma non l'attacco in sé.
+          </div>
+
+          <!-- ─── Supply chain ─── -->
+          <h3 id="supply-chain">Supply chain</h3>
+          <p>
+            Il vettore supply chain (catena di approvvigionamento) sfrutta la fiducia che
+            un'organizzazione ripone nei propri fornitori, vendor e service provider. Invece di
+            attaccare l'organizzazione bersaglio direttamente — spesso ben protetta — l'attaccante
+            compromette un anello della catena di fornitura con minore postura di sicurezza,
+            usando quel punto di accesso come trampolino. Gli attacchi supply chain sono
+            particolarmente pericolosi perché il codice o i dispositivi compromessi arrivano
+            con la firma e la fiducia di un fornitore noto.
+          </p>
+
+          <dl class="termlist">
+            <dt>Managed Service Providers (MSP)</dt>
+            <dd>
+              Aziende che gestiscono IT, sicurezza o infrastrutture per conto dei clienti hanno
+              accesso privilegiato ai sistemi di molte organizzazioni contemporaneamente.
+              Compromettere un MSP significa potenzialmente avere accesso a decine o centinaia
+              di clienti in una sola operazione. L'attacco a Kaseya VSA (2021) è l'esempio più
+              citato: i criminali hanno sfruttato la piattaforma di gestione remota di un MSP
+              per distribuire ransomware a circa 1.500 organizzazioni clienti simultaneamente.
+            </dd>
+
+            <dt>Vendors (Fornitori di software)</dt>
+            <dd>
+              Compromettere il processo di build o il repository di un fornitore di software
+              consente di inserire codice malevolo in aggiornamenti software firmati e distribuiti
+              automaticamente ai clienti. L'attacco SolarWinds (2020) è l'esempio iconico:
+              gli attaccanti hanno inserito una backdoor (SUNBURST) nel pacchetto di aggiornamento
+              legittimo di SolarWinds Orion, che è stato poi scaricato e installato da circa
+              18.000 organizzazioni, incluse agenzie governative statunitensi.
+            </dd>
+
+            <dt>Suppliers (Fornitori hardware)</dt>
+            <dd>
+              La compromissione può avvenire anche a livello hardware: chip con backdoor inserite
+              in fase di produzione, firmware alterato prima della consegna, componenti contraffatti
+              con funzionalità malevole. Il rischio è particolarmente elevato per componenti
+              prodotti in paesi con minore trasparenza sui processi di produzione. Le contromisure
+              includono la verifica dell'integrità dei firmware, l'acquisto da fornitori certificati
+              e il monitoraggio anomalie nei device behavior post-installazione.
+            </dd>
+          </dl>
+
+          <table>
+            <caption>Confronto tra vettori supply chain</caption>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Punto di compromissione</th>
+                <th>Esempio storico</th>
+                <th>Scala impatto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">MSP</td>
+                <td>Piattaforma di gestione remota</td>
+                <td>Kaseya VSA (2021)</td>
+                <td>~1.500 organizzazioni</td>
+              </tr>
+              <tr>
+                <td class="label">Software vendor</td>
+                <td>Pacchetto di aggiornamento firmato</td>
+                <td>SolarWinds (2020)</td>
+                <td>~18.000 organizzazioni</td>
+              </tr>
+              <tr>
+                <td class="label">Hardware supplier</td>
+                <td>Firmware / chip in produzione</td>
+                <td>Ipotetico chip con backdoor</td>
+                <td>Difficile da quantificare</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>Exam tip — Supply chain attacks:</strong> Quando uno scenario descrive
+            un'organizzazione compromessa nonostante le proprie difese siano aggiornate,
+            e la compromissione arriva tramite un software legittimo, un aggiornamento automatico
+            o un fornitore terzo, il vettore è supply chain. La parola chiave è la
+            <em>fiducia implicita</em> verso una terza parte che viene sfruttata.
+          </div>
+
+          <!-- ─── Social engineering ─── -->
+          <h3 id="social-engineering">Human vectors / Social engineering</h3>
+          <p>
+            Il social engineering (ingegneria sociale) sfrutta la psicologia umana anziché
+            vulnerabilità tecniche. È il vettore di attacco più difficile da contrastare
+            perché non esiste patch per il comportamento umano. Sfrutta principi di
+            psicologia come autorità, urgenza, reciprocità, scarcità e paura. L'obiettivo
+            2.2 include un elenco specifico di tecniche che devono essere conosciute per l'esame.
+            Il capitolo CH4 approfondisce ulteriormente le tecniche più complesse.
+          </p>
+
+          <dl class="termlist">
+            <dt>Phishing</dt>
+            <dd>
+              Tecnica di truffa in cui l'attaccante invia comunicazioni — tipicamente via email —
+              che imitano mittenti legittimi (banche, servizi cloud, aziende note) per indurre
+              la vittima a fornire credenziali, cliccare link malevoli o aprire allegati infetti.
+              Il <em>spear phishing</em> è la variante mirata su un individuo specifico,
+              con messaggi personalizzati che aumentano significativamente la credibilità.
+              Il <em>whaling</em> è spear phishing rivolto a dirigenti di alto livello.
+            </dd>
+
+            <dt>Vishing (Voice phishing)</dt>
+            <dd>
+              Phishing condotto tramite chiamata vocale. L'attaccante impersona supporto tecnico,
+              istituto bancario, autorità fiscale o un collega per estorcere informazioni sensibili
+              o far compiere azioni pericolose. Vedi anche il paragrafo "Voice call" sopra.
+              La combinazione di vishing con voice cloning AI è una minaccia emergente concreta.
+            </dd>
+
+            <dt>Smishing (SMS phishing)</dt>
+            <dd>
+              Phishing tramite SMS. L'attaccante invia un messaggio di testo con un link malevolo,
+              spesso mascherato da notifica di corriere, verifica dell'account bancario o avviso
+              di sicurezza. I tassi di click su link da SMS sono storicamente più alti che via email
+              perché gli utenti sono meno addestrati a riconoscere i segnali di allarme su
+              dispositivi mobili personali.
+            </dd>
+
+            <dt>Misinformation / Disinformation</dt>
+            <dd>
+              La <strong>misinformation</strong> è la diffusione involontaria di informazioni false;
+              la <strong>disinformation</strong> è la diffusione intenzionale di informazioni false
+              per manipolare opinioni o comportamenti. Nel contesto della sicurezza informatica,
+              campagne di disinformazione possono essere usate da nation-state per influenzare
+              elezioni, destabilizzare organizzazioni, screditare competitor o creare confusione
+              durante un incidente di sicurezza (es. far credere che un sistema sia sicuro quando
+              è compromesso). Sono anche usate per avvelenare i risultati di ricerca che un'azienda
+              effettua su se stessa.
+            </dd>
+
+            <dt>Impersonation (Impersonificazione)</dt>
+            <dd>
+              L'attaccante si spaccia per un'altra persona — un collega, un tecnico IT, un
+              funzionario di banca, un ispettore — per ottenere accesso fisico o informazioni
+              riservate. Diversamente dal phishing (digitale), l'impersonificazione può avvenire
+              di persona o al telefono. Tecnica classica: un individuo si presenta all'ingresso
+              dell'ufficio fingendo di essere il tecnico della fotocopiatrice per ottenere accesso
+              non accompagnato ai locali.
+            </dd>
+
+            <dt>Business Email Compromise (BEC)</dt>
+            <dd>
+              Attacco altamente mirato in cui l'attaccante compromette o impersona un account
+              email aziendale — spesso del CEO o del CFO — per autorizzare bonifici fraudolenti
+              o richiedere dati sensibili. Il BEC causa perdite finanziarie tra le più elevate
+              nel cybercrime (miliardi di dollari annui secondo l'FBI). La chiave dell'attacco
+              è la credibilità: l'email sembra provenire da un mittente autorizzato all'interno
+              dell'organizzazione. Contromisure: policy di verifica telefonica per bonifici
+              urgenti, MFA su account email, DMARC.
+            </dd>
+
+            <dt>Pretexting</dt>
+            <dd>
+              Creazione di uno scenario (pretext) inventato ma convincente per guadagnare
+              la fiducia della vittima e indurla a fornire informazioni o compiere azioni.
+              L'attaccante costruisce un'identità fittizia con una storia credibile: "Sono
+              della divisione IT centrale e devo verificare le tue credenziali per un audit
+              di sicurezza". Il pretexting è la componente narrativa che rende credibile
+              qualsiasi altra tecnica di social engineering.
+            </dd>
+
+            <dt>Watering hole</dt>
+            <dd>
+              L'attaccante compromette un sito web frequentato regolarmente dai bersagli
+              (forum di settore, sito di un fornitore, portale di community professionale)
+              e lo infetta con codice malevolo. Chiunque visiti il sito compromesso con
+              un browser vulnerabile viene infettato automaticamente (drive-by download).
+              Il nome deriva dall'analogia con i predatori che aspettano la preda ai punti
+              d'acqua nella savana. È un attacco particolarmente efficace contro dipendenti
+              di settori specifici (difesa, energia, finanza) che frequentano gli stessi
+              siti di settore.
+            </dd>
+
+            <dt>Brand impersonation</dt>
+            <dd>
+              L'attaccante crea email, siti web o profili social che imitano fedelmente
+              un brand noto (Microsoft, Apple, Amazon, PayPal, DHL) per ingannare l'utente.
+              I loghi, il layout e il tono sono copiati quasi perfettamente. L'obiettivo
+              tipico è raccogliere credenziali di accesso o dati di pagamento. Si differenzia
+              dal phishing generico per la specificità del brand imitato e la qualità
+              dell'imitazione.
+            </dd>
+
+            <dt>Typosquatting</dt>
+            <dd>
+              Registrazione di domini con errori tipografici rispetto a siti legittimi noti:
+              <code>paypa1.com</code>, <code>microsoftt.com</code>, <code>goggle.com</code>,
+              <code>arnazon.com</code>. Chi digita l'URL sbagliato per errore atterra su un
+              sito controllato dall'attaccante. Variante: il <em>combo squatting</em> aggiunge
+              parole plausibili al dominio legittimo (es. <code>microsoft-support.com</code>).
+              Il typosquatting è spesso usato per distribuire malware, raccogliere credenziali
+              o mostrare pubblicità fraudolente.
+            </dd>
+          </dl>
+
+          <table>
+            <caption>Riepilogo tecniche di social engineering — confronto rapido</caption>
+            <thead>
+              <tr>
+                <th>Tecnica</th>
+                <th>Canale</th>
+                <th>Leva psicologica principale</th>
+                <th>Obiettivo tipico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Phishing</td>
+                <td>Email</td>
+                <td>Autorità, urgenza, paura</td>
+                <td>Credenziali, malware</td>
+              </tr>
+              <tr>
+                <td class="label">Vishing</td>
+                <td>Telefono/voce</td>
+                <td>Autorità, urgenza</td>
+                <td>Credenziali, OTP, bonifici</td>
+              </tr>
+              <tr>
+                <td class="label">Smishing</td>
+                <td>SMS</td>
+                <td>Urgenza, paura</td>
+                <td>Link malevoli, credenziali</td>
+              </tr>
+              <tr>
+                <td class="label">BEC</td>
+                <td>Email aziendale</td>
+                <td>Autorità (CEO/CFO)</td>
+                <td>Bonifici, dati riservati</td>
+              </tr>
+              <tr>
+                <td class="label">Pretexting</td>
+                <td>Qualsiasi</td>
+                <td>Fiducia, identità costruita</td>
+                <td>Accesso fisico/logico, info</td>
+              </tr>
+              <tr>
+                <td class="label">Impersonation</td>
+                <td>Fisico / telefono</td>
+                <td>Autorità, fiducia</td>
+                <td>Accesso fisico, bypass controlli</td>
+              </tr>
+              <tr>
+                <td class="label">Watering hole</td>
+                <td>Web</td>
+                <td>Fiducia nel sito noto</td>
+                <td>Malware via drive-by</td>
+              </tr>
+              <tr>
+                <td class="label">Brand impersonation</td>
+                <td>Email / web</td>
+                <td>Fiducia nel brand</td>
+                <td>Credenziali, dati pagamento</td>
+              </tr>
+              <tr>
+                <td class="label">Typosquatting</td>
+                <td>Web (URL)</td>
+                <td>Errore umano</td>
+                <td>Malware, credenziali, phishing</td>
+              </tr>
+              <tr>
+                <td class="label">Misinformation/Disinfo</td>
+                <td>Social media, email</td>
+                <td>Fiducia in fonti apparenti</td>
+                <td>Manipolazione, destabilizzazione</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>Exam tip — Social engineering scenarios:</strong> L'esame SY0-701 presenta
+            spesso scenari in cui devi identificare la tecnica di social engineering corretta.
+            I criteri discriminanti sono: <em>canale</em> (email → phishing; SMS → smishing;
+            telefono → vishing), <em>chi viene impersonato</em> (CEO/CFO + richiesta bonifica →
+            BEC), <em>sito web compromesso frequentato dai bersagli → watering hole</em>,
+            <em>URL simile ma con errori → typosquatting</em>. Memorizza questi abbinamenti
+            canale-tecnica perché le opzioni nelle domande sono spesso molto simili tra loro.
+          </div>
+
+          <div class="pitfall">
+            <strong>Pitfall — Phishing vs. Spear phishing vs. Whaling:</strong>
+            Phishing generico = campagna di massa indiscriminata.
+            Spear phishing = campagna mirata su un individuo o gruppo specifico, con contenuto
+            personalizzato (nome, ruolo, riferimenti reali). Whaling = spear phishing
+            specificatamente verso dirigenti di alto livello (whale = "grande pesce").
+            L'esame usa questi termini in modo preciso: se il messaggio contiene dettagli
+            specifici della vittima, è spear phishing, non phishing generico.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Summary flashcards — CH2</h2>
+          <ul class="flashcard">
+            <li><strong>Nation-state</strong> — Attore sponsorizzato da uno stato, risorse illimitate, alta sofisticazione, obiettivi strategici (spionaggio, guerra, disruption di infrastrutture critiche).</li>
+            <li><strong>Insider threat</strong> — Minaccia interna: soggetto con accesso legittimo che agisce in modo dannoso (malevolo) o causa danni involontariamente (negligente).</li>
+            <li><strong>Hacktivist</strong> — Attaccante mosso da convinzioni politiche/ideologiche; obiettivo è il danno reputazionale o la visibilità pubblica, non il guadagno economico.</li>
+            <li><strong>Shadow IT</strong> — Sistemi/servizi non approvati usati da dipendenti; ampliano la superficie di attacco al di fuori dei controlli IT ufficiali.</li>
+            <li><strong>APT (Advanced Persistent Threat)</strong> — Attacco nazione-stato caratterizzato da alta sofisticazione, lunga persistenza (mesi/anni) e obiettivi strategici specifici.</li>
+            <li><strong>Threat vector</strong> — Il percorso/meccanismo usato dall'attaccante per raggiungere il bersaglio (email, USB, rete, supply chain...).</li>
+            <li><strong>Attack surface</strong> — L'insieme di tutti i punti esposti potenzialmente sfruttabili; si riduce chiudendo porte, disattivando servizi inutili e aggiornando software.</li>
+            <li><strong>Smishing</strong> — Phishing via SMS; l'utente riceve un messaggio di testo con link malevolo o richiesta di dati sensibili.</li>
+            <li><strong>Vishing</strong> — Phishing via chiamata vocale; l'attaccante impersona banca, supporto tecnico o autorità per estorcere credenziali o OTP.</li>
+            <li><strong>BEC (Business Email Compromise)</strong> — Compromissione o impersonazione di account email aziendale per autorizzare bonifici fraudolenti; causa perdite finanziarie miliardarie.</li>
+            <li><strong>Watering hole</strong> — L'attaccante compromette un sito frequentato dai bersagli e infetta i visitatori tramite drive-by download.</li>
+            <li><strong>Typosquatting</strong> — Registrazione di domini con errori tipografici (paypa1.com) per catturare utenti che digitano l'URL sbagliato.</li>
+            <li><strong>Supply chain attack</strong> — Compromissione di un fornitore/vendor/MSP per poi raggiungere le organizzazioni clienti; sfrutta la fiducia implicita verso terze parti (es. SolarWinds, Kaseya).</li>
+            <li><strong>Default credentials</strong> — Credenziali di fabbrica non cambiate; uno dei vettori più banali e diffusi, particolarmente su router, telecamere IP e IoT.</li>
+            <li><strong>Removable device</strong> — USB/hard disk esterni usati per portare malware in sistemi air-gapped o esfiltrare dati bypassando i controlli di rete (es. Stuxnet).</li>
+            <li><strong>Pretexting</strong> — Creazione di uno scenario narrativo credibile per guadagnare la fiducia della vittima; è la componente di "storytelling" comune a molti attacchi di social engineering.</li>
+            <li><strong>Client-based vs. Agentless</strong> — Client-based: richiede software installato sul dispositivo vittima (browser, plugin); Agentless: sfrutta servizi/protocolli di rete senza software installato lato client.</li>
+            <li><strong>Unsupported systems (EoL)</strong> — Sistemi senza più patch di sicurezza; mitigazione quando non aggiornabili: segmentazione di rete + controlli compensativi.</li>
+          </ul>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             NAVIGAZIONE CAPITOLI
+        ════════════════════════════════════════════════════════ -->
+        <div class="chapter-nav">
+          <a href="ch1_governance_classification_canonical.html">← CH1 — Foundations and Governance</a>
+          <a href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html" class="secondary">CH3 — Malware and malicious activity →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+  <script src="../../quiz_data.js"></script>
+  <script src="../../script/chapter-quiz-loader.js"></script>
+  <script src="../../script/lang-preference.js"></script>
+</body>
+</html>

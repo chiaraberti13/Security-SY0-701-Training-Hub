@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — CH16: Governance, Compliance and Policy</title>
+  <link rel="stylesheet" href="../../style/style.css" />
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="security_plus_sy0_701_guida.html">General index</a>
+      <span>Domain 5 — Security Program Management and Oversight</span>
+      <span>CH16 — Governance, Compliance and Policy</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Language selector">
+      <span>Language:</span>
+      <a href="../ch16_governance_compliance_policy_canonical.html">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="ch16_governance_compliance_policy_canonical.html" aria-current="page">EN</a>
+    </div>
+    <header>
+      <h1>CH16 — Governance, Compliance and Policy</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Domain 5 · Exam weight: 20%
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Covered objectives:</strong>
+        <span class="objectives-tag">5.1</span>
+        <span class="objectives-tag">5.3</span>
+        <span class="objectives-tag">5.4</span>
+        <span class="objectives-tag">5.5</span>
+        <span class="weight-badge">Domain 5 = 20%</span>
+      </p>
+      <p><strong>Prerequisites:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Foundations and Governance</a> (controlli, CIA, change management base)
+      </p>
+      <p><strong>Related chapters:</strong>
+        <a href="ch17_risk_privacy_third_party_canonical.html">CH17 — Risk and Privacy (5.2, 5.6)</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Chapter index">
+        <div class="toc-section">Objective 5.1</div>
+        <a href="#obj-5-1">Security Governance</a>
+        <a href="#guidelines-policies">↳ Guidelines and Policies</a>
+        <a href="#standards-procedures">↳ Standards and Procedures</a>
+        <a href="#ext-considerations">↳ External Considerations</a>
+        <a href="#monitoring-revision">↳ Monitoring and Revision</a>
+        <a href="#governance-structures">↳ Governance Structures</a>
+        <a href="#roles-responsibilities">↳ Roles and Responsibilities</a>
+
+        <div class="toc-section">Objective 5.3</div>
+        <a href="#obj-5-3">Third-Party Risk</a>
+        <a href="#vendor-assessment">↳ Vendor Assessment</a>
+        <a href="#vendor-selection">↳ Vendor Selection</a>
+        <a href="#agreement-types">↳ Agreement Types</a>
+        <a href="#vendor-monitoring">↳ Vendor Monitoring</a>
+        <a href="#questionnaires-roe">↳ Questionnaires &amp; ROE</a>
+
+        <div class="toc-section">Objective 5.4</div>
+        <a href="#obj-5-4">Security Compliance</a>
+        <a href="#compliance-reporting">↳ Compliance Reporting</a>
+        <a href="#non-compliance">↳ Non-compliance</a>
+        <a href="#compliance-monitoring">↳ Compliance Monitoring</a>
+        <a href="#privacy">↳ Privacy</a>
+
+        <div class="toc-section">Objective 5.5</div>
+        <a href="#obj-5-5">Audits &amp; Assessments</a>
+        <a href="#attestation">↳ Attestation</a>
+        <a href="#internal-audit">↳ Internal Audit</a>
+        <a href="#external-audit">↳ External Audit</a>
+        <a href="#pentest">↳ Penetration Testing</a>
+
+        <div class="toc-section">Summary</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="main-content">
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBJECTIVE 5.1 — SECURITY GOVERNANCE
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-1">
+          <h2>Objective 5.1 — Elementi di una governance della sicurezza efficace</h2>
+          <p>
+            La <strong>governance della sicurezza</strong> è l'insieme di meccanismi — decisionali, documentali, organizzativi e di supervisione — attraverso cui un'organizzazione si assicura che il proprio programma di sicurezza sia allineato agli obiettivi di business, conforme agli obblighi normativi e gestito con responsabilità chiare. Senza governance, la sicurezza rimane un insieme di misure tecniche slegate, prive di priorità e difficilmente auditabili. Il CISO (Chief Information Security Officer) è la figura che traduce le aspettative del board in una struttura coerente di policy, standard, procedure e linee guida, sfruttando le strutture di governance come leva per influenzare il comportamento di tutta l'organizzazione.
+          </p>
+
+          <!-- Guidelines and Policies -->
+          <h3 id="guidelines-policies">Guidelines and Policies</h3>
+          <p>
+            Il framework documentale della governance si articola in quattro livelli gerarchici: policy, standard, procedure e linee guida. Comprenderne le differenze è essenziale perché l'esame propone spesso scenari che richiedono di identificare il documento corretto per una situazione specifica.
+          </p>
+
+          <dl class="termlist">
+            <dt>Policy (Politica di sicurezza)</dt>
+            <dd>Dichiarazione formale di alto livello approvata dal management che stabilisce gli obiettivi, le aspettative e i principi del programma di sicurezza. Le policy sono <em>obbligatorie</em> e definiscono "cosa si deve fare" senza scendere nei dettagli tecnici. Una policy efficace è breve, stabile nel tempo e approvata dall'alta direzione. Più una policy è dettagliata, più tende a diventare obsoleta rapidamente. I tipi di policy coperti dall'obiettivo 5.1 includono:
+              <ul style="margin-top:6px;">
+                <li><strong>Acceptable Use Policy (AUP)</strong> — definisce gli usi consentiti e vietati delle risorse informatiche aziendali (dispositivi, reti, email, cloud). È il primo documento che un nuovo dipendente firma durante l'onboarding.</li>
+                <li><strong>Information Security Policy</strong> — descrive il programma globale di sicurezza, l'autorità del CISO e i principi generali (riservatezza, integrità, disponibilità).</li>
+                <li><strong>Business Continuity Policy</strong> — stabilisce l'obbligo di pianificare e testare la continuità operativa in caso di incidenti.</li>
+                <li><strong>Disaster Recovery Policy</strong> — definisce gli obiettivi di ripristino (RTO, RPO) e le responsabilità in caso di disastro.</li>
+                <li><strong>Incident Response Policy</strong> — formalizza l'obbligo di rispondere agli incidenti con processi definiti e ruoli chiari.</li>
+                <li><strong>Software Development Lifecycle (SDLC) Policy</strong> — richiede l'integrazione di requisiti di sicurezza in ogni fase dello sviluppo software.</li>
+                <li><strong>Change Management Policy</strong> — impone che ogni modifica ai sistemi in produzione passi attraverso un processo di approvazione formale.</li>
+              </ul>
+            </dd>
+
+            <dt>Guidelines (Linee guida)</dt>
+            <dd>Raccomandazioni e best practice che aiutano gli utenti e i team a implementare policy e standard in modo efficace. A differenza di policy e standard, le linee guida non sono obbligatorie — offrono orientamento pratico senza imporre un unico modo di fare le cose. Ad esempio, una linea guida potrebbe suggerire come scegliere un password manager, pur senza imporre quale strumento usare.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.1-A — Policy vs Guideline</strong> — Quando l'esame chiede quale documento emettere per "comunicare le aspettative obbligatorie sull'uso dei sistemi", la risposta è <em>policy</em>. Quando chiede quale documento "consiglia best practice senza imporre", la risposta è <em>guideline</em>. Il criterio discriminante è la parola "obbligatorio" o "raccomandato".
+          </div>
+
+          <!-- Standards and Procedures -->
+          <h3 id="standards-procedures">Standards and Procedures</h3>
+
+          <dl class="termlist">
+            <dt>Standards (Standard)</dt>
+            <dd>Requisiti <em>obbligatori</em> più specifici rispetto alle policy, che traducono le aspettative di alto livello in requisiti tecnici o organizzativi concreti. Uno standard stabilisce "come deve essere fatto" in modo dettagliato. Vengono approvati a un livello organizzativo inferiore rispetto alle policy e cambiano più frequentemente (es. lo standard sulle password viene aggiornato quando cambiano le best practice del settore). I tipi di standard esplicitamente citati nell'obiettivo 5.1 sono:
+              <ul style="margin-top:6px;">
+                <li><strong>Password Standard</strong> — lunghezza minima, complessità, storico, scadenza, proibizioni (es. password aziendali note).</li>
+                <li><strong>Access Control Standard</strong> — definisce il modello di controllo degli accessi (DAC, MAC, RBAC) e i requisiti per assegnare i privilegi.</li>
+                <li><strong>Physical Security Standard</strong> — requisiti tecnici per badge, tornelli, CCTV, cablaggi sicuri e aree riservate.</li>
+                <li><strong>Encryption Standard</strong> — algoritmi approvati, lunghezze di chiave minime e protocolli consentiti per dati in transito e a riposo.</li>
+              </ul>
+            </dd>
+
+            <dt>Procedures (Procedure)</dt>
+            <dd>Istruzioni passo-passo <em>obbligatorie</em> che garantiscono la coerenza operativa in attività critiche. Una procedura trasforma lo standard ("i dati devono essere cifrati") in azioni concrete sequenziali ("passo 1: verifica il tipo di dato; passo 2: seleziona l'algoritmo approvato; passo 3: genera la chiave…"). I tipi esplicitamente citati nell'obiettivo 5.1 sono:
+              <ul style="margin-top:6px;">
+                <li><strong>Change Management Procedure</strong> — descrive la sequenza operativa per richiedere, approvare, testare e implementare una modifica.</li>
+                <li><strong>Onboarding Procedure</strong> — sequenza di passi per abilitare un nuovo dipendente: creazione account, assegnazione badge, firma documenti, provisioning accessi.</li>
+                <li><strong>Offboarding Procedure</strong> — sequenza per la revoca ordinata di accessi, restituzione dispositivi, disabilitazione credenziali al termine del rapporto di lavoro.</li>
+                <li><strong>Playbook (Incident Response Playbook)</strong> — procedura specifica per rispondere a un tipo di incidente (es. ransomware, phishing, data breach). Ogni tipo di incidente ha il proprio playbook.</li>
+              </ul>
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Policy vs Standard vs Procedure</strong> — L'esame usa questi tre termini per confonderti. Ricorda: una <em>policy</em> dice "COSA" (l'organizzazione deve proteggere i dati personali); uno <em>standard</em> dice "COME in modo obbligatorio" (i dati personali devono usare AES-256); una <em>procedura</em> dice "I PASSI" (passo 1: identifica il dato, passo 2: seleziona il tool, passo 3…). La <em>guideline</em> è l'unica non obbligatoria.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Documento</th>
+                <th>Livello di dettaglio</th>
+                <th>Obbligatorio?</th>
+                <th>Chi approva</th>
+                <th>Esempio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Policy</td>
+                <td>Alto — principi e obiettivi</td>
+                <td>Sì</td>
+                <td>Senior management / Board</td>
+                <td>AUP, Information Security Policy</td>
+              </tr>
+              <tr>
+                <td class="label">Standard</td>
+                <td>Medio — requisiti tecnici specifici</td>
+                <td>Sì</td>
+                <td>CISO / Comitato sicurezza</td>
+                <td>Password Standard, Encryption Standard</td>
+              </tr>
+              <tr>
+                <td class="label">Procedure</td>
+                <td>Basso — passi operativi</td>
+                <td>Sì</td>
+                <td>IT Manager / Team operativo</td>
+                <td>Offboarding Procedure, Playbook IR</td>
+              </tr>
+              <tr>
+                <td class="label">Guideline</td>
+                <td>Variabile — consigli pratici</td>
+                <td>No</td>
+                <td>Security team</td>
+                <td>"Best practice per scegliere un password manager"</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Il ciclo documentale completo</strong><br>
+            Un'azienda vuole proteggere i dati dei clienti nel cloud. Emette una <em>Information Security Policy</em> che dichiara "l'azienda protegge tutti i dati dei clienti secondo i principi di riservatezza e integrità". Poi pubblica un <em>Encryption Standard</em> che impone "tutti i dati a riposo nel cloud devono usare AES-256". Poi crea una <em>Procedure</em> passo-passo per configurare la crittografia su AWS S3. Infine distribuisce una <em>Guideline</em> consigliando come gestire le chiavi KMS in modo efficiente. Ogni livello ha un ruolo diverso e nessuno sostituisce l'altro.
+          </div>
+
+          <!-- External Considerations -->
+          <h3 id="ext-considerations">External Considerations</h3>
+          <p>
+            Le policy di sicurezza non vivono nel vuoto: devono tenere conto di vincoli e obblighi esterni all'organizzazione. L'obiettivo 5.1 elenca esplicitamente sei categorie di considerazioni esterne che il programma di governance deve incorporare.
+          </p>
+
+          <dl class="termlist">
+            <dt>Regulatory (Regolatorio)</dt>
+            <dd>Obblighi imposti da autorità di regolazione del settore (es. PCI DSS per i pagamenti con carta, HIPAA per la sanità negli USA, NIS2 in Europa per operatori di infrastrutture critiche). Il mancato rispetto espone l'organizzazione a sanzioni formali irrogate dall'autorità regolatoria.</dd>
+
+            <dt>Legal (Legale)</dt>
+            <dd>Obblighi derivanti dal sistema giuridico applicabile: leggi nazionali sulla protezione dei dati, obblighi di notifica delle violazioni (data breach notification), leggi penali su accessi non autorizzati. Le policy devono essere riviste dal team legale per assicurarne la conformità.</dd>
+
+            <dt>Industry (Settore)</dt>
+            <dd>Standard e framework adottati dal settore di riferimento anche in assenza di obbligo legale. Il rispetto di standard di settore come ISO 27001 o SOC 2 può essere richiesto dai clienti come prerequisito contrattuale e rappresenta un elemento di fiducia nel mercato.</dd>
+
+            <dt>Local/Regional (Locale/Regionale)</dt>
+            <dd>Norme specifiche di una regione o Stato (es. la California Consumer Privacy Act — CCPA negli USA, oppure normative regionali europee che integrano il GDPR). Un'organizzazione globale deve mappare ogni jurisdizione in cui opera e verificare i requisiti locali.</dd>
+
+            <dt>National (Nazionale)</dt>
+            <dd>Leggi nazionali applicabili, come il GDPR in Europa (applicato dai singoli Stati membri), la legge sulla sicurezza informatica cinese, o le normative FISMA per le agenzie federali statunitensi. Spesso le leggi nazionali sono il "pavimento" minimo su cui si aggiungono requisiti regionali o settoriali.</dd>
+
+            <dt>Global (Globale)</dt>
+            <dd>Trattati internazionali, accordi di trasferimento dati (es. EU-US Data Privacy Framework), standard globali (ISO, OECD Guidelines). Le multinazionali devono costruire policy che siano conformi contemporaneamente a più sistemi normativi, spesso in conflitto tra loro.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.1-B — External Considerations</strong> — Lo scenario tipico: "Un'azienda statunitense vuole espandersi in Europa e raccogliere dati di utenti UE — quale considerazione esterna è più rilevante?" → Risposta: <em>Legal/Regulatory</em> (GDPR). Un'altra variante: "quale tipo di considerazione esterna influenza un'organizzazione sanitaria che accetta pagamenti con carta?" → Risposta: sia <em>Regulatory</em> (HIPAA) sia <em>Industry</em> (PCI DSS).
+          </div>
+
+          <!-- Monitoring and Revision -->
+          <h3 id="monitoring-revision">Monitoring and Revision (Monitoraggio e revisione)</h3>
+          <p>
+            Le policy e gli standard non sono documenti statici: il programma di governance include meccanismi formali per verificare che i documenti siano applicati e restino adeguati nel tempo. Il <strong>monitoraggio</strong> serve a rilevare deviazioni e violazioni; la <strong>revisione</strong> serve ad aggiornare i documenti quando cambiano la tecnologia, la normativa o il panorama delle minacce.
+          </p>
+          <p>
+            Il monitoraggio continuo si avvale di strumenti come i <strong>SIEM</strong> (Security Information and Event Management) per correlare eventi di sicurezza in tempo reale, audit periodici per verificare l'adesione agli standard, e raccolta sistematica di feedback dal personale. Quando il monitoraggio rileva che uno standard non è più adeguato — per esempio perché un algoritmo di cifratura è stato deprecato — si avvia il processo di revisione: aggiornamento del documento, approvazione, comunicazione e formazione del personale interessato.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Ciclo di revisione</strong><br>
+            Lo standard sulle password dell'azienda prevede una lunghezza minima di 8 caratteri. Il NIST aggiorna le proprie linee guida (SP 800-63B) raccomandando almeno 12 caratteri e abolendo le scadenze periodiche. Il team di sicurezza, attraverso il monitoraggio delle fonti normative, rileva la discrepanza, avvia la revisione dello standard, ottiene l'approvazione del CISO, aggiorna il documento, lo comunica a tutti i dipendenti e pianifica la formazione. Senza un processo formale di monitoraggio e revisione, lo standard diventerebbe obsoleto senza che nessuno se ne accorgesse.
+          </div>
+
+          <!-- Governance Structures -->
+          <h3 id="governance-structures">Types of Governance Structures (Strutture di governance)</h3>
+          <p>
+            La governance della sicurezza non esiste in isolamento: si inserisce nella struttura di governance complessiva dell'organizzazione. L'obiettivo 5.1 elenca i quattro tipi di strutture di governance che il candidato deve conoscere.
+          </p>
+
+          <dl class="termlist">
+            <dt>Boards (Consiglio di amministrazione)</dt>
+            <dd>Il Board è l'organo di supervisione di più alto livello nelle organizzazioni societarie. È responsabile della definizione della direzione strategica e della supervisione della gestione del rischio a livello enterprise. Negli ultimi anni, a seguito di normative come la SEC Cybersecurity Disclosure Rule, i board sono tenuti a includere competenze di cybersecurity e a riferire pubblicamente sulle politiche di gestione del rischio informatico. Il CISO risponde al board (direttamente o tramite il CEO) per le questioni di rischio cyber di natura strategica.</dd>
+
+            <dt>Committees (Comitati)</dt>
+            <dd>I comitati sono strutture specializzate che lavorano sotto l'autorità del board o del management per gestire aree specifiche. In ambito sicurezza, il <strong>Security Steering Committee</strong> o <strong>Risk Committee</strong> coordina le iniziative di sicurezza tra le diverse funzioni aziendali, approva policy rilevanti e valuta il rischio residuo. Il comitato garantisce che la sicurezza non sia una questione solo tecnica ma coinvolga business, legal, HR e IT.</dd>
+
+            <dt>Government Entities (Enti governativi)</dt>
+            <dd>Per le organizzazioni del settore pubblico o per aziende private che lavorano con enti governativi, la struttura di governance include agenzie e organismi statali che esercitano funzioni di oversight. Negli USA, il NIST fornisce il framework di riferimento (RMF) per le agenzie federali; la CISA supervisiona la sicurezza delle infrastrutture critiche; la FTC interviene in caso di pratiche di sicurezza inadeguate. In Europa, le autorità di protezione dei dati (DPA) vigilano sul GDPR.</dd>
+
+            <dt>Centralized vs. Decentralized (Centralizzato vs. Decentralizzato)</dt>
+            <dd>
+              Questo è il principale asse di differenziazione delle strutture di governance:
+              <ul style="margin-top:6px;">
+                <li><strong>Governance centralizzata</strong> — un'unica autorità centrale (es. la funzione CISO) definisce policy, standard e controlli validi per tutta l'organizzazione. Garantisce uniformità e coerenza, facilita gli audit e riduce i rischi di frammentazione. È preferita in ambienti altamente regolamentati. Il limite è la minore flessibilità locale.</li>
+                <li><strong>Governance decentralizzata</strong> — ciascuna business unit o filiale ha autonomia nel definire i propri controlli, purché rispetti gli obiettivi di alto livello. Garantisce flessibilità e adattabilità, ma aumenta il rischio di incoerenza tra unità e può rendere gli audit più complessi.</li>
+              </ul>
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Centralized vs. Decentralized</strong> — L'esame può chiederti quale struttura è "più appropriata per un'organizzazione multinazionale con requisiti normativi diversi per regione". La risposta non è ovvia: una struttura <em>ibrida</em> è spesso la più corretta, ma l'esame tende a preferire la risposta che enfatizza la necessità di <em>uniformità dei controlli minimi</em> (favorendo il centralizzato) con adattamenti locali (elementi decentralizzati). Se la domanda parla di "coerenza e audit" → centralizzato; se parla di "flessibilità e agilità locale" → decentralizzato.
+          </div>
+
+          <!-- Roles and Responsibilities -->
+          <h3 id="roles-responsibilities">Roles and Responsibilities for Systems and Data</h3>
+          <p>
+            Un elemento fondamentale della governance è la chiarezza sui <em>ruoli</em> e le <em>responsabilità</em> per la gestione dei sistemi e dei dati. L'assenza di ruoli definiti genera ambiguità su chi è responsabile della protezione di un asset, chi può autorizzarne l'uso e chi risponde in caso di violazione. L'obiettivo 5.1 identifica quattro ruoli chiave.
+          </p>
+
+          <dl class="termlist">
+            <dt>Owner (Proprietario dei dati)</dt>
+            <dd>Il proprietario dei dati è la persona (tipicamente un dirigente o manager) che ha la responsabilità ultima per un insieme di dati o per un sistema. Decide la classificazione dei dati, approva le policy di accesso, determina per quanto tempo i dati devono essere conservati e autorizza chi può utilizzarli. Il proprietario risponde del dato dal punto di vista del business, non necessariamente dal punto di vista tecnico. Esempio: il Direttore Marketing è il data owner dei dati sui clienti della divisione marketing.</dd>
+
+            <dt>Controller (Titolare del trattamento)</dt>
+            <dd>Termine che deriva dalla normativa sulla privacy (es. GDPR): il controller è l'entità (persona fisica o giuridica) che determina le <em>finalità</em> e i <em>mezzi</em> del trattamento dei dati personali. La distinzione è importante: il controller decide "perché" e "come" i dati vengono trattati. Nell'ambito GDPR, il controller ha obblighi specifici verso gli interessati (data subjects) e verso le autorità di controllo. In molti contesti aziendali il controller coincide con il data owner.</dd>
+
+            <dt>Processor (Responsabile del trattamento)</dt>
+            <dd>Il processor tratta i dati <em>per conto</em> del controller, seguendo le sue istruzioni. Tipicamente è un fornitore di servizi cloud, un elaboratore di pagamenti o un SaaS provider. Il processor non decide le finalità del trattamento, ma è comunque responsabile della sicurezza tecnica dei dati che gestisce. Contrattualmente, il rapporto controller-processor è regolato da un Data Processing Agreement (DPA).</dd>
+
+            <dt>Custodian/Steward (Custode/Amministratore dei dati)</dt>
+            <dd>Il custode dei dati è la figura tecnica (spesso nell'IT) che implementa i controlli tecnici di sicurezza e di accesso definiti dal proprietario. Gestisce concretamente i sistemi, esegue i backup, applica le patch e gestisce le autorizzazioni. Non decide le policy, ma le esegue. Il termine <em>steward</em> è talvolta usato in senso più ampio per indicare chi garantisce la qualità e l'integrità dei dati nel tempo.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Ruolo</th>
+                <th>Chi è</th>
+                <th>Responsabilità chiave</th>
+                <th>Esempio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Owner</td>
+                <td>Manager / Dirigente business</td>
+                <td>Classificazione, policy di accesso, approvazione uso</td>
+                <td>CFO → dati finanziari</td>
+              </tr>
+              <tr>
+                <td class="label">Controller</td>
+                <td>Entità che determina finalità e mezzi</td>
+                <td>Conformità GDPR, obblighi verso data subjects</td>
+                <td>Azienda che raccoglie dati dei clienti</td>
+              </tr>
+              <tr>
+                <td class="label">Processor</td>
+                <td>Fornitore che tratta dati per conto del controller</td>
+                <td>Sicurezza tecnica, rispetto istruzioni controller</td>
+                <td>Provider CRM cloud che elabora i dati clienti</td>
+              </tr>
+              <tr>
+                <td class="label">Custodian/Steward</td>
+                <td>IT / DBA / System Admin</td>
+                <td>Backup, patch, gestione accessi tecnici</td>
+                <td>DBA che gestisce il database dei clienti</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.1-C — Owner vs Custodian</strong> — Lo scenario tipico: "Chi è responsabile della classificazione dei dati?" → <em>Owner</em>. "Chi implementa tecnicamente i controlli di accesso ai dati?" → <em>Custodian</em>. "Chi determina le finalità del trattamento dei dati personali secondo il GDPR?" → <em>Controller</em>. "Chi tratta i dati per conto altrui?" → <em>Processor</em>.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 5.3 — THIRD-PARTY RISK
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-3">
+          <h2>Objective 5.3 — Third-Party Risk Assessment e Management</h2>
+          <p>
+            I fornitori, i partner e i prestatori di servizi terzi rappresentano una delle superfici di attacco più insidiose per le organizzazioni moderne: essi hanno spesso accesso privilegiato ai sistemi interni, trattano dati sensibili per conto dell'azienda e possono essere anello debole della supply chain (come dimostrato dall'attacco SolarWinds del 2020). Il <strong>third-party risk management</strong> è il processo attraverso cui l'organizzazione identifica, valuta, controlla e monitora i rischi introdotti da soggetti esterni.
+          </p>
+
+          <!-- Vendor Assessment -->
+          <h3 id="vendor-assessment">Vendor Assessment (Valutazione del fornitore)</h3>
+          <p>
+            Prima di instaurare un rapporto con un fornitore, l'organizzazione deve condurre una valutazione dei rischi che questi introduce. L'obiettivo 5.3 elenca cinque tecniche di vendor assessment che il candidato deve conoscere.
+          </p>
+
+          <dl class="termlist">
+            <dt>Penetration Testing</dt>
+            <dd>Il cliente può richiedere al fornitore di sottoporsi a un penetration test condotto da terzi indipendenti per verificare la solidità delle difese tecniche prima della stipula del contratto. I risultati del pentest devono essere documentati e il fornitore deve dimostrare di aver corretto le vulnerabilità critiche. Questa pratica è comune nei contratti con fornitori di servizi cloud e SaaS che tratteranno dati sensibili.</dd>
+
+            <dt>Right-to-Audit Clause (Clausola di diritto di audit)</dt>
+            <dd>Una clausola contrattuale che conferisce al cliente il diritto di condurre (o far condurre da terzi) audit periodici delle pratiche di sicurezza del fornitore. È una forma di supervisione contrattuale: anche se il cliente non esercita costantemente questo diritto, la sola possibilità costituisce un deterrente e garantisce la possibilità di ispezione in caso di sospetto. La clausola deve specificare preavviso, perimetro, frequenza e gestione delle evidenze raccolte.</dd>
+
+            <dt>Evidence of Internal Audits (Evidenze di audit interni)</dt>
+            <dd>Il fornitore può dimostrare la maturità del proprio programma di sicurezza fornendo evidenze dei propri audit interni: report, finding list, piani di remediation. Questo approccio è meno invasivo del penetration test diretto da parte del cliente e permette di valutare la cultura di sicurezza del fornitore senza accedere direttamente ai suoi sistemi.</dd>
+
+            <dt>Independent Assessments (Valutazioni indipendenti)</dt>
+            <dd>Certificazioni e attestazioni rilasciate da organismi terzi accreditati: ISO 27001, SOC 2 Type II, FedRAMP, PCI DSS Attestation of Compliance (AoC). Una certificazione ISO 27001 valida attesta che il fornitore ha implementato e mantiene un Information Security Management System (ISMS) conforme allo standard internazionale. Il cliente deve verificare che la certificazione sia aggiornata e che copra l'ambito (scope) rilevante per i servizi contrattualizzati.</dd>
+
+            <dt>Supply Chain Analysis (Analisi della supply chain)</dt>
+            <dd>Non basta valutare il fornitore diretto: è necessario esaminare l'intera catena di fornitura, identificando i <em>sub-processor</em> e i fornitori di quarto livello. Un fornitore SaaS sicuro può utilizzare componenti open source vulnerabili o affidarsi a data center non certificati. La supply chain analysis mappa queste dipendenze e valuta i rischi associati a ciascun nodo della catena.</dd>
+          </dl>
+
+          <!-- Vendor Selection -->
+          <h3 id="vendor-selection">Vendor Selection (Selezione del fornitore)</h3>
+
+          <dl class="termlist">
+            <dt>Due Diligence</dt>
+            <dd>Processo di analisi approfondita preliminare del fornitore candidato che copre: stabilità finanziaria (rischio di fallimento), reputazione, pratiche di sicurezza documentate, conformità normativa, storico di incidenti, gestione dei subappaltatori e politiche di data retention. La due diligence non è un'attività una-tantum: deve essere ripetuta periodicamente durante il rapporto contrattuale.</dd>
+
+            <dt>Conflict of Interest (Conflitto di interessi)</dt>
+            <dd>Situazione in cui un fornitore ha interessi economici, personali o strategici che potrebbero comprometterne l'imparzialità o la lealtà verso il cliente. Esempio: un fornitore che è anche partner di un concorrente diretto potrebbe avere accesso a informazioni sensibili che crea un rischio di fuga di dati. L'analisi dei conflitti di interesse deve essere documentata nella fase di selezione.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Vendor assessment in pratica</strong><br>
+            Un'azienda bancaria vuole adottare un CRM cloud per la gestione dei clienti. Prima di firmare il contratto: (1) richiede al vendor un SOC 2 Type II aggiornato; (2) inserisce una <em>right-to-audit clause</em> con preavviso di 30 giorni; (3) fa condurre un pentest da una società indipendente; (4) mappa i sub-processor (il vendor usa AWS e un provider email terzo) e verifica le loro certificazioni; (5) verifica che nessun dirigente del vendor abbia partecipazioni in aziende concorrenti. Solo dopo completa la due diligence e avvia la negoziazione contrattuale.
+          </div>
+
+          <!-- Agreement Types -->
+          <h3 id="agreement-types">Agreement Types (Tipi di accordo)</h3>
+          <p>
+            I contratti con i fornitori sono gli strumenti legali attraverso cui si formalizzano obblighi, responsabilità e livelli di servizio. Conoscere le differenze tra i vari tipi di accordo è essenziale sia per la governance sia per l'esame.
+          </p>
+
+          <dl class="termlist">
+            <dt>Service Level Agreement (SLA)</dt>
+            <dd>Contratto che definisce i livelli di servizio attesi (uptime, tempi di risposta, tempi di risoluzione degli incidenti) e le conseguenze del mancato rispetto (penali, crediti di servizio). Un SLA ben redatto include metriche misurabili, finestre di manutenzione programmate e procedure di escalation. È il principale strumento per gestire la disponibilità dei servizi critici affidati a terzi.</dd>
+
+            <dt>Memorandum of Understanding (MOU)</dt>
+            <dd>Documento che chiarisce la comprensione reciproca tra due parti riguardo a una collaborazione o a un accordo operativo. Ha natura relativamente informale rispetto a un contratto vero e proprio: descrive le intenzioni e le aspettative senza creare obblighi legali vincolanti con le stesse conseguenze di un contratto formale. Spesso precede accordi più formali.</dd>
+
+            <dt>Memorandum of Agreement (MOA)</dt>
+            <dd>Accordo più formale del MOU: descrive in modo dettagliato ruoli, responsabilità e obiettivi condivisi tra le parti. A differenza del MOU, il MOA crea obblighi più chiari e può avere valore legale in determinati contesti. Spesso usato in ambito governativo o tra enti pubblici.</dd>
+
+            <dt>Master Service Agreement (MSA)</dt>
+            <dd>Contratto quadro che disciplina i termini generali di una relazione di servizio continuativa nel lungo periodo (responsabilità, riservatezza, proprietà intellettuale, risoluzione delle controversie). Viene firmato una volta sola e poi integrato da Work Order o SOW specifici per ogni progetto o servizio aggiuntivo.</dd>
+
+            <dt>Work Order (WO) / Statement of Work (SOW)</dt>
+            <dd>Documento operativo specifico per un progetto o incarico: descrive le attività da svolgere, i deliverable attesi, le tempistiche e i costi. Viene emesso all'interno del framework definito dall'MSA. Il SOW è generalmente più dettagliato del WO e viene usato per progetti complessi.</dd>
+
+            <dt>Non-Disclosure Agreement (NDA)</dt>
+            <dd>Accordo che impone la protezione delle informazioni riservate condivise tra le parti. Può essere unilaterale (solo il fornitore si impegna) o bilaterale (entrambe le parti si impegnano). L'NDA deve specificare cosa è considerato "confidenziale", la durata degli obblighi e le conseguenze della violazione.</dd>
+
+            <dt>Business Partners Agreement (BPA)</dt>
+            <dd>Accordo tra partner commerciali che collaborano su attività, prodotti o mercati comuni. Regola la distribuzione di responsabilità, profitti, proprietà intellettuale e gestione dei dati condivisi. In ambito HIPAA, il BPA (Business Associate Agreement) è obbligatorio quando un partner commerciale tratta Protected Health Information (PHI) per conto di un'entità coperta.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Accordo</th>
+                <th>Caratteristica principale</th>
+                <th>Quando si usa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">SLA</td>
+                <td>Livelli di servizio misurabili e penali</td>
+                <td>Contratti operativi con provider di servizi</td>
+              </tr>
+              <tr>
+                <td class="label">MOU</td>
+                <td>Comprensione informale, non vincolante</td>
+                <td>Fase esplorativa di una collaborazione</td>
+              </tr>
+              <tr>
+                <td class="label">MOA</td>
+                <td>Accordo formale su ruoli e responsabilità</td>
+                <td>Tra enti pubblici o in contesti formali</td>
+              </tr>
+              <tr>
+                <td class="label">MSA</td>
+                <td>Contratto quadro per relazione a lungo termine</td>
+                <td>Prima di iniziare un rapporto continuativo</td>
+              </tr>
+              <tr>
+                <td class="label">WO / SOW</td>
+                <td>Specifiche operative di un progetto</td>
+                <td>Ogni nuovo progetto all'interno dell'MSA</td>
+              </tr>
+              <tr>
+                <td class="label">NDA</td>
+                <td>Protezione delle informazioni riservate</td>
+                <td>Prima di condividere dati sensibili</td>
+              </tr>
+              <tr>
+                <td class="label">BPA</td>
+                <td>Partnership commerciale / HIPAA BAA</td>
+                <td>Partner che condividono attività e dati</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>PITFALL — MOU vs MOA vs MSA</strong> — L'esame usa questi tre acronimi per confonderti. Ricorda: <em>MOU</em> = informale, descrive intenzioni; <em>MOA</em> = formale, crea obblighi chiari tra enti; <em>MSA</em> = contratto quadro di lungo periodo con fornitore commerciale. La parola chiave "comprensione reciproca" → MOU; "accordo formale su ruoli" → MOA; "contratto quadro a lungo termine" → MSA.
+          </div>
+
+          <!-- Vendor Monitoring -->
+          <h3 id="vendor-monitoring">Vendor Monitoring (Monitoraggio del fornitore)</h3>
+          <p>
+            La valutazione iniziale non è sufficiente: i rischi associati a un fornitore possono cambiare nel tempo. Il monitoraggio continuo include: verifica periodica del mantenimento delle certificazioni (es. rinnovo annuale ISO 27001), revisione dei KPI contrattuali, analisi di incidenti di sicurezza che coinvolgono il fornitore, monitoraggio delle notizie pubbliche (es. data breach dichiarato dal fornitore), aggiornamento dei questionari di sicurezza. In caso di deterioramento della postura di sicurezza, l'organizzazione deve avere un piano di exit e di migrazione dei dati.
+          </p>
+
+          <!-- Questionnaires & ROE -->
+          <h3 id="questionnaires-roe">Questionnaires e Rules of Engagement</h3>
+
+          <dl class="termlist">
+            <dt>Questionnaires (Questionari di sicurezza)</dt>
+            <dd>Strumenti standardizzati per raccogliere informazioni sulle pratiche di sicurezza di un fornitore in modo scalabile. I questionari più usati sono il <strong>Standardized Information Gathering (SIG)</strong> di Shared Assessments e il <strong>CAIQ</strong> (Consensus Assessments Initiative Questionnaire) della Cloud Security Alliance. I questionari coprono aree come gestione degli accessi, crittografia, gestione degli incidenti, continuità operativa e conformità normativa. La qualità delle risposte e la disponibilità a fornire prove documentali sono indicatori della maturità del fornitore.</dd>
+
+            <dt>Rules of Engagement (Regole di ingaggio)</dt>
+            <dd>Documento formale che stabilisce i parametri, le condizioni e i limiti entro cui si svolge qualsiasi attività di testing, auditing o accesso ai sistemi del fornitore (o viceversa). Nel contesto del vendor management, definisce: chi può fare cosa, su quali sistemi, in quali finestre temporali, con quale preavviso, e quali sono i canali di comunicazione e escalation. Le rules of engagement sono fondamentali anche nel contesto dei penetration test: senza di esse, un tester potrebbe causare danni non autorizzati o colpire sistemi fuori perimetro.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.3-A — Rules of Engagement</strong> — Scenario tipico: "Prima di condurre un penetration test su un fornitore, quale documento è necessario?" → <em>Rules of Engagement</em>. Non confonderle con l'SLA (che riguarda i livelli di servizio) né con il NDA (che riguarda la riservatezza). Le ROE definiscono il <em>perimetro autorizzato</em> dell'attività di test.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 5.4 — SECURITY COMPLIANCE
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-4">
+          <h2>Objective 5.4 — Elementi di una security compliance efficace</h2>
+          <p>
+            La <strong>compliance</strong> è il processo attraverso cui un'organizzazione verifica e dimostra di rispettare obblighi legali, normativi, contrattuali e di settore. Non è un'attività una-tantum ma un programma continuo che include reporting, monitoraggio, gestione delle non-conformità e rispetto della normativa sulla privacy. La compliance non sostituisce la sicurezza: un'organizzazione può essere conforme ai requisiti normativi e avere comunque vulnerabilità significative — e viceversa.
+          </p>
+
+          <!-- Compliance Reporting -->
+          <h3 id="compliance-reporting">Compliance Reporting</h3>
+
+          <dl class="termlist">
+            <dt>Internal Reporting (Reporting interno)</dt>
+            <dd>Rapporti prodotti per il management interno, il CISO, il board e i comitati di sicurezza. Il reporting interno serve a comunicare lo stato attuale di conformità, identificare gap, priorizzare interventi e dimostrare il valore del programma di sicurezza all'interno dell'organizzazione. Include metriche come il numero di controlli conformi vs. non conformi, il tempo medio di remediation dei finding di audit e il livello di copertura delle policy.</dd>
+
+            <dt>External Reporting (Reporting esterno)</dt>
+            <dd>Rapporti prodotti per soggetti esterni: autorità di regolazione (es. Garante Privacy), organismi di certificazione (es. ente di audit ISO), clienti che lo richiedono contrattualmente, investitori in caso di obblighi di disclosure. Il reporting esterno ha spesso una forma standardizzata imposta dalla normativa (es. notifica di data breach al Garante entro 72 ore secondo il GDPR) e deve essere accurato perché le dichiarazioni false possono configurare reati.</dd>
+          </dl>
+
+          <!-- Non-compliance -->
+          <h3 id="non-compliance">Consequences of Non-Compliance (Conseguenze della non-conformità)</h3>
+          <p>
+            Le conseguenze della non-conformità non sono solo sanzioni economiche: hanno impatti multidimensionali che possono compromettere la sopravvivenza stessa dell'organizzazione.
+          </p>
+
+          <dl class="termlist">
+            <dt>Fines (Sanzioni pecuniarie)</dt>
+            <dd>Multe irrogate da autorità di regolazione. Il GDPR prevede sanzioni fino al 4% del fatturato globale annuo o 20 milioni di euro (il maggiore dei due). PCI DSS può portare a sanzioni mensili tra 5.000 e 100.000 USD. HIPAA può portare a sanzioni fino a 1,9 milioni USD per categoria di violazione.</dd>
+
+            <dt>Sanctions (Sanzioni non pecuniarie)</dt>
+            <dd>Misure coercitive diverse dalle multe: restrizioni operative (es. divieto di trattare certi tipi di dati), ingiunzioni, obblighi di adozione di misure tecniche specifiche entro un termine.</dd>
+
+            <dt>Reputational Damage (Danno reputazionale)</dt>
+            <dd>Una violazione di compliance resa pubblica — specialmente se associata a un data breach — genera una perdita di fiducia da parte di clienti, partner e investitori. Il danno reputazionale può avere effetti economici superiori alle sanzioni formali, soprattutto in settori dove la fiducia è il principale asset (banche, sanità, e-commerce).</dd>
+
+            <dt>Loss of License (Perdita di licenza)</dt>
+            <dd>In settori altamente regolamentati (banche, assicurazioni, sanità) la non-conformità grave può portare alla revoca dell'autorizzazione a operare. È la conseguenza più severa e potenzialmente irreversibile.</dd>
+
+            <dt>Contractual Impacts (Impatti contrattuali)</dt>
+            <dd>I contratti con clienti, partner e fornitori spesso contengono clausole di compliance: la violazione di un requisito normativo può costituire inadempimento contrattuale, esponendo l'organizzazione a cause legali e risarcimenti danni.</dd>
+          </dl>
+
+          <!-- Compliance Monitoring -->
+          <h3 id="compliance-monitoring">Compliance Monitoring</h3>
+
+          <dl class="termlist">
+            <dt>Due Diligence / Due Care</dt>
+            <dd>La <em>due diligence</em> è l'analisi preliminare per identificare rischi e requisiti di compliance prima di intraprendere un'azione (es. acquisire una società, stipulare un contratto). La <em>due care</em> è l'impegno continuo nel mantenere e applicare controlli adeguati nel tempo, dimostrando che l'organizzazione agisce in modo responsabile. Insieme, questi concetti costituiscono la base della "reasonable care" che i tribunali valutano in caso di contenzioso: un'organizzazione può difendersi dimostrando di aver esercitato sia due diligence che due care.</dd>
+
+            <dt>Attestation and Acknowledgement (Attestazione e riconoscimento)</dt>
+            <dd>Processo formale attraverso cui il management o il fornitore dichiara formalmente di essere conforme a specifici requisiti. In ambito PCI DSS, l'Attestation of Compliance (AoC) è il documento firmato che certifica la conformità. In ambito governance interno, i dipendenti "acknowledgono" di aver letto e compreso le policy di sicurezza attraverso firme o tick elettronici nei sistemi di formazione.</dd>
+
+            <dt>Internal and External Monitoring</dt>
+            <dd>Il monitoraggio interno utilizza strumenti come SIEM, log management, vulnerability scanner e audit periodici per verificare l'aderenza ai controlli. Il monitoraggio esterno include audit da parte di clienti, regolatori e organismi di certificazione.</dd>
+
+            <dt>Automation (Automazione)</dt>
+            <dd>L'automazione della compliance riduce il rischio di errore umano e scala su grandi ambienti. Strumenti GRC (Governance, Risk and Compliance) come ServiceNow GRC, RSA Archer o Vanta automatizzano la raccolta delle evidenze di controllo, mappano i requisiti normativi ai controlli implementati e generano report di conformità in tempo reale. La compliance-as-code permette di verificare la conformità delle configurazioni cloud tramite policy-as-code (es. AWS Config Rules, HashiCorp Sentinel).</dd>
+          </dl>
+
+          <!-- Privacy -->
+          <h3 id="privacy">Privacy</h3>
+          <p>
+            La privacy è esplicitamente menzionata nell'obiettivo 5.4 come componente della compliance. Non è sinonimo di sicurezza: la <em>sicurezza</em> protegge i dati da accessi non autorizzati; la <em>privacy</em> garantisce che i dati siano raccolti, usati e conservati nel rispetto dei diritti degli individui. Un'organizzazione può avere sistemi tecnicamente sicuri ma trattare i dati in modo non conforme alla privacy (e viceversa).
+          </p>
+
+          <dl class="termlist">
+            <dt>Legal Implications — Local/Regional, National, Global</dt>
+            <dd>Le implicazioni legali della privacy operano su tre livelli:
+              <ul style="margin-top:6px;">
+                <li><strong>Locale/Regionale</strong> — normative specifiche di una regione o Stato: CCPA (California), LGPD (Brasile), normative statali USA varie. Una multinazionale deve mappare ogni giurisdizione.</li>
+                <li><strong>Nazionale</strong> — leggi nazionali sulla privacy: GDPR (applicato dai singoli Stati UE), PIPEDA (Canada), Privacy Act (Australia). Queste leggi definiscono diritti degli individui, obblighi dei titolari e sanzioni.</li>
+                <li><strong>Globale</strong> — accordi internazionali sul trasferimento dei dati: EU-US Data Privacy Framework, Binding Corporate Rules (BCR), Standard Contractual Clauses (SCC). Regolano come i dati personali possono essere trasferiti tra paesi con diversi livelli di protezione.</li>
+              </ul>
+            </dd>
+
+            <dt>Data Subject (Interessato al trattamento)</dt>
+            <dd>La persona fisica i cui dati personali vengono trattati. Il GDPR conferisce al data subject diritti specifici: diritto di accesso, rettifica, cancellazione (right to be forgotten), portabilità, opposizione al trattamento, e diritto di non essere soggetto a decisioni automatizzate. Le policy di privacy devono includere processi per gestire le richieste degli interessati (DSAR — Data Subject Access Request) entro i termini previsti dalla normativa (30 giorni nel GDPR).</dd>
+
+            <dt>Controller vs. Processor (Titolare vs. Responsabile)</dt>
+            <dd>Distinzione fondamentale nella privacy moderna: il <em>controller</em> (titolare) determina le finalità e i mezzi del trattamento ed è il primo responsabile verso il data subject e le autorità. Il <em>processor</em> (responsabile) tratta i dati per conto del controller seguendo le sue istruzioni. Il rapporto è regolato da un Data Processing Agreement (DPA). In caso di violazione, il controller risponde verso il data subject; il processor risponde verso il controller. Un soggetto può essere sia controller (per i propri dipendenti) sia processor (per i dati dei clienti del proprio cliente).</dd>
+
+            <dt>Ownership (Proprietà dei dati)</dt>
+            <dd>Principio secondo cui i dati personali appartengono all'individuo, non all'organizzazione che li raccoglie. L'organizzazione ottiene solo una "licenza" di utilizzo nei limiti del consenso o di altra base giuridica. Questo concetto ha implicazioni pratiche: i dati devono essere eliminati quando vengono meno le ragioni che ne giustificavano il trattamento.</dd>
+
+            <dt>Data Inventory and Retention (Inventario e conservazione dei dati)</dt>
+            <dd>L'organizzazione deve sapere quali dati personali possiede, dove si trovano, per quale finalità sono stati raccolti e per quanto tempo devono essere conservati. Il <em>data inventory</em> (o data map) è il registro delle categorie di dati trattati, delle finalità, delle basi giuridiche e dei destinatari. Le <em>retention policy</em> definiscono per quanto tempo ciascun tipo di dato deve essere conservato prima di essere eliminato o anonimizzato.</dd>
+
+            <dt>Right to Be Forgotten (Diritto all'oblio)</dt>
+            <dd>Il diritto dell'interessato di richiedere la cancellazione dei propri dati personali quando non sussiste più una base giuridica per il trattamento (es. revoca del consenso, dati non più necessari alla finalità originaria). Il titolare deve procedere alla cancellazione e, se i dati sono stati comunicati a terzi, deve informarli della richiesta di cancellazione. Non è un diritto assoluto: cede di fronte a obblighi legali di conservazione o all'interesse pubblico.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Controller vs Processor (Privacy)</strong> — L'esame usa questi due termini sia nel contesto dei ruoli di governance (5.1) sia nel contesto della privacy (5.4). Nel contesto privacy (GDPR), il <em>controller</em> decide le finalità del trattamento e risponde verso il data subject; il <em>processor</em> esegue il trattamento per conto del controller. Un provider cloud che ospita i dati dei tuoi clienti è il <em>processor</em>; tu sei il <em>controller</em>.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.4-A — Compliance vs Privacy</strong> — La compliance verifica che l'organizzazione rispetti le <em>regole</em> (normative, standard, contratti). La privacy garantisce i <em>diritti degli individui</em> sui propri dati. Le due aree si sovrappongono (il GDPR è sia privacy sia compliance), ma concettualmente rimangono distinte: un sistema può essere tecnicamente sicuro (buona security), conforme alle normative (buona compliance) e allo stesso tempo raccogliere dati in eccesso o per finalità non dichiarate (cattiva privacy practice).
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 5.5 — AUDITS AND ASSESSMENTS
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-5">
+          <h2>Objective 5.5 — Tipi e finalità di audit e assessment</h2>
+          <p>
+            Gli <strong>audit</strong> e gli <strong>assessment</strong> sono meccanismi di verifica indipendente che consentono all'organizzazione di misurare la propria postura di sicurezza rispetto a standard, policy e requisiti normativi. Senza audit, la governance rimane teorica: è l'audit che fornisce l'evidenza empirica che i controlli funzionano come previsto. L'obiettivo 5.5 copre quattro aree principali: attestazione, audit interni, audit esterni e penetration testing.
+          </p>
+
+          <!-- Attestation -->
+          <h3 id="attestation">Attestation (Attestazione)</h3>
+          <p>
+            L'attestazione è il processo formale attraverso cui un individuo o un'organizzazione dichiara, sotto propria responsabilità, che determinate condizioni di conformità o sicurezza sono soddisfatte. A differenza di un audit tradizionale condotto da un terzo indipendente, l'attestazione può essere auto-dichiarata (self-attestation) oppure rilasciata da un auditor esterno a seguito di una verifica. Esempi comuni: l'<strong>Attestation of Compliance (AoC) PCI DSS</strong>, la firma annuale di un documento di conformità alle policy aziendali, le dichiarazioni rese ad autorità regolatorie. L'attestazione falsa o negligente può configurare responsabilità legale.
+          </p>
+
+          <!-- Internal Audit -->
+          <h3 id="internal-audit">Internal (Audit interni)</h3>
+          <p>
+            Gli audit interni sono condotti da personale dell'organizzazione stessa (o da consulenti che agiscono sotto la sua direzione). Servono a identificare gap rispetto alle policy, agli standard e ai requisiti normativi prima che lo faccia un auditor esterno. L'obiettivo 5.5 distingue tre tipi di audit interni.
+          </p>
+
+          <dl class="termlist">
+            <dt>Compliance Audit (Audit di conformità)</dt>
+            <dd>Verifica sistematica che i controlli implementati siano conformi ai requisiti normativi, contrattuali o ai propri standard interni. Produce una lista di finding con priorità (critico, alto, medio, basso) e raccomandazioni di remediation. Il compliance audit interno è spesso il precursore dell'audit esterno: le organizzazioni lo usano per "prepararsi" a una certificazione ISO o a un audit regolatorio.</dd>
+
+            <dt>Audit Committee (Comitato di audit)</dt>
+            <dd>Struttura organizzativa — tipicamente un sottocomitato del board of directors — con il mandato di supervisionare il processo di audit, la reportistica finanziaria e la gestione del rischio. Il comitato di audit garantisce l'indipendenza della funzione di audit interno dal management operativo, assicura che i finding di audit siano comunicati al board e monitora l'implementazione dei piani di remediation. La presenza di un audit committee indipendente è un indicatore di maturità della governance.</dd>
+
+            <dt>Self-Assessments (Auto-valutazioni)</dt>
+            <dd>Valutazioni condotte dai team stessi (es. i system owner valutano i propri sistemi) usando framework, checklist o questionari standardizzati. Le self-assessment sono meno indipendenti degli audit formali e tendono a essere più ottimistiche, ma sono utili per valutazioni frequenti a basso costo e per responsabilizzare i team. Molte normative le richiedono come complemento agli audit formali (es. NIST RMF include self-assessments periodiche nel ciclo di monitoraggio continuo).</dd>
+          </dl>
+
+          <!-- External Audit -->
+          <h3 id="external-audit">External (Audit esterni)</h3>
+          <p>
+            Gli audit esterni sono condotti da soggetti indipendenti dall'organizzazione. L'indipendenza è la caratteristica che conferisce valore e credibilità ai risultati: un auditor esterno non ha incentivi a nascondere criticità.
+          </p>
+
+          <dl class="termlist">
+            <dt>Regulatory (Regolatorio)</dt>
+            <dd>Audit condotto da autorità di regolazione (es. Garante Privacy, FCA, OCC, FDA) per verificare la conformità a normative specifiche. Il soggetto auditato non può rifiutare l'ispezione; i finding possono portare a sanzioni dirette. Gli audit regolatori hanno solitamente frequenza prestabilita dalla normativa o possono essere attivati da un incidente o da un whistleblower.</dd>
+
+            <dt>Examinations (Esami)</dt>
+            <dd>Termine usato tipicamente nel settore finanziario per le ispezioni periodiche condotte da autorità di vigilanza (es. Federal Reserve, OCC negli USA). Durante un examination, gli esaminatori valutano la solidità dei controlli interni, le pratiche di gestione del rischio e la conformità alle normative bancarie. Il risultato può essere un <em>CAMELS rating</em> (per le banche) o equivalenti misure di valutazione della salute dell'istituzione.</dd>
+
+            <dt>Assessment (Valutazione)</dt>
+            <dd>Termine generico per una valutazione della postura di sicurezza condotta da un terzo indipendente, senza la natura coercitiva dell'audit regolatorio. Include security assessments, risk assessments, gap analysis rispetto a un framework (es. NIST CSF, ISO 27001). Le organizzazioni commissionate le self-select per prepararsi a certificazioni o per fornire evidenze ai propri clienti.</dd>
+
+            <dt>Independent Third-Party Audit (Audit di terza parte indipendente)</dt>
+            <dd>Audit condotto da una società di audit accreditata (es. Big Four, BSI, Bureau Veritas) per rilasciare una certificazione o attestazione formale riconosciuta da terzi. Esempi: audit ISO 27001 per la certificazione, audit SOC 2 Type II condotto da un CPA firm registrato (negli USA), audit PCI DSS condotto da un QSA (Qualified Security Assessor). Il report risultante (es. SOC 2 report, ISO certificate) può essere condiviso con clienti e partner come prova di conformità.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Tipologia di audit in base al contesto</strong><br>
+            Scenario A: Il Garante Privacy italiano notifica un'ispezione per verificare la conformità GDPR → <em>Regulatory audit</em>. Scenario B: Un'azienda SaaS commissiona una società esterna per ottenere il SOC 2 Type II da mostrare ai propri clienti enterprise → <em>Independent third-party audit</em>. Scenario C: Il team IT verifica la conformità agli standard interni prima di una certificazione ISO → <em>Internal compliance audit</em>. Scenario D: I system owner compilano un questionario NIST CSF per misurare la maturità dei propri sistemi → <em>Self-assessment</em>.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Chi conduce</th>
+                <th>Indipendenza</th>
+                <th>Risultato tipico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Self-Assessment</td>
+                <td>Team interno (auto-valutazione)</td>
+                <td>Bassa</td>
+                <td>Report interno per il miglioramento</td>
+              </tr>
+              <tr>
+                <td class="label">Internal Audit</td>
+                <td>Audit function interna</td>
+                <td>Media</td>
+                <td>Finding list + remediation plan</td>
+              </tr>
+              <tr>
+                <td class="label">External Assessment</td>
+                <td>Consulente/società terza</td>
+                <td>Alta</td>
+                <td>Gap analysis, raccomandazioni</td>
+              </tr>
+              <tr>
+                <td class="label">Independent Third-Party Audit</td>
+                <td>Auditor accreditato</td>
+                <td>Molto alta</td>
+                <td>Certificazione (ISO, SOC 2, PCI AoC)</td>
+              </tr>
+              <tr>
+                <td class="label">Regulatory / Examination</td>
+                <td>Autorità regolatoria</td>
+                <td>Totale (coercitiva)</td>
+                <td>Sanzioni, prescrizioni, nulla osta</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Penetration Testing -->
+          <h3 id="pentest">Penetration Testing</h3>
+          <p>
+            Il <strong>penetration test</strong> (o pentest) è una tecnica di assessment specializzata in cui un professionista (o un team) tenta attivamente di compromettere sistemi, applicazioni o processi per identificare vulnerabilità sfruttabili prima che lo facciano attori malevoli. A differenza di un vulnerability scan (automatico, passivo), il pentest simula le TTP (Tattiche, Tecniche e Procedure) di un attaccante reale. L'obiettivo 5.5 introduce nove dimensioni del penetration testing che il candidato deve saper distinguere.
+          </p>
+
+          <dl class="termlist">
+            <dt>Physical (Pentest fisico)</dt>
+            <dd>Valuta la sicurezza degli accessi fisici: il tester tenta di entrare in aree riservate (data center, uffici, server room) usando tecniche di social engineering, tailgating (seguire una persona autorizzata attraverso una porta sicura), clonazione di badge, o aggiramento di tornelli. Il pentest fisico rivela vulnerabilità che gli strumenti di sicurezza digitali non possono rilevare: una porta server sbloccata, un dipendente disposto a tenere aperta la porta a uno sconosciuto, o un sistema di sorveglianza con angoli ciechi.</dd>
+
+            <dt>Offensive (Red Team)</dt>
+            <dd>Il tester assume il ruolo dell'attaccante (red team) con l'obiettivo di compromettere i sistemi target. Il pentest offensivo simula attacchi realistici usando le stesse TTP degli attori minaccia, incluse tecniche avanzate come la catena di compromissione multi-step, il movimento laterale e la persistenza. È il tipo di pentest più aggressivo e realistico.</dd>
+
+            <dt>Defensive (Blue Team / Purple Team)</dt>
+            <dd>Invece di (o in aggiunta al) tentare di compromettere i sistemi, il pentest difensivo valuta la capacità del blue team di <em>rilevare e rispondere</em> agli attacchi. Il purple team combina red e blue: gli attaccanti simulano TTP specifiche mentre i difensori valutano la loro capacità di detection e response. Questo approccio è più focalizzato sul miglioramento della postura difensiva che sulla scoperta di vulnerabilità tecniche.</dd>
+
+            <dt>Integrated (Integrato)</dt>
+            <dd>Combina aspetti offensivi e difensivi in un unico engagement. Il team di pentest (red) attacca i sistemi mentre coordina in tempo reale con il blue team per validare le capacità di rilevamento, misurare i tempi di risposta e testare i playbook di incident response. L'output è una valutazione olistica della postura di sicurezza tecnica e operativa.</dd>
+
+            <dt>Known Environment (White Box)</dt>
+            <dd>Il tester ha piena conoscenza dell'ambiente: architettura di rete, codice sorgente delle applicazioni, credenziali di sistema, configurazioni dei dispositivi. Questo approccio permette di testare in modo efficiente e completo, identificando vulnerabilità che potrebbero richiedere molto tempo a scoprire senza informazioni interne. È il tipo meno realistico rispetto a un attaccante esterno, ma il più efficiente per trovare tutte le vulnerabilità.</dd>
+
+            <dt>Partially Known Environment (Gray Box)</dt>
+            <dd>Il tester ha informazioni parziali sull'ambiente: conosce la struttura generale (es. tipo di OS, framework usati, plancia dei subnet) ma non ha accesso al codice sorgente o alle configurazioni complete. Simula la situazione di un attaccante che ha già condotto OSINT o ha avuto accesso iniziale limitato. È il compromesso più comune tra realismo e efficienza.</dd>
+
+            <dt>Unknown Environment (Black Box)</dt>
+            <dd>Il tester non ha alcuna informazione preliminare sull'ambiente: simula un attaccante esterno che parte da zero. La fase di ricognizione è parte integrante dell'engagement. Questo tipo è il più realistico ma anche il più costoso in termini di tempo, perché il tester deve prima scoprire cosa attaccare prima di farlo. Tende a trovare le vulnerabilità più facili da scoprire per un attaccante esterno.</dd>
+
+            <dt>Reconnaissance — Passive (Ricognizione passiva)</dt>
+            <dd>Raccolta di informazioni sul target <em>senza interagire direttamente</em> con i suoi sistemi, in modo da non lasciare tracce nei log dell'organizzazione. Tecniche: OSINT (Open Source Intelligence), analisi di DNS pubblici, whois, Google dorking, analisi di siti web e profili LinkedIn, consultazione di database di breach pubblici (HaveIBeenPwned), analisi del codice su GitHub. La ricognizione passiva precede ogni pentest professionale e può rivelare credenziali esposte, indirizzi IP, tecnologie usate e organigramma aziendale.</dd>
+
+            <dt>Reconnaissance — Active (Ricognizione attiva)</dt>
+            <dd>Raccolta di informazioni interagendo direttamente con i sistemi del target: port scanning (nmap), banner grabbing, service enumeration, vulnerability scanning. Queste attività generano traffico verso i sistemi target e possono essere rilevate dai sistemi di difesa (IDS/IPS, SIEM). Per questo motivo, la ricognizione attiva richiede autorizzazione formale (Rules of Engagement) e viene svolta tipicamente nella fase iniziale di un pentest autorizzato, non come attività di intelligence preliminare.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo di pentest</th>
+                <th>Informazioni disponibili</th>
+                <th>Realismo</th>
+                <th>Efficienza</th>
+                <th>Uso tipico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">White Box (Known)</td>
+                <td>Completa</td>
+                <td>Bassa</td>
+                <td>Alta</td>
+                <td>Code review + security testing approfondito</td>
+              </tr>
+              <tr>
+                <td class="label">Gray Box (Partially Known)</td>
+                <td>Parziale</td>
+                <td>Media</td>
+                <td>Media</td>
+                <td>Assessment standard di applicazioni e infrastrutture</td>
+              </tr>
+              <tr>
+                <td class="label">Black Box (Unknown)</td>
+                <td>Nessuna</td>
+                <td>Alta</td>
+                <td>Bassa</td>
+                <td>Simulazione attacco esterno realistico</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>PITFALL — Black Box vs White Box</strong> — L'esame può chiederti "quale tipo di pentest simula nel modo più realistico un attaccante esterno che non conosce la rete?" → <em>Black Box (Unknown environment)</em>. "Quale pentest è più efficiente per trovare tutte le vulnerabilità nel codice di un'applicazione?" → <em>White Box (Known environment)</em>. "Quale ricognizione non genera traffico verso il target?" → <em>Passive reconnaissance</em>.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.5-A — Rules of Engagement prima del pentest</strong> — Qualsiasi pentest, indipendentemente dal tipo, richiede un documento formale di autorizzazione (Rules of Engagement o Scope of Work) che definisce: sistemi in scope e out-of-scope, finestre temporali autorizzate, metodi consentiti e proibiti, canali di comunicazione in caso di emergenza. Un tester che agisce senza autorizzazione formale — anche internamente — commette potenzialmente un reato informatico. Lo scenario tipico dell'esame: "Quale documento è necessario prima di iniziare un penetration test?" → <em>Rules of Engagement</em>.
+          </div>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Scelta del tipo di pentest</strong><br>
+            Un'azienda SaaS vuole testare la sicurezza della propria applicazione web prima del lancio. Richiede un <em>white box pentest</em> con accesso al codice sorgente per identificare tutte le vulnerabilità (OWASP Top 10, business logic flaws). Sei mesi dopo il lancio, commissiona un <em>black box pentest</em> per simulare un attaccante esterno che tenta di compromettere l'applicazione partendo da zero. Un anno dopo, attiva un programma di <em>purple teaming</em> per valutare quanto il SOC riesce a rilevare gli attacchi in tempo reale. Ogni tipo di test risponde a una domanda diversa e si adatta a una fase diversa del ciclo di vita della sicurezza.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Policy</strong> — Dichiarazione obbligatoria di alto livello approvata dal management; dice "cosa" deve essere fatto, non "come".</li>
+            <li><strong>Standard</strong> — Requisito obbligatorio più specifico che traduce la policy in regole tecniche/organizzative concrete.</li>
+            <li><strong>Procedure</strong> — Istruzioni passo-passo obbligatorie per eseguire un'attività specifica in modo coerente.</li>
+            <li><strong>Guideline</strong> — Raccomandazione non obbligatoria che fornisce best practice per implementare policy e standard.</li>
+            <li><strong>AUP (Acceptable Use Policy)</strong> — Policy che definisce gli usi consentiti e vietati delle risorse informatiche aziendali.</li>
+            <li><strong>Governance centralizzata vs decentralizzata</strong> — Centralizzata: un'autorità unica definisce policy per tutta l'organizzazione; decentralizzata: ogni unit ha autonomia con rischio di incoerenza.</li>
+            <li><strong>Data Owner</strong> — Manager responsabile della classificazione e delle policy di accesso ai dati; risponde del dato dal punto di vista del business.</li>
+            <li><strong>Data Custodian</strong> — Figura IT che implementa tecnicamente i controlli di sicurezza definiti dall'Owner.</li>
+            <li><strong>Controller (GDPR)</strong> — Entità che determina finalità e mezzi del trattamento dei dati personali; risponde verso il data subject.</li>
+            <li><strong>Processor (GDPR)</strong> — Entità che tratta i dati per conto del controller; regolato da un Data Processing Agreement (DPA).</li>
+            <li><strong>Right-to-Audit Clause</strong> — Clausola contrattuale che conferisce al cliente il diritto di verificare le pratiche di sicurezza del fornitore.</li>
+            <li><strong>SLA</strong> — Service Level Agreement: definisce uptime, tempi di risposta e penali per mancato rispetto; strumento principale per gestire la disponibilità dei servizi affidati a terzi.</li>
+            <li><strong>MOU vs MOA vs MSA</strong> — MOU: informale, intenzioni; MOA: formale, obblighi chiari; MSA: contratto quadro a lungo termine con fornitore commerciale.</li>
+            <li><strong>Rules of Engagement</strong> — Documento che autorizza e delimita il perimetro di un pentest o di un'attività di audit; necessario prima di qualsiasi test attivo.</li>
+            <li><strong>Compliance Reporting interno vs esterno</strong> — Interno: verso management e board per gestire gap; esterno: verso regolatori o clienti per dimostrare conformità.</li>
+            <li><strong>Conseguenze non-compliance</strong> — Fines, Sanctions, Reputational Damage, Loss of License, Contractual Impacts.</li>
+            <li><strong>Due Diligence vs Due Care</strong> — Due Diligence: analisi preliminare dei rischi; Due Care: impegno continuo nel mantenere controlli adeguati nel tempo.</li>
+            <li><strong>Right to Be Forgotten</strong> — Diritto del data subject di richiedere la cancellazione dei propri dati quando non sussiste più una base giuridica per il trattamento.</li>
+            <li><strong>Attestation</strong> — Dichiarazione formale di conformità rilasciata sotto responsabilità propria (self-attestation) o da auditor esterno (es. PCI DSS AoC).</li>
+            <li><strong>Black Box vs White Box pentest</strong> — Black box: nessuna informazione, massimo realismo; White box: piena informazione, massima efficienza; Gray box: informazioni parziali, compromesso.</li>
+            <li><strong>Passive vs Active Reconnaissance</strong> — Passiva: raccolta info senza interagire con i sistemi target (OSINT, DNS, LinkedIn); attiva: interazione diretta (port scan, banner grabbing) che genera traffico visibile.</li>
+            <li><strong>Independent Third-Party Audit</strong> — Audit condotto da auditor accreditato per rilasciare certificazioni riconosciute da terzi (ISO 27001, SOC 2 Type II, PCI AoC).</li>
+            <li><strong>Supply Chain Analysis</strong> — Valutazione dei rischi dell'intera catena di fornitura, includendo sub-processor e fornitori di quarto livello, non solo il fornitore diretto.</li>
+            <li><strong>Data Inventory and Retention</strong> — Registro di quali dati personali vengono trattati, dove si trovano, per quale finalità e per quanto tempo devono essere conservati.</li>
+          </ul>
+        </section>
+
+        <!-- Navigazione capitoli -->
+        <div class="chapter-nav">
+          <a href="ch15_digital_forensics_canonical.html">← CH15 — Digital Forensics</a>
+          <a href="ch17_risk_privacy_third_party_canonical.html" class="secondary">CH17 — Rischio e Privacy →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+  <script src="../../quiz_data.js"></script>
+  <script src="../../script/chapter-quiz-loader.js"></script>
+  <script src="../../script/lang-preference.js"></script>
+</body>
+</html>

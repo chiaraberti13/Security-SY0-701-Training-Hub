@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — CH17: Risk, BIA and Security Awareness</title>
+  <link rel="stylesheet" href="../../style/style.css" />
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="security_plus_sy0_701_guida.html">General index</a>
+      <span>Dominio 5 — Security Program Management and Oversight</span>
+      <span>CH17 — Risk, BIA and Security Awareness</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Language selector">
+      <span>Language:</span>
+      <a href="../ch17_risk_privacy_third_party_canonical.html">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="ch17_risk_privacy_third_party_canonical.html" aria-current="page">EN</a>
+    </div>
+    <header>
+      <h1>CH17 — Risk, BIA and Security Awareness</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Domain 5 · Exam weight: 20%
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Covered objectives:</strong>
+        <span class="objectives-tag">5.2</span>
+        <span class="objectives-tag">5.6</span>
+        <span class="weight-badge">Dominio 5 = 20%</span>
+      </p>
+      <p>
+        <strong>Note:</strong> gli obiettivi 5.3 (Third-Party Risk) e 5.5 (Audits &amp; Penetration Testing)
+        are fully covered in
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance, Compliance and Policy</a>.
+      </p>
+      <p><strong>Prerequisites:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Foundations (controls, CIA)</a> ·
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance, Compliance and Policy</a>
+      </p>
+      <p><strong>Related chapters:</strong>
+        <a href="ch14_incident_response_canonical.html">CH14 — Incident Response</a> ·
+        <a href="ch9_resilience_physical_security_canonical.html">CH9 — Resilience (RTO/RPO)</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Chapter index">
+        <div class="toc-section">Objective 5.2</div>
+        <a href="#obj-5-2">Risk Management</a>
+        <a href="#risk-identification">↳ Risk Identification</a>
+        <a href="#risk-assessment">↳ Risk Assessment</a>
+        <a href="#risk-analysis">↳ Risk Analysis</a>
+        <a href="#quantitative">↳ Quantitative analysis (SLE/ALE/ARO)</a>
+        <a href="#qualitative">↳ Qualitative analysis</a>
+        <a href="#risk-register">↳ Risk Register</a>
+        <a href="#risk-tolerance-appetite">↳ Tolerance and Appetite</a>
+        <a href="#risk-strategies">↳ Risk Management Strategies</a>
+        <a href="#risk-reporting">↳ Risk Reporting</a>
+        <a href="#bia">↳ Business Impact Analysis</a>
+
+        <div class="toc-section">Objective 5.6</div>
+        <a href="#obj-5-6">Security Awareness</a>
+        <a href="#phishing-awareness">↳ Phishing Awareness</a>
+        <a href="#anomalous-behavior">↳ Anomalous Behavior</a>
+        <a href="#user-training">↳ User Guidance and Training</a>
+        <a href="#reporting-monitoring">↳ Reporting and Monitoring</a>
+        <a href="#development-execution">↳ Development and Execution</a>
+
+        <div class="toc-section">Summary</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="main-content">
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 5.2 — RISK MANAGEMENT
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-2">
+          <h2>Objective 5.2 — Elementi del processo di Risk Management</h2>
+          <p>
+            Il <strong>risk management</strong> è il processo sistematico attraverso cui un'organizzazione identifica, analizza, valuta e decide come trattare i rischi per la propria sicurezza informatica. Non è possibile eliminare tutti i rischi: l'obiettivo è portarli a un livello <em>accettabile</em> in base alle risorse disponibili e alla propensione al rischio dell'organizzazione. Il processo è ciclico: le minacce evolvono, i sistemi cambiano e le valutazioni devono essere aggiornate continuamente. L'obiettivo 5.2 è tra i più ricchi di formule e terminologia: ogni termine ha un significato preciso che l'esame verifica attraverso scenari numerici e domande concettuali.
+          </p>
+
+          <!-- Risk Identification -->
+          <h3 id="risk-identification">Risk Identification</h3>
+          <p>
+            Il primo passo del processo è identificare tutti i rischi che potrebbero influire sugli obiettivi di business. Un <strong>rischio</strong> è la possibilità che una minaccia sfrutti una vulnerabilità causando un danno. L'identificazione del rischio include: inventario degli asset (cosa proteggere), identificazione delle minacce (chi o cosa potrebbe attaccare), identificazione delle vulnerabilità (quali debolezze esistono), e valutazione delle potenziali conseguenze. Le fonti di informazione includono analisi interne, threat intelligence feeds, audit passati, incident history e framework come NIST o ISO 27005.
+          </p>
+
+          <!-- Risk Assessment -->
+          <h3 id="risk-assessment">Risk Assessment</h3>
+          <p>
+            Il risk assessment è il processo formale di valutazione dei rischi identificati. L'obiettivo 5.2 distingue quattro modalità di conduzione.
+          </p>
+
+          <dl class="termlist">
+            <dt>Ad Hoc</dt>
+            <dd>Valutazione condotta in risposta a un evento specifico o a una necessità immediata, non pianificata in anticipo. Esempio: un'organizzazione scopre una nuova vulnerabilità zero-day e conduce un risk assessment urgente per determinare l'impatto sui propri sistemi prima di decidere se applicare immediatamente una patch di emergenza.</dd>
+
+            <dt>Recurring (Periodico)</dt>
+            <dd>Valutazione condotta a intervalli regolari prestabiliti (trimestrale, annuale). Permette di monitorare l'evoluzione del profilo di rischio nel tempo, rilevare nuove minacce e verificare l'efficacia dei controlli implementati. È la modalità più comune nei programmi GRC maturi.</dd>
+
+            <dt>One-Time (Singola)</dt>
+            <dd>Valutazione condotta una sola volta per un progetto, un sistema o un'iniziativa specifica: tipicamente in fase di progettazione di un nuovo sistema (risk assessment pre-deployment), durante una fusione/acquisizione, o per soddisfare un requisito normativo specifico.</dd>
+
+            <dt>Continuous (Continua)</dt>
+            <dd>Valutazione del rischio in tempo reale o quasi-reale, integrata nel processo operativo. Si avvale di strumenti automatizzati come vulnerability scanner, SIEM e threat intelligence feeds per aggiornare continuamente la visione del rischio. È l'approccio più avanzato e richiede una significativa maturità tecnologica e organizzativa.</dd>
+          </dl>
+
+          <!-- Risk Analysis -->
+          <h3 id="risk-analysis">Risk Analysis</h3>
+          <p>
+            Una volta identificati e valutati, i rischi vengono analizzati per determinarne probabilità e impatto. Esistono due approcci principali: quantitativo e qualitativo. In pratica, le organizzazioni usano spesso un approccio ibrido.
+          </p>
+
+          <!-- Analisi Quantitativa -->
+          <h3 id="quantitative">Quantitative analysis — SLE, ALE, ARO</h3>
+          <p>
+            L'analisi <strong>quantitativa</strong> assegna valori numerici (monetari) ai rischi, permettendo confronti oggettivi e decisioni economicamente razionali sui controlli da implementare. Le tre formule fondamentali sono imprescindibili per l'esame.
+          </p>
+
+          <dl class="termlist">
+            <dt>Asset Value (AV) — Valore dell'asset</dt>
+            <dd>Il valore economico dell'asset da proteggere. Include non solo il valore di sostituzione hardware/software ma anche il valore dei dati contenuti, il costo del downtime operativo, i danni reputazionali e le possibili sanzioni normative. Determinare correttamente l'AV è il primo passo dell'analisi quantitativa.</dd>
+
+            <dt>Exposure Factor (EF) — Fattore di esposizione</dt>
+            <dd>La percentuale di valore dell'asset che verrebbe persa in caso di realizzazione della minaccia specifica. È un valore tra 0 e 1 (o 0% e 100%). Esempio: se un incendio distruggerebbe il 70% delle attrezzature di un data center, EF = 0,70. Se un ransomware cifra completamente tutti i dati senza possibilità di recovery, EF = 1,00.</dd>
+
+            <dt>Single Loss Expectancy (SLE) — Perdita attesa per singolo evento</dt>
+            <dd>
+              Il danno economico atteso da un singolo evento avverso.<br>
+              <strong>Formula: SLE = AV × EF</strong><br>
+              Esempio: un server vale 50.000 € (AV), un incendio lo distruggerebbe all'80% (EF = 0,8) → SLE = 50.000 × 0,8 = <strong>40.000 €</strong>. L'SLE risponde alla domanda "quanto perdiamo ogni volta che questo evento accade?"
+            </dd>
+
+            <dt>Annualized Rate of Occurrence (ARO) — Frequenza annuale attesa</dt>
+            <dd>La stima di quante volte all'anno è probabile che un determinato evento si verifichi. Non deve essere un numero intero: ARO = 0,1 significa "una volta ogni 10 anni"; ARO = 2 significa "due volte all'anno". Si basa su dati storici, threat intelligence e giudizio esperto.</dd>
+
+            <dt>Annualized Loss Expectancy (ALE) — Perdita annua attesa</dt>
+            <dd>
+              Il danno economico annuo atteso da un rischio specifico. È la metrica principale per il confronto economico tra rischi e per giustificare gli investimenti in controlli.<br>
+              <strong>Formula: ALE = SLE × ARO</strong><br>
+              Esempio: SLE = 40.000 €, ARO = 0,25 (una volta ogni 4 anni) → ALE = 40.000 × 0,25 = <strong>10.000 €/anno</strong>. Un controllo che costa 8.000 € all'anno per prevenire questo rischio è economicamente razionale; uno che costa 15.000 € non lo è.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Calcolo ALE completo</strong><br>
+            Un'azienda ha un server di database con AV = 200.000 € (hardware + valore dati). Una violazione di dati comporterebbe la perdita del 50% di quel valore (EF = 0,5) per sanzioni, notifiche e costi forensi → SLE = 200.000 × 0,5 = 100.000 €. Storicamente, violazioni simili accadono circa ogni 5 anni → ARO = 0,2. Quindi ALE = 100.000 × 0,2 = <strong>20.000 €/anno</strong>. Il CISO propone un controllo di cifratura del database che costa 12.000 €/anno e riduce l'EF a 0,1 → nuovo SLE = 20.000 € → nuovo ALE = 4.000 €/anno. Il risparmio è 16.000 €/anno contro un costo di 12.000 €: il controllo è economicamente giustificato.
+          </div>
+
+          <div class="critical">
+            <strong>FORMULA ESAME — da memorizzare nell'ordine</strong><br>
+            SLE = AV × EF &nbsp;|&nbsp; ALE = SLE × ARO &nbsp;|&nbsp; Costo controllo &lt; ALE → conveniente implementarlo
+          </div>
+
+          <!-- Analisi Qualitativa -->
+          <h3 id="qualitative">Qualitative analysis</h3>
+          <p>
+            L'analisi <strong>qualitativa</strong> valuta i rischi usando scale descrittive (Alto / Medio / Basso; 1-5; colori rosso/giallo/verde) invece di valori monetari esatti. È più rapida e applicabile anche quando mancano dati storici sufficienti per l'analisi quantitativa. Uno strumento tipico è la <strong>risk matrix</strong> (o heat map), che incrocia la probabilità di un evento con il suo impatto: ogni cella della matrice rappresenta un livello di rischio.
+          </p>
+
+          <dl class="termlist">
+            <dt>Probability (Probabilità)</dt>
+            <dd>La stima della probabilità che una minaccia si materializzi nell'arco temporale considerato. In un'analisi qualitativa, si esprime con scale come "Alta / Media / Bassa" o numericamente da 1 a 5. Si basa su dati storici, threat intelligence e giudizio esperto del team di sicurezza.</dd>
+
+            <dt>Likelihood (Verosimiglianza)</dt>
+            <dd>Termine spesso usato come sinonimo di probability, ma con una sfumatura: la likelihood incorpora non solo la frequenza storica ma anche il contesto attuale (esistenza della vulnerabilità, capacità dell'attaccante, controlli già in atto). In pratica, likelihood è la probabilità "condizionata" che un'attività malevola vada a buon fine date le difese esistenti.</dd>
+
+            <dt>Impact (Impatto)</dt>
+            <dd>La valutazione qualitativa del danno causato se il rischio si materializza. Include dimensioni quantitative (perdita economica) ma anche qualitative: danno reputazionale, impatto sulla continuità operativa, rischio legale, sicurezza delle persone. Nella risk matrix, l'impatto forma uno degli assi, solitamente quello verticale.</dd>
+
+            <dt>Exposure Factor (EF) in contesto qualitativo</dt>
+            <dd>Anche nell'analisi qualitativa il concetto di EF è presente: quanto dell'asset viene "esposto" o danneggiato dall'evento. Viene espresso in forma descrittiva ("perdita parziale", "perdita totale", "impatto limitato") invece che come percentuale precisa.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Approccio</th>
+                <th>Come misura il rischio</th>
+                <th>Vantaggi</th>
+                <th>Svantaggi</th>
+                <th>Uso tipico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Quantitativo</td>
+                <td>Valori monetari (SLE, ALE)</td>
+                <td>Oggettivo, supporta decisioni ROI</td>
+                <td>Richiede dati storici affidabili</td>
+                <td>Giustificare investimenti in sicurezza al management</td>
+              </tr>
+              <tr>
+                <td class="label">Qualitativo</td>
+                <td>Scale descrittive (Alto/Medio/Basso)</td>
+                <td>Rapido, applicabile senza dati storici</td>
+                <td>Soggettivo, difficile confrontare rischi diversi</td>
+                <td>Prioritizzazione rapida, risk matrix</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Risk Register -->
+          <h3 id="risk-register">Risk Register</h3>
+          <p>
+            Il <strong>risk register</strong> è il documento centrale del programma di risk management: un repository strutturato che cataloga tutti i rischi identificati, le loro valutazioni, i controlli associati, i responsabili e lo stato di trattamento. Non è un documento statico ma uno strumento vivente aggiornato continuamente.
+          </p>
+
+          <dl class="termlist">
+            <dt>Key Risk Indicators (KRI)</dt>
+            <dd>Metriche che segnalano in anticipo un aumento del livello di rischio, permettendo interventi preventivi prima che il rischio si materializzi. Esempio: il numero di vulnerabilità critiche non patchate è un KRI per il rischio di exploit. I KRI si differenziano dai KPI (Key Performance Indicators) che misurano le prestazioni attuali: i KRI sono predittivi, i KPI sono descrittivi.</dd>
+
+            <dt>Risk Owners (Proprietari del rischio)</dt>
+            <dd>Il responsabile di ciascun rischio censito nel risk register: la persona (o ruolo) con l'autorità e la responsabilità di prendere decisioni sul trattamento del rischio e di monitorarne l'evoluzione. Il risk owner non coincide necessariamente con chi implementa i controlli: può essere un dirigente business che delega l'implementazione al team IT.</dd>
+
+            <dt>Risk Threshold (Soglia di rischio)</dt>
+            <dd>Il livello di rischio oltre il quale l'organizzazione richiede che vengano prese misure: un rischio che supera la soglia non può essere semplicemente accettato senza documentazione formale e approvazione del management. La soglia è espressa in termini quantitativi (es. "ALE > 50.000 € richiede approvazione del CISO") o qualitativi (es. "qualsiasi rischio 'Alto' deve avere un piano di remediation entro 90 giorni").</dd>
+          </dl>
+
+          <!-- Risk Tolerance and Appetite -->
+          <h3 id="risk-tolerance-appetite">Risk Tolerance and Risk Appetite</h3>
+
+          <dl class="termlist">
+            <dt>Risk Tolerance (Tolleranza al rischio)</dt>
+            <dd>La quantità di variazione nel raggiungimento degli obiettivi che l'organizzazione è disposta ad accettare in un contesto specifico. È il "margine operativo" intorno al risk appetite: mentre il risk appetite definisce il livello desiderato, la tolerance definisce la deviazione accettabile. Esempio: se il risk appetite prevede un massimo di 4 ore di downtime annuo, la risk tolerance potrebbe essere "accettiamo fino a 6 ore, ma non di più".</dd>
+
+            <dt>Risk Appetite (Propensione al rischio)</dt>
+            <dd>La quantità e il tipo di rischio che un'organizzazione è disposta ad assumere per perseguire i propri obiettivi strategici. È una dichiarazione strategica del management che riflette la cultura aziendale e il settore di riferimento. L'obiettivo 5.2 distingue tre tipi di risk appetite:</dd>
+          </dl>
+
+          <dl class="termlist">
+            <dt>Expansionary (Espansivo)</dt>
+            <dd>L'organizzazione è disposta ad assumere rischi elevati in cambio di opportunità di crescita e innovazione. Tipico delle startup e delle aziende tecnologiche in fase di crescita rapida: l'innovazione è prioritaria, anche a costo di esposizioni di sicurezza maggiori. Il risk appetite espansivo non significa incuria: significa che i rischi calcolati e gestiti sono accettati come parte della strategia.</dd>
+
+            <dt>Conservative (Conservativo)</dt>
+            <dd>L'organizzazione preferisce rischi bassi e stabili, anche a costo di rinunciare a opportunità. Tipico di settori altamente regolamentati (banche, ospedali, infrastrutture critiche) dove un incidente di sicurezza può avere conseguenze catastrofiche. Il risk appetite conservativo porta a investire molto in controlli preventivi e a evitare tecnologie non mature.</dd>
+
+            <dt>Neutral (Neutro)</dt>
+            <dd>Posizione bilanciata tra espansività e conservatorismo: l'organizzazione accetta rischi moderati in cambio di opportunità moderate, senza pendere nettamente verso nessuno dei due estremi. È la posizione più comune nelle organizzazioni mature che hanno già una base di controlli solida.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Risk Tolerance vs Risk Appetite</strong> — L'esame usa spesso questi due termini in modo intercambiabile, ma la distinzione è: <em>Risk Appetite</em> = quanto rischio voglio (livello strategico, dichiarazione del board); <em>Risk Tolerance</em> = quanto rischio posso sopportare nella pratica (deviazione accettabile dall'appetite, livello operativo). L'appetite è aspirazionale; la tolerance è operativa.
+          </div>
+
+          <!-- Risk Management Strategies -->
+          <h3 id="risk-strategies">Risk Management Strategies</h3>
+          <p>
+            Una volta valutato un rischio, l'organizzazione deve decidere come trattarlo. L'obiettivo 5.2 elenca quattro strategie fondamentali, ciascuna appropriata in contesti diversi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Transfer (Trasferimento)</dt>
+            <dd>Il rischio viene trasferito a una terza parte che accetta le conseguenze economiche in cambio di un compenso. Lo strumento principale è l'<strong>assicurazione cyber</strong>: l'organizzazione paga un premio e in caso di incidente l'assicuratore copre (in parte o in toto) i costi di risposta, notifica, sanzioni e danni. Il rischio tecnico non scompare — il sistema resta vulnerabile — ma le conseguenze finanziarie vengono mitigate. Importante: le polizze cyber escludono spesso eventi catastrofici o negligenza grave.</dd>
+
+            <dt>Accept (Accettazione)</dt>
+            <dd>L'organizzazione decide consapevolmente di non intervenire sul rischio, ritenendo il costo dei controlli superiore al beneficio. L'accettazione non è inazione: deve essere documentata, approvata dal risk owner e revisitata periodicamente. L'obiettivo 5.2 distingue due forme di accettazione:
+              <ul style="margin-top:6px;">
+                <li><strong>Exemption (Esenzione)</strong> — Il rischio viene escluso permanentemente dall'ambito di applicazione di un requisito. Tipicamente richiede approvazione formale a livello dirigenziale e documentazione delle ragioni tecnico-commerciali.</li>
+                <li><strong>Exception (Eccezione)</strong> — Il rischio viene accettato temporaneamente, con un termine entro cui deve essere risolto o rivalutato. È la forma più comune: si accetta una deviazione dallo standard con un piano di rientro documentato.</li>
+              </ul>
+            </dd>
+
+            <dt>Avoid (Elusione / Eliminazione)</dt>
+            <dd>L'organizzazione elimina il rischio abbandonando l'attività che lo genera. È la strategia più drastica: invece di mitigare il rischio di un'applicazione legacy non patchabile, si decide di dismetterla e sostituirla. O invece di accettare i rischi legati all'espansione in un certo mercato estero con scarsa protezione legale, si rinuncia all'espansione. L'elusione non è sempre praticabile: dipende da quanto l'attività rischiosa sia core per il business.</dd>
+
+            <dt>Mitigate (Mitigazione)</dt>
+            <dd>L'organizzazione implementa controlli che riducono la probabilità che il rischio si materializzi (controlli preventivi) e/o l'impatto se si materializza (controlli correttivi e di recovery). È la strategia più comune: patch management, MFA, segmentazione di rete, backup, cifratura. La mitigazione non porta il rischio a zero — il rischio residuo dopo i controlli è il <strong>residual risk</strong>. Il rischio prima dei controlli è il <strong>inherent risk</strong>.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Strategia</th>
+                <th>Cosa fa al rischio</th>
+                <th>Quando è appropriata</th>
+                <th>Esempio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Transfer</td>
+                <td>Sposta le conseguenze economiche a terzi</td>
+                <td>Rischio ad alto impatto e bassa frequenza</td>
+                <td>Polizza cyber per data breach</td>
+              </tr>
+              <tr>
+                <td class="label">Accept</td>
+                <td>Nessun intervento, rischio documentato</td>
+                <td>Costo controllo &gt; ALE; rischio basso</td>
+                <td>Accettare il rischio di una vulnerabilità bassa non critica</td>
+              </tr>
+              <tr>
+                <td class="label">Avoid</td>
+                <td>Elimina il rischio eliminando l'attività</td>
+                <td>Attività non core con rischio inaccettabile</td>
+                <td>Dismettere un sistema legacy non patchabile</td>
+              </tr>
+              <tr>
+                <td class="label">Mitigate</td>
+                <td>Riduce probabilità e/o impatto</td>
+                <td>Attività core con rischio riducibile</td>
+                <td>Implementare MFA, cifratura, patch</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.2-A — Scegliere la strategia giusta</strong> — Lo scenario più comune: "L'analisi mostra che il costo del controllo supera l'ALE del rischio. Quale strategia è più appropriata?" → <em>Accept</em>. "L'organizzazione ha un sistema OT/ICS non patchabile che non può essere dismesso. Quale strategia è più appropriata?" → <em>Mitigate</em> (con controlli compensativi) oppure <em>Transfer</em> (assicurazione). "Il board ha deciso di non espandersi in un mercato perché i rischi legali sono inaccettabili" → <em>Avoid</em>.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — Exemption vs Exception</strong> — <em>Exception</em> = deviazione <em>temporanea</em> con piano di rientro; <em>Exemption</em> = esenzione <em>permanente</em> da un requisito, approvata formalmente. L'esame chiede spesso "un sistema legacy non può mai soddisfare il requisito di cifratura — quale termine descrive questa situazione?" → <em>Exemption</em>.
+          </div>
+
+          <!-- Risk Reporting -->
+          <h3 id="risk-reporting">Risk Reporting</h3>
+          <p>
+            Il reporting del rischio è il processo di comunicazione dello stato dei rischi ai diversi livelli dell'organizzazione. Il board e il senior management ricevono report di alto livello con i rischi principali, i trend, le strategie adottate e il rischio residuo aggregato (spesso visualizzato in una heat map). Il management operativo riceve report più dettagliati per operare scelte tattiche. I regulators possono ricevere report formali di risk assessment come parte degli obblighi di compliance. Un buon reporting del rischio collega il profilo di rischio cyber agli obiettivi di business: non parla di "vulnerabilità non patchate" ma di "rischio di interruzione operativa con ALE di X €".
+          </p>
+
+          <!-- Business Impact Analysis -->
+          <h3 id="bia">Business Impact Analysis (BIA)</h3>
+          <p>
+            La <strong>Business Impact Analysis</strong> è un processo formale che identifica e quantifica l'impatto che l'interruzione di processi, sistemi o servizi critici avrebbe sull'organizzazione. È il fondamento della pianificazione della business continuity e del disaster recovery: senza sapere qual è il processo più critico per il business e quanto tempo si può stare senza di esso, non è possibile progettare un piano di continuità efficace. L'obiettivo 5.2 include quattro metriche di BIA che l'esame verifica sistematicamente.
+          </p>
+
+          <dl class="termlist">
+            <dt>Recovery Time Objective (RTO)</dt>
+            <dd>Il tempo massimo accettabile per ripristinare un sistema o un servizio dopo un'interruzione. È definito dalle esigenze di business: "non possiamo stare senza il sistema di pagamento per più di 4 ore". L'RTO guida le scelte di architettura di recovery: un RTO di 4 ore permette soluzioni diverse da un RTO di 15 minuti. Tutti i sistemi e le procedure di recovery devono essere progettati per rispettare l'RTO.</dd>
+
+            <dt>Recovery Point Objective (RPO)</dt>
+            <dd>La quantità massima di dati (espressa in tempo) che l'organizzazione è disposta a perdere in caso di incidente. RPO = 24 ore significa "possiamo perdere al massimo le ultime 24 ore di transazioni". L'RPO determina la frequenza minima dei backup: se RPO = 4 ore, il backup deve essere eseguito almeno ogni 4 ore. Un RPO molto basso richiede soluzioni di replica in tempo reale.</dd>
+
+            <dt>Mean Time to Repair (MTTR)</dt>
+            <dd>Il tempo medio necessario per riparare o ripristinare un sistema dopo un guasto o un incidente. È una metrica storica basata sui dati operativi: viene calcolata dividendo il tempo totale di inattività per il numero di incidenti nel periodo. Un MTTR alto indica processi di recovery lenti o scarsa capacità operativa. Il MTTR deve essere inferiore all'RTO per poter rispettare gli accordi di continuità.</dd>
+
+            <dt>Mean Time Between Failures (MTBF)</dt>
+            <dd>Il tempo medio che intercorre tra due guasti consecutivi di un componente o di un sistema. È una misura di affidabilità: un MTBF di 10.000 ore significa che, statisticamente, il sistema si guasta in media ogni 10.000 ore di operatività. Un MTBF alto indica alta affidabilità. Viene usato per pianificare la manutenzione preventiva e per scegliere componenti hardware in base alla loro affidabilità statistica.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Metrica BIA</th>
+                <th>Domanda a cui risponde</th>
+                <th>Chi la definisce</th>
+                <th>Impatto diretto su</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">RTO</td>
+                <td>Quanto possiamo stare offline?</td>
+                <td>Business (stakeholder)</td>
+                <td>Architettura di recovery, failover</td>
+              </tr>
+              <tr>
+                <td class="label">RPO</td>
+                <td>Quanti dati possiamo perdere?</td>
+                <td>Business (stakeholder)</td>
+                <td>Frequenza e tipo di backup/replica</td>
+              </tr>
+              <tr>
+                <td class="label">MTTR</td>
+                <td>Quanto ci vuole mediamente a riparare?</td>
+                <td>IT / Operations (misurato)</td>
+                <td>Valutazione del rispetto dell'RTO</td>
+              </tr>
+              <tr>
+                <td class="label">MTBF</td>
+                <td>Ogni quanto si guasta (in media)?</td>
+                <td>Vendor / Operations (misurato)</td>
+                <td>Pianificazione manutenzione, scelta hardware</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>PITFALL — RTO vs RPO</strong> — <em>RTO</em> misura il <em>tempo</em> di recovery ("entro quando devo tornare operativo?"); <em>RPO</em> misura la <em>quantità di dati</em> perdibili ("quante ore di dati posso permettermi di perdere?"). Confonderli è l'errore più comune. Ricorda: RTO → <em>T</em>empo di recovery; RPO → <em>P</em>unto di recovery (ultimo backup valido).
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — MTTR vs MTBF</strong> — <em>MTTR</em> misura quanto è <em>veloce</em> il ripristino (basso è meglio); <em>MTBF</em> misura quanto è <em>affidabile</em> il sistema (alto è meglio). L'esame può chiedere: "quale metrica indica la probabilità di guasto?" → <em>MTBF</em>; "quale indica l'efficienza del team di recovery?" → <em>MTTR</em>.
+          </div>
+
+          <div class="example-box">
+            <strong>Esempio pratico — BIA per un sistema e-commerce</strong><br>
+            Un'azienda di e-commerce conduce una BIA sul sistema di checkout. Il team business stabilisce: RTO = 2 ore (dopo 2 ore di downtime la perdita di vendite e la penale SLA con i partner superano il costo del recovery) e RPO = 30 minuti (al massimo 30 minuti di transazioni perse). Il team IT misura storicamente: MTTR = 45 minuti (il sistema viene ripristinato in media in 45 minuti → dentro l'RTO di 2 ore ✅) e MTBF = 4.380 ore (guasto mediamente una volta ogni 6 mesi → accettabile). La BIA porta a scegliere un sistema di replica sincrona dei dati ogni 30 minuti e un failover automatico su un hot site.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.2-B — BIA e Continuity</strong> — L'esame chiede spesso "quale valore viene definito dal business (non dall'IT)?" → <em>RTO e RPO</em> sono definiti dalle esigenze di business, non dall'IT. L'IT progetta la soluzione che rispetta questi obiettivi. "Quale metrica misura la qualità dei backup?" → nessuna delle quattro: i backup servono a rispettare l'RPO, ma la qualità si verifica con test di ripristino.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 5.6 — SECURITY AWARENESS
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-6">
+          <h2>Objective 5.6 — Implementare pratiche di security awareness</h2>
+          <p>
+            La <strong>security awareness</strong> è il programma continuo con cui un'organizzazione costruisce, mantiene e misura la capacità del proprio personale di riconoscere minacce, rispettare le policy e comportarsi in modo sicuro. La tecnologia da sola non può proteggere un'organizzazione: il fattore umano rimane il vettore di attacco più sfruttato. Il 91% degli attacchi inizia con un'email di phishing. L'obiettivo 5.6 copre tutti gli elementi di un programma di awareness efficace, dal phishing al riconoscimento di comportamenti anomali, dalla formazione all'esecuzione.
+          </p>
+
+          <!-- Phishing Awareness -->
+          <h3 id="phishing-awareness">Phishing Awareness (Consapevolezza del phishing)</h3>
+          <p>
+            Il phishing è il vettore di attacco più frequente e il tema centrale di qualsiasi programma di awareness. L'obiettivo 5.6 distingue tre aspetti del phishing da trattare nel programma.
+          </p>
+
+          <dl class="termlist">
+            <dt>Campaigns (Campagne di phishing simulato)</dt>
+            <dd>La tecnica più efficace per misurare e migliorare la resistenza del personale al phishing. L'organizzazione (o un fornitore specializzato) invia email di phishing simulate ai dipendenti senza preavviso, monitorando quanti aprono i link, quanti inseriscono credenziali, quanti segnalano il messaggio. I dipendenti che "cadono" vengono reindirizzati a una pagina formativa immediata. Le campagne devono essere periodiche, progressive (messaggi sempre più sofisticati) e segmentate per ruolo. I dati delle campagne alimentano il programma di training: il reparto con il tasso di click più alto riceve formazione mirata.</dd>
+
+            <dt>Recognizing a Phishing Attempt (Riconoscere un tentativo di phishing)</dt>
+            <dd>Il training deve insegnare i segnali riconoscibili di un'email di phishing: mittente con dominio simile ma non identico al legittimo (typosquatting), link che non corrispondono al testo visibile (hover sul link), richiesta di urgenza ("il tuo account verrà chiuso entro 24 ore"), richiesta di credenziali o dati sensibili via email, allegati inattesi con estensioni eseguibili o Office con macro, saluto generico invece del nome proprio. È importante formare il personale a distinguere phishing generico (mass phishing) da spear phishing (personalizzato) e whaling (diretto ai dirigenti).</dd>
+
+            <dt>Responding to Reported Suspicious Messages (Risposta ai messaggi sospetti segnalati)</dt>
+            <dd>Un programma di awareness efficace non si limita a insegnare al personale a riconoscere il phishing ma stabilisce un processo chiaro per segnalarlo. I dipendenti devono sapere: dove segnalare (email dedicata, pulsante nel client email, ticket helpdesk), cosa succede dopo la segnalazione (chi analizza, in quali tempi), e che la segnalazione di messaggi falsi non comporta conseguenze negative anche se il messaggio era legittimo. La cultura del "report senza paura" è essenziale: un dipendente che ha cliccato su un link sospetto deve sentirsi incoraggiato a segnalarlo immediatamente, non a nasconderlo per paura di punizioni.</dd>
+          </dl>
+
+          <!-- Anomalous Behavior -->
+          <h3 id="anomalous-behavior">Anomalous Behavior Recognition</h3>
+          <p>
+            Oltre al phishing, il programma di awareness deve formare il personale a riconoscere comportamenti anomali — propri e altrui — che potrebbero indicare un incidente di sicurezza in corso o imminente. L'obiettivo 5.6 distingue tre categorie di comportamenti anomali.
+          </p>
+
+          <dl class="termlist">
+            <dt>Risky (Rischioso)</dt>
+            <dd>Comportamenti che aumentano significativamente la probabilità di un incidente di sicurezza, anche se non intenzionalmente malevoli. Esempi: condividere credenziali con colleghi ("usa la mia password, io sono fuori ufficio"), usare la stessa password per sistemi aziendali e account personali, connettersi a reti Wi-Fi pubbliche non protette con dispositivi aziendali, disabilitare l'antivirus "perché rallenta il PC", usare servizi cloud personali per condividere documenti aziendali. Il programma di awareness deve rendere questi comportamenti visibilmente scorretti e fornire alternative sicure.</dd>
+
+            <dt>Unexpected (Inatteso)</dt>
+            <dd>Comportamenti che si discostano significativamente dalla norma per un utente o un sistema, anche senza essere intrinsecamente pericolosi. Esempio: un amministratore di sistema che si connette dall'estero alle 3 di notte, un utente che scarica improvvisamente grandi quantità di dati (esfiltrazione), un account di servizio che tenta di accedere a risorse non usuali. Il riconoscimento di comportamenti inattesi è alla base del <strong>User and Entity Behavior Analytics (UEBA)</strong> e richiede sia formazione del personale (segnalare l'insolito) sia strumenti tecnici (baseline comportamentali automatizzate).</dd>
+
+            <dt>Unintentional (Non intenzionale)</dt>
+            <dd>Errori umani che creano vulnerabilità o causano incidenti senza intenzione malevola: inviare un'email a un destinatario sbagliato contenente dati sensibili, perdere una chiave USB con dati non cifrati, eliminare accidentalmente file critici. Questi errori sono tra le cause più comuni di data breach. Il programma di awareness deve coprire questi scenari con esempi concreti e insegnare come ridurre il rischio (es. verificare il destinatario prima di inviare, cifrare i supporti rimovibili).</dd>
+          </dl>
+
+          <!-- User Guidance and Training -->
+          <h3 id="user-training">User Guidance and Training</h3>
+          <p>
+            L'obiettivo 5.6 elenca sette aree tematiche specifiche che un programma di security awareness deve coprire nel training utenti.
+          </p>
+
+          <dl class="termlist">
+            <dt>Policy/Handbooks (Policy e manuali)</dt>
+            <dd>Il personale deve conoscere e comprendere le policy di sicurezza rilevanti per il proprio ruolo: AUP, password policy, clean desk policy, politiche sui dispositivi mobili. I manuali e le guide operative traduco le policy in istruzioni pratiche. L'onboarding deve includere la lettura e l'acknowledgement formale delle policy principali. Le policy cambiano: il programma di awareness deve notificare il personale degli aggiornamenti.</dd>
+
+            <dt>Situational Awareness (Consapevolezza situazionale)</dt>
+            <dd>La capacità di riconoscere segnali di rischio nel contesto fisico e digitale quotidiano: qualcuno che guarda lo schermo da dietro (shoulder surfing), una persona non autorizzata che tenta di seguire un dipendente attraverso una porta di accesso controllato (tailgating), un dispositivo USB trovato nel parcheggio (baiting), una richiesta telefonica insolita da qualcuno che afferma di essere dell'IT. La situational awareness si sviluppa attraverso scenari pratici e simulazioni.</dd>
+
+            <dt>Insider Threat (Minaccia interna)</dt>
+            <dd>Il training deve sensibilizzare il personale sia sui rischi di essere una minaccia interna (es. condivisione non autorizzata di informazioni riservate) sia sul riconoscimento di potenziali insider threat: colleghi che accedono a dati non necessari per il proprio lavoro, comportamenti evasivi rispetto alle procedure di sicurezza, cambiamenti comportamentali significativi in periodi di tensione lavorativa. Il personale non deve fare da "vigilante" ma deve sapere a chi segnalare comportamenti sospetti.</dd>
+
+            <dt>Password Management</dt>
+            <dd>Formazione pratica su: uso di password manager (strumenti per generare e conservare password complesse e uniche), creazione di passphrase robuste, non riutilizzo delle password tra sistemi diversi, non condivisione delle credenziali, uso corretto del MFA, riconoscimento di richieste di reset password fraudolente. Il training deve essere pratico: insegnare a usare un password manager è più efficace che spiegare perché usarne uno.</dd>
+
+            <dt>Removable Media and Cables (Supporti rimovibili e cavi)</dt>
+            <dd>I rischi associati a dispositivi fisici: non inserire USB trovati in luoghi pubblici (possibile USB drop attack con malware precaricato), non lasciare dispositivi portatili incustoditi, cifrare i dati su supporti rimovibili, non usare cavi di ricarica di provenienza ignota (possibili cavi con hardware malevolo come O.MG Cable). Il personale IT deve anche essere formato sulla gestione sicura dei supporti nella supply chain.</dd>
+
+            <dt>Social Engineering</dt>
+            <dd>Formazione sulle tecniche di manipolazione psicologica usate dagli attaccanti: pretexting (costruire uno scenario falso credibile per ottenere informazioni), impersonation (fingersi un collega, tecnico IT o fornitore), urgency (creare senso di urgenza per impedire il ragionamento critico), authority (fingere di essere un dirigente o un'autorità per ottenere obbedienza). Il training deve insegnare la prassi del "verify and then comply": anche se la richiesta sembra provenire dall'IT o dal CEO, verificare con un canale di comunicazione diverso prima di eseguire azioni sensibili.</dd>
+
+            <dt>Operational Security (OPSEC)</dt>
+            <dd>L'OPSEC insegna al personale a proteggere informazioni sensibili nelle attività operative quotidiane: non discutere progetti sensibili in luoghi pubblici (ristorante, aeroporto), non condividere informazioni riservate su LinkedIn o social media, fare attenzione a cosa appare negli screenshot condivisi, non lasciare informazioni su whiteboard visibili in videoconferenze, comprendere quali informazioni potrebbero essere usate da un attaccante per costruire un attacco di social engineering.</dd>
+
+            <dt>Hybrid/Remote Work Environments</dt>
+            <dd>Il lavoro da remoto e ibrido introduce rischi specifici: uso di reti domestiche non gestite dall'azienda, condivisione dell'ambiente di lavoro con familiari non formati, rischio di shoulder surfing in luoghi pubblici, difficoltà nel verificare l'identità di interlocutori in videocall. Il training deve coprire: uso obbligatorio di VPN aziendale, lock automatico dello schermo, uso di headset per call riservate, policy sull'uso di dispositivi personali (BYOD) e la sicurezza delle connessioni Wi-Fi domestiche (cambio password di default del router, WPA3).</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Programma di awareness completo</strong><br>
+            Un'azienda progetta il programma di security awareness annuale. A gennaio: training obbligatorio online su phishing, password e OPSEC (30 minuti con quiz finale). A febbraio: prima campagna di phishing simulato. A marzo: analisi risultati campagna + training mirato ai reparti con click rate > 20%. Ad aprile: modulo su social engineering e insider threat per tutti i responsabili. A giugno: seconda campagna di phishing con messaggi più sofisticati (spear phishing). A settembre: training specifico per il lavoro da remoto prima dell'autunno. A dicembre: verifica annuale dell'acknowledgement delle policy. Ogni campagna e training viene documentato nel sistema GRC per dimostrare compliance durante audit.
+          </div>
+
+          <!-- Reporting and Monitoring -->
+          <h3 id="reporting-monitoring">Reporting and Monitoring</h3>
+
+          <dl class="termlist">
+            <dt>Initial (Reporting iniziale)</dt>
+            <dd>Il report di avvio del programma di awareness stabilisce la baseline: tasso di click nelle campagne di phishing iniziali, risultati dei quiz di formazione, livello di awareness percepito dal personale tramite survey. La baseline è essenziale per misurare il miglioramento nel tempo e per giustificare l'investimento nel programma.</dd>
+
+            <dt>Recurring (Reporting periodico)</dt>
+            <dd>Report periodici (mensili, trimestrali, annuali) che tracciano l'evoluzione degli indicatori di awareness: trend del phishing click rate, numero di segnalazioni spontanee di messaggi sospetti, completamento dei training obbligatori, numero di incidenti legati al fattore umano. Questi report vengono presentati al management e al board come parte del reporting complessivo sulla postura di sicurezza.</dd>
+          </dl>
+
+          <!-- Development and Execution -->
+          <h3 id="development-execution">Development and Execution del programma</h3>
+
+          <dl class="termlist">
+            <dt>Development (Sviluppo)</dt>
+            <dd>La progettazione del programma di awareness parte dall'identificazione del pubblico (dipendenti, contractor, executive), dalla valutazione del rischio specifico per ruolo e dalla selezione dei contenuti più rilevanti. Il materiale formativo deve essere: <em>rilevante</em> per il contesto lavorativo del destinatario, <em>coinvolgente</em> (non solo slide di testo), <em>aggiornato</em> (minacce reali e recenti), e <em>misurabile</em> (quiz, simulazioni, metriche di completamento). La formazione modulare, breve e frequente (microlearning) è più efficace di sessioni annuali lunghe e teoriche.</dd>
+
+            <dt>Execution (Esecuzione)</dt>
+            <dd>L'erogazione del programma utilizza canali multipli: e-learning su piattaforme LMS (Learning Management System), sessioni live (in presenza o online) per argomenti complessi, phishing simulation software (KnowBe4, Proofpoint Security Awareness Training, Microsoft Defender for Office 365), poster e comunicazioni interne, newsletter periodiche su nuove minacce. L'esecuzione deve essere documentata per dimostrare compliance normativa: data di completamento, quiz superati, versione del materiale visualizzata. Il programma deve essere <em>obbligatorio</em> con escalation per chi non completa entro i termini.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.6-A — Security Awareness nell'esame</strong> — Le domande sull'obiettivo 5.6 sono tipicamente scenario-based. Scenario tipico: "Un dipendente riceve un'email che sembra provenire dall'IT, chiedendo di cliccare un link per resettare la password — quale elemento del programma di awareness avrebbe aiutato a prevenire la compromissione?" → <em>Phishing awareness training + reporting procedure</em>. Un altro scenario: "Come si misura l'efficacia di un programma di security awareness?" → <em>Metriche delle campagne di phishing simulato (click rate, segnalazione rate) + completion rate dei training</em>.
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Elemento 5.6</th>
+                <th>Obiettivo</th>
+                <th>Metrica di efficacia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Phishing Campaigns</td>
+                <td>Misurare e ridurre la vulnerabilità al phishing</td>
+                <td>Click rate, report rate nelle simulazioni</td>
+              </tr>
+              <tr>
+                <td class="label">Behavior Recognition</td>
+                <td>Formare all'identificazione di anomalie</td>
+                <td>Numero di segnalazioni spontanee al SOC</td>
+              </tr>
+              <tr>
+                <td class="label">User Training</td>
+                <td>Trasmettere conoscenze e pratiche sicure</td>
+                <td>Completion rate, quiz score, trend incidenti umani</td>
+              </tr>
+              <tr>
+                <td class="label">Reporting &amp; Monitoring</td>
+                <td>Misurare il programma nel tempo</td>
+                <td>Trend metriche rispetto alla baseline</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Summary flashcard</h2>
+          <ul class="flashcard">
+            <li><strong>Rischio</strong> — Possibilità che una minaccia sfrutti una vulnerabilità causando un danno. Rischio = Minaccia × Vulnerabilità × Impatto.</li>
+            <li><strong>SLE = AV × EF</strong> — Single Loss Expectancy: danno economico atteso da un singolo evento avverso.</li>
+            <li><strong>ALE = SLE × ARO</strong> — Annualized Loss Expectancy: danno economico annuo atteso. Se costo controllo &lt; ALE → conveniente implementarlo.</li>
+            <li><strong>ARO</strong> — Annualized Rate of Occurrence: frequenza annua stimata dell'evento. ARO = 0,1 = una volta ogni 10 anni.</li>
+            <li><strong>Qualitativo vs Quantitativo</strong> — Qualitativo: scale Alto/Medio/Basso, rapido ma soggettivo. Quantitativo: valori monetari (SLE/ALE), oggettivo ma richiede dati storici.</li>
+            <li><strong>Risk Register</strong> — Repository dei rischi identificati con valutazione, controlli, risk owner e stato. Strumento vivente aggiornato continuamente.</li>
+            <li><strong>KRI</strong> — Key Risk Indicator: metrica predittiva che segnala l'aumento del rischio prima che si materializzi.</li>
+            <li><strong>Risk Appetite vs Risk Tolerance</strong> — Appetite: quanto rischio voglio (strategico, board). Tolerance: quanto rischio posso sopportare (operativo, deviazione accettabile dall'appetite).</li>
+            <li><strong>Transfer</strong> — Strategia: spostare le conseguenze economiche del rischio a terzi (assicurazione cyber).</li>
+            <li><strong>Accept (Exception vs Exemption)</strong> — Exception = deviazione temporanea con piano di rientro; Exemption = esenzione permanente approvata formalmente.</li>
+            <li><strong>Avoid</strong> — Eliminare il rischio abbandonando l'attività che lo genera.</li>
+            <li><strong>Mitigate</strong> — Ridurre probabilità e/o impatto del rischio tramite controlli; porta al rischio residuale.</li>
+            <li><strong>Inherent Risk vs Residual Risk</strong> — Inherent: rischio prima dei controlli; Residual: rischio che rimane dopo l'implementazione dei controlli.</li>
+            <li><strong>RTO</strong> — Recovery Time Objective: tempo massimo accettabile per ripristinare un servizio. Definito dal business.</li>
+            <li><strong>RPO</strong> — Recovery Point Objective: quantità massima di dati (in tempo) che si può perdere. Guida la frequenza dei backup.</li>
+            <li><strong>MTTR</strong> — Mean Time to Repair: tempo medio di ripristino dopo un guasto. Deve essere inferiore all'RTO.</li>
+            <li><strong>MTBF</strong> — Mean Time Between Failures: tempo medio tra guasti consecutivi. Misura l'affidabilità. Alto = meglio.</li>
+            <li><strong>Phishing Simulation</strong> — Campagna di phishing simulato per misurare e migliorare la resistenza del personale. Metrica principale: click rate e report rate.</li>
+            <li><strong>Risky vs Unexpected vs Unintentional</strong> — Risky: comportamento che aumenta il rischio (es. condividere password); Unexpected: comportamento insolito rispetto alla baseline; Unintentional: errore umano non malevolo.</li>
+            <li><strong>OPSEC</strong> — Operational Security: proteggere informazioni sensibili nelle attività quotidiane (no dati sensibili in luoghi pubblici, attenzione ai social media).</li>
+            <li><strong>Security Awareness Baseline</strong> — Misurazione iniziale del programma (phishing click rate, quiz score) da confrontare con risultati successivi per misurare il miglioramento.</li>
+            <li><strong>Programma di awareness efficace</strong> — Obbligatorio, periodico, modulare, rilevante per ruolo, misurabile con metriche, documentato per compliance.</li>
+          </ul>
+        </section>
+
+        <!-- Navigazione capitoli -->
+        <div class="chapter-nav">
+          <a href="ch16_governance_compliance_policy_canonical.html">← CH16 — Governance, Compliance and Policy</a>
+          <a href="security_plus_sy0_701_guida.html" class="secondary">← General index</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+  <script src="../../quiz_data.js"></script>
+  <script src="../../script/chapter-quiz-loader.js"></script>
+  <script src="../../script/lang-preference.js"></script>
+</body>
+</html>
