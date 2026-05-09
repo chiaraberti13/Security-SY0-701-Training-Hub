@@ -441,7 +441,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "The logs show the same password ('Spring2023') being tried against multiple different usernames in rapid succession, which is the defining characteristic of password spraying — using one common password across many accounts to avoid triggering per-account lockout thresholds.",
+      "it": "I log mostrano la stessa password ('Spring2023') usata contro più username diversi in rapida successione: questa è la caratteristica distintiva del password spraying, ovvero l'uso di una password comune su molti account per evitare il blocco del singolo account."
+    }
   },
   {
     "id": "SCREEN_011",
@@ -499,7 +503,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Associating devices with employee IDs allows the security team to contact the responsible employee when an incident occurs on their device (A), and ensures hardware and the data on it can be tracked and recovered during employee offboarding (F).",
+      "it": "Associare i dispositivi agli ID dei dipendenti consente al team di sicurezza di contattare il responsabile in caso di incidente sul suo dispositivo (A) e garantisce che l'hardware e i dati in esso contenuti possano essere rintracciati e recuperati quando il dipendente lascia l'organizzazione (F)."
+    }
   },
   {
     "id": "SCREEN_012",
@@ -541,7 +549,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A rootkit commonly replaces or patches critical system binaries like cmd.exe to maintain persistence and evade detection; a changed hash on a system file with no patches applied is a strong indicator of such malicious modification rather than a legitimate update.",
+      "it": "Un rootkit sostituisce o modifica comunemente binari di sistema critici come cmd.exe per mantenere la persistenza ed eludere il rilevamento; un hash modificato su un file di sistema senza patch applicate è un forte indicatore di tale modifica malevola piuttosto che di un aggiornamento legittimo."
+    }
   },
   {
     "id": "SCREEN_013",
@@ -629,7 +641,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "An internal PCI DSS assessment is conducted by the organization itself and its outcome is documented as audit findings — internal records of gaps requiring remediation; fines and sanctions are penalties imposed by external bodies (card brands or regulators), not the result of an internal review.",
+      "it": "Una valutazione interna PCI DSS è condotta dall'organizzazione stessa e il suo esito è documentato come risultati di audit — registrazioni interne delle lacune da correggere; le multe e le sanzioni sono penalità imposte da enti esterni (circuiti di carte o regolatori), non il risultato di una revisione interna."
+    }
   },
   {
     "id": "SCREEN_015",
@@ -733,7 +749,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Network logs capture traffic flows between internal hosts and external addresses, while firewall logs record allowed and blocked connection attempts — together they reveal which internal host established or attempted communication with the C2 server's IP address.",
+      "it": "I log di rete catturano i flussi di traffico tra host interni e indirizzi esterni, mentre i log del firewall registrano i tentativi di connessione consentiti e bloccati: insieme rivelano quale host interno ha stabilito o tentato comunicazioni con l'indirizzo IP del server C2."
+    }
   },
   {
     "id": "SCREEN_017",
