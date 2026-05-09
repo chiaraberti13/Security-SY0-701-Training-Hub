@@ -469,23 +469,90 @@ export default function App() {
                     </div>
                   )}
 
-                  {userAnswers[currentQuestion.id] && currentQuestion.explanation && (
+                  {userAnswers[currentQuestion.id] && (
                     <motion.div 
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100 flex gap-4"
+                      className="mt-8 p-6 bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4"
                     >
-                      <div className="shrink-0 w-8 h-8 bg-white text-accent rounded-lg flex items-center justify-center border border-slate-100 italic font-serif font-bold text-lg">
-                        i
-                      </div>
-                      <div className="space-y-1">
-                        <div className="text-[10px] font-bold text-accent uppercase tracking-widest">
-                          {lang === 'it' ? 'Spiegazione' : 'Explanation'}
+                      <div className="flex items-center gap-3">
+                        <div className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center border font-bold ${
+                          (isMatching(currentQuestion) 
+                            ? (getMatchingPairs(currentQuestion, lang).every(cp => userAnswers[currentQuestion.id][cp.item] === cp.cat))
+                            : (isMultiSelect(currentQuestion)
+                                ? (userAnswers[currentQuestion.id].length === currentQuestion.options.filter(o => o.correct).length && userAnswers[currentQuestion.id].every((id: string) => currentQuestion.options.filter(o => o.correct).map(o => o.id).includes(id)))
+                                : (currentQuestion.options.find(o => o.id === userAnswers[currentQuestion.id])?.correct)
+                          )
+                        ) ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'}`}>
+                           {(isMatching(currentQuestion) 
+                            ? (getMatchingPairs(currentQuestion, lang).every(cp => userAnswers[currentQuestion.id][cp.item] === cp.cat))
+                            : (isMultiSelect(currentQuestion)
+                                ? (userAnswers[currentQuestion.id].length === currentQuestion.options.filter(o => o.correct).length && userAnswers[currentQuestion.id].every((id: string) => currentQuestion.options.filter(o => o.correct).map(o => o.id).includes(id)))
+                                : (currentQuestion.options.find(o => o.id === userAnswers[currentQuestion.id])?.correct)
+                            )
+                          ) ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
                         </div>
-                        <p className="text-sm text-slate-600 leading-relaxed">
-                          {currentQuestion.explanation[lang]}
-                        </p>
+                        <div className="font-semibold text-sm">
+                          {(isMatching(currentQuestion) 
+                            ? (getMatchingPairs(currentQuestion, lang).every(cp => userAnswers[currentQuestion.id][cp.item] === cp.cat))
+                            : (isMultiSelect(currentQuestion)
+                                ? (userAnswers[currentQuestion.id].length === currentQuestion.options.filter(o => o.correct).length && userAnswers[currentQuestion.id].every((id: string) => currentQuestion.options.filter(o => o.correct).map(o => o.id).includes(id)))
+                                : (currentQuestion.options.find(o => o.id === userAnswers[currentQuestion.id])?.correct)
+                            )
+                          ) ? (lang === 'it' ? 'Risposta Corretta!' : 'Correct Answer!') 
+                            : (lang === 'it' ? 'Risposta Errata' : 'Incorrect Answer')}
+                        </div>
                       </div>
+
+                      {currentQuestion.explanation ? (
+                        <div className="flex gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                          <div className="shrink-0 w-6 h-6 bg-white text-accent rounded-md flex items-center justify-center border border-slate-100 italic font-serif font-bold text-sm">
+                            i
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-[10px] font-bold text-accent uppercase tracking-widest leading-none mb-1">
+                              {lang === 'it' ? 'Spiegazione' : 'Explanation'}
+                            </div>
+                            <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                              {currentQuestion.explanation[lang]}
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex gap-4 p-4 bg-emerald-50/50 rounded-xl border border-emerald-100">
+                          <div className="shrink-0 w-6 h-6 bg-white text-emerald-600 rounded-md flex items-center justify-center border border-emerald-100 italic font-serif font-bold text-sm">
+                            ✓
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest leading-none mb-1">
+                              {lang === 'it' ? 'La risposta corretta è' : 'The correct answer is'}
+                            </div>
+                            <div className="text-sm text-emerald-800 leading-relaxed font-medium">
+                              {isMatching(currentQuestion) ? (
+                                <ul className="space-y-1 mt-1">
+                                  {getMatchingPairs(currentQuestion, lang).map((p, idx) => (
+                                    <li key={idx} className="flex items-center gap-2">
+                                      <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full" />
+                                      {p.item} → {p.cat}
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : isMultiSelect(currentQuestion) ? (
+                                <ul className="space-y-1 mt-1">
+                                  {currentQuestion.options.filter(o => o.correct).map(o => (
+                                    <li key={o.id} className="flex items-center gap-2">
+                                      <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full" />
+                                      {o.text[lang]}
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <span>{currentQuestion.options.find(o => o.correct)?.text[lang]}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </div>
