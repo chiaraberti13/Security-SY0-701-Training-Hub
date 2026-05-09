@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH1 — Fondamenti e Governance · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 1 — General Security Concepts</span>
+      <span>CH1 — Fondamenti e Governance</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch1_governance_classification_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch1_governance_classification_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH1 — Fondamenti e Governance</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 1 (parziale) · Dominio 5 (parziale)
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">1.1</span>
+        <span class="objectives-tag">1.2</span>
+        <span class="objectives-tag">1.3</span>
+        <span class="objectives-tag">5.1 parz.</span>
+        <span class="weight-badge">D1 = 12% · D5 = 20%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong> nessuno — questo è il capitolo di partenza.</p>
+      <p><strong>Capitoli correlati:</strong>
+        <a href="ch7_crittografia_pki_canonical.html">CH7 — Crittografia</a> ·
+        <a href="ch8_identity_access_management_canonical.html">CH8 — IAM</a> ·
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 1.1</div>
+        <a href="#obj-1-1">Controlli di sicurezza</a>
+        <a href="#categorie">↳ Categorie</a>
+        <a href="#tipi">↳ Tipi di controllo</a>
+        <a href="#matrice">↳ Matrice Categoria × Tipo</a>
+
+        <div class="toc-section">Obiettivo 1.2</div>
+        <a href="#obj-1-2">Concetti fondamentali</a>
+        <a href="#cia">↳ Triade CIA</a>
+        <a href="#non-rep">↳ Non-repudiation</a>
+        <a href="#aaa">↳ AAA</a>
+        <a href="#gap">↳ Gap Analysis</a>
+        <a href="#zerotrust">↳ Zero Trust</a>
+        <a href="#physical">↳ Physical Security</a>
+        <a href="#deception">↳ Deception Technology</a>
+
+        <div class="toc-section">Obiettivo 1.3</div>
+        <a href="#obj-1-3">Change Management</a>
+        <a href="#cm-business">↳ Processi business</a>
+        <a href="#cm-tech">↳ Implicazioni tecniche</a>
+        <a href="#cm-doc">↳ Documentazione</a>
+
+        <div class="toc-section">Obiettivo 5.1</div>
+        <a href="#obj-5-1">Governance (base)</a>
+        <a href="#doc-hierarchy">↳ Gerarchia documenti</a>
+        <a href="#policy-types">↳ Tipi di policy</a>
+        <a href="#roles">↳ Ruoli e responsabilità</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 1.1
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-1-1">
+          <h2>Obiettivo 1.1 — Controlli di sicurezza</h2>
+          <p>
+            I <strong>security controls</strong> sono misure — tecniche, organizzative o fisiche — che un'organizzazione implementa per ridurre i rischi di sicurezza. Ogni controllo si classifica su due assi: la <em>categoria</em> (di che natura è il controllo?) e il <em>tipo</em> (qual è il suo obiettivo funzionale?). Capire questa distinzione è fondamentale perché l'esame propone spesso scenari in cui si deve identificare quale controllo sia più appropriato.
+          </p>
+
+          <h3 id="categorie">Categorie di controllo</h3>
+          <p>La categoria indica <em>dove</em> opera il controllo e chi lo gestisce.</p>
+
+          <dl class="termlist">
+            <dt>Technical (Tecnico)</dt>
+            <dd>Controlli implementati via software, hardware o sistemi digitali. Sono automatici e non richiedono azione umana continua. Esempi: firewall, IDS/IPS, crittografia, ACL, antivirus, MFA.</dd>
+
+            <dt>Managerial (Gestionale)</dt>
+            <dd>Controlli legati alla governance e alla pianificazione della sicurezza. Definiscono il quadro entro cui gli altri controlli operano. Esempi: policy di sicurezza, risk assessment, piani di audit, programmi di security awareness, gap analysis.</dd>
+
+            <dt>Operational (Operativo)</dt>
+            <dd>Controlli attuati attraverso processi e attività quotidiane, spesso eseguiti da persone. Riguardano come il lavoro viene svolto giorno per giorno. Esempi: procedure di backup, gestione degli incidenti, rotazione delle password, ispezione fisica degli accessi, formazione del personale.</dd>
+
+            <dt>Physical (Fisico)</dt>
+            <dd>Controlli che proteggono l'ambiente fisico e l'accesso corporeo a strutture e hardware. Esistono indipendentemente dalla rete informatica. Esempi: serrature, recinzioni, telecamere, guardie di sicurezza, badge di accesso, barriere antiveicolo.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 1.1-A</strong> — La confusione più frequente è tra Operational e Managerial: Managerial riguarda <em>pianificazione e governance</em> (chi decide cosa si deve fare), Operational riguarda <em>esecuzione quotidiana</em> (chi lo fa concretamente ogni giorno).
+          </div>
+
+          <h3 id="tipi">Tipi di controllo</h3>
+          <p>Il tipo indica <em>quando</em> interviene il controllo e qual è il suo obiettivo funzionale.</p>
+
+          <dl class="termlist">
+            <dt>Preventive (Preventivo)</dt>
+            <dd>Impedisce che l'evento di sicurezza si verifichi. Agisce <em>prima</em> del danno. Esempi: firewall che blocca traffico non autorizzato, serratura biometrica su una porta server, MFA, patch che chiude una vulnerabilità.</dd>
+
+            <dt>Deterrent (Deterrente)</dt>
+            <dd>Scoraggia un potenziale attaccante dal tentare l'azione, ma non lo impedisce fisicamente. Opera sulla percezione del rischio. Esempi: telecamera visibile, cartello "area videosorvegliata", policy con sanzioni esplicite, illuminazione perimetrale.</dd>
+
+            <dt>Detective (Rilevativo)</dt>
+            <dd>Identifica e registra eventi di sicurezza <em>dopo</em> che si sono verificati o mentre accadono. Non impedisce l'evento ma ne permette l'analisi e la risposta. Esempi: IDS, SIEM, log di sistema, audit delle attività utente.</dd>
+
+            <dt>Corrective (Correttivo)</dt>
+            <dd>Minimizza il danno e ripristina il sistema a uno stato sicuro <em>dopo</em> un incidente. Esempi: ripristino da backup dopo ransomware, patch applicata post-exploit, isolamento di un host infetto.</dd>
+
+            <dt>Compensating (Compensativo)</dt>
+            <dd>Misura alternativa adottata quando il controllo principale non può essere implementato, per esempio per incompatibilità tecnica su sistemi legacy. Non è un sostituto permanente ma una soluzione accettata nel contesto di un risk assessment. Esempi: supervisione manuale su un sistema che non supporta MFA, rete isolata per un dispositivo ICS non patchabile.</dd>
+
+            <dt>Directive (Direttivo)</dt>
+            <dd>Guida il comportamento attraverso regole o obblighi documentati. Non ha effetto tecnico diretto ma stabilisce aspettative e responsabilità. Esempi: Acceptable Use Policy, policy password, SOP, formazione obbligatoria.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Deterrent vs Preventive</strong> — Una telecamera visibile è <strong>deterrente</strong>: scoraggia ma non ferma l'attaccante. Una serratura biometrica è <strong>preventiva</strong>: blocca fisicamente l'accesso. "Una guardia che pattuglia visibilmente il perimetro" → deterrent, non preventive.
+          </div>
+
+          <h3 id="matrice">Matrice Categoria × Tipo</h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th>Preventive</th>
+                <th>Deterrent</th>
+                <th>Detective</th>
+                <th>Corrective</th>
+                <th>Compensating</th>
+                <th>Directive</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Technical</td>
+                <td>Firewall, MFA, patch</td>
+                <td>Login banner "accesso monitorato"</td>
+                <td>IDS, SIEM, audit log</td>
+                <td>EDR che isola l'host, restore da backup</td>
+                <td>Crittografia su sistema non patchabile</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td class="label">Managerial</td>
+                <td>Risk assessment, politiche di accesso</td>
+                <td>Minaccia di audit periodico</td>
+                <td>Revisione log, audit formale</td>
+                <td>Piano di incident response</td>
+                <td>Trasferimento del rischio (assicurazione)</td>
+                <td>Policy, SOP documentate</td>
+              </tr>
+              <tr>
+                <td class="label">Operational</td>
+                <td>Formazione anti-phishing, change management</td>
+                <td>Programma di awareness visibile</td>
+                <td>Revisione manuale degli accessi fisici</td>
+                <td>Ripristino manuale post-incidente</td>
+                <td>Supervisione umana su sistema legacy</td>
+                <td>Procedure operative (SOP)</td>
+              </tr>
+              <tr>
+                <td class="label">Physical</td>
+                <td>Serratura biometrica, mantrap</td>
+                <td>Telecamera visibile, recinzione, cartelli</td>
+                <td>Sensore di movimento, allarme</td>
+                <td>Sistema antincendio sprinkler</td>
+                <td>Guardia su stanza senza badge reader</td>
+                <td>"Vietato l'accesso ai non autorizzati"</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 1.1-B</strong> — Metodo per le domande scenario: (1) identifica la categoria dalla natura della misura; (2) identifica il tipo chiedendoti QUANDO interviene — prima = preventive · scoraggiamento = deterrent · dopo/durante = detective · ripristino = corrective · alternativa = compensating · regola scritta = directive.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 1.2
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-1-2">
+          <h2>Obiettivo 1.2 — Concetti fondamentali di sicurezza</h2>
+
+          <h3 id="cia">Triade CIA — Confidentiality, Integrity, Availability</h3>
+          <p>
+            La triade CIA è il framework di riferimento per valutare e progettare la sicurezza di qualsiasi sistema. La triade complementare <strong>DAD</strong> (Disclosure, Alteration, Denial) descrive le corrispondenti minacce.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Proprietà CIA</th>
+                <th>Definizione</th>
+                <th>Minaccia (DAD)</th>
+                <th>Attacco tipico</th>
+                <th>Controllo principale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Confidentiality</td>
+                <td>Le informazioni sono accessibili solo ai soggetti autorizzati.</td>
+                <td>Disclosure</td>
+                <td>Data breach, eavesdropping, shoulder surfing</td>
+                <td>Crittografia, ACL, MFA, DLP, classificazione dati</td>
+              </tr>
+              <tr>
+                <td class="label">Integrity</td>
+                <td>I dati non vengono modificati in modo non autorizzato. Ciò che si legge è ciò che è stato scritto dall'autore legittimo.</td>
+                <td>Alteration</td>
+                <td>Man-in-the-middle, SQL injection, tampering di log</td>
+                <td>Hashing, firme digitali, version control, FIM</td>
+              </tr>
+              <tr>
+                <td class="label">Availability</td>
+                <td>Informazioni e servizi sono disponibili per gli utenti legittimi quando ne hanno bisogno.</td>
+                <td>Denial</td>
+                <td>DDoS, ransomware, guasto hardware</td>
+                <td>Ridondanza, clustering, backup, DDoS mitigation, UPS</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — CIA in un attacco ransomware</strong><br>
+            Un ransomware viola <em>Confidentiality</em> (esfiltrazione pre-cifratura), <em>Availability</em> (file non accessibili) e <em>Integrity</em> (file modificati senza autorizzazione). È uno degli attacchi più impattanti proprio perché colpisce tutti e tre i pilastri contemporaneamente.
+          </div>
+
+          <h3 id="non-rep">Non-repudiation (Non ripudiabilità)</h3>
+          <p>
+            Garantisce che un soggetto non possa negare di aver compiuto un'azione. Differenza chiave rispetto all'autenticazione: l'autenticazione dimostra <em>chi sei</em> nel momento dell'accesso; la non ripudiabilità dimostra che quella persona <em>non può negare</em> un'azione specifica in un momento specifico. Strumenti principali: firme digitali, audit log con timestamp integri, certificati digitali.
+          </p>
+
+          <h3 id="aaa">AAA — Authentication, Authorization, Accounting</h3>
+
+          <dl class="termlist">
+            <dt>Authentication (Autenticazione)</dt>
+            <dd>
+              Verifica dell'identità: risponde alla domanda <em>"chi sei?"</em>. Si distingue tra:
+              <ul>
+                <li><strong>Autenticazione di persone:</strong> password, PIN, biometria, token hardware/software, smart card.</li>
+                <li><strong>Autenticazione di sistemi:</strong> certificati digitali, API key, service account, chiavi SSH, attestazione del dispositivo.</li>
+              </ul>
+            </dd>
+
+            <dt>Authorization (Autorizzazione)</dt>
+            <dd>Definisce cosa un soggetto autenticato è autorizzato a fare: risponde a <em>"cosa puoi fare?"</em>. Presuppone sempre un'autenticazione riuscita. Modelli principali approfonditi in CH8: MAC, DAC, RBAC, ABAC, Rule-based.</dd>
+
+            <dt>Accounting (Contabilità / Audit)</dt>
+            <dd>Traccia le azioni compiute: risponde a <em>"cosa ha fatto?"</em>. Produce l'audit trail per indagini forensi, compliance e rilevamento anomalie. Strumenti: log di sistema, SIEM, NetFlow.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Authentication vs Authorization</strong> — Authentication = verifica identità (chi sei). Authorization = verifica permessi (cosa puoi fare). L'errore HTTP "403 Forbidden" è un errore di authorization; "401 Unauthorized" è un errore di authentication.
+          </div>
+
+          <h3 id="gap">Gap Analysis</h3>
+          <p>
+            Confronto sistematico tra il livello di sicurezza attuale e quello richiesto o desiderato, definito da framework (NIST, ISO 27001) o requisiti normativi (GDPR, HIPAA). Il risultato è un elenco delle lacune e un piano d'azione per colmarle. È uno strumento manageriale che precede qualsiasi strategia di miglioramento della sicurezza.
+          </p>
+
+          <h3 id="zerotrust">Zero Trust</h3>
+          <p>
+            Modello architetturale basato sul principio <em>"non fidarsi mai, verificare sempre"</em>. Elimina la fiducia implicita basata sulla posizione in rete: anche chi è già dentro il perimetro aziendale deve essere autenticato e autorizzato esplicitamente per ogni accesso.
+          </p>
+
+          <h4>Control Plane — il piano delle decisioni</h4>
+          <dl class="termlist">
+            <dt>Policy Engine</dt>
+            <dd>Prende le decisioni di accesso. Valuta ogni richiesta rispetto alle policy, analizzando identità, contesto, rischio e attributi del soggetto. Emette la decisione: concesso, negato o condizionato.</dd>
+
+            <dt>Policy Administrator</dt>
+            <dd>Tramite tra Policy Engine e Policy Enforcement Point. Riceve la decisione del Policy Engine e la comunica al PEP. Gestisce la sessione (creazione e revoca).</dd>
+
+            <dt>Adaptive Identity</dt>
+            <dd>Valuta il contesto dell'accesso oltre alle credenziali: posizione geografica, dispositivo, ora del giorno, comportamento storico, livello di rischio in tempo reale.</dd>
+
+            <dt>Threat Scope Reduction</dt>
+            <dd>Ogni soggetto ottiene accesso solo alle risorse strettamente necessarie. Limita il danno potenziale in caso di compromissione.</dd>
+
+            <dt>Policy-Driven Access Control</dt>
+            <dd>Ogni accesso è basato su policy esplicite, non su assunzioni di fiducia basate sulla posizione in rete.</dd>
+          </dl>
+
+          <h4>Data Plane — il piano dell'esecuzione</h4>
+          <dl class="termlist">
+            <dt>Policy Enforcement Point (PEP)</dt>
+            <dd>Punto dove la decisione viene applicata concretamente (gateway, proxy, agente sull'endpoint). Consente o blocca il traffico in base alla decisione ricevuta.</dd>
+
+            <dt>Subject / System</dt>
+            <dd>Il soggetto richiedente: utente, dispositivo, applicazione o processo. In Zero Trust tutti sono da valutare indipendentemente dalla posizione in rete.</dd>
+
+            <dt>Implicit Trust Zones</dt>
+            <dd>Zone di fiducia implicita del modello tradizionale (es. "rete interna = fidata"). Zero Trust le elimina o riduce al minimo, richiedendo verifica anche all'interno del perimetro.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 1.2 — Zero Trust</strong> — "Which component makes the access decision?" → Policy Engine. "Which component applies the decision?" → Policy Enforcement Point (PEP). Zero Trust non significa bloccare tutto: significa non concedere fiducia implicita basata sulla sola posizione di rete.
+          </div>
+
+          <h3 id="physical">Physical Security — Sicurezza fisica</h3>
+          <p>
+            La sicurezza fisica protegge persone, strutture e asset da accessi non autorizzati. Un attaccante con accesso fisico non controllato può bypassare quasi tutti i controlli logici.
+          </p>
+
+          <table>
+            <thead>
+              <tr><th>Elemento</th><th>Descrizione e scopo</th><th>Tipo di controllo</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Bollards</td>
+                <td>Colonne di cemento o acciaio infisse nel suolo davanti agli ingressi. Impediscono a veicoli di sfondare porte o raggiungere aree protette.</td>
+                <td>Physical Preventive</td>
+              </tr>
+              <tr>
+                <td class="label">Access Control Vestibule (Mantrap)</td>
+                <td>Due porte sequenziali: la seconda si sblocca solo dopo che la prima si è chiusa e l'identità è stata verificata. Previene il tailgating (entrare dietro qualcuno senza autenticarsi).</td>
+                <td>Physical Preventive</td>
+              </tr>
+              <tr>
+                <td class="label">Fencing</td>
+                <td>Barriera perimetrale che definisce i confini della proprietà. L'altezza e il materiale determinano il livello di protezione.</td>
+                <td>Physical Preventive + Deterrent</td>
+              </tr>
+              <tr>
+                <td class="label">Video Surveillance</td>
+                <td>La presenza visibile ha effetto deterrente; le registrazioni supportano le indagini forensi post-evento.</td>
+                <td>Physical Deterrent + Detective</td>
+              </tr>
+              <tr>
+                <td class="label">Security Guard</td>
+                <td>Personale umano che può adattarsi a situazioni impreviste, eseguire controlli visivi e rispondere agli incidenti.</td>
+                <td>Physical Preventive + Deterrent</td>
+              </tr>
+              <tr>
+                <td class="label">Access Badge</td>
+                <td>Tesserino RFID o smart card che autentica l'identità per l'accesso fisico. Lascia traccia audit di ogni accesso: chi, quando, dove.</td>
+                <td>Physical Preventive + Detective</td>
+              </tr>
+              <tr>
+                <td class="label">Lighting</td>
+                <td>Riduce l'anonimato nelle aree esterne, scoraggia attività illecite notturne, migliora l'efficacia delle telecamere.</td>
+                <td>Physical Deterrent</td>
+              </tr>
+              <tr>
+                <td class="label">Sensors — Infrared</td>
+                <td>Rilevano il calore corporeo. Efficaci in condizioni di scarsa visibilità. Usati in allarmi e telecamere notturne.</td>
+                <td>Physical Detective</td>
+              </tr>
+              <tr>
+                <td class="label">Sensors — Pressure</td>
+                <td>Rilevano la pressione su superfici (pavimenti sensibili, tappeti). Attivano un allarme quando l'area protetta viene calpestata.</td>
+                <td>Physical Detective</td>
+              </tr>
+              <tr>
+                <td class="label">Sensors — Microwave</td>
+                <td>Emettono onde radio e rilevano variazioni causate dal movimento. Coprono aree più ampie degli infrarossi e funzionano attraverso materiali non metallici.</td>
+                <td>Physical Detective</td>
+              </tr>
+              <tr>
+                <td class="label">Sensors — Ultrasonic</td>
+                <td>Emettono onde sonore ad alta frequenza (non udibili) e rilevano il movimento calcolando le variazioni nell'eco riflesso.</td>
+                <td>Physical Detective</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 id="deception">Deception and Disruption Technology</h3>
+          <p>
+            Asset falsi creati per rilevare, rallentare e studiare gli attaccanti. Principio fondamentale: qualsiasi interazione con un asset esca è per definizione sospetta, perché gli utenti legittimi non hanno motivo di accedervi.
+          </p>
+
+          <table>
+            <thead>
+              <tr><th>Tecnologia</th><th>Descrizione</th><th>Cosa rileva</th><th>Scala</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Honeypot</td>
+                <td>Sistema deliberatamente esposto che simula un target reale. Qualsiasi traffico verso di esso è sospetto per definizione.</td>
+                <td>Scansioni, exploit, ricognizione</td>
+                <td>Sistema singolo</td>
+              </tr>
+              <tr>
+                <td class="label">Honeynet</td>
+                <td>Rete di più honeypot che simula un'intera infrastruttura. Permette di osservare il lateral movement post-compromissione.</td>
+                <td>Lateral movement, tools usati</td>
+                <td>Rete completa</td>
+              </tr>
+              <tr>
+                <td class="label">Honeyfile</td>
+                <td>File con nome attraente (es. "passwords.xlsx") contenente dati falsi. Alert generato quando viene aperto o spostato.</td>
+                <td>Accesso non autorizzato a dati, insider threat</td>
+                <td>Singolo file</td>
+              </tr>
+              <tr>
+                <td class="label">Honeytoken</td>
+                <td>Credenziale o dato esca (account fittizio, API key, record di database). Alert generato non appena il token viene usato ovunque.</td>
+                <td>Uso di credenziali rubate, esfiltrazione</td>
+                <td>Singola credenziale</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Honeytoken in produzione</strong><br>
+            Un'organizzazione crea un account fittizio ("svc_monitoring_backup") con password salvata nel password manager aziendale. Se qualcuno compromette il password manager e usa quelle credenziali, il SIEM lancia immediatamente un alert. L'account non esiste realmente: qualsiasi suo utilizzo è prova di compromissione.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 1.3
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-1-3">
+          <h2>Obiettivo 1.3 — Change Management</h2>
+          <p>
+            Processo formale con cui un'organizzazione pianifica, approva, esegue e documenta le modifiche ai propri sistemi. Senza questo processo, una modifica può introdurre vulnerabilità, causare downtime o creare incompatibilità. L'obiettivo è ridurre il rischio introdotto da ogni cambiamento assicurandosi che sia valutato, testato e reversibile.
+          </p>
+
+          <h3 id="cm-business">Processi business</h3>
+
+          <dl class="termlist">
+            <dt>Approval Process</dt>
+            <dd>Ogni modifica deve essere formalmente approvata prima di essere implementata in produzione. In ambienti strutturati esiste un Change Advisory Board (CAB) che valuta le richieste includendo la revisione dei rischi e dell'impatto.</dd>
+
+            <dt>Ownership</dt>
+            <dd>Ogni sistema ha un owner responsabile delle decisioni su di esso. L'owner è il riferimento per valutare se una modifica è appropriata e per assumersi la responsabilità dell'impatto.</dd>
+
+            <dt>Stakeholders</dt>
+            <dd>Tutti i soggetti che hanno un interesse nel sistema o che subiranno l'impatto della modifica. Devono essere identificati e informati prima e dopo il cambiamento.</dd>
+
+            <dt>Impact Analysis</dt>
+            <dd>Valutazione dell'impatto: cosa può andare storto, quali sistemi dipendenti saranno influenzati, quanto downtime è atteso, quali rischi di sicurezza introduce la modifica.</dd>
+
+            <dt>Test Results</dt>
+            <dd>La modifica deve essere testata in un ambiente non-produzione prima dell'implementazione. I risultati documentano che funziona come previsto e non introduce regressioni.</dd>
+
+            <dt>Backout Plan</dt>
+            <dd>Piano di rollback documentato <em>prima</em> dell'implementazione. Include: come tornare alla configurazione precedente, quanto tempo richiede, chi lo esegue. Non si improvvisa durante un incidente.</dd>
+
+            <dt>Maintenance Window</dt>
+            <dd>Finestra temporale approvata per eseguire le modifiche — solitamente in orari di basso impatto. Le modifiche fuori finestra richiedono una procedura di approvazione di emergenza.</dd>
+
+            <dt>Standard Operating Procedure (SOP)</dt>
+            <dd>Documento passo-per-passo su come eseguire la modifica. Garantisce che il processo sia ripetibile e non dipenda dalle conoscenze di un singolo tecnico.</dd>
+          </dl>
+
+          <h3 id="cm-tech">Implicazioni tecniche</h3>
+
+          <dl class="termlist">
+            <dt>Allow Lists / Deny Lists</dt>
+            <dd>Una modifica può richiedere l'aggiornamento di allow list (entità permesse) o deny list (entità bloccate). Es: una nuova applicazione potrebbe richiedere l'apertura di una porta firewall o il blocco di un vecchio protocollo.</dd>
+
+            <dt>Restricted Activities</dt>
+            <dd>Azioni vietate durante la manutenzione per evitare conflitti. Es: non eseguire backup contemporaneamente a una migrazione del database.</dd>
+
+            <dt>Downtime</dt>
+            <dd>Tempo di interruzione del servizio previsto. Deve essere comunicato anticipatamente agli stakeholder e minimizzato.</dd>
+
+            <dt>Legacy Applications</dt>
+            <dd>Applicazioni vecchie che spesso non supportano aggiornamenti o modifiche al sistema operativo sottostante — caso tipico per i controlli compensativi.</dd>
+
+            <dt>Dependencies</dt>
+            <dd>Sistemi, librerie o servizi che dipendono dal componente da modificare. Devono essere identificati prima della modifica per evitare rotture a cascata.</dd>
+          </dl>
+
+          <h3 id="cm-doc">Documentazione e Version Control</h3>
+
+          <dl class="termlist">
+            <dt>Updating Diagrams</dt>
+            <dd>Diagrammi di rete e di architettura aggiornati dopo ogni modifica significativa. Diagrammi obsoleti compromettono il troubleshooting e la risposta agli incidenti.</dd>
+
+            <dt>Updating Policies/Procedures</dt>
+            <dd>Policy e procedure operative aggiornate se la modifica cambia il funzionamento di un processo. Una procedura obsoleta seguita da un nuovo tecnico può creare vulnerabilità.</dd>
+
+            <dt>Version Control</dt>
+            <dd>Traccia tutte le versioni di software, configurazioni e script. Essenziale per il backout plan e per l'audit trail (chi ha cambiato cosa e quando).</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 1.3</strong> — Nelle domande "which action FIRST" o "what is MISSING": impact analysis viene prima dell'approvazione, backout plan viene prima dell'esecuzione. Scenario tipico: "il tecnico vuole patchare subito senza approvazione" → risposta: esiste un percorso di emergenza, il processo non si bypassa mai.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 5.1 (PARZIALE)
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-5-1">
+          <h2>Obiettivo 5.1 — Governance della sicurezza (base)</h2>
+          <p>
+            Sistema di regole, strutture e ruoli che guida come un'organizzazione gestisce la sicurezza delle informazioni. Per governance, compliance, risk management e audit completi → <a href="ch16_governance_compliance_policy_canonical.html">CH16</a> e <a href="ch17_risk_privacy_third_party_canonical.html">CH17</a>.
+          </p>
+
+          <h3 id="doc-hierarchy">Gerarchia dei documenti di governance</h3>
+
+          <table>
+            <thead>
+              <tr><th>Livello</th><th>Documento</th><th>Caratteristica chiave</th><th>Esempio</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1 — più ampio</td>
+                <td class="label">Guidelines</td>
+                <td>Raccomandazioni <em>non vincolanti</em>. Suggeriscono best practice ma lasciano discrezione.</td>
+                <td>"Si consiglia l'uso di password di almeno 12 caratteri"</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="label">Policies</td>
+                <td>Regole ad alto livello <em>vincolanti</em>. Dicono <strong>COSA</strong> fare, non come. Approvate dal management.</td>
+                <td>"Tutti gli account devono usare MFA"</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="label">Standards</td>
+                <td>Specifiche tecniche che supportano le policy. Dicono <strong>QUANTO / CON COSA</strong> in modo preciso e misurabile.</td>
+                <td>"Password ≥ 14 caratteri con uppercase, lowercase, numero e simbolo"</td>
+              </tr>
+              <tr>
+                <td>4 — più specifico</td>
+                <td class="label">Procedures</td>
+                <td>Istruzioni passo-per-passo. Descrivono <strong>CHI fa COSA, QUANDO e COME</strong> in modo dettagliato e ripetibile.</td>
+                <td>"Passo 1: creare account AD. Passo 2: assegnare ruolo RBAC. Passo 3: inviare credenziali cifrate..."</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Policy vs Standard vs Procedure</strong> — Policy = COSA (vincolante). Standard = QUANTO/CON COSA (misurabile). Procedure = COME passo-passo (eseguibile). Guideline = non vincolante.
+          </div>
+
+          <h3 id="policy-types">Tipi di policy principali</h3>
+
+          <dl class="termlist">
+            <dt>Acceptable Use Policy (AUP)</dt>
+            <dd>Definisce cosa gli utenti possono e non possono fare con le risorse IT. È in genere il primo documento firmato da un nuovo dipendente.</dd>
+
+            <dt>Information Security Policy</dt>
+            <dd>Framework generale di sicurezza delle informazioni. È la policy "madre" da cui derivano tutte le altre policy di sicurezza dell'organizzazione.</dd>
+
+            <dt>Business Continuity Policy</dt>
+            <dd>Come l'organizzazione continuerà a operare durante un'interruzione del servizio. Include gli obiettivi di RTO e RPO.</dd>
+
+            <dt>Disaster Recovery Policy</dt>
+            <dd>Ripristino tecnico dei sistemi IT dopo un disastro. Più tecnica della BCP: si concentra sull'infrastruttura IT.</dd>
+
+            <dt>Incident Response Policy</dt>
+            <dd>Come rispondere agli incidenti di sicurezza: chi viene notificato, quali fasi seguire, come documentare. Guida il ciclo PICERL (approfondito in CH14).</dd>
+
+            <dt>SDLC Policy</dt>
+            <dd>Requisiti di sicurezza da integrare in ogni fase dello sviluppo software. Garantisce che la sicurezza non sia un pensiero retrospettivo.</dd>
+
+            <dt>Change Management Policy</dt>
+            <dd>Regola il processo di modifica ai sistemi (vedi sezione 1.3). Definisce chi approva, quali processi seguire e quali documentazioni produrre.</dd>
+          </dl>
+
+          <h3 id="roles">Ruoli e responsabilità per sistemi e dati</h3>
+
+          <table>
+            <thead>
+              <tr><th>Ruolo</th><th>Responsabilità principale</th><th>Chi è tipicamente</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Owner</td>
+                <td>Responsabile business del dato o sistema. Decide la classificazione, le policy di accesso e l'uso appropriato.</td>
+                <td>Manager o dirigente di business unit — non necessariamente un tecnico.</td>
+              </tr>
+              <tr>
+                <td class="label">Controller (GDPR)</td>
+                <td>Determina <em>perché</em> e <em>come</em> i dati personali vengono trattati. Stabilisce le finalità del trattamento.</td>
+                <td>L'organizzazione stessa (persona giuridica).</td>
+              </tr>
+              <tr>
+                <td class="label">Processor (GDPR)</td>
+                <td>Tratta i dati personali per conto del Controller. Non decide le finalità: segue le istruzioni del Controller.</td>
+                <td>Vendor, fornitore cloud, partner che elabora dati per conto dell'organizzazione.</td>
+              </tr>
+              <tr>
+                <td class="label">Custodian / Steward</td>
+                <td>Responsabile tecnico della gestione del dato. Implementa i controlli decisi dall'Owner: backup, crittografia, accessi, log.</td>
+                <td>Team IT, DBA, system administrator.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 5.1 — Ruoli</strong> — Owner = responsabile business, decide la policy. Custodian = IT, implementa i controlli tecnici. Non confondere Owner con Administrator: l'Owner è la figura business, l'Administrator è il tecnico (= Custodian).
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Categoria vs Tipo di controllo</strong> — Categoria = natura della misura (Technical / Managerial / Operational / Physical). Tipo = quando interviene (Preventive / Deterrent / Detective / Corrective / Compensating / Directive).</li>
+            <li><strong>Deterrent vs Preventive</strong> — Deterrent scoraggia ma non blocca. Preventive impedisce fisicamente l'azione.</li>
+            <li><strong>CIA → DAD</strong> — Confidentiality violata = Disclosure. Integrity violata = Alteration. Availability violata = Denial.</li>
+            <li><strong>Non-repudiation</strong> — Impossibilità di negare un'azione compiuta. Strumento: firma digitale.</li>
+            <li><strong>AAA in ordine</strong> — Authentication (chi sei?) → Authorization (cosa puoi fare?) → Accounting (cosa hai fatto?).</li>
+            <li><strong>403 vs 401</strong> — 401 = authentication fallita. 403 = authorization negata (utente riconosciuto ma senza permesso).</li>
+            <li><strong>Zero Trust: chi decide?</strong> — Policy Engine decide. Policy Administrator comunica. Policy Enforcement Point applica.</li>
+            <li><strong>Mantrap / Vestibule</strong> — Due porte sequenziali per prevenire il tailgating.</li>
+            <li><strong>Honeypot vs Honeyfile vs Honeytoken</strong> — Sistema esca / File esca / Credenziale esca. Qualsiasi interazione = alert.</li>
+            <li><strong>Backout Plan</strong> — Piano di rollback documentato prima dell'implementazione.</li>
+            <li><strong>Gerarchia governance</strong> — Guidelines (non vincolante) → Policy (COSA) → Standard (QUANTO) → Procedure (COME).</li>
+            <li><strong>Owner vs Custodian</strong> — Owner = decide (business). Custodian = implementa (IT).</li>
+            <li><strong>Gap Analysis</strong> — Confronto tra sicurezza attuale e desiderata. Produce un piano d'azione.</li>
+            <li><strong>Compensating control</strong> — Misura alternativa temporanea quando il controllo principale non è implementabile.</li>
+            <li><strong>AUP</strong> — Acceptable Use Policy: regole di utilizzo delle risorse IT. Primo documento firmato dai nuovi dipendenti.</li>
+          </ul>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="security_plus_sy0_701_guida.html">← Indice generale</a>
+          <a href="ch2_threat_landscape_canonical.html" class="secondary">CH2 — Threat Landscape →</a>
+          <a href="ch7_crittografia_pki_canonical.html" class="secondary">CH7 — Crittografia →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

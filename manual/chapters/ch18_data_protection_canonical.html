@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH — Protezione dei Dati · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 3 — Security Architecture</span>
+      <span>CH — Protezione dei Dati</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch18_data_protection_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch18_data_protection_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH — Protezione dei Dati</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 3 · Obiettivo 3.3
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">3.3</span>
+        <span class="weight-badge">D3 = 18%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong>
+        <a href="ch7_crittografia_pki_canonical.html">CH7 — Crittografia e PKI</a>
+        (cifratura, hashing, tokenizzazione) ·
+        <a href="ch1_governance_classification_canonical.html">CH1 — Fondamenti e Governance</a>
+        (triade CIA, ruoli: Owner, Custodian, Controller, Processor).
+      </p>
+      <p><strong>Capitoli correlati:</strong>
+        <a href="ch9_resilience_physical_security_canonical.html">CH9 — Resilienza</a> ·
+        <a href="ch10_cloud_virtualizzazione_canonical.html">CH10 — Cloud e Virtualizzazione</a> ·
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance e Compliance</a> ·
+        <a href="ch17_risk_privacy_third_party_canonical.html">CH17 — Rischio e Privacy</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 3.3</div>
+        <a href="#obj-3-3">Protezione dei dati</a>
+
+        <div class="toc-section">Tipi di dato</div>
+        <a href="#data-types">Classificazione per tipo</a>
+        <a href="#regulated">↳ Regulated</a>
+        <a href="#trade-secret">↳ Trade secret e IP</a>
+        <a href="#legal-financial">↳ Legal e Financial</a>
+        <a href="#human-nonhuman">↳ Human vs Non-human readable</a>
+
+        <div class="toc-section">Classificazioni</div>
+        <a href="#data-classifications">Schema di classificazione</a>
+        <a href="#class-levels">↳ Livelli: Public → Restricted</a>
+        <a href="#class-confronto">↳ Tabella comparativa</a>
+
+        <div class="toc-section">Considerazioni generali</div>
+        <a href="#data-states">Stati del dato</a>
+        <a href="#at-rest">↳ Data at rest</a>
+        <a href="#in-transit">↳ Data in transit</a>
+        <a href="#in-use">↳ Data in use</a>
+        <a href="#sovereignty">↳ Data sovereignty</a>
+        <a href="#geolocation">↳ Geolocation</a>
+
+        <div class="toc-section">Metodi di protezione</div>
+        <a href="#methods">Panoramica metodi</a>
+        <a href="#geo-restrictions">↳ Geographic restrictions</a>
+        <a href="#encryption-hashing">↳ Encryption e Hashing</a>
+        <a href="#masking-token">↳ Masking e Tokenization</a>
+        <a href="#obfuscation">↳ Obfuscation</a>
+        <a href="#segmentation">↳ Segmentation</a>
+        <a href="#permissions">↳ Permission restrictions</a>
+        <a href="#metodi-tabella">↳ Tabella comparativa</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 3.3
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-3-3">
+          <h2>Obiettivo 3.3 — Confrontare e contrapporre concetti e strategie per proteggere i dati</h2>
+          <p>
+            Il dato è al centro di qualunque sistema di sicurezza moderno: è ciò che gli attaccanti vogliono rubare, le organizzazioni vogliono proteggere e le normative vogliono regolamentare. L'obiettivo 3.3 richiede di sapere <em>cosa</em> si sta proteggendo (tipo di dato), <em>quanto</em> vale (classificazione), <em>dove</em> si trova (stato del dato) e <em>come</em> proteggerlo (metodi). Questi quattro assi formano un framework coerente che guida sia la progettazione di architetture sicure sia le decisioni operative quotidiane. Capire le differenze tra masking, tokenizzazione e cifratura — per esempio — non è solo nozione d'esame: è la differenza tra scegliere il controllo giusto o quello sbagliato in un progetto reale.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.3 — Inquadramento generale</strong> — Le domande su questo obiettivo sono spesso scenari applicativi: "Quale metodo di protezione è più appropriato per X?" oppure "Quale tipo di classificazione si applica a Y?". La chiave è capire il <em>perché</em> di ogni scelta, non solo il nome del metodo. Concentrati sulle differenze tra masking/tokenization, at rest/in transit/in use, e sui requisiti di sovereignty.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             TIPI DI DATO
+        ════════════════════════════════════════════════════════ -->
+        <section id="data-types">
+          <h2>Tipi di dato</h2>
+          <p>
+            Comprendere il tipo di dato che si gestisce è il primo passo per applicare i controlli corretti. I dati non sono tutti uguali: un file sorgente di un algoritmo proprietario, un referto medico e un comunicato stampa richiedono livelli di protezione radicalmente diversi. Il tipo di dato determina quali normative si applicano, quali controlli tecnici sono obbligatori e quale rischio comporta una violazione.
+          </p>
+
+          <h3 id="regulated">Dati Regulated (Regolamentati)</h3>
+          <dl class="termlist">
+            <dt>Regulated data</dt>
+            <dd>
+              Dati soggetti a obblighi legali o normativi che prescrivono come devono essere raccolti, conservati, trattati e cancellati. La violazione di questi obblighi comporta sanzioni amministrative, penali o civili. Non è l'organizzazione a scegliere il livello di protezione: la normativa lo impone. Esempi di regimi normativi: GDPR (dati personali EU), HIPAA (dati sanitari USA), PCI-DSS (dati di carte di pagamento), FERPA (dati educativi USA), SOX (dati finanziari aziende quotate USA). Ogni regime definisce categorie specifiche — ad esempio il GDPR distingue dati personali ordinari da categorie particolari (dati sensibili: salute, orientamento sessuale, etnia, opinioni politiche, ecc.) con requisiti più stringenti.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — PCI-DSS e carta di credito</strong><br>
+            Un e-commerce italiano che accetta pagamenti con carta è soggetto a PCI-DSS. I dati della carta (Primary Account Number — PAN, CVV, PIN) sono classified data. PCI-DSS prescrive: non conservare MAI il CVV dopo la transazione; conservare il PAN solo se cifrato con AES-256; usare tokenizzazione per le transazioni ricorrenti in modo da non dover conservare il numero di carta originale. La scelta di tokenizzare invece di cifrare non è arbitraria: è dettata dal livello di compliance richiesto e riduce l'ambito PCI-DSS dell'organizzazione.
+          </div>
+
+          <h3 id="trade-secret">Trade Secret e Intellectual Property</h3>
+          <dl class="termlist">
+            <dt>Trade secret</dt>
+            <dd>
+              Informazioni commercialmente preziose che danno un vantaggio competitivo e che vengono mantenute segrete deliberatamente. A differenza di brevetti e copyright, non richiedono registrazione: la protezione dipende interamente dalla capacità di mantenerli riservati. Se un trade secret viene divulgato (anche accidentalmente), la protezione legale è persa. Esempi classici: la formula della Coca-Cola, gli algoritmi di ranking di Google, le ricette proprietarie di prodotti alimentari, i modelli di business interni. In termini di sicurezza informatica, i trade secret includono codice sorgente proprietario, modelli di ML addestrati, dataset di training, architetture di sistema.
+            </dd>
+
+            <dt>Intellectual Property (IP)</dt>
+            <dd>
+              Categoria più ampia che include tutto ciò che può essere protetto da strumenti legali di proprietà intellettuale: brevetti, marchi registrati, copyright, design industriali. A differenza dei trade secret, l'IP è spesso registrata pubblicamente — il brevetto descrive l'invenzione — ma la protezione legale contro l'uso non autorizzato è molto forte. In ambito informatico: codice sorgente (copyright), algoritmi brevettati, marchi di prodotto, database originali.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Trade secret vs IP</strong> — Trade secret = segreto industriale, non registrato, protezione basata sulla segretezza. IP = categoria legale registrata (brevetto, copyright), protezione legale anche dopo divulgazione pubblica. Un algoritmo può essere sia IP (brevettato) che trade secret (variante non documentata): le due protezioni possono coesistere.
+          </div>
+
+          <h3 id="legal-financial">Legal Information e Financial Information</h3>
+          <dl class="termlist">
+            <dt>Legal information</dt>
+            <dd>
+              Comunicazioni privilegiate tra cliente e avvocato, contratti, opinioni legali, documenti di contenziosi. Il privilegio avvocato-cliente è un principio legale che protegge queste comunicazioni dalla divulgazione forzata in procedimenti legali. Una violazione di dati che esponga comunicazioni legali riservate può compromettere difese legali in corso, creare conflitti di interesse e violare obblighi professionali. Dal punto di vista tecnico, richiede controlli di accesso rigorosi basati su ruoli (solo il team legale e i clienti designati) e spesso sistemi separati fisicamente o logicamente dai sistemi generali aziendali.
+            </dd>
+
+            <dt>Financial information</dt>
+            <dd>
+              Bilanci, conto economico, dati di conti bancari, previsioni di ricavi, piani di investimento, dati di M&A in corso. È regolamentata (SOX per le società quotate USA, MiFID II in Europa per informazioni price-sensitive) e ha valore strategico per attaccanti e concorrenti. Una violazione di dati finanziari non ancora pubblici costituisce insider trading se sfruttata sui mercati. I requisiti di protezione combinano obblighi normativi e protezione del vantaggio competitivo.
+            </dd>
+          </dl>
+
+          <h3 id="human-nonhuman">Human-readable vs Non-human-readable</h3>
+          <dl class="termlist">
+            <dt>Human-readable data</dt>
+            <dd>
+              Dati comprensibili direttamente da un essere umano senza strumenti di decodifica: testo in chiaro, documenti Word/PDF, fogli di calcolo, email. La protezione principale è il controllo degli accessi: se accessibili da un utente non autorizzato, il dato è immediatamente comprensibile e utilizzabile. Un documento Word con un piano strategico riservato non richiede strumenti per essere letto — è immediatamente actionable per un attaccante. Questo rende i dati human-readable particolarmente critici in scenari di furto tramite email o download non autorizzati.
+            </dd>
+
+            <dt>Non-human-readable data</dt>
+            <dd>
+              Dati che richiedono strumenti o processi di decodifica per essere compresi: dati binari, dati cifrati, codice macchina compilato, formati proprietari, immagini raw dei dischi, dump di memoria. Anche se accessibili, non sono immediatamente leggibili. Tuttavia, "non-human-readable" non significa sicuro: un dump di database cifrato è non-human-readable ma è comunque un target di alta priorità (contiene dati preziosi una volta decifrati). La protezione di dati non-human-readable si concentra sulla protezione delle chiavi crittografiche e dei meccanismi di decodifica.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.3-A — Tipi di dato</strong> — L'esame può chiedere di identificare il tipo di dato corretto per uno scenario. Ricorda: Regulated = c'è una normativa specifica. Trade secret = valore competitivo mantenuto segreto. IP = protetto legalmente e spesso pubblico. Human-readable = immediatamente leggibile senza strumenti. Se lo scenario menziona "normative", "compliance", "legge" → regulated. Se menziona "formula segreta" o "codice sorgente proprietario" → trade secret.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             CLASSIFICAZIONI
+        ════════════════════════════════════════════════════════ -->
+        <section id="data-classifications">
+          <h2>Classificazioni dei dati</h2>
+          <p>
+            La classificazione dei dati è il processo di assegnazione di un'etichetta che definisce il livello di sensibilità e i controlli di protezione applicabili. È uno degli elementi fondamentali di qualsiasi programma di data governance: senza classificazione, ogni decisione di sicurezza è casuale. Il Data Owner è responsabile della classificazione (vedi CH1 — Ruoli); il Custodian implementa i controlli tecnici corrispondenti.
+          </p>
+          <p>
+            Le classificazioni elencate dagli obiettivi SY0-701 riflettono lo schema usato nel settore privato. Il settore governativo/militare usa schemi diversi (Unclassified, Confidential, Secret, Top Secret), ma il principio è identico: più alto è il livello, più restrittivi sono i controlli.
+          </p>
+
+          <h3 id="class-levels">Livelli di classificazione</h3>
+          <dl class="termlist">
+            <dt>Public (Pubblico)</dt>
+            <dd>
+              Dati che possono essere divulgati liberamente al pubblico senza alcuna restrizione. La confidenzialità non è un requisito, ma integrità e disponibilità lo sono: un dato pubblico non deve essere modificato senza autorizzazione (es. falso comunicato stampa) né deve diventare indisponibile in modo inaccettabile. Esempi: comunicati stampa, documentazione pubblica di prodotto, siti web pubblici, tariffari pubblicati.
+            </dd>
+
+            <dt>Private (Privato)</dt>
+            <dd>
+              Dati interni all'organizzazione che non dovrebbero essere divulgati esternamente ma la cui esposizione non causerebbe danno critico. Include informazioni operative quotidiane, comunicazioni interne, dati non classificati come sensibili ma non destinati al pubblico. La "privacy" qui è organizzativa (internal use only), non necessariamente nel senso GDPR del termine. Esempi: procedure interne, organigrammi, comunicazioni email interne di routine, meeting notes.
+            </dd>
+
+            <dt>Sensitive (Sensibile)</dt>
+            <dd>
+              Dati la cui esposizione potrebbe causare danno significativo a persone fisiche o all'organizzazione. Spesso si sovrappone ai dati personali nel senso GDPR. Richiede controlli tecnici specifici: cifratura, controllo degli accessi basato su ruolo, audit trail, minimizzazione della retention. Esempi: dati sanitari, dati personali identificativi (PII), numeri di carta di credito, credenziali di accesso.
+            </dd>
+
+            <dt>Confidential (Confidenziale)</dt>
+            <dd>
+              Dati che se divulgati causerebbero danno serio all'organizzazione: perdita di vantaggio competitivo, violazione di obblighi contrattuali, danno reputazionale. L'accesso è limitato a individui con specifica necessità operativa (need-to-know). Richiede controlli aggiuntivi rispetto a "Sensitive": NDA per i destinatari, tracciabilità della distribuzione, divieto di copia su dispositivi non autorizzati. Esempi: piani strategici pluriennali, trattative di M&A in corso, ricerca e sviluppo pre-brevetto.
+            </dd>
+
+            <dt>Restricted (Ristretto)</dt>
+            <dd>
+              Il livello più alto di protezione nel contesto aziendale. Accesso limitato a pochissime persone con specifica autorizzazione. Anche internamente all'organizzazione, la distribuzione è strettamente controllata e ogni accesso è loggato e revisionato. Esempi: codici sorgente del sistema di sicurezza principale, chiavi crittografiche master, dati di intelligence competitiva di massima priorità, informazioni su vulnerabilità critiche non ancora divulgate.
+            </dd>
+
+            <dt>Critical (Critico)</dt>
+            <dd>
+              Dati il cui compromissione, perdita o indisponibilità provocherebbe interruzione operativa grave o danni irreversibili. L'enfasi è sulla disponibilità e integrità oltre che sulla confidenzialità: non è solo "chi può vederlo" ma "cosa succede se non c'è più". Esempi: chiavi di cifratura dei backup, database di produzione, configurazioni dei sistemi di controllo industriale, credenziali root di infrastruttura cloud.
+            </dd>
+          </dl>
+
+          <h3 id="class-confronto">Tabella comparativa — Livelli di classificazione</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Livello</th>
+                <th>Accesso</th>
+                <th>Impatto se violato</th>
+                <th>Controlli tipici</th>
+                <th>Esempio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Public</td>
+                <td>Chiunque</td>
+                <td>Minimo (integrità)</td>
+                <td>Firma digitale per integrità</td>
+                <td>Comunicato stampa</td>
+              </tr>
+              <tr>
+                <td class="label">Private</td>
+                <td>Dipendenti</td>
+                <td>Basso (imbarazzo)</td>
+                <td>ACL di base, autenticazione</td>
+                <td>Policy interna HR</td>
+              </tr>
+              <tr>
+                <td class="label">Sensitive</td>
+                <td>Ruolo specifico</td>
+                <td>Medio (danno a persone)</td>
+                <td>Cifratura, audit trail, RBAC</td>
+                <td>Cartella medica</td>
+              </tr>
+              <tr>
+                <td class="label">Confidential</td>
+                <td>Need-to-know</td>
+                <td>Alto (danno org.)</td>
+                <td>DLP, cifratura, NDA, tracciabilità</td>
+                <td>Piano strategico</td>
+              </tr>
+              <tr>
+                <td class="label">Restricted</td>
+                <td>Autorizzazione esplicita</td>
+                <td>Molto alto (danno critico)</td>
+                <td>MFA, vault, accesso fisico, log real-time</td>
+                <td>Chiave crittografica master</td>
+              </tr>
+              <tr>
+                <td class="label">Critical</td>
+                <td>Minimo assoluto</td>
+                <td>Catastrofico (operatività)</td>
+                <td>Tutto sopra + ridondanza, backup offline</td>
+                <td>DB di produzione core</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.3-B — Classificazione dei dati</strong> — L'esame usa spesso "Sensitive" e "Confidential" in modo intercambiabile nella vita reale, ma per Security+ mantieni la distinzione: Sensitive = impatto su persone fisiche; Confidential = impatto sull'organizzazione. "Restricted" e "Critical" sono i livelli top in contesti aziendali. Se lo scenario dice "solo il CEO e il CFO possono accedervi" → Restricted o Critical.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             STATI DEL DATO
+        ════════════════════════════════════════════════════════ -->
+        <section id="data-states">
+          <h2>Considerazioni generali sui dati — Stati, Sovereignty, Geolocation</h2>
+          <p>
+            Oltre al tipo e alla classificazione, la protezione di un dato dipende da <em>dove si trova</em> in un dato momento. Lo stesso dato in tre stati diversi richiede controlli diversi: cifrare il disco non protegge i dati che passano in chiaro sulla rete, e cifrare il traffico non protegge i dati non cifrati a riposo su un disco condiviso. Questa è una delle trappole più frequenti nelle architetture di sicurezza: proteggere uno stato e dimenticare gli altri.
+          </p>
+
+          <h3 id="at-rest">Data at Rest (Dati a riposo)</h3>
+          <dl class="termlist">
+            <dt>Data at rest</dt>
+            <dd>
+              Dati memorizzati in modo persistente su un supporto fisico o logico: hard disk, SSD, database, nastri di backup, archivi cloud, chiavette USB. Sono vulnerabili a furti fisici del dispositivo, accesso non autorizzato al file system, accesso diretto al database, e furto di backup. Il controllo primario è la <strong>cifratura at rest</strong>: Full Disk Encryption (FDE) con BitLocker/FileVault/dm-crypt, Database Encryption con TDE (Transparent Data Encryption), e cifratura a livello di record per i dati più sensibili. Altri controlli: controllo degli accessi al file system, audit trail delle operazioni sui dati, e fisicamente: controllo degli accessi alle sale server.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Laptop rubato</strong><br>
+            Un commerciale lascia il laptop in auto e viene rubato. Il disco contiene contratti confidenziali con clienti e dati personali. Se il laptop usa BitLocker con TPM + PIN, i dati sono inaccessibili senza il PIN, anche rimuovendo il disco e montandolo su un'altra macchina. Se il laptop NON ha FDE, chiunque può accedere ai file montando il disco su un sistema Linux live. Questo scenario è il caso d'uso prototipico di data at rest encryption — ed è uno dei più frequenti nelle domande Security+.
+          </div>
+
+          <h3 id="in-transit">Data in Transit (Dati in transito)</h3>
+          <dl class="termlist">
+            <dt>Data in transit</dt>
+            <dd>
+              Dati che si spostano attraverso una rete — LAN, WAN, internet, Bluetooth, Wi-Fi — o tra sistemi. Sono vulnerabili a intercettazione (eavesdropping/sniffing), attacchi on-path (man-in-the-middle), e downgrade attacks. Il controllo primario è la <strong>cifratura in transito</strong>: TLS 1.2/1.3 per il web e le API, IPSec per le VPN e le connessioni site-to-site, SSH per accesso remoto a sistemi, SFTP/FTPS invece di FTP in chiaro. È fondamentale verificare non solo che la cifratura sia abilitata, ma anche che sia configurata correttamente: TLS 1.0/1.1 sono deprecati, i cipher suite deboli devono essere disabilitati, i certificati devono essere validi e verificati.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — HTTPS ≠ sicurezza assoluta</strong> — HTTPS cifra il dato in transito ma non protegge il dato a riposo, non autentica l'identità dell'utente (solo del server per default), e non impedisce attacchi lato server. Un attaccante con accesso al server può leggere i dati dopo la decifratura TLS. La cifratura in transito protegge "il cavo", non il sistema di destinazione.
+          </div>
+
+          <h3 id="in-use">Data in Use (Dati in uso)</h3>
+          <dl class="termlist">
+            <dt>Data in use</dt>
+            <dd>
+              Dati che vengono attivamente elaborati in memoria RAM dal processore. Sono nello stato più difficile da proteggere: per essere processati, i dati devono necessariamente essere in chiaro nella memoria del processo che li elabora. Sono vulnerabili a cold boot attacks (dump della RAM da disco rimovibile dopo spegnimento rapido), memory scraping da parte di processi con privilegi elevati (es. malware con accesso kernel), e vulnerabilità come Spectre/Meltdown che permettono a un processo di leggere la memoria di altri processi. Soluzioni emergenti: <strong>Confidential Computing</strong> tramite Trusted Execution Environment (TEE) — Intel SGX, AMD SEV, ARM TrustZone — che cifra la memoria in uso e protegge il codice in esecuzione anche dal kernel e dall'hypervisor. Secure enclaves (citate nell'obiettivo 1.4) sono l'implementazione hardware di questo concetto.
+            </dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Stato</th>
+                <th>Dove si trova</th>
+                <th>Minaccia principale</th>
+                <th>Controllo primario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">At rest</td>
+                <td>Disco, DB, backup, USB</td>
+                <td>Furto del supporto, accesso non autorizzato al FS</td>
+                <td>FDE, TDE, cifratura a livello record</td>
+              </tr>
+              <tr>
+                <td class="label">In transit</td>
+                <td>Rete (LAN, WAN, Internet)</td>
+                <td>Sniffing, on-path, downgrade attack</td>
+                <td>TLS 1.3, IPSec, SSH, SFTP</td>
+              </tr>
+              <tr>
+                <td class="label">In use</td>
+                <td>RAM del processo</td>
+                <td>Memory scraping, cold boot, Spectre/Meltdown</td>
+                <td>Secure enclave (Intel SGX, AMD SEV), TEE</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.3-C — I tre stati del dato</strong> — Questo è uno dei topic più testati. Ricorda: uno scenario che menziona "laptop rubato", "disco rimosso", "backup trafugato" → at rest. Scenario con "intercettazione di traffico", "sniffing sulla rete Wi-Fi" → in transit. Scenario con "dump di memoria", "memory scraping", "processo malevolo legge dati di altri processi" → in use. Il controllo giusto per lo stato sbagliato non vale nulla.
+          </div>
+
+          <h3 id="sovereignty">Data Sovereignty (Sovranità dei dati)</h3>
+          <dl class="termlist">
+            <dt>Data sovereignty</dt>
+            <dd>
+              Il principio per cui i dati sono soggetti alle leggi e ai regolamenti della nazione in cui si trovano fisicamente o in cui vengono elaborati, indipendentemente dalla nazionalità del proprietario dei dati o dell'organizzazione che li gestisce. È diventato critico nell'era del cloud: quando si carica un dato su un server AWS in Irlanda, quel dato è soggetto alle leggi irlandesi e UE, anche se l'azienda è americana. Il GDPR impone che i dati personali di cittadini UE non vengano trasferiti fuori dall'Unione Europea se non verso paesi con un adeguato livello di protezione o con garanzie contrattuali specifiche (Standard Contractual Clauses). Implicazioni architetturali: data residency requirements (il dato deve risiedere fisicamente in una specifica regione), scelta delle regioni cloud, sovranità ibrida per dati che attraversano confini.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — GDPR e data residency nel cloud</strong><br>
+            Un'azienda italiana usa AWS per elaborare dati sanitari di pazienti italiani. Il GDPR richiede che questi dati non vengano trasferiti fuori dall'UE senza garanzie adeguate. L'azienda deve configurare AWS in modo che tutti i dati rimangano in regioni EU (es. eu-west-1 Irlanda, eu-central-1 Francoforte) e disabilitare esplicitamente qualsiasi replicazione cross-region verso US o Asia. In architetture multi-cloud o ibride, questo richiede data residency policies esplicite configurate a livello di policy del provider cloud.
+          </div>
+
+          <h3 id="geolocation">Geolocation</h3>
+          <dl class="termlist">
+            <dt>Geolocation dei dati</dt>
+            <dd>
+              La geolocalizzazione, in relazione alla protezione dei dati, ha due dimensioni distinte. La prima è la <em>geolocalizzazione del dato</em>: il dato deve risiedere fisicamente in un'area geografica specifica per motivi di compliance (strettamente correlato a data sovereignty). La seconda è la <em>geolocalizzazione come criterio di accesso</em>: le policy di accesso ai dati possono includere restrizioni basate sulla posizione geografica dell'utente o del dispositivo — un utente che accede da un paese inusuale può richiedere un'autenticazione aggiuntiva o vedersi negare l'accesso (questo si connette ai sistemi UEBA e ai controlli di accesso adattativi di Zero Trust). Entrambe le dimensioni devono essere considerate nella progettazione di sistemi che gestiscono dati soggetti a requisiti geografici.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             METODI DI PROTEZIONE
+        ════════════════════════════════════════════════════════ -->
+        <section id="methods">
+          <h2>Metodi per proteggere i dati</h2>
+          <p>
+            Ogni metodo di protezione dei dati ha caratteristiche diverse in termini di reversibilità, overhead computazionale, compatibilità applicativa e livello di protezione garantito. Scegliere il metodo sbagliato significa o sovra-proteggere (costi inutili, complessità operativa) o sotto-proteggere (rischio residuo inaccettabile). La scelta deve essere guidata dal tipo di dato, dalla sua classificazione, dallo stato in cui si trova e dal caso d'uso operativo.
+          </p>
+
+          <h3 id="geo-restrictions">Geographic Restrictions (Restrizioni geografiche)</h3>
+          <dl class="termlist">
+            <dt>Geographic restrictions</dt>
+            <dd>
+              Policy che limitano dove i dati possono essere fisicamente archiviati, elaborati o accessibili. Implementate a livello di provider cloud (data residency enforcement), CDN (geofencing dei contenuti), o policy di accesso con controllo geolocalizzato. Possono essere sia un requisito di compliance (data sovereignty) sia una scelta di business (es. limitare l'accesso a un servizio a specifici mercati). In contesti cloud, si traducono in Account Control Policies (SCP in AWS) che impediscono la creazione di risorse fuori da regioni autorizzate.
+            </dd>
+          </dl>
+
+          <h3 id="encryption-hashing">Encryption e Hashing</h3>
+          <dl class="termlist">
+            <dt>Encryption (Cifratura)</dt>
+            <dd>
+              Trasformazione reversibile dei dati in formato illeggibile tramite un algoritmo e una chiave. La reversibilità è fondamentale: il dato originale è recuperabile con la chiave corretta. La cifratura protegge la <em>confidenzialità</em>. Applicata a dati at rest (FDE, TDE), in transit (TLS, IPSec) e sempre più in use (TEE). Il punto critico è la gestione delle chiavi: una chiave persa significa dati persi; una chiave compromessa significa dati esposti. I sistemi di Key Management (KMS) sono quindi parte integrante di qualsiasi architettura di cifratura. Approfondimento in CH7.
+            </dd>
+
+            <dt>Hashing</dt>
+            <dd>
+              Trasformazione <em>irreversibile</em> (one-way) di un dato in un digest di lunghezza fissa. Non è cifratura: dall'hash non si può risalire al dato originale. Il suo scopo è verificare l'<em>integrità</em>: se l'hash del file scaricato corrisponde all'hash pubblicato dall'autore, il file non è stato modificato. Usato anche per le password: il sistema non conserva la password in chiaro ma il suo hash. Algoritmi usati per l'integrità: SHA-256, SHA-3. Algoritmi NON più sicuri per password: MD5, SHA-1 (soggetti a collisioni). Approfondimento in CH7.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Hashing ≠ Cifratura</strong> — Errore comunissimo sia nell'esame che nella pratica reale. Hashing: irreversibile, verifica integrità. Cifratura: reversibile, garantisce confidenzialità. Se qualcuno dice "ho cifrato le password" con MD5 o SHA-256 sta sbagliando: quelle sono funzioni di hash, non di cifratura. Per le password si deve usare una funzione di hash con key stretching (bcrypt, Argon2) con salt.
+          </div>
+
+          <h3 id="masking-token">Masking e Tokenization</h3>
+          <dl class="termlist">
+            <dt>Data Masking (Mascheratura)</dt>
+            <dd>
+              Sostituzione di porzioni di dati reali con valori placeholder per nascondere informazioni sensibili mantenendo il formato del dato originale. Il dato originale esiste e rimane invariato nella sorgente; ciò che viene mostrato è una versione parzialmente oscurata. La mascheratura può essere statica (dataset di test con dati finti ma realistici), dinamica (il dato reale esiste nel DB, viene mascherato in tempo reale per utenti senza autorizzazione) o on-the-fly (mascherato al momento del trasferimento). Esempio classico: numero di carta di credito mostrato come **** **** **** 1234. Il dato reale esiste nel database cifrato del processore, ma l'operatore del call center vede solo le ultime quattro cifre. Usata anche per ambienti di sviluppo e test: i developers lavorano con dati realistici senza accedere ai dati reali.
+            </dd>
+
+            <dt>Tokenization</dt>
+            <dd>
+              Sostituzione del dato sensibile con un token — un valore casuale, non derivabile matematicamente dal dato originale — che viene usato in tutti i sistemi che non necessitano del dato reale. Il dato originale è conservato in un Secure Token Vault, separato dal resto dell'applicazione. La differenza chiave rispetto alla cifratura è che il token non ha relazione matematica con il dato originale: anche se il token viene intercettato, non c'è nulla da decifrare. Usata massivamente in PCI-DSS: il numero della carta viene tokenizzato alla prima transazione, e tutte le operazioni successive (es. abbonamenti ricorrenti) usano il token, riducendo drasticamente l'ambito di compliance.
+            </dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Metodo</th>
+                <th>Il dato originale esiste?</th>
+                <th>Reversibile?</th>
+                <th>Meccanismo</th>
+                <th>Caso d'uso primario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Masking</td>
+                <td>Sì, nella sorgente</td>
+                <td>Sì (con accesso alla sorgente)</td>
+                <td>Sostituzione visiva parziale</td>
+                <td>Call center, ambienti di test</td>
+              </tr>
+              <tr>
+                <td class="label">Tokenization</td>
+                <td>Sì, nel vault separato</td>
+                <td>Sì (solo con vault)</td>
+                <td>Sostituzione con ID casuale</td>
+                <td>PCI-DSS, pagamenti ricorrenti</td>
+              </tr>
+              <tr>
+                <td class="label">Encryption</td>
+                <td>Sì, cifrato</td>
+                <td>Sì (con chiave)</td>
+                <td>Trasformazione matematica</td>
+                <td>Storage, transit</td>
+              </tr>
+              <tr>
+                <td class="label">Hashing</td>
+                <td>No (solo hash)</td>
+                <td>No</td>
+                <td>Funzione one-way</td>
+                <td>Password, integrità file</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.3-D — Masking vs Tokenization vs Encryption</strong> — Domanda tipica: "Quale metodo usare per proteggere i numeri di carta in un sistema di pagamento ricorrente?" → Tokenization (il token sostituisce il numero, il vault separa il dato sensibile dal resto del sistema). "Quale metodo per proteggere un database di test?" → Masking (dati realistici, non reali). "Quale metodo per proteggere i file sul disco di un dipendente?" → Encryption. "Quale metodo per verificare l'integrità di un file?" → Hashing.
+          </div>
+
+          <h3 id="obfuscation">Obfuscation (Offuscamento)</h3>
+          <dl class="termlist">
+            <dt>Obfuscation</dt>
+            <dd>
+              Rendere il dato meno intelligibile senza rimuoverlo o cifrarlo completamente. È una categoria più ampia che include tecniche diverse: steganografia (nascondere dati in un file cover innocuo, es. immagine JPEG), codice sorgente offuscato (trasformazioni del codice che mantengono il comportamento ma rendono difficile la reverse engineering), dati aggregati (mostrare statistiche invece di dati individuali). L'offuscamento non è una protezione forte in sé: un attaccante determinato con le giuste competenze può de-offuscare. È un layer di sicurezza aggiuntivo, non sostitutivo di cifratura o controllo degli accessi. Utile in combinazione con altri controlli, o quando altri controlli non sono applicabili (es. offuscamento di chiavi API nel codice client-side JavaScript — non è sicuro, ma aumenta il costo dell'attacco).
+            </dd>
+          </dl>
+
+          <h3 id="segmentation">Segmentation (Segmentazione dei dati)</h3>
+          <dl class="termlist">
+            <dt>Data segmentation</dt>
+            <dd>
+              Separare i dati in compartimenti distinti basati sulla loro classificazione, sensibilità o tipo di utilizzo, in modo che una violazione di un compartimento non comprometta automaticamente tutti gli altri. La segmentazione dei dati è il principio di sicurezza corrispondente alla segmentazione di rete (VLAN, subnetting) applicato alla gestione dei dati. In pratica: database separati per dati di classificazione diversa, controlli di accesso separati per ogni compartimento, e impossibilità tecnica (non solo policy) di accedere a dati fuori dal proprio compartimento. La segmentazione riduce il blast radius di un attacco: anche un attaccante che compromette un compartimento non può automaticamente accedere agli altri.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Segmentazione in un sistema sanitario</strong><br>
+            Un ospedale gestisce tre categorie di dati: dati clinici dei pazienti (Sensitive/Restricted), dati amministrativi (Private), e dati di ricerca anonimizzati (Public). Implementare la segmentazione significa: tre database fisicamente separati con accessi completamente indipendenti; i medici accedono solo al DB clinico; il personale amministrativo accede solo al DB amministrativo; i ricercatori accedono solo al DB di ricerca. Un attacco che compromette le credenziali di un ricercatore non espone i dati clinici dei pazienti. Senza segmentazione, un singolo account compromesso potrebbe accedere a tutto.
+          </div>
+
+          <h3 id="permissions">Permission Restrictions (Restrizioni di permesso)</h3>
+          <dl class="termlist">
+            <dt>Permission restrictions</dt>
+            <dd>
+              Applicazione sistematica del principio del minimo privilegio (least privilege) ai dati: ogni utente, processo o sistema riceve solo i permessi strettamente necessari per svolgere il proprio compito, nulla di più. Include: Access Control Lists (ACL) che specificano chi può leggere/scrivere/eseguire un file o una risorsa; Role-Based Access Control (RBAC) che assegna permessi in base al ruolo organizzativo dell'utente; Attribute-Based Access Control (ABAC) che aggiunge condizioni contestuali (es. accesso solo da IP interni, solo in orario lavorativo); Just-in-Time (JIT) access per permessi elevati che durano solo il tempo necessario all'operazione specifica. Le permission restrictions devono essere riviste periodicamente con Access Reviews per identificare permessi obsoleti (un dipendente che ha cambiato ruolo ma mantiene i permessi del ruolo precedente).
+            </dd>
+          </dl>
+
+          <h3 id="metodi-tabella">Tabella sinottica — Metodi di protezione dei dati</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Metodo</th>
+                <th>Cosa protegge</th>
+                <th>Stato del dato</th>
+                <th>Forza</th>
+                <th>Overhead</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Geographic restrictions</td>
+                <td>Sovereignty, compliance</td>
+                <td>At rest, in transit</td>
+                <td>Policy/procedurale</td>
+                <td>Basso</td>
+              </tr>
+              <tr>
+                <td class="label">Encryption</td>
+                <td>Confidenzialità</td>
+                <td>At rest, in transit</td>
+                <td>Alta (dipende dall'algoritmo)</td>
+                <td>Medio-alto</td>
+              </tr>
+              <tr>
+                <td class="label">Hashing</td>
+                <td>Integrità</td>
+                <td>At rest, in transit</td>
+                <td>Alta per integrità</td>
+                <td>Basso</td>
+              </tr>
+              <tr>
+                <td class="label">Masking</td>
+                <td>Esposizione dati in visualizzazione</td>
+                <td>In use (display)</td>
+                <td>Media (dato originale esiste)</td>
+                <td>Basso</td>
+              </tr>
+              <tr>
+                <td class="label">Tokenization</td>
+                <td>Riduzione ambito compliance</td>
+                <td>At rest</td>
+                <td>Alta (vault separato)</td>
+                <td>Medio</td>
+              </tr>
+              <tr>
+                <td class="label">Obfuscation</td>
+                <td>Leggibilità/comprensibilità</td>
+                <td>At rest, in use</td>
+                <td>Bassa (layer aggiuntivo)</td>
+                <td>Basso</td>
+              </tr>
+              <tr>
+                <td class="label">Segmentation</td>
+                <td>Blast radius da violazione</td>
+                <td>At rest</td>
+                <td>Alta se ben implementata</td>
+                <td>Alto (architettura)</td>
+              </tr>
+              <tr>
+                <td class="label">Permission restrictions</td>
+                <td>Accesso non autorizzato</td>
+                <td>At rest, in use</td>
+                <td>Alta (dipende da implementazione)</td>
+                <td>Medio</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 3.3-E — Selezione del metodo corretto</strong> — Lo schema mentale per gli scenari: (1) Il dato si muove sulla rete? → Cifratura in transit (TLS, IPSec). (2) Il dato è su disco/DB? → Cifratura at rest (FDE, TDE). (3) Bisogna verificare che il file non sia cambiato? → Hashing. (4) Il sistema di pagamento deve evitare di conservare il numero di carta? → Tokenization. (5) L'operatore di call center non deve vedere il numero completo? → Masking. (6) Un attacco a un sistema non deve compromettere gli altri? → Segmentation. (7) Un utente ha troppi permessi? → Permission restrictions / least privilege.
+          </div>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Architettura di protezione dati a livelli multipli</strong><br>
+            Un'azienda farmaceutica gestisce dati di sperimentazioni cliniche (Restricted) e comunicati stampa (Public). L'architettura di protezione dati implementa: (1) Segmentazione: i dati clinici sono in un database fisicamente separato, in una VLAN isolata, accessibile solo dai server applicativi autorizzati. (2) Cifratura at rest: TDE sul database clinico con chiave gestita da HSM. (3) Cifratura in transit: TLS 1.3 obbligatorio tra tutti i componenti. (4) Masking: i ricercatori vedono i dati dei pazienti con ID anonimizzati; solo i medici responsabili vedono i dati identificativi. (5) Tokenization: i dati di pagamento per le sperimentazioni commerciali vengono tokenizzati. (6) Permission restrictions: i ricercatori junior hanno accesso read-only ai dataset aggregati, i senior ricercatori hanno accesso ai record individuali anonimizzati, solo il PI (Principal Investigator) può de-anonimizzare. (7) Data sovereignty: tutti i dati EU sono in regioni AWS EU, con SCP che impedisce la replica in US.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Regulated data</strong> — Dati soggetti a obblighi legali/normativi specifici (GDPR, HIPAA, PCI-DSS). La protezione minima è imposta dalla legge, non dall'organizzazione.</li>
+            <li><strong>Trade secret vs IP</strong> — Trade secret: segreto industriale non registrato, protezione basata sulla segretezza. IP: protetto legalmente (brevetto, copyright), anche dopo divulgazione.</li>
+            <li><strong>Data at rest</strong> — Dato memorizzato su disco, DB, backup. Controllo primario: FDE (Full Disk Encryption), TDE (database), cifratura a livello record.</li>
+            <li><strong>Data in transit</strong> — Dato che viaggia sulla rete. Controllo primario: TLS 1.3, IPSec, SSH. Minacce: sniffing, on-path, downgrade attack.</li>
+            <li><strong>Data in use</strong> — Dato in elaborazione nella RAM. Più difficile da proteggere. Controllo: secure enclave (Intel SGX, AMD SEV), Trusted Execution Environment (TEE).</li>
+            <li><strong>Data sovereignty</strong> — Il dato è soggetto alle leggi della nazione in cui si trova fisicamente. Impatto cloud: scegliere regioni con residency requirements corretti.</li>
+            <li><strong>Hashing ≠ Cifratura</strong> — Hash: irreversibile, verifica integrità. Cifratura: reversibile, garantisce confidenzialità. MD5/SHA-1 non sono sicuri per le password.</li>
+            <li><strong>Masking</strong> — Sostituzione parziale visiva (**** **** **** 1234). Dato originale esiste nella sorgente. Caso d'uso: call center, ambienti di sviluppo/test.</li>
+            <li><strong>Tokenization</strong> — Sostituzione con token casuale; dato originale nel vault separato. Caso d'uso: PCI-DSS, pagamenti ricorrenti. Il token non ha relazione matematica col dato.</li>
+            <li><strong>Obfuscation</strong> — Rendere il dato meno intelligibile senza rimuoverlo. Include steganografia. Non è protezione forte; è un layer aggiuntivo.</li>
+            <li><strong>Segmentation</strong> — Separare i dati in compartimenti. Riduce il blast radius: una violazione non compromette automaticamente tutti i dati.</li>
+            <li><strong>Permission restrictions / Least privilege</strong> — Ogni utente/processo riceve solo i permessi strettamente necessari. Include RBAC, ACL, JIT access, access reviews periodiche.</li>
+            <li><strong>Public vs Confidential vs Restricted</strong> — Public: chiunque. Confidential: need-to-know, danno organizzativo. Restricted: accesso autorizzato esplicito, massima protezione.</li>
+            <li><strong>Sensitive vs Confidential</strong> — Sensitive: impatto su persone fisiche (PII, dati sanitari). Confidential: impatto sull'organizzazione (piani strategici, IP).</li>
+            <li><strong>Human-readable</strong> — Leggibile direttamente (testo, doc). Immediatamente utilizzabile da un attaccante. Controllo principale: access control rigoroso.</li>
+          </ul>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="ch9_resilience_physical_security_canonical.html">← CH9 — Resilienza e Sicurezza Fisica</a>
+          <a href="ch10_cloud_virtualizzazione_canonical.html" class="secondary">CH10 — Cloud e Virtualizzazione →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

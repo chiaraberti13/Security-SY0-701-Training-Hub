@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH3 — Vulnerabilità, Attacchi e Mitigazioni · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 2 — Threats, Vulnerabilities, and Mitigations</span>
+      <span>CH3 — Vulnerabilità, Attacchi e Mitigazioni</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH3 — Vulnerabilità, Attacchi e Mitigazioni</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 2 (Threats, Vulnerabilities, and Mitigations)
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">2.3</span>
+        <span class="objectives-tag">2.4</span>
+        <span class="objectives-tag">2.5</span>
+        <span class="weight-badge">D2 = 22%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong>
+        <a href="ch2_threat_landscape_canonical.html">CH2 — Threat Landscape</a> (threat actors, vettori di attacco).
+      </p>
+      <p><strong>Capitoli correlati:</strong>
+        <a href="ch5_vulnerability_management_canonical.html">CH5 — Vulnerability Management</a> ·
+        <a href="ch6_applicazioni_canonical.html">CH6 — Sicurezza Applicativa</a> ·
+        <a href="ch11_endpoint_canonical.html">CH11 — Hardening Endpoint</a> ·
+        <a href="ch14_incident_response_canonical.html">CH14 — Incident Response</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 2.3</div>
+        <a href="#obj-2-3">Tipi di vulnerabilità</a>
+        <a href="#vuln-app">↳ Applicative</a>
+        <a href="#vuln-os">↳ OS-based</a>
+        <a href="#vuln-web">↳ Web (SQLi, XSS)</a>
+        <a href="#vuln-hw">↳ Hardware</a>
+        <a href="#vuln-virt">↳ Virtualizzazione</a>
+        <a href="#vuln-cloud">↳ Cloud-specific</a>
+        <a href="#vuln-supplychain">↳ Supply Chain</a>
+        <a href="#vuln-crypto">↳ Cryptographic</a>
+        <a href="#vuln-misconfig">↳ Misconfiguration</a>
+        <a href="#vuln-mobile">↳ Mobile</a>
+        <a href="#vuln-zeroday">↳ Zero-day</a>
+
+        <div class="toc-section">Obiettivo 2.4</div>
+        <a href="#obj-2-4">Indicatori di attività malevola</a>
+        <a href="#malware-types">↳ Attacchi malware</a>
+        <a href="#physical-attacks">↳ Attacchi fisici</a>
+        <a href="#network-attacks">↳ Attacchi di rete</a>
+        <a href="#app-attacks">↳ Attacchi applicativi</a>
+        <a href="#crypto-attacks">↳ Attacchi crittografici</a>
+        <a href="#password-attacks">↳ Attacchi alle password</a>
+        <a href="#indicators">↳ Indicatori di compromissione</a>
+
+        <div class="toc-section">Obiettivo 2.5</div>
+        <a href="#obj-2-5">Tecniche di mitigazione</a>
+        <a href="#mit-segmentation">↳ Segmentazione</a>
+        <a href="#mit-access">↳ Access Control</a>
+        <a href="#mit-allowlist">↳ Application Allow List</a>
+        <a href="#mit-isolation">↳ Isolation &amp; Patching</a>
+        <a href="#mit-monitoring">↳ Monitoraggio</a>
+        <a href="#mit-leastpriv">↳ Least Privilege</a>
+        <a href="#mit-hardening">↳ Hardening Techniques</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 2.3
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-2-3">
+          <h2>Obiettivo 2.3 — Tipi di vulnerabilità</h2>
+          <p>
+            Una <strong>vulnerabilità</strong> è una debolezza in un sistema, nel suo design o nella sua configurazione che un attaccante può sfruttare per violare riservatezza, integrità o disponibilità. Conoscere la <em>categoria</em> della vulnerabilità è fondamentale per l'esame: ogni categoria ha contromisure specifiche e la domanda spesso chiede quale sia la mitigazione più appropriata dato uno scenario preciso. Diversamente da una minaccia (che è l'agente esterno) o da un rischio (la probabilità di danno combinata all'impatto), la vulnerabilità esiste indipendentemente da chi la sfrutti.
+          </p>
+
+          <!-- ─── Applicative ─── -->
+          <h3 id="vuln-app">Vulnerabilità applicative</h3>
+          <p>
+            Le vulnerabilità applicative nascono da errori nel codice o nel design del software. Sono tra le più comuni e sfruttabili perché le applicazioni sono spesso esposte su reti pubbliche e aggiornate meno frequentemente rispetto ai sistemi operativi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Memory Injection (Iniezione di memoria)</dt>
+            <dd>Tecnica con cui un attaccante inserisce codice malevolo nello spazio di memoria di un processo legittimo già in esecuzione. Poiché il codice iniettato opera sotto l'identità del processo ospite, può aggirare controlli basati su firma, whitelist applicative e sandbox. Viene usata per escalation di privilegi, persistenza e furto di credenziali. La mitigazione principale è l'ASLR (Address Space Layout Randomization) che rende imprevedibile l'indirizzo base dei processi.</dd>
+
+            <dt>Buffer Overflow (Overflow del buffer)</dt>
+            <dd>Si verifica quando un'applicazione scrive più dati in un buffer di quanti ne abbia allocati, sovrascrivendo aree di memoria adiacenti come il return address dello stack. Un attaccante può controllare il flusso di esecuzione del programma facendolo saltare verso shellcode malevolo. È una delle vulnerabilità più longeve: le contromisure includono stack canaries, DEP/NX bit (Data Execution Prevention) e safe language (linguaggi con gestione automatica della memoria come Rust o Go).</dd>
+
+            <dt>Race Condition — Time-of-Check (TOC) e Time-of-Use (TOU)</dt>
+            <dd>Una race condition si verifica quando il comportamento del sistema dipende dalla sequenza o dal timing di eventi non controllabili. Nel caso TOC/TOU, un'applicazione verifica (check) una condizione (es. "questo file è accessibile?") ma usa la risorsa (use) in un momento successivo: in quel lasso di tempo un attaccante sostituisce la risorsa con una malevola. Questo pattern è frequente nei sistemi che gestiscono file temporanei, symlink o socket.</dd>
+
+            <dt>Malicious Update (Aggiornamento malevolo)</dt>
+            <dd>Un aggiornamento software apparentemente legittimo che contiene codice malevolo. Può derivare da una compromissione del server di aggiornamento del vendor, da un attacco alla supply chain software o da un pacchetto falsificato. La contromisura è la verifica della firma crittografica del pacchetto prima dell'installazione e l'uso di canali di distribuzione firmati (code signing).</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Buffer Overflow:</strong> Il malware Slammer del 2003 sfruttava un buffer overflow in Microsoft SQL Server. Un singolo pacchetto UDP di 376 byte era sufficiente a compromettere un host vulnerabile, e una volta in memoria il worm si replicava autonomamente, intasando la rete mondiale in pochi minuti senza che l'attaccante interagisse ulteriormente.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-A</strong> — Quando la domanda descrive "un processo che scrive oltre i limiti del buffer allocato", la risposta è <em>buffer overflow</em>. Se la domanda parla di "verifica di permessi seguita da uso della risorsa in un secondo momento con modifica intermedia", è <em>TOC/TOU</em>. La distinzione è nel timing.
+          </div>
+
+          <div class="pitfall">
+            <strong>Attenzione — Memory Injection vs Buffer Overflow:</strong> Entrambi coinvolgono la memoria, ma il buffer overflow <em>sovrascrive</em> memoria adiacente per dirottare il flusso, mentre la memory injection <em>inserisce</em> codice in un processo esistente senza necessariamente sfruttare un overflow. L'esame usa scenari contestuali per distinguerli.
+          </div>
+
+          <!-- ─── OS-based ─── -->
+          <h3 id="vuln-os">Vulnerabilità OS-based</h3>
+          <p>
+            Le vulnerabilità del sistema operativo riguardano il kernel, i driver di dispositivo, i servizi di sistema e le API esposte. Sono particolarmente pericolose perché un'exploit riuscita ottiene tipicamente privilegi elevati (ring 0 / kernel mode), rendendo inutili i controlli a livello applicativo. I sistemi operativi non aggiornati, end-of-life o con patch policy inadeguate sono il vettore principale. La mitigazione include patch management rigoroso, disabilitazione dei servizi non necessari e applicazione del principio del minimo privilegio anche ai processi di sistema.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-B</strong> — Se lo scenario menziona "vulnerabilità nel kernel" o "driver non aggiornati" senza specificare un'applicazione utente, la categoria è OS-based. La mitigazione primaria da selezionare è il patching tempestivo.
+          </div>
+
+          <!-- ─── Web ─── -->
+          <h3 id="vuln-web">Vulnerabilità Web (SQLi e XSS)</h3>
+
+          <dl class="termlist">
+            <dt>SQL Injection (SQLi)</dt>
+            <dd>L'attaccante inserisce codice SQL in un campo di input che l'applicazione concatena direttamente a una query verso il database. Se il database esegue il codice iniettato, l'attaccante può estrarre, modificare o cancellare dati, bypassare autenticazioni o in alcuni casi eseguire comandi sul sistema operativo ospite. La root cause è la mancata separazione tra dati e codice. La contromisura principale sono le <em>prepared statements / parametrized queries</em> che trattano l'input utente sempre come dato, mai come istruzione SQL.</dd>
+
+            <dt>Cross-Site Scripting (XSS)</dt>
+            <dd>L'attaccante inietta script (tipicamente JavaScript) in una pagina web che viene poi servita ad altri utenti. Nel caso <em>reflected XSS</em>, il payload viaggia nell'URL ed è eseguito solo da chi clicca il link malevolo. Nel caso <em>stored XSS</em>, il payload è persistito nel database dell'applicazione (commenti, profili) e colpisce tutti gli utenti che visualizzano quel contenuto. La contromisura primaria è l'output encoding corretto (HTML entity encoding) e l'uso di Content Security Policy (CSP).</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Aspetto</th><th>SQL Injection</th><th>Cross-Site Scripting (XSS)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Vittima principale</td>
+                <td>Il database backend (server-side)</td>
+                <td>Gli utenti della web app (client-side)</td>
+              </tr>
+              <tr>
+                <td class="label">Codice iniettato</td>
+                <td>Istruzioni SQL</td>
+                <td>JavaScript / HTML</td>
+              </tr>
+              <tr>
+                <td class="label">Danno tipico</td>
+                <td>Furto o modifica dati, bypass auth</td>
+                <td>Furto cookie/sessione, defacement, redirect</td>
+              </tr>
+              <tr>
+                <td class="label">Contromisura primaria</td>
+                <td>Prepared statements, input validation</td>
+                <td>Output encoding, Content Security Policy</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — SQL Injection:</strong> Una pagina di login con query <code>SELECT * FROM users WHERE user='INPUT' AND pass='INPUT'</code> è vulnerabile se l'attaccante inserisce come username <code>admin'--</code>: il doppio trattino commenta il resto della query, bypassando il controllo password. L'accesso avviene senza conoscere la password.
+          </div>
+
+          <!-- ─── Hardware ─── -->
+          <h3 id="vuln-hw">Vulnerabilità hardware</h3>
+
+          <dl class="termlist">
+            <dt>Firmware</dt>
+            <dd>Il firmware è il software a basso livello incorporato in dispositivi hardware (router, switch, stampanti, BIOS/UEFI, controller). Le vulnerabilità nel firmware sono particolarmente insidiose perché operano al di sotto del sistema operativo: un firmware compromesso può sopravvivere alla reinstallazione dell'OS e sfuggire ai controlli degli antivirus tradizionali. Un esempio noto sono i bootkits che infettano il bootloader o l'UEFI. La mitigazione include Secure Boot, firmware signing e aggiornamenti tempestivi.</dd>
+
+            <dt>End-of-Life (EOL)</dt>
+            <dd>Un componente hardware end-of-life non riceve più aggiornamenti di sicurezza dal produttore. Questo non significa che smetta di funzionare, ma che le vulnerabilità scoperte dopo la data EOL rimarranno permanentemente non corrette. Il rischio è quindi cumulativo nel tempo. La mitigazione è la sostituzione o, in via temporanea, la compensazione con controlli aggiuntivi (segmentazione, monitoring intensificato).</dd>
+
+            <dt>Legacy</dt>
+            <dd>I sistemi legacy sono hardware o software obsoleti ancora in produzione perché la sostituzione è costosa, complessa o impossibile per vincoli operativi (es. macchinari industriali, sistemi medicali). A differenza dell'EOL, un sistema legacy può ancora ricevere patch ma opera con un design fondamentalmente insicuro rispetto agli standard moderni. La sfida è integrare questi sistemi in un'architettura sicura senza poterli modificare internamente.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>Attenzione — EOL vs Legacy:</strong> Un sistema EOL ha smesso di ricevere supporto (data precisa e documentata). Un sistema legacy è semplicemente obsoleto ma può ancora ricevere patch. L'esame usa spesso "end-of-life" per indicare assenza di patch ufficiali.
+          </div>
+
+          <!-- ─── Virtualizzazione ─── -->
+          <h3 id="vuln-virt">Vulnerabilità di virtualizzazione</h3>
+
+          <dl class="termlist">
+            <dt>VM Escape (Fuga dalla macchina virtuale)</dt>
+            <dd>Un attacco in cui un processo malevolo in esecuzione all'interno di una macchina virtuale (guest) riesce a interagire direttamente con l'hypervisor o con il sistema operativo host, violando il confine di isolamento. Una volta realizzata la VM escape, l'attaccante ha potenziale accesso a tutte le altre VM ospitate sullo stesso hypervisor fisico. Queste vulnerabilità sono rare ma di impatto catastrofico in ambienti cloud multi-tenant. La mitigazione include aggiornamento continuo dell'hypervisor e separazione fisica per i workload ad alto rischio.</dd>
+
+            <dt>Resource Reuse (Riutilizzo delle risorse)</dt>
+            <dd>In ambienti virtualizzati o cloud, una risorsa fisica (RAM, disco, CPU cache) utilizzata da una VM può essere riassegnata a una VM diversa senza essere azzerata correttamente. La nuova VM potrebbe così leggere dati residui del precedente tenant: credenziali, chiavi crittografiche, dati sensibili. Questo è particolarmente rilevante in cloud pubblici dove l'infrastruttura è condivisa. La contromisura è la sanitizzazione delle risorse prima del riassegnamento e l'uso di hardware con supporto per sicurezza della memoria.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-C</strong> — In uno scenario cloud multi-tenant, se la domanda parla di un'organizzazione preoccupata che un altro cliente possa leggere i suoi dati abbandonati in memoria o su disco, la vulnerabilità è <em>resource reuse</em>, non VM escape. VM escape richiede un processo attivo che "sfugge" dalla VM.
+          </div>
+
+          <!-- ─── Cloud ─── -->
+          <h3 id="vuln-cloud">Vulnerabilità cloud-specific</h3>
+          <p>
+            I deployment cloud introducono categorie di vulnerabilità assenti negli ambienti on-premises tradizionali. La <strong>misconfiguration</strong> (trattata separatamente) è la causa principale di breach in cloud, ma esistono vulnerabilità architetturali intrinseche: API mal protette che espongono endpoint di gestione, eccessiva concessione di permessi IAM (Identity and Access Management), bucket di object storage resi pubblici per errore, mancanza di logging e monitoring nelle risorse cloud, e dipendenza da terze parti (provider SaaS/PaaS) che possono introdurre rischi non controllabili direttamente. Il modello di responsabilità condivisa (shared responsibility model) definisce chi è responsabile di cosa, ma spesso i confini vengono fraintesi.
+          </p>
+
+          <!-- ─── Supply Chain ─── -->
+          <h3 id="vuln-supplychain">Vulnerabilità della supply chain</h3>
+          <p>
+            La supply chain di sicurezza comprende tutti i componenti, fornitori e processi che contribuiscono alla creazione e al funzionamento dei sistemi IT. Una vulnerabilità introdotta in qualsiasi punto della catena può propagarsi a tutti i clienti a valle. L'attacco SolarWinds (2020) ne è l'esempio più celebre: un aggiornamento software legittimo di un prodotto di monitoraggio fu compromesso a livello del processo di build, distribuendo un backdoor a migliaia di organizzazioni.
+          </p>
+
+          <dl class="termlist">
+            <dt>Service Provider</dt>
+            <dd>Un managed service provider (MSP) o fornitore di servizi IT ha tipicamente accesso privilegiato alle reti dei clienti. Una compromissione del provider diventa automaticamente un vettore verso tutti i suoi clienti. Il rischio si gestisce con valutazione del rischio del fornitore, contratti con clausole di sicurezza e limitazione degli accessi privilegiati.</dd>
+
+            <dt>Hardware Provider</dt>
+            <dd>Componenti hardware (schede di rete, chip, controller) possono contenere backdoor o vulnerabilità introdotte nella fase di produzione o distribuzione. Un esempio teorico è l'impianto di chip aggiuntivi in server acquistati. La mitigazione include verifica dell'integrità hardware e uso di fornitori certificati.</dd>
+
+            <dt>Software Provider</dt>
+            <dd>Librerie open source, framework e componenti di terze parti inclusi nelle applicazioni possono contenere vulnerabilità (es. Log4Shell in Log4j). Un solo componente vulnerabile può esporre migliaia di applicazioni diverse. La soluzione è un Software Bill of Materials (SBOM) che traccia tutte le dipendenze.</dd>
+          </dl>
+
+          <!-- ─── Cryptographic ─── -->
+          <h3 id="vuln-crypto">Vulnerabilità crittografiche</h3>
+          <p>
+            Le vulnerabilità crittografiche non sempre nascono da errori di implementazione: alcune derivano da algoritmi diventati deboli nel tempo (MD5, SHA-1, DES, RC4), dall'uso di chiavi troppo corte, dalla mancata validazione dei certificati, dall'uso di numeri casuali deboli (PRNG non crittograficamente sicuri) o dalla scelta errata dei parametri (es. IV fissi, padding oracolo). Un sistema che usa algoritmi forti ma implementati in modo scorretto è equivalentemente vulnerabile a uno che usa algoritmi deboli. La contromisura è seguire le raccomandazioni di organismi come NIST per la selezione degli algoritmi e verificare l'implementazione tramite audit e penetration test.
+          </p>
+
+          <!-- ─── Misconfiguration ─── -->
+          <h3 id="vuln-misconfig">Misconfiguration</h3>
+          <p>
+            Una configurazione errata è la categoria più comune di vulnerabilità nei sistemi reali. Include: credenziali di default non cambiate, porte e servizi non necessari aperti, permessi eccessivi su file e directory, account di servizio con privilegi amministrativi non necessari, firewall mal configurati, log disabilitati, cifratura non attivata su data at rest o in transit. La misconfiguration non richiede un bug nel software: è un errore umano nella gestione. La mitigazione include configuration management, hardening baseline (es. CIS Benchmarks), e scansione periodica della configurazione.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Misconfiguration:</strong> Un bucket S3 di AWS configurato con accesso pubblico per errore espone tutti i file al mondo intero senza autenticazione. Nel 2019 la Capital One subì una violazione di 100+ milioni di record in parte a causa di un SSRF combinato a permessi IAM eccessivi. La risorsa era tecnicamente corretta ma male configurata.
+          </div>
+
+          <!-- ─── Mobile ─── -->
+          <h3 id="vuln-mobile">Vulnerabilità dei dispositivi mobili</h3>
+
+          <dl class="termlist">
+            <dt>Side Loading (Caricamento laterale)</dt>
+            <dd>Installazione di applicazioni mobili al di fuori del canale ufficiale (App Store / Google Play), tipicamente distribuendo file APK (Android) o IPA (iOS) direttamente. Bypassa i controlli di sicurezza e la verifica del codice dell'app store. Le app sideloaded possono contenere malware, spyware o versioni trojanizzate di app legittime. In contesti aziendali il sideloading non autorizzato è un vettore di attacco significativo.</dd>
+
+            <dt>Jailbreaking / Rooting</dt>
+            <dd>Il jailbreaking (iOS) e il rooting (Android) sono tecniche che rimuovono le restrizioni del vendor sul sistema operativo, concedendo accesso root al dispositivo. Questo disabilita le protezioni di sicurezza integrate (sandbox, Secure Enclave, attestazione dell'integrità). Un dispositivo rooted non può essere considerato trusted da sistemi MDM aziendali: le policy di sicurezza possono essere aggirate, i certificati manomessi e il keychain del sistema operativo potenzialmente esposto.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>Attenzione — Side Loading vs Jailbreaking:</strong> Il side loading è il <em>metodo</em> con cui viene installata l'app (fuori dallo store). Il jailbreaking è il <em>prerequisito di sistema</em> (accesso root). Su iOS il sideloading massivo richiede spesso il jailbreaking preventivo; su Android è possibile abilitare il sideloading senza root tramite le impostazioni. L'esame li tratta come vulnerabilità separate.
+          </div>
+
+          <!-- ─── Zero-day ─── -->
+          <h3 id="vuln-zeroday">Zero-day</h3>
+          <p>
+            Una vulnerabilità <strong>zero-day</strong> è una falla di sicurezza non ancora nota al vendor del software colpito, e per la quale non esiste quindi ancora una patch ufficiale. Il nome deriva dal fatto che il vendor ha avuto "zero giorni" per prepararsi. Le vulnerabilità zero-day sono estremamente preziose nel mercato degli exploit: vengono acquistate da governi, broker e gruppi APT a prezzi elevatissimi (fino a milioni di dollari per un iOS zero-day) perché garantiscono compromissione certa di sistemi aggiornati. La mitigazione è impossibile tramite patching (il patch non esiste); ci si affida a controlli compensativi: segmentazione, EDR comportamentale, least privilege e monitoraggio delle anomalie.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-D</strong> — Se la domanda parla di una vulnerabilità per cui "non è ancora disponibile una patch dal vendor", è zero-day. La risposta alla domanda "quale mitigazione usare?" non può essere patching; devono essere controlli compensativi come segmentazione, monitoring, o application allow list.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 2.4
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-2-4">
+          <h2>Obiettivo 2.4 — Indicatori di attività malevola</h2>
+          <p>
+            Questo obiettivo richiede di analizzare scenari e riconoscere a quale categoria di attacco appartengono gli indicatori osservati. Le categorie sono: attacchi malware, attacchi fisici, attacchi di rete, attacchi applicativi, attacchi crittografici, attacchi alle password, e un insieme di indicatori generici di compromissione (IOC). Per l'esame è fondamentale saper <em>classificare</em> l'attacco leggendo la descrizione dello scenario.
+          </p>
+
+          <!-- ─── Malware ─── -->
+          <h3 id="malware-types">Attacchi malware</h3>
+
+          <dl class="termlist">
+            <dt>Ransomware</dt>
+            <dd>Software malevolo che cifra i file della vittima (crypto-ransomware) o blocca l'accesso al sistema (locker ransomware) e richiede un riscatto in criptovaluta per il ripristino. Il modello moderno di <em>doppia estorsione</em> combina la cifratura con la minaccia di pubblicare i dati rubati sul dark web. Il vettore di ingresso più comune è il phishing email. La crittografia usata è asimmetrica: la chiave privata rimane sul server C2 dell'attaccante. La mitigazione principale è il backup offline immutabile testato periodicamente, poiché senza un backup funzionante le alternative sono pagare o perdere i dati.</dd>
+
+            <dt>Trojan (Cavallo di Troia)</dt>
+            <dd>Software che si presenta come applicazione legittima (gioco, utility, update falso) ma nasconde funzionalità malevole. A differenza dei worm, non si autopropaga: richiede che la vittima lo esegua volontariamente. Una volta attivo, può scaricare payload aggiuntivi, aprire backdoor, rubare credenziali o aggiungersi a una botnet. Il Remote Access Trojan (RAT) è un sottotipo specializzato che fornisce all'attaccante controllo remoto completo del sistema compromesso.</dd>
+
+            <dt>Worm (Verme informatico)</dt>
+            <dd>Malware che si autopropaga attraverso la rete sfruttando vulnerabilità di servizi esposti, senza richiedere l'interazione della vittima. A differenza del virus, non ha bisogno di un file ospite: è un programma autonomo. La capacità di diffusione autonoma lo rende particolarmente pericoloso in reti poco segmentate: un singolo host compromesso può infettare migliaia di macchine in pochi minuti (come dimostrò WannaCry nel 2017 sfruttando EternalBlue su SMBv1).</dd>
+
+            <dt>Spyware (Software spia)</dt>
+            <dd>Software progettato per raccogliere informazioni sull'utente e trasmetterle a terzi a sua insaputa: cronologia di navigazione, credenziali, abitudini di utilizzo, screenshot. Spesso distribuito come bundle con software gratuito (freeware). Viola la riservatezza dell'utente senza necessariamente causare danni immediati ai sistemi. In ambito aziendale, lo spyware può esfiltrare segreti industriali o dati dei clienti in modo silenzioso per mesi.</dd>
+
+            <dt>Bloatware</dt>
+            <dd>Software preinstallato dal produttore del dispositivo (OEM) o dalla distribuzione software, spesso non richiesto dall'utente e difficile da rimuovere. Non è malware in senso stretto perché non nasce con intento di danneggiare. Tuttavia aumenta la superficie di attacco (ogni applicazione installata è un potenziale vettore), consuma risorse e può contenere vulnerabilità non patchate dal vendor. In scenari aziendali, il bloatware viola le policy di gestione delle applicazioni e può creare conflitti con i controlli di sicurezza.</dd>
+
+            <dt>Virus</dt>
+            <dd>Il virus classico è codice malevolo che si replica attaccandosi a file eseguibili o settori di avvio legittimi. Richiede l'esecuzione del file infetto per attivarsi e propagarsi. A differenza del worm non si propaga autonomamente in rete: dipende dalla condivisione di file (email, USB, cartelle condivise). I virus moderni sono rari in forma pura, avendo ceduto il campo a malware più sofisticati, ma il termine rimane nell'esame per testare la distinzione rispetto al worm.</dd>
+
+            <dt>Keylogger</dt>
+            <dd>Software (o hardware) che registra silenziosamente ogni tasto premuto dall'utente, catturando credenziali, PIN, messaggi e qualsiasi altro input da tastiera. I keylogger software vengono spesso installati come payload di un trojan e trasmettono i log al server C2 dell'attaccante. I keylogger hardware (dispositivi fisici interposti tra tastiera e PC) non sono rilevabili da soluzioni di sicurezza software. La contromisura più efficace è la MFA: anche se l'attaccante cattura la password, non può completare l'autenticazione senza il secondo fattore.</dd>
+
+            <dt>Logic Bomb (Bomba logica)</dt>
+            <dd>Codice malevolo dormiente incorporato in un'applicazione legittima, progettato per attivarsi al verificarsi di una condizione specifica: una data (time bomb), un evento di sistema, l'assenza di un certo file, o la rimozione di un utente dal sistema. A differenza degli altri malware, la logic bomb non si propaga: aspetta. È spesso usata da dipendenti scontenti o insider threat come "azione ritardata": il codice viene inserito mesi prima del termine del contratto per attivarsi dopo la partenza. La detection richiede code review e monitoraggio delle modifiche software.</dd>
+
+            <dt>Rootkit</dt>
+            <dd>Software malevolo progettato per ottenere e mantenere accesso privilegiato a un sistema nascondendo la propria presenza al sistema operativo, agli antivirus e agli strumenti di diagnostica. Opera a livello kernel (ring 0) modificando le chiamate di sistema per nascondere processi, file, connessioni di rete e voci di registro. Un rootkit kernel-level è praticamente invisibile a tool diagnostici che girano nello stesso OS compromesso. La rimozione richiede boot da media esterno pulito o reimaging del sistema. I bootkits sono una variante che infetta il bootloader o l'UEFI, sopravvivendo alla reinstallazione del sistema operativo.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Tipo malware</th><th>Autopropagazione</th><th>Necessita esecuzione utente</th><th>Obiettivo principale</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Worm</td>
+                <td>✔ Sì (rete)</td>
+                <td>✖ No</td>
+                <td>Diffusione massiva, DoS</td>
+              </tr>
+              <tr>
+                <td class="label">Virus</td>
+                <td>✔ Limitata (file)</td>
+                <td>✔ Sì (file infetto)</td>
+                <td>Danneggiamento dati, diffusione</td>
+              </tr>
+              <tr>
+                <td class="label">Trojan</td>
+                <td>✖ No</td>
+                <td>✔ Sì (inganno)</td>
+                <td>Backdoor, furto dati</td>
+              </tr>
+              <tr>
+                <td class="label">Ransomware</td>
+                <td>Variabile</td>
+                <td>✔ Spesso</td>
+                <td>Estorsione economica</td>
+              </tr>
+              <tr>
+                <td class="label">Rootkit</td>
+                <td>✖ No</td>
+                <td>✔ Prima installazione</td>
+                <td>Persistenza nascosta</td>
+              </tr>
+              <tr>
+                <td class="label">Keylogger</td>
+                <td>✖ No</td>
+                <td>✔ Prima installazione</td>
+                <td>Furto credenziali</td>
+              </tr>
+              <tr>
+                <td class="label">Logic Bomb</td>
+                <td>✖ No</td>
+                <td>✔ Già nel sistema</td>
+                <td>Sabotaggio ritardato</td>
+              </tr>
+              <tr>
+                <td class="label">Spyware</td>
+                <td>✖ No</td>
+                <td>✔ Sì (bundle)</td>
+                <td>Sorveglianza, esfiltrazione</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Logic Bomb:</strong> Un amministratore di sistema in disaccordo con la direzione inserisce nel task scheduler uno script che cancella i backup ogni sabato alle 3:00 solo se il suo account Active Directory non è più presente nel gruppo "Dipendenti". Viene licenziato, il suo account disabilitato, e la settimana successiva i backup vengono cancellati silenziosamente. Il danno viene scoperto solo alla prima necessità di ripristino.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.4-A</strong> — Per distinguere worm da virus: il worm <em>si muove da solo sulla rete</em>, il virus <em>richiede un vettore</em> (file, USB). Per distinguere trojan da backdoor: il trojan è il veicolo di ingresso (l'app falsa), la backdoor è il canale di accesso persistente che il trojan installa. Per distinguere rootkit da spyware: il rootkit si nasconde modificando l'OS, lo spyware raccoglie dati senza nascondere la propria esistenza.
+          </div>
+
+          <!-- ─── Physical ─── -->
+          <h3 id="physical-attacks">Attacchi fisici</h3>
+
+          <dl class="termlist">
+            <dt>Brute Force fisico</dt>
+            <dd>Accesso non autorizzato a strutture o dispositivi tramite forza fisica: effrazione di serrature, sfondamento di porte, rimozione di pannelli fisici. Non va confuso con il brute force sulle password (attacco logico): in questo contesto l'attacco è strettamente materiale. Contromisure: serrature antimanomissione, controllo accessi fisico a più livelli, barriere fisiche, guardie, telecamere, sensori di intrusione.</dd>
+
+            <dt>RFID Cloning (Clonazione RFID)</dt>
+            <dd>Un attaccante usa un lettore RFID portatile per leggere il segnale del badge di un dipendente a distanza ravvicinata (anche attraverso il portafoglio) e lo clona su una scheda vergine. Con il badge clonato può accedere fisicamente alle aree protette. La vulnerabilità è nella mancanza di autenticazione challenge-response nelle schede RFID di bassa qualità: trasmettono un ID statico senza crittografia. La mitigazione include badge con crittografia, PIN aggiuntivo o fattore biometrico.</dd>
+
+            <dt>Environmental (Attacchi ambientali)</dt>
+            <dd>Sfruttano condizioni ambientali per causare interruzioni di servizio o accesso non autorizzato: taglio dell'alimentazione, manomissione dei sistemi di raffreddamento (hot aisle/cold aisle), allagamento del datacenter, o interferenze elettromagnetiche (EMP). Rientrano in questa categoria anche gli attacchi che sfruttano le emissioni elettromagnetiche dei dispositivi (Van Eck phreaking) per leggere dati a distanza. La protezione richiede ridondanza dell'alimentazione, UPS, generatori, sistemi di raffreddamento ridondati e cage di Faraday per ambienti ad altissima sicurezza.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.4-B</strong> — Se la domanda menziona un badge o una chiave di accesso fisico copiata in modo non autorizzato, la risposta è RFID cloning. Se menziona mancanza di corrente o manipolazione dell'ambiente del datacenter, la categoria è Environmental attack.
+          </div>
+
+          <!-- ─── Network ─── -->
+          <h3 id="network-attacks">Attacchi di rete</h3>
+
+          <dl class="termlist">
+            <dt>DDoS — Distributed Denial-of-Service</dt>
+            <dd>Un attacco DDoS satura le risorse di un sistema (banda, CPU, connessioni) inviando un volume di traffico superiore a quello che può gestire, rendendolo non disponibile agli utenti legittimi. Il traffico è generato da una <em>botnet</em>: migliaia di sistemi compromessi coordinati dal server C2 dell'attaccante. Questo rende la mitigazione complessa perché il traffico proviene da IP legittimi e distribuiti globalmente.</dd>
+
+            <dt>DDoS Amplified (Amplificato)</dt>
+            <dd>L'attaccante sfrutta servizi di rete (DNS, NTP, memcached) che rispondono con risposte molto più grandi delle richieste. Invia piccole richieste con IP sorgente falsificato (spoofed) impostato sull'IP della vittima: i server amplificatori inviano le grandi risposte alla vittima. Il fattore di amplificazione di DNS può essere 70×, di NTP fino a 556×. Questo permette di generare un attacco devastante con banda limitata.</dd>
+
+            <dt>DDoS Reflected (Riflesso)</dt>
+            <dd>Simile all'amplificato, ma sfrutta il meccanismo di risposta di protocolli legittimi per <em>riflettere</em> il traffico verso la vittima. Il termine "reflected" enfatizza che i server intermediari non sono compromessi ma usati inconsapevolmente come "specchi". La differenza dall'amplificato è sottile: il reflected non richiede necessariamente amplificazione del volume, ma usa la riflessione per mascherare la sorgente reale.</dd>
+
+            <dt>DNS Attacks</dt>
+            <dd>Comprendono: <em>DNS poisoning/spoofing</em> (inserimento di record DNS falsi nella cache di un resolver per reindirizzare utenti a siti malevoli), <em>DNS hijacking</em> (modifica dei record DNS autorizzativi), e <em>DNS tunneling</em> (esfiltrazione di dati nascosti in query/risposte DNS per aggirare firewall che non inspezionano il traffico DNS). Il DNS tunneling è rilevabile da anomalie nelle dimensioni e frequenza delle query DNS.</dd>
+
+            <dt>On-Path Attack (Man-in-the-Middle)</dt>
+            <dd>L'attaccante si interpone nella comunicazione tra due parti, intercettando e potenzialmente modificando il traffico. Tecniche comuni: ARP poisoning (associa l'indirizzo MAC dell'attaccante all'IP della vittima nella cache ARP della rete locale), SSL stripping (degrada connessioni HTTPS a HTTP), e rogue access point (AP malevolo che clona una rete Wi-Fi legittima). La mitigazione include HTTPS/TLS con HSTS, validazione rigorosa dei certificati e network segmentation.</dd>
+
+            <dt>Credential Replay (Replay delle credenziali)</dt>
+            <dd>L'attaccante cattura credenziali o token di autenticazione validi durante una comunicazione legittima e li riutilizza successivamente per autenticarsi senza conoscere la password originale. Il protocollo NTLM è storicamente vulnerabile a questo attacco (Pass-the-Hash). La mitigazione principale è l'uso di challenge-response con nonce (numero casuale usa-e-getta) che invalida le credenziali catturate una volta usate, come avviene con Kerberos e con token JWT con scadenza breve.</dd>
+
+            <dt>Malicious Code (via rete)</dt>
+            <dd>Codice malevolo distribuito attraverso protocolli di rete: download drive-by da siti web compromessi, allegati email, script nel traffico HTTP non cifrato. Include anche il malvertising (pubblicità online che distribuisce exploit) e i watering hole attack (compromissione di siti frequentati dal target). La difesa in profondità richiede proxy web con sandboxing, email gateway con analisi degli allegati e filtering DNS.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Attacco</th><th>Layer OSI</th><th>Obiettivo</th><th>Contromisura chiave</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">DDoS volumetrico</td>
+                <td>L3/L4</td>
+                <td>Disponibilità</td>
+                <td>Scrubbing center, CDN</td>
+              </tr>
+              <tr>
+                <td class="label">DNS Poisoning</td>
+                <td>L7</td>
+                <td>Ridirezionamento</td>
+                <td>DNSSEC</td>
+              </tr>
+              <tr>
+                <td class="label">On-Path (MitM)</td>
+                <td>L2/L7</td>
+                <td>Intercettazione</td>
+                <td>TLS, HSTS, certificati</td>
+              </tr>
+              <tr>
+                <td class="label">Credential Replay</td>
+                <td>L7</td>
+                <td>Autenticazione</td>
+                <td>Challenge-response, nonce</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>Attenzione — DDoS Amplified vs Reflected:</strong> Tutti gli attacchi amplificati sono anche riflessi (usano server intermedi), ma non tutti i reflected sono amplificati (il volume non è necessariamente moltiplicato). L'esame usa entrambi i termini: focalizzati sull'elemento distinguente — l'amplification factor — per identificare l'amplified.
+          </div>
+
+          <!-- ─── App Attacks ─── -->
+          <h3 id="app-attacks">Attacchi applicativi</h3>
+
+          <dl class="termlist">
+            <dt>Injection (Iniezione)</dt>
+            <dd>Categoria che include SQL injection, command injection, LDAP injection, XML/XPath injection: il denominatore comune è l'inserimento di codice o comandi in input che l'applicazione esegue senza validazione. Il principio è sempre lo stesso: non separare dati da istruzioni. La mitigazione universale è la sanitizzazione e validazione dell'input combinata a prepared statements o API parametrizzate.</dd>
+
+            <dt>Buffer Overflow applicativo</dt>
+            <dd>In contesto applicativo, il buffer overflow è sfruttato contro singole applicazioni (browser, plugin, server applicativi) piuttosto che a livello OS. Il risultato è l'esecuzione di codice arbitrario o il crash dell'applicazione (DoS). L'esame lo cita sia nell'obiettivo 2.3 (come vulnerabilità) sia nel 2.4 (come attacco): il concetto è lo stesso, la prospettiva è difensiva vs offensiva.</dd>
+
+            <dt>Replay Attack</dt>
+            <dd>Un attaccante cattura una transazione o token di autenticazione valido e lo riproduce per ottenere lo stesso effetto della transazione originale. A differenza del credential replay che si focalizza sulle credenziali, il replay attack può interessare qualsiasi messaggio o transazione (es. ripetizione di una richiesta di pagamento firmata). La mitigazione include timestamp con finestra temporale stretta, sequence number e token monouso.</dd>
+
+            <dt>Privilege Escalation (Escalation dei privilegi)</dt>
+            <dd>Tecnica con cui un attaccante che ha già accesso al sistema con privilegi bassi li eleva verso quelli di un utente più potente (vertical escalation: da user a admin) o ottiene i privilegi di un altro utente con accesso a risorse diverse (horizontal escalation). Le tecniche includono sfruttamento di vulnerabilità del kernel, token impersonation, DLL hijacking, e sfruttamento di configurazioni errate dei permessi. La mitigazione è il principio del minimo privilegio e il monitoring delle operazioni privilegiate.</dd>
+
+            <dt>Forgery — CSRF e SSRF</dt>
+            <dd>La <em>Cross-Site Request Forgery (CSRF)</em> induce il browser di un utente autenticato a inviare richieste non autorizzate a un'applicazione web dove la vittima è loggata, sfruttando i cookie di sessione automaticamente inclusi dal browser. La <em>Server-Side Request Forgery (SSRF)</em> manipola il server affinché faccia richieste verso risorse interne che normalmente non sarebbero raggiungibili dall'esterno (metadata cloud, servizi interni). Entrambe abusano della fiducia implicita tra componenti del sistema.</dd>
+
+            <dt>Directory Traversal (Path Traversal)</dt>
+            <dd>L'attaccante usa sequenze come <code>../</code> nell'input (URL, parametri, nome file) per navigare al di fuori della directory consentita e accedere a file arbitrari sul sistema. Esempio: un'applicazione che serve <code>/var/www/uploads/[nomefile]</code> senza sanitizzazione permette all'attaccante di richiedere <code>../../../../etc/passwd</code>. La mitigazione è la canonicalizzazione e validazione del percorso prima di ogni operazione su filesystem.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — SSRF:</strong> L'attacco alla Capital One nel 2019 includeva un SSRF contro il metadata service di AWS (169.254.169.254). L'attaccante, sfruttando una misconfiguration WAF, fece sì che il server inviasse una richiesta al metadata endpoint e restituisse le credenziali temporanee IAM dell'istanza EC2, permettendo l'accesso ai bucket S3.
+          </div>
+
+          <!-- ─── Crypto Attacks ─── -->
+          <h3 id="crypto-attacks">Attacchi crittografici</h3>
+
+          <dl class="termlist">
+            <dt>Downgrade Attack</dt>
+            <dd>L'attaccante forza una negoziazione del protocollo verso una versione più vecchia e meno sicura, sfruttando la compatibilità retroattiva dei sistemi. L'esempio classico è POODLE (2014) che forzava TLS a degradare a SSL 3.0, permettendo poi un padding oracle attack. Altro esempio: la negoziazione di suite crittografiche deboli durante il TLS handshake. La mitigazione è disabilitare le versioni di protocollo obsolete (TLS 1.0, 1.1, SSL 3.0) e usare HSTS per prevenire il downgrade di HTTPS a HTTP.</dd>
+
+            <dt>Collision Attack</dt>
+            <dd>Due input diversi producono lo stesso hash (collisione). Se un attaccante riesce a trovare due documenti con lo stesso hash MD5 o SHA-1, può sostituire un documento legittimo con uno malevolo e la firma digitale risulterà ancora valida. MD5 è considerato broken per collision resistance dal 2004, SHA-1 dal 2017. La mitigazione è usare SHA-256 o superiore.</dd>
+
+            <dt>Birthday Attack</dt>
+            <dd>Sfrutta il "paradosso del compleanno": la probabilità di trovare due valori che collidono cresce molto più rapidamente di quanto l'intuizione suggerisca. Per un hash a n bit, trovare una collisione richiede solo circa 2^(n/2) tentativi, non 2^n. Questo dimezza effettivamente la forza degli algoritmi: un hash a 64 bit ha resistenza alle collisioni equivalente a 32 bit in pratica. Il birthday attack è la base teorica dei collision attack pratici.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Attacco</th><th>Obiettivo</th><th>Algoritmo vulnerabile</th><th>Mitigazione</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Downgrade</td>
+                <td>Forzare protocollo debole</td>
+                <td>TLS/SSL legacy</td>
+                <td>Disabilitare versioni obsolete</td>
+              </tr>
+              <tr>
+                <td class="label">Collision</td>
+                <td>Due input → stesso hash</td>
+                <td>MD5, SHA-1</td>
+                <td>SHA-256 o superiore</td>
+              </tr>
+              <tr>
+                <td class="label">Birthday</td>
+                <td>Trovare collisioni in 2^(n/2)</td>
+                <td>Hash con output breve</td>
+                <td>Hash a lunghezza adeguata (≥256 bit)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ─── Password Attacks ─── -->
+          <h3 id="password-attacks">Attacchi alle password</h3>
+
+          <dl class="termlist">
+            <dt>Password Spraying</dt>
+            <dd>L'attaccante tenta una o poche password comuni (es. "Password1!", "Welcome2024") contro <em>molti account diversi</em>, invece di molte password contro un singolo account. Questo approccio è progettato per aggirare le policy di lockout: un account viene tentato al massimo una o due volte, sotto la soglia che attiverebbe il blocco. È particolarmente efficace contro organizzazioni con policy password deboli e molti account. Indicatore rilevante: un numero elevato di fallimenti di autenticazione distribuiti su account diversi ma con la stessa password errata.</dd>
+
+            <dt>Brute Force (password)</dt>
+            <dd>Tentativo sistematico di tutte le possibili combinazioni di password (o di un dizionario di parole comuni) contro un singolo account o hash catturato. In forma online (contro un sistema attivo) è limitata dalle policy di lockout e dalle latenze di rete. In forma offline (contro hash estratti da un database compromesso) non ha limiti esterni e può essere massivamente parallelizzata su GPU. La difesa online è il lockout e il rate limiting; la difesa offline è hashing lento con salting (bcrypt, Argon2, PBKDF2).</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>Attenzione — Password Spraying vs Brute Force:</strong> Brute force = molte password su <em>un</em> account. Spraying = poche password su <em>molti</em> account. La distinzione è critica per l'esame: uno scenario che descrive "nessun account bloccato, ma molti fallimenti su account diversi" indica spraying, non brute force.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.4-C</strong> — Se lo scenario descrive un fallimento di autenticazione con la stessa password su molti account diversi, senza trigger di lockout, è password spraying. Se descrive centinaia di tentativi sullo stesso account, è brute force. Se descrive credenziali catturate e riusate, è credential replay.
+          </div>
+
+          <!-- ─── Indicators ─── -->
+          <h3 id="indicators">Indicatori di compromissione (IOC)</h3>
+          <p>
+            Gli indicatori di compromissione sono evidenze osservabili che suggeriscono che un sistema o una rete siano stati compromessi. L'esame richiede di abbinare l'indicatore alla categoria di attacco più probabile.
+          </p>
+
+          <dl class="termlist">
+            <dt>Account Lockout (Blocco account)</dt>
+            <dd>Un account bloccato ripetutamente indica probabilmente un attacco brute force o un tentativo di autenticazione automatizzato. Se molti account vengono bloccati contemporaneamente con la stessa password errata, si tratta più probabilmente di password spraying. Richede indagine immediata della sorgente degli accessi.</dd>
+
+            <dt>Concurrent Session Usage (Sessioni concorrenti)</dt>
+            <dd>Un utente che risulta autenticato contemporaneamente da più IP geograficamente distanti (o da più dispositivi contemporaneamente insoliti) è un indicatore forte di credential theft. Il sistema di Identity ha rilevato lo stesso account attivo da Londra e da Seoul nello stesso momento: impossibile per una persona fisica.</dd>
+
+            <dt>Blocked Content (Contenuto bloccato)</dt>
+            <dd>Alert ripetuti dal proxy web, dall'email gateway o dal DNS filter che bloccano destinazioni malevole possono indicare un sistema già compromesso che tenta di connettersi al server C2. Un sistema pulito non genera connessioni verso IP classificati come malicious; uno compromesso lo fa regolarmente.</dd>
+
+            <dt>Impossible Travel (Viaggio impossibile)</dt>
+            <dd>Un utente che effettua un accesso da Roma alle 9:00 e da Tokyo alle 9:15 dello stesso giorno non può fisicamente essere in entrambi i luoghi. L'impossible travel è un indicatore di compromissione delle credenziali o di uso di VPN/proxy per mascherare la vera posizione. I sistemi UEBA (User and Entity Behavior Analytics) rilevano automaticamente questo pattern.</dd>
+
+            <dt>Resource Consumption (Consumo anomalo di risorse)</dt>
+            <dd>CPU al 100%, memoria saturata, o banda di rete anomala su un sistema che dovrebbe essere inattivo possono indicare: cryptomining (consumo CPU), ransomware in fase di cifratura (CPU + I/O disco), worm in propagazione (CPU + banda), o esfiltrazione dati (banda). Il baseline comportamentale è fondamentale per distinguere il normale dal sospetto.</dd>
+
+            <dt>Resource Inaccessibility (Risorse non accessibili)</dt>
+            <dd>File che non possono essere aperti, condivisioni di rete irraggiungibili, servizi che non rispondono: questi indicatori sono tipici della fase attiva di un ransomware (che cifra i file rendendoli inaccessibili) o di un DDoS in corso. L'irraggiungibilità massiva e improvvisa è un segnale critico che richiede risposta immediata.</dd>
+
+            <dt>Out-of-Cycle Logging (Log fuori ciclo)</dt>
+            <dd>Voci nei log che si verificano a orari insoliti (es. accessi amministrativi alle 3:00 di domenica mattina in un sistema che normalmente non ha attività notturna), o in volumi anomali, indicano attività sospetta. Gli attaccanti spesso operano fuori orario per ridurre la probabilità di rilevamento da parte degli operatori.</dd>
+
+            <dt>Published/Documented (Compromissione documentata)</dt>
+            <dd>Scoprire che le credenziali o i dati dell'organizzazione sono stati pubblicati in database di credential breach, nel dark web o in report di threat intelligence. Questo non significa necessariamente un attacco in corso, ma richiede rotazione immediata delle credenziali esposte e verifica di eventuali accessi non autorizzati già avvenuti.</dd>
+
+            <dt>Missing Logs (Log mancanti)</dt>
+            <dd>L'assenza di log in un periodo temporale specifico è un indicatore forte di manomissione: un attaccante che ha ottenuto accesso privilegiato cancella frequentemente i log per nascondere le proprie tracce. I log "buchi" richiedono sempre investigazione; la soluzione per prevenire la cancellazione è il log forwarding verso un sistema SIEM centralizzato con accesso limitato.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.4-D</strong> — Nello scenario di esame: se i file non si aprono più e la CPU è al massimo → ransomware. Se ci sono accessi admin alle 3:00 e mancano log → attaccante con accesso privilegiato. Se lo stesso account risulta attivo da città diverse → credential theft (impossible travel). Se molti account si bloccano con la stessa password → password spraying.
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 2.5
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-2-5">
+          <h2>Obiettivo 2.5 — Tecniche di mitigazione enterprise</h2>
+          <p>
+            Le tecniche di mitigazione sono le contromisure che un'organizzazione implementa per ridurre la probabilità di successo degli attacchi e limitarne l'impatto. L'obiettivo 2.5 richiede di spiegare il <em>perché</em> ogni tecnica funziona, non solo di elencarla. In scenario d'esame, bisogna selezionare la mitigazione più appropriata per un attacco specifico.
+          </p>
+
+          <!-- ─── Segmentazione ─── -->
+          <h3 id="mit-segmentation">Segmentazione</h3>
+          <p>
+            La <strong>segmentazione</strong> divide la rete in zone logiche isolate (VLAN, subnet, DMZ, microsegmentazione) in modo che una compromissione in un segmento non si propaghi automaticamente agli altri. È la contromisura principale contro il movimento laterale (lateral movement): un attaccante che compromette un endpoint nella VLAN utenti non può raggiungere direttamente i server nel segmento database senza attraversare un firewall o un ACL che deve autorizzare esplicitamente il traffico. La segmentazione è anche il motore dello Zero Trust: non esiste fiducia implicita tra segmenti di rete, nemmeno interni.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Segmentazione e Ransomware:</strong> Durante l'attacco NotPetya del 2017, Maersk perse oltre 10.000 server perché la rete era piatta (poco segmentata). Al contrario, un'organizzazione con VLAN separate per utenti, server applicativi, database, backup e sistemi OT avrebbe limitato la propagazione a un singolo segmento, salvando le altre zone.
+          </div>
+
+          <!-- ─── Access Control ─── -->
+          <h3 id="mit-access">Access Control — ACL e Permissions</h3>
+
+          <dl class="termlist">
+            <dt>Access Control List (ACL)</dt>
+            <dd>Una ACL è una lista di regole che specifica quali entità (utenti, gruppi, host) sono autorizzate ad accedere a una risorsa e con quali operazioni consentite (lettura, scrittura, esecuzione, accesso di rete). Le ACL di rete sui firewall e router controllano il flusso del traffico in base a IP sorgente/destinazione, porta e protocollo. Le ACL su filesystem controllano chi può leggere o modificare file e directory. Le ACL sono la meccanica con cui si implementa il principio del minimo privilegio.</dd>
+
+            <dt>Permissions (Permessi)</dt>
+            <dd>I permessi sono le autorizzazioni granulari assegnate a identità specifiche su risorse specifiche. Su sistemi Unix/Linux seguono il modello owner/group/other con lettura (r), scrittura (w), esecuzione (x). Su Windows usono il modello DACL (Discretionary ACL) con permessi più granulari (Read, Write, Modify, Full Control). I permessi eccessivi (overprivileged accounts) sono una delle vulnerabilità di misconfiguration più comuni.</dd>
+          </dl>
+
+          <!-- ─── Allow List ─── -->
+          <h3 id="mit-allowlist">Application Allow List</h3>
+          <p>
+            L'<strong>application allow list</strong> (precedentemente nota come "whitelist applicativa") è una policy di sicurezza che permette l'esecuzione <em>solo</em> delle applicazioni esplicitamente approvate. È l'approccio inverso alla blocklist (antivirus tradizionale): invece di cercare di bloccare il malware conosciuto, blocca qualsiasi eseguibile non pre-autorizzato. Questo rende l'allow list estremamente efficace contro: zero-day malware, malware polimorfico, script malevoli e attacchi fileless. Il costo è operativo: mantenere la lista aggiornata in un ambiente con software in continuo cambiamento richiede processi robusti. Strumenti: Microsoft AppLocker, Windows Defender Application Control (WDAC), Carbon Black.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.5-A</strong> — Se lo scenario descrive un attacco zero-day (nessuna firma antivirus disponibile) e chiede la mitigazione più efficace, la risposta è application allow list o execution prevention. Non può essere antivirus perché per definizione non ha la firma del malware sconosciuto.
+          </div>
+
+          <!-- ─── Isolation & Patching ─── -->
+          <h3 id="mit-isolation">Isolation e Patching</h3>
+
+          <dl class="termlist">
+            <dt>Isolation (Isolamento)</dt>
+            <dd>L'isolamento separa fisicamente o logicamente un sistema compromesso o ad alto rischio dal resto della rete per prevenire la propagazione. In incident response, l'isolamento di un host compromesso è il primo step di contenimento: si disconnette il dispositivo dalla rete mantenendo l'alimentazione per preservare le evidenze in memoria. L'isolamento può anche essere preventivo: sistemi legacy che non possono essere aggiornati vengono isolati in segmenti dedicati senza connettività verso risorse critiche.</dd>
+
+            <dt>Patching</dt>
+            <dd>La gestione delle patch è il processo sistematico di applicazione degli aggiornamenti di sicurezza ai sistemi operativi, alle applicazioni e al firmware. È la contromisura primaria contro la stragrande maggioranza degli attacchi che sfruttano vulnerabilità note (CVE). Un programma di patch management efficace definisce: finestre di manutenzione, classificazione delle patch per criticità (CVSS score), test in ambienti pre-produzione, rollback plan e reporting sulla compliance. La finestra di esposizione tra la pubblicazione di una CVE e il patching è il momento di massimo rischio.</dd>
+          </dl>
+
+          <!-- ─── Encryption & Monitoring ─── -->
+          <h3 id="mit-monitoring">Encryption e Monitoring</h3>
+
+          <dl class="termlist">
+            <dt>Encryption (Cifratura)</dt>
+            <dd>La cifratura protegge la riservatezza dei dati sia at rest (su disco, database, backup) sia in transit (TLS, VPN, IPSec). In contesto di mitigazione, la cifratura dei dati sensibili limita il danno di una violazione: anche se l'attaccante ottiene accesso ai file, senza la chiave di cifratura i dati sono inutilizzabili. La cifratura dei backup è fondamentale: un backup non cifrato rubato è equivalente a una violazione dei dati originali.</dd>
+
+            <dt>Monitoring (Monitoraggio)</dt>
+            <dd>Il monitoraggio continuo di endpoint, rete e identità è la base del rilevamento delle intrusioni. Include: SIEM (correlazione degli eventi di sicurezza), EDR (telemetria comportamentale degli endpoint), NDR (analisi del traffico di rete), e soluzioni UEBA (anomalie comportamentali utente). Senza monitoring, gli indicatori di compromissione rimangono invisibili. Il tempo medio di rilevamento (MTTD) di un'intrusione è storicamente superiore a 200 giorni senza monitoring proattivo.</dd>
+          </dl>
+
+          <!-- ─── Least Privilege ─── -->
+          <h3 id="mit-leastpriv">Least Privilege, Configuration Enforcement e Decommissioning</h3>
+
+          <dl class="termlist">
+            <dt>Least Privilege (Minimo privilegio)</dt>
+            <dd>Il principio del minimo privilegio stabilisce che ogni utente, processo o sistema deve avere solo i permessi strettamente necessari per svolgere le proprie funzioni legittime, nulla di più. Riduce il raggio d'azione (blast radius) di una compromissione: un account compromesso con privilegi minimi causa danni limitati, mentre un account amministratore compromesso può devastare l'intera organizzazione. Si implementa tramite RBAC (Role-Based Access Control), revisioni periodiche dei permessi (access reviews) e separazione dei doveri.</dd>
+
+            <dt>Configuration Enforcement (Applicazione della configurazione)</dt>
+            <dd>L'applicazione automatica di standard di configurazione sicura (hardening baseline) su tutti i sistemi, prevenendo deviazioni non autorizzate. Strumenti come Group Policy (Windows), Ansible, Puppet, Chef o Desired State Configuration (DSC) mantengono i sistemi conformi alla baseline anche dopo che un operatore effettua modifiche manuali non autorizzate. Le CIS Benchmarks forniscono baseline di riferimento per i sistemi più comuni.</dd>
+
+            <dt>Decommissioning (Dismissione)</dt>
+            <dd>Il processo di ritiro sicuro di sistemi, hardware o software non più necessari. Un sistema dismesso ma ancora connesso alla rete (zombie system) è una vulnerabilità: non riceve aggiornamenti, non è monitorato, ma mantiene credenziali valide e accesso alla rete. Il decommissioning include: sanitizzazione sicura dei dati su disco (wipe certificato o distruzione fisica), revoca di certificati e credenziali, rimozione dai sistemi di directory, e documentazione formale del ritiro.</dd>
+          </dl>
+
+          <!-- ─── Hardening ─── -->
+          <h3 id="mit-hardening">Hardening Techniques</h3>
+          <p>
+            L'hardening è l'insieme delle pratiche che riducono la superficie di attacco di un sistema rimuovendo o disabilitando tutto ciò che non è strettamente necessario. Un sistema "hardened" è configurato per resistere agli attacchi riducendo al minimo i punti di ingresso disponibili all'attaccante.
+          </p>
+
+          <dl class="termlist">
+            <dt>Encryption (nei sistemi)</dt>
+            <dd>Cifratura del disco (BitLocker, FileVault), cifratura della comunicazione tra servizi interni, cifratura dei backup. Specificamente in hardening, si intende anche la disabilitazione di protocolli che trasmettono credenziali in chiaro (Telnet, FTP, HTTP basic auth) e la loro sostituzione con equivalenti cifrati (SSH, SFTP, HTTPS).</dd>
+
+            <dt>Installation of Endpoint Protection</dt>
+            <dd>Installazione di soluzioni EDR (Endpoint Detection and Response) che forniscono telemetria comportamentale, rilevazione di anomalie, capacità di risposta remota (isolamento host, kill process, rollback) e visibilità su tutte le attività dell'endpoint. Supera il tradizionale antivirus signature-based aggiungendo analisi comportamentale e machine learning.</dd>
+
+            <dt>Host-Based Firewall</dt>
+            <dd>Un firewall software sul singolo endpoint che controlla il traffico in entrata e uscita indipendentemente dalla rete. È il "last line of defense" a livello host: anche se un dispositivo è su una rete non sicura (hotel, coffee shop), il host-based firewall limita l'esposizione. Permette regole granulari per applicazione, non solo per porta/protocollo.</dd>
+
+            <dt>HIPS — Host-Based Intrusion Prevention System</dt>
+            <dd>Monitora l'attività del sistema operativo e delle applicazioni su un singolo endpoint e blocca attivamente comportamenti sospetti: modifica di file di sistema, injection di processo, modifica del registro di sistema, tentativi di privilege escalation. A differenza dell'EDR che è principalmente detective, l'HIPS ha un componente preventivo che blocca le azioni prima che causino danno.</dd>
+
+            <dt>Disabling Ports/Protocols</dt>
+            <dd>Disabilitare porte TCP/UDP non utilizzate e protocolli obsoleti o insicuri riduce la superficie di attacco eliminando potenziali vettori. Principio: se una porta non è necessaria, deve essere chiusa. Se un protocollo è insicuro (SMBv1, Telnet, SSLv3, TLS 1.0), deve essere disabilitato. Un sistema con 100 porte aperte ha una superficie di attacco enormemente più grande di uno con 5.</dd>
+
+            <dt>Default Password Changes</dt>
+            <dd>I dispositivi di rete, server, applicazioni e appliance vengono spesso consegnati con credenziali predefinite documentate pubblicamente (admin/admin, admin/password). La modifica delle password di default al momento del deployment è una delle misure di hardening più basilari e più frequentemente trascurate. I motori di ricerca per dispositivi IoT come Shodan possono identificare in pochi secondi dispositivi con credenziali di default esposti su internet.</dd>
+
+            <dt>Removal of Unnecessary Software</dt>
+            <dd>Ogni applicazione installata su un sistema è potenzialmente un vettore di attacco: ha vulnerabilità, richiede aggiornamenti, e aumenta la superficie di attacco. Il principio è quello del minimo software necessario: rimuovere tutto ciò che non è strettamente richiesto per la funzione del sistema. Questo include software di debugging, client di posta su server, applicazioni di terze parti non necessarie e componenti OS opzionali non usati (es. IIS su un server che non fa web hosting).</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Tecnica di hardening</th><th>Superficie ridotta</th><th>Attacco mitigato principalmente</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Encryption</td>
+                <td>Dato in chiaro</td>
+                <td>Intercettazione, furto dati</td>
+              </tr>
+              <tr>
+                <td class="label">Endpoint Protection (EDR)</td>
+                <td>Comportamento malevolo</td>
+                <td>Malware, fileless attack</td>
+              </tr>
+              <tr>
+                <td class="label">Host-based Firewall</td>
+                <td>Traffico non autorizzato</td>
+                <td>Lateral movement, exploit remoto</td>
+              </tr>
+              <tr>
+                <td class="label">HIPS</td>
+                <td>Azioni di sistema sospette</td>
+                <td>Privilege escalation, injection</td>
+              </tr>
+              <tr>
+                <td class="label">Disabling ports/protocols</td>
+                <td>Servizi esposti</td>
+                <td>Exploit su servizi non necessari</td>
+              </tr>
+              <tr>
+                <td class="label">Default password changes</td>
+                <td>Credenziali note</td>
+                <td>Accesso non autorizzato facile</td>
+              </tr>
+              <tr>
+                <td class="label">Remove unnecessary software</td>
+                <td>Software installato</td>
+                <td>Exploit su applicazioni inutilizzate</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Hardening combinato:</strong> Un server web Apache su Linux hardened con CIS Benchmark: Apache installato senza moduli non necessari, solo porta 443 aperta, Telnet/FTP disabilitati, password root cambiata, SELinux attivo (HIPS), Fail2Ban attivo (ban IP dopo tentativi errati), antivirus/EDR installato, BitLocker equivalente (LUKS) per cifratura disco, tutti i software non necessari rimossi. La superficie di attacco si riduce da decine di potenziali vettori a pochi, tutti monitorati.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.5-B</strong> — Domanda tipo: "Quale tecnica di hardening riduce più direttamente il rischio di sfruttamento di servizi non necessari?" → Disabling ports/protocols o Removal of unnecessary software. "Quale tecnica è la prima risposta a un sistema EOL che non può ricevere patch?" → Isolation e compensating controls (ACL, segmentazione).
+          </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Buffer Overflow vs Memory Injection</strong> — Buffer overflow sovrascrive memoria adiacente per dirottare l'esecuzione. Memory injection inserisce codice in un processo già in esecuzione senza overflow.</li>
+            <li><strong>TOC vs TOU</strong> — Time-of-Check: il momento della verifica. Time-of-Use: il momento dell'uso. La race condition sfrutta il lasso di tempo tra i due.</li>
+            <li><strong>SQLi — contromisura primaria</strong> — Prepared statements / parametrized queries: separano dati da istruzioni SQL, eliminando la root cause.</li>
+            <li><strong>XSS reflected vs stored</strong> — Reflected: payload nell'URL, colpisce chi clicca il link. Stored: payload nel database, colpisce tutti gli utenti che visualizzano il contenuto.</li>
+            <li><strong>VM Escape vs Resource Reuse</strong> — VM Escape: il processo nella VM sfugge all'hypervisor. Resource Reuse: dati residui di un tenant vengono letti da un altro.</li>
+            <li><strong>Zero-day — mitigazione</strong> — Non è possibile patchare: usare application allow list, segmentazione, EDR comportamentale e least privilege come controlli compensativi.</li>
+            <li><strong>Worm vs Virus vs Trojan</strong> — Worm: si autopropaga in rete senza intervento umano. Virus: richiede file ospite ed esecuzione umana. Trojan: si maschera da software legittimo, non si autopropaga.</li>
+            <li><strong>Logic Bomb</strong> — Codice malevolo dormiente attivato da una condizione (data, evento). Tipico degli insider threat. Rilevato con code review e change monitoring.</li>
+            <li><strong>Rootkit — detection</strong> — Non rilevabile da tool dello stesso OS compromesso. Richiede boot da media esterno o reimaging. Il bootkit sopravvive anche alla reinstallazione dell'OS.</li>
+            <li><strong>Password Spraying vs Brute Force</strong> — Spraying: poche password, molti account (evita lockout). Brute force: molte password, un account. Indicatore spraying: molti fail su account diversi senza lockout.</li>
+            <li><strong>DDoS Amplified</strong> — Piccola richiesta verso server DNS/NTP con IP sorgente spoofed della vittima → risposta molto più grande verso la vittima. Il fattore di amplificazione può essere fino a 556×.</li>
+            <li><strong>On-Path / MitM — tecnica</strong> — ARP poisoning su LAN, SSL stripping, rogue AP. Contromisura: TLS + HSTS + validazione certificati.</li>
+            <li><strong>Impossible Travel</strong> — Accesso da due luoghi fisicamente impossibili nello stesso arco temporale. Indicatore di credential theft. Rilevato da UEBA.</li>
+            <li><strong>Missing Logs</strong> — Assenza di log in un periodo = possibile cancellazione da parte di un attaccante con privilegi. Soluzione preventiva: SIEM centralizzato con log immutabili.</li>
+            <li><strong>Application Allow List vs Antivirus</strong> — Allow list blocca tutto ciò che non è esplicitamente approvato (efficace vs zero-day). Antivirus blocca il malware conosciuto tramite firma (inefficace vs zero-day).</li>
+            <li><strong>Least Privilege — blast radius</strong> — Limita il danno di una compromissione: un account con privilegi minimi non può escalare o accedere a risorse critiche fuori dal suo scope.</li>
+            <li><strong>HIPS vs EDR</strong> — HIPS ha componente preventivo (blocca attivamente). EDR è principalmente detective con capacità di risposta remota ma non sempre blocca in real-time.</li>
+          </ul>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="ch2_threat_landscape_canonical.html">← CH2 — Threat Landscape</a>
+          <a href="ch4_social_engineering_canonical.html" class="secondary">CH4 — Social Engineering →</a>
+          <a href="ch5_vulnerability_management_canonical.html" class="secondary">CH5 — Vulnerability Management →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH6 — Sicurezza applicativa · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 2 &amp; 4</span>
+      <span>CH6 — Sicurezza applicativa</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch6_application_security_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch6_application_security_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH6 — Sicurezza applicativa</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 2 (parziale) · Dominio 4 (parziale)
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">2.3 parz.</span>
+        <span class="objectives-tag">4.1 parz.</span>
+        <span class="weight-badge">D2 = 22% · D4 = 28%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong>
+        <a href="ch2_threat_landscape_canonical.html">CH2 — Threat landscape</a> ·
+        <a href="ch5_vulnerability_management_canonical.html">CH5 — Vulnerability management</a>
+      </p>
+      <p><strong>Capitoli correlati:</strong>
+        <a href="ch7_crittografia_pki_canonical.html">CH7 — Crittografia e PKI</a> ·
+        <a href="ch12_network_security_canonical.html">CH12 — Sicurezza di rete (WAF)</a> ·
+        <a href="ch14_incident_response_canonical.html">CH14 — Incident response</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 4.1 parz.</div>
+        <a href="#obj-4-1">Sicurezza applicativa</a>
+        <a href="#sdlc">↳ SDLC e ambienti</a>
+        <a href="#devsecops">↳ DevSecOps e CI/CD</a>
+        <a href="#owasp">↳ Pratiche OWASP</a>
+        <a href="#api-security">↳ API Security</a>
+        <a href="#input-validation">↳ Input validation</a>
+        <a href="#secure-cookies">↳ Secure cookies</a>
+        <a href="#sast-dast">↳ SAST / DAST</a>
+        <a href="#code-signing">↳ Code signing</a>
+        <a href="#sandboxing">↳ Sandboxing</a>
+        <a href="#monitoring-app">↳ Monitoring</a>
+
+        <div class="toc-section">Obiettivo 2.3 parz.</div>
+        <a href="#obj-2-3">Vulnerabilità applicative</a>
+        <a href="#memory-injection">↳ Memory injection</a>
+        <a href="#buffer-overflow">↳ Buffer overflow</a>
+        <a href="#race-conditions">↳ Race conditions / TOCTTOU</a>
+        <a href="#malicious-update">↳ Malicious update</a>
+        <a href="#sqli">↳ SQL Injection</a>
+        <a href="#xss">↳ Cross-Site Scripting</a>
+        <a href="#altri-attacchi">↳ Altri attacchi correlati</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 4.1 parziale
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-4-1">
+          <h2>Obiettivo 4.1 — Sicurezza applicativa: tecniche e sviluppo sicuro</h2>
+          <p>
+            La sicurezza di un'applicazione non si costruisce soltanto applicando patch a vulnerabilità già esistenti: si
+            <strong>progetta</strong> fin dall'inizio. L'obiettivo 4.1 chiede di conoscere le tecniche concrete che permettono
+            di integrare la sicurezza in ogni fase dello sviluppo e in ogni scelta implementativa, dagli ambienti di sviluppo
+            fino ai controlli in produzione. Il messaggio centrale è che la sicurezza è un <em>processo continuo</em>, non
+            un'attività una tantum a fine progetto.
+          </p>
+
+          <!-- ─── SDLC ─────────────────────────────────────────── -->
+          <h3 id="sdlc">SDLC e ambienti di distribuzione del codice</h3>
+          <p>
+            Il <strong>Software Development Life Cycle (SDLC)</strong> è il modello che descrive l'intero percorso di vita di
+            un'applicazione: dalla prima idea fino alla dismissione. Per un professionista della sicurezza, il valore dell'SDLC
+            sta nella possibilità di identificare in quale fase intervenire con controlli specifici. Inserire un requisito di
+            sicurezza durante l'analisi costa molto meno che correggere una vulnerabilità in produzione.
+          </p>
+
+          <dl class="termlist">
+            <dt>Pianificazione</dt>
+            <dd>Valutazione di fattibilità, confronto tra alternative e stima dei costi. È la fase in cui si decide se e come costruire il sistema. La sicurezza partecipa qui definendo i vincoli normativi, i requisiti di classificazione dei dati e i rischi di alto livello da considerare.</dd>
+
+            <dt>Definizione dei requisiti</dt>
+            <dd>Raccolta dei bisogni funzionali e <em>non funzionali</em> del software. I requisiti di sicurezza appartengono a questa fase: autenticazione, autorizzazione, gestione degli errori, logging, crittografia dei dati a riposo e in transito devono essere documentati qui, prima che l'architettura sia definita.</dd>
+
+            <dt>Progettazione</dt>
+            <dd>Definizione di architettura, flussi di dati, integrazioni e scelte strutturali. I threat model vanno prodotti in questa fase per identificare superfici di attacco, componenti critici e controlli preventivi da progettare nell'architettura stessa.</dd>
+
+            <dt>Programmazione (Development)</dt>
+            <dd>Realizzazione del codice. I programmatori applicano pratiche di secure coding (sanitizzazione dell'input, uso di API sicure, gestione corretta degli errori) e producono i primi unit test. La code review può iniziare qui.</dd>
+
+            <dt>Collaudo (Testing)</dt>
+            <dd>Test formali: integrazione, regressione, User Acceptance Testing (UAT). I test di sicurezza — SAST, DAST, penetration test — appartengono a questa fase o sono distribuiti lungo tutta la pipeline CI/CD.</dd>
+
+            <dt>Formazione e transizione</dt>
+            <dd>Addestramento degli utenti e deployment nell'ambiente di produzione. Include la documentazione delle procedure di sicurezza operative.</dd>
+
+            <dt>Operatività e manutenzione</dt>
+            <dd>La fase più lunga: patch, aggiornamenti, modifiche. Le vulnerabilità scoperte dopo il rilascio devono rientrare nel ciclo come nuovi requisiti. Un processo di change management formale protegge la produzione da modifiche non controllate.</dd>
+
+            <dt>Smantellamento (End-of-Life)</dt>
+            <dd>Ritiro del software. Richiede attenzione alla cancellazione sicura dei dati, alla revoca delle credenziali, alla dismissione delle dipendenze e alla documentazione finale.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-A</strong> — Quando l'esame chiede "in quale fase dell'SDLC va inserita la sicurezza?", la risposta corretta è <em>fin dall'inizio</em>, ovvero nella fase dei requisiti. La risposta "solo nel testing" è quasi sempre sbagliata: aggiungere sicurezza solo alla fine aumenta i costi e non risolve vulnerabilità architetturali.
+          </div>
+
+          <h4>Ambienti di distribuzione del codice</h4>
+          <p>
+            Le organizzazioni separano il ciclo di vita del codice in ambienti distinti per evitare che attività di sviluppo
+            e test impattino direttamente i sistemi in produzione.
+          </p>
+
+          <table>
+            <thead>
+              <tr><th>Ambiente</th><th>Scopo</th><th>Rilevanza per la sicurezza</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Development</td>
+                <td>Sviluppo attivo del codice</td>
+                <td>Accesso ristretto agli sviluppatori; non deve contenere dati di produzione reali</td>
+              </tr>
+              <tr>
+                <td class="label">Test / QA</td>
+                <td>Verifica funzionale e di qualità</td>
+                <td>Ambiente isolato per test di sicurezza (SAST, DAST, penetration test); dati anonimizzati</td>
+              </tr>
+              <tr>
+                <td class="label">Staging</td>
+                <td>Preproduzione: codice pronto per il rilascio</td>
+                <td>Deve replicare la produzione; ultimo checkpoint prima del deploy; change management obbligatorio</td>
+              </tr>
+              <tr>
+                <td class="label">Production</td>
+                <td>Ambiente operativo reale degli utenti</td>
+                <td>Accesso più ristretto; monitoraggio continuo; ogni modifica richiede approvazione formale</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ─── DEVSECOPS ─────────────────────────────────────── -->
+          <h3 id="devsecops">DevOps, DevSecOps e pipeline CI/CD</h3>
+          <p>
+            <strong>DevOps</strong> è un modello che unisce sviluppo software (Development) e operatività IT (Operations)
+            con l'obiettivo di accelerare i rilasci attraverso automazione, collaborazione e feedback continuo.
+            <strong>DevSecOps</strong> estende questo modello con un principio fondamentale: la sicurezza è una
+            <em>responsabilità condivisa</em> tra sviluppatori, operations e team di sicurezza, distribuita lungo tutta la
+            pipeline invece di essere concentrata in un unico "checkpoint" finale.
+          </p>
+          <p>
+            In una pipeline DevSecOps, i controlli di sicurezza vengono automatizzati: SAST viene eseguito ad ogni commit,
+            DAST su ogni build, i container vengono scansionati prima del deploy. Questo significa che le vulnerabilità vengono
+            trovate molto prima, quando correggere costa meno.
+          </p>
+
+          <dl class="termlist">
+            <dt>Continuous Integration (CI)</dt>
+            <dd>Pratica in cui gli sviluppatori integrano frequentemente (anche più volte al giorno) il proprio codice in un repository condiviso. Ad ogni integrazione si avvia automaticamente una build con relativi test. Questo intercetta i problemi di integrazione molto prima del rilascio.</dd>
+
+            <dt>Continuous Delivery / Deployment (CD)</dt>
+            <dd>Estensione della CI: il codice che supera tutti i test viene automaticamente reso disponibile per il rilascio (Delivery) o addirittura distribuito in produzione senza intervento manuale (Deployment). Richiede una pipeline di test robusta e affidabile, altrimenti un bug o una vulnerabilità si propagano rapidamente in produzione.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — DevSecOps pipeline:</strong> Un team di sviluppo usa GitHub Actions. Ad ogni push sul branch main: (1) SonarQube esegue l'analisi statica del codice; (2) se la build supera i test, Snyk scansiona le dipendenze di terze parti alla ricerca di CVE noti; (3) l'immagine Docker viene scansionata con Trivy prima del deploy su Kubernetes. Un penetration tester automatizzato (DAST) viene eseguito settimanalmente sull'ambiente di staging. Nessun deploy manuale, nessun passaggio di sicurezza opzionale.
+          </div>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — CI/CD e sicurezza:</strong> l'automazione accelera il rilascio ma può anche accelerare la distribuzione di vulnerabilità. Se un malicious update viene iniettato nella supply chain di dipendenze e la pipeline non lo intercetta, può raggiungere la produzione in pochi minuti. La velocità di CI/CD richiede controlli di sicurezza altrettanto automatizzati e affidabili.
+          </div>
+
+          <!-- ─── OWASP ─────────────────────────────────────────── -->
+          <h3 id="owasp">Pratiche di programmazione sicura — OWASP Proactive Controls</h3>
+          <p>
+            <strong>OWASP (Open Web Application Security Project)</strong> è una community no-profit che pubblica standard,
+            guide e strumenti gratuiti per la sicurezza applicativa. I <em>OWASP Proactive Controls</em> sono un elenco di
+            pratiche che gli sviluppatori dovrebbero integrare attivamente in ogni progetto software, non come correzione
+            reattiva ma come metodologia costruttiva.
+          </p>
+
+          <dl class="termlist">
+            <dt>Definire requisiti di sicurezza</dt>
+            <dd>La sicurezza entra nell'analisi dei requisiti, non solo nel testing. Si documentano controlli di autenticazione, autorizzazione, gestione dei dati sensibili e criteri di logging prima di scrivere una riga di codice.</dd>
+
+            <dt>Usare framework e librerie di sicurezza</dt>
+            <dd>Invece di reimplementare crittografia, hashing o gestione delle sessioni, si usano librerie mature e auditabili. Reinventare questi meccanismi è quasi sempre una fonte di vulnerabilità.</dd>
+
+            <dt>Rendere sicuri gli accessi al database</dt>
+            <dd>Query parametrizzate e stored procedure per eliminare il rischio di SQL injection. Principio del privilegio minimo per gli account del database: l'account applicativo non dovrebbe avere privilegi di amministratore.</dd>
+
+            <dt>Codifica e escape dei dati</dt>
+            <dd>I dati prodotti dal software e destinati a un contesto diverso (HTML, SQL, shell, LDAP) devono essere correttamente codificati per il contesto di destinazione. Questo previene injection di ogni tipo.</dd>
+
+            <dt>Convalidare tutti gli input</dt>
+            <dd>Ogni dato proveniente dall'esterno — utente, API, file, database — deve essere considerato non attendibile e validato prima dell'uso. L'approccio più sicuro è la <em>allow list</em>: definire esplicitamente cosa è consentito, bloccare tutto il resto.</dd>
+
+            <dt>Implementare correttamente identità digitale e sessioni</dt>
+            <dd>Autenticazione forte (MFA dove necessario), gestione sicura delle password (hashing con salt, mai in chiaro), token di sessione casuali e sufficientemente lunghi, scadenza delle sessioni inattive.</dd>
+
+            <dt>Controlli di accesso con default-deny</dt>
+            <dd>Se un utente non ha esplicitamente i permessi per un'azione, quell'azione viene negata. L'inverso (default-allow, con lista di blocchi) è molto più rischioso perché basta dimenticare un caso per aprire un varco.</dd>
+
+            <dt>Proteggere i dati a riposo e in transito</dt>
+            <dd>Crittografia per dati sensibili nel database, TLS per le comunicazioni. Nessun dato sensibile trasmesso in chiaro, nemmeno in reti interne considerate "sicure".</dd>
+
+            <dt>Logging e monitoraggio di sicurezza</dt>
+            <dd>Registrare eventi rilevanti (autenticazioni, errori, accessi a risorse sensibili) in un sistema centralizzato e protetto da manomissioni. I log sono inutili se non vengono monitorati attivamente.</dd>
+
+            <dt>Gestire errori ed eccezioni senza esporre informazioni</dt>
+            <dd>I messaggi di errore mostrati all'utente devono essere generici. I dettagli tecnici (stack trace, query SQL, path di sistema) vanno nei log interni, mai nelle risposte al client. Un errore dettagliato è un regalo per un attaccante in fase di reconnaissance.</dd>
+          </dl>
+
+          <!-- ─── API SECURITY ──────────────────────────────────── -->
+          <h3 id="api-security">Sicurezza delle API</h3>
+          <p>
+            Le <strong>API (Application Programming Interface)</strong> sono interfacce strutturate che permettono a client,
+            server e applicazioni di scambiarsi richieste e risposte. Sono il meccanismo su cui si basano microservizi,
+            applicazioni mobile, integrazioni cloud e automazione. Proprio perché sono punti di integrazione progettati per
+            essere accessibili, possono diventare punti critici di esposizione se non protetti adeguatamente.
+          </p>
+
+          <dl class="termlist">
+            <dt>Autenticazione e autorizzazione delle API</dt>
+            <dd>Ogni richiesta API deve provenire da un'identità verificata (API key, OAuth 2.0, JWT firmato). L'autenticazione conferma chi fa la richiesta; l'autorizzazione determina cosa quella richiesta può fare. Molte API esposte pubblicamente sono vulnerabili perché mancano di uno dei due controlli o entrambi.</dd>
+
+            <dt>Rate limiting</dt>
+            <dd>Limitare il numero di richieste per unità di tempo protegge contro scraping, brute force sulle credenziali e abuso del servizio. Senza rate limiting, un attaccante può testare milioni di credenziali o estrarre un intero database tramite API.</dd>
+
+            <dt>Scope limitato dei dati esposti</dt>
+            <dd>Un'API dovrebbe restituire solo i dati necessari per la funzionalità richiesta, non l'intero oggetto del database. Il problema dell'"Excessive Data Exposure" è molto comune: l'API restituisce campi sensibili (email, token, dati privati) che il client non usa ma che un attaccante può intercettare.</dd>
+
+            <dt>Validazione dell'input e dell'output</dt>
+            <dd>Identici principi del secure coding si applicano alle API: input non validato porta a injection, output non codificato porta a XSS o information disclosure.</dd>
+
+            <dt>Protezione del canale e del server</dt>
+            <dd>TLS obbligatorio per tutte le comunicazioni API (mai HTTP in chiaro). Il server che ospita l'API deve essere configurato e hardenato come qualsiasi altro server di produzione.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-B</strong> — Nelle domande su API security, l'esame testa soprattutto la combinazione autenticazione + autorizzazione + rate limiting. Se uno scenario descrive un'API accessibile senza credenziali o che restituisce dati di altri utenti con una semplice modifica dell'ID, la vulnerabilità è IDOR (Insecure Direct Object Reference) o "missing authentication".
+          </div>
+
+          <!-- ─── INPUT VALIDATION ──────────────────────────────── -->
+          <h3 id="input-validation">Input validation</h3>
+          <p>
+            La <strong>validazione dell'input</strong> è il controllo più fondamentale nella sicurezza applicativa. Il principio
+            è semplice ma potente: ogni dato che proviene dall'esterno dell'applicazione — dall'utente, da un'altra API, da
+            un file, persino da un database — deve essere considerato <em>non attendibile</em> fino a prova contraria. L'applicazione
+            deve verificare che l'input rispetti esattamente il formato atteso prima di elaborarlo, passarlo ad altri sistemi
+            o inserirlo in un database.
+          </p>
+          <p>
+            La validazione lato client (JavaScript nel browser) è utile per l'esperienza utente ma è <strong>completamente
+            bypassabile</strong> da un attaccante: può essere disabilitata nel browser o aggirata inviando richieste HTTP dirette
+            al server. La validazione di sicurezza deve sempre avvenire <strong>lato server</strong>.
+          </p>
+
+          <dl class="termlist">
+            <dt>Allow list (whitelist)</dt>
+            <dd>Approccio più robusto: si definisce esplicitamente quale input è consentito (formato, lunghezza, caratteri ammessi, range di valori). Tutto ciò che non corrisponde viene rifiutato. Esempio: un campo "età" accetta solo interi tra 0 e 150; qualunque altro valore viene bloccato prima dell'elaborazione.</dd>
+
+            <dt>Deny list (blacklist)</dt>
+            <dd>Si elencano i pattern o i caratteri considerati pericolosi e li si blocca. È meno robusta della allow list perché richiede di conoscere e prevedere tutti i possibili input malevoli. Gli attaccanti trovano costantemente nuovi modi per aggirare i filtri: caratteri unicode equivalenti, encoding alternativo, combinazioni non previste.</dd>
+
+            <dt>Parameter pollution</dt>
+            <dd>Tecnica offensiva che invia lo stesso parametro più volte in una richiesta (es. <code>?id=1&amp;id=2</code>). Se l'applicazione valida il primo valore ma usa il secondo, l'attaccante supera il filtro. La difesa è gestire esplicitamente i parametri duplicati.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio — Allow list vs Deny list:</strong><br>
+            Deny list: blocco <code>&lt;script&gt;</code>, <code>DROP TABLE</code>, <code>OR 1=1</code>. Problema: un attaccante usa <code>&lt;ScRiPt&gt;</code>, <code>DR​OP​ TA​BLE</code> (con spazi zero-width), <code>OR 0x31=0x31</code>.<br>
+            Allow list: il campo username accetta solo <code>[a-zA-Z0-9_]</code>, lunghezza 3-20. Qualunque altro input viene rifiutato a prescindere da come è codificato. Molto più difficile da aggirare.
+          </div>
+
+          <!-- ─── SECURE COOKIES ────────────────────────────────── -->
+          <h3 id="secure-cookies">Secure cookies</h3>
+          <p>
+            I <strong>cookie</strong> sono piccoli file di testo memorizzati nel browser che le applicazioni web usano per
+            mantenere lo stato della sessione tra una richiesta HTTP e la successiva. Dopo il login, il server genera un
+            identificatore di sessione unico e lo invia al browser come cookie; il browser lo include in ogni richiesta
+            successiva. Se un attaccante ruba quel cookie, può impersonare l'utente senza conoscerne la password
+            (attacco di <em>session hijacking</em>).
+          </p>
+
+          <dl class="termlist">
+            <dt>Attributo Secure</dt>
+            <dd>Istruisce il browser a trasmettere il cookie <em>solo</em> su connessioni HTTPS. Se la connessione è HTTP (non cifrata), il cookie viene trattenuto. Previene la cattura del cookie durante un attacco on-path su una connessione in chiaro.</dd>
+
+            <dt>Attributo HttpOnly</dt>
+            <dd>Impedisce a JavaScript in esecuzione nella pagina di accedere al cookie tramite <code>document.cookie</code>. Questo mitiga gli attacchi XSS che tentano di esfiltrare il cookie di sessione iniettando codice client-side.</dd>
+
+            <dt>Attributo SameSite</dt>
+            <dd>Controlla quando il browser include il cookie nelle richieste cross-site. Con <code>SameSite=Strict</code>, il cookie viene inviato solo nelle richieste originate dallo stesso sito, rendendo molto più difficili gli attacchi CSRF.</dd>
+
+            <dt>Durata e scadenza</dt>
+            <dd>I cookie di sessione dovrebbero scadere dopo un periodo di inattività ragionevole. Cookie con scadenza molto lunga (o senza scadenza) aumentano la finestra temporale di sfruttamento in caso di furto.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Attributo</th><th>Protegge da</th><th>Come funziona</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Secure</td>
+                <td>Intercettazione su HTTP</td>
+                <td>Cookie trasmesso solo su HTTPS</td>
+              </tr>
+              <tr>
+                <td class="label">HttpOnly</td>
+                <td>Furto via JavaScript (XSS)</td>
+                <td>Cookie non accessibile da <code>document.cookie</code></td>
+              </tr>
+              <tr>
+                <td class="label">SameSite=Strict</td>
+                <td>CSRF (richieste cross-site)</td>
+                <td>Cookie inviato solo in richieste stesso sito</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ─── SAST / DAST ───────────────────────────────────── -->
+          <h3 id="sast-dast">Analisi del codice: SAST, DAST e Fuzzing</h3>
+          <p>
+            Anche i team di sviluppo più competenti producono codice con difetti. I test di sicurezza devono essere parte
+            normale del ciclo di vita, integrati nella pipeline, non opzionali. SAST e DAST sono tecniche complementari:
+            nessuna delle due è sufficiente da sola.
+          </p>
+
+          <dl class="termlist">
+            <dt>Static Application Security Testing (SAST) — Analisi statica</dt>
+            <dd>Esamina il codice sorgente, il bytecode o il binario <em>senza eseguirlo</em>. Può essere eseguita su codice incompleto e integrata direttamente nell'IDE o nella pipeline CI. Identifica problemi logici, pattern di codice vulnerabili (uso di funzioni insicure, concatenazione di query SQL), errori di gestione degli errori, dipendenze con CVE noti. Produce falsi positivi che richiedono revisione umana. Esempi di strumenti: SonarQube, Checkmarx, Semgrep.</dd>
+
+            <dt>Dynamic Application Security Testing (DAST) — Analisi dinamica</dt>
+            <dd>Esegue l'applicazione e la testa con richieste reali, osservando il comportamento dall'esterno come farebbe un attaccante. Non richiede accesso al codice sorgente (<em>black-box</em>). Identifica vulnerabilità che emergono solo a runtime: XSS, SQLi nelle risposte HTTP, problemi di autenticazione, header di sicurezza mancanti, redirect non validati. Esempi: OWASP ZAP, Burp Suite.</dd>
+
+            <dt>Fuzzing</dt>
+            <dd>Invia input casuali, malformati o inattesi all'applicazione per osservare se si arresta, genera errori non gestiti o si comporta in modo anomalo. Particolarmente efficace per trovare buffer overflow, problemi di parsing, crash per input non previsti. Non garantisce copertura completa del codice ma trova vulnerabilità che test manuali spesso trascurano.</dd>
+
+            <dt>Package monitoring</dt>
+            <dd>Le dipendenze di terze parti (librerie, framework, SDK) introducono codice di cui l'organizzazione non controlla la qualità. Il package monitoring traccia costantemente le dipendenze in uso, verifica la presenza di CVE noti e avvisa quando un aggiornamento di sicurezza è disponibile. Strumenti: Snyk, Dependabot, OWASP Dependency-Check.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Tecnica</th><th>Quando si esegue</th><th>Cosa trova bene</th><th>Limitazione principale</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">SAST</td>
+                <td>Durante sviluppo, CI</td>
+                <td>Pattern di codice vulnerabili, logica errata</td>
+                <td>Falsi positivi, non vede il comportamento runtime</td>
+              </tr>
+              <tr>
+                <td class="label">DAST</td>
+                <td>Staging, produzione</td>
+                <td>Vulnerabilità reali a runtime, XSS, SQLi</td>
+                <td>Richiede applicazione in esecuzione, accesso limitato al codice</td>
+              </tr>
+              <tr>
+                <td class="label">Fuzzing</td>
+                <td>Testing intensivo</td>
+                <td>Crash, buffer overflow, parsing errors</td>
+                <td>Non copre logica complessa, alta rumorosità</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — SAST vs DAST:</strong> l'esame distingue chiaramente le due tecniche. SAST = codice <em>non in esecuzione</em>, DAST = applicazione <em>in esecuzione</em>. Una domanda tipica: "un analista vuole testare il codice sorgente prima del deploy senza avere un ambiente di test disponibile" → SAST. "Un analista vuole simulare un attacco reale su un'applicazione già deployata" → DAST.
+          </div>
+
+          <!-- ─── CODE SIGNING ──────────────────────────────────── -->
+          <h3 id="code-signing">Code signing</h3>
+          <p>
+            La <strong>firma del codice</strong> usa crittografia a chiave pubblica per garantire due proprietà fondamentali
+            sul software distribuito: <em>autenticità</em> (il codice proviene davvero dallo sviluppatore dichiarato) e
+            <em>integrità</em> (il codice non è stato modificato dopo la firma). Lo sviluppatore firma il software con la
+            propria chiave privata; il sistema operativo, il browser o il gestore di pacchetti verifica la firma con la
+            chiave pubblica corrispondente prima dell'esecuzione.
+          </p>
+          <p>
+            La firma del codice è una difesa essenziale contro due categorie di attacchi: i <strong>malicious update</strong>
+            (aggiornamenti di software legittimo che contengono malware, intercettati nella supply chain) e la distribuzione
+            di <strong>software contraffatto</strong> che si spaccia per un'applicazione fidata.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Code signing in pratica:</strong> quando scarichi un eseguibile firmato su Windows, il sistema operativo verifica la firma digitale del publisher. Se la firma è valida e il publisher è in un elenco fidato, Windows mostra solo un avviso; se la firma è assente o non valida, mostra un avviso di sicurezza molto più severo. Allo stesso modo, i gestori di pacchetti come apt (Linux) verificano le firme GPG dei repository prima di installare qualsiasi pacchetto.
+          </div>
+
+          <!-- ─── SANDBOXING ────────────────────────────────────── -->
+          <h3 id="sandboxing">Sandboxing</h3>
+          <p>
+            Il <strong>sandboxing</strong> consiste nell'eseguire un'applicazione (o un componente di essa) in un ambiente
+            isolato e controllato, con accesso limitato alle risorse del sistema operativo, al filesystem, alla rete e ad altre
+            applicazioni. L'obiettivo è contenere l'impatto di un comportamento malevolo o di una vulnerabilità sfruttata:
+            anche se l'applicazione viene compromessa, il danno rimane confinato all'interno della sandbox.
+          </p>
+
+          <dl class="termlist">
+            <dt>Sandbox per testing</dt>
+            <dd>Ambiente isolato usato per analizzare file o programmi sospetti senza rischiare di infettare il sistema reale. Molto usato nell'analisi del malware e nel testing di applicazioni non fidate.</dd>
+
+            <dt>Sandbox nei browser</dt>
+            <dd>I browser moderni eseguono ogni tab in un processo separato con permessi ridotti. Se una tab viene compromessa da codice malevolo, la sandbox impedisce l'accesso alle altre tab e al sistema operativo.</dd>
+
+            <dt>Containerization come sandboxing</dt>
+            <dd>I container (Docker, ecc.) isolano le applicazioni e le loro dipendenze. Se un container viene compromesso, l'attaccante deve superare un ulteriore livello di isolamento per raggiungere l'host o altri container.</dd>
+
+            <dt>Sandboxing nelle email</dt>
+            <dd>I gateway di sicurezza email eseguono allegati sospetti in ambienti sandboxed per osservare il comportamento prima di consegnarli all'utente. Un allegato che tenta di modificare il registro, creare processi nascosti o connettersi a C2 viene identificato come malevolo.</dd>
+          </dl>
+
+          <!-- ─── MONITORING ────────────────────────────────────── -->
+          <h3 id="monitoring-app">Monitoring applicativo</h3>
+          <p>
+            Il <strong>monitoring</strong> è la pratica di osservare continuamente il comportamento delle applicazioni in
+            produzione per rilevare anomalie, errori e potenziali attività malevole. Un'applicazione non monitorata può essere
+            compromessa per settimane senza che nessuno se ne accorga. Il monitoring chiude il ciclo: progettare, sviluppare,
+            testare e poi <em>osservare</em>.
+          </p>
+          <p>
+            Per le applicazioni web, gli eventi di interesse includono: tentativi di autenticazione falliti, accessi ad endpoint
+            insoliti, richieste con payload anomali (potenziali SQLi o XSS), errori HTTP 5xx frequenti (possibile fuzzing o DoS),
+            picchi improvvisi di traffico e accessi da IP geograficamente insoliti.
+          </p>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 2.3 parziale
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-2-3">
+          <h2>Obiettivo 2.3 parziale — Vulnerabilità applicative e web</h2>
+          <p>
+            Le vulnerabilità applicative nascono da errori di progettazione, implementazione o configurazione che un attaccante
+            può sfruttare per compromettere l'applicazione o il sistema sottostante. L'obiettivo 2.3 chiede di conoscere
+            le categorie principali: vulnerabilità di memoria, problemi di timing, rischi legati agli aggiornamenti e le
+            due grandi famiglie di vulnerabilità web (SQLi e XSS).
+          </p>
+
+          <!-- ─── MEMORY INJECTION ──────────────────────────────── -->
+          <h3 id="memory-injection">Memory injection</h3>
+          <p>
+            La <strong>memory injection</strong> è una tecnica con cui codice malevolo viene inserito nello spazio di memoria
+            di un processo legittimo già in esecuzione. L'obiettivo è far eseguire codice arbitrario sotto l'identità e i
+            privilegi del processo target, aggirando così molti controlli basati su firma, reputazione o whitelist dei processi.
+          </p>
+          <p>
+            Dal punto di vista difensivo, la memory injection è difficile da rilevare perché il codice malevolo non appare
+            sul disco come file separato: esiste solo in memoria. Le difese includono soluzioni EDR (Endpoint Detection and
+            Response) con capacità di analisi comportamentale in memoria, controlli di integrità dei processi e tecnologie
+            come DEP (Data Execution Prevention) e ASLR (Address Space Layout Randomization) che rendono più difficile
+            individuare e sfruttare aree di memoria specifiche.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio — DLL injection:</strong> un attaccante che ha già accesso a un sistema (es. via phishing + malware) usa CreateRemoteThread per inserire una DLL malevola nel processo di un browser legittimo (chrome.exe). Il browser ora esegue codice dell'attaccante con i propri privilegi e la propria connessione di rete, rendendo difficile la detection perché tutto appare come normale traffico del browser.
+          </div>
+
+          <!-- ─── BUFFER OVERFLOW ───────────────────────────────── -->
+          <h3 id="buffer-overflow">Buffer overflow</h3>
+          <p>
+            Un <strong>buffer overflow</strong> si verifica quando un programma scrive più dati di quanti un'area di memoria
+            (buffer) possa contenere. Il problema nasce principalmente nei linguaggi come C e C++ che non eseguono automaticamente
+            la verifica dei limiti degli array. I dati in eccesso sovrascrivono aree di memoria adiacenti, che possono contenere
+            variabili, puntatori o — nel caso più critico — l'indirizzo di ritorno di una funzione sullo stack.
+          </p>
+          <p>
+            Se un attaccante controlla l'input che causa l'overflow, può sovrascrivere l'indirizzo di ritorno con l'indirizzo
+            di codice malevolo (shellcode) inserito nello stesso buffer. Al termine della funzione, il programma "salta" al
+            codice dell'attaccante invece di tornare al chiamante. Il risultato è l'esecuzione di codice arbitrario con i
+            privilegi del processo vulnerabile.
+          </p>
+
+          <dl class="termlist">
+            <dt>Stack buffer overflow</dt>
+            <dd>Il buffer è allocato nello stack. La sovrascrittura dell'indirizzo di ritorno è il caso classico. Molto studiato e con molte difese (canary values, ASLR, DEP/NX bit).</dd>
+
+            <dt>Heap buffer overflow</dt>
+            <dd>Il buffer è allocato nell'heap (memoria dinamica). Più difficile da sfruttare rispetto allo stack overflow ma permette di corrompere strutture dati e metadati dell'heap usati internamente dal gestore della memoria.</dd>
+
+            <dt>Integer overflow</dt>
+            <dd>Variante in cui un'operazione aritmetica produce un risultato troppo grande per il tipo intero usato (es. un intero a 16 bit che raggiunge 65535 e "ritorna" a 0). Se questo valore viene poi usato come dimensione di un buffer da allocare, il buffer sarà troppo piccolo per i dati che si prevede di inserirvi, causando un overflow.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-A</strong> — Buffer overflow e memory injection sono distinti. Il buffer overflow sfrutta un errore di bounds-checking nel codice; la memory injection è una tecnica di attacco che inietta codice in processi già in esecuzione. L'esame può proporre scenari in cui si deve identificare quale delle due è più rilevante.
+          </div>
+
+          <!-- ─── RACE CONDITIONS ───────────────────────────────── -->
+          <h3 id="race-conditions">Race conditions e TOCTTOU</h3>
+          <p>
+            Una <strong>race condition</strong> è una vulnerabilità che emerge quando il comportamento di un sistema dipende
+            dalla sequenza temporale di eventi concorrenti, e quella sequenza può essere manipolata. Se due processi accedono
+            alla stessa risorsa senza meccanismi di sincronizzazione adeguati, i risultati dipendono da chi "arriva prima",
+            e questo può essere sfruttato da un attaccante.
+          </p>
+          <p>
+            Il caso più importante per l'esame è il <strong>TOCTTOU (Time-of-Check to Time-of-Use)</strong>: una vulnerabilità
+            in cui un sistema verifica una condizione di sicurezza (es. controlla se un utente ha il permesso di aprire un file)
+            e poi usa la risorsa corrispondente, ma tra il controllo e l'uso c'è abbastanza tempo per modificare la risorsa.
+          </p>
+
+          <dl class="termlist">
+            <dt>TOC — Time of Check</dt>
+            <dd>Il momento in cui il sistema esegue la verifica di sicurezza (es. controlla i permessi del file, verifica il token di sessione, valida l'input).</dd>
+
+            <dt>TOU — Time of Use</dt>
+            <dd>Il momento in cui il sistema usa effettivamente la risorsa o esegue l'operazione (es. apre il file, esegue la transazione, processa l'input).</dd>
+
+            <dt>TOCTTOU attack</dt>
+            <dd>L'attaccante sfrutta la finestra temporale tra TOC e TOU per sostituire la risorsa controllata con una diversa. Il sistema ha verificato la risorsa legittima ma opera su quella malevola. Esempio classico: un programma verifica che un symlink punti a un file sicuro, ma tra il check e l'apertura l'attaccante lo reindirizza a <code>/etc/passwd</code>.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio — TOCTTOU in un sistema bancario:</strong> un'applicazione verifica il saldo disponibile prima di autorizzare un bonifico (TOC). Se due richieste di bonifico arrivano simultaneamente, entrambe trovano saldo sufficiente prima che una delle due lo sottragga (TOU). Entrambe vengono autorizzate, causando un deficit. Questo è un caso di race condition non direttamente legato a sicurezza esterna, ma sfruttabile per frode.
+          </div>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — TOCTTOU vs Buffer Overflow:</strong> entrambi sono vulnerabilità di tipo applicativo in 2.3, ma hanno cause completamente diverse. Buffer overflow = errore di gestione della memoria (troppi dati scritti). TOCTTOU = errore di sincronizzazione temporale (la condizione verificata cambia prima dell'uso). Le difese sono diverse: per il buffer overflow si usano bounds checking e protezioni di memoria; per TOCTTOU si usano operazioni atomiche e locking delle risorse.
+          </div>
+
+          <!-- ─── MALICIOUS UPDATE ──────────────────────────────── -->
+          <h3 id="malicious-update">Malicious update</h3>
+          <p>
+            Un <strong>malicious update</strong> è un aggiornamento software legittimo nel formato ma contenente codice malevolo,
+            distribuito attraverso i normali canali di aggiornamento. È una delle forme più pericolose di attacco perché
+            sfrutta la fiducia dell'utente e del sistema operativo verso il meccanismo di aggiornamento: l'utente è spesso
+            <em>incoraggiato</em> a installare aggiornamenti, e molti sistemi lo fanno in modo automatico.
+          </p>
+          <p>
+            I malicious update rientrano nella categoria degli attacchi alla <strong>supply chain</strong>: l'attaccante
+            compromette la catena di distribuzione del software invece di attaccare direttamente l'obiettivo finale. Esempi
+            storici includono SolarWinds (2020), dove gli aggiornamenti legittimi di una piattaforma IT furono compromessi
+            distribuendo backdoor a migliaia di organizzazioni.
+          </p>
+
+          <dl class="termlist">
+            <dt>Update hijacking</dt>
+            <dd>L'attaccante intercetta il canale di aggiornamento (es. tramite DNS spoofing o attacco on-path) e sostituisce il file di aggiornamento legittimo con uno malevolo. La difesa è la firma del codice: se l'update è firmato, il client verifica la firma prima dell'installazione.</dd>
+
+            <dt>Compromissione del server di distribuzione</dt>
+            <dd>L'attaccante viola il server da cui vengono distribuiti gli aggiornamenti e inserisce codice malevolo negli update prima che vengano firmati, oppure sostituisce i file già firmati con versioni compromesse.</dd>
+
+            <dt>Typosquatting nei repository di pacchetti</dt>
+            <dd>L'attaccante pubblica pacchetti con nomi simili a librerie popolari (es. <code>requessts</code> invece di <code>requests</code> per Python). Sviluppatori che commettono un refuso nel comando di installazione installano il pacchetto malevolo.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-B</strong> — Il malicious update è una vulnerabilità di categoria "Application — Supply Chain". La difesa principale è la <em>code signing</em> (firma del codice): il sistema verifica la firma prima di installare qualsiasi aggiornamento. Se uno scenario descrive un aggiornamento automatico che installa malware, il controllo mancante è quasi sempre la verifica della firma digitale.
+          </div>
+
+          <!-- ─── SQL INJECTION ─────────────────────────────────── -->
+          <h3 id="sqli">SQL Injection (SQLi)</h3>
+          <p>
+            La <strong>SQL Injection</strong> è una delle vulnerabilità web più diffuse e pericolose. Si verifica quando
+            un'applicazione costruisce query SQL concatenando direttamente l'input dell'utente senza una separazione netta
+            tra codice e dati. L'attaccante può così inserire frammenti di SQL nell'input, alterando la struttura della query
+            e modificando radicalmente il comportamento del database.
+          </p>
+          <p>
+            Il meccanismo fondamentale: se un campo di login costruisce la query come
+            <code>"SELECT * FROM users WHERE username='" + input + "'"</code>
+            e l'utente inserisce <code>admin'--</code>, la query diventa
+            <code>SELECT * FROM users WHERE username='admin'--'</code>
+            dove <code>--</code> è il commento SQL che annulla il controllo della password. L'attaccante accede come admin
+            senza conoscere la password.
+          </p>
+
+          <dl class="termlist">
+            <dt>In-band SQLi</dt>
+            <dd>Il risultato dell'attacco è visibile direttamente nella risposta dell'applicazione. L'attaccante può estrarre dati dal database e vederli restituiti nella pagina o nell'API response.</dd>
+
+            <dt>Blind SQLi — Content-based</dt>
+            <dd>L'applicazione non mostra direttamente i risultati del database, ma il suo comportamento cambia in base a condizioni vere o false. L'attaccante fa domande booleane al database (es. "il primo carattere della password è 'a'?") e deduce la risposta dal contenuto della pagina (risultati presenti vs risultati assenti).</dd>
+
+            <dt>Blind SQLi — Time-based</dt>
+            <dd>L'applicazione non cambia il contenuto ma l'attaccante misura il tempo di risposta. Se inietta una condizione come <code>IF(1=1, SLEEP(5), 0)</code> e la risposta arriva dopo 5 secondi, la condizione era vera. Usato quando nemmeno il comportamento della pagina cambia.</dd>
+
+            <dt>Out-of-band SQLi</dt>
+            <dd>I risultati vengono esfiltrati su un canale diverso dalla richiesta HTTP (es. tramite DNS lookup o richieste HTTP verso un server controllato dall'attaccante). Meno comune ma efficace quando gli altri metodi non funzionano.</dd>
+          </dl>
+
+          <h4>Difese contro SQLi</h4>
+          <dl class="termlist">
+            <dt>Query parametrizzate (prepared statements)</dt>
+            <dd>La struttura della query viene compilata <em>prima</em> che i valori dell'utente vengano inseriti. Il database tratta i parametri come dati puri, mai come codice SQL, indipendentemente dal loro contenuto. È la difesa principale e più efficace.</dd>
+
+            <dt>Stored procedure</dt>
+            <dd>Procedure SQL predefinite nel database che accettano parametri. Se correttamente implementate, separano dati e logica SQL e riducono il rischio di injection.</dd>
+
+            <dt>Principio del privilegio minimo per il DB</dt>
+            <dd>L'account applicativo nel database dovrebbe avere solo i permessi strettamente necessari. Un'applicazione che legge dati non dovrebbe avere permessi DROP TABLE o CREATE USER.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Prepared statement in Python:</strong><br>
+            <code>
+              Vulnerabile: cursor.execute("SELECT * FROM users WHERE id=" + user_id)<br>
+              Sicuro: cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+            </code><br>
+            Nel secondo caso, anche se <code>user_id</code> contiene <code>1 OR 1=1</code>, il database lo tratta come valore letterale del parametro, non come codice SQL.
+          </div>
+
+          <!-- ─── XSS ───────────────────────────────────────────── -->
+          <h3 id="xss">Cross-Site Scripting (XSS)</h3>
+          <p>
+            Il <strong>Cross-Site Scripting (XSS)</strong> è una vulnerabilità in cui un'applicazione web include nella
+            propria risposta HTML codice fornito dall'utente senza eseguire correttamente l'escape. Il browser della vittima
+            riceve la pagina e, non sapendo che parte del contenuto è malevolo, esegue lo script come se provenisse dal sito
+            fidato. L'attaccante può così rubare cookie di sessione, reindirizzare l'utente, modificare il DOM della pagina
+            o eseguire qualsiasi azione che JavaScript può compiere nel contesto di quel sito.
+          </p>
+
+          <dl class="termlist">
+            <dt>Reflected XSS (non-persistente)</dt>
+            <dd>Il payload dell'attaccante viene inserito in un parametro della richiesta HTTP (es. un campo di ricerca o un parametro URL) e viene immediatamente "riflesso" nella risposta. L'utente deve cliccare su un link malevolo per attivare l'attacco. Il payload non è memorizzato sul server: ogni vittima deve ricevere il link appositamente costruito.</dd>
+
+            <dt>Stored XSS (persistente)</dt>
+            <dd>Il payload viene salvato sul server (es. in un commento, un post, un campo profilo) e viene restituito a chiunque visualizzi quella risorsa. È più pericoloso del reflected XSS perché colpisce automaticamente tutti gli utenti che visitano la pagina, senza che l'attaccante debba inviare loro un link.</dd>
+
+            <dt>DOM-based XSS</dt>
+            <dd>Il payload viene processato dal JavaScript client-side, modificando il DOM della pagina senza passare dal server. La risposta HTTP del server è "innocente", ma il JavaScript della pagina legge parametri dall'URL o da altre sorgenti e li inserisce nel DOM senza sanitizzazione.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Tipo</th><th>Dove viene memorizzato il payload</th><th>Come raggiunge la vittima</th><th>Persistenza</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Reflected</td>
+                <td>Non memorizzato (solo nella richiesta)</td>
+                <td>Vittima clicca link malevolo</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td class="label">Stored</td>
+                <td>Database del server</td>
+                <td>Chiunque visualizza la risorsa infetta</td>
+                <td>Sì</td>
+              </tr>
+              <tr>
+                <td class="label">DOM-based</td>
+                <td>Non memorizzato</td>
+                <td>JavaScript client-side processa input non sanificato</td>
+                <td>No</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Difese contro XSS</h4>
+          <dl class="termlist">
+            <dt>Output encoding / HTML escaping</dt>
+            <dd>Prima di inserire qualsiasi dato fornito dall'utente nell'HTML, eseguire l'escape dei caratteri speciali: <code>&lt;</code> → <code>&amp;lt;</code>, <code>&gt;</code> → <code>&amp;gt;</code>, <code>"</code> → <code>&amp;quot;</code>. Il browser vede il testo ma non lo esegue come HTML.</dd>
+
+            <dt>Content Security Policy (CSP)</dt>
+            <dd>Header HTTP che specifica da quali sorgenti il browser può caricare script, stili e altri risorse. Anche se un attaccante inietta un tag <code>&lt;script&gt;</code>, il browser lo blocca se non è in una sorgente autorizzata dalla CSP.</dd>
+
+            <dt>Attributo HttpOnly sui cookie</dt>
+            <dd>Impedisce a JavaScript di leggere i cookie di sessione. Anche se l'XSS riesce, l'attaccante non può esfiltrare il cookie per il session hijacking.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — XSS vs SQLi:</strong> entrambi sono attacchi di injection, ma il target è diverso. SQLi inietta codice nel <em>database</em>; XSS inietta codice nel <em>browser della vittima</em>. SQLi compromette i dati sul server; XSS compromette la sessione o il browser dell'utente. Le difese sono diverse: SQLi → query parametrizzate; XSS → output encoding + CSP.
+          </div>
+
+          <!-- ─── ALTRI ATTACCHI ─────────────────────────────────── -->
+          <h3 id="altri-attacchi">Altri attacchi applicativi correlati</h3>
+          <p>
+            Oltre alle vulnerabilità esplicitamente in 2.3, l'esame testa la conoscenza di attacchi applicativi strettamente
+            correlati che completano il quadro della sicurezza applicativa.
+          </p>
+
+          <dl class="termlist">
+            <dt>Command injection</dt>
+            <dd>L'applicazione passa input dell'utente a una shell o a un sistema operativo senza sanitizzazione. L'attaccante può concatenare comandi aggiuntivi usando operatori shell come <code>;</code>, <code>&&</code>, <code>|</code>. Esempio: se un'app esegue <code>ping [host]</code> e l'utente inserisce <code>8.8.8.8; rm -rf /</code>, entrambi i comandi vengono eseguiti. La difesa è non passare mai input utente a una shell; usare API di sistema senza invocazione di shell.</dd>
+
+            <dt>Cross-Site Request Forgery (CSRF)</dt>
+            <dd>L'attaccante induce il browser di un utente autenticato a inviare una richiesta non intenzionale a un sito in cui è già autenticato. Sfrutta la fiducia del sito verso il browser dell'utente. Esempio: una pagina malevola contiene un'immagine con src puntante a <code>https://banca.it/trasferisci?importo=1000&amp;destinatario=attaccante</code>. Se l'utente è loggato alla banca, il browser invia la richiesta con i cookie di sessione validi. Difesa: token anti-CSRF e attributo SameSite sui cookie.</dd>
+
+            <dt>Server-Side Request Forgery (SSRF)</dt>
+            <dd>L'attaccante induce il <em>server</em> a fare richieste HTTP verso indirizzi che il client non potrebbe raggiungere direttamente. Se un'applicazione accetta un URL come input e fa una richiesta verso quell'URL, l'attaccante può indirizzare il server verso risorse interne (metadata cloud, servizi interni non esposti su internet). Frequente in ambienti cloud dove i metadata endpoint sono accessibili solo dall'interno.</dd>
+
+            <dt>Session hijacking</dt>
+            <dd>Furto e riuso di un cookie di sessione valido per impersonare un utente autenticato. Il cookie può essere rubato tramite XSS, intercettazione su connessione HTTP, malware nel browser. Una volta in possesso del cookie, l'attaccante lo usa in un proprio browser per agire come la vittima. Difese: HTTPS obbligatorio, attributo Secure sui cookie, scadenza delle sessioni.</dd>
+
+            <dt>Directory traversal</dt>
+            <dd>L'applicazione usa input utente per costruire un percorso del filesystem senza validare che rimanga all'interno della directory autorizzata. Usando sequenze come <code>../</code>, l'attaccante può uscire dalla web root e raggiungere file sensibili del sistema (<code>/etc/passwd</code>, file di configurazione, chiavi private). Difesa: validazione del percorso con canonicalizzazione, confinamento alla directory base (chroot, path traversal prevention nelle API).</dd>
+
+            <dt>Insecure Direct Object Reference (IDOR)</dt>
+            <dd>L'applicazione espone identificatori di oggetti interni (ID utente, ID documento, ID ordine) nelle richieste e non verifica se l'utente autenticato ha il diritto di accedere all'oggetto richiesto. Modificando <code>?docid=1234</code> in <code>?docid=1235</code>, un utente può accedere ai documenti di un altro utente. La causa è l'assenza di un controllo di autorizzazione a livello di oggetto.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 2.3-C</strong> — Per distinguere CSRF da SSRF: CSRF colpisce il <em>browser del client</em> (l'azione è eseguita dal browser autenticato della vittima); SSRF colpisce il <em>server</em> (il server fa richieste verso risorse interne per conto dell'attaccante). Nelle domande su CSRF la "fiducia" è del server verso il browser; nelle domande su SSRF la "fiducia" è delle risorse interne verso il server applicativo.
+          </div>
+
+          <table>
+            <thead>
+              <tr><th>Attacco</th><th>Meccanismo</th><th>Target</th><th>Difesa principale</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">SQLi</td>
+                <td>Injection nel DB via query</td>
+                <td>Database</td>
+                <td>Query parametrizzate</td>
+              </tr>
+              <tr>
+                <td class="label">XSS</td>
+                <td>Injection di script nel browser</td>
+                <td>Browser della vittima</td>
+                <td>Output encoding, CSP</td>
+              </tr>
+              <tr>
+                <td class="label">Command injection</td>
+                <td>Injection di comandi OS</td>
+                <td>Sistema operativo del server</td>
+                <td>Non usare shell, API sicure</td>
+              </tr>
+              <tr>
+                <td class="label">CSRF</td>
+                <td>Richiesta cross-site dal browser</td>
+                <td>Azione sul sito fidata come vittima</td>
+                <td>Token anti-CSRF, SameSite</td>
+              </tr>
+              <tr>
+                <td class="label">SSRF</td>
+                <td>Server fa richieste verso interni</td>
+                <td>Risorse interne del server</td>
+                <td>Validazione URL, allowlist di destinazioni</td>
+              </tr>
+              <tr>
+                <td class="label">IDOR</td>
+                <td>Accesso a oggetti altrui via ID</td>
+                <td>Dati di altri utenti</td>
+                <td>Controllo autorizzazione per oggetto</td>
+              </tr>
+              <tr>
+                <td class="label">Directory traversal</td>
+                <td>Path con <code>../</code> fuori dalla root</td>
+                <td>Filesystem del server</td>
+                <td>Canonicalizzazione e confinamento path</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>SDLC</strong> — Ciclo di vita del software: pianificazione, requisiti, progettazione, sviluppo, collaudo, transizione, manutenzione, smantellamento.</li>
+            <li><strong>DevSecOps</strong> — Estensione di DevOps che integra la sicurezza come responsabilità condivisa lungo tutta la pipeline di sviluppo e operations.</li>
+            <li><strong>SAST vs DAST</strong> — SAST analizza il codice <em>senza eseguirlo</em> (statico); DAST testa l'applicazione <em>in esecuzione</em> (dinamico). Tecniche complementari, non alternative.</li>
+            <li><strong>Input validation — Allow list</strong> — Approccio più robusto: definisce esplicitamente cosa è consentito e blocca tutto il resto, indipendentemente dall'encoding o dal formato del payload.</li>
+            <li><strong>Secure cookie — attributo Secure</strong> — Impedisce la trasmissione del cookie su HTTP non cifrato; previene intercettazione su connessioni in chiaro.</li>
+            <li><strong>Secure cookie — attributo HttpOnly</strong> — Blocca l'accesso al cookie da JavaScript; mitiga il furto del cookie di sessione via XSS.</li>
+            <li><strong>Code signing</strong> — Firma crittografica del software che verifica autenticità (chi ha prodotto il codice) e integrità (il codice non è stato alterato). Difesa principale contro malicious update.</li>
+            <li><strong>Sandboxing</strong> — Esecuzione isolata di un'applicazione con accesso limitato al sistema; contiene il danno in caso di compromissione.</li>
+            <li><strong>Memory injection</strong> — Inserimento di codice malevolo nello spazio di memoria di un processo legittimo già in esecuzione; il codice viene eseguito con i privilegi del processo target.</li>
+            <li><strong>Buffer overflow</strong> — Scrittura di dati oltre i limiti di un buffer di memoria; può sovrascrivere l'indirizzo di ritorno e redirigere l'esecuzione al codice dell'attaccante.</li>
+            <li><strong>TOCTTOU</strong> — Time-of-Check to Time-of-Use: la condizione di sicurezza verificata cambia tra il momento del controllo e il momento dell'uso, aprendo una finestra di exploit.</li>
+            <li><strong>Malicious update</strong> — Aggiornamento software legittimo nel formato ma contenente malware, distribuito attraverso i canali ufficiali di aggiornamento (supply chain attack).</li>
+            <li><strong>SQL Injection</strong> — Input utente inserito in query SQL senza separazione dati/codice; permette modifica delle query e accesso non autorizzato al database. Difesa: query parametrizzate.</li>
+            <li><strong>Blind SQLi</strong> — Variante in cui i risultati non sono visibili direttamente: content-based (comportamento della pagina) o time-based (ritardo nella risposta).</li>
+            <li><strong>XSS reflected</strong> — Payload nell'input riflesso immediatamente nella risposta; richiede che la vittima clicchi un link malevolo.</li>
+            <li><strong>XSS stored</strong> — Payload salvato sul server; colpisce automaticamente ogni utente che visualizza la risorsa infetta. Più pericoloso del reflected.</li>
+            <li><strong>CSRF</strong> — Cross-Site Request Forgery: il browser autenticato della vittima invia azioni non intenzionali al sito fidato. Difesa: token anti-CSRF + SameSite.</li>
+            <li><strong>SSRF</strong> — Server-Side Request Forgery: il server viene indotto a fare richieste verso risorse interne non accessibili dal client esterno.</li>
+            <li><strong>IDOR</strong> — Insecure Direct Object Reference: accesso a oggetti di altri utenti modificando identificatori esposti, senza verifica dell'autorizzazione.</li>
+            <li><strong>Directory traversal</strong> — Uso di sequenze <code>../</code> per uscire dalla directory autorizzata e accedere a file sensibili del filesystem.</li>
+          </ul>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="ch5_vulnerability_management_canonical.html" class="secondary">← CH5 — Vulnerability Management</a>
+          <a href="ch7_crittografia_pki_canonical.html">CH7 — Crittografia e PKI →</a>
+        </div>
+
+      </main><!-- /content -->
+    </div><!-- /layout -->
+
+  </div><!-- /page -->
+</div><!-- /container -->
+
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

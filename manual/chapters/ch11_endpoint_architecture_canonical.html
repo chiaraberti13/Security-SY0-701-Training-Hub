@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH11 — Architettura Endpoint e Asset Management · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>CH11 — Architettura Endpoint e Asset Management</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch11_endpoint_architecture_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch11_endpoint_architecture_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH11 — Architettura Endpoint e Asset Management</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 4 · Obiettivi 4.1 e 4.2
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">4.1</span>
+        <span class="objectives-tag">4.2</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Controlli e Governance</a> (categorie di controllo, change management) ·
+        <a href="ch10_cloud_virtualization_canonical.html">CH10 — Cloud e Virtualizzazione</a> (modelli cloud, shared responsibility).
+      </p>
+      <p><strong>Capitoli correlati:</strong>
+        <a href="ch11_endpoint_operations_hardening_canonical.html">CH11-D4 — Endpoint Operations</a> ·
+        <a href="ch12_network_architecture_canonical.html">CH12 — Architettura Rete</a> ·
+        <a href="ch13_wireless_mobile_canonical.html">CH13 — Wireless e Mobile</a> ·
+        <a href="ch16_governance_compliance_policy_canonical.html">CH16 — Governance e Compliance</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 4.1</div>
+        <a href="#obj-4-1">Tecniche di sicurezza</a>
+        <a href="#secure-baselines">↳ Secure Baselines</a>
+        <a href="#hardening-ws-server">↳ Workstation e Server</a>
+        <a href="#hardening-network">↳ Switch e Router</a>
+        <a href="#hardening-cloud">↳ Cloud Infrastructure</a>
+        <a href="#hardening-embedded">↳ Embedded e RTOS</a>
+        <a href="#hardening-ics">↳ ICS / SCADA</a>
+        <a href="#hardening-iot">↳ IoT</a>
+        <a href="#hardening-mobile">↳ Mobile e MDM</a>
+        <a href="#app-security">↳ Application Security</a>
+        <a href="#sandboxing-monitoring">↳ Sandboxing e Monitoring</a>
+
+        <div class="toc-section">Obiettivo 4.2</div>
+        <a href="#obj-4-2">Asset Management</a>
+        <a href="#acquisition">↳ Acquisition/Procurement</a>
+        <a href="#assignment">↳ Assignment e Accounting</a>
+        <a href="#asset-tracking">↳ Inventory e Enumeration</a>
+        <a href="#decommissioning">↳ Disposal e Decommissioning</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 4.1
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-4-1">
+          <h2>Obiettivo 4.1 — Tecniche di sicurezza sulle risorse di calcolo</h2>
+          <p>
+            Proteggere le risorse di calcolo significa intervenire sull'<strong>intera superficie d'attacco</strong>: non basta installare un antivirus su una workstation. L'obiettivo 4.1 copre l'approccio sistematico al rafforzamento dei sistemi, partendo dalla definizione di configurazioni sicure di riferimento fino all'hardening specifico per ogni categoria di dispositivo — workstation, server, dispositivi di rete, cloud, sistemi embedded, ICS/SCADA, IoT e dispositivi mobili — per concludere con la sicurezza applicativa e il monitoraggio continuo.
+          </p>
+          <p>
+            Il principio guida è la <strong>riduzione della superficie d'attacco</strong>: ogni servizio abilitato, porta aperta, account attivo o software installato che non è strettamente necessario costituisce un'opportunità per un attaccante. Hardening significa rimuovere sistematicamente tutto ciò che non serve, rafforzare ciò che rimane e verificare nel tempo che la configurazione non derivi dall'obiettivo.
+          </p>
+        </section>
+
+        <!-- ── SECURE BASELINES ──────────────────────────────────── -->
+        <section id="secure-baselines">
+          <h2>Secure Baselines — Establish, Deploy, Maintain</h2>
+          <p>
+            Una <strong>secure baseline</strong> (configurazione di base sicura) è un insieme documentato di impostazioni minime che un sistema deve rispettare per essere considerato accettabilmente sicuro nell'ambiente organizzativo. La baseline non è uno stato ideale irraggiungibile, ma uno standard operativo realistico, derivato da framework come CIS Benchmarks, DISA STIGs o NIST SP 800-70, e adattato al contesto specifico dell'azienda.
+          </p>
+          <p>
+            Definire una baseline senza distribuirla o mantenerla è inutile: il ciclo completo si articola in tre fasi obbligatorie che l'esame testa specificamente.
+          </p>
+
+          <dl class="termlist">
+            <dt>Establish (Definire)</dt>
+            <dd>La fase di definizione produce la configurazione di riferimento. Si selezionano le impostazioni di sicurezza appropriate al tipo di sistema (workstation Windows, server Linux, switch di rete…), si documentano i parametri richiesti (account abilitati, servizi attivi, criteri password, crittografia, log), e si approva la baseline attraverso il processo di change management. Il punto critico è che la baseline deve essere realistica: impostazioni troppo restrittive che vengono sistematicamente aggirate dagli utenti non proteggono nessuno.</dd>
+
+            <dt>Deploy (Distribuire)</dt>
+            <dd>La fase di distribuzione applica la baseline ai sistemi in produzione. Nei contesti enterprise questo avviene tramite strumenti di gestione della configurazione automatizzati: Group Policy Objects (GPO) per sistemi Windows, Ansible/Puppet/Chef per ambienti misti, immagini gold certificate per il provisioning di nuovi sistemi, o MDM per i dispositivi mobili. Il deployer deve verificare che ogni sistema accetti correttamente la configurazione e non ci siano conflitti con applicazioni esistenti.</dd>
+
+            <dt>Maintain (Mantenere)</dt>
+            <dd>La fase di mantenimento è la più operativa e la più continua. Include il monitoraggio della <strong>configuration drift</strong> — la deriva graduale dei sistemi dalla baseline per effetto di patch, aggiornamenti applicativi, interventi di supporto o modifiche non autorizzate — e la rimediazione automatica o manuale quando uno scostamento viene rilevato. Include anche la revisione periodica della baseline stessa: una configurazione definita due anni fa potrebbe non essere più adeguata contro le minacce correnti.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Baseline per workstation Windows aziendali:</strong> il team security definisce che tutte le workstation devono avere: SMBv1 disabilitato, PowerShell in ConstrainedLanguageMode, AutoRun disabilitato, BitLocker attivo, Windows Defender con cloud protection, account Guest disabilitato, lunghezza password minima 12 caratteri, screensaver con lock dopo 5 minuti. La baseline viene distribuita via GPO e verificata settimanalmente con Microsoft Defender for Endpoint. Quando un sistema mostra una deviazione (es. AutoRun abilitato dopo un aggiornamento di driver), l'alert viene generato automaticamente e la policy viene riapplicata.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-A</strong> — Nelle domande scenario l'esame chiede spesso <em>quale fase del ciclo baseline</em> è stata omessa. Se un'azienda ha una policy ben scritta ma i sistemi non la rispettano → manca Deploy. Se i sistemi inizialmente rispettavano la policy ma nel tempo si sono discostati → manca Maintain. Se non esiste alcun documento di riferimento → manca Establish.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — Baseline vs Benchmark:</strong> un <em>benchmark</em> (es. CIS Benchmark) è un documento di raccomandazioni generali prodotto da un ente terzo. Una <em>baseline</em> è la configurazione specifica che l'organizzazione ha scelto di adottare, derivata dal benchmark ma adattata al proprio contesto. L'esame usa entrambi i termini: il benchmark è la fonte, la baseline è il risultato interno.
+          </div>
+        </section>
+
+        <!-- ── HARDENING WORKSTATION E SERVER ────────────────────── -->
+        <section id="hardening-ws-server">
+          <h2>Hardening — Workstation e Server</h2>
+          <p>
+            Workstation e server sono i target di hardening più classici perché eseguono sistemi operativi general-purpose con una superficie d'attacco ampia. La differenza tra i due non è solo di potenza: i server ospitano servizi critici accessibili in rete, mentre le workstation sono gestite da utenti finali e sono quindi esposte a vettori di attacco legati al comportamento umano (phishing, download, dispositivi USB). Il processo di hardening deve tenere conto di queste diversità.
+          </p>
+
+          <h3>Hardening workstation</h3>
+          <dl class="termlist">
+            <dt>Rimozione del software non necessario</dt>
+            <dd>Ogni applicazione installata è una potenziale vulnerabilità. Il principio è semplice: se non è necessario per il ruolo lavorativo dell'utente, va rimosso. Questo include game preinstallati, applicazioni di terze parti non autorizzate, tool di sviluppo su macchine di utenti non tecnici, componenti aggiuntivi del browser. Meno software significa meno patch da gestire, meno vettori di attacco e meno probabilità di configurazioni errate.</dd>
+
+            <dt>Disabilitazione dei servizi non necessari</dt>
+            <dd>I sistemi operativi moderni avviano numerosi servizi in background per funzionalità raramente usate in contesti aziendali (ad es. Routing and Remote Access, Telnet Client, SNMP Service, Remote Registry su Windows). Ogni servizio attivo è una porta potenziale verso il sistema. L'hardening richiede una revisione sistematica dei servizi in esecuzione e la disabilitazione di quelli non giustificati da esigenze operative documentate.</dd>
+
+            <dt>Gestione degli account locali</dt>
+            <dd>L'account Administrator locale di Windows e l'account root di Linux sono bersagli di attacchi brute force e pass-the-hash. Le best practice prevedono: disabilitazione o rinomina dell'account Administrator built-in, utilizzo di strumenti come Microsoft LAPS (Local Administrator Password Solution) per randomizzare le password locali, e applicazione del principio del privilegio minimo per tutti gli account utente.</dd>
+
+            <dt>Group Policy e SELinux</dt>
+            <dd>Nei contesti Windows, i <strong>Group Policy Objects (GPO)</strong> permettono di distribuire centralmente impostazioni di sicurezza: criteri password, limitazioni al Registro di sistema, restrizioni software, configurazione del firewall host-based, e policy per dispositivi rimovibili. Nei sistemi Linux, <strong>SELinux (Security-Enhanced Linux)</strong> implementa il MAC (Mandatory Access Control): anche se un processo viene compromesso, non può accedere a risorse al di fuori del proprio dominio SELinux, limitando drasticamente il danno laterale.</dd>
+
+            <dt>Crittografia del disco</dt>
+            <dd>La <strong>Full-Disk Encryption (FDE)</strong> protegge i dati nel caso di furto o smarrimento fisico del dispositivo. Su Windows si usa BitLocker, integrato con TPM per una protezione trasparente all'utente. Senza FDE, un attaccante con accesso fisico può semplicemente avviare il sistema da un supporto esterno e leggere tutto il disco. Con FDE attiva, senza la chiave crittografica il disco è illeggibile.</dd>
+          </dl>
+
+          <h3>Hardening server</h3>
+          <p>
+            I server richiedono un approccio ancora più rigoroso perché ospitano servizi accessibili da rete e dati di valore elevato. Il principio operativo è che un server dovrebbe fare <em>una cosa sola</em> e farla in sicurezza.
+          </p>
+
+          <dl class="termlist">
+            <dt>Minimizzazione del ruolo</dt>
+            <dd>Un server web non dovrebbe eseguire anche un database, un server email e un server FTP. La separazione dei ruoli limita il blast radius di una compromissione: se un servizio viene violato, l'attaccante non trova automaticamente altri servizi critici sullo stesso host.</dd>
+
+            <dt>Patch management</dt>
+            <dd>I server sono bersagli ad alto valore e i loro OS vengono aggiornati con minor frequenza rispetto alle workstation per timore di interruzioni del servizio. Questo ritardo crea finestre di vulnerabilità note. Il processo corretto prevede: test in ambiente staging, finestre di manutenzione programmate, piano di rollback, e prioritizzazione basata su CVSS score delle vulnerabilità critiche.</dd>
+
+            <dt>Accesso remoto sicuro</dt>
+            <dd>L'accesso remoto ai server dovrebbe avvenire esclusivamente tramite protocolli sicuri come SSH (con autenticazione a chiave pubblica, non password), e mai tramite Telnet, RDP esposto direttamente su Internet, o accesso root diretto. L'ideale è l'accesso tramite jump server (bastion host), in modo che il server di produzione non sia mai raggiungibile direttamente dall'esterno.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Hardening di un server Linux:</strong> dopo l'installazione di Ubuntu Server 22.04, il processo di hardening include: aggiornamento immediato dei pacchetti, rimozione di openssh-server e reinstallazione con configurazione personalizzata (PermitRootLogin no, PasswordAuthentication no, AllowUsers solo gli account tecnici), abilitazione di UFW (firewall host) con regole allow solo sulle porte necessarie, installazione di fail2ban per bloccare brute force SSH, abilitazione di auditd per il logging delle azioni privilegiate, installazione di aide per il file integrity monitoring, e attivazione di SELinux in enforcing mode.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-B</strong> — Nelle domande su hardening di workstation, l'esame associa spesso SELinux a sistemi Linux e Group Policy a sistemi Windows. Se la domanda menziona "Mandatory Access Control su endpoint Linux", la risposta corretta è SELinux. Se menziona "distribuzione centralizzata di policy di sicurezza Windows", la risposta è GPO/Group Policy.
+          </div>
+        </section>
+
+        <!-- ── HARDENING SWITCH E ROUTER ────────────────────────── -->
+        <section id="hardening-network">
+          <h2>Hardening — Switch e Router</h2>
+          <p>
+            I dispositivi di rete — switch e router — sono spesso ignorati nel processo di hardening perché "fanno solo girare il traffico". In realtà sono obiettivi di alto valore: chi controlla l'infrastruttura di rete controlla tutto il traffico che ci passa sopra, con possibilità di sniffing, man-in-the-middle, e manipolazione del routing. Il loro hardening segue principi simili a quelli dei server, adattati al contesto firmware/CLI.
+          </p>
+
+          <dl class="termlist">
+            <dt>Cambio delle credenziali di default</dt>
+            <dd>La prima azione su qualsiasi dispositivo di rete è la modifica delle credenziali di default. Le password di fabbrica (spesso "admin/admin" o varianti) sono pubblicamente note e indicizzate in database online. Questo vale per tutti i dispositivi: switch gestiti, router, access point, firewall, stampanti di rete. La password dell'account di gestione deve seguire le stesse policy delle password di sistema: lunghezza adeguata, complessità, non riutilizzo.</dd>
+
+            <dt>Disabilitazione dei protocolli non sicuri</dt>
+            <dd>Molti dispositivi di rete supportano ancora protocolli legacy come Telnet, HTTP (per la gestione web), SNMPv1/v2c, o CDP/LLDP in modo indiscriminato. Telnet trasmette credenziali in chiaro; SNMP v1/v2 usa community string non crittografate; HTTP espone la sessione di gestione a intercettazione. L'hardening prevede: abilitazione esclusiva di SSH v2 per l'accesso remoto CLI, HTTPS per la gestione web, SNMPv3 con autenticazione e cifratura se SNMP è necessario, e disabilitazione di CDP/LLDP sulle porte rivolte verso reti non fidate.</dd>
+
+            <dt>Port Security (switch)</dt>
+            <dd>La <strong>port security</strong> su switch gestiti limita il numero di MAC address che possono essere appresi su una singola porta e definisce il comportamento in caso di violazione (shutdown, restrict, protect). Previene attacchi come il MAC flooding (che satura la MAC table dello switch, degenerandolo in hub) e limita la possibilità di connettere dispositivi non autorizzati alla rete fisica.</dd>
+
+            <dt>VLAN e segmentazione</dt>
+            <dd>La segmentazione tramite VLAN separa il traffico di diversi gruppi di utenti o sistemi a livello di Layer 2, anche su infrastruttura fisica condivisa. Questo limita il dominio di broadcast, riduce la propagazione laterale del traffico malevolo e permette di applicare policy di sicurezza diverse per ogni segmento. Un IoT VLAN separata dalla rete workstation, per esempio, impedisce che un dispositivo IoT compromesso possa accedere direttamente ai file server.</dd>
+
+            <dt>Access Control Lists (ACL) sui router</dt>
+            <dd>I router filtrano il traffico tra segmenti di rete tramite ACL. Le ACL definiscono quali flussi di traffico (basandosi su IP sorgente/destinazione, porta, protocollo) sono permessi o negati. Un router border con ACL correttamente configurate impedisce che traffico non autorizzato entri o esca dalla rete aziendale, agendo come primo filtro perimetrale prima del firewall dedicato.</dd>
+
+            <dt>Disabilitazione dei servizi non necessari sul router</dt>
+            <dd>I router Cisco e simili eseguono per default numerosi servizi che raramente sono necessari in un ambiente enterprise moderno: Finger service, IP small servers (echo, chargen, discard), HTTP server, CDP su interfacce esterne. Ogni servizio disabilitato riduce la superficie d'attacco del dispositivo stesso.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Hardening di uno switch Cisco:</strong> dopo la configurazione iniziale, si applicano: <code>no cdp run</code> sulle porte verso reti esterne, <code>service password-encryption</code>, <code>no service telnet</code>, <code>transport input ssh</code> sulle linee VTY, impostazione di un banner legale, <code>ip dhcp snooping</code> per prevenire rogue DHCP server, <code>ip arp inspection</code> per prevenire ARP spoofing, e <code>spanning-tree portfast bpduguard enable</code> sulle porte di accesso per proteggere da attacchi STP.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-C</strong> — L'esame associa spesso il MAC flooding all'attacco sugli switch. La contromisura è la port security. L'ARP spoofing è prevenuto da Dynamic ARP Inspection (DAI). Il DHCP spoofing è prevenuto da DHCP Snooping. Conoscere la coppia attacco-contromisura è il pattern di risposta corretto.
+          </div>
+
+          <table>
+            <caption>Confronto: protocolli sicuri vs non sicuri per la gestione dei dispositivi di rete</caption>
+            <thead>
+              <tr>
+                <th>Protocollo</th>
+                <th>Versione non sicura</th>
+                <th>Versione sicura</th>
+                <th>Motivo del cambio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Accesso CLI remoto</td>
+                <td>Telnet (TCP 23)</td>
+                <td>SSH v2 (TCP 22)</td>
+                <td>Telnet trasmette tutto in chiaro, incluse credenziali</td>
+              </tr>
+              <tr>
+                <td>Gestione web</td>
+                <td>HTTP (TCP 80)</td>
+                <td>HTTPS (TCP 443)</td>
+                <td>HTTP espone la sessione cookie e le credenziali</td>
+              </tr>
+              <tr>
+                <td>SNMP monitoring</td>
+                <td>SNMPv1/v2c</td>
+                <td>SNMPv3</td>
+                <td>v1/v2 usa community string non cifrate</td>
+              </tr>
+              <tr>
+                <td>File transfer config</td>
+                <td>TFTP (UDP 69)</td>
+                <td>SCP / SFTP</td>
+                <td>TFTP non prevede autenticazione né cifratura</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ── HARDENING CLOUD INFRASTRUCTURE ───────────────────── -->
+        <section id="hardening-cloud">
+          <h2>Hardening — Cloud Infrastructure</h2>
+          <p>
+            L'hardening in ambiente cloud non può ignorare il <strong>modello di responsabilità condivisa</strong>: il cloud provider è responsabile della sicurezza <em>dell'infrastruttura</em> (hypervisor, rete fisica, data center), mentre il cliente è responsabile della sicurezza <em>nel cloud</em> (configurazione delle istanze, gestione degli accessi, crittografia dei dati, sicurezza applicativa). Trascurare la propria parte di responsabilità è la causa più frequente di data breach in ambiente cloud.
+          </p>
+
+          <dl class="termlist">
+            <dt>Cloud Security Posture Management (CSPM)</dt>
+            <dd>I tool CSPM analizzano continuamente la configurazione delle risorse cloud (bucket S3, security group, ruoli IAM, database) e segnalano deviazioni dalla baseline sicura. Senza CSPM, una singola configurazione errata — come un bucket S3 con accesso pubblico — può esporre dati sensibili per settimane prima di essere scoperta.</dd>
+
+            <dt>Identity and Access Management (IAM) cloud</dt>
+            <dd>In cloud, le identità sono il perimetro. Le policy IAM definiscono chi può fare cosa su quali risorse. Il principio del privilegio minimo è ancora più critico in cloud perché un account compromesso con permessi eccessivi può esfiltrare dati, cancellare risorse o creare backdoor in pochi secondi tramite API. Le best practice includono: MFA obbligatoria per account root/admin, nessuna access key hardcodata nel codice, rotazione periodica delle credenziali, e audit regolare dei permessi.</dd>
+
+            <dt>Secure group e network ACL</dt>
+            <dd>I Security Group (AWS) e le Network Security Group (Azure) sono firewall virtuali a livello di istanza o subnet. L'errore più comune è aprire porte di gestione (SSH, RDP) su "0.0.0.0/0" (tutto Internet) invece di limitarle a IP specifici o a un bastion host. L'hardening cloud richiede la revisione di tutti i security group per eliminare regole eccessivamente permissive.</dd>
+
+            <dt>Encryption at rest e in transit</dt>
+            <dd>Ogni dato sensibile in cloud deve essere cifrato sia a riposo (usando KMS del provider o chiavi proprie - BYOK) sia in transito (TLS 1.2+ per tutte le comunicazioni tra servizi). Molti servizi cloud offrono crittografia automatica, ma è responsabilità del cliente verificare che sia effettivamente abilitata e configurata con chiavi appropriate.</dd>
+
+            <dt>Infrastructure as Code (IaC) sicuro</dt>
+            <dd>In ambienti cloud moderni, l'infrastruttura viene definita tramite codice (Terraform, CloudFormation, Bicep). Questo introduce il rischio che configurazioni insicure vengano "scritte" nel codice e deployate automaticamente. L'hardening IaC include: scansione statica dei template IaC prima del deploy (tool come Checkov, tfsec), policy-as-code per bloccare risorse non conformi, e version control con revisione del codice prima del merge.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-D</strong> — Nelle domande su cloud security, se lo scenario descrive dati esposti per misconfiguration (es. bucket pubblico, port 22 aperta a Internet), il problema è nella fase <em>Deploy</em> della baseline cloud (regole di security group non applicate) o nella fase <em>Maintain</em> (nessun CSPM a rilevare la deviazione). La risposta raramente punta al provider cloud: il modello di responsabilità condivisa assegna questa responsabilità al cliente.
+          </div>
+        </section>
+
+        <!-- ── HARDENING EMBEDDED E RTOS ──────────────────────────── -->
+        <section id="hardening-embedded">
+          <h2>Hardening — Sistemi Embedded e RTOS</h2>
+          <p>
+            I <strong>sistemi embedded</strong> sono dispositivi con hardware e software progettati per svolgere funzioni specifiche e dedicate: router, stampanti, telecamere IP, dispositivi medicali, terminali POS, sistemi di automazione. A differenza di workstation e server, non sono progettati per essere facilmente aggiornabili e spesso hanno vincoli hardware severi che limitano le opzioni di sicurezza.
+          </p>
+
+          <dl class="termlist">
+            <dt>Embedded System</dt>
+            <dd>Un sistema embedded combina hardware dedicato (processore, memoria, storage) e software specifico (firmware) in un dispositivo con funzione predefinita. La caratteristica critica dal punto di vista della sicurezza è che il software è spesso scritto con poca enfasi sulla sicurezza, gli aggiornamenti sono rari o complessi, e il ciclo di vita del supporto è spesso più breve della vita operativa del dispositivo stesso. Un dispositivo embedded end-of-life continuerà a funzionare fisicamente, ma non riceverà più patch di sicurezza.</dd>
+
+            <dt>Real-Time Operating System (RTOS)</dt>
+            <dd>Un RTOS è un sistema operativo progettato per rispondere a eventi entro scadenze temporali precise e prevedibili (determinismo temporale). Viene usato in applicazioni dove la latenza è critica: sistemi di controllo industriale, dispositivi medicali, sistemi avionici, automotive. La prevedibilità temporale è la priorità assoluta; la sicurezza è tradizionalmente secondaria. Molti RTOS classici (VxWorks, FreeRTOS, QNX) hanno avuto vulnerabilità critiche scoperte solo dopo anni di utilizzo perché non erano stati progettati con un modello di minaccia esterno.</dd>
+
+            <dt>Vincoli di sicurezza tipici dei sistemi embedded</dt>
+            <dd>I sistemi embedded presentano limitazioni strutturali che rendono difficile l'applicazione dei controlli di sicurezza tradizionali: poca RAM (impossibile eseguire software di sicurezza complessi), storage ridotto (impossibile installare agent di monitoraggio), assenza di interfaccia utente (difficile autenticazione multifattore), difficoltà di patching (spesso richiede intervento fisico o downtime programmato), e in alcuni casi costi di sostituzione proibitivi che incentivano il mantenimento di sistemi obsoleti in produzione.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Valutazione di sicurezza di un sistema embedded:</strong> un'azienda sanitaria deve valutare la sicurezza di un monitor paziente con software embedded. Il processo include: identificazione del produttore e verifica del supporto attivo, richiesta dell'elenco delle porte di rete aperte e dei servizi attivi, verifica del processo di aggiornamento firmware, controllo se usa protocolli di comunicazione standard o proprietari, valutazione della possibilità di segmentarlo in una VLAN dedicata, e richiesta di SBoM (Software Bill of Materials) per identificare componenti con vulnerabilità note.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-E</strong> — L'esame associa tipicamente i sistemi RTOS a scenari di dispositivi medicali, sistemi industriali o automotive dove la disponibilità e il determinismo temporale sono prioritari. Quando la domanda chiede il controllo di sicurezza più appropriato per un dispositivo embedded che non può essere aggiornato, la risposta tipica è la <em>segmentazione di rete</em> (isolarlo) come controllo compensativo.
+          </div>
+
+          <table>
+            <caption>Confronto: limitazioni di sicurezza dei sistemi embedded vs sistemi general-purpose</caption>
+            <thead>
+              <tr>
+                <th>Aspetto</th>
+                <th>Sistema general-purpose</th>
+                <th>Sistema embedded/RTOS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Patching</td>
+                <td>Automatico, frequente</td>
+                <td>Raro, spesso manuale, richiede downtime</td>
+              </tr>
+              <tr>
+                <td>Antimalware</td>
+                <td>Installabile e aggiornato</td>
+                <td>Solitamente impraticabile per vincoli hardware</td>
+              </tr>
+              <tr>
+                <td>Autenticazione</td>
+                <td>MFA, SSO, smart card</td>
+                <td>Spesso credenziali fisse o hardcoded</td>
+              </tr>
+              <tr>
+                <td>Crittografia</td>
+                <td>Standard moderni (TLS 1.3, AES-256)</td>
+                <td>Limitata o assente per vincoli CPU/RAM</td>
+              </tr>
+              <tr>
+                <td>Ciclo vita supporto</td>
+                <td>3-5 anni tipicamente</td>
+                <td>Spesso &lt; vita operativa del dispositivo</td>
+              </tr>
+              <tr>
+                <td>Controllo compensativo tipico</td>
+                <td>Hardening diretto</td>
+                <td>Segmentazione, monitoraggio anomalie, controllo accesso fisico</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ── HARDENING ICS / SCADA ─────────────────────────────── -->
+        <section id="hardening-ics">
+          <h2>Hardening — ICS e SCADA</h2>
+          <p>
+            Gli <strong>Industrial Control Systems (ICS)</strong> sono sistemi informatici che controllano processi fisici in ambienti industriali, energetici, idraulici o manifatturieri. Il termine <strong>SCADA (Supervisory Control and Data Acquisition)</strong> indica specificamente l'architettura di supervisione, controllo e acquisizione dati distribuita su aree geografiche ampie. La sicurezza di questi sistemi è critica perché un attacco può causare danni fisici reali: interruzione di erogazione di energia, contaminazione dell'acqua, blocco di linee di produzione, o persino danni a macchinari e infrastrutture.
+          </p>
+
+          <dl class="termlist">
+            <dt>Componenti di un ambiente ICS/SCADA</dt>
+            <dd>Un ambiente ICS/SCADA tipico comprende: workstation ingegneristiche (HMI - Human Machine Interface) per la supervisione, server storici per la raccolta dati, PLC (Programmable Logic Controller) che controllano direttamente attuatori e motori, RTU (Remote Telemetry Unit) che raccolgono dati da sensori remoti, e reti di comunicazione sia standard (Ethernet, TCP/IP) sia industriali (Modbus, DNP3, PROFINET). La convergenza IT/OT (Operational Technology) ha portato questi sistemi dalla rete isolata a essere sempre più connessi, aumentando il rischio di attacchi informatici.</dd>
+
+            <dt>Sfide di sicurezza specifiche</dt>
+            <dd>I sistemi ICS/SCADA presentano sfide uniche: molti usano sistemi operativi obsoleti (Windows XP, Windows 2003) che non ricevono più patch; i cicli di aggiornamento sono lunghi perché i fermi macchina per manutenzione sono costosi; i protocolli industriali (Modbus, DNP3) sono stati progettati per affidabilità, non per sicurezza; il patching può richiedere validazione da parte del produttore per non invalidare certificazioni; e la disponibilità continua è spesso più critica della sicurezza.</dd>
+
+            <dt>Air gap e segmentazione</dt>
+            <dd>Storicamente, la sicurezza ICS si basava sull'<strong>air gap</strong>: la rete industriale era completamente separata da Internet e dalla rete IT aziendale. Oggi l'air gap è spesso impraticabile per esigenze di monitoraggio remoto, manutenzione da vendor, integrazione con sistemi ERP. La strategia moderna è la <strong>segmentazione con DMZ industriale</strong>: una zona demilitarizzata separata, con firewall bidirezionali, che funge da buffer tra rete IT e rete OT, usando jump server e historian unidirezionali (data diode) per minimizzare il traffico diretto.</dd>
+
+            <dt>Purdue Model e IEC 62443</dt>
+            <dd>Il <strong>Purdue Reference Model</strong> (o ISA-95) è il framework architetturale di riferimento per la segmentazione delle reti ICS, che suddivide i sistemi in livelli da 0 (campo fisico, sensori/attuatori) a 5 (rete enterprise/Internet). La separazione tra i livelli deve essere applicata con controlli tecnici. Lo standard <strong>IEC 62443</strong> è il framework di sicurezza internazionale per ambienti industriali, equivalente a ciò che ISO 27001 è per la sicurezza IT generale.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Attacco Stuxnet e lezioni apprese:</strong> Stuxnet (2010) è l'esempio più noto di cyberattacco a un sistema ICS. Colpì le centrifughe per arricchimento dell'uranio in Iran alterando sottilmente la velocità di rotazione mentre mostrava valori normali agli operatori. La lezione chiave per Security+: (1) l'air gap non è una garanzia assoluta (fu introdotto tramite USB); (2) i PLC senza autenticazione possono essere riprogrammati da chi accede alla rete; (3) la segmentazione e il monitoraggio delle anomalie di processo sono essenziali anche nelle reti industriali.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-F</strong> — L'esame usa spesso ICS/SCADA in scenari dove viene chiesto il controllo più appropriato per sistemi che non possono essere aggiornati o spenti. La risposta quasi sempre prevede una combinazione di <em>segmentazione di rete</em> (isolare l'OT dalla rete IT) e <em>controlli compensativi</em> (monitoraggio anomalie, whitelist di comunicazione). L'air gap totale è raramente la risposta corretta nei contesti moderni.
+          </div>
+        </section>
+
+        <!-- ── HARDENING IoT ─────────────────────────────────────── -->
+        <section id="hardening-iot">
+          <h2>Hardening — IoT (Internet of Things)</h2>
+          <p>
+            I dispositivi <strong>IoT</strong> (sensori, telecamere IP, termostati intelligenti, wearable, smart meter, serrature connesse, assistenti vocali) sono cresciuti enormemente nelle reti aziendali e domestiche, introducendo una superficie d'attacco distribuita e difficilmente gestibile. Il problema fondamentale è che molti dispositivi IoT sono progettati con priorità al costo e alla semplicità d'uso, relegando la sicurezza a considerazione secondaria — o ignorandola completamente.
+          </p>
+
+          <dl class="termlist">
+            <dt>Vulnerabilità strutturali tipiche dei dispositivi IoT</dt>
+            <dd>I problemi ricorrenti dell'ecosistema IoT includono: credenziali di default identiche per tutti i dispositivi di uno stesso modello (cambio non richiesto o reso difficile); firmware raramente aggiornato e con ciclo di supporto breve; interfacce web di gestione con vulnerabilità XSS, CSRF, injection; servizi non necessari attivi per default (Telnet, UPnP, FTP); assenza di crittografia nelle comunicazioni tra dispositivo e cloud del vendor; e raccolta di dati personali con policy di privacy opache.</dd>
+
+            <dt>Segmentazione della rete IoT</dt>
+            <dd>La misura di sicurezza più efficace e pratica per i dispositivi IoT aziendali è la loro isolazione in una VLAN dedicata, separata dalla rete workstation, server e guest. Questo limita il raggio di esplosione in caso di compromissione: un dispositivo IoT violato può al massimo comunicare con altri IoT nella stessa VLAN, non con i file server o i workstation degli utenti. L'accesso da rete IoT verso altre reti deve essere esplicitamente permesso da firewall, non consentito per default.</dd>
+
+            <dt>Protocolli di comunicazione IoT</dt>
+            <dd>I dispositivi IoT usano spesso protocolli diversi da quelli tradizionali: <strong>MQTT</strong> (pub/sub leggero per telemetria), <strong>CoAP</strong> (HTTP-like per dispositivi a bassa potenza), <strong>Zigbee</strong> e <strong>Z-Wave</strong> (wireless a basso consumo per domotica), <strong>LoRaWAN</strong> (long range, basso consumo per smart city). Ognuno ha le sue caratteristiche di sicurezza: alcuni supportano autenticazione e cifratura, altri no. La scelta del protocollo e la sua configurazione sicura rientrano nelle responsabilità dell'integrazione.</dd>
+
+            <dt>Privacy e dati raccolti</dt>
+            <dd>I dispositivi IoT raccolgono dati continui sull'ambiente e sugli utenti: telecamere che registrano gli spazi fisici, wearable che tracciano la salute, termostati che rivelano le abitudini di vita. Questo introduce rischi di privacy che vanno oltre la sicurezza informatica tradizionale. Le organizzazioni devono valutare quali dati vengono raccolti dai dispositivi IoT aziendali, dove vengono inviati (cloud del vendor, a quali paesi), per quanto tempo vengono conservati, e se i contratti con i vendor offrono garanzie adeguate.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — IoT vs ICS/SCADA:</strong> entrambi usano sistemi embedded e hanno vincoli di patching simili, ma il contesto è diverso. IoT indica tipicamente dispositivi consumer o di building automation (telecamere, sensori, smart meter); ICS/SCADA indica sistemi di controllo industriale critici per infrastrutture (energia, acqua, manifattura). I rischi IoT sono principalmente furto dati e botnet; i rischi ICS/SCADA includono danni fisici e interruzione di servizi critici. Le misure di sicurezza si sovrappongono (segmentazione, credenziali forti) ma la criticità è molto diversa.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-G</strong> — Nelle domande su IoT, il pattern tipico è: dispositivo con credenziali di default + connesso alla rete aziendale principale = rischio elevato. La risposta corretta quasi sempre include cambio delle credenziali di default + segmentazione in VLAN dedicata. Se il dispositivo non può essere aggiornato e ha vulnerabilità note, il controllo compensativo è l'isolamento completo.
+          </div>
+        </section>
+
+        <!-- ── HARDENING MOBILE E MDM ─────────────────────────────── -->
+        <section id="hardening-mobile">
+          <h2>Hardening — Dispositivi Mobile, MDM e Modelli di Deployment</h2>
+          <p>
+            I dispositivi mobili (smartphone, tablet) sono diventati strumenti di lavoro primari in molte organizzazioni, ma la loro natura personale, la varietà di applicazioni installabili, la connettività costante e la facilità di smarrimento li rendono una sfida di sicurezza complessa. Il controllo dei dispositivi mobili si basa su tre pilastri: la piattaforma di gestione (MDM), il modello di ownership adottato dall'organizzazione (BYOD/COPE/CYOD), e le policy tecniche applicate.
+          </p>
+
+          <dl class="termlist">
+            <dt>Mobile Device Management (MDM)</dt>
+            <dd>Un sistema <strong>MDM</strong> è una piattaforma centralizzata che permette all'organizzazione di gestire, monitorare e proteggere i dispositivi mobili aziendali o quelli dei dipendenti usati per lavoro. Le funzionalità tipiche includono: enrollment dei dispositivi, distribuzione di applicazioni e certificati, applicazione di policy (PIN/biometria obbligatoria, cifratura, blocco accesso root/jailbreak), separazione tra profilo personale e lavorativo (containerizzazione), e remote wipe completo o selettivo in caso di smarrimento o furto. Esempi di MDM enterprise: Microsoft Intune, VMware Workspace ONE, Jamf (per Apple).
+
+            <br><br>Il termine <strong>EMM (Enterprise Mobility Management)</strong> è più ampio e include MDM + gestione applicazioni (MAM) + gestione del contenuto (MCM). Il termine <strong>UEM (Unified Endpoint Management)</strong> unifica la gestione di PC, Mac, dispositivi mobili e IoT in un'unica piattaforma.</dd>
+
+            <dt>Bring Your Own Device (BYOD)</dt>
+            <dd>Nel modello <strong>BYOD</strong> il dipendente usa il proprio dispositivo personale per accedere alle risorse aziendali. Il vantaggio per l'organizzazione è il costo zero dell'hardware; per il dipendente è usare un dispositivo familiare. I rischi sono significativi: l'organizzazione ha controllo limitato sul dispositivo, applicazioni personali non verificate coesistono con dati aziendali, la gestione degli incidenti è complicata (remote wipe non può cancellare i dati personali senza consenso), e il dipendente potrebbe resistere all'installazione dell'agente MDM per privacy. BYOD richiede containerizzazione forte: i dati aziendali devono risiedere in un contenitore cifrato e separato, non accessibile ad app personali.</dd>
+
+            <dt>Corporate-Owned, Personally Enabled (COPE)</dt>
+            <dd>Nel modello <strong>COPE</strong> l'organizzazione acquista e fornisce il dispositivo, ma ne permette l'uso personale. L'organizzazione mantiene la piena ownership e può applicare policy di sicurezza complete, incluso il remote wipe totale. Il dipendente può installare app personali in uno spazio separato. Il bilanciamento tra controllo (pieno, lato IT) e privacy (parziale, lato dipendente) rende COPE il modello più comune nelle grandi organizzazioni regolamentate.</dd>
+
+            <dt>Choose Your Own Device (CYOD)</dt>
+            <dd>Nel modello <strong>CYOD</strong> l'organizzazione definisce un catalogo di dispositivi approvati e il dipendente sceglie quale preferisce. Il dispositivo è di proprietà aziendale (come COPE), ma la scelta personalizzata aumenta la soddisfazione del dipendente. Dal punto di vista della sicurezza è simile a COPE: controllo IT completo, gestione MDM uniforme, remote wipe senza limitazioni.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Remote wipe in uno scenario BYOD:</strong> un dipendente segnala lo smarrimento del proprio smartphone su cui aveva configurato la posta aziendale tramite Outlook e l'accesso a SharePoint. Con un MDM in modello BYOD configurato correttamente, l'IT può eseguire un <em>selective wipe</em>: cancella solo il profilo aziendale (dati email, certificati, configurazione VPN, app aziendali) lasciando intatti le foto personali, i contatti personali e le app private. Senza MDM, l'unica opzione è richiedere al dipendente di attivare "Cancella iPhone" dai propri account, perdendo anche i dati personali — e senza certezza che lo faccia.
+          </div>
+
+          <table>
+            <caption>Confronto tra modelli di deployment mobile</caption>
+            <thead>
+              <tr>
+                <th>Modello</th>
+                <th>Proprietà dispositivo</th>
+                <th>Controllo IT</th>
+                <th>Privacy dipendente</th>
+                <th>Costo organizzazione</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>BYOD</strong></td>
+                <td>Dipendente</td>
+                <td>Limitato (containerizzazione)</td>
+                <td>Alta (dati personali separati)</td>
+                <td>Basso (nessun hardware)</td>
+              </tr>
+              <tr>
+                <td><strong>COPE</strong></td>
+                <td>Organizzazione</td>
+                <td>Completo</td>
+                <td>Media (uso personale consentito)</td>
+                <td>Alto (acquisto e gestione)</td>
+              </tr>
+              <tr>
+                <td><strong>CYOD</strong></td>
+                <td>Organizzazione</td>
+                <td>Completo</td>
+                <td>Media (scelta dispositivo)</td>
+                <td>Alto (catalogo approvato)</td>
+              </tr>
+              <tr>
+                <td><strong>COBO</strong> (Corporate-Only)</td>
+                <td>Organizzazione</td>
+                <td>Massimo (solo uso lavorativo)</td>
+                <td>Nulla</td>
+                <td>Alto + rigidità operativa</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-H</strong> — L'esame distingue i modelli principalmente sulla base di chi possiede il dispositivo e quanto controllo ha l'IT. BYOD = dipendente possiede, IT controlla poco. COPE/CYOD = azienda possiede, IT controlla tutto. Se la domanda menziona "massimo controllo con uso personale permesso" → COPE. Se menziona "minimo costo hardware" → BYOD. Se menziona "dipendente sceglie il modello da un catalogo approvato" → CYOD.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — MDM vs MAM vs UEM:</strong> MDM gestisce il dispositivo intero; MAM (Mobile Application Management) gestisce solo le app aziendali senza toccare il resto del dispositivo (utile per BYOD dove l'installazione di un agente MDM è invasiva); UEM gestisce tutti i tipi di endpoint (PC, mobile, IoT) da un'unica console. L'esame usa questi termini in modo specifico: non sono sinonimi.
+          </div>
+        </section>
+
+        <!-- ── APPLICATION SECURITY ──────────────────────────────── -->
+        <section id="app-security">
+          <h2>Application Security — Input Validation, Secure Cookies, Code Analysis, Code Signing</h2>
+          <p>
+            La sicurezza applicativa affronta i rischi introdotti dal software stesso: vulnerabilità nel codice, distribuzione di software non verificato, gestione insicura delle sessioni web. L'obiettivo 4.1 include specificamente quattro tecniche fondamentali che l'esame testa in scenari di sviluppo sicuro e hardening applicativo.
+          </p>
+
+          <dl class="termlist">
+            <dt>Input Validation</dt>
+            <dd>La <strong>validazione dell'input</strong> è la tecnica difensiva fondamentale contro una vasta categoria di attacchi applicativi: SQL injection, XSS (Cross-Site Scripting), command injection, path traversal, buffer overflow. Il principio è semplice: qualsiasi dato proveniente dall'esterno (utenti, API, file caricati, parametri URL) deve essere validato, sanitizzato e verificato prima di essere usato dall'applicazione.
+
+            <br><br>Esistono due approcci principali: <strong>allowlist validation</strong> (permette solo ciò che è esplicitamente definito come valido — formato, lunghezza, caratteri ammessi) e <strong>denylist validation</strong> (blocca ciò che è noto come pericoloso). L'allowlist è più sicura perché blocca qualsiasi input non atteso, incluso quello non ancora noto; la denylist è più facile da implementare ma richiede aggiornamenti continui per nuovi pattern di attacco.
+
+            <br><br>La validazione deve avvenire <strong>server-side</strong>: la validazione client-side (JavaScript nel browser) è utile per l'esperienza utente ma è bypassabile banalmente con strumenti come Burp Suite o semplicemente disabilitando JavaScript.</dd>
+
+            <dt>Secure Cookies</dt>
+            <dd>I cookie di sessione nelle applicazioni web sono il meccanismo principale per mantenere l'autenticazione tra richieste HTTP stateless. Se un cookie di sessione viene rubato (tramite XSS, intercettazione di traffico, o accesso fisico al browser), l'attaccante può impersonare l'utente autenticato senza conoscerne la password.
+
+            <br><br>Le tre proprietà di sicurezza fondamentali dei cookie sono: <strong>HttpOnly</strong> (impedisce l'accesso al cookie tramite JavaScript, mitigando XSS), <strong>Secure</strong> (il cookie viene trasmesso solo su connessioni HTTPS, non su HTTP), e <strong>SameSite</strong> (controlla in quali contesti cross-site il cookie viene inviato, mitigando CSRF). Un cookie di sessione che non ha tutte e tre queste proprietà impostate è vulnerabile.</dd>
+
+            <dt>Static Code Analysis (SAST)</dt>
+            <dd>La <strong>Static Application Security Testing (SAST)</strong> analizza il codice sorgente o il bytecode dell'applicazione alla ricerca di vulnerabilità, senza eseguire il programma. Viene eseguita durante lo sviluppo (integrata nella pipeline CI/CD) e può identificare: uso di funzioni deprecate o insicure, pattern di SQL injection o XSS nel codice, gestione insicura di errori o eccezioni, segreti hardcodati (API key, password nel codice), e dipendenze con vulnerabilità note.
+
+            <br><br>I vantaggi sono che può coprire il 100% del codice e identificare problemi prima che il software vada in produzione; il limite è che produce falsi positivi e non può rilevare vulnerabilità logiche o di configurazione che emergono solo a runtime.</dd>
+
+            <dt>Code Signing</dt>
+            <dd>Il <strong>code signing</strong> è il processo di firma crittografica del software con un certificato digitale associato all'identità dello sviluppatore o dell'organizzazione. Il sistema operativo o il meccanismo di distribuzione verifica la firma prima di eseguire il software: se la firma è valida, il codice proviene dall'entità dichiarata e non è stato modificato dalla firma; se la firma non è valida o manca, il sistema può bloccare l'esecuzione o avvisare l'utente.
+
+            <br><br>Il code signing protegge da due rischi distinti: la <strong>tampering</strong> del software (modifica del binario dopo la firma, rilevata dalla firma non valida) e la <strong>distribuzione di malware sotto falso nome</strong> (un malware non può firmarsi con il certificato di Microsoft o Adobe senza rubare quelle chiavi private). Nei sistemi operativi moderni (Windows con Secure Boot + driver signing, macOS con Gatekeeper e Notarization, iOS con App Store review) l'esecuzione di codice non firmato è bloccata per default.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — SQL Injection e input validation:</strong> un'applicazione web ha un campo di ricerca che costruisce la query SQL così: <code>SELECT * FROM users WHERE name = '" + userInput + "'</code>. Un attaccante inserisce: <code>' OR '1'='1</code>. La query diventa: <code>SELECT * FROM users WHERE name = '' OR '1'='1'</code>, che restituisce tutti gli utenti. Con input validation corretta (allowlist: solo caratteri alfanumerici, lunghezza massima 50 caratteri, nessuna virgoletta singola) o con parametrized queries, l'input viene rifiutato o trattato come stringa letterale, rendendo l'injection impossibile.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-I</strong> — L'esame distingue SAST (analisi statica, codice sorgente, durante sviluppo) da DAST (Dynamic Application Security Testing: analisi dinamica, applicazione in esecuzione, simula attacchi). Anche SCA (Software Composition Analysis) è rilevante: analizza le dipendenze di terze parti per vulnerabilità note. Scenario tipico: "prima del deploy dell'applicazione, quale tecnica identifica vulnerabilità nel codice sorgente senza eseguire l'applicazione?" → SAST.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — Code signing vs Code review:</strong> il code signing garantisce <em>autenticità e integrità</em> (chi ha firmato e che il codice non è stato modificato), ma non garantisce che il codice sia sicuro o privo di vulnerabilità. Un sviluppatore può firmare correttamente software che contiene bug gravi. Il code review e il SAST riguardano la <em>qualità e sicurezza</em> del codice, non la sua autenticità. Sono complementari, non alternativi.
+          </div>
+        </section>
+
+        <!-- ── SANDBOXING E MONITORING ───────────────────────────── -->
+        <section id="sandboxing-monitoring">
+          <h2>Sandboxing e Monitoring</h2>
+
+          <h3>Sandboxing</h3>
+          <p>
+            Una <strong>sandbox</strong> è un ambiente di esecuzione isolato, separato dal sistema operativo host e dagli altri processi, in cui codice non fidato o potenzialmente malevolo può essere eseguito senza rischio di danni reali al sistema. Il principio è che anche se il codice nella sandbox è malevolo, le sue azioni sono confinate: non può modificare il filesystem dell'host, non può accedere alla rete aziendale, non può comunicare con altri processi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Sandboxing per analisi malware</dt>
+            <dd>I sistemi antimalware avanzati e le soluzioni EDR usano la sandbox per l'analisi comportamentale: un file sospetto (allegato email, download) viene eseguito in un ambiente virtuale isolato e monitorato per 30-60 secondi. Se mostra comportamenti malevoli (connessione a C2, modifica del registro, cifratura di file, creazione di processo figlio sospetto), viene classificato come malware anche se la sua firma non è nota. Questo permette il rilevamento di <strong>zero-day</strong> e varianti polimorfiche.</dd>
+
+            <dt>Sandboxing nelle applicazioni</dt>
+            <dd>I browser moderni (Chrome, Firefox, Edge) eseguono ogni tab in una sandbox separata: se una pagina web sfrutta una vulnerabilità del browser, il danno è limitato al processo sandboxed, non si propaga al sistema operativo. Lo stesso principio si applica alle applicazioni iOS e Android: ogni app gira nella propria sandbox e non può accedere ai dati di un'altra app senza permesso esplicito dell'utente. I contenitori Docker implementano un concetto simile a livello di sistema.</dd>
+
+            <dt>Sandboxing nei sistemi email</dt>
+            <dd>I gateway email avanzati (Secure Email Gateway) usano la sandbox per analizzare gli allegati prima di consegnarli: un PDF o un file Office vengono aperti in ambiente controllato e monitorati per comportamenti come l'esecuzione di macro, connessioni di rete, o tentativi di scrittura sul disco. Questo tecnica intercetta minacce che supererebbero un'analisi basata solo su firme statiche.</dd>
+          </dl>
+
+          <h3>Monitoring</h3>
+          <p>
+            Il <strong>monitoring</strong> degli endpoint è il processo continuo di raccolta, analisi e correlazione di eventi di sicurezza per rilevare anomalie, attività sospette e indicatori di compromissione. Il monitoring non è una funzione passiva: richiede una definizione chiara di cosa monitorare, come correlare gli eventi, e come rispondere agli alert.
+          </p>
+
+          <dl class="termlist">
+            <dt>Log collection e SIEM</dt>
+            <dd>Gli endpoint generano log continui: eventi di autenticazione, accesso a file, esecuzione di processi, attività di rete, modifiche al registro di sistema. Questi log devono essere centralizzati in un <strong>SIEM</strong> per la correlazione: un singolo log di autenticazione fallita non è significativo; 500 tentativi in 5 minuti sullo stesso account da indirizzi IP diversi è un pattern di brute force che il SIEM deve rilevare e segnalare.</dd>
+
+            <dt>Endpoint Detection and Response (EDR)</dt>
+            <dd>Un sistema <strong>EDR</strong> è un agent installato sull'endpoint che raccoglie telemetria dettagliata (processi avviati, connessioni di rete, modifiche al file system, accesso al registro) e la invia a una piattaforma centrale per analisi comportamentale. A differenza dell'antivirus tradizionale, EDR non si limita a rilevare malware noto, ma identifica comportamenti anomali anche di software legittimo abusato (living-off-the-land attacks, uso di PowerShell per esfiltrare dati).</dd>
+
+            <dt>File Integrity Monitoring (FIM)</dt>
+            <dd>Il <strong>FIM</strong> monitora in tempo reale le modifiche a file critici del sistema (binari di sistema, file di configurazione, script di avvio). Ogni modifica non autorizzata viene segnalata. È particolarmente utile per rilevare la compromissione di sistemi: un attaccante che modifica un file di configurazione per mantenere la persistenza viene rilevato dal FIM anche se usa tecniche per eludere l'antivirus.</dd>
+
+            <dt>User Behavior Analytics (UBA)</dt>
+            <dd>L'<strong>UBA</strong> (o UEBA - User and Entity Behavior Analytics) costruisce una baseline del comportamento normale di ciascun utente e segnala deviazioni statisticamente significative: un utente che accede alle 3 di notte da un paese dove non è mai stato, che scarica improvvisamente 50 GB di dati, o che accede a cartelle mai visitate prima. Questo approccio basato sulle anomalie rileva minacce interne, account compromessi e lateral movement anche quando non vengono usati strumenti di attacco noti.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Sandbox e zero-day:</strong> un dipendente riceve un email con allegato un file Excel con macro. Il gateway email invia il file alla sandbox prima della consegna. In ambiente isolato, l'apertura del file attiva una macro che tenta di eseguire un PowerShell scaricando un payload da Internet. La sandbox rileva: (1) esecuzione di macro non approvata, (2) processo figlio powershell.exe creato da excel.exe, (3) connessione outbound a un dominio registrato 2 giorni fa. L'allegato viene bloccato e l'email viene consegnata senza allegato con notifica al dipendente. Il malware era un zero-day: nessun AV tradizionale lo avrebbe rilevato da firma.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.1-J</strong> — L'esame distingue sandboxing (esecuzione isolata per analisi comportamentale) da virtualizzazione (isolamento generale di ambienti di lavoro). Anche se tecnicamente simili, nei contesti security il sandboxing è specificamente per l'analisi di codice non fidato. Se lo scenario menziona "analizzare un file sospetto senza rischiare il sistema produttivo" → sandboxing. Se menziona "isolare un ambiente di test dal produttivo" → virtualizzazione.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             OBIETTIVO 4.2
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-4-2">
+          <h2>Obiettivo 4.2 — Implicazioni di sicurezza della gestione delle risorse</h2>
+          <p>
+            La gestione delle risorse hardware, software e dati non è solo una questione operativa o contabile: ha implicazioni dirette sulla sicurezza. Un asset non inventariato non può essere protetto, patchato o monitorato. Un dispositivo dismesso senza sanitizzazione corretta può esporre dati sensibili. Un software acquisito senza valutazione della sicurezza può introdurre vulnerabilità dall'esterno. L'obiettivo 4.2 copre l'intero ciclo di vita delle risorse dal punto di vista della sicurezza: dall'acquisizione allo smaltimento.
+          </p>
+        </section>
+
+        <!-- ── ACQUISITION / PROCUREMENT ─────────────────────────── -->
+        <section id="acquisition">
+          <h2>Acquisition e Procurement Process</h2>
+          <p>
+            La sicurezza di un asset inizia <strong>prima</strong> che arrivi in azienda. Il processo di acquisizione e procurement è il momento in cui l'organizzazione può valutare i rischi di sicurezza di un prodotto, negoziare requisiti contrattuali con il vendor, e assicurarsi che l'asset si integri nel framework di sicurezza esistente. Ignorare la sicurezza in fase di acquisto significa spesso dover rimediare a posteriori con costi più elevati e rischi residui non eliminabili.
+          </p>
+
+          <dl class="termlist">
+            <dt>Valutazione del vendor e della supply chain</dt>
+            <dd>Prima di acquistare hardware o software, l'organizzazione dovrebbe valutare: la reputazione del vendor in termini di risposta alle vulnerabilità (bug bounty, patch tempestive, responsible disclosure), la provenienza della catena di fornitura hardware (componenti da paesi con rischi geopolitici), la politica di supporto e fine vita (end of support), e la disponibilità di documentazione di sicurezza (SBoM, penetration test report, certificazioni come Common Criteria o FIPS 140-2 per prodotti crittografici).</dd>
+
+            <dt>Contratti e SLA di sicurezza</dt>
+            <dd>Il contratto con il vendor è lo strumento legale per definire aspettative di sicurezza. Elementi rilevanti dal punto di vista della sicurezza: SLA di risposta a vulnerabilità critiche, obblighi di notifica in caso di data breach che coinvolga i dati del cliente, diritto di audit, obblighi di cancellazione dati alla fine del contratto, e conformità a standard regolamentari (GDPR, HIPAA, PCI DSS) se il vendor tratta dati sensibili per conto dell'organizzazione (subprocessor).</dd>
+
+            <dt>Shadow IT e software non approvato</dt>
+            <dd>Il rischio principale del procurement non gestito è lo <strong>shadow IT</strong>: dipendenti che installano software o usano servizi cloud non approvati dall'IT perché ritengono i processi di approvazione troppo lenti. Lo shadow IT espone dati aziendali a sistemi non valutati, non configurati secondo le policy aziendali, e non monitorati. Le soluzioni includono: processi di approvazione rapidi per software a basso rischio, catalogo di software approvato facilmente accessibile, e monitoraggio del traffico di rete per rilevare l'uso di servizi cloud non autorizzati.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.2-A</strong> — Nelle domande su supply chain risk, l'esame testa la comprensione che la sicurezza deve essere valutata prima dell'acquisizione, non solo dopo. Se la domanda chiede come ridurre il rischio di un componente hardware di provenienza sconosciuta, le risposte tipiche includono: valutazione del vendor, richiesta di SBoM, test in ambiente isolato prima del deploy in produzione.
+          </div>
+        </section>
+
+        <!-- ── ASSIGNMENT E ACCOUNTING ──────────────────────────── -->
+        <section id="assignment">
+          <h2>Assignment, Accounting — Ownership e Classification</h2>
+          <p>
+            Ogni asset deve avere un <strong>proprietario</strong> identificabile e una <strong>classificazione</strong> che ne determina il livello di protezione richiesto. Senza ownership chiara nessuno si assume la responsabilità di mantenere l'asset sicuro e aggiornato. Senza classificazione non è possibile applicare controlli proporzionati al valore e alla sensibilità dell'asset.
+          </p>
+
+          <dl class="termlist">
+            <dt>Ownership dell'asset</dt>
+            <dd>Il proprietario di un asset (asset owner) è la persona o l'unità organizzativa responsabile della sua sicurezza nel tempo: decidere chi può accedervi, assicurarsi che venga aggiornato, approvare le modifiche alla sua configurazione, e richiederne il ritiro quando non è più necessario. L'ownership non coincide necessariamente con la custodia tecnica: il responsabile di un database di clienti (data owner) può essere il direttore marketing, mentre il DBA è il custodian che ne gestisce operativamente la sicurezza.</dd>
+
+            <dt>Classification dell'asset</dt>
+            <dd>La classificazione assegna a ogni asset un livello di sensibilità che determina i controlli di sicurezza applicabili. La classificazione tipica in ambito commerciale include quattro livelli: <strong>Public</strong> (dati liberamente diffondibili), <strong>Internal</strong> (dati per uso interno non classificato), <strong>Confidential</strong> (dati sensibili con accesso limitato), <strong>Restricted/Secret</strong> (dati altamente sensibili con accesso strettamente controllato). In ambito governativo si usa: Unclassified, Sensitive But Unclassified, Confidential, Secret, Top Secret. La classificazione guida decisioni su cifratura, controllo accessi, logging, e smaltimento.</dd>
+
+            <dt>Data owner vs Custodian vs Processor</dt>
+            <dd>Il <strong>data owner</strong> determina la classificazione e le policy di accesso. Il <strong>data custodian</strong> implementa tecnicamente i controlli definiti dal data owner (backup, cifratura, access control list). Il <strong>data processor</strong> (rilevante nel GDPR) è il soggetto che tratta dati per conto del data controller. Confondere questi ruoli porta a gap di responsabilità: se nessuno si sente owner di un dataset, quel dataset tende a non essere protetto adeguatamente.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.2-B</strong> — L'esame distingue frequentemente data owner, custodian e processor. Owner = decide policy di accesso e classificazione. Custodian = implementa tecnicamente. In scenari GDPR: controller = decide finalità del trattamento; processor = tratta per conto del controller. Scenario tipico: "Chi è responsabile di determinare la classificazione di un dataset?" → Data owner (non l'IT, non il custodian).
+          </div>
+        </section>
+
+        <!-- ── INVENTORY E ENUMERATION ──────────────────────────── -->
+        <section id="asset-tracking">
+          <h2>Monitoring e Asset Tracking — Inventory e Enumeration</h2>
+          <p>
+            Non puoi proteggere ciò che non sai di avere. L'inventario delle risorse è il fondamento di qualsiasi programma di sicurezza: senza una lista aggiornata di tutti i sistemi, dispositivi, applicazioni e dati dell'organizzazione, è impossibile applicare patch, monitorare accessi, rispondere agli incidenti, o pianificare la gestione del rischio.
+          </p>
+
+          <dl class="termlist">
+            <dt>Asset Inventory</dt>
+            <dd>L'<strong>inventario delle risorse</strong> è il registro aggiornato di tutti gli asset dell'organizzazione: hardware (server, workstation, dispositivi di rete, mobile, stampanti), software (applicazioni installate, licenze, versioni), dati (dataset, database, archivi, dove risiedono), e servizi cloud. L'inventario deve includere per ogni asset: identificatore univoco, tipologia, proprietario, classificazione, posizione fisica o logica, versione software/firmware, data dell'ultimo aggiornamento, e stato del supporto. La gestione dell'inventario è supportata da piattaforme CMDB (Configuration Management Database) o tool dedicati come ServiceNow, Lansweeper, o Qualys Asset Management.</dd>
+
+            <dt>Asset Enumeration</dt>
+            <dd>L'<strong>enumerazione degli asset</strong> è il processo di scoperta attiva delle risorse, spesso tramite scansione della rete. A differenza dell'inventario (che è un database mantenuto dall'organizzazione), l'enumerazione "scopre" cosa è effettivamente connesso alla rete in un dato momento, inclusi dispositivi non censiti o non autorizzati (shadow IT hardware). Tool tipici: Nmap per la scoperta di host e servizi, vulnerability scanner come Qualys o Tenable per la raccolta di informazioni dettagliate, e funzionalità di network discovery dei SIEM. Il confronto periodico tra inventario dichiarato e enumerazione effettiva rivela dispositivi non autorizzati, sistemi dimenticati, e asset mai smantellati formalmente.</dd>
+
+            <dt>Monitoraggio continuo degli asset</dt>
+            <dd>L'inventario statico è insufficiente in ambienti dinamici dove i sistemi vengono creati e distrutti frequentemente (cloud, container, VM). Il monitoraggio continuo mantiene l'inventario sincronizzato in tempo reale usando API cloud, agent endpoint, e scansioni programmate. Gli alert di deviazione segnalano: comparsa di nuovi dispositivi non previsti, variazioni della configurazione rispetto alla baseline, sistemi che non si collegano più alla rete per periodi inattesi.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Shadow IT scoperto tramite enumerazione:</strong> il team security esegue una scansione Nmap sulla rete interna e trova un host con IP 10.10.5.44 che risponde sulla porta 22 (SSH) e 5432 (PostgreSQL). L'host non è nell'inventario CMDB. L'indagine rivela che un team di sviluppo ha installato un mini-PC per eseguire un database di progetto "temporaneo" sei mesi fa, dimenticandolo poi connesso alla rete. Il database PostgreSQL usa la versione 10.5 con 47 vulnerabilità note, ha credenziali di default, e contiene export di dati di produzione dei clienti. Senza l'enumerazione attiva, questo rischio sarebbe rimasto invisibile.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.2-C</strong> — L'esame distingue inventory (registro mantenuto dall'organizzazione, aggiornato manualmente o tramite agent) da enumeration (scoperta attiva tramite scansione). Uno scenario tipico: "Un'organizzazione vuole verificare che non ci siano dispositivi non autorizzati connessi alla rete" → enumeration (scansione attiva), non inventory (che potrebbe non includere i non autorizzati per definizione).
+          </div>
+        </section>
+
+        <!-- ── DISPOSAL E DECOMMISSIONING ───────────────────────── -->
+        <section id="decommissioning">
+          <h2>Disposal e Decommissioning — Sanitizzazione, Distruzione, Certificazione, Data Retention</h2>
+          <p>
+            Lo smaltimento e il ritiro degli asset è la fase finale del ciclo di vita e, se gestita male, può vanificare anni di protezione dei dati. Un disco rigido smaltito senza sanitizzazione corretta può esporre tutti i dati che ha contenuto. Un sistema "ritirato" ma lasciato connesso alla rete è un vettore di attacco attivo. Il processo di decommissioning deve essere formale, documentato e verificabile.
+          </p>
+
+          <dl class="termlist">
+            <dt>Sanitization (Sanitizzazione)</dt>
+            <dd>La <strong>sanitizzazione</strong> è il processo di rimozione sicura dei dati da un supporto prima che venga riutilizzato, ceduto o smaltito. Non si tratta semplicemente di cancellare i file o formattare il disco: la cancellazione standard elimina solo i puntatori ai file, non i dati stessi, che rimangono recuperabili con tool forensi.
+
+            <br><br>I metodi di sanitizzazione riconosciuti includono: <strong>overwriting</strong> (sovrascrittura multipla con pattern casuali o standard come DoD 5220.22-M), <strong>crypto-erase</strong> (cancellazione della chiave di cifratura per rendere i dati irrecuperabili, applicabile quando il disco usa FDE), e per dispositivi Flash/SSD il metodo <strong>Secure Erase</strong> a livello firmware (necessario perché la sovrascrittura standard è meno efficace per la wear leveling degli SSD).</dd>
+
+            <dt>Destruction (Distruzione fisica)</dt>
+            <dd>Quando la sanitizzazione software non è sufficiente o non è praticabile (supporti danneggiati, media che trattano dati classificati, requisiti regolamentari elevati), si ricorre alla distruzione fisica. I metodi includono: <strong>shredding</strong> (triturazione del supporto), <strong>degaussing</strong> (esposizione a campo magnetico intenso per i supporti magnetici — non efficace su SSD o supporti ottici), <strong>incineration</strong> (incenerimento), e <strong>pulverizing</strong> (polverizzazione). Il degaussing rende il supporto inutilizzabile oltre che illeggibile e va combinato con distruzione fisica per i dischi rigidi più moderni.</dd>
+
+            <dt>Certification (Certificazione)</dt>
+            <dd>Il <strong>certificato di distruzione</strong> (Certificate of Destruction) è il documento che attesta che la sanitizzazione o la distruzione è avvenuta correttamente, quando, da chi, e con quale metodo. È fondamentale quando lo smaltimento viene affidato a un terzo (aziende specializzate in ITAD - IT Asset Disposition): il contratto deve prevedere la consegna del certificato per ogni dispositivo smaltito. Senza certificazione, l'organizzazione non ha prova documentale che i dati siano stati distrutti — con implicazioni legali in caso di audit o violazione.</dd>
+
+            <dt>Data Retention (Conservazione dei dati)</dt>
+            <dd>La <strong>data retention</strong> definisce per quanto tempo i dati devono essere conservati prima di poter essere eliminati. Non si tratta di una scelta discrezionale: le normative (GDPR, HIPAA, PCI DSS, leggi fiscali, obblighi legali di conservazione) definiscono periodi minimi di conservazione per diverse categorie di dati. Ma c'è anche il lato opposto: i dati non devono essere conservati più del necessario, perché ogni dato mantenuto oltre il necessario è un dato a rischio in caso di breach.
+
+            <br><br>La policy di data retention deve bilanciare due esigenze opposte: conservare abbastanza a lungo per rispettare obblighi legali e di business, ed eliminare tempestivamente per ridurre il rischio e i costi di storage. La retention si applica sia allo smaltimento fisico dei supporti sia all'eliminazione di dati digitali da sistemi attivi (es. log che devono essere mantenuti 12 mesi ma poi cancellati).</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Recupero dati da disco "cancellato":</strong> un'azienda vende laptop usati su eBay dopo aver formattato i dischi con la formattazione rapida di Windows. Un ricercatore di sicurezza acquista tre di questi laptop e, usando Recuva (tool gratuito di recupero dati), riesce a recuperare: documenti Word con dati clienti, fogli Excel con stipendi dei dipendenti, e file PDF di contratti. La formattazione rapida non aveva eliminato i dati, solo marcato lo spazio come disponibile. La sanitizzazione corretta avrebbe richiesto un overwriting completo o, meglio, la crittografia del disco prima della formattazione seguita da cancellazione della chiave.
+          </div>
+
+          <table>
+            <caption>Metodi di sanitizzazione e distruzione per tipo di supporto</caption>
+            <thead>
+              <tr>
+                <th>Metodo</th>
+                <th>HDD magnetico</th>
+                <th>SSD / Flash</th>
+                <th>Supporto ottico (CD/DVD)</th>
+                <th>Nastro magnetico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Overwriting (sovrascrittura)</td>
+                <td>✅ Efficace</td>
+                <td>⚠️ Parzialmente efficace (wear leveling)</td>
+                <td>❌ Non applicabile</td>
+                <td>✅ Efficace</td>
+              </tr>
+              <tr>
+                <td>Crypto-erase</td>
+                <td>✅ Se FDE attiva</td>
+                <td>✅ Molto efficace</td>
+                <td>❌ Non applicabile</td>
+                <td>✅ Se FDE attiva</td>
+              </tr>
+              <tr>
+                <td>Secure Erase (firmware)</td>
+                <td>✅ Supportato da molti</td>
+                <td>✅ Metodo preferito</td>
+                <td>❌ Non applicabile</td>
+                <td>❌ Non applicabile</td>
+              </tr>
+              <tr>
+                <td>Degaussing</td>
+                <td>✅ Efficace + inutilizzabile</td>
+                <td>❌ Non efficace (non magnetico)</td>
+                <td>❌ Non efficace</td>
+                <td>✅ Efficace</td>
+              </tr>
+              <tr>
+                <td>Shredding / distruzione fisica</td>
+                <td>✅ Definitivo</td>
+                <td>✅ Definitivo</td>
+                <td>✅ Definitivo</td>
+                <td>✅ Definitivo</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>PITFALL — Degaussing sugli SSD:</strong> un errore frequente è credere che il degaussing funzioni su qualsiasi supporto. Gli SSD e i drive Flash non sono magnetici: il degaussing non ha nessun effetto su di essi. Per gli SSD la sanitizzazione corretta è il Secure Erase firmware o il crypto-erase (se il disco usa FDE). Se nessuno dei due è disponibile, la distruzione fisica è l'unica opzione affidabile.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 4.2-D</strong> — L'esame testa spesso il metodo corretto per supporti specifici. Pattern tipico: "Qual è il metodo più sicuro per smaltire un SSD che contiene dati classificati?" → distruzione fisica (shredding), perché il degaussing non funziona e il Secure Erase potrebbe avere limitazioni su SSD enterprise. Se la domanda chiede il metodo per rendere i dati irrecuperabili E riutilizzare il supporto → crypto-erase (se FDE era attiva) o Secure Erase firmware.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Secure baseline — tre fasi</strong> — Establish (definire), Deploy (distribuire), Maintain (monitorare e mantenere nel tempo)</li>
+            <li><strong>Configuration drift</strong> — Deviazione graduale di un sistema dalla sua baseline sicura per effetto di patch, interventi o modifiche non gestite</li>
+            <li><strong>SELinux</strong> — Implementazione di Mandatory Access Control (MAC) su Linux: limita cosa ogni processo può fare anche se compromesso</li>
+            <li><strong>GPO (Group Policy Object)</strong> — Meccanismo Windows per distribuire centralmente impostazioni di sicurezza a workstation e server del dominio</li>
+            <li><strong>Port Security (switch)</strong> — Limita i MAC address consentiti su una porta; contromisura al MAC flooding</li>
+            <li><strong>BYOD</strong> — Dispositivo di proprietà del dipendente; IT ha controllo limitato, containerizzazione obbligatoria per separare dati aziendali e personali</li>
+            <li><strong>COPE</strong> — Dispositivo di proprietà aziendale con uso personale consentito; IT ha controllo completo incluso remote wipe totale</li>
+            <li><strong>CYOD</strong> — Come COPE ma il dipendente sceglie il modello da un catalogo approvato dall'azienda</li>
+            <li><strong>MDM</strong> — Piattaforma centralizzata per gestire, configurare e proteggere i dispositivi mobili (enrollment, policy, remote wipe)</li>
+            <li><strong>Input validation (server-side)</strong> — Verifica che ogni dato esterno rispetti formato, lunghezza e caratteri attesi; contromisura a SQL injection, XSS, command injection</li>
+            <li><strong>Secure cookie (HttpOnly + Secure + SameSite)</strong> — HttpOnly blocca l'accesso JS al cookie (anti-XSS); Secure limita la trasmissione a HTTPS; SameSite mitiga CSRF</li>
+            <li><strong>SAST vs DAST</strong> — SAST analizza il codice sorgente senza eseguirlo (durante sviluppo); DAST testa l'applicazione in esecuzione simulando attacchi (pre-produzione)</li>
+            <li><strong>Code signing</strong> — Firma crittografica del software per garantire autenticità (chi ha firmato) e integrità (non modificato dopo la firma); non garantisce assenza di bug</li>
+            <li><strong>Sandboxing</strong> — Esecuzione di codice non fidato in ambiente isolato; usato per analisi comportamentale di malware e rilevamento zero-day</li>
+            <li><strong>ICS/SCADA — controllo compensativo principale</strong> — Segmentazione di rete con DMZ industriale tra rete IT e rete OT; air gap dove praticabile</li>
+            <li><strong>RTOS</strong> — Sistema operativo real-time per risposta deterministica; usato in sistemi industriali, medicali, automotive; sicurezza spesso secondaria al determinismo temporale</li>
+            <li><strong>Degaussing</strong> — Efficace solo su supporti magnetici (HDD, nastri); non ha effetto su SSD/Flash</li>
+            <li><strong>Crypto-erase</strong> — Sanitizzazione tramite cancellazione della chiave di cifratura; efficace e rapida, richiede che FDE fosse attiva sul dispositivo</li>
+            <li><strong>Certificate of Destruction</strong> — Documento che attesta la corretta distruzione di un supporto; obbligatorio quando si affida lo smaltimento a terzi</li>
+            <li><strong>Data owner vs Custodian</strong> — Owner determina classificazione e policy di accesso; Custodian implementa tecnicamente i controlli</li>
+            <li><strong>Asset enumeration</strong> — Scoperta attiva di dispositivi connessi alla rete tramite scansione; rivela shadow IT e dispositivi non autorizzati non presenti nell'inventario</li>
+            <li><strong>Data retention</strong> — Definisce per quanto tempo i dati devono essere conservati (obblighi legali) e quando devono essere eliminati (riduzione del rischio)</li>
+          </ul>
+        </section>
+
+        <!-- ── CHAPTER NAV ────────────────────────────────────────── -->
+        <div class="chapter-nav">
+          <a href="ch10_cloud_virtualization_canonical.html" class="secondary">← CH10 — Cloud e Virtualizzazione</a>
+          <a href="ch11_endpoint_operations_hardening_canonical.html">CH11-D4 — Endpoint Operations →</a>
+        </div>
+
+      </main>
+    </div><!-- .layout -->
+  </div><!-- .page -->
+</div><!-- .container -->
+
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

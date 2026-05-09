@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — Guida di studio</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a class="skip-link" href="#contenuto-principale">Salta al contenuto principale</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="#">CompTIA Security+ SY0-701</a>
+      <span>Indice generale</span>
+    </div>
+
+
+  <div class="lang-switch" aria-label="Selettore lingua">
+    <span>Lingua:</span>
+    <a href="security_plus_sy0_701_guida.html" aria-current="page">IT</a>
+    <span aria-hidden="true">|</span>
+    <a href="en/security_plus_sy0_701_guida.html">EN</a>
+  </div>
+
+    <h1>Guida di studio — CompTIA Security+ SY0-701</h1>
+    <p class="subtitle">
+      Manuale di riferimento per la preparazione all'esame. Ogni capitolo copre uno o più obiettivi ufficiali
+      CompTIA e include definizioni argomentate, tabelle comparative, box esame e flashcard di riepilogo.
+      Tutti i 21 obiettivi SY0-701 sono coperti nei 18 capitoli.
+    </p>
+
+    <!-- ── Come usare questa guida ─────────────────────────────── -->
+    <section class="header-panel" aria-label="Come usare questa guida">
+      <p>
+        <strong>Come usare questa guida.</strong>
+        Se sei al primo approccio, segui l'ordine dei capitoli partendo da CH1.
+        Se stai ripassando a ridosso dell'esame, inizia dai domini con più peso:
+        <strong>D4 (28%)</strong> e <strong>D2 (22%)</strong> coprono da soli il 50% del punteggio.
+        Ogni capitolo è autonomo: puoi aprirlo direttamente dalla lista qui sotto senza leggere i precedenti.
+        I capitoli CH10 e CH12 trattano entrambi l'obiettivo 3.1 da angolazioni complementari
+        (cloud vs rete fisica): leggili insieme per copertura completa.
+      </p>
+    </section>
+
+    <!-- ── KPI domini ──────────────────────────────────────────── -->
+    <div class="domain-kpi" aria-label="Peso dei domini SY0-701">
+      <div class="kpi"><strong>D4 — Operations</strong><span>28% — ~25 domande</span></div>
+      <div class="kpi"><strong>D2 — Threats &amp; Vuln.</strong><span>22% — ~20 domande</span></div>
+      <div class="kpi"><strong>D5 — Governance</strong><span>20% — ~18 domande</span></div>
+      <div class="kpi"><strong>D3 — Architecture</strong><span>18% — ~16 domande</span></div>
+      <div class="kpi"><strong>D1 — Concepts</strong><span>12% — ~11 domande</span></div>
+    </div>
+
+    <!-- ── Mappa obiettivi → capitoli (collassabile) ────────────── -->
+    <details class="objectives-collapsible" aria-label="Mappa copertura obiettivi SY0-701">
+      <summary>
+        <span class="objectives-collapsible__label">Copertura completa — tutti i 21 obiettivi ufficiali SY0-701</span>
+        <span class="objectives-collapsible__hint">clicca per espandere</span>
+      </summary>
+      <div class="objectives-collapsible__body">
+        <table style="font-size:0.85em;margin:8px 0 0;">
+          <thead>
+            <tr>
+              <th>Dominio</th>
+              <th>Obiettivo</th>
+              <th>Capitolo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="label">D1 (12%)</td><td>1.1 Controlli di sicurezza</td><td><a href="ch1_governance_classification_canonical.html">CH1</a></td></tr>
+            <tr><td class="label"></td><td>1.2 Concetti fondamentali (CIA, AAA, Zero Trust, Physical, Deception)</td><td><a href="ch1_governance_classification_canonical.html">CH1</a></td></tr>
+            <tr><td class="label"></td><td>1.3 Change management</td><td><a href="ch1_governance_classification_canonical.html">CH1</a></td></tr>
+            <tr><td class="label"></td><td>1.4 Soluzioni crittografiche (PKI, Encrypt, Hash, Cert, Blockchain)</td><td><a href="ch7_crittografia_pki_canonical.html">CH7</a></td></tr>
+            <tr><td class="label">D2 (22%)</td><td>2.1 Threat actors e motivazioni</td><td><a href="ch2_threat_landscape_canonical.html">CH2</a></td></tr>
+            <tr><td class="label"></td><td>2.2 Threat vectors e attack surfaces (incl. social engineering)</td><td><a href="ch2_threat_landscape_canonical.html">CH2</a> + <a href="ch4_social_engineering_password_attacks_canonical.html">CH4</a></td></tr>
+            <tr><td class="label"></td><td>2.3 Tipi di vulnerabilità (app, OS, web, hardware, cloud, mobile)</td><td><a href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">CH3</a> + <a href="ch6_application_security_canonical.html">CH6</a> + <a href="ch10_cloud_virtualizzazione_canonical.html">CH10</a></td></tr>
+            <tr><td class="label"></td><td>2.4 Indicatori di attività malevola (malware, network, app, crypto)</td><td><a href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">CH3</a> + <a href="ch4_social_engineering_password_attacks_canonical.html">CH4</a></td></tr>
+            <tr><td class="label"></td><td>2.5 Tecniche di mitigazione enterprise</td><td><a href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">CH3</a></td></tr>
+            <tr><td class="label">D3 (18%)</td><td>3.1 Modelli architetturali (cloud, IaC, IoT, ICS, SDN, embedded)</td><td><a href="ch10_cloud_virtualizzazione_canonical.html">CH10</a> + <a href="ch12_network_security_canonical.html">CH12</a></td></tr>
+            <tr><td class="label"></td><td>3.2 Applicare principi di sicurezza all'infrastruttura enterprise</td><td><a href="ch12_network_security_canonical.html">CH12</a></td></tr>
+            <tr><td class="label"></td><td>3.3 Protezione dei dati (tipi, classificazioni, stati, metodi)</td><td><a href="ch18_data_protection_canonical.html">CH18</a></td></tr>
+            <tr><td class="label"></td><td>3.4 Resilienza e recovery (HA, backup, site, capacity, testing)</td><td><a href="ch9_resilience_physical_security_canonical.html">CH9</a></td></tr>
+            <tr><td class="label">D4 (28%)</td><td>4.1 Tecniche di sicurezza su computing resources (hardening, mobile, app)</td><td><a href="ch11_endpoint_architecture_canonical.html">CH11</a> + <a href="ch6_application_security_canonical.html">CH6</a> + <a href="ch13_wireless_mobile_canonical.html">CH13</a></td></tr>
+            <tr><td class="label"></td><td>4.2 Asset management (acquisizione, assegnazione, disposal)</td><td><a href="ch11_endpoint_architecture_canonical.html">CH11</a></td></tr>
+            <tr><td class="label"></td><td>4.3 Vulnerability management (scan, CVSS, CVE, pen test, remediation)</td><td><a href="ch5_vulnerability_management_canonical.html">CH5</a></td></tr>
+            <tr><td class="label"></td><td>4.4 Security alerting e monitoring (SIEM, DLP, SNMP, NetFlow, scanner)</td><td><a href="ch14_incident_response_canonical.html">CH14</a></td></tr>
+            <tr><td class="label"></td><td>4.5 Modificare le capacità enterprise (firewall rules, EDR/XDR, DLP, NAC, email sec.)</td><td><a href="ch12_network_security_canonical.html">CH12</a> + <a href="ch11_endpoint_architecture_canonical.html">CH11</a></td></tr>
+            <tr><td class="label"></td><td>4.6 Identity and Access Management (SSO, MFA, PAM, accessi, password)</td><td><a href="ch8_identity_access_management_canonical.html">CH8</a></td></tr>
+            <tr><td class="label"></td><td>4.7 Automazione e orchestrazione (SOAR, scripting, API, benefici)</td><td><a href="ch14_incident_response_canonical.html">CH14</a></td></tr>
+            <tr><td class="label"></td><td>4.8 Incident response (PICERL, training, testing, root cause, forensics)</td><td><a href="ch14_incident_response_canonical.html">CH14</a> + <a href="ch15_digital_forensics_canonical.html">CH15</a></td></tr>
+            <tr><td class="label"></td><td>4.9 Fonti dati per le indagini (log, packet capture, dashboard, scan)</td><td><a href="ch14_incident_response_canonical.html">CH14</a> + <a href="ch15_digital_forensics_canonical.html">CH15</a></td></tr>
+            <tr><td class="label">D5 (20%)</td><td>5.1 Governance della sicurezza (policy, standard, procedure, strutture)</td><td><a href="ch16_governance_compliance_policy_canonical.html">CH16</a></td></tr>
+            <tr><td class="label"></td><td>5.2 Risk management (qualitativo/quantitativo, SLE/ALE/ARO, BIA)</td><td><a href="ch17_risk_privacy_third_party_canonical.html">CH17</a></td></tr>
+            <tr><td class="label"></td><td>5.3 Third-party risk (vendor assessment, selezione, accordi, monitoring)</td><td><a href="ch16_governance_compliance_policy_canonical.html">CH16</a></td></tr>
+            <tr><td class="label"></td><td>5.4 Compliance (reporting, conseguenze, monitoring, privacy)</td><td><a href="ch16_governance_compliance_policy_canonical.html">CH16</a></td></tr>
+            <tr><td class="label"></td><td>5.5 Audit e assessment (interno/esterno, pen test, attestazione)</td><td><a href="ch16_governance_compliance_policy_canonical.html">CH16</a></td></tr>
+            <tr><td class="label"></td><td>5.6 Security awareness (phishing, training, reporting, anomalie)</td><td><a href="ch17_risk_privacy_third_party_canonical.html">CH17</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <style>
+      /* ── Blocco collassabile obiettivi ──────────────────────────── */
+      details.objectives-collapsible {
+        border: 1px solid var(--light-slate);
+        border-radius: 8px;
+        background: #F8FAFC;
+        margin: 0 0 20px;
+        overflow: hidden;
+      }
+
+      details.objectives-collapsible summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+        cursor: pointer;
+        user-select: none;
+        list-style: none;          /* rimuove il triangolo nativo su Firefox */
+        font-size: 0.94em;
+      }
+      /* rimuove il triangolo nativo su Chrome/Safari */
+      details.objectives-collapsible summary::-webkit-details-marker { display: none; }
+
+      details.objectives-collapsible summary::after {
+        content: "▸";
+        color: var(--teal);
+        font-size: 1em;
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+      }
+      details.objectives-collapsible[open] summary::after {
+        transform: rotate(90deg);
+      }
+
+      details.objectives-collapsible summary:hover {
+        background: #EEF2F7;
+      }
+      details.objectives-collapsible summary:focus-visible {
+        outline: 2px solid var(--teal);
+        outline-offset: -2px;
+      }
+
+      .objectives-collapsible__label {
+        font-weight: 600;
+        color: var(--navy);
+      }
+
+      .objectives-collapsible__hint {
+        font-size: 0.82em;
+        color: var(--slate);
+        font-weight: 400;
+        margin-right: auto;   /* spinge la freccia a destra */
+        padding-left: 8px;
+      }
+      details.objectives-collapsible[open] .objectives-collapsible__hint {
+        display: none;        /* nasconde "clicca per espandere" quando aperto */
+      }
+
+      .objectives-collapsible__body {
+        padding: 0 16px 14px;
+        border-top: 1px solid var(--light-slate);
+      }
+    </style>
+
+    <!-- ── Barra di ricerca ────────────────────────────────────── -->
+    <section class="search-panel" aria-label="Ricerca rapida capitolo">
+      <label for="module-search">Cerca un capitolo per argomento, numero o parola chiave</label>
+      <input
+        id="module-search"
+        type="search"
+        placeholder="Es. crittografia, IAM, incident response, CH7, 4.5..."
+        maxlength="80"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <p class="search-status" id="search-status" aria-live="polite">Mostrati 18 capitoli su 18.</p>
+    </section>
+
+    <!-- ── Layout con sidebar ─────────────────────────────────── -->
+    <div class="layout">
+
+      <!-- Sidebar TOC -->
+      <nav class="toc-sticky" aria-label="Indice capitoli">
+        <div class="toc-domain">D1 — Concepts (12%)</div>
+        <a href="#ch1">CH1 — Fondamenti e governance</a>
+        <a href="#ch7">CH7 — Crittografia e PKI</a>
+
+        <div class="toc-domain">D2 — Threats &amp; Vuln. (22%)</div>
+        <a href="#ch2">CH2 — Threat landscape</a>
+        <a href="#ch3">CH3 — Vulnerabilità, attacchi, mitigazioni</a>
+        <a href="#ch4">CH4 — Ingegneria sociale</a>
+        <a href="#ch5">CH5 — Vulnerability management</a>
+        <a href="#ch6">CH6 — Sicurezza applicativa</a>
+
+        <div class="toc-domain">D3 — Architecture (18%)</div>
+        <a href="#ch9">CH9 — Resilienza e sicurezza fisica</a>
+        <a href="#ch10">CH10 — Cloud e virtualizzazione</a>
+        <a href="#ch12">CH12 — Sicurezza della rete</a>
+        <a href="#ch18">CH18 — Protezione dei dati</a>
+
+        <div class="toc-domain">D4 — Operations (28%)</div>
+        <a href="#ch8">CH8 — IAM</a>
+        <a href="#ch11">CH11 — Endpoint e asset management</a>
+        <a href="#ch13">CH13 — Wireless e mobile</a>
+        <a href="#ch14">CH14 — Incident response e monitoring</a>
+        <a href="#ch15">CH15 — Digital forensics</a>
+
+        <div class="toc-domain">D5 — Governance (20%)</div>
+        <a href="#ch16">CH16 — Governance e compliance</a>
+        <a href="#ch17">CH17 — Rischio, BIA e awareness</a>
+      </nav>
+
+      <!-- Contenuto principale -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ DOMINIO 1 ══════════════════════════════════════════ -->
+        <section id="d1">
+          <h2>Dominio 1 — Concetti generali di sicurezza <span class="weight-badge">12%</span></h2>
+          <p>
+            Il Dominio 1 stabilisce il vocabolario di base della sicurezza informatica: controlli, modelli di fiducia,
+            crittografia e gestione dei cambiamenti. È il fondamento su cui si appoggiano tutti gli altri domini.
+            Anche se pesa meno degli altri, i suoi concetti compaiono trasversalmente in domande di tutti i domini.
+            Copre 4 obiettivi: 1.1 (controlli), 1.2 (concetti fondamentali), 1.3 (change management), 1.4 (crittografia).
+          </p>
+
+          <article class="module-card" id="ch1">
+            <h3>CH1 — Fondamenti e governance</h3>
+            <p>Controlli di sicurezza (categorie: technical, managerial, operational, physical; tipi: preventive, deterrent, detective, corrective, compensating, directive), triade CIA, non-repudiation, AAA, Gap analysis, Zero Trust (Control Plane e Data Plane), sicurezza fisica (bollards, access badge, fencing, sensori, sorveglianza), deception technology (honeypot, honeynet, honeyfile, honeytoken), change management (approval process, ownership, backout plan, version control).</p>
+            <p>
+              <span class="objectives-tag">1.1</span>
+              <span class="objectives-tag">1.2</span>
+              <span class="objectives-tag">1.3</span>
+            </p>
+            <a class="module-link" href="ch1_governance_classification_canonical.html">Apri capitolo CH1</a>
+          </article>
+
+          <article class="module-card" id="ch7">
+            <h3>CH7 — Crittografia e PKI</h3>
+            <p>Cifratura simmetrica/asimmetrica (AES, 3DES, RSA, ECC, Diffie-Hellman), hashing (MD5, SHA-2, SHA-3), salting, PBKDF2, bcrypt, key stretching, PKI, certificati X.509, CA gerarchia, CRL, OCSP, CSR, certificati self-signed e wildcard, root of trust, TPM, HSM, Key Management System, secure enclave, steganografia, tokenizzazione, data masking, blockchain, open public ledger. Livelli di cifratura: full-disk, partition, file, volume, database, record. Cifratura in transito: TLS 1.3, IPSec.</p>
+            <p>
+              <span class="objectives-tag">1.4</span>
+            </p>
+            <a class="module-link" href="ch7_crittografia_pki_canonical.html">Apri capitolo CH7</a>
+          </article>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — D1</strong>: distingui sempre il <em>tipo</em> di controllo (preventive, deterrent, detective, corrective, compensating, directive) dalla sua <em>categoria</em> (technical, managerial, operational, physical). L'esame propone spesso scenari in cui entrambe le classificazioni sono necessarie per scegliere la risposta corretta. Per la crittografia, ricorda la regola: <em>simmetrica = veloce (dati in bulk), asimmetrica = lenta (scambio chiavi e firme)</em>.
+          </div>
+          <p><em>Vedi anche:</em> <a href="#ch9">CH9 — Resilienza (backup cifrati)</a> · <a href="#ch16">CH16 — Governance e policy</a></p>
+        </section>
+
+        <!-- ══ DOMINIO 2 ══════════════════════════════════════════ -->
+        <section id="d2">
+          <h2>Dominio 2 — Minacce, vulnerabilità e mitigazioni <span class="weight-badge">22%</span></h2>
+          <p>
+            Il secondo dominio per peso sull'esame. Copre chi attacca e perché, come attacca, quali vulnerabilità sfrutta,
+            come riconoscere un attacco in corso e come mitigarlo. Molte domande sono scenario-based: ti viene descritto
+            un evento e devi identificare l'attaccante, il vettore o la risposta corretta.
+            Gli obiettivi 4.3 (vulnerability management) e parte del 4.1 (app security) sono
+            trattati qui per continuità logica sebbene appartengano al Dominio 4.
+          </p>
+
+          <article class="module-card" id="ch2">
+            <h3>CH2 — Threat landscape</h3>
+            <p>Threat actor (nation-state, unskilled attacker, hacktivist, insider threat, organized crime, shadow IT) e relative motivazioni (data exfiltration, espionage, financial gain, disruption, war). Vettori di attacco: message-based (email, SMS, IM), image-based, file-based, voice call, removable device, vulnerable software, unsupported systems, unsecure networks (wireless, wired, Bluetooth), open service ports, default credentials, supply chain (MSP, vendors, suppliers).</p>
+            <p>
+              <span class="objectives-tag">2.1</span>
+              <span class="objectives-tag">2.2</span>
+            </p>
+            <a class="module-link" href="ch2_threat_landscape_canonical.html">Apri capitolo CH2</a>
+          </article>
+
+          <article class="module-card" id="ch3">
+            <h3>CH3 — Vulnerabilità, attacchi e mitigazioni</h3>
+            <p>Tipi di malware (ransomware, trojan, worm, spyware, bloatware, virus, keylogger, logic bomb, rootkit). Attacchi fisici (RFID cloning, brute force, environmental). Attacchi di rete (DDoS amplified/reflected, DNS attacks, on-path, credential replay). Attacchi applicativi (injection, buffer overflow, privilege escalation, forgery, directory traversal). Attacchi crittografici (downgrade, collision, birthday). Attacchi password (spraying, brute force). Indicatori di compromissione (account lockout, impossible travel, out-of-cycle logging). Mitigazioni enterprise: segmentazione, ACL, patching, isolation, least privilege, hardening, decommissioning.</p>
+            <p>
+              <span class="objectives-tag">2.3</span>
+              <span class="objectives-tag">2.4</span>
+              <span class="objectives-tag">2.5</span>
+            </p>
+            <a class="module-link" href="ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">Apri capitolo CH3</a>
+          </article>
+
+          <article class="module-card" id="ch4">
+            <h3>CH4 — Ingegneria sociale e attacchi password</h3>
+            <p>Human vectors: phishing (spear, whaling, vishing, smishing), misinformation/disinformation, impersonation, business email compromise (BEC), pretexting, watering hole, brand impersonation, typosquatting. Principi psicologici dello social engineering (urgency, authority, scarcity). Attacchi password: spraying, brute force, credential stuffing, rainbow table, pass-the-hash. Indicatori e contromisure specifiche per ogni tecnica.</p>
+            <p>
+              <span class="objectives-tag">2.2 parz.</span>
+              <span class="objectives-tag">2.4 parz.</span>
+            </p>
+            <a class="module-link" href="ch4_social_engineering_password_attacks_canonical.html">Apri capitolo CH4</a>
+          </article>
+
+          <article class="module-card" id="ch5">
+            <h3>CH5 — Vulnerability management</h3>
+            <p>Metodi di identificazione: vulnerability scan (credenziali vs agentless), static/dynamic analysis, package monitoring, threat feed (OSINT, dark web, information-sharing org), penetration testing, responsible disclosure, bug bounty program, system audit. Analisi: false positive/negative, CVSS, CVE, exposure factor, risk tolerance. Remediation: patching, segmentazione, compensating controls, exceptions/exemptions. Validazione: rescanning, audit, verifica. Reporting.</p>
+            <p>
+              <span class="objectives-tag">4.3</span>
+            </p>
+            <a class="module-link" href="ch5_vulnerability_management_canonical.html">Apri capitolo CH5</a>
+          </article>
+
+          <article class="module-card" id="ch6">
+            <h3>CH6 — Sicurezza applicativa</h3>
+            <p>Secure SDLC, input validation, secure cookies, static code analysis (SAST), dynamic analysis (DAST), code signing, sandboxing, monitoring applicativo. Vulnerabilità applicative: SQL injection, XSS, buffer overflow, memory injection, race condition TOCTTOU, malicious update, side loading, jailbreaking. OWASP Top 10, fuzzing, API security, autenticazione e autorizzazione applicativa.</p>
+            <p>
+              <span class="objectives-tag">2.3 parz.</span>
+              <span class="objectives-tag">4.1 parz.</span>
+            </p>
+            <a class="module-link" href="ch6_application_security_canonical.html">Apri capitolo CH6</a>
+          </article>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — D2</strong>: in uno scenario di attacco, identifica prima il <em>vettore</em> (come è arrivato l'attaccante: email, credenziali, exploit applicativo, supply chain) e poi la <em>mitigazione specifica per quel vettore</em>. Non usare una risposta generica come "firewall" quando lo scenario descrive un attacco di phishing. Per le vulnerabilità, ricorda: <em>buffer overflow = troppi dati in memoria</em>, <em>TOCTTOU = finestra temporale tra check e uso</em>, <em>injection = input non sanificato interpretato come comando</em>.
+          </div>
+          <p><em>Vedi anche:</em> <a href="#ch14">CH14 — Incident response</a> · <a href="#ch8">CH8 — IAM</a></p>
+        </section>
+
+        <!-- ══ DOMINIO 3 ══════════════════════════════════════════ -->
+        <section id="d3">
+          <h2>Dominio 3 — Architettura di sicurezza <span class="weight-badge">18%</span></h2>
+          <p>
+            Tratta come progettare e proteggere l'infrastruttura: modelli architetturali, sicurezza di rete,
+            protezione dei dati e resilienza. Le domande spesso presentano uno scenario architetturale e chiedono
+            quale controllo o modello sia più appropriato. L'obiettivo 3.1 è distribuito tra CH10 (prospettiva cloud
+            e virtualizzazione) e CH12 (prospettiva infrastruttura di rete): entrambi sono necessari per la copertura completa.
+          </p>
+
+          <article class="module-card" id="ch9">
+            <h3>CH9 — Resilienza e sicurezza fisica</h3>
+            <p>High Availability: load balancing vs clustering. Site considerations: hot site, warm site, cold site, geographic dispersion. Platform diversity e multi-cloud. Continuity of operations. Capacity planning (people, technology, infrastructure). Testing: tabletop exercise, failover, simulation, parallel processing. Backup: onsite/offsite, frequency, encryption, snapshots, recovery, replication, journaling. Power: generatori, UPS.</p>
+            <p>
+              <span class="objectives-tag">3.4</span>
+            </p>
+            <a class="module-link" href="ch9_resilience_physical_security_canonical.html">Apri capitolo CH9</a>
+          </article>
+
+          <article class="module-card" id="ch10">
+            <h3>CH10 — Cloud e virtualizzazione</h3>
+            <p>Modelli di servizio IaaS/PaaS/SaaS/FaaS. Shared Responsibility Matrix. Hybrid considerations. Third-party vendors in cloud. Infrastructure as Code (IaC). Serverless. Microservices. Containerizzazione (Docker, Kubernetes). Virtualizzazione e VM escape. IoT, ICS/SCADA, RTOS, embedded systems. Considerazioni architetturali: availability, resilience, cost, scalability, ease of deployment, risk transference, patch availability, inability to patch, power, compute. Vulnerabilità cloud-specific e resource reuse.</p>
+            <p>
+              <span class="objectives-tag">3.1 parz.</span>
+              <span class="objectives-tag">2.3 parz.</span>
+            </p>
+            <a class="module-link" href="ch10_cloud_virtualizzazione_canonical.html">Apri capitolo CH10</a>
+          </article>
+
+          <article class="module-card" id="ch12">
+            <h3>CH12 — Architettura e sicurezza della rete</h3>
+            <p>
+              Infrastruttura di rete: physical isolation (air-gapped), logical segmentation, SDN, on-premises, centralized vs decentralized.
+              Infrastructure considerations: device placement, security zones, attack surface, connectivity, failure modes (fail-open/fail-closed),
+              device attribute (active/passive, inline/tap), network appliances (jump server, proxy, IPS/IDS, load balancer, sensors),
+              port security (802.1X, EAP), firewall types (WAF, UTM, NGFW, Layer 4/7).
+              Secure communication: VPN, remote access, tunneling (TLS, IPSec), SD-WAN, SASE.
+              Modificare capacità enterprise: firewall rules, IDS/IPS (trends, signatures), web filter (URL scanning, content categorization, reputation),
+              OS security (Group Policy, SELinux), protocolli sicuri, DNS filtering, email security (DMARC, DKIM, SPF, gateway), FIM, DLP, NAC, EDR/XDR, UBA.
+            </p>
+            <p>
+              <span class="objectives-tag">3.1 parz.</span>
+              <span class="objectives-tag">3.2</span>
+              <span class="objectives-tag">4.5</span>
+            </p>
+            <a class="module-link" href="ch12_network_security_canonical.html">Apri capitolo CH12</a>
+          </article>
+
+          <article class="module-card" id="ch18">
+            <h3>CH18 — Protezione dei dati</h3>
+            <p>Tipi di dato: regulated, trade secret, intellectual property, legal information, financial information, human-readable vs non-human-readable. Classificazioni: sensitive, confidential, public, restricted, private, critical. Stati del dato: data at rest, data in transit, data in use. Data sovereignty e geolocation. Metodi di protezione: geographic restrictions, encryption, hashing, masking, tokenization, obfuscation, segmentation, permission restrictions.</p>
+            <p>
+              <span class="objectives-tag">3.3</span>
+            </p>
+            <a class="module-link" href="ch18_data_protection_canonical.html">Apri capitolo CH18</a>
+          </article>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — D3</strong>: identifica prima il modello architetturale dello scenario (on-premises, cloud, ibrido, IoT) e poi scegli il controllo. Un controllo corretto in un contesto on-premises potrebbe non essere applicabile in cloud. Segmentazione, IAM e cifratura a riposo/in transito sono le risposte più frequenti nelle domande D3. Ricorda: <em>fail-open = sicurezza sacrificata per disponibilità</em>, <em>fail-closed = disponibilità sacrificata per sicurezza</em>.
+          </div>
+          <p><em>Vedi anche:</em> <a href="#ch7">CH7 — Crittografia</a> · <a href="#ch11">CH11 — Endpoint hardening</a></p>
+        </section>
+
+        <!-- ══ DOMINIO 4 ══════════════════════════════════════════ -->
+        <section id="d4">
+          <h2>Dominio 4 — Operazioni di sicurezza <span class="weight-badge">28%</span></h2>
+          <p>
+            Il dominio con il maggior peso sull'esame (28%). Copre le attività quotidiane del professionista della sicurezza:
+            hardening, gestione degli asset, vulnerability management operativo, IAM, risposta agli incidenti,
+            forensica, monitoring, automazione. La maggior parte delle domande scenario-based appartiene a questo dominio.
+            Comprende 9 obiettivi: 4.1–4.9.
+          </p>
+
+          <article class="module-card" id="ch8">
+            <h3>CH8 — Identity and Access Management (IAM)</h3>
+            <p>Provisioning/de-provisioning account. Identity proofing. Federation. SSO (LDAP, OAuth 2.0, SAML). Interoperability e attestation. Modelli di controllo accessi: MAC, DAC, RBAC, Rule-based, ABAC, time-of-day, least privilege. MFA: biometrics, hard/soft token, security keys; fattori (know/have/are/where). Password concepts: length, complexity, reuse, expiration, age; password manager, passwordless. Privileged Access Management: just-in-time permissions, password vaulting, ephemeral credentials.</p>
+            <p>
+              <span class="objectives-tag">4.6</span>
+            </p>
+            <a class="module-link" href="ch8_identity_access_management_canonical.html">Apri capitolo CH8</a>
+          </article>
+
+          <article class="module-card" id="ch11">
+            <h3>CH11 — Architettura endpoint e asset management</h3>
+            <p>Secure baselines (establish, deploy, maintain). Hardening targets: mobile devices, workstations, switches, routers, cloud infrastructure, servers, ICS/SCADA, embedded systems, RTOS, IoT devices. Application security: input validation, secure cookies, static code analysis, code signing. Sandboxing e monitoring. Asset management: acquisizione/procurement, assignment/accounting (ownership, classification), monitoring/asset tracking (inventory, enumeration), disposal/decommissioning (sanitization, destruction, certification, data retention).</p>
+            <p>
+              <span class="objectives-tag">4.1</span>
+              <span class="objectives-tag">4.2</span>
+            </p>
+            <a class="module-link" href="ch11_endpoint_architecture_canonical.html">Apri capitolo CH11</a>
+          </article>
+
+          <article class="module-card" id="ch13">
+            <h3>CH13 — Wireless e mobile</h3>
+            <p>Wireless devices: site survey e heat map. MDM, deployment models BYOD/COPE/CYOD. Connection methods: cellular, Wi-Fi, Bluetooth (bluejacking, bluesnarfing, bluebugging). Wireless security settings: WPA3, AAA/RADIUS, protocolli crittografici, protocolli di autenticazione (EAP-TLS, PEAP, EAP-TTLS). Rogue AP, evil twin, deauth attack. 802.1X port-based NAC per reti wireless enterprise.</p>
+            <p>
+              <span class="objectives-tag">4.1 parz.</span>
+            </p>
+            <a class="module-link" href="ch13_wireless_mobile_canonical.html">Apri capitolo CH13</a>
+          </article>
+
+          <article class="module-card" id="ch14">
+            <h3>CH14 — Incident response, monitoring e automazione</h3>
+            <p>
+              Incident response (4.8): processo PICERL (Preparation, Detection, Analysis, Containment, Eradication, Recovery, Lessons learned), training, tabletop exercise, simulation, root cause analysis, threat hunting, digital forensics nell'IR (legal hold, chain of custody, acquisition, reporting, preservation, e-discovery).
+              Monitoring (4.4): log aggregation, alerting, scanning, reporting, archiving, alert response (quarantine, alert tuning), SCAP, benchmarks, SIEM, antivirus, DLP, SNMP traps, NetFlow, vulnerability scanners.
+              Automazione e orchestrazione (4.7): use cases (user provisioning, resource provisioning, guard rails, ticket creation, escalation, CI/CD, API integration), benefici (efficiency, baseline enforcement, scaling, workforce multiplier), considerazioni (complexity, cost, single point of failure, technical debt).
+            </p>
+            <p>
+              <span class="objectives-tag">4.4</span>
+              <span class="objectives-tag">4.7</span>
+              <span class="objectives-tag">4.8</span>
+              <span class="objectives-tag">4.9</span>
+            </p>
+            <a class="module-link" href="ch14_incident_response_canonical.html">Apri capitolo CH14</a>
+          </article>
+
+          <article class="module-card" id="ch15">
+            <h3>CH15 — Digital forensics</h3>
+            <p>Concetti forensi: legal hold, chain of custody, acquisition (immagini forensi, bit-by-bit), reporting, preservation, e-discovery. Order of volatility. Analisi memoria RAM e artefatti di sistema. Timeline reconstruction. Log data per investigazioni: firewall logs, application logs, endpoint logs, OS-specific security logs, IPS/IDS logs, network logs, metadata. Data sources: vulnerability scans, automated reports, dashboards, packet captures.</p>
+            <p>
+              <span class="objectives-tag">4.8 parz.</span>
+              <span class="objectives-tag">4.9</span>
+            </p>
+            <a class="module-link" href="ch15_digital_forensics_canonical.html">Apri capitolo CH15</a>
+          </article>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — D4</strong>: nelle domande di incident response, usa sempre la sequenza <em>containment prima di eradication</em>. Non si rimuove il malware prima di isolare il sistema. Se lo scenario menziona la raccolta di prove, verifica che la chain of custody sia rispettata prima di qualsiasi altra azione. Per le domande su automazione, distingui tra SOAR (orchestrazione IR) e SIEM (aggregazione log e alerting): sono strumenti complementari, non alternativi.
+          </div>
+          <p><em>Vedi anche:</em> <a href="#ch12">CH12 — Network security (4.5)</a> · <a href="#ch17">CH17 — Risk management</a></p>
+        </section>
+
+        <!-- ══ DOMINIO 5 ══════════════════════════════════════════ -->
+        <section id="d5">
+          <h2>Dominio 5 — Governance e supervisione <span class="weight-badge">20%</span></h2>
+          <p>
+            Copre la dimensione organizzativa e normativa della sicurezza: governance, gestione del rischio, compliance,
+            terze parti, audit e security awareness. Molte domande richiedono di distinguere termini simili con significati
+            precisi (policy vs standard vs procedura, rischio intrinseco vs residuo, SLA vs MOU vs NDA, risk transfer vs accept).
+          </p>
+
+          <article class="module-card" id="ch16">
+            <h3>CH16 — Governance, compliance e policy</h3>
+            <p>Governance: guidelines, policy (AUP, information security, BCP, DR, IR, SDLC, change management), standard (password, access control, physical security, encryption), procedure (change management, onboarding/offboarding, playbooks). External considerations (regulatory, legal, industry, local/national/global). Monitoring and revision. Strutture di governance: boards, committees, government entities, centralized/decentralized. Roles: owners, controllers, processors, custodians/stewards. Third-party risk (5.3): vendor assessment, due diligence, conflict of interest, agreement types (SLA, MOA, MOU, MSA, WO/SOW, NDA, BPA), vendor monitoring, questionnaires, rules of engagement. Compliance (5.4): reporting interno/esterno, conseguenze non-conformità (fines, sanctions, reputational damage, loss of license), compliance monitoring, privacy (data subject, controller vs processor, right to be forgotten). Audit e assessment (5.5): attestation, internal (compliance, audit committee, self-assessment), external (regulatory, examinations, independent third-party), penetration testing (physical, offensive, defensive, integrated, known/unknown/partially known environment, passive/active recon).</p>
+            <p>
+              <span class="objectives-tag">5.1</span>
+              <span class="objectives-tag">5.3</span>
+              <span class="objectives-tag">5.4</span>
+              <span class="objectives-tag">5.5</span>
+            </p>
+            <a class="module-link" href="ch16_governance_compliance_policy_canonical.html">Apri capitolo CH16</a>
+          </article>
+
+          <article class="module-card" id="ch17">
+            <h3>CH17 — Rischio, BIA e security awareness</h3>
+            <p>Risk management (5.2): risk identification, risk assessment (ad hoc, recurring, one-time, continuous), analisi qualitativa/quantitativa (SLE, ALE, ARO, probability, likelihood, exposure factor, impact), risk register (key risk indicators, risk owners, risk threshold), risk tolerance e risk appetite (expansionary, conservative, neutral), strategie (transfer, accept con exemption/exception, avoid, mitigate), risk reporting, BIA (RTO, RPO, MTTR, MTBF). Security awareness (5.6): phishing campaigns, riconoscimento tentativi, risposta a messaggi sospetti, anomalous behavior recognition (risky, unexpected, unintentional), user guidance (policy/handbooks, situational awareness, insider threat, password management, removable media, social engineering, OPSEC, hybrid/remote work), reporting e monitoring, development e execution del programma di awareness.</p>
+            <p>
+              <span class="objectives-tag">5.2</span>
+              <span class="objectives-tag">5.6</span>
+            </p>
+            <a class="module-link" href="ch17_risk_privacy_third_party_canonical.html">Apri capitolo CH17</a>
+          </article>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — D5</strong>: separa sempre <em>rischio intrinseco</em> (prima dei controlli) da <em>rischio residuo</em> (dopo i controlli). Nei calcoli quantitativi, ricorda le formule: <code>SLE = AV × EF</code> e <code>ALE = SLE × ARO</code>. Il costo annuale di un controllo deve essere inferiore all'ALE perché abbia senso economico implementarlo. Per le domande su policy, ricorda la gerarchia: <em>Policy → Standard → Procedure → Guideline</em> (in ordine decrescente di obbligatorietà).
+          </div>
+          <p><em>Vedi anche:</em> <a href="#ch1">CH1 — Fondamenti</a> · <a href="#ch14">CH14 — Incident response</a></p>
+        </section>
+
+      </main>
+    </div><!-- /.layout -->
+
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+<script>
+  (function () {
+    const input  = document.getElementById('module-search');
+    const cards  = Array.from(document.querySelectorAll('.module-card'));
+    const status = document.getElementById('search-status');
+    if (!input || !cards.length || !status) return;
+
+    const normalize = v => v.trim().replace(/\s+/g, ' ').toLowerCase();
+
+    const update = () => {
+      const q = normalize(input.value);
+      let visible = 0;
+      cards.forEach(card => {
+        const match = q === '' || card.textContent.toLowerCase().includes(q);
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      status.textContent = `Mostrati ${visible} capitoli su ${cards.length}.`;
+    };
+
+    input.addEventListener('input', update);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && input.value !== '') { input.value = ''; update(); }
+    });
+    update();
+  })();
+</script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH10 — Cloud e Virtualizzazione · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 3 — Security Architecture</span>
+      <span>CH10 — Cloud e Virtualizzazione</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch10_cloud_virtualizzazione_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch10_cloud_virtualizzazione_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH10 — Cloud e Virtualizzazione</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 3 · Obiettivi 3.1 (parziale) + 2.3 (parziale)
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">3.1</span>
+        <span class="objectives-tag">2.3 parz.</span>
+        <span class="weight-badge">D3 = 18%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Fondamenti e Governance</a>
+        (triade CIA, tipi di controllo) ·
+        <a href="ch2_threat_landscape_canonical.html">CH2 — Threat Landscape</a>
+        (superfici d'attacco, vulnerabilità).
+      </p>
+      <p><strong>Capitoli correlati:</strong>
+        CH9 — Resilienza e sicurezza fisica ·
+        CH11 — Sicurezza degli Endpoint ·
+        CH12 — Sicurezza di Rete ·
+        CH8 — Identity &amp; Access Management.
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 3.1 — Cloud</div>
+        <a href="#obj-cloud-modelli">Modelli di servizio cloud</a>
+        <a href="#responsabilita">↳ Responsibility matrix</a>
+        <a href="#distribuzione">↳ Modelli di distribuzione</a>
+        <a href="#hybrid">↳ Hybrid considerations</a>
+        <a href="#third-party">↳ Third-party vendors</a>
+
+        <div class="toc-section">Obiettivo 3.1 — Architetture</div>
+        <a href="#iac">Infrastructure as Code (IaC)</a>
+        <a href="#serverless">Serverless</a>
+        <a href="#microservices">Microservices</a>
+        <a href="#containerization">Containerization</a>
+
+        <div class="toc-section">Obiettivo 3.1 — Virtualizzazione</div>
+        <a href="#virtualization">Virtualizzazione e Hypervisor</a>
+        <a href="#sdn">Software-Defined Networking</a>
+        <a href="#ha">High Availability</a>
+
+        <div class="toc-section">Obiettivo 3.1 — Considerations</div>
+        <a href="#considerations">Fattori di valutazione</a>
+
+        <div class="toc-section">Obiettivo 2.3 — Vulnerabilità</div>
+        <a href="#vuln-cloud">Vulnerabilità cloud e VM</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#termlist">Termini chiave (dl)</a>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 1 — MODELLI DI SERVIZIO CLOUD  (obj 3.1)
+        ════════════════════════════════════════════════════════ -->
+        <section id="obj-cloud-modelli">
+          <h2>Modelli di servizio cloud (3.1)</h2>
+
+          <p>
+            Il cloud computing è un modello di erogazione di risorse IT attraverso Internet basato su cinque
+            caratteristiche essenziali definite dal NIST: <strong>on-demand self-service</strong>, <strong>broad network
+            access</strong>, <strong>resource pooling</strong>, <strong>rapid elasticity</strong> e <strong>measured service</strong>. Queste
+            caratteristiche cambiano radicalmente il modo in cui si acquistano, si dimensionano e si proteggono
+            le infrastrutture: il provisioning che in passato richiedeva settimane oggi avviene in minuti, ma
+            questa velocità porta con sé rischi di configurazione errata, di espansione incontrollata e di
+            perdita di visibilità su dove si trovano i dati.
+          </p>
+          <p>
+            I modelli di servizio si distinguono in base a <em>quanta</em> infrastruttura gestisce il provider e quanta
+            ne rimane sotto il controllo del cliente. La comprensione precisa di questo confine è fondamentale
+            non solo per progettare un'architettura sicura, ma anche per rispondere correttamente alle domande
+            dell'esame che chiedono "chi è responsabile di cosa".
+          </p>
+
+          <dl class="termlist">
+            <dt>IaaS — Infrastructure as a Service</dt>
+            <dd>
+              Il provider offre l'infrastruttura di base: server fisici, storage, networking e hypervisor. Il
+              cliente è responsabile di tutto il resto — sistema operativo, patch del SO, middleware, runtime,
+              applicazioni e dati. È il modello con la massima flessibilità e il massimo carico di
+              responsabilità per il cliente. Esempi: AWS EC2, Azure Virtual Machines, Google Compute Engine.
+              Il rischio principale è la misconfiguration: un security group mal configurato espone
+              istanze direttamente su Internet.
+            </dd>
+
+            <dt>PaaS — Platform as a Service</dt>
+            <dd>
+              Il provider gestisce anche il sistema operativo, il runtime e il middleware; il cliente si occupa
+              solo del codice applicativo e dei dati. PaaS accelera lo sviluppo eliminando la gestione del
+              server sottostante, ma riduce la visibilità e il controllo. Esempi: Azure App Service, Google
+              App Engine, Heroku. Il rischio principale è che le vulnerabilità nella piattaforma fornita dal
+              provider non siano patchabili autonomamente dal cliente.
+            </dd>
+
+            <dt>SaaS — Software as a Service</dt>
+            <dd>
+              Il provider eroga un'applicazione completa già gestita. Il cliente non controlla nulla
+              dell'infrastruttura sottostante e ha visibilità limitata anche sulle configurazioni applicative.
+              Esempi: Microsoft 365, Google Workspace, Salesforce. Il rischio principale riguarda la
+              gestione delle identità, i permessi granulari e la residenza dei dati.
+            </dd>
+
+            <dt>FaaS / Serverless Computing</dt>
+            <dd>
+              Il cliente esegue singole funzioni di codice in risposta a eventi, senza gestire server. Il
+              provider alloca e dealloca le risorse automaticamente. Esempi: AWS Lambda, Azure Functions,
+              Google Cloud Functions. Vedere la sezione dedicata al serverless per i dettagli di sicurezza.
+            </dd>
+          </dl>
+
+          <table>
+            <caption style="text-align:left;font-weight:600;margin-bottom:6px;">
+              Responsabilità tipiche per modello di servizio
+            </caption>
+            <thead>
+              <tr>
+                <th>Livello</th>
+                <th>IaaS</th>
+                <th>PaaS</th>
+                <th>SaaS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="label">Dati</td><td>Cliente</td><td>Cliente</td><td>Cliente</td></tr>
+              <tr><td class="label">Applicazione</td><td>Cliente</td><td>Cliente</td><td>Provider</td></tr>
+              <tr><td class="label">Runtime / Middleware</td><td>Cliente</td><td>Provider</td><td>Provider</td></tr>
+              <tr><td class="label">Sistema operativo</td><td>Cliente</td><td>Provider</td><td>Provider</td></tr>
+              <tr><td class="label">Virtualizzazione</td><td>Provider</td><td>Provider</td><td>Provider</td></tr>
+              <tr><td class="label">Hardware fisico / Rete</td><td>Provider</td><td>Provider</td><td>Provider</td></tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>⚠ Attenzione — IaaS vs PaaS</strong><br>
+            In IaaS il cliente <em>deve</em> patchare il sistema operativo. In PaaS il provider lo gestisce, ma il
+            cliente non può controllarne i tempi. L'esame chiede spesso: "chi è responsabile della patch del SO?"
+            — la risposta dipende dal modello di servizio. Non rispondere "il provider" in modo generico.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 2 — RESPONSIBILITY MATRIX
+        ════════════════════════════════════════════════════════ -->
+        <section id="responsabilita">
+          <h2>Responsibility Matrix — Modello a responsabilità condivisa</h2>
+
+          <p>
+            Il <strong>modello a responsabilità condivisa</strong> (Shared Responsibility Model) stabilisce in modo
+            formale la suddivisione dei compiti di sicurezza tra il Cloud Service Provider (CSP) e il cliente.
+            Il principio di fondo è che il provider è sempre responsabile della sicurezza <em>del</em> cloud
+            (hardware, hypervisor, datacenter fisici), mentre il cliente è sempre responsabile della sicurezza
+            <em>nel</em> cloud (dati, identità, configurazioni delle risorse che utilizza). Il confine esatto
+            si sposta in base al modello di servizio adottato.
+          </p>
+          <p>
+            La <strong>Responsibility Matrix</strong> è uno strumento pratico — spesso sotto forma di tabella o
+            checklist — che elenca ogni componente o area di sicurezza e indica chi ne è responsabile.
+            Framework come la <strong>Cloud Controls Matrix (CCM)</strong> della Cloud Security Alliance (CSA)
+            forniscono una mappatura standardizzata dei controlli di sicurezza cloud organizzati per dominio,
+            consentendo di confrontare le responsabilità tra più provider.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — AWS S3 bucket esposto</strong><br>
+            Un'azienda usa Amazon S3 (SaaS-like per lo storage, ma tecnicamente IaaS). AWS garantisce la
+            disponibilità e la sicurezza fisica dello storage. Tuttavia, la configurazione dell'Access Control
+            List del bucket è responsabilità del cliente. Se il cliente lascia il bucket pubblicamente
+            accessibile, AWS non interviene: la violazione è colpa del cliente. Questo errore, noto come
+            "S3 bucket misconfiguration", è una delle cause più comuni di data breach cloud.
+          </div>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — Responsibility Matrix</strong><br>
+            Domanda tipica: "Un'organizzazione usa un'applicazione SaaS. Chi è responsabile della patch del
+            sistema operativo sottostante?" — Risposta: il provider. "Chi è responsabile di garantire che gli
+            utenti abbiano solo i permessi necessari?" — Risposta: il cliente (gestione delle identità è
+            sempre responsabilità del cliente in tutti i modelli). Quando vedi "dati" e "identità" nelle
+            opzioni, queste sono quasi sempre responsabilità del cliente, indipendentemente dal modello.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 3 — MODELLI DI DISTRIBUZIONE
+        ════════════════════════════════════════════════════════ -->
+        <section id="distribuzione">
+          <h2>Modelli di distribuzione cloud</h2>
+
+          <dl class="termlist">
+            <dt>Public Cloud</dt>
+            <dd>
+              Infrastruttura condivisa tra più clienti (multi-tenant), gestita interamente dal provider e
+              accessibile tramite Internet. Offre costi ridotti, scalabilità immediata e zero investimenti in
+              hardware. Il rischio principale è la multi-tenancy: un'errata configurazione potrebbe portare
+              a fughe di dati tra tenant. Esempi: AWS, Azure, Google Cloud Platform.
+            </dd>
+
+            <dt>Private Cloud</dt>
+            <dd>
+              Infrastruttura cloud dedicata all'uso di un singolo cliente, gestita internamente o da un
+              provider dedicato. Offre maggiore controllo, isolamento fisico e possibilità di rispettare
+              requisiti normativi stringenti (es. healthcare, difesa). Il costo è più alto perché le risorse
+              non vengono condivise. Può essere ospitata on-premises o in un datacenter del provider.
+            </dd>
+
+            <dt>Community Cloud</dt>
+            <dd>
+              Infrastruttura condivisa solo tra organizzazioni che appartengono a una comunità con requisiti
+              comuni (stessa normativa, stesso settore, stessa missione). Esempi: cloud per enti governativi,
+              cloud per ospedali soggetti a HIPAA. Bilancia il risparmio della condivisione con l'esigenza
+              di controllo e conformità.
+            </dd>
+
+            <dt>Hybrid Cloud</dt>
+            <dd>
+              Combinazione coerente e coordinata di due o più ambienti cloud (pubblico, privato, community)
+              o di cloud e on-premises, collegati da tecnologie che permettono portabilità dei dati e delle
+              applicazioni. Vedere la sezione "Hybrid Considerations" per i dettagli di sicurezza.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — Modelli di distribuzione</strong><br>
+            L'esame può chiedere quale modello scegliere dato un requisito. Regola rapida: se la domanda
+            menziona "normativa" o "dati sensibili" → Private Cloud. Se menziona "più organizzazioni con
+            requisiti condivisi" → Community Cloud. Se menziona "flessibilità + risorse on-premises
+            esistenti" → Hybrid Cloud. Se nessuna di queste condizioni → Public Cloud.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 4 — HYBRID CONSIDERATIONS
+        ════════════════════════════════════════════════════════ -->
+        <section id="hybrid">
+          <h2>Hybrid Considerations</h2>
+
+          <p>
+            Un ambiente ibrido introduce complessità di sicurezza specifiche che non esistono nei modelli
+            esclusivamente on-premises o esclusivamente cloud. Le principali aree di attenzione sono:
+          </p>
+
+          <dl class="termlist">
+            <dt>Connettività sicura tra ambienti</dt>
+            <dd>
+              Il traffico tra l'ambiente on-premises e il cloud pubblico deve essere cifrato e autenticato.
+              Le soluzioni tipiche sono il <strong>VPN site-to-site</strong> (connessione cifrata via Internet) o il
+              <strong>Direct Connect / ExpressRoute</strong> (connessione privata dedicata che non passa per
+              Internet). La seconda opzione offre latenza prevedibile e maggiore sicurezza, ma ha costo
+              superiore.
+            </dd>
+
+            <dt>Gestione delle identità federata</dt>
+            <dd>
+              In un ambiente ibrido gli utenti devono autenticarsi sia verso risorse on-premises (tipicamente
+              tramite Active Directory) sia verso risorse cloud. La federazione delle identità tramite
+              protocolli come <strong>SAML</strong>, <strong>OAuth 2.0</strong> o <strong>OIDC</strong> consente di usare un unico
+              sistema di autenticazione. Senza federazione, si crea un secondo silo di identità difficile
+              da gestire e da proteggere.
+            </dd>
+
+            <dt>Postura di sicurezza coerente</dt>
+            <dd>
+              Uno dei rischi principali dell'ibrido è che le policy di sicurezza definite on-premises non
+              vengano applicate automaticamente alle risorse cloud. Ogni controllo — firewall, logging,
+              gestione delle patch, crittografia — deve essere esplicitamente esteso o riconfigruato
+              nell'ambiente cloud. Strumenti di <strong>Cloud Security Posture Management (CSPM)</strong>
+              aiutano a rilevare configurazioni cloud che non rispettano le policy aziendali.
+            </dd>
+
+            <dt>Latenza e disponibilità dei dati</dt>
+            <dd>
+              Applicazioni che fanno ping tra on-premises e cloud ad alta frequenza possono soffrire di
+              latenza eccessiva. È importante definire in fase di design quali workload rimangono on-premises
+              e quali migrano al cloud, evitando architetture "chatty" che generano traffico costante tra i
+              due ambienti.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Active Directory ibrido con Azure AD</strong><br>
+            Un'azienda ha Active Directory on-premises e usa Microsoft 365 (SaaS) per la posta elettronica.
+            Con Azure AD Connect, le identità vengono sincronizzate: gli utenti si autenticano una sola volta
+            con le proprie credenziali aziendali e accedono sia alle risorse interne sia a Microsoft 365.
+            Se un account viene disabilitato in AD, la disabilitazione si propaga automaticamente anche
+            su Azure AD entro il successivo ciclo di sincronizzazione.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 5 — THIRD-PARTY VENDORS
+        ════════════════════════════════════════════════════════ -->
+        <section id="third-party">
+          <h2>Third-Party Vendors e Governance cloud</h2>
+
+          <p>
+            L'adozione del cloud implica quasi sempre l'affidarsi a fornitori terzi per parti critiche
+            dell'infrastruttura o dell'applicazione. Questo non elimina la responsabilità dell'organizzazione:
+            in caso di violazione, l'organizzazione risponde comunque verso i propri utenti e verso le
+            autorità di regolamentazione.
+          </p>
+
+          <dl class="termlist">
+            <dt>Valutazione e due diligence dei fornitori</dt>
+            <dd>
+              Prima di affidare dati o workload a un provider, l'organizzazione deve valutarne la postura
+              di sicurezza tramite questionari standardizzati (es. CAIQ della CSA), la revisione delle
+              certificazioni (ISO 27001, SOC 2, FedRAMP) e, dove contrattualmente possibile, un audit
+              diretto. La certificazione SOC 2 Type II è particolarmente significativa perché attesta che
+              i controlli dichiarati sono stati operativi per un periodo di almeno sei mesi.
+            </dd>
+
+            <dt>Contratti e SLA</dt>
+            <dd>
+              Il contratto con il provider deve specificare i livelli di servizio (SLA), le procedure di
+              notifica degli incidenti, i diritti di audit, la residenza geografica dei dati e le
+              responsabilità in caso di violazione. Un SLA che garantisce il 99,9% di uptime significa
+              circa 8,7 ore di downtime tollerato per anno; il 99,99% scende a 52 minuti annui.
+            </dd>
+
+            <dt>CASB — Cloud Access Security Broker</dt>
+            <dd>
+              Un CASB è un intermediario — software o servizio — posizionato tra gli utenti aziendali e i
+              servizi cloud che usano. Può operare in modalità <strong>inline</strong> (nel percorso del traffico,
+              capace di bloccare richieste in tempo reale) o in modalità <strong>API-based</strong> (collegato al
+              provider via API, orientato a monitoraggio, auditing e remediation a posteriori). Un CASB
+              consente di applicare policy aziendali — DLP, crittografia, controllo degli accessi — su
+              servizi cloud che altrimenti sarebbero fuori dal perimetro di controllo aziendale.
+            </dd>
+
+            <dt>MSP e MSSP</dt>
+            <dd>
+              Un <strong>Managed Service Provider (MSP)</strong> gestisce servizi tecnologici per conto del cliente
+              (server, reti, backup). Un <strong>Managed Security Service Provider (MSSP)</strong> gestisce
+              specificamente i servizi di sicurezza: SIEM, SOC, gestione dei firewall, risposta agli
+              incidenti. Anche MSP e MSSP sono fornitori terzi e devono essere valutati con la stessa
+              due diligence.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>⚠ Attenzione — CASB inline vs API-based</strong><br>
+            Un CASB <em>inline</em> può bloccare richieste <em>prima</em> che arrivino al servizio cloud, ma introduce
+            latenza e dipende dalla disponibilità del CASB stesso. Un CASB <em>API-based</em> non può bloccare
+            in tempo reale, ma rileva e corregge problemi a posteriori. L'esame può chiederti quale scegliere
+            in base al requisito: "blocco in tempo reale" → inline; "monitoraggio e auditing" → API-based.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 6 — INFRASTRUCTURE AS CODE
+        ════════════════════════════════════════════════════════ -->
+        <section id="iac">
+          <h2>Infrastructure as Code (IaC)</h2>
+
+          <p>
+            L'<strong>Infrastructure as Code</strong> è l'approccio che consiste nel definire e gestire
+            l'infrastruttura IT — server, reti, database, configurazioni — tramite file di codice dichiarativi
+            o imperativi invece che tramite processi manuali. Strumenti come Terraform, AWS CloudFormation,
+            Azure ARM Templates o Ansible consentono di creare, modificare e distruggere risorse
+            infrastrutturali in modo automatizzato e ripetibile.
+          </p>
+          <p>
+            Dal punto di vista della sicurezza, IaC porta vantaggi e rischi nuovi. Il vantaggio principale
+            è la <strong>consistenza</strong>: lo stesso template applicato cento volte produce cento ambienti identici,
+            eliminando la deriva di configurazione che si accumula negli ambienti gestiti manualmente.
+            Il rischio principale è che un errore di sicurezza nel template si propaghi automaticamente a
+            tutti gli ambienti in cui viene eseguito.
+          </p>
+
+          <dl class="termlist">
+            <dt>Vantaggi di sicurezza di IaC</dt>
+            <dd>
+              <ul style="margin:6px 0 0 18px;">
+                <li><strong>Revisione del codice:</strong> i template IaC possono essere sottoposti a code review e analisi statica (es. tfsec, Checkov) prima del deployment, rilevando misconfigurazioni prima che raggiungano la produzione.</li>
+                <li><strong>Versionamento:</strong> le modifiche all'infrastruttura sono tracciate in un sistema di controllo versione (Git), permettendo audit completi di chi ha modificato cosa e quando.</li>
+                <li><strong>Idempotenza:</strong> applicare lo stesso template più volte produce sempre lo stesso risultato, rendendo prevedibile lo stato dell'infrastruttura.</li>
+                <li><strong>Rollback rapido:</strong> in caso di problema, è possibile fare revert a una versione precedente del template e applicarla immediatamente.</li>
+              </ul>
+            </dd>
+
+            <dt>Rischi di sicurezza di IaC</dt>
+            <dd>
+              <ul style="margin:6px 0 0 18px;">
+                <li><strong>Segreti nel codice:</strong> il rischio più comune è inserire credenziali, API key o certificati direttamente nei template IaC, rendendoli accessibili a chiunque abbia accesso al repository.</li>
+                <li><strong>Propagazione degli errori:</strong> una misconfiguration nel template si replica in tutti gli ambienti.</li>
+                <li><strong>Privilegio eccessivo:</strong> i ruoli IAM usati da IaC spesso hanno permessi molto ampi per poter creare qualsiasi risorsa.</li>
+              </ul>
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Segreti in un template Terraform</strong><br>
+            Uno sviluppatore scrive un template Terraform che include la password del database in chiaro come
+            variabile. Quando il template viene committato su GitHub, la password diventa accessibile a tutti
+            i collaboratori e potenzialmente al pubblico se il repository è pubblico. La soluzione corretta
+            è usare un secret manager (es. AWS Secrets Manager, HashiCorp Vault) e fare in modo che IaC
+            recuperi il segreto a runtime anziché includerlo nel codice.
+          </div>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — IaC e sicurezza</strong><br>
+            L'esame associa IaC a: (1) rischio di segreti hardcoded nel codice, (2) vantaggio della
+            consistenza e riproducibilità, (3) necessità di scanning statico dei template prima del
+            deployment. Se la domanda chiede "come garantire che la configurazione cloud sia sempre
+            conforme alle policy?" → IaC + pipeline CI/CD con policy check è la risposta corretta.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 7 — SERVERLESS
+        ════════════════════════════════════════════════════════ -->
+        <section id="serverless">
+          <h2>Serverless Computing</h2>
+
+          <p>
+            Il termine <strong>serverless</strong> non significa che non esistono server: significa che il cliente
+            non gestisce i server. Il provider alloca automaticamente le risorse di calcolo per eseguire
+            il codice del cliente e le dealloca al termine dell'esecuzione. Il cliente paga solo per il tempo
+            di esecuzione effettivo delle funzioni, non per risorse costantemente attive.
+          </p>
+          <p>
+            L'unità di esecuzione fondamentale nel modello serverless è la <strong>funzione</strong> (FaaS — Function as
+            a Service): un pezzo di codice stateless che viene eseguito in risposta a un evento (una richiesta
+            HTTP, un messaggio in coda, una modifica a un file). Ogni esecuzione è isolata dalle altre e
+            dura tipicamente millisecondi o pochi secondi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Implicazioni di sicurezza del serverless</dt>
+            <dd>
+              <ul style="margin:6px 0 0 18px;">
+                <li><strong>Superficie d'attacco ridotta:</strong> non ci sono server da patchare, nessuna porta aperta permanentemente, nessun OS da gestire. Il provider mantiene il runtime aggiornato.</li>
+                <li><strong>Permessi IAM granulari:</strong> ogni funzione dovrebbe avere un ruolo IAM con permessi minimi necessari. Una funzione che legge da S3 non dovrebbe poter scrivere su DynamoDB.</li>
+                <li><strong>Injection:</strong> le funzioni serverless che elaborano input utente sono vulnerabili alle stesse injection attack delle applicazioni tradizionali (SQL injection, command injection).</li>
+                <li><strong>Dipendenze:</strong> le funzioni spesso importano librerie di terze parti. Se queste librerie contengono vulnerabilità, la funzione è vulnerabile.</li>
+                <li><strong>Impossibilità di patching manuale:</strong> il cliente non può scegliere quando applicare le patch al runtime; il provider le applica automaticamente, il che è generalmente positivo ma toglie controllo.</li>
+              </ul>
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>⚠ Attenzione — Serverless e "inability to patch"</strong><br>
+            In un modello serverless il cliente non può scegliere se o quando patchare il runtime del
+            linguaggio (es. Python 3.11, Node.js 20). Il provider applica le patch secondo il proprio
+            calendario. Questo è considerato un <strong>vantaggio</strong> dal punto di vista della sicurezza (il
+            runtime è sempre aggiornato), ma è anche una <strong>perdita di controllo</strong> che può creare
+            problemi di compatibilità. L'esame può presentarlo come pro o contro a seconda del contesto.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 8 — MICROSERVICES
+        ════════════════════════════════════════════════════════ -->
+        <section id="microservices">
+          <h2>Microservices</h2>
+
+          <p>
+            L'architettura a <strong>microservizi</strong> è un approccio al design delle applicazioni in cui una
+            singola applicazione è suddivisa in molti servizi piccoli, indipendenti e deployabili
+            separatamente, ognuno responsabile di un'unica funzione di business. I servizi comunicano
+            tra loro tramite API (tipicamente REST o gRPC) o tramite code di messaggi.
+          </p>
+          <p>
+            In contrasto, un'architettura <strong>monolitica</strong> concentra tutte le funzionalità in un unico
+            processo. I microservizi offrono scalabilità indipendente, resilienza (un servizio che crasha
+            non abbatte l'intera applicazione) e facilità di deployment continuo, ma introducono una
+            superficie d'attacco distribuita e complessità di sicurezza.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Aspetto</th>
+                <th>Monolite</th>
+                <th>Microservizi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Superficie d'attacco</td>
+                <td>Concentrata</td>
+                <td>Distribuita su molte API</td>
+              </tr>
+              <tr>
+                <td class="label">Impatto di una vulnerabilità</td>
+                <td>Potenzialmente l'intera app</td>
+                <td>Limitato al singolo servizio</td>
+              </tr>
+              <tr>
+                <td class="label">Autenticazione inter-servizio</td>
+                <td>Non necessaria (stesso processo)</td>
+                <td>Richiesta (mutual TLS, token JWT)</td>
+              </tr>
+              <tr>
+                <td class="label">Logging e monitoring</td>
+                <td>Centralizzato</td>
+                <td>Distribuito, serve correlazione</td>
+              </tr>
+              <tr>
+                <td class="label">Patch e aggiornamenti</td>
+                <td>Richiede rideploy dell'intera app</td>
+                <td>Singolo servizio aggiornabile</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="termlist">
+            <dt>Sicurezza nelle API tra microservizi</dt>
+            <dd>
+              Ogni chiamata tra servizi è una potenziale superficie d'attacco. Le best practice includono:
+              autenticazione mutua tramite certificati (mTLS), uso di un service mesh (es. Istio) per
+              applicare policy di rete e cifratura automaticamente, e token di autorizzazione a breve
+              durata (short-lived JWT) per ogni chiamata. Un service mesh centralizza la gestione della
+              sicurezza senza richiedere che ogni singolo servizio implementi la propria logica.
+            </dd>
+
+            <dt>API Gateway</dt>
+            <dd>
+              Un API Gateway è un componente che funge da punto d'ingresso unico per tutte le richieste
+              esterne verso i microservizi. Concentra autenticazione, autorizzazione, rate limiting,
+              logging e trasformazione dei messaggi in un unico punto di controllo, semplificando
+              la gestione della sicurezza rispetto a dover implementare questi controlli in ogni servizio.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — Microservices e sicurezza</strong><br>
+            L'esame associa i microservizi alla necessità di proteggere le API di comunicazione interna
+            e di gestire l'autenticazione tra servizi. Se la domanda descrive un'applicazione dove "ogni
+            componente comunica tramite API" e chiede come proteggere il traffico interno, la risposta
+            corretta include mTLS o un service mesh. Non confondere con la sicurezza delle API esposte
+            agli utenti finali, che è il dominio del WAF (Web Application Firewall).
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 9 — CONTAINERIZATION
+        ════════════════════════════════════════════════════════ -->
+        <section id="containerization">
+          <h2>Containerization</h2>
+
+          <p>
+            La <strong>containerizzazione</strong> è una forma di virtualizzazione a livello di sistema operativo che
+            impacchetta un'applicazione insieme a tutte le sue dipendenze (librerie, runtime, file di
+            configurazione) in un'unità portabile e isolata chiamata <strong>container</strong>. A differenza delle
+            macchine virtuali, i container non includono un intero sistema operativo: condividono il
+            kernel del sistema operativo host, rendendo l'avvio molto più veloce e l'impronta più
+            leggera.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Caratteristica</th>
+                <th>Virtual Machine (VM)</th>
+                <th>Container</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Sistema operativo</td>
+                <td>Intero SO guest per ogni VM</td>
+                <td>Condivide il kernel dell'host</td>
+              </tr>
+              <tr>
+                <td class="label">Dimensione</td>
+                <td>Gigabyte</td>
+                <td>Megabyte</td>
+              </tr>
+              <tr>
+                <td class="label">Tempo di avvio</td>
+                <td>Minuti</td>
+                <td>Secondi / millisecondi</td>
+              </tr>
+              <tr>
+                <td class="label">Isolamento</td>
+                <td>Forte (hypervisor)</td>
+                <td>Più debole (namespace del kernel)</td>
+              </tr>
+              <tr>
+                <td class="label">Superficie d'attacco kernel</td>
+                <td>Ridotta (SO guest separato)</td>
+                <td>Più ampia (kernel condiviso)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="termlist">
+            <dt>Sicurezza dei container</dt>
+            <dd>
+              I principali rischi di sicurezza dei container includono: immagini con vulnerabilità note
+              (un'immagine Docker scaricata da un registry pubblico può contenere librerie con CVE noti),
+              container che girano come root (un processo che esegue come root nel container ha
+              privilegi elevati se riesce a uscire dall'isolamento), e la condivisione del kernel (una
+              vulnerabilità nel kernel dell'host può potenzialmente essere sfruttata da qualsiasi container).
+            </dd>
+
+            <dt>Container Escape</dt>
+            <dd>
+              Analoga al VM escape, la container escape è un attacco in cui un processo all'interno di un
+              container sfrutta una vulnerabilità per uscire dal namespace del container e accedere al
+              sistema operativo host o ad altri container. È meno comune del VM escape perché richiede
+              vulnerabilità nel kernel, ma è considerato il rischio di sicurezza più grave nei
+              deployment containerizzati.
+            </dd>
+
+            <dt>Orchestrazione — Kubernetes</dt>
+            <dd>
+              Kubernetes è la piattaforma di orchestrazione di container più diffusa. Automatizza il
+              deployment, lo scaling e la gestione dei container in cluster. Introduce componenti di
+              sicurezza come RBAC (Role-Based Access Control) per controllare chi può fare cosa nel
+              cluster, Network Policies per segmentare il traffico tra pod, e Secrets per gestire
+              credenziali in modo sicuro.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Immagine Docker vulnerabile</strong><br>
+            Un team di sviluppo usa l'immagine <code>node:14-alpine</code> come base per la propria applicazione.
+            Questa versione di Node.js ha raggiunto l'end-of-life e non riceve più patch di sicurezza.
+            Uno scanner di immagini (es. Trivy, Snyk) rileva 47 CVE nell'immagine, di cui 3 critici.
+            La soluzione è aggiornare all'immagine <code>node:20-alpine</code>, ri-testare l'applicazione e
+            integrare lo scanning automatico nella pipeline CI/CD in modo che venga eseguito ad ogni build.
+          </div>
+
+          <div class="pitfall">
+            <strong>⚠ Attenzione — VM vs Container: isolamento</strong><br>
+            Una VM offre isolamento più forte perché ogni VM ha il proprio kernel completo, e una
+            vulnerabilità nel guest OS non compromette direttamente il sistema host o altri guest.
+            Un container condivide il kernel con l'host: se il kernel ha una vulnerabilità, tutti i container
+            che girano su quel host potrebbero essere a rischio. L'esame potrebbe chiederti quale tecnologia
+            scegliere per massimizzare l'isolamento → risposta: VM (non container).
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 10 — VIRTUALIZZAZIONE E HYPERVISOR
+        ════════════════════════════════════════════════════════ -->
+        <section id="virtualization">
+          <h2>Virtualizzazione e Hypervisor</h2>
+
+          <p>
+            La <strong>virtualizzazione</strong> è la tecnologia che consente di eseguire più sistemi operativi
+            (guest) su un singolo hardware fisico, astraendo e condividendo le risorse hardware. Il
+            componente chiave che rende possibile la virtualizzazione è l'<strong>hypervisor</strong>, chiamato anche
+            Virtual Machine Monitor (VMM), che media l'accesso alle risorse hardware tra le diverse
+            macchine virtuali e garantisce il loro isolamento reciproco.
+          </p>
+
+          <dl class="termlist">
+            <dt>Type I Hypervisor (Bare-Metal)</dt>
+            <dd>
+              Viene installato direttamente sull'hardware fisico, senza sistema operativo host intermedio.
+              Ha accesso diretto alle risorse hardware, il che lo rende più performante e con una
+              superficie d'attacco ridotta rispetto al Type II. È la scelta standard negli ambienti
+              enterprise e nei cloud provider. Esempi: VMware ESXi, Microsoft Hyper-V (installazione
+              standalone), Citrix Hypervisor, KVM (nel kernel Linux).
+            </dd>
+
+            <dt>Type II Hypervisor (Hosted)</dt>
+            <dd>
+              Viene installato sopra un sistema operativo host già esistente, come un'applicazione
+              normale. È più semplice da installare e usare, ma ha prestazioni inferiori (passa
+              attraverso due strati prima di raggiungere l'hardware) e una superficie d'attacco più
+              ampia (vulnerabilità nel SO host possono compromettere l'hypervisor). Viene usato
+              principalmente per ambienti di sviluppo, test e laboratorio. Esempi: VMware Workstation,
+              Oracle VirtualBox, Parallels Desktop.
+            </dd>
+
+            <dt>VM Sprawl</dt>
+            <dd>
+              La proliferazione incontrollata di macchine virtuali create ma non più necessarie, che
+              continuano a consumare risorse e, soprattutto, ad espandere la superficie d'attacco.
+              Una VM dimenticata spesso non riceve patch di sicurezza, può avere configurazioni
+              permissive e diventa una facile preda per gli attaccanti. La gestione del lifecycle
+              delle VM (creazione, uso, dismissione) è un controllo di sicurezza importante.
+            </dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Caratteristica</th>
+                <th>Hypervisor Type I</th>
+                <th>Hypervisor Type II</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Installazione su</td>
+                <td>Hardware bare-metal</td>
+                <td>Sistema operativo host</td>
+              </tr>
+              <tr>
+                <td class="label">Prestazioni</td>
+                <td>Più alte</td>
+                <td>Più basse (overhead del SO host)</td>
+              </tr>
+              <tr>
+                <td class="label">Superficie d'attacco</td>
+                <td>Ridotta</td>
+                <td>Più ampia (include SO host)</td>
+              </tr>
+              <tr>
+                <td class="label">Uso tipico</td>
+                <td>Datacenter, cloud, produzione</td>
+                <td>Sviluppo, test, lab personale</td>
+              </tr>
+              <tr>
+                <td class="label">Esempi</td>
+                <td>ESXi, Hyper-V, KVM</td>
+                <td>VirtualBox, VMware Workstation</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — Type I vs Type II</strong><br>
+            L'esame chiede spesso di distinguere i due tipi di hypervisor. La discriminante principale
+            è la presenza o assenza di un sistema operativo host: Type I gira direttamente sull'hardware
+            (più sicuro, più performante), Type II gira sopra un SO host (più semplice, meno sicuro).
+            Se la domanda menziona "datacenter" o "produzione" → Type I. Se menziona "laptop di uno
+            sviluppatore" o "ambiente di test" → Type II.
+          </div>
+
+          <div class="pitfall">
+            <strong>⚠ Attenzione — VM Sprawl vs VM Escape</strong><br>
+            Questi due termini vengono spesso confusi. <strong>VM Sprawl</strong> è un problema di <em>gestione</em>:
+            troppe VM attive e non monitorate. <strong>VM Escape</strong> è un problema di <em>sicurezza critica</em>:
+            un attaccante che sfugge dall'isolamento della VM per accedere all'hypervisor o ad altre VM.
+            Il VM Sprawl aumenta la superficie d'attacco; il VM Escape è l'exploit vero e proprio.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 11 — SDN E NETWORKING CLOUD
+        ════════════════════════════════════════════════════════ -->
+        <section id="sdn">
+          <h2>Software-Defined Networking (SDN) e Networking Cloud</h2>
+
+          <p>
+            Il <strong>Software-Defined Networking (SDN)</strong> è un'architettura che separa il <em>piano di controllo</em>
+            (le decisioni su dove instradare il traffico) dal <em>piano dati</em> (l'effettivo inoltro dei
+            pacchetti). In una rete tradizionale, queste due funzioni sono integrate nel singolo
+            dispositivo di rete (switch, router). Con SDN, il piano di controllo è centralizzato in un
+            software (<strong>controller SDN</strong>) che gestisce l'intera rete tramite API, mentre i dispositivi
+            fisici diventano semplici elementi che seguono istruzioni.
+          </p>
+
+          <dl class="termlist">
+            <dt>Virtual Private Cloud (VPC)</dt>
+            <dd>
+              Un VPC è una rete virtuale logicamente isolata all'interno di un cloud pubblico, dedicata
+              a un singolo cliente. Consente di definire subnet, tabelle di routing, gateway Internet e
+              connessioni VPN proprio come in una rete fisica privata. La segmentazione tramite VPC è
+              il controllo di sicurezza di rete fondamentale nel cloud: workload con diversi livelli
+              di fiducia devono stare in VPC diversi o in subnet diverse con routing controllato.
+            </dd>
+
+            <dt>Security Group</dt>
+            <dd>
+              Un security group è un firewall virtuale stateful che controlla il traffico in entrata
+              e in uscita da una risorsa cloud (es. una istanza EC2). Le regole dei security group
+              specificano protocollo, porta e sorgente/destinazione. A differenza dei firewall fisici,
+              i security group si applicano direttamente alla singola risorsa, non al perimetro della
+              rete. Una misconfiguration (es. consentire SSH 0.0.0.0/0) è una delle vulnerabilità
+              più comuni nei deployment cloud.
+            </dd>
+
+            <dt>Software-Defined Wide Area Network (SD-WAN)</dt>
+            <dd>
+              SD-WAN applica i principi SDN alle reti geografiche (WAN), consentendo di gestire
+              centralmente la connettività tra sedi distribuite, ottimizzando il percorso del traffico
+              e applicando policy di sicurezza in modo programmabile. SD-WAN può instradare traffico
+              critico su MPLS e traffico meno sensibile su Internet, con crittografia trasparente.
+            </dd>
+
+            <dt>Secure Access Service Edge (SASE)</dt>
+            <dd>
+              SASE è un framework che combina funzionalità di rete (SD-WAN) con funzionalità di
+              sicurezza (CASB, ZTNA, SWG, Firewall-as-a-Service) in un unico servizio cloud. L'idea
+              è che la sicurezza segua l'utente ovunque si trovi, invece di essere concentrata in un
+              perimetro di rete fisso. SASE è particolarmente rilevante per organizzazioni con
+              forza lavoro distribuita o completamente remota.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Segmentazione con VPC e Security Group</strong><br>
+            Un'applicazione web a tre livelli (frontend, backend API, database) viene deployata su AWS.
+            Viene creato un unico VPC con tre subnet: pubblica (frontend), privata applicativa (backend),
+            privata dati (database). I security group sono configurati così: il frontend accetta traffico
+            sulla porta 443 da Internet; il backend accetta traffico solo dal security group del frontend
+            sulle porte dell'applicazione; il database accetta connessioni solo dal security group del
+            backend sulla porta del database. Internet non può mai raggiungere direttamente il database.
+          </div>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — SDN e sicurezza</strong><br>
+            L'esame associa SDN ai seguenti vantaggi di sicurezza: gestione centralizzata delle policy
+            di rete, automazione della risposta agli incidenti (es. blocco automatico di un host
+            compromesso tramite API), microsegmentazione (ogni workload ha il proprio perimetro di
+            rete virtuale). Il rischio principale di SDN è che il controller centralizzato diventi
+            un single point of failure e un target critico per gli attaccanti.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 12 — HIGH AVAILABILITY
+        ════════════════════════════════════════════════════════ -->
+        <section id="ha">
+          <h2>High Availability nel Cloud</h2>
+
+          <p>
+            L'<strong>alta disponibilità (HA)</strong> è la proprietà di un sistema di rimanere operativo e
+            accessibile per la maggior parte del tempo, anche in presenza di guasti hardware, software
+            o di rete. Nel cloud, l'alta disponibilità non è garantita automaticamente solo perché
+            si usa il cloud: deve essere progettata esplicitamente attraverso scelte architetturali
+            specifiche.
+          </p>
+
+          <dl class="termlist">
+            <dt>Availability Zone (AZ)</dt>
+            <dd>
+              Una Availability Zone è un datacenter fisicamente separato all'interno di una regione
+              cloud. Le AZ di una stessa regione sono collegate da reti a bassa latenza ma sono
+              isolate da guasti fisici reciproci (alimentazione, networking, eventi naturali locali).
+              Distribuire le risorse su più AZ (multi-AZ deployment) è il modo principale per
+              ottenere alta disponibilità nel cloud.
+            </dd>
+
+            <dt>Region</dt>
+            <dd>
+              Una regione è un'area geografica che contiene più Availability Zone. Le regioni sono
+              completamente indipendenti l'una dall'altra. Distribuire risorse su più regioni
+              (multi-region deployment) offre protezione da eventi catastrofici che colpiscono
+              un'intera area geografica (disastri naturali, problemi normativi), ma introduce
+              latenza e complessità di sincronizzazione dei dati.
+            </dd>
+
+            <dt>Load Balancer</dt>
+            <dd>
+              Un load balancer distribuisce il traffico in entrata tra più istanze di un servizio.
+              Nel contesto dell'alta disponibilità, serve anche a rilevare istanze non funzionanti
+              (health check) e a redirigere il traffico automaticamente verso istanze sane. È
+              un componente fondamentale in qualsiasi architettura cloud ad alta disponibilità.
+            </dd>
+
+            <dt>Auto Scaling</dt>
+            <dd>
+              L'auto scaling è la capacità del cloud di aggiungere o rimuovere automaticamente
+              istanze di un servizio in base alla domanda (scalabilità orizzontale) o di
+              aumentare/diminuire le risorse di una singola istanza (scalabilità verticale).
+              Contribuisce all'alta disponibilità assicurando che ci siano sempre abbastanza
+              risorse per gestire il carico.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — HA e Scalabilità</strong><br>
+            L'esame distingue tra <strong>availability</strong> (il sistema è up), <strong>scalability</strong> (il sistema
+            gestisce più carico) e <strong>elasticity</strong> (il sistema si adatta automaticamente al carico).
+            Availability riguarda la resistenza ai guasti. Scalability è la capacità di crescere.
+            Elasticity è la capacità di crescere <em>e</em> ridursi automaticamente. Un sistema può essere
+            highly available senza essere elastico (es. due server fisici in failover).
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 13 — CONSIDERATIONS
+        ════════════════════════════════════════════════════════ -->
+        <section id="considerations">
+          <h2>Considerations — Fattori di valutazione delle architetture</h2>
+
+          <p>
+            L'obiettivo 3.1 richiede di valutare le implicazioni di sicurezza dei diversi modelli
+            architetturali cloud non solo dal punto di vista tecnico, ma anche considerando una serie
+            di fattori operativi e strategici. Questi fattori influenzano le scelte di design e
+            devono essere bilanciati tra loro.
+          </p>
+
+          <dl class="termlist">
+            <dt>Availability</dt>
+            <dd>
+              Misura il tempo in cui un sistema è operativo e accessibile. Nel cloud, l'availability
+              si esprime tipicamente come percentuale (SLA). Un SLA del 99,9% (three nines) tolera
+              circa 8,7 ore di downtime annuo; 99,99% (four nines) solo 52 minuti.
+            </dd>
+
+            <dt>Resilience</dt>
+            <dd>
+              Capacità di un sistema di resistere a guasti e di recuperare rapidamente. La resilienza
+              va oltre la semplice alta disponibilità: un sistema resiliente non solo rimane up
+              durante un guasto, ma si adatta e continua a funzionare in modo degradato se necessario,
+              invece di fallire completamente (concetto di graceful degradation).
+            </dd>
+
+            <dt>Cost</dt>
+            <dd>
+              Il cloud trasforma i costi da CapEx (Capital Expenditure, acquisto hardware) a OpEx
+              (Operational Expenditure, pagamento a consumo). Questa trasformazione ha implicazioni
+              di sicurezza: resource sprawl (VM o container dimenticati) genera costi inattesi,
+              e la pressione a ridurre i costi può portare a ridurre i controlli di sicurezza.
+            </dd>
+
+            <dt>Responsiveness</dt>
+            <dd>
+              Velocità con cui un sistema risponde alle richieste. Nel contesto cloud, la responsiveness
+              influenza la scelta tra architetture serverless (risposta veloce per carichi variabili),
+              container (avvio in millisecondi) e VM (avvio in minuti). Architetture geograficamente
+              distribuite (CDN, multi-region) migliorano la responsiveness riducendo la latenza.
+            </dd>
+
+            <dt>Scalability</dt>
+            <dd>
+              Capacità di aumentare le risorse per sostenere carichi maggiori. La scalabilità verticale
+              aggiunge risorse alla singola istanza (più CPU, più RAM). La scalabilità orizzontale
+              aggiunge istanze. La scalabilità orizzontale è preferibile nel cloud perché non ha limiti
+              fisici e si integra meglio con l'alta disponibilità.
+            </dd>
+
+            <dt>Ease of deployment</dt>
+            <dd>
+              Facilità con cui nuove versioni di un'applicazione o di un'infrastruttura possono essere
+              deployate. IaC, container e serverless aumentano la facilità di deployment ma richiedono
+              pipeline CI/CD sicure e processi di approvazione per prevenire deploy non autorizzati.
+            </dd>
+
+            <dt>Risk transference</dt>
+            <dd>
+              Il cloud sposta alcuni rischi operativi sul provider (guasti hardware, patching del SO
+              in PaaS e SaaS, sicurezza fisica dei datacenter), ma non trasferisce la responsabilità
+              legale e reputazionale verso i clienti finali in caso di violazione. L'organizzazione
+              può acquistare cyber insurance come ulteriore forma di risk transference.
+            </dd>
+
+            <dt>Ease of recovery</dt>
+            <dd>
+              Facilità di ripristino dopo un guasto o un incidente. Il cloud semplifica il recovery
+              grazie a snapshot, backup automatici, failover su AZ secondaria e possibilità di
+              ricreare l'intera infrastruttura tramite IaC in tempi brevi. Tuttavia, il recovery
+              piano deve essere testato regolarmente: non è sufficiente avere un backup, bisogna
+              verificare che il ripristino funzioni.
+            </dd>
+
+            <dt>Patch availability vs Inability to patch</dt>
+            <dd>
+              Nei modelli IaaS il cliente controlla le patch del sistema operativo. Nei modelli PaaS
+              e SaaS il provider applica le patch, il che garantisce aggiornamenti regolari ma può
+              causare incompatibilità impreviste. In alcuni sistemi embedded o legacy (IoT, ICS/SCADA)
+              potrebbe essere impossibile applicare patch senza interruzioni operative prolungate:
+              questa "inability to patch" è un rischio significativo che richiede controlli compensativi
+              (segmentazione di rete, monitoring anomalie, whitelist applicativa).
+            </dd>
+
+            <dt>Power e Compute</dt>
+            <dd>
+              Nel cloud, l'organizzazione non gestisce l'infrastruttura fisica. Il consumo energetico
+              e la potenza di calcolo sono variabili che vengono astratte dal provider. Tuttavia,
+              in ambienti on-premises o ibridi rimane la responsabilità di garantire alimentazione
+              ridondante (UPS, generatori) e capacità di calcolo sufficiente per i workload critici.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Risk Transference nel cloud</strong><br>
+            Un'azienda sanitaria migra il proprio sistema di cartelle cliniche elettroniche su un cloud
+            provider certificato HIPAA. Il provider si assume la responsabilità di sicurezza fisica
+            dei datacenter, della disponibilità dell'infrastruttura e del patching del SO (PaaS).
+            Tuttavia, se un dipendente del cliente configura male i permessi di accesso e un terzo
+            accede ai dati dei pazienti, la violazione HIPAA ricade sull'azienda sanitaria, non sul
+            provider. Il Business Associate Agreement (BAA) firmato con il provider definisce
+            esattamente questo confine.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 14 — VULNERABILITÀ CLOUD E VM  (obj 2.3)
+        ════════════════════════════════════════════════════════ -->
+        <section id="vuln-cloud">
+          <h2>Vulnerabilità Cloud e di Virtualizzazione (2.3)</h2>
+
+          <p>
+            L'obiettivo 2.3 introduce un sottoinsieme di vulnerabilità specifiche degli ambienti
+            virtualizzati e cloud, che differiscono per meccanismo e impatto da quelle degli ambienti
+            tradizionali.
+          </p>
+
+          <dl class="termlist">
+            <dt>VM Escape</dt>
+            <dd>
+              Il VM escape è una vulnerabilità critica in cui un attaccante che controlla un processo
+              all'interno di una macchina virtuale riesce a superare i confini imposti dall'hypervisor
+              e ad accedere all'hypervisor stesso, al sistema operativo host o ad altre macchine virtuali
+              sullo stesso hardware fisico. In un ambiente multi-tenant cloud, un VM escape permetterebbe
+              a un attaccante di passare dal proprio tenant ai tenant altrui. È considerato uno dei
+              rischi più gravi della virtualizzazione, anche se relativamente raro grazie alla solidità
+              degli hypervisor maturi. La mitigazione principale è mantenere l'hypervisor aggiornato
+              con tutte le patch di sicurezza.
+            </dd>
+
+            <dt>Resource Reuse</dt>
+            <dd>
+              Quando un cliente rilascia una VM o uno storage nel cloud, il provider tipicamente
+              ri-alloca quelle risorse fisiche (RAM, disco, CPU) al cliente successivo. Se il provider
+              non "pulisce" correttamente la memoria o lo storage prima della riallocazione, il nuovo
+              cliente potrebbe potenzialmente accedere a dati residui del precedente. I provider cloud
+              maturi implementano procedure di "zeroing" della memoria e dello storage, ma questa rimane
+              una vulnerabilità teoricamente rilevante, specialmente per dati altamente sensibili.
+            </dd>
+
+            <dt>Cloud-Specific Vulnerabilities</dt>
+            <dd>
+              Gli ambienti cloud introducono categorie di vulnerabilità assenti on-premises:
+              <ul style="margin:6px 0 0 18px;">
+                <li><strong>Misconfiguration:</strong> errori di configurazione di security group, bucket storage, permessi IAM — la causa più frequente di violazioni cloud.</li>
+                <li><strong>Insecure API:</strong> le API di gestione cloud (management plane) sono un target critico; credenziali API compromesse danno accesso completo all'infrastruttura.</li>
+                <li><strong>Data sovereignty violations:</strong> dati replicati automaticamente in regioni geografiche non autorizzate per normativa.</li>
+                <li><strong>Insufficient logging:</strong> ambienti cloud con logging disabilitato o non centralizzato rendono difficile il rilevamento e l'analisi degli incidenti.</li>
+              </ul>
+            </dd>
+
+            <dt>Data Sovereignty</dt>
+            <dd>
+              Il principio di data sovereignty stabilisce che i dati sono soggetti alle leggi e alle
+              normative del paese o della giurisdizione in cui vengono archiviati o elaborati. Se un
+              provider cloud replica automaticamente i dati in una regione geografica diversa da quella
+              contrattualmente accordata, l'organizzazione potrebbe violare normative come il GDPR
+              (che richiede che i dati dei cittadini UE rimangano all'interno dell'UE o in paesi con
+              protezione adeguata) o normative di settore specifiche.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — VM Escape in un ambiente multi-tenant</strong><br>
+            Nel 2015 fu scoperta la vulnerabilità VENOM (CVE-2015-3456) nel driver del floppy disk
+            virtuale di QEMU/KVM. Un attaccante con accesso a una VM guest poteva sfruttare questa
+            vulnerabilità per eseguire codice arbitrario sull'hypervisor host, ottenendo
+            potenzialmente accesso a tutte le VM in esecuzione sullo stesso hardware fisico. La
+            patch fu rilasciata in pochi giorni dai principali cloud provider, ma l'incidente
+            dimostrò concretamente il rischio teorico del VM escape.
+          </div>
+
+          <div class="exam-tip">
+            <strong>📝 Exam Tip — Vulnerabilità cloud (2.3)</strong><br>
+            Per l'esame, ricorda la distinzione: <strong>VM Escape</strong> = uscire dall'isolamento della VM
+            (attacco); <strong>VM Sprawl</strong> = troppo VM non gestite (problema operativo/governance);
+            <strong>Resource Reuse</strong> = dati residui su risorse riallocate. La misconfiguration è la
+            vulnerabilità cloud più comune nell'esame: se una domanda descrive un bucket di storage
+            con dati esposti o un'istanza raggiungibile da Internet, la causa è quasi sempre
+            una misconfiguration, non un exploit tecnico.
+          </div>
+
+          <div class="pitfall">
+            <strong>⚠ Attenzione — VM Escape vs Container Escape</strong><br>
+            VM Escape sfrutta vulnerabilità nell'<em>hypervisor</em> per uscire dalla VM.
+            Container Escape sfrutta vulnerabilità nel <em>kernel del SO host</em> per uscire dal
+            namespace del container. I meccanismi sono diversi, ma l'effetto è analogo: un attaccante
+            supera i confini dell'isolamento. VM Escape è generalmente considerato più difficile
+            da realizzare perché gli hypervisor maturi hanno pochi vettori di attacco; Container Escape
+            è più comune perché il kernel è una superficie d'attacco più ampia.
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE 15 — TERMINI CHIAVE
+        ════════════════════════════════════════════════════════ -->
+        <section id="termlist">
+          <h2>Termini chiave</h2>
+
+          <dl class="termlist">
+            <dt>Cloud Computing</dt>
+            <dd>Modello di erogazione di risorse IT tramite Internet, on-demand, con elasticità automatica e pagamento a consumo.</dd>
+
+            <dt>IaaS / PaaS / SaaS</dt>
+            <dd>I tre modelli principali di servizio cloud, distinti da quanta infrastruttura gestisce il provider. In IaaS il cliente gestisce il SO; in PaaS gestisce solo il codice; in SaaS gestisce solo i dati.</dd>
+
+            <dt>FaaS (Function as a Service)</dt>
+            <dd>Esecuzione di singole funzioni di codice in risposta a eventi, senza gestione di server. Sinonimo pratico di serverless dal punto di vista computazionale.</dd>
+
+            <dt>Shared Responsibility Model</dt>
+            <dd>Modello che definisce la suddivisione delle responsabilità di sicurezza tra provider e cliente. Il provider è responsabile della sicurezza del cloud; il cliente della sicurezza nel cloud.</dd>
+
+            <dt>Cloud Controls Matrix (CCM)</dt>
+            <dd>Framework della Cloud Security Alliance (CSA) che mappa controlli di sicurezza specifici per ambienti cloud, organizzati per dominio e allineati agli standard principali.</dd>
+
+            <dt>Public / Private / Community / Hybrid Cloud</dt>
+            <dd>I quattro modelli di distribuzione cloud. Differiscono per chi ha accesso all'infrastruttura e per il livello di condivisione delle risorse.</dd>
+
+            <dt>CASB (Cloud Access Security Broker)</dt>
+            <dd>Intermediario tra utenti e servizi cloud che applica policy di sicurezza aziendale. Può operare inline (blocco in tempo reale) o via API (monitoraggio e remediation).</dd>
+
+            <dt>Hypervisor Type I / Type II</dt>
+            <dd>Type I (bare-metal) gira direttamente sull'hardware, più sicuro e performante. Type II gira sopra un SO host, più semplice ma con maggiore superficie d'attacco.</dd>
+
+            <dt>VM Escape</dt>
+            <dd>Attacco in cui un processo in una VM supera i confini dell'hypervisor per accedere al sistema host o ad altre VM. Uno degli attacchi più gravi negli ambienti virtualizzati.</dd>
+
+            <dt>VM Sprawl</dt>
+            <dd>Proliferazione incontrollata di VM non più gestite, che aumentano superficie d'attacco e costi senza valore operativo.</dd>
+
+            <dt>Resource Reuse</dt>
+            <dd>Rischio che risorse cloud riallocate a un nuovo cliente contengano dati residui del cliente precedente se non correttamente "zerofilled".</dd>
+
+            <dt>Containerization</dt>
+            <dd>Virtualizzazione a livello OS che impacchetta applicazioni con le proprie dipendenze. Più leggera delle VM ma con isolamento più debole (kernel condiviso).</dd>
+
+            <dt>Infrastructure as Code (IaC)</dt>
+            <dd>Gestione dell'infrastruttura tramite codice versionato e automatizzato. Garantisce consistenza ma richiede protezione dei segreti e scanning dei template.</dd>
+
+            <dt>Serverless</dt>
+            <dd>Modello in cui il provider gestisce completamente i server; il cliente deploya solo funzioni di codice. Riduce la superficie d'attacco ma toglie controllo sul patching del runtime.</dd>
+
+            <dt>Microservices</dt>
+            <dd>Architettura in cui un'applicazione è decomposta in servizi piccoli e indipendenti che comunicano via API. Riduce l'impatto di singole vulnerabilità ma richiede sicurezza delle API inter-servizio.</dd>
+
+            <dt>VPC (Virtual Private Cloud)</dt>
+            <dd>Rete virtuale isolata all'interno di un cloud pubblico, con subnet, routing e controlli di sicurezza configurabili dal cliente.</dd>
+
+            <dt>Security Group</dt>
+            <dd>Firewall virtuale stateful applicato a singole risorse cloud, che controlla traffico in ingresso e uscita tramite regole su protocollo, porta e IP sorgente/destinazione.</dd>
+
+            <dt>SDN (Software-Defined Networking)</dt>
+            <dd>Architettura che separa il piano di controllo dal piano dati, centralizzando la gestione della rete via software e API.</dd>
+
+            <dt>SASE (Secure Access Service Edge)</dt>
+            <dd>Framework che unisce funzionalità di rete (SD-WAN) e sicurezza (CASB, ZTNA, SWG, FWaaS) in un servizio cloud unificato, seguendo l'utente ovunque si trovi.</dd>
+
+            <dt>Data Sovereignty</dt>
+            <dd>Principio per cui i dati sono soggetti alle leggi del paese in cui risiedono o vengono elaborati. Rilevante per GDPR e normative di settore.</dd>
+
+            <dt>HSM (Hardware Security Module)</dt>
+            <dd>Dispositivo o servizio ad alta sicurezza per generazione, custodia e uso di chiavi crittografiche, che le mantiene inaccessibili in chiaro anche agli amministratori.</dd>
+          </dl>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════
+             SEZIONE FLASHCARD
+        ════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo</h2>
+          <ul class="flashcard">
+            <li><strong>Chi gestisce il SO in IaaS?</strong> — Il cliente; in PaaS e SaaS lo gestisce il provider.</li>
+            <li><strong>Shared Responsibility Model</strong> — Il provider è responsabile della sicurezza DEL cloud; il cliente della sicurezza NEL cloud.</li>
+            <li><strong>Hypervisor Type I vs Type II</strong> — Type I gira bare-metal (più sicuro); Type II gira sopra un SO host (meno sicuro, usato in lab).</li>
+            <li><strong>VM Escape</strong> — Attacco in cui un processo in una VM sfugge all'isolamento dell'hypervisor e accede all'host o ad altre VM.</li>
+            <li><strong>VM Sprawl</strong> — Proliferazione incontrollata di VM dimesse ma ancora attive; aumenta superficie d'attacco e costi.</li>
+            <li><strong>Resource Reuse</strong> — Rischio di dati residui su risorse cloud riallocate al cliente successivo senza corretto zeroing.</li>
+            <li><strong>Container vs VM — isolamento</strong> — I container condividono il kernel dell'host (isolamento più debole); le VM hanno kernel separato (isolamento più forte).</li>
+            <li><strong>IaC — rischio principale</strong> — Segreti hardcoded nel codice (credenziali, API key) committati su repository accessibili.</li>
+            <li><strong>Serverless — inability to patch</strong> — Il runtime è patchato dal provider; il cliente non controlla tempi e modalità degli aggiornamenti.</li>
+            <li><strong>CASB inline vs API-based</strong> — Inline: blocco in tempo reale nel percorso del traffico. API-based: monitoraggio e remediation a posteriori tramite API del provider.</li>
+            <li><strong>VPC</strong> — Rete virtuale isolata all'interno di un cloud pubblico; fornisce segmentazione e controllo simile a una rete privata fisica.</li>
+            <li><strong>Security Group</strong> — Firewall virtuale stateful applicato a singole risorse cloud; misconfiguration (es. SSH 0.0.0.0/0) è causa comune di breach.</li>
+            <li><strong>Data Sovereignty</strong> — I dati sono soggetti alle leggi del paese in cui risiedono; rilevante per GDPR e normative di settore.</li>
+            <li><strong>SASE</strong> — Framework che combina SD-WAN + funzionalità di sicurezza cloud (CASB, ZTNA, SWG) in un servizio unificato che segue l'utente ovunque.</li>
+            <li><strong>Risk transference nel cloud</strong> — Il cloud sposta rischi operativi sul provider, ma non la responsabilità legale verso clienti e regolatori.</li>
+            <li><strong>Cloud-specific vulnerability più comune</strong> — Misconfiguration (security group, bucket S3 pubblici, permessi IAM eccessivi); non exploit tecnici avanzati.</li>
+          </ul>
+        </section>
+
+        <!-- ══ NAVIGAZIONE CAPITOLI ══════════════════════════════ -->
+        <div class="chapter-nav">
+          <a href="ch9_resilienza_sicurezza_fisica_canonical.html" class="secondary">← CH9 — Resilienza e sicurezza fisica</a>
+          <a href="ch11_endpoint_canonical.html">CH11 — Sicurezza degli Endpoint →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>

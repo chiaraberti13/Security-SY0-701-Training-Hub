@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH7 — Crittografia e PKI · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../security_plus_sy0_701_guida.html">Indice generale</a>
+      <span>Dominio 1 — General Security Concepts</span>
+      <span>CH7 — Crittografia e PKI</span>
+    </div>
+
+
+    <div class="lang-switch" aria-label="Selettore lingua">
+      <span>Lingua:</span>
+      <a href="ch7_crittografia_pki_canonical.html" aria-current="page">IT</a>
+      <span aria-hidden="true">|</span>
+      <a href="en/ch7_crittografia_pki_canonical.html">EN</a>
+    </div>
+    <header>
+      <h1>CH7 — Crittografia e PKI</h1>
+      <p style="color:var(--slate);font-size:0.95em;margin:4px 0 0;">
+        CompTIA Security+ SY0-701 · Dominio 1 · Obiettivo 1.4
+      </p>
+    </header>
+
+    <div class="chapter-meta">
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">1.4</span>
+        <span class="weight-badge">D1 = 12%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong>
+        <a href="ch1_governance_classification_canonical.html">CH1 — Fondamenti e Governance</a>
+        (triade CIA, non-repudiation).
+      </p>
+      <p><strong>Capitoli correlati:</strong>
+        <a href="ch8_identity_access_management_canonical.html">CH8 — IAM</a> ·
+        <a href="ch9_resilience_physical_security_canonical.html">CH9 — Resilienza</a> ·
+        <a href="ch12_network_security_canonical.html">CH12 — Sicurezza di rete</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 1.4</div>
+        <a href="#obj-1-4">Crittografia — panoramica</a>
+
+        <div class="toc-section">Crittografia</div>
+        <a href="#simmetrica">↳ Simmetrica</a>
+        <a href="#asimmetrica">↳ Asimmetrica</a>
+        <a href="#key-exchange">↳ Key exchange</a>
+        <a href="#algoritmi">↳ Algoritmi e key length</a>
+        <a href="#at-rest">↳ Cifratura at rest</a>
+        <a href="#in-transit">↳ Cifratura in transit</a>
+
+        <div class="toc-section">Hash e firme</div>
+        <a href="#hashing">↳ Hashing</a>
+        <a href="#salting">↳ Salting e key stretching</a>
+        <a href="#firme">↳ Firme digitali</a>
+
+        <div class="toc-section">PKI e certificati</div>
+        <a href="#pki">↳ PKI e chiavi</a>
+        <a href="#key-escrow">↳ Key escrow</a>
+        <a href="#certificati">↳ Certificati</a>
+        <a href="#ca">↳ CA e root of trust</a>
+        <a href="#revoca">↳ CRL e OCSP</a>
+        <a href="#tipi-cert">↳ Tipi di certificato</a>
+        <a href="#csr">↳ CSR generation</a>
+
+        <div class="toc-section">Tool e obfuscation</div>
+        <a href="#tools">↳ TPM, HSM, KMS, Enclave</a>
+        <a href="#obfuscation">↳ Obfuscation</a>
+        <a href="#blockchain">↳ Blockchain</a>
+
+        <div class="toc-section">Riepilogo</div>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ MAIN CONTENT ══════════════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Obiettivo 1.4 — Panoramica
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="obj-1-4">
+          <h2>Obiettivo 1.4 — Appropriate Cryptographic Solutions</h2>
+          <p>
+            La crittografia è la disciplina che trasforma informazioni leggibili in un formato incomprensibile per chiunque non
+            disponga della chiave corretta. Il suo valore non si limita alla riservatezza: un sistema crittografico moderno serve
+            a garantire <strong>confidentiality</strong> (nessun accesso non autorizzato), <strong>integrity</strong> (nessuna
+            modifica non rilevata), <strong>authentication</strong> (verifica dell'identità del mittente o del sistema) e
+            <strong>non-repudiation</strong> (impossibilità per chi ha firmato di negare in seguito l'azione).
+            Questi quattro obiettivi non sono sempre soddisfatti contemporaneamente dallo stesso meccanismo: capire quale
+            algoritmo o strumento soddisfa quale obiettivo è esattamente ciò che l'esame SY0-701 mette alla prova.
+          </p>
+          <p>
+            Un principio fondamentale, noto come <strong>Principio di Kerckhoff</strong>, stabilisce che la sicurezza di un
+            sistema crittografico deve dipendere esclusivamente dalla segretezza della chiave, non dalla segretezza
+            dell'algoritmo. I sistemi moderni (AES, RSA, TLS) seguono questo principio: i loro algoritmi sono pubblici
+            e analizzati da tutta la comunità scientifica. Nascondere l'algoritmo — la cosiddetta
+            <em>security through obscurity</em> — è considerato un approccio debole e non accettabile in contesti professionali.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP 1.4:</strong> Le domande del dominio 1.4 presentano uno scenario (es.: "devi proteggere dati
+            sensibili su un laptop rubato", "devi garantire che un contratto non possa essere ripudiato") e chiedono quale
+            tecnologia o meccanismo è più appropriato. Il criterio di risposta è: scegli la soluzione che copre esattamente
+            l'obiettivo richiesto — non la più generica. Se lo scenario chiede <em>integrità senza riservatezza</em>,
+            l'hashing è sufficiente; se chiede anche <em>non-repudiation</em>, serve una firma digitale.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Crittografia simmetrica
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="simmetrica">
+          <h2>Crittografia simmetrica</h2>
+          <p>
+            Nella crittografia simmetrica la stessa chiave segreta viene usata sia per cifrare che per decifrare.
+            Questo approccio è estremamente performante dal punto di vista computazionale — spesso migliaia di volte
+            più veloce degli algoritmi asimmetrici — ed è la scelta ideale per proteggere grandi volumi di dati:
+            backup, filesystem cifrati, sessioni VPN, database.
+          </p>
+          <p>
+            Il punto critico è la <strong>distribuzione delle chiavi</strong>: prima che due parti possano comunicare
+            in modo sicuro, devono condividere lo stesso segreto attraverso un canale già protetto. In un gruppo di
+            <em>n</em> utenti il numero di chiavi necessarie cresce con formula <em>n(n-1)/2</em>, rendendo il sistema
+            poco scalabile. Inoltre, poiché entrambe le parti possiedono la stessa chiave, è impossibile garantire
+            la non-repudiation: chiunque abbia la chiave può produrre lo stesso messaggio cifrato.
+          </p>
+
+          <table>
+            <thead><tr><th>Caratteristica</th><th>Simmetrica</th><th>Asimmetrica</th></tr></thead>
+            <tbody>
+              <tr><td class="label">Velocità</td><td>Molto alta</td><td>Bassa (10–1000× più lenta)</td></tr>
+              <tr><td class="label">Distribuzione chiavi</td><td>Difficile (canale sicuro preesistente)</td><td>Semplice (chiave pubblica distribuibile)</td></tr>
+              <tr><td class="label">Scalabilità</td><td>Scarsa — n(n−1)/2 chiavi</td><td>Alta — una coppia per utente</td></tr>
+              <tr><td class="label">Non-repudiation</td><td>No</td><td>Sì (con firma digitale)</td></tr>
+              <tr><td class="label">Uso tipico</td><td>Cifratura bulk di dati</td><td>Scambio chiavi, firme, autenticazione</td></tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Simmetrica vs Asimmetrica:</strong> Se lo scenario chiede il modo più rapido per cifrare
+            un disco da 1 TB, la risposta è simmetrica (AES). Se chiede come inviare in modo sicuro la chiave simmetrica
+            a un destinatario sconosciuto, la risposta è asimmetrica (cifrare la chiave simmetrica con la chiave pubblica
+            del destinatario). In pratica TLS usa entrambe: asimmetrica per lo scambio delle chiavi, simmetrica per la sessione.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Crittografia asimmetrica
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="asimmetrica">
+          <h2>Crittografia asimmetrica</h2>
+          <p>
+            La crittografia asimmetrica assegna a ogni entità una coppia di chiavi matematicamente correlate: la
+            <strong>chiave pubblica</strong> (distribuibile liberamente) e la <strong>chiave privata</strong>
+            (mai condivisa, conservata in modo sicuro dal proprietario). Le due chiavi sono progettate in modo che
+            ciò che una cifra solo l'altra possa decifrare — e viceversa.
+          </p>
+          <p>
+            Questo schema risolve elegantemente il problema della distribuzione: non occorre condividere un segreto
+            in anticipo. Aggiungere un nuovo utente alla rete significa solo generare una coppia di chiavi e
+            pubblicare la chiave pubblica in un registro fidato. La crittografia asimmetrica è alla base di TLS,
+            SSH, S/MIME, firme digitali dei codici applicativi e di tutta l'infrastruttura PKI.
+          </p>
+
+          <dl class="termlist">
+            <dt>Chiave pubblica (Public Key)</dt>
+            <dd>
+              Chiave distribuita liberamente, inclusa nei certificati digitali e nei server pubblici.
+              Viene usata da chiunque voglia <em>inviare un messaggio cifrato al proprietario</em> oppure
+              <em>verificare una firma digitale prodotta dal proprietario</em>. Il punto cruciale è che
+              la conoscenza della chiave pubblica non permette in alcun modo di derivare la chiave privata
+              — la separazione è garantita dalla matematica sottostante (fattorizzazione di grandi numeri
+              per RSA, curve ellittiche per ECC).
+            </dd>
+
+            <dt>Chiave privata (Private Key)</dt>
+            <dd>
+              Chiave segreta custodita esclusivamente dal proprietario. Viene usata per
+              <em>decifrare i messaggi cifrati con la chiave pubblica corrispondente</em> e per
+              <em>produrre firme digitali</em>. La compromissione della chiave privata annulla completamente
+              la sicurezza di tutte le comunicazioni passate e future associate a quella coppia. Per questo
+              va protetta con hardware dedicato (HSM, smart card, TPM) e mai trasferita via rete.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — cifratura vs firma:</strong><br>
+            Alice vuole inviare un messaggio riservato a Bob: cifra il messaggio con la
+            <strong>chiave pubblica di Bob</strong>. Solo Bob può decifrarlo con la propria chiave privata.<br>
+            Alice vuole firmare un documento: genera l'hash del documento e lo cifra con la
+            <strong>propria chiave privata</strong>. Chiunque può verificare la firma usando la
+            chiave pubblica di Alice — se il digest coincide, il documento non è stato alterato
+            e proviene sicuramente da Alice.
+          </div>
+
+          <h3>RSA e ECC</h3>
+          <p>
+            <strong>RSA</strong> (Rivest–Shamir–Adleman) è lo standard storico della crittografia asimmetrica.
+            La sua sicurezza dipende dalla difficoltà computazionale di fattorizzare il prodotto di due grandi
+            numeri primi. Chiavi RSA di almeno 2048 bit sono considerate sicure oggi; 4096 bit è raccomandato
+            per contesti ad alta criticità o lunga durata.
+          </p>
+          <p>
+            <strong>ECC</strong> (Elliptic Curve Cryptography) offre sicurezza equivalente a RSA con chiavi
+            molto più corte: una chiave ECC da 256 bit equivale approssimativamente a una chiave RSA da 3072 bit.
+            Questo la rende ideale per dispositivi con risorse limitate (smartphone, IoT, smart card) e per
+            ambienti ad alta frequenza di operazioni crittografiche.
+          </p>
+
+          <div class="pitfall">
+            <strong>PITFALL — RSA vs ECC:</strong> L'esame può chiedere quale algoritmo asimmetrico usare
+            in un dispositivo IoT con potenza di calcolo limitata. La risposta è <strong>ECC</strong>,
+            non RSA. ECC fornisce la stessa robustezza con chiavi più piccole e operazioni più veloci.
+            Non confondere con AES, che è simmetrico e serve per la cifratura bulk, non per lo scambio di chiavi.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Key Exchange
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="key-exchange">
+          <h2>Key Exchange</h2>
+          <p>
+            Lo scambio di chiavi è il processo con cui due parti stabiliscono un segreto condiviso su un canale
+            potenzialmente non sicuro. Senza un meccanismo di scambio sicuro, la crittografia simmetrica
+            richiede un canale già protetto per distribuire la chiave — un problema circolare.
+          </p>
+          <p>
+            <strong>Diffie-Hellman (DH)</strong> è il protocollo di scambio chiavi più importante nella storia
+            della crittografia moderna. Il suo funzionamento si basa su operazioni in algebra modulare:
+            entrambe le parti scelgono valori privati, calcolano valori intermedi su parametri pubblici e
+            si scambiano solo i valori intermedi. Combinando il proprio valore privato con il valore intermedio
+            ricevuto, entrambe le parti arrivano allo stesso segreto condiviso — senza che il segreto sia mai
+            transitato sulla rete. Un osservatore che intercetta solo i valori pubblici non può ricostruire il segreto.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — DH in TLS:</strong><br>
+            Quando il browser si connette a un sito HTTPS, il server e il browser eseguono uno scambio DH
+            (nella variante ECDHE — Elliptic Curve Diffie-Hellman Ephemeral) per concordare una chiave di sessione
+            simmetrica. Quella chiave viene usata per cifrare tutto il traffico successivo con AES.
+            "Ephemeral" significa che la chiave viene generata ex-novo per ogni sessione: anche se la chiave privata
+            del server fosse compromessa, le sessioni passate restano protette — questa proprietà si chiama
+            <strong>Perfect Forward Secrecy (PFS)</strong>.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — DH non è un algoritmo di cifratura:</strong> Diffie-Hellman serve esclusivamente
+            a stabilire un segreto condiviso. Non cifra né decifra messaggi. Spesso viene confuso con RSA:
+            RSA può essere usato sia per la cifratura sia per lo scambio di chiavi, mentre DH è specifico
+            per lo scambio. Nell'esame, se lo scenario chiede come vengono scambiate le chiavi in TLS, la risposta
+            corretta coinvolge DH (o ECDHE), non solo RSA.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Algoritmi e Key Length
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="algoritmi">
+          <h2>Algoritmi e Key Length</h2>
+          <p>
+            La lunghezza della chiave determina direttamente la dimensione dello spazio delle chiavi
+            (<em>key space</em>) e quindi la resistenza agli attacchi a forza bruta. Una chiave da <em>n</em> bit
+            genera 2<sup>n</sup> possibili valori. Raddoppiare la lunghezza della chiave non raddoppia la
+            difficoltà di attacco: la rende esponenzialmente più costosa da forzare.
+          </p>
+          <p>
+            La scelta della lunghezza dipende anche dalla durata di vita dei dati: informazioni che devono
+            restare riservate per 20 anni richiedono una lunghezza di chiave che resisterà alla potenza di calcolo
+            futura, inclusa la possibile minaccia dei computer quantistici.
+          </p>
+
+          <table>
+            <thead>
+              <tr><th>Algoritmo</th><th>Tipo</th><th>Lunghezza chiave</th><th>Stato</th><th>Note esame</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">DES</td><td>Simmetrico blocchi</td>
+                <td>56 bit</td><td>⛔ Deprecato</td>
+                <td>56 bit → brute force fattibile in ore. Non usare.</td>
+              </tr>
+              <tr>
+                <td class="label">3DES (TDEA)</td><td>Simmetrico blocchi</td>
+                <td>112–168 bit effettivi</td><td>⚠️ Obsoleto</td>
+                <td>DES applicato 3 volte. Deprecato NIST 2023.</td>
+              </tr>
+              <tr>
+                <td class="label">AES</td><td>Simmetrico blocchi</td>
+                <td>128, 192, 256 bit</td><td>✅ Standard corrente</td>
+                <td>Algoritmo simmetrico di riferimento. AES-256 per uso governativo.</td>
+              </tr>
+              <tr>
+                <td class="label">RSA</td><td>Asimmetrico</td>
+                <td>2048+ bit (4096 consigliato)</td><td>✅ In uso</td>
+                <td>Sicurezza basata su fattorizzazione. Lento.</td>
+              </tr>
+              <tr>
+                <td class="label">ECC</td><td>Asimmetrico</td>
+                <td>256+ bit</td><td>✅ Preferito</td>
+                <td>Stessa sicurezza di RSA con chiavi più corte. Ideale per mobile/IoT.</td>
+              </tr>
+              <tr>
+                <td class="label">SHA-1</td><td>Hash</td>
+                <td>160 bit output</td><td>⛔ Deprecato</td>
+                <td>Vulnerabile a collision attack. Non usare per integrità.</td>
+              </tr>
+              <tr>
+                <td class="label">SHA-2 (SHA-256/512)</td><td>Hash</td>
+                <td>256–512 bit output</td><td>✅ Standard corrente</td>
+                <td>Famiglia NIST. SHA-256 = usato in TLS, code signing, certificati.</td>
+              </tr>
+              <tr>
+                <td class="label">SHA-3</td><td>Hash</td>
+                <td>224–512 bit output</td><td>✅ Alternativa robusta</td>
+                <td>Architettura diversa da SHA-2 (Keccak). Alternativa in caso SHA-2 sia compromesso.</td>
+              </tr>
+              <tr>
+                <td class="label">MD5</td><td>Hash</td>
+                <td>128 bit output</td><td>⛔ Non sicuro per integrità</td>
+                <td>Vulnerabile a collision. Ancora usato per checksum non sicuri.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Algoritmo giusto per ogni scenario:</strong>
+            <ul style="margin:8px 0 0 18px;">
+              <li>Cifrare grandi file → AES (simmetrico, veloce)</li>
+              <li>Scambiare la chiave AES in modo sicuro → RSA o ECDH</li>
+              <li>Dispositivo mobile/IoT con vincoli di potenza → ECC</li>
+              <li>Verificare integrità di un file scaricato → SHA-256</li>
+              <li>Firma digitale di codice applicativo → RSA o ECDSA con SHA-256</li>
+              <li>Password storage → hashing con sale (bcrypt, PBKDF2, Argon2)</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Cifratura at rest
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="at-rest">
+          <h2>Livelli di cifratura — Data at Rest</h2>
+          <p>
+            I dati <em>at rest</em> sono informazioni archiviate su qualsiasi supporto permanente: disco locale,
+            SSD, NAS, storage cloud, nastro di backup. Il rischio principale è il furto fisico del dispositivo
+            o dell'immagine disco. La cifratura at rest garantisce che i dati siano inutilizzabili anche se
+            il supporto fisico cade in mani non autorizzate.
+          </p>
+          <p>
+            La scelta del livello di cifratura dipende dalla granularità di controllo richiesta, dalla
+            compatibilità con il sistema operativo e dal compromesso tra performance e sicurezza.
+          </p>
+
+          <dl class="termlist">
+            <dt>Full-Disk Encryption (FDE)</dt>
+            <dd>
+              Cifra l'intero disco fisico, inclusi sistema operativo, file di paging, spazio non allocato
+              e tutti i file di sistema. La decifratura avviene automaticamente all'avvio dopo autenticazione
+              (PIN, password, TPM). Il vantaggio è la copertura totale — nessun file può sfuggire alla
+              protezione. Il limite è che una volta che il sistema è avviato e autenticato, tutti i processi
+              in esecuzione hanno accesso ai dati in chiaro. Esempi: BitLocker (Windows), FileVault (macOS),
+              LUKS (Linux).
+            </dd>
+
+            <dt>Partition Encryption</dt>
+            <dd>
+              Applica la cifratura a una singola partizione del disco, lasciando le altre in chiaro.
+              Utile quando si vuole proteggere solo la partizione dati senza cifrare la partizione di sistema,
+              oppure in configurazioni dual-boot dove solo alcuni volumi contengono dati sensibili.
+            </dd>
+
+            <dt>File-Level Encryption</dt>
+            <dd>
+              Cifra singoli file o directory specifiche. Offre controllo molto granulare: è possibile
+              proteggere solo i documenti sensibili lasciando il resto del filesystem accessibile.
+              Il rischio è che i metadati (nomi di file, timestamp, struttura di directory) possono restare
+              visibili anche se il contenuto è cifrato. Esempio: EFS (Encrypted File System) in Windows.
+            </dd>
+
+            <dt>Volume Encryption</dt>
+            <dd>
+              Cifra un volume logico che può contenere più filesystem e partizioni. Permette di creare
+              contenitori cifrati portabili (es. VeraCrypt) o di proteggere volumi di storage condiviso
+              in ambienti virtualizzati. Si differenzia dalla FDE perché il volume cifrato può essere
+              smontato e rimontato in modo indipendente dal sistema operativo sottostante.
+            </dd>
+
+            <dt>Database Encryption</dt>
+            <dd>
+              Protegge l'intero database o porzioni di esso. La Transparent Data Encryption (TDE) cifra
+              i file di dati del database a livello di storage: l'applicazione che accede al DB vede i dati
+              in chiaro, ma i file su disco sono cifrati. Protezione trasparente contro il furto dei file
+              fisici del database, ma non contro un attaccante che accede tramite l'applicazione.
+            </dd>
+
+            <dt>Record-Level Encryption</dt>
+            <dd>
+              Cifra singoli record o colonne specifiche all'interno di una tabella del database
+              (Column-Level Encryption, CLE). Permette a utenti diversi di accedere a subset differenti
+              dei dati con chiavi diverse. Ideale per dati multi-tenant o quando alcuni campi (es. numeri
+              di carta di credito, SSN) devono essere protetti anche dall'amministratore del database.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — laptop smarrito:</strong><br>
+            Un dipendente perde un laptop con FDE abilitata e TPM integrato. L'attaccante rimuove il disco
+            e lo collega a un altro sistema: vede solo dati cifrati, inutilizzabili senza la chiave legata
+            al TPM del laptop originale. Senza FDE, tutti i file sarebbero immediatamente accessibili.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — FDE e sistema acceso:</strong> La cifratura full-disk protegge i dati
+            <em>a riposo</em>, non i dati <em>in uso</em>. Se il laptop è acceso e sbloccato,
+            i dati sono in chiaro in memoria. Un attacco cold boot (congelare la RAM e leggerne il contenuto)
+            può estrarre la chiave di cifratura. La protezione at rest non sostituisce i controlli di accesso
+            logici.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Cifratura in transit
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="in-transit">
+          <h2>Cifratura in Transit — Transport/Communication</h2>
+          <p>
+            I dati <em>in transit</em> sono informazioni che si spostano attraverso una rete tra due sistemi.
+            Il rischio principale è l'intercettazione (<em>eavesdropping</em>) e la manipolazione
+            (<em>man-in-the-middle</em>). La cifratura del canale di trasporto garantisce che anche se il
+            traffico viene catturato, il contenuto sia illeggibile senza la chiave di sessione.
+          </p>
+          <p>
+            Il protocollo di riferimento è <strong>TLS (Transport Layer Security)</strong>, versione moderna
+            di SSL. TLS usa la crittografia asimmetrica per lo scambio delle chiavi e stabilisce poi una
+            sessione simmetrica con AES per la cifratura del traffico effettivo. Il certificato digitale del
+            server viene presentato durante l'handshake per autenticare il server al client.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — TLS e SSL:</strong> L'esame usa spesso "SSL/TLS" come termine generico.
+            SSL è obsoleto (SSL 2.0 e 3.0 sono stati ritirati). TLS 1.0 e 1.1 sono deprecati dal 2020.
+            L'unica versione attuale è <strong>TLS 1.3</strong> (o al minimo 1.2 in contesti legacy).
+            Se uno scenario menziona SSL come tecnologia attiva, è un indizio di configurazione insicura
+            da correggere.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Hashing
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="hashing">
+          <h2>Hashing</h2>
+          <p>
+            Una funzione hash crittografica accetta un input di lunghezza arbitraria e produce un output
+            di lunghezza fissa chiamato <strong>digest</strong> o <strong>message digest</strong>.
+            Il processo è <em>monodirezionale</em>: dal digest non è possibile risalire all'input originale.
+            Anche una minima modifica dell'input (un singolo bit) produce un digest completamente diverso —
+            questa proprietà si chiama <em>avalanche effect</em>.
+          </p>
+          <p>
+            L'hashing serve per verificare l'integrità dei dati senza rivelare il contenuto. Quando scarichi
+            un file da Internet e il sito fornisce un hash SHA-256, puoi calcolare l'hash del file scaricato
+            e confrontarlo: se coincidono, il file non è stato alterato durante il trasferimento.
+          </p>
+
+          <dl class="termlist">
+            <dt>Collision</dt>
+            <dd>
+              Si verifica quando due input diversi producono lo stesso valore hash. Una funzione hash
+              crittografica deve essere <strong>collision-resistant</strong>: deve essere computazionalmente
+              impossibile trovare due input che producono lo stesso digest. MD5 e SHA-1 presentano vulnerabilità
+              alle collisioni dimostrate, rendendoli inadatti per applicazioni di sicurezza.
+            </dd>
+
+            <dt>Birthday Attack</dt>
+            <dd>
+              Attacco che sfrutta il paradosso del compleanno per trovare collisioni in modo più efficiente
+              di una ricerca esaustiva. In un gruppo di 23 persone la probabilità che due abbiano lo stesso
+              compleanno supera il 50%: analogamente, la probabilità di trovare una collisione in una funzione
+              hash cresce molto più rapidamente di quanto si pensi intuitivamente. Per questo gli output hash
+              devono avere almeno 256 bit per resistere ai birthday attack moderni.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Hash vs cifratura:</strong> L'hashing è monodirezionale e non prevede chiavi.
+            La cifratura è bidirezionale (è possibile decifrare con la chiave corretta). Non è corretto dire
+            "decifro l'hash": un hash non si decifra, si confronta. Questa distinzione è fondamentale
+            nell'esame quando si parla di password storage.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Salting e Key Stretching
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="salting">
+          <h2>Salting e Key Stretching</h2>
+
+          <dl class="termlist">
+            <dt>Salting</dt>
+            <dd>
+              Il sale (<em>salt</em>) è un valore casuale e univoco generato per ogni utente e concatenato
+              alla password prima dell'hashing. Anche se due utenti hanno la stessa password, i loro hash
+              saranno diversi perché i salt sono diversi. Il sale è solitamente memorizzato in chiaro nel
+              database insieme all'hash, ma questo non è un problema: il suo scopo non è la segretezza,
+              ma impedire l'uso di <strong>rainbow table</strong> — tabelle precalcolate di hash per
+              password comuni. Con il salt, l'attaccante dovrebbe calcolare una rainbow table separata
+              per ogni sale, rendendo l'attacco computazionalmente proibitivo.
+            </dd>
+
+            <dt>Key Stretching</dt>
+            <dd>
+              Il key stretching applica una funzione hash in modo iterativo — migliaia o milioni di volte —
+              per rendere ogni singolo tentativo di password molto più costoso dal punto di vista
+              computazionale. L'obiettivo è aumentare il tempo necessario per ogni tentativo di brute force
+              da microsecondi a decine di millisecondi, moltiplicando il costo di un attacco di milioni
+              di fattori. Algoritmi dedicati come <strong>PBKDF2</strong>, <strong>bcrypt</strong> e
+              <strong>Argon2</strong> implementano key stretching con salt integrato e sono i metodi
+              raccomandati per il password hashing in applicazioni moderne.
+            </dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — database violato:</strong><br>
+            Un attaccante riesce a scaricare il database utenti di un'applicazione. Se le password sono
+            hashate con MD5 senza sale, può usare una rainbow table e trovare milioni di password in pochi
+            minuti. Se invece sono hashate con bcrypt (che include sale e 10 round di stretching), ogni
+            tentativo richiede ~100ms: un milione di tentativi richiederebbe oltre 100 ore su hardware dedicato.
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — Salt vs Pepper:</strong> Il <em>salt</em> è unico per utente, memorizzato
+            nel database. Il <em>pepper</em> è un valore segreto condiviso da tutti gli hash, conservato
+            fuori dal database (es. in un secret manager). L'esame SY0-701 non richiede di conoscere il
+            pepper in dettaglio, ma è bene non confondere i due. Il salt non è segreto; il pepper sì.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Firme digitali
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="firme">
+          <h2>Firme digitali</h2>
+          <p>
+            Una firma digitale combina hashing e crittografia asimmetrica per fornire simultaneamente
+            tre garanzie: <strong>integrità</strong> (il contenuto non è stato alterato),
+            <strong>autenticazione</strong> (il messaggio proviene dal titolare della chiave privata
+            corrispondente) e <strong>non-repudiation</strong> (il mittente non può negare l'azione,
+            perché solo lui possiede la chiave privata usata per firmare).
+          </p>
+          <p>
+            Il processo è il seguente: il mittente calcola il digest del messaggio con una funzione hash
+            (es. SHA-256), cifra il digest con la propria <em>chiave privata</em> e allega il risultato
+            come firma al messaggio. Il destinatario usa la <em>chiave pubblica del mittente</em> per
+            decifrare la firma e ottiene il digest atteso; calcola in autonomia il digest del messaggio
+            ricevuto e li confronta. Se coincidono, integrità e autenticazione sono garantite.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Firma e riservatezza:</strong> La firma digitale da sola non garantisce
+            riservatezza. Il messaggio viaggia in chiaro — è la firma ad essere cifrata con la chiave
+            privata. Se lo scenario richiede anche riservatezza, è necessario cifrare il messaggio (con
+            la chiave pubblica del destinatario) <em>oltre</em> a firmarlo.
+          </div>
+
+          <h3>HMAC</h3>
+          <p>
+            HMAC (<em>Hash-based Message Authentication Code</em>) è un meccanismo alternativo che
+            usa una <em>chiave condivisa</em> (simmetrica) invece di una coppia asimmetrica per
+            autenticare i messaggi. Fornisce integrità e autenticazione nel senso pratico del possesso
+            della chiave, ma <strong>non</strong> garantisce non-repudiation: entrambe le parti che
+            condividono la chiave potrebbero aver generato l'HMAC. È più efficiente delle firme
+            digitali asimmetriche ed è ampiamente usato in protocolli come TLS, JWT e IPSec.
+          </p>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: PKI
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="pki">
+          <h2>Public Key Infrastructure (PKI)</h2>
+          <p>
+            La PKI è l'insieme di ruoli, criteri, procedure e tecnologie che permette di creare, distribuire,
+            verificare e revocare certificati digitali, associando in modo verificabile una chiave pubblica
+            all'identità del suo proprietario. Senza PKI, chiunque potrebbe affermare di essere chiunque
+            e distribuire una chiave pubblica fraudolenta — è la PKI che garantisce la catena di fiducia.
+          </p>
+          <p>
+            La PKI in pratica è una <strong>crittografia ibrida</strong>: usa la crittografia asimmetrica per
+            la gestione delle identità e lo scambio delle chiavi, e la crittografia simmetrica per la cifratura
+            efficiente del traffico di sessione.
+          </p>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Key Escrow
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="key-escrow">
+          <h2>Key Escrow</h2>
+          <p>
+            Il <strong>key escrow</strong> è la pratica di depositare una copia della chiave crittografica
+            presso una terza parte fidata (l'<em>escrow agent</em>), in modo che la chiave possa essere
+            recuperata in circostanze autorizzate: dipendente che lascia l'azienda, procedimento giudiziario,
+            decesso del titolare, guasto hardware.
+          </p>
+          <p>
+            Dal punto di vista della sicurezza, il key escrow introduce un rischio aggiuntivo: il deposito
+            delle chiavi diventa un obiettivo ad alto valore per gli attaccanti. Per mitigare questo rischio
+            si usa spesso il concetto di <strong>split knowledge</strong> (conoscenza divisa): la chiave
+            viene suddivisa in <em>n</em> parti e distribuita a persone diverse, richiedendo che un minimo
+            di <em>k</em> parti (con <em>k ≤ n</em>) siano combinate per ricostruire la chiave — schema
+            noto come <em>secret sharing</em> (es. algoritmo di Shamir).
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Key escrow in scenario aziendale:</strong> Lo scenario tipico è: "Un manager
+            lascia l'azienda e i suoi file sono cifrati con la sua chiave. Come accedere ai dati?"
+            La risposta è key escrow: l'azienda avrebbe dovuto depositare una copia della chiave al momento
+            della generazione. Senza escrow, i dati potrebbero essere irrecuperabili.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Certificati
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="certificati">
+          <h2>Certificati digitali</h2>
+          <p>
+            Un certificato digitale è un documento elettronico che lega una chiave pubblica a un'identità
+            verificata. Lo standard internazionale di riferimento è <strong>X.509</strong>. Il certificato
+            contiene: versione, numero di serie univoco, algoritmo di firma usato dalla CA, identità
+            dell'emittente (CA), periodo di validità (not before / not after), identità del soggetto
+            (Common Name, Subject Alternative Names), chiave pubblica del soggetto e la firma digitale
+            della CA che autentica tutto quanto sopra.
+          </p>
+          <p>
+            I certificati possono essere emessi per server web, utenti, dispositivi di rete, indirizzi
+            email, codice applicativo (code signing) e CA intermedie. Ogni tipologia serve un caso d'uso
+            specifico.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — verificare un certificato HTTPS:</strong><br>
+            Quando visiti <code>https://banca.it</code>, il browser riceve il certificato del server,
+            controlla che la firma della CA sia valida, verifica che la CA sia nel suo trust store,
+            controlla che il certificato non sia scaduto, verifica che il nome del dominio corrisponda
+            e controlla lo stato di revoca via OCSP. Solo se tutti i controlli passano viene mostrata
+            la lucchetto verde.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: CA e Root of Trust
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="ca">
+          <h2>Certificate Authorities e Root of Trust</h2>
+
+          <dl class="termlist">
+            <dt>Certificate Authority (CA)</dt>
+            <dd>
+              La CA è l'entità che emette e firma certificati digitali. La sua firma garantisce che la
+              chiave pubblica nel certificato appartiene davvero al soggetto indicato. La CA firma il
+              certificato con la propria chiave privata: chiunque abbia nel proprio trust store la chiave
+              pubblica della CA (distribuita nel certificato radice) può verificare la firma e fidarsi
+              del certificato emesso. Le CA possono essere pubbliche (DigiCert, Let's Encrypt, Comodo)
+              o private (CA interne a un'organizzazione per certificati ad uso interno).
+            </dd>
+
+            <dt>Root CA</dt>
+            <dd>
+              La Root CA è la CA al vertice della gerarchia di fiducia. Il suo certificato è
+              <em>self-signed</em> (si autentica da sola) ed è preinstallato nel sistema operativo
+              e nei browser. Per questo motivo la Root CA viene tenuta <em>offline</em> nella maggior
+              parte delle implementazioni enterprise: viene accesa solo per firmare certificati di
+              CA intermedie, riducendo drasticamente il rischio di compromissione. Se la chiave privata
+              della Root CA fosse compromessa, l'intera catena di fiducia sarebbe invalidata.
+            </dd>
+
+            <dt>Intermediate CA (Subordinate CA)</dt>
+            <dd>
+              La CA intermedia è certificata dalla Root CA ed è quella che emette i certificati operativi
+              agli utenti finali. Separare la Root CA dalla CA operativa aggiunge un livello di protezione:
+              se la CA intermedia fosse compromessa, basta revocare il suo certificato e emetterne uno
+              nuovo — senza dover toccare la Root CA offline.
+            </dd>
+
+            <dt>Registration Authority (RA)</dt>
+            <dd>
+              La RA supporta il processo di verifica dell'identità dei richiedenti prima dell'emissione
+              del certificato, ma non emette direttamente certificati. Si occupa di raccogliere le prove
+              di identità (documenti, verifica del dominio, audit) e di autorizzare la CA a procedere
+              con l'emissione.
+            </dd>
+
+            <dt>Root of Trust</dt>
+            <dd>
+              Il root of trust è il componente o il meccanismo considerato intrinsecamente affidabile
+              in una catena di fiducia, da cui deriva la fiducia in tutti gli elementi successivi.
+              Nella PKI, il root of trust è il certificato della Root CA preinstallato nel trust store
+              del sistema operativo. In un contesto hardware (es. TPM, secure boot), il root of trust
+              è il firmware o il chip di sicurezza la cui integrità è garantita dal produttore e verificata
+              durante il processo di avvio sicuro. Senza un root of trust affidabile, non esiste base
+              su cui costruire catene di fiducia.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Root CA offline vs online:</strong> Una Root CA online è un errore di
+            configurazione grave. Se esposta alla rete, il suo certificato radice potrebbe essere
+            compromesso, invalidando tutti i certificati emessi dall'intera gerarchia. Il pattern
+            corretto è: Root CA offline → Intermediate CA online → emissione dei certificati operativi.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Revoca
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="revoca">
+          <h2>Certificate Revocation List (CRL) e OCSP</h2>
+          <p>
+            Un certificato può diventare non affidabile prima della sua scadenza: la chiave privata
+            corrispondente potrebbe essere stata compromessa, l'organizzazione potrebbe aver cessato
+            l'attività, o le informazioni nel certificato potrebbero essere cambiate. In questi casi il
+            certificato deve essere <em>revocato</em> — invalidato prima della scadenza naturale.
+          </p>
+
+          <dl class="termlist">
+            <dt>Certificate Revocation List (CRL)</dt>
+            <dd>
+              La CRL è un elenco firmato e pubblicato periodicamente dalla CA contenente i numeri di serie
+              di tutti i certificati revocati. Il client che vuole verificare un certificato deve scaricare
+              la CRL (spesso da un URL incluso nel certificato stesso, campo <em>CRL Distribution Point</em>)
+              e controllare se il numero di serie del certificato è presente. Il limite principale è la
+              latenza: la CRL viene pubblicata a intervalli (ore, giorni) e potrebbe non essere aggiornata
+              immediatamente dopo una revoca.
+            </dd>
+
+            <dt>Online Certificate Status Protocol (OCSP)</dt>
+            <dd>
+              OCSP è un protocollo che permette di verificare in tempo reale lo stato di un singolo
+              certificato interrogando un <em>OCSP Responder</em> (un server gestito dalla CA).
+              Il client invia il numero di serie del certificato e riceve una risposta firmata:
+              <em>good</em>, <em>revoked</em> o <em>unknown</em>. Rispetto alla CRL, OCSP è più
+              aggiornato, ma introduce una dipendenza di disponibilità verso il server OCSP della CA
+              e può esporre informazioni su quali siti il client visita.
+            </dd>
+
+            <dt>OCSP Stapling</dt>
+            <dd>
+              Con lo stapling, è il <em>server</em> (non il client) a interrogare periodicamente l'OCSP
+              Responder e a memorizzare nella cache la risposta firmata. Quando il client si connette,
+              il server include (<em>staple</em>) la risposta OCSP nel TLS handshake. Il vantaggio è
+              doppio: il client non deve fare richieste OCSP aggiuntive (latenza ridotta) e la CA non
+              vede le richieste del client (privacy migliorata). La risposta OCSP ha una validità
+              temporale limitata e il server deve aggiornarla periodicamente.
+            </dd>
+          </dl>
+
+          <table>
+            <thead><tr><th>Meccanismo</th><th>Aggiornamento</th><th>Carico CA</th><th>Privacy client</th><th>Dipendenze</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="label">CRL</td>
+                <td>Periodico (ore/giorni)</td><td>Basso</td>
+                <td>Alta (nessuna richiesta real-time)</td><td>Download file (può essere grande)</td>
+              </tr>
+              <tr>
+                <td class="label">OCSP</td>
+                <td>Real-time</td><td>Alto</td>
+                <td>Bassa (CA vede le richieste)</td><td>Disponibilità OCSP Responder</td>
+              </tr>
+              <tr>
+                <td class="label">OCSP Stapling</td>
+                <td>Periodico (server aggiorna)</td><td>Moderato</td>
+                <td>Alta</td><td>Il server deve aggiornare lo staple</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Tipi di certificato
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="tipi-cert">
+          <h2>Tipi di certificato</h2>
+
+          <dl class="termlist">
+            <dt>Self-signed</dt>
+            <dd>
+              Un certificato self-signed è firmato dalla stessa entità che lo ha generato, non da una CA
+              terza. Questo significa che non esiste una catena di fiducia verificabile verso un root di
+              fiducia preinstallato nel sistema operativo. I browser mostrano un avviso di sicurezza quando
+              incontrano un certificato self-signed. Sono accettabili solo in ambienti interni controllati
+              (laboratori, sviluppo locale) dove gli utenti hanno esplicitamente aggiunto il certificato
+              al loro trust store. In produzione sono una cattiva pratica perché non offrono garanzie
+              sull'identità del server.
+            </dd>
+
+            <dt>Third-party (CA pubblica)</dt>
+            <dd>
+              Certificati emessi da una CA commerciale o pubblica (DigiCert, Let's Encrypt, Sectigo) la cui
+              Root CA è preinstallata nel trust store di tutti i principali sistemi operativi e browser.
+              L'utente finale si fida automaticamente del certificato senza dover configurare nulla.
+              Sono obbligatori per qualsiasi sito web pubblico o servizio esposto a utenti esterni.
+            </dd>
+
+            <dt>Wildcard</dt>
+            <dd>
+              Un certificato wildcard è valido per un dominio e per tutti i suoi sottodomini di primo
+              livello. Il Common Name o Subject Alternative Name ha la forma <code>*.esempio.it</code>,
+              che copre <code>www.esempio.it</code>, <code>mail.esempio.it</code>,
+              <code>api.esempio.it</code>, ma <em>non</em> <code>sub.www.esempio.it</code>
+              (un livello ulteriore) né <code>esempio.it</code> stesso (senza prefisso). Un singolo
+              certificato wildcard semplifica la gestione per organizzazioni con molti sottodomini, ma
+              introduce un rischio: se la chiave privata è compromessa, tutti i sottodomini coperti
+              sono a rischio contemporaneamente.
+            </dd>
+
+            <dt>Domain Validation (DV)</dt>
+            <dd>
+              La CA verifica solo che il richiedente controlli il dominio (tramite challenge DNS o HTTP).
+              Non vengono verificati dati sull'organizzazione. Emissione automatica e rapida. Usato
+              da Let's Encrypt. Mostra il lucchetto ma non il nome dell'organizzazione.
+            </dd>
+
+            <dt>Organization Validation (OV)</dt>
+            <dd>
+              La CA verifica l'esistenza legale dell'organizzazione richiedente oltre al controllo del
+              dominio. Il nome dell'organizzazione viene incluso nel certificato.
+            </dd>
+
+            <dt>Extended Validation (EV)</dt>
+            <dd>
+              Processo di verifica molto più rigoroso: identità legale, sede fisica, autorizzazione
+              del richiedente. In passato i browser mostravano il nome dell'organizzazione in verde
+              nella barra degli indirizzi. Oggi i browser moderni hanno rimosso questa distinzione
+              visiva, ma EV rimane rilevante in contesti ad alta criticità (banking, e-commerce, enti governativi).
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>PITFALL — Wildcard e sicurezza:</strong> L'esame può presentare uno scenario in cui
+            un certificato wildcard viene usato per coprire centinaia di sottodomini. Il rischio non è
+            tecnico ma operativo: una singola compromissione della chiave privata impatta tutti i sottodomini.
+            La risposta corretta è usare certificati separati per i servizi critici, oppure gestire
+            la chiave privata con un HSM e rotazioni frequenti.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: CSR
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="csr">
+          <h2>Certificate Signing Request (CSR) Generation</h2>
+          <p>
+            Per ottenere un certificato da una CA, il richiedente genera una <strong>Certificate Signing
+            Request (CSR)</strong>. La CSR è un file che contiene: la chiave pubblica del richiedente,
+            le informazioni sull'identità (Common Name, organizzazione, paese, Subject Alternative Names)
+            e una firma generata con la propria chiave privata per dimostrare il possesso della chiave
+            corrispondente.
+          </p>
+          <p>
+            Il flusso è: (1) il richiedente genera la propria coppia di chiavi; (2) crea la CSR firmata
+            con la chiave privata e la invia alla CA; (3) la CA verifica l'identità (DV, OV o EV),
+            firma il certificato con la propria chiave privata e lo restituisce al richiedente;
+            (4) il richiedente installa il certificato sul server insieme alla propria chiave privata.
+            La chiave privata non viene mai inviata alla CA — questo è fondamentale per la sicurezza.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — generazione CSR con OpenSSL:</strong><br>
+            <code>openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr</code><br>
+            Questo comando genera una chiave privata RSA 2048-bit (<code>server.key</code>) e una CSR
+            (<code>server.csr</code>). La CSR viene inviata alla CA; la chiave privata rimane sul server
+            e non esce mai dall'organizzazione.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Tools
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="tools">
+          <h2>Tool — TPM, HSM, Key Management System, Secure Enclave</h2>
+
+          <dl class="termlist">
+            <dt>Trusted Platform Module (TPM)</dt>
+            <dd>
+              Il TPM è un chip hardware integrato nella scheda madre del dispositivo (o implementato via
+              firmware) che fornisce funzionalità crittografiche sicure a livello di hardware. Il TPM genera
+              e memorizza chiavi crittografiche, misura l'integrità del processo di avvio (Secure Boot) e
+              può vincolare la decifratura dei dati allo stato specifico del sistema (Platform Configuration
+              Registers, PCR). BitLocker, ad esempio, usa il TPM per legare la chiave di cifratura del disco
+              all'hardware del dispositivo: se il disco viene rimosso e inserito in un altro computer, la
+              chiave non è disponibile e i dati restano inaccessibili. Il TPM 2.0 è obbligatorio per
+              Windows 11.
+            </dd>
+
+            <dt>Hardware Security Module (HSM)</dt>
+            <dd>
+              Un HSM è un dispositivo hardware dedicato progettato per generare, memorizzare e gestire
+              chiavi crittografiche in un ambiente fisicamente e logicamente protetto. Le chiavi non
+              escono mai dall'HSM in forma non protetta: tutte le operazioni crittografiche (firma, cifratura,
+              verifica) avvengono all'interno del dispositivo. Gli HSM sono tamper-evident o tamper-resistant:
+              se qualcuno tenta di aprirli fisicamente, le chiavi vengono distrutte automaticamente.
+              Usati dalle CA per proteggere la chiave privata del certificato radice, dalle banche per le
+              operazioni di PIN e crittografia delle carte, e dalle aziende per proteggere chiavi master.
+              Esistono in versione hardware fisica (rack HSM come Thales nShield, AWS CloudHSM) e
+              in versione portatile (YubiKey, smart card).
+            </dd>
+
+            <dt>Key Management System (KMS)</dt>
+            <dd>
+              Un KMS è una piattaforma software (o cloud service) che gestisce il ciclo di vita completo
+              delle chiavi crittografiche: generazione, distribuzione, rotazione, archiviazione, revoca e
+              distruzione. Un KMS centralizza la politica di gestione delle chiavi per tutta l'organizzazione,
+              garantendo audit trail delle operazioni su ogni chiave, separazione dei compiti (chi può usare
+              una chiave vs chi può gestirla) e conformità normativa. Esempi: AWS KMS, Google Cloud KMS,
+              HashiCorp Vault, Azure Key Vault. Il KMS differisce dall'HSM: l'HSM è il componente hardware
+              che esegue le operazioni crittografiche; il KMS è il piano di controllo che decide chi può
+              usare quale chiave e quando.
+            </dd>
+
+            <dt>Secure Enclave</dt>
+            <dd>
+              La secure enclave è un'area isolata all'interno del processore principale del dispositivo,
+              con memoria separata, accesso controllato e capacità crittografiche proprie. Il codice in
+              esecuzione nel sistema operativo principale — incluso il kernel — non può accedere
+              direttamente ai dati elaborati nella enclave. Questa separazione hardware protegge operazioni
+              sensibili (autenticazione biometrica, operazioni con chiavi private, pagamenti) anche se il
+              sistema operativo è compromesso. Esempi: Apple Secure Enclave (nei chip T2 e Apple Silicon),
+              Intel SGX (Software Guard Extensions), AMD SEV (Secure Encrypted Virtualization).
+              Nell'esame SY0-701 la secure enclave è rilevante in scenari che coinvolgono la protezione
+              di credenziali biometriche e chiavi di pagamento su dispositivi mobili.
+            </dd>
+          </dl>
+
+          <table>
+            <thead><tr><th>Tool</th><th>Forma</th><th>Funzione principale</th><th>Scenario tipico</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="label">TPM</td><td>Chip su motherboard</td>
+                <td>Binding chiavi a hardware, Secure Boot, FDE</td>
+                <td>BitLocker su laptop aziendale</td>
+              </tr>
+              <tr>
+                <td class="label">HSM</td><td>Dispositivo hardware dedicato</td>
+                <td>Generazione e custodia sicura chiavi — mai escono</td>
+                <td>Chiave privata Root CA, operazioni bancarie</td>
+              </tr>
+              <tr>
+                <td class="label">KMS</td><td>Software / cloud service</td>
+                <td>Gestione ciclo di vita chiavi, policy, audit</td>
+                <td>Rotazione automatica chiavi DB in cloud</td>
+              </tr>
+              <tr>
+                <td class="label">Secure Enclave</td><td>Area isolata nel SoC</td>
+                <td>Protezione operazioni sensibili da sistema operativo compromesso</td>
+                <td>Face ID, Apple Pay, fingerprint Android</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — HSM vs TPM:</strong> Scenario tipico: "Come proteggere la chiave privata
+            di una CA da accessi non autorizzati anche se il server è compromesso?" → HSM (non TPM).
+            L'HSM è un dispositivo esterno dedicato con protezione fisica; il TPM è integrato nel sistema
+            e lega le chiavi a quel dispositivo specifico ma non è progettato per operazioni CA.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Obfuscation
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="obfuscation">
+          <h2>Obfuscation — Steganografia, Tokenizzazione, Data Masking</h2>
+          <p>
+            Le tecniche di obfuscation non cifrano i dati nel senso crittografico tradizionale: invece di
+            renderli incomprensibili tramite un algoritmo, li nascondono, li sostituiscono con surrogate
+            o li trasformano in modo che non possano essere usati anche se intercettati o esposti.
+            Ogni tecnica serve uno scopo specifico e ha caratteristiche diverse.
+          </p>
+
+          <dl class="termlist">
+            <dt>Steganografia</dt>
+            <dd>
+              La steganografia nasconde l'esistenza stessa di un messaggio segreto all'interno di un altro
+              file apparentemente innocuo (immagine, audio, video, documento). A differenza della crittografia,
+              che rende il contenuto illeggibile, la steganografia mira a far passare inosservato il messaggio:
+              l'obiettivo non è la riservatezza del contenuto ma la <em>segretezza dell'esistenza</em> della
+              comunicazione. Tecnicamente, il messaggio viene inserito nei bit meno significativi (LSB) dei
+              pixel di un'immagine o dei campioni audio, producendo alterazioni impercettibili all'occhio umano
+              o all'orecchio. Usi legittimi: digital watermarking per proteggere la proprietà intellettuale.
+              Usi illeciti: comunicazioni covert tra attori malevoli, exfiltration di dati nascosta nel
+              traffico legittimo.
+            </dd>
+
+            <dt>Tokenizzazione</dt>
+            <dd>
+              La tokenizzazione sostituisce un dato sensibile con un valore surrogato casuale chiamato
+              <em>token</em>, che non ha alcuna relazione matematica con il dato originale. Il mapping
+              tra token e dato reale è conservato in un <em>token vault</em> sicuro e centralizzato.
+              Il token può essere usato in tutti i sistemi che non necessitano del dato reale (elaborazione
+              di pagamenti, analytics, test), riducendo drasticamente la superficie di attacco.
+              Se il sistema che elabora i token è compromesso, l'attaccante ottiene solo token inutilizzabili,
+              non dati reali. Esempio: nei sistemi di pagamento PCI-DSS, il numero della carta di credito
+              viene sostituito da un token nei log e nei database del merchant — solo il payment processor
+              ha accesso al vault e può effettuare il detokenizzazione.
+            </dd>
+
+            <dt>Data Masking</dt>
+            <dd>
+              Il data masking sostituisce i dati reali con dati fittizi ma realistici in ambienti non produttivi
+              (sviluppo, test, staging, analytics). A differenza della tokenizzazione, il masking non prevede
+              un vault: i dati mascherati non possono essere riconvertiti nel dato originale. L'obiettivo è
+              preservare la struttura e il formato dei dati (es. un numero di carta di credito mascherato
+              appare come <code>4*** **** **** 1234</code>) mantenendoli utilizzabili per test funzionali,
+              senza esporre dati reali agli sviluppatori o ai sistemi di test. Il data masking è fondamentale
+              per la conformità a normative come GDPR e HIPAA negli ambienti non produttivi.
+            </dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr><th>Tecnica</th><th>Reversibile?</th><th>Scopo principale</th><th>Scenario tipico</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Steganografia</td><td>Sì (con la chiave/metodo)</td>
+                <td>Nascondere l'esistenza del messaggio</td>
+                <td>Watermarking, comunicazioni covert</td>
+              </tr>
+              <tr>
+                <td class="label">Tokenizzazione</td><td>Sì (tramite token vault)</td>
+                <td>Sostituire dato sensibile con surrogato sicuro in produzione</td>
+                <td>Pagamenti PCI-DSS, numeri carta</td>
+              </tr>
+              <tr>
+                <td class="label">Data Masking</td><td>No</td>
+                <td>Dati realistici ma fittizi per ambienti non produttivi</td>
+                <td>Database di test, analytics, GDPR compliance</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pitfall">
+            <strong>PITFALL — Tokenizzazione vs Cifratura:</strong> La tokenizzazione è spesso preferita
+            alla cifratura per i dati di pagamento perché il token non ha relazione matematica con il dato
+            reale — non c'è nulla da decifrare. La cifratura invece produce ciphertext che può essere
+            oggetto di attacchi crittoanalitici. PCI-DSS accetta sia tokenizzazione sia cifratura, ma
+            la tokenizzazione riduce il scope di compliance (i sistemi che gestiscono solo token non
+            devono rispettare tutti i controlli PCI applicabili ai dati di carta reali).
+          </div>
+
+          <div class="pitfall">
+            <strong>PITFALL — Steganografia vs Crittografia:</strong> Steganografia e crittografia
+            perseguono obiettivi diversi e spesso complementari. La crittografia rende un messaggio
+            illeggibile; la steganografia lo nasconde. Usarle insieme è più sicuro: il messaggio cifrato
+            è nascosto all'interno di un file copertura — un intercettore non sa nemmeno che esiste un
+            messaggio, e anche se lo trova, non riesce a leggerlo.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: Blockchain
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="blockchain">
+          <h2>Blockchain e Open Public Ledger</h2>
+          <p>
+            Una blockchain è un registro distribuito e immutabile in cui le transazioni vengono raggruppate
+            in blocchi, ciascuno dei quali contiene l'hash del blocco precedente. Questa struttura a catena
+            crea una dipendenza crittografica: modificare un blocco passato invaliderebbe l'hash di tutti
+            i blocchi successivi, rendendo la manipolazione immediatamente rilevabile da qualsiasi nodo
+            della rete.
+          </p>
+          <p>
+            Un <strong>open public ledger</strong> (registro pubblico aperto) è una blockchain accessibile
+            a chiunque per la lettura e — con le opportune autorizzazioni — per la scrittura.
+            Ogni transazione è visibile pubblicamente e verificabile da chiunque, garantendo trasparenza
+            e accountability senza la necessità di un'autorità centrale fidata. Bitcoin e Ethereum sono
+            gli esempi più noti di open public ledger.
+          </p>
+          <p>
+            Dal punto di vista della sicurezza informatica, la blockchain è rilevante perché usa
+            meccanismi crittografici (hashing, firme digitali, consenso distribuito) per garantire
+            integrità e non-repudiation senza un'autorità centrale. In contesti enterprise viene usata
+            per supply chain traceability, audit trail immutabili, gestione dei contratti (smart contract)
+            e verifica dell'identità digitale.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Blockchain nell'esame:</strong> Non aspettarti domande tecniche sulla
+            matematica della blockchain. Lo scenario tipico è: "Quale tecnologia garantisce un audit
+            trail immutabile senza richiedere fiducia in un'entità centrale?" → Blockchain.
+            Il concetto chiave da ricordare è che la blockchain usa hashing concatenato per rendere
+            le modifiche storiche computazionalmente impossibili da occultare.
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+             SEZIONE: FLASHCARD
+        ═══════════════════════════════════════════════════════════ -->
+        <section id="flashcard">
+          <h2>Flashcard di riepilogo — Obiettivo 1.4</h2>
+          <ul class="flashcard">
+            <li><strong>Crittografia simmetrica</strong> — Stessa chiave per cifrare e decifrare. Veloce, ideale per grandi volumi. Problema: distribuzione sicura della chiave.</li>
+            <li><strong>Crittografia asimmetrica</strong> — Coppia chiave pubblica/privata. Risolve la distribuzione, più lenta. Supporta firme digitali e non-repudiation.</li>
+            <li><strong>Chiave pubblica</strong> — Distribuita liberamente. Si usa per cifrare messaggi destinati al proprietario o per verificare le sue firme.</li>
+            <li><strong>Chiave privata</strong> — Mai condivisa. Si usa per decifrare messaggi ricevuti o per produrre firme digitali.</li>
+            <li><strong>Diffie-Hellman (DH)</strong> — Protocollo di key exchange: permette a due parti di concordare un segreto su canale non protetto senza scambiare la chiave direttamente.</li>
+            <li><strong>Perfect Forward Secrecy (PFS)</strong> — Proprietà di ECDHE: ogni sessione ha una chiave effimera diversa. La compromissione della chiave privata del server non svela le sessioni passate.</li>
+            <li><strong>AES</strong> — Standard simmetrico attuale. Chiavi da 128/192/256 bit. Sostituisce DES (56 bit, insicuro) e 3DES (deprecato 2023).</li>
+            <li><strong>RSA vs ECC</strong> — RSA si basa sulla fattorizzazione; ECC sulle curve ellittiche. ECC offre sicurezza equivalente con chiavi molto più corte → preferito su dispositivi mobili e IoT.</li>
+            <li><strong>Hashing</strong> — Funzione monodirezionale che produce un digest di lunghezza fissa. Serve per verificare l'integrità. Non è cifratura: non si "decifra" un hash.</li>
+            <li><strong>Salting</strong> — Valore casuale univoco per utente, aggiunto alla password prima dell'hashing. Rende inutilizzabili le rainbow table.</li>
+            <li><strong>Key stretching</strong> — Iterazioni multiple di hash (bcrypt, PBKDF2, Argon2) per aumentare il costo computazionale di ogni tentativo di brute force.</li>
+            <li><strong>Firma digitale</strong> — Hash del messaggio cifrato con la chiave privata del mittente. Garantisce integrità, autenticazione e non-repudiation. Non garantisce riservatezza.</li>
+            <li><strong>HMAC</strong> — MAC basato su hash e chiave condivisa. Fornisce integrità e autenticazione (non non-repudiation). Più efficiente delle firme asimmetriche.</li>
+            <li><strong>TPM</strong> — Chip hardware sulla motherboard. Lega le chiavi al dispositivo fisico. Usato da BitLocker per FDE.</li>
+            <li><strong>HSM</strong> — Dispositivo hardware dedicato e tamper-resistant per generare e custodire chiavi. Le chiavi non escono mai dall'HSM in chiaro. Usato per chiavi di Root CA e banking.</li>
+            <li><strong>Key Management System (KMS)</strong> — Piattaforma per gestire il ciclo di vita delle chiavi: generazione, rotazione, revoca, audit. Es. AWS KMS, HashiCorp Vault.</li>
+            <li><strong>Secure Enclave</strong> — Area CPU isolata, inaccessibile al sistema operativo. Protegge operazioni biometriche e chiavi di pagamento (Apple Secure Enclave, Intel SGX).</li>
+            <li><strong>Key escrow</strong> — Deposito di una copia della chiave presso una terza parte fidata per recupero autorizzato. Introduce rischio aggiuntivo se il deposito è compromesso.</li>
+            <li><strong>Steganografia</strong> — Nasconde l'esistenza del messaggio dentro un file copertura (immagine, audio). Diverso dalla crittografia: non rende il contenuto illeggibile, lo occulta.</li>
+            <li><strong>Tokenizzazione</strong> — Sostituisce dati sensibili con token privi di valore crittografico. Reversibile solo tramite token vault. Standard per pagamenti PCI-DSS.</li>
+            <li><strong>Data masking</strong> — Sostituisce dati reali con dati fittizi ma realistici in ambienti non produttivi. Irreversibile. Usato per GDPR compliance in test/sviluppo.</li>
+            <li><strong>Root of trust</strong> — Componente intrinsecamente fidato da cui deriva tutta la catena di fiducia. Nella PKI è il certificato della Root CA nel trust store del sistema operativo.</li>
+            <li><strong>CRL</strong> — Certificate Revocation List: elenco periodico di certificati revocati pubblicato dalla CA. Latenza alta (aggiornamento periodico).</li>
+            <li><strong>OCSP</strong> — Verifica real-time dello stato di un singolo certificato. Più aggiornato della CRL, ma espone privacy e richiede disponibilità del responder.</li>
+            <li><strong>OCSP Stapling</strong> — Il server allega al TLS handshake la risposta OCSP prefirmata. Riduce latenza e migliora privacy del client.</li>
+            <li><strong>Certificato wildcard</strong> — Valido per <code>*.dominio.it</code>: copre tutti i sottodomini di primo livello. Un'unica compromissione della chiave privata impatta tutti.</li>
+            <li><strong>Self-signed</strong> — Certificato firmato da sé stesso, non da una CA. Genera warning nei browser. Accettabile solo in ambienti interni controllati.</li>
+            <li><strong>CSR</strong> — Certificate Signing Request: file contenente chiave pubblica e dati identitari del richiedente, firmato con la propria chiave privata. Inviato alla CA per ottenere il certificato.</li>
+            <li><strong>Blockchain / open public ledger</strong> — Registro distribuito con blocchi concatenati tramite hash. Immutabile per design. Garantisce trasparenza e non-repudiation senza autorità centrale.</li>
+          </ul>
+        </section>
+
+        <!-- ══ NAVIGAZIONE ══════════════════════════════════════ -->
+        <div class="chapter-nav">
+          <a href="ch6_application_security_canonical.html">← CH6 — Sicurezza applicativa</a>
+          <a href="ch8_identity_access_management_canonical.html" class="secondary">CH8 — IAM →</a>
+        </div>
+
+      </main>
+    </div><!-- end .layout -->
+  </div><!-- end .page -->
+</div><!-- end .container -->
+
+  <script src="../quiz_data.js"></script>
+  <script src="../script/chapter-quiz-loader.js"></script>
+  <script src="../script/lang-preference.js"></script>
+</body>
+</html>
