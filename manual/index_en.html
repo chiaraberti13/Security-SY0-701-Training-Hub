@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — Interactive Guide</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+<script src="quiz_data.js"></script>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="container">
+<div class="page">
+
+  <div class="breadcrumb">
+    <a href="#">CompTIA Security+ SY0-701</a>
+    <span>Interactive Guide</span>
+  </div>
+
+  <div class="lang-switch" aria-label="Language selector">
+    <span>Language:</span>
+    <a href="index.html">IT</a>
+    <span aria-hidden="true">|</span>
+    <a href="index_en.html" aria-current="page">EN</a>
+  </div>
+
+  <div class="ig-header">
+    <h1>Interactive Guide — CompTIA Security+ SY0-701</h1>
+    <p>Explore the 5 domains and 21 official objectives. Check off chapters as you study to track your progress.</p>
+  </div>
+
+  <!-- Global progress bar -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <strong>Study progress</strong>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span id="prog-text">0 / 18 chapters</span>
+        <button class="reset-btn" id="reset-btn" title="Reset progress">Reset</button>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+    <p class="progress-note">Progress is saved in your browser (localStorage).</p>
+  </div>
+
+  <!-- Domain accordion -->
+  <main id="main">
+
+    <!-- DOMAIN 1 -->
+    <div class="domain-block" id="d1-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d1-body">
+        <div class="domain-color" style="background:#0B1F3A;"></div>
+        <div class="domain-info">
+          <strong>Domain 1 — General security concepts</strong>
+          <small>Objectives 1.1 · 1.2 · 1.3 · 1.4 &nbsp;·&nbsp; 2 chapters</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="1"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">12%</span>
+          <span class="badge">~11 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d1-body">
+        <div class="obj-row"><span class="obj-num">1.1</span><span class="obj-text">Security controls (categories and types)</span></div>
+        <div class="obj-row"><span class="obj-num">1.2</span><span class="obj-text">Core concepts: CIA, AAA, Zero Trust, Physical, Deception</span></div>
+        <div class="obj-row"><span class="obj-num">1.3</span><span class="obj-text">Change management</span></div>
+        <div class="obj-row"><span class="obj-num">1.4</span><span class="obj-text">Cryptographic solutions: PKI, encryption, hash, certificates, blockchain</span></div>
+        <div class="ch-cards">
+          <div class="ch-card" id="card-ch1">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH1 — Fundamentals and governance</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch1" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">1.1</span>
+              <span class="objectives-tag">1.2</span>
+              <span class="objectives-tag">1.3</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch1_governance_classification_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch7">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH7 — Cryptography and PKI</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch7" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">1.4</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch7_crittografia_pki_canonical.html">Open chapter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 2 -->
+    <div class="domain-block" id="d2-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d2-body">
+        <div class="domain-color" style="background:#0F766E;"></div>
+        <div class="domain-info">
+          <strong>Domain 2 — Threats, vulnerabilities, and mitigations</strong>
+          <small>Objectives 2.1 · 2.2 · 2.3 · 2.4 · 2.5 &nbsp;·&nbsp; 5 chapters</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="2"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">22%</span>
+          <span class="badge">~20 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d2-body">
+        <div class="obj-row"><span class="obj-num">2.1</span><span class="obj-text">Threat actors e motivazioni (nation-state, insider, hacktivist…)</span></div>
+        <div class="obj-row"><span class="obj-num">2.2</span><span class="obj-text">Threat vectors e attack surfaces (email, supply chain, social engineering)</span></div>
+        <div class="obj-row"><span class="obj-num">2.3</span><span class="obj-text">Types of vulnerabilities (app, OS, web, hardware, cloud, mobile)</span></div>
+        <div class="obj-row"><span class="obj-num">2.4</span><span class="obj-text">Indicators of malicious activity (malware, network, app, crypto)</span></div>
+        <div class="obj-row"><span class="obj-num">2.5</span><span class="obj-text">Enterprise mitigation techniques</span></div>
+        <div class="ch-cards">
+          <div class="ch-card" id="card-ch2">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH2 — Threat landscape</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch2" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.1</span>
+              <span class="objectives-tag">2.2</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch2_threat_landscape_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch3">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH3 — Vulnerabilities, attacks, and mitigations</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch3" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.3</span>
+              <span class="objectives-tag">2.4</span>
+              <span class="objectives-tag">2.5</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch3_vulnerabilita_attacchi_mitigazioni_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch4">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH4 — Social engineering and password attacks</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch4" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.2</span>
+              <span class="objectives-tag">2.4</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch4_social_engineering_password_attacks_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch5">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH5 — Vulnerability management</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch5" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.3</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch5_vulnerability_management_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch6">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH6 — Application security</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch6" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.3</span>
+              <span class="objectives-tag">4.1</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch6_application_security_canonical.html">Open chapter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 3 -->
+    <div class="domain-block" id="d3-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d3-body">
+        <div class="domain-color" style="background:#334155;"></div>
+        <div class="domain-info">
+          <strong>Domain 3 — Security architecture</strong>
+          <small>Objectives 3.1 · 3.2 · 3.3 · 3.4 &nbsp;·&nbsp; 4 chapters</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="3"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">18%</span>
+          <span class="badge">~16 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d3-body">
+        <div class="obj-row"><span class="obj-num">3.1</span><span class="obj-text">Modelli architetturali (cloud, IaC, IoT, ICS, SDN, embedded)</span></div>
+        <div class="obj-row"><span class="obj-num">3.2</span><span class="obj-text">Apply security principles to enterprise infrastructure</span></div>
+        <div class="obj-row"><span class="obj-num">3.3</span><span class="obj-text">Data protection (tipi, classificazioni, stati, metodi)</span></div>
+        <div class="obj-row"><span class="obj-num">3.4</span><span class="obj-text">Resilience and recovery (HA, backup, site, capacity, testing)</span></div>
+        <div class="ch-cards">
+          <div class="ch-card" id="card-ch9">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH9 — Resilience and physical security</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch9" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.4</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch9_resilience_physical_security_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch10">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH10 — Cloud and virtualization</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch10" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.1</span>
+              <span class="objectives-tag">2.3</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch10_cloud_virtualizzazione_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch12">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH12 — Network architecture and security</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch12" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.1</span>
+              <span class="objectives-tag">3.2</span>
+              <span class="objectives-tag">4.5</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch12_network_security_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch18">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH18 — Data protection</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch18" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.3</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch18_data_protection_canonical.html">Open chapter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 4 -->
+    <div class="domain-block" id="d4-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d4-body">
+        <div class="domain-color" style="background:#1D4ED8;"></div>
+        <div class="domain-info">
+          <strong>Domain 4 — Security operations</strong>
+          <small>Objectives 4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6 · 4.7 · 4.8 · 4.9 &nbsp;·&nbsp; 5 chapters</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="4"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">28%</span>
+          <span class="badge">~25 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d4-body">
+        <div class="obj-row"><span class="obj-num">4.1</span><span class="obj-text">Security techniques for computing resources (hardening, mobile, app)</span></div>
+        <div class="obj-row"><span class="obj-num">4.2</span><span class="obj-text">Asset management (acquisizione, assegnazione, disposal)</span></div>
+        <div class="obj-row"><span class="obj-num">4.3</span><span class="obj-text">Vulnerability management (scan, CVSS, CVE, pen test, remediation)</span></div>
+        <div class="obj-row"><span class="obj-num">4.4</span><span class="obj-text">Security alerting and monitoring (SIEM, DLP, SNMP, NetFlow, scanner)</span></div>
+        <div class="obj-row"><span class="obj-num">4.5</span><span class="obj-text">Modify enterprise capabilities (firewall, EDR/XDR, DLP, NAC, email)</span></div>
+        <div class="obj-row"><span class="obj-num">4.6</span><span class="obj-text">Identity and Access Management (SSO, MFA, PAM, password)</span></div>
+        <div class="obj-row"><span class="obj-num">4.7</span><span class="obj-text">Automation and orchestration (SOAR, scripting, API)</span></div>
+        <div class="obj-row"><span class="obj-num">4.8</span><span class="obj-text">Incident response (PICERL, training, testing, root cause, forensics)</span></div>
+        <div class="obj-row"><span class="obj-num">4.9</span><span class="obj-text">Data sources for investigations (log, packet capture, dashboard, scan)</span></div>
+        <div class="ch-cards">
+          <div class="ch-card" id="card-ch8">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH8 — Identity and Access Management</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch8" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.6</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch8_identity_access_management_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch11">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH11 — Endpoint and asset management</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch11" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.1</span>
+              <span class="objectives-tag">4.2</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch11_endpoint_architecture_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch13">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH13 — Wireless and mobile</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch13" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.1</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch13_wireless_mobile_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch14">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH14 — Incident response, monitoring, and automation</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch14" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.4</span>
+              <span class="objectives-tag">4.7</span>
+              <span class="objectives-tag">4.8</span>
+              <span class="objectives-tag">4.9</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch14_incident_response_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch15">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH15 — Digital forensics</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch15" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.8</span>
+              <span class="objectives-tag">4.9</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch15_digital_forensics_canonical.html">Open chapter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMAIN 5 -->
+    <div class="domain-block" id="d5-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d5-body">
+        <div class="domain-color" style="background:#7C3AED;"></div>
+        <div class="domain-info">
+          <strong>Domain 5 — Governance and oversight</strong>
+          <small>Objectives 5.1 · 5.2 · 5.3 · 5.4 · 5.5 · 5.6 &nbsp;·&nbsp; 2 chapters</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="5"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">20%</span>
+          <span class="badge">~18 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d5-body">
+        <div class="obj-row"><span class="obj-num">5.1</span><span class="obj-text">Security governance (policy, standards, procedures, structures)</span></div>
+        <div class="obj-row"><span class="obj-num">5.2</span><span class="obj-text">Risk management (qualitativo/quantitativo, SLE/ALE/ARO, BIA)</span></div>
+        <div class="obj-row"><span class="obj-num">5.3</span><span class="obj-text">Third-party risk (vendor assessment, selection, agreements, monitoring)</span></div>
+        <div class="obj-row"><span class="obj-num">5.4</span><span class="obj-text">Compliance (reporting, consequences, monitoring, privacy)</span></div>
+        <div class="obj-row"><span class="obj-num">5.5</span><span class="obj-text">Audit and assessment (internal/external, pen test, attestation)</span></div>
+        <div class="obj-row"><span class="obj-num">5.6</span><span class="obj-text">Security awareness (phishing, training, reporting, anomalies)</span></div>
+        <div class="ch-cards">
+          <div class="ch-card" id="card-ch16">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH16 — Governance, compliance, and policy</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch16" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.1</span>
+              <span class="objectives-tag">5.3</span>
+              <span class="objectives-tag">5.4</span>
+              <span class="objectives-tag">5.5</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch16_governance_compliance_policy_canonical.html">Open chapter</a>
+          </div>
+          <div class="ch-card" id="card-ch17">
+            <div class="ch-card-top">
+              <span class="ch-card-title">CH17 — Risk, BIA, and security awareness</span>
+              <label class="ch-card-check"><input type="checkbox" data-ch="ch17" /><span>Completed</span></label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.2</span>
+              <span class="objectives-tag">5.6</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en/ch17_risk_privacy_third_party_canonical.html">Open chapter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="guide-link-bar">
+    <a href="chapters/en/security_plus_sy0_701_guida.html">Open the full study guide</a>
+    &nbsp;·&nbsp; 18 chapters · 21 objectives · 5 domains
+  </div>
+
+</div><!-- /.page -->
+</div><!-- /.container -->
+
+<!-- Quiz Modal -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Close quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Choose mode</p>
+      <p class="quiz-setup-sub" id="quiz-setup-sub"></p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>All questions</strong>
+          <span id="quiz-mode-all-count"></span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="5perobj">
+          <strong>5 per objective</strong>
+          <span id="quiz-mode-5-count"></span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Next</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Result</div>
+      <div class="quiz-result-score"></div>
+      <div class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Retry</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'sy0701_progress';
+  const TOTAL = 18;
+
+  // Map each chapter to its domain
+  const CH_DOMAIN = {
+    ch1:1, ch7:1,
+    ch2:2, ch3:2, ch4:2, ch5:2, ch6:2,
+    ch9:3, ch10:3, ch12:3, ch18:3,
+    ch8:4, ch11:4, ch13:4, ch14:4, ch15:4,
+    ch16:5, ch17:5
+  };
+
+  const DOMAIN_TOTAL = { 1:2, 2:5, 3:4, 4:5, 5:2 };
+
+  // Load saved state
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) {}
+
+  // Init checkboxes
+  document.querySelectorAll('[data-ch]').forEach(cb => {
+    const id = cb.dataset.ch;
+    if (saved[id]) cb.checked = true;
+    updateCard(id, cb.checked);
+    cb.addEventListener('change', () => {
+      saved[id] = cb.checked;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); } catch(e) {}
+      updateCard(id, cb.checked);
+      updateProgress();
+    });
+  });
+
+  // Accordion toggles
+  document.querySelectorAll('.domain-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const block = btn.closest('.domain-block');
+      const isOpen = block.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+    });
+  });
+
+  // Reset button
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    if (!confirm('Reset tutti i progressi?')) return;
+    saved = {};
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    document.querySelectorAll('[data-ch]').forEach(cb => {
+      cb.checked = false;
+      updateCard(cb.dataset.ch, false);
+    });
+    updateProgress();
+  });
+
+  function updateCard(id, done) {
+    const card = document.getElementById('card-' + id);
+    if (!card) return;
+    card.classList.toggle('done', done);
+    const lbl = card.querySelector('.ch-card-check label span');
+    if (lbl) lbl.textContent = done ? '✓ Completed' : 'Completed';
+  }
+
+  function updateProgress() {
+    const completed = Object.values(saved).filter(Boolean).length;
+    const pct = Math.round((completed / TOTAL) * 100);
+
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = completed + ' / ' + TOTAL + ' chapters (' + pct + '%)';
+
+    // Domain mini bars
+    for (let d = 1; d <= 5; d++) {
+      const tot = DOMAIN_TOTAL[d];
+      const done = Object.entries(saved).filter(([k,v]) => v && CH_DOMAIN[k] === d).length;
+      const fill = document.querySelector('.domain-prog-fill[data-domain="' + d + '"]');
+      if (fill) fill.style.width = Math.round((done / tot) * 100) + '%';
+    }
+  }
+
+  updateProgress();
+})();
+</script>
+
+<script>
+(function () {
+  const QUIZ_KEY = 'sy0701_quiz';
+
+  let allQuestions = null;
+  let currentQuiz = null;
+
+  const overlay   = document.getElementById('quiz-overlay');
+  const setupEl   = document.getElementById('quiz-setup');
+  const content   = document.getElementById('quiz-content');
+  const resultEl  = document.getElementById('quiz-result');
+  const counterEl = document.getElementById('quiz-counter');
+  const progressEl= document.getElementById('quiz-progress-fill');
+  const questionEl= document.getElementById('quiz-question-text');
+  const optionsEl = document.getElementById('quiz-options');
+  const explanEl  = document.getElementById('quiz-explanation');
+  const nextBtn   = document.getElementById('quiz-next-btn');
+
+  function loadQuestions(cb) {
+    if (allQuestions) { cb(allQuestions); return; }
+    const byObj = {};
+    (window.QUIZ_DATA || []).forEach(q => {
+      if (!byObj[q.objective]) byObj[q.objective] = [];
+      byObj[q.objective].push(q);
+    });
+    allQuestions = byObj;
+    cb(allQuestions);
+  }
+
+  function getObjs(card) {
+    return [...card.querySelectorAll('.objectives-tag')].map(t => t.textContent.trim());
+  }
+
+  function getQuestionsForCard(card, mode) {
+    const objs = getObjs(card);
+    if (mode === '5perobj') {
+      const seen = new Set();
+      let pool = [];
+      objs.forEach(obj => {
+        const slice = (allQuestions[obj] || []).slice().sort(() => Math.random() - 0.5).slice(0, 5);
+        slice.forEach(q => { if (!seen.has(q.id)) { seen.add(q.id); pool.push(q); } });
+      });
+      return pool;
+    }
+    const seen = new Set();
+    let pool = [];
+    objs.forEach(obj => {
+      (allQuestions[obj] || []).forEach(q => {
+        if (!seen.has(q.id)) { seen.add(q.id); pool.push(q); }
+      });
+    });
+    pool.sort(() => Math.random() - 0.5);
+    return pool;
+  }
+
+  function showSetup(chId, card) {
+    const objs = getObjs(card);
+    const allPool = [];
+    const seen = new Set();
+    objs.forEach(obj => {
+      (allQuestions[obj] || []).forEach(q => { if (!seen.has(q.id)) { seen.add(q.id); allPool.push(q); } });
+    });
+    const perObjCount = objs.reduce((n, obj) => n + Math.min(5, (allQuestions[obj] || []).length), 0);
+
+    document.getElementById('quiz-setup-sub').textContent =
+      'Objectives: ' + objs.join(', ') + ' · ' + allPool.length + ' total questions';
+    document.getElementById('quiz-mode-all-count').textContent =
+      allPool.length + ' questions in random order';
+    document.getElementById('quiz-mode-5-count').textContent =
+      perObjCount + ' questions (5 per objective, random order)';
+
+    counterEl.textContent = '';
+    progressEl.style.width = '0%';
+    setupEl.style.display  = 'block';
+    content.style.display  = 'none';
+    resultEl.style.display = 'none';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    setupEl.querySelectorAll('.quiz-mode-btn').forEach(btn => {
+      btn.onclick = () => startQuiz(chId, card, btn.dataset.mode);
+    });
+  }
+
+  function startQuiz(chId, card, mode) {
+    const questions = getQuestionsForCard(card, mode);
+    if (!questions.length) { alert('No questions available for this chapter.'); return; }
+    currentQuiz = { questions, idx: 0, answers: [], chId, mode, card, locked: false };
+    setupEl.style.display  = 'none';
+    content.style.display  = 'block';
+    resultEl.style.display = 'none';
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const { questions, idx } = currentQuiz;
+    const q = questions[idx];
+    const total = questions.length;
+
+    counterEl.textContent = 'Question ' + (idx + 1) + ' of ' + total;
+    progressEl.style.width = ((idx / total) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    explanEl.textContent = '';
+    nextBtn.disabled = true;
+    nextBtn.textContent = idx < total - 1 ? 'Next →' : 'See result';
+    currentQuiz.locked = false;
+
+    optionsEl.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.optId = opt.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + opt.id + '</span><span>' + opt.text + '</span>';
+      btn.addEventListener('click', () => selectOption(opt.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function selectOption(optId, question) {
+    if (currentQuiz.locked) return;
+    currentQuiz.locked = true;
+
+    const isCorrect = (question.options.find(o => o.id === optId) || {}).correct;
+    currentQuiz.answers.push(!!isCorrect);
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const id = btn.dataset.optId;
+      const opt = question.options.find(o => o.id === id) || {};
+      if (opt.correct) btn.classList.add('correct');
+      else if (id === optId) btn.classList.add('wrong');
+      btn.disabled = true;
+    });
+
+    const exp = question.explanation ? question.explanation.trim() : '';
+    if (exp) { explanEl.textContent = exp; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    currentQuiz.idx++;
+    if (currentQuiz.idx < currentQuiz.questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  });
+
+  function showResult() {
+    const correct = currentQuiz.answers.filter(Boolean).length;
+    const total   = currentQuiz.questions.length;
+    const pct     = Math.round((correct / total) * 100);
+
+    const saved = getSavedScores();
+    if (!saved[currentQuiz.chId] || pct > saved[currentQuiz.chId].best) {
+      saved[currentQuiz.chId] = { best: pct, total, date: new Date().toISOString().slice(0, 10) };
+      try { localStorage.setItem(QUIZ_KEY, JSON.stringify(saved)); } catch (e) {}
+    }
+    updateBadge(currentQuiz.chId, Math.max(pct, (saved[currentQuiz.chId] || {}).best || pct));
+
+    progressEl.style.width = '100%';
+    content.style.display = 'none';
+    resultEl.style.display = 'block';
+    resultEl.querySelector('.quiz-result-score').textContent = correct + ' / ' + total;
+    const pctEl = resultEl.querySelector('.quiz-result-pct');
+    pctEl.textContent = pct + '%  — ' + (pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Fair' : 'Needs review');
+    pctEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    currentQuiz = null;
+  }
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', () => {
+    const { chId, card } = currentQuiz;
+    currentQuiz = null;
+    showSetup(chId, card);
+  });
+
+  function getSavedScores() {
+    try { return JSON.parse(localStorage.getItem(QUIZ_KEY) || '{}'); } catch (e) { return {}; }
+  }
+
+  function updateBadge(chId, pct) {
+    const card = document.getElementById('card-' + chId);
+    if (!card) return;
+    let badge = card.querySelector('.quiz-score-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      card.querySelector('.ch-card-tags').insertAdjacentElement('afterend', badge);
+    }
+    badge.textContent = 'Best score: ' + pct + '%';
+    badge.className = 'quiz-score-badge ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  document.querySelectorAll('.ch-card').forEach(card => {
+    const chId = card.id.replace('card-', '');
+    const btn = document.createElement('button');
+    btn.className = 'quiz-launch-btn';
+    btn.textContent = 'Review quiz';
+    btn.addEventListener('click', () => loadQuestions(() => showSetup(chId, card)));
+    card.appendChild(btn);
+  });
+
+  const savedScores = getSavedScores();
+  Object.entries(savedScores).forEach(([chId, data]) => updateBadge(chId, data.best));
+})();
+</script>
+  <script src="script/lang-preference.js"></script>
+</body>
+</html>
