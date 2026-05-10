@@ -137,8 +137,7 @@ def main():
         print("No EN chapter files found. Run from project root.")
         sys.exit(1)
 
-    rm = input("Clear checkpoint and retranslate all? [y/N] ").strip().lower()
-    if rm == 'y' and os.path.exists(CHECKPOINT):
+    if '--reset' in sys.argv and os.path.exists(CHECKPOINT):
         os.remove(CHECKPOINT)
 
     done = load_checkpoint()
