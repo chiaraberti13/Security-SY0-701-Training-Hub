@@ -89,7 +89,7 @@
         <a href="#backups">Backups</a>
         <a href="#backup-types">↳ Backup types</a>
         <a href="#snapshots">↳ Snapshots and images</a>
-        <a href="#replication">↳ Replicazione</a>
+        <a href="#replication">↳ Replication</a>
         <a href="#journaling">↳ Journaling</a>
         <a href="#backup-security">↳ Backup security</a>
 
@@ -102,22 +102,22 @@
         <a href="#flashcard">Flashcards</a>
       </nav>
 
-      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <!-- ══ MAIN CONTENT ════════════════════════════════ -->
       <main class="content" id="main-content">
 
         <!-- ═══════════════════════════════════════════════════════
-             OBIETTIVO 3.4 — INTRO
+             OBJECTIVE 3.4 — INTRO
         ════════════════════════════════════════════════════════ -->
         <section id="obj-3-4">
-          <h2>Objective 3.4 — Resilience and Recovery nell'architettura di sicurezza</h2>
+          <h2>Objective 3.4 — Resilience and Recovery in Security Architecture</h2>
           <p>
-            La <strong>resilienza</strong> è la capacità di un sistema o di un'organizzazione di continuare a erogare servizi nonostante guasti, disastri, errori umani o attacchi, oppure di tornare allo stato operativo in tempi accettabili dopo un'interruzione. Nell'ambito della triade CIA, la resilienza presidia soprattutto la componente <strong>Availability</strong>: un servizio non disponibile quando serve causa danni reali, anche senza che nessun dato sia stato compromesso o rubato.
+            <strong>Resilience</strong> is the ability of a system or organization to continue delivering services despite failures, disasters, human errors, or attacks, or to return to an operational state within acceptable timeframes after an outage. Within the CIA triad, resilience primarily safeguards the <strong>Availability</strong> component: a service that is unavailable when needed causes real damage, even if no data has been compromised or stolen.
           </p>
           <p>
-            Progettare per la resilienza significa eliminare i <strong>Single Point of Failure (SPOF)</strong> — quei componenti la cui rottura causa l'interruzione del servizio intero — e garantire che ogni strato dell'infrastruttura (calcolo, rete, storage, alimentazione, sede fisica) abbia un meccanismo di continuità o di recupero rapido. Ogni misura aggiunge costi e complessità, quindi le scelte devono essere giustificate da RPO e RTO coerenti con la criticità del servizio.
+            Designing for resilience means eliminating <strong>Single Points of Failure (SPOF)</strong> — those components whose failure causes the entire service to stop — and ensuring that every layer of the infrastructure (compute, network, storage, power, physical site) has a continuity mechanism or rapid recovery path. Each measure adds cost and complexity, so decisions must be justified by RPO and RTO values consistent with the criticality of the service.
           </p>
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4 — Contesto generale</strong>: l'esame collega spesso resilienza e Recovery nel contesto di un'analisi BIA (Business Impact Analysis). Quando uno scenario descrive una decisione su hot/warm/cold site, frequenza dei backup o tipo di test, il criterio di risposta è sempre: quale opzione soddisfa l'RTO e l'RPO richiesti al costo più basso possibile?
+            <strong>EXAM TIP 3.4 — General context</strong>: the exam often links resilience and recovery in the context of a BIA (Business Impact Analysis). When a scenario describes a decision about hot/warm/cold sites, backup frequency, or test type, the answer criterion is always: which option meets the required RTO and RPO at the lowest possible cost?
           </div>
         </section>
 
@@ -127,152 +127,152 @@
         <section id="high-availability">
           <h2>High Availability (High Availability)</h2>
           <p>
-            L'<strong>alta disponibilità</strong> (HA) è la proprietà di un sistema progettato per ridurre al minimo i tempi di inattività non pianificata. L'obiettivo non è l'eliminazione totale dei guasti — impossibile — ma la riduzione del loro impatto a livelli accettabili, spesso espressi come percentuale di uptime annua (es. "cinque nove" = 99,999% ≈ 5 minuti di downtime/anno).
+            <strong>High availability</strong> (HA) is the property of a system designed to minimize unplanned downtime. The goal is not the total elimination of failures — which is impossible — but reducing their impact to acceptable levels, often expressed as a percentage of annual uptime (e.g., "five nines" = 99.999% ≈ 5 minutes of downtime per year).
           </p>
           <p>
-            L'HA si raggiunge attraverso ridondanza: ogni componente critico ha una controparte pronta a sostituirlo. Le due tecniche principali per implementare HA a livello di server e applicazioni sono il <strong>load balancing</strong> e il <strong>clustering</strong>, che rispondono a esigenze diverse e non sono intercambiabili.
+            HA is achieved through redundancy: every critical component has a counterpart ready to replace it. The two main techniques for implementing HA at the server and application level are <strong>load balancing</strong> and <strong>clustering</strong>, which address different needs and are not interchangeable.
           </p>
 
           <h3 id="load-balancing">Load Balancing</h3>
           <dl class="termlist">
             <dt>Load Balancer</dt>
             <dd>
-              Un load balancer è un dispositivo o software che distribuisce il traffico in entrata tra più server backend. Il suo obiettivo primario è <strong>ottimizzare l'utilizzo delle risorse e garantire disponibilità orizzontale</strong>: se un server cade, il bilanciatore smette di inviargli traffico e lo ridistribuisce sugli altri nodi attivi. In questo modo gli utenti non percepiscono interruzioni, a condizione che rimanga almeno un nodo funzionante.
+              A load balancer is a device or software that distributes incoming traffic among multiple backend servers. Its primary objective is to <strong>optimize resource utilization and guarantee horizontal availability</strong>: if a server goes down, the balancer stops sending it traffic and redistributes it to the other active nodes. This way users experience no interruptions, as long as at least one node remains functional.
             </dd>
 
-            <dt>Algoritmi di bilanciamento</dt>
+            <dt>Load balancing algorithms</dt>
             <dd>
-              I principali metodi sono: <em>Round Robin</em> (ogni richiesta va al server successivo in ordine ciclico), <em>Least Connections</em> (preferisce il server con meno connessioni attive), <em>IP Hash</em> (assegna lo stesso client sempre allo stesso server, utile per sessioni con stato) e <em>Weighted</em> (server più potenti ricevono più traffico). La scelta dell'algoritmo influenza prestazioni, coerenza delle sessioni e tolleranza ai guasti.
+              The main methods are: <em>Round Robin</em> (each request goes to the next server in cyclic order), <em>Least Connections</em> (prefers the server with the fewest active connections), <em>IP Hash</em> (always assigns the same client to the same server, useful for stateful sessions), and <em>Weighted</em> (more powerful servers receive more traffic). The choice of algorithm affects performance, session consistency, and fault tolerance.
             </dd>
 
             <dt>Health Check</dt>
             <dd>
-              Il load balancer interroga periodicamente ogni nodo backend (ping, TCP check, HTTP check) per verificarne la salute. Se un nodo non risponde, viene rimosso automaticamente dalla rotazione. Questo rende il failover trasparente per gli utenti: nessun intervento manuale, nessuna interruzione percepita dal client.
+              The load balancer periodically queries each backend node (ping, TCP check, HTTP check) to verify its health. If a node does not respond, it is automatically removed from rotation. This makes failover transparent to users: no manual intervention, no interruption perceived by the client.
             </dd>
           </dl>
 
           <div class="example-box">
-            <strong>Esempio pratico — Load Balancing:</strong> un sito di e-commerce riceve migliaia di richieste al secondo. Tre web server sono dietro un load balancer. Il server 2 subisce un guasto hardware alle 14:05. Il load balancer rileva il fallimento dell'health check entro 10 secondi e smette di inviargli traffico: gli utenti continuano a navigare senza notare nulla, distribuiti tra server 1 e 3. Il team IT sostituisce il server 2 e lo rimette in rotazione senza downtime.
+            <strong>Practical example — Load Balancing:</strong> an e-commerce site receives thousands of requests per second. Three web servers are behind a load balancer. Server 2 suffers a hardware failure at 14:05. The load balancer detects the health check failure within 10 seconds and stops sending it traffic: users continue browsing without noticing anything, distributed between servers 1 and 3. The IT team replaces server 2 and returns it to rotation without downtime.
           </div>
 
           <h3 id="clustering">Clustering</h3>
           <dl class="termlist">
-            <dt>Cluster ad alta disponibilità (HA Cluster)</dt>
+            <dt>High Availability Cluster (HA Cluster)</dt>
             <dd>
-              Un cluster HA è un gruppo di server (nodi) che condividono risorse e si monitorano a vicenda. A differenza del load balancing, i nodi di un cluster condividono spesso un disco o una risorsa storage comune e hanno un meccanismo di <strong>failover automatico</strong>: se il nodo primario cade, un nodo secondario acquisisce l'indirizzo IP e le risorse del primario e continua il servizio — talvolta senza che le connessioni attive vengano interrotte. Questo è essenziale per applicazioni stateful come database, ERP, server di file.
+              An HA cluster is a group of servers (nodes) that share resources and monitor each other. Unlike load balancing, cluster nodes often share a disk or common storage resource and have an <strong>automatic failover</strong> mechanism: if the primary node goes down, a secondary node acquires the primary's IP address and resources and continues the service — sometimes without active connections being interrupted. This is essential for stateful applications such as databases, ERP systems, and file servers.
             </dd>
 
             <dt>Active/Active vs Active/Passive</dt>
             <dd>
-              In un cluster <em>Active/Active</em> tutti i nodi elaborano traffico simultaneamente, massimizzando l'utilizzo delle risorse. In un cluster <em>Active/Passive</em> i nodi secondari sono in standby e diventano attivi solo quando il primario fallisce. L'Active/Passive ha un costo più elevato (hardware inattivo) ma un failover più prevedibile e uno stato coerente.
+              In an <em>Active/Active</em> cluster all nodes process traffic simultaneously, maximizing resource utilization. In an <em>Active/Passive</em> cluster, secondary nodes are on standby and become active only when the primary fails. Active/Passive has a higher cost (idle hardware) but a more predictable failover and consistent state.
             </dd>
 
             <dt>Heartbeat</dt>
             <dd>
-              I nodi di un cluster si scambiano continuamente segnali di vita (<em>heartbeat</em>) su una rete dedicata. Se un nodo non riceve il heartbeat del primario entro la soglia, avvia la procedura di failover. Un heartbeat mal configurato può causare lo scenario <em>split-brain</em>: entrambi i nodi si credono primari e tentano di acquisire le stesse risorse, con rischio di corruzione dei dati.
+              Cluster nodes continuously exchange liveness signals (<em>heartbeats</em>) over a dedicated network. If a node does not receive the primary's heartbeat within the threshold, it initiates the failover procedure. A misconfigured heartbeat can cause the <em>split-brain</em> scenario: both nodes believe themselves to be primary and attempt to acquire the same resources, risking data corruption.
             </dd>
           </dl>
 
-          <h3 id="lb-vs-cluster">Confronto: Load Balancing vs Clustering</h3>
+          <h3 id="lb-vs-cluster">Comparison: Load Balancing vs Clustering</h3>
           <table>
             <thead>
               <tr>
-                <th>Caratteristica</th>
+                <th>Feature</th>
                 <th>Load Balancing</th>
-                <th>Clustering HA</th>
+                <th>HA Clustering</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="label">Objective principale</td>
-                <td>Distribuzione del carico + disponibilità</td>
-                <td>Failover automatico e continuità del servizio</td>
+                <td class="label">Primary objective</td>
+                <td>Load distribution + availability</td>
+                <td>Automatic failover and service continuity</td>
               </tr>
               <tr>
-                <td class="label">Stato dell'applicazione</td>
-                <td>Ideale per app stateless (web, API)</td>
-                <td>Necessario per app stateful (DB, ERP)</td>
+                <td class="label">Application state</td>
+                <td>Ideal for stateless apps (web, API)</td>
+                <td>Required for stateful apps (DB, ERP)</td>
               </tr>
               <tr>
-                <td class="label">Storage condiviso</td>
-                <td>Non richiesto</td>
-                <td>Spesso richiesto (SAN, NFS)</td>
+                <td class="label">Shared storage</td>
+                <td>Not required</td>
+                <td>Often required (SAN, NFS)</td>
               </tr>
               <tr>
-                <td class="label">Scalabilità orizzontale</td>
-                <td>Molto facile (aggiungere nodi)</td>
-                <td>Più complessa</td>
+                <td class="label">Horizontal scalability</td>
+                <td>Very easy (add nodes)</td>
+                <td>More complex</td>
               </tr>
               <tr>
-                <td class="label">Visibilità all'utente</td>
-                <td>Nessuna interruzione percepita</td>
-                <td>Secondi/minuti di interruzione al failover</td>
+                <td class="label">User-perceived interruption</td>
+                <td>No perceived interruption</td>
+                <td>Seconds/minutes of interruption at failover</td>
               </tr>
               <tr>
-                <td class="label">Costo tipico</td>
-                <td>Medio</td>
-                <td>Elevato (licenze, storage, gestione)</td>
+                <td class="label">Typical cost</td>
+                <td>Medium</td>
+                <td>High (licenses, storage, management)</td>
               </tr>
             </tbody>
           </table>
 
           <div class="pitfall">
-            <strong>⚠ PITFALL — Load Balancing ≠ Failover applicativo:</strong> il load balancing distribuisce le richieste, ma se l'applicazione stessa è stateful (es. una sessione con dati temporanei sul server), il failover verso un altro nodo può causare perdita della sessione utente. Per evitarlo servono sessioni persistenti (<em>sticky sessions</em>) o uno storage di sessione condiviso esterno (es. Redis). Confondere load balancing con HA completa porta a risposte sbagliate all'esame.
+            <strong>PITFALL — Load Balancing ≠ Application Failover:</strong> load balancing distributes requests, but if the application itself is stateful (e.g., a session with temporary data on the server), failover to another node may cause loss of the user session. To avoid this, sticky sessions or an external shared session storage (e.g., Redis) are needed. Confusing load balancing with complete HA leads to wrong answers on the exam.
           </div>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-A</strong>: se uno scenario dice "i web server devono reggere picchi di traffico garantendo disponibilità" → Load Balancing. Se dice "il database deve continuare a funzionare anche se il nodo primario cade senza perdere transazioni" → Clustering HA. Se dice entrambe → load balancer davanti + cluster DB dietro.
+            <strong>EXAM TIP 3.4-A</strong>: if a scenario says "web servers must handle traffic spikes while guaranteeing availability" → Load Balancing. If it says "the database must keep working even if the primary node fails without losing transactions" → HA Clustering. If it says both → load balancer in front + DB cluster behind.
           </div>
 
           <h3 id="raid">RAID and Redundant Storage</h3>
           <p>
-            Il <strong>RAID (Redundant Array of Independent Disks)</strong> è una tecnologia che combina più dischi fisici per aumentare le prestazioni, la tolleranza ai guasti o entrambe. Non è un sostituto del backup: protegge dalla rottura di un disco, non da cancellazioni accidentali, ransomware o disastri.
+            <strong>RAID (Redundant Array of Independent Disks)</strong> is a technology that combines multiple physical disks to improve performance, fault tolerance, or both. It is not a substitute for backup: it protects against disk failure, not against accidental deletions, ransomware, or disasters.
           </p>
           <table>
             <thead>
               <tr>
-                <th>Livello RAID</th>
-                <th>Meccanismo</th>
-                <th>Tolleranza guasti</th>
-                <th>Uso tipico</th>
+                <th>RAID level</th>
+                <th>Mechanism</th>
+                <th>Fault tolerance</th>
+                <th>Typical use</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td class="label">RAID 0</td>
-                <td>Striping (dati spezzati su più dischi)</td>
-                <td>Nessuna — un disco rotto = dati persi</td>
-                <td>Prestazioni pure, nessuna esigenza di resilienza</td>
+                <td>Striping (data split across multiple disks)</td>
+                <td>None — one broken disk = data lost</td>
+                <td>Pure performance, no resilience requirement</td>
               </tr>
               <tr>
                 <td class="label">RAID 1</td>
-                <td>Mirroring (copia identica su 2 dischi)</td>
-                <td>Sopravvive alla rottura di 1 disco</td>
-                <td>OS, log critici, semplicità di recovery</td>
+                <td>Mirroring (identical copy on 2 disks)</td>
+                <td>Survives failure of 1 disk</td>
+                <td>OS, critical logs, simple recovery</td>
               </tr>
               <tr>
                 <td class="label">RAID 5</td>
-                <td>Striping + parità distribuita (min. 3 dischi)</td>
-                <td>Sopravvive alla rottura di 1 disco</td>
-                <td>Bilanciamento capacità/prestazioni/tolleranza</td>
+                <td>Striping + distributed parity (min. 3 disks)</td>
+                <td>Survives failure of 1 disk</td>
+                <td>Balance of capacity/performance/tolerance</td>
               </tr>
               <tr>
                 <td class="label">RAID 6</td>
-                <td>Striping + doppia parità (min. 4 dischi)</td>
-                <td>Sopravvive alla rottura di 2 dischi</td>
-                <td>Storage enterprise ad alta affidabilità</td>
+                <td>Striping + double parity (min. 4 disks)</td>
+                <td>Survives failure of 2 disks</td>
+                <td>High-reliability enterprise storage</td>
               </tr>
               <tr>
                 <td class="label">RAID 10</td>
                 <td>Mirror + striping (RAID 1+0)</td>
-                <td>Sopravvive a più guasti se non nello stesso mirror</td>
-                <td>Database ad alte prestazioni e alta disponibilità</td>
+                <td>Survives multiple failures if not in the same mirror</td>
+                <td>High-performance, high-availability databases</td>
               </tr>
             </tbody>
           </table>
 
           <div class="pitfall">
-            <strong>⚠ PITFALL — RAID ≠ Backup:</strong> RAID protegge contro il guasto hardware di un disco. Non protegge da ransomware (che cifra tutti i dischi), da cancellazioni accidentali, da corruzioni logiche del filesystem o dalla perdita fisica della sede. Un sistema con RAID 5 colpito da ransomware perde comunque tutti i dati. I backup sono obbligatori anche con RAID.
+            <strong>PITFALL — RAID ≠ Backup:</strong> RAID protects against hardware failure of a disk. It does not protect against ransomware (which encrypts all disks), accidental deletions, logical filesystem corruption, or physical loss of the site. A system with RAID 5 hit by ransomware still loses all data. Backups are mandatory even with RAID.
           </div>
         </section>
 
@@ -282,14 +282,14 @@
         <section id="site-considerations">
           <h2>Site Considerations — Disaster Recovery Sites</h2>
           <p>
-            Quando l'intera sede principale diventa inaccessibile o operativamente compromessa — per incendio, alluvione, interruzione elettrica prolungata, attacco fisico o catastrofe naturale — un'organizzazione deve avere un sito alternativo da cui riprendere le operazioni critiche. I tre modelli standard sono definiti in base al tempo necessario per tornare operativi (<strong>RTO</strong>) e al relativo costo di mantenimento.
+            When the entire primary site becomes inaccessible or operationally compromised — due to fire, flood, prolonged power outage, physical attack, or natural disaster — an organization must have an alternate site from which to resume critical operations. The three standard models are defined based on the time required to return to operations (<strong>RTO</strong>) and the associated maintenance cost.
           </p>
 
           <h3 id="hot-site">Hot Site</h3>
           <dl class="termlist">
             <dt>Hot Site</dt>
             <dd>
-              Un hot site è una struttura alternativa <strong>già completamente operativa</strong>: server accesi, rete configurata, dati sincronizzati in tempo reale o quasi-reale tramite replicazione. In caso di disastro, il personale può trasferirsi immediatamente e riprendere le operazioni in <strong>minuti o al massimo poche ore</strong>. È la soluzione con l'RTO più basso, ma anche la più costosa: richiede hardware duplicato, licenze software, connettività ridondante e gestione continua del sito secondario. I dati vengono mantenuti sincronizzati tramite replica sincrona o asincrona, quindi l'RPO è quasi zero.
+              A hot site is an alternate facility that is <strong>already fully operational</strong>: servers running, network configured, data synchronized in real time or near-real-time through replication. In the event of a disaster, staff can transfer immediately and resume operations within <strong>minutes or at most a few hours</strong>. It is the solution with the lowest RTO, but also the most expensive: it requires duplicate hardware, software licenses, redundant connectivity, and continuous management of the secondary site. Data is kept synchronized via synchronous or asynchronous replication, so RPO is near zero.
             </dd>
           </dl>
 
@@ -297,7 +297,7 @@
           <dl class="termlist">
             <dt>Warm Site</dt>
             <dd>
-              Un warm site è un sito parzialmente equipaggiato: l'infrastruttura hardware e di rete esiste, ma i sistemi non sono completamente aggiornati con i dati più recenti. Quando si verifica un disastro, è necessario un periodo di <strong>ore o giorni</strong> per installare aggiornamenti, ripristinare i backup più recenti e riconfigurare i servizi prima di tornare operativi. Il costo è intermedio: si paga l'hardware e la struttura, ma non la gestione operativa continua tipica di un hot site. L'RPO dipende dalla frequenza con cui i backup vengono sincronizzati verso il warm site.
+              A warm site is a partially equipped site: the hardware and network infrastructure exists, but systems are not fully updated with the most recent data. When a disaster occurs, a period of <strong>hours or days</strong> is required to install updates, restore the most recent backups, and reconfigure services before returning to operation. The cost is intermediate: hardware and facilities are paid for, but not the continuous operational management typical of a hot site. RPO depends on how frequently backups are synchronized to the warm site.
             </dd>
           </dl>
 
@@ -305,68 +305,68 @@
           <dl class="termlist">
             <dt>Cold Site</dt>
             <dd>
-              Un cold site fornisce solo l'infrastruttura fisica: spazio, alimentazione elettrica e connettività di rete. Non ci sono server preinstallati, né dati sincronizzati. In caso di disastro, l'organizzazione deve acquistare o trasportare hardware, installare i sistemi operativi e le applicazioni, e ripristinare i backup. Il tempo di recupero si misura in <strong>giorni o settimane</strong>. È la soluzione meno costosa in termini di mantenimento, adatta per organizzazioni con tolleranza alta ai tempi di inattività o per sistemi non critici. È fondamentale però che la documentazione, le procedure di recovery e i backup siano sempre aggiornati e disponibili off-site.
+              A cold site provides only the physical infrastructure: space, electrical power, and network connectivity. There are no pre-installed servers or synchronized data. In the event of a disaster, the organization must purchase or transport hardware, install operating systems and applications, and restore backups. Recovery time is measured in <strong>days or weeks</strong>. It is the least expensive solution in terms of maintenance, suitable for organizations with high tolerance for downtime or for non-critical systems. It is essential, however, that documentation, recovery procedures, and backups are always up to date and available off-site.
             </dd>
           </dl>
 
           <table>
             <thead>
               <tr>
-                <th>Tipo di sito</th>
-                <th>Stato all'attivazione</th>
-                <th>RTO tipico</th>
-                <th>RPO tipico</th>
-                <th>Costo</th>
+                <th>Site type</th>
+                <th>State at activation</th>
+                <th>Typical RTO</th>
+                <th>Typical RPO</th>
+                <th>Cost</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td class="label">Hot Site</td>
-                <td>Completamente operativo, dati in sync</td>
-                <td>Minuti – poche ore</td>
-                <td>Minimo (quasi zero)</td>
-                <td>Molto elevato</td>
+                <td>Fully operational, data in sync</td>
+                <td>Minutes – few hours</td>
+                <td>Minimal (near zero)</td>
+                <td>Very high</td>
               </tr>
               <tr>
                 <td class="label">Warm Site</td>
-                <td>Hardware pronto, dati parzialmente aggiornati</td>
-                <td>Ore – giorni</td>
-                <td>Ore (dipende da backup freq.)</td>
-                <td>Medio</td>
+                <td>Hardware ready, data partially updated</td>
+                <td>Hours – days</td>
+                <td>Hours (depends on backup freq.)</td>
+                <td>Medium</td>
               </tr>
               <tr>
                 <td class="label">Cold Site</td>
-                <td>Solo struttura fisica, no sistemi</td>
-                <td>Giorni – settimane</td>
-                <td>Dipende dall'ultimo backup</td>
-                <td>Basso</td>
+                <td>Physical structure only, no systems</td>
+                <td>Days – weeks</td>
+                <td>Depends on last backup</td>
+                <td>Low</td>
               </tr>
             </tbody>
           </table>
 
           <div class="example-box">
-            <strong>Esempio pratico — Scelta del sito DR:</strong> una banca con transazioni 24/7 richiede un hot site: ogni minuto di inattività significa perdita di transazioni e danni reputazionali. Un'azienda manifatturiera i cui sistemi ERP vengono usati solo durante il turno diurno potrebbe scegliere un warm site: ha alcune ore per ripristinare tutto. Un piccolo studio professionale che archivia documenti fiscali potrebbe accontentarsi di un cold site: non deve essere operativo entro ore, e il costo del hot site è insostenibile.
+            <strong>Practical example — Choosing the DR site:</strong> a bank with 24/7 transactions requires a hot site: every minute of downtime means lost transactions and reputational damage. A manufacturing company whose ERP systems are used only during the day shift might choose a warm site: it has a few hours to restore everything. A small professional firm that archives tax documents might settle for a cold site: it does not need to be operational within hours, and the cost of a hot site is unsustainable.
           </div>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-B</strong>: l'esame propone spesso uno scenario con un requisito di RTO specifico (es. "sistemi critici devono tornare operativi entro 2 ore") e chiede quale tipo di sito DR è più appropriato. Il criterio è semplice: RTO basso → hot site; RTO moderato → warm site; RTO alto o costo limitato → cold site. Non scegliere mai un cold site se lo scenario specifica RTO di ore.
+            <strong>EXAM TIP 3.4-B</strong>: the exam often presents a scenario with a specific RTO requirement (e.g., "critical systems must be back online within 2 hours") and asks which type of DR site is most appropriate. The criterion is simple: low RTO → hot site; moderate RTO → warm site; high RTO or limited budget → cold site. Never choose a cold site if the scenario specifies an RTO of hours.
           </div>
 
-          <h3 id="geo-dispersion">Dispersione Geografica</h3>
+          <h3 id="geo-dispersion">Geographic Dispersion</h3>
           <dl class="termlist">
-            <dt>Geographic Dispersion (Geographic dispersion)</dt>
+            <dt>Geographic Dispersion</dt>
             <dd>
-              La dispersione geografica consiste nel collocare sistemi ridondanti, siti DR e backup in luoghi fisicamente distanti tra loro. L'obiettivo è garantire che un singolo evento geograficamente localizzato — un terremoto, un'alluvione, un blackout regionale, un attacco fisico a un datacenter — non possa compromettere contemporaneamente sia il sito primario sia quello di backup. La distanza minima consigliata dipende dal tipo di rischio: per rischi sismici si parla di decine/centinaia di km; per rischi locali (incendio, allagamento) può bastare anche una distanza minore.
+              Geographic dispersion involves placing redundant systems, DR sites, and backups in physically distant locations from one another. The goal is to ensure that a single geographically localized event — an earthquake, a flood, a regional blackout, a physical attack on a datacenter — cannot simultaneously compromise both the primary site and the backup. The recommended minimum distance depends on the type of risk: for seismic risks, tens or hundreds of kilometers are discussed; for local risks (fire, flooding) a shorter distance may suffice.
             </dd>
 
-            <dt>Considerazioni pratiche sulla dispersione</dt>
+            <dt>Practical considerations on dispersion</dt>
             <dd>
-              La dispersione aumenta la latenza nelle comunicazioni tra siti (importante per la replica sincrona di database) e può complicare la gestione operativa. Deve essere bilanciata con la necessità di replica in tempo reale: maggiore è la distanza, maggiore è la latenza di rete, e quindi più difficile mantenere RPO bassi con replica sincrona.
+              Dispersion increases latency in communications between sites (important for synchronous database replication) and can complicate operational management. It must be balanced against the need for real-time replication: the greater the distance, the higher the network latency, and therefore the harder it is to maintain low RPOs with synchronous replication.
             </dd>
           </dl>
 
           <div class="pitfall">
-            <strong>⚠ PITFALL — Geographic dispersion non garantisce disponibilità:</strong> avere due datacenter in paesi diversi non equivale a resilienza se entrambi dipendono dallo stesso fornitore di connettività internet, dallo stesso provider cloud o dallo stesso sistema di autenticazione centralizzato. La dispersione fisica deve essere accompagnata da diversità di fornitori (ISP, cloud, hardware) per essere realmente efficace.
+            <strong>PITFALL — Geographic dispersion does not guarantee availability:</strong> having two datacenters in different countries does not equate to resilience if both depend on the same internet connectivity provider, the same cloud provider, or the same centralized authentication system. Physical dispersion must be accompanied by provider diversity (ISP, cloud, hardware) to be truly effective.
           </div>
         </section>
 
@@ -376,18 +376,18 @@
         <section id="platform-diversity">
           <h2>Platform Diversity and Multi-cloud</h2>
           <p>
-            La <strong>diversità di piattaforma</strong> è una strategia di resilienza che consiste nell'evitare la dipendenza totale da un singolo vendor, sistema operativo, fornitore cloud o tecnologia. Il principio è che una vulnerabilità zero-day, un guasto di massa del fornitore o un cambiamento commerciale imprevisto non possa paralizzare l'intera organizzazione.
+            <strong>Platform diversity</strong> is a resilience strategy that consists of avoiding total dependence on a single vendor, operating system, cloud provider, or technology. The principle is that a zero-day vulnerability, a provider mass outage, or an unexpected commercial change cannot paralyze the entire organization.
           </p>
 
           <dl class="termlist">
             <dt>Platform Diversity</dt>
             <dd>
-              Utilizzo intenzionale di sistemi eterogenei: ad esempio, bilanciare server Windows e Linux, usare hardware di vendor diversi per router e switch, oppure distribuire i carichi applicativi tra ambienti cloud diversi. La diversità riduce la superficie di attacco comune: un exploit che funziona su un sistema operativo non funziona automaticamente sull'altro. Di contro, aumenta la complessità gestionale: il personale deve saper lavorare con tecnologie diverse e i processi di patching devono coprire ambienti eterogenei.
+              Intentional use of heterogeneous systems: for example, balancing Windows and Linux servers, using hardware from different vendors for routers and switches, or distributing application workloads across different cloud environments. Diversity reduces the common attack surface: an exploit that works on one operating system does not automatically work on the other. On the other hand, it increases management complexity: staff must be able to work with different technologies and patching processes must cover heterogeneous environments.
             </dd>
 
             <dt>Vendor Diversity</dt>
             <dd>
-              Utilizzo di fornitori diversi per componenti critici. Per esempio, avere due ISP differenti per la connettività internet (evitando il singolo punto di fallimento nella rete), oppure usare hardware di produzione di vendor diversi per i firewall di confine. Questo vale anche per i fornitori cloud: dipendere da un unico cloud provider rende l'organizzazione vulnerabile alle interruzioni del provider (es. outage AWS del 2021 che ha reso irraggiungibili migliaia di siti).
+              Use of different vendors for critical components. For example, having two different ISPs for internet connectivity (avoiding a single point of failure in the network), or using hardware from different vendors for border firewalls. This also applies to cloud providers: depending on a single cloud provider makes the organization vulnerable to that provider's outages (e.g., the AWS 2021 outage that made thousands of sites unreachable).
             </dd>
           </dl>
 
@@ -395,21 +395,21 @@
           <dl class="termlist">
             <dt>Multi-cloud</dt>
             <dd>
-              Un'architettura multi-cloud utilizza servizi di almeno due provider cloud pubblici diversi (es. AWS + Azure, oppure GCP + Azure) per eseguire workload applicativi. I motivi principali sono: evitare il <em>vendor lock-in</em> (dipendenza contrattuale o tecnica da un unico provider), ridurre il rischio di outage del provider, sfruttare i servizi migliori di ciascun provider per workload specifici, e rispettare requisiti di sovranità dei dati che impongono l'uso di provider con datacenter in specifiche giurisdizioni.
+              A multi-cloud architecture uses services from at least two different public cloud providers (e.g., AWS + Azure, or GCP + Azure) to run application workloads. The main reasons are: avoiding <em>vendor lock-in</em> (contractual or technical dependence on a single provider), reducing the risk of provider outage, leveraging the best services of each provider for specific workloads, and meeting data sovereignty requirements that mandate using providers with datacenters in specific jurisdictions.
             </dd>
 
-            <dt>Complessità del multi-cloud</dt>
+            <dt>Multi-cloud complexity</dt>
             <dd>
-              Un'architettura multi-cloud richiede strumenti di gestione e monitoraggio unificati, politiche di identità e accesso consistenti tra provider diversi, e attenzione alla sicurezza delle API di integrazione. La superficie di attacco aumenta perché ogni provider introduce le proprie configurazioni, i propri modelli IAM e le proprie vulnerabilità potenziali. Il vantaggio di resilienza si ottiene solo se i sistemi su cloud diversi sono davvero indipendenti (dati separati, non un singolo database condiviso).
+              A multi-cloud architecture requires unified management and monitoring tools, consistent identity and access policies across different providers, and attention to the security of integration APIs. The attack surface increases because each provider introduces its own configurations, its own IAM models, and its own potential vulnerabilities. The resilience advantage is only achieved if systems on different clouds are truly independent (separate data, not a single shared database).
             </dd>
           </dl>
 
           <div class="example-box">
-            <strong>Esempio pratico — Multi-cloud per resilienza:</strong> un'azienda di streaming video usa AWS per il delivery dei contenuti in Nord America e Azure per l'Europa. I dati principali vengono replicati tra le due piattaforme. Quando nel 2021 AWS us-east-1 va offline per ore, l'azienda reindirizza il traffico americano verso Azure: gli utenti percepiscono un degradamento delle prestazioni ma non un'interruzione totale del servizio.
+            <strong>Practical example — Multi-cloud for resilience:</strong> a video streaming company uses AWS for content delivery in North America and Azure for Europe. Main data is replicated between the two platforms. When in 2021 AWS us-east-1 went offline for hours, the company redirected American traffic to Azure: users experienced degraded performance but not a total service interruption.
           </div>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-C</strong>: quando l'esame chiede quale strategia riduce il rischio di dipendenza da un singolo vendor cloud → Multi-cloud. Quando chiede come ridurre il rischio che un exploit colpisca tutti i sistemi contemporaneamente → Platform diversity. Sono concetti correlati ma con applicazione diversa.
+            <strong>EXAM TIP 3.4-C</strong>: when the exam asks which strategy reduces the risk of dependence on a single cloud vendor → Multi-cloud. When it asks how to reduce the risk that an exploit hits all systems simultaneously → Platform diversity. These are related concepts but with different applications.
           </div>
         </section>
 
@@ -419,53 +419,53 @@
         <section id="continuity">
           <h2>Continuity of Operations (Continuity of Operations)</h2>
           <p>
-            La <strong>Continuity of Operations</strong> (COOP) è l'insieme di processi, procedure e strutture che consentono a un'organizzazione di continuare a svolgere le proprie funzioni critiche durante e dopo un evento dirompente. Non è solo una questione tecnica: include anche la pianificazione delle persone, dei processi e dell'infrastruttura necessari per sostenere le operazioni in condizioni avverse.
+            <strong>Continuity of Operations</strong> (COOP) is the set of processes, procedures, and structures that allow an organization to continue performing its critical functions during and after a disruptive event. It is not just a technical matter: it also includes planning for the people, processes, and infrastructure needed to sustain operations under adverse conditions.
           </p>
           <p>
-            Il BCP (Business Continuity Plan) è il documento che definisce come l'organizzazione intende mantenere la continuità. Include la prioritizzazione delle funzioni critiche, i requisiti minimi operativi, i siti alternativi, le procedure di comunicazione e i ruoli di responsabilità in caso di emergenza. A differenza del DRP (Disaster Recovery Plan) — che si focalizza sul ripristino dei sistemi IT — il BCP copre l'intera operatività aziendale.
+            The BCP (Business Continuity Plan) is the document that defines how the organization intends to maintain continuity. It includes the prioritization of critical functions, minimum operational requirements, alternate sites, communication procedures, and roles of responsibility in an emergency. Unlike the DRP (Disaster Recovery Plan) — which focuses on restoring IT systems — the BCP covers the entire business operation.
           </p>
 
           <dl class="termlist">
-            <dt>Funzioni critiche</dt>
+            <dt>Critical functions</dt>
             <dd>
-              Non tutte le funzioni aziendali hanno la stessa priorità. In fase di pianificazione, l'organizzazione deve identificare quali processi, sistemi e dati sono indispensabili per sopravvivere a un'interruzione e quale sia l'ordine in cui devono essere ripristinati. Un sistema di contabilità potrebbe tollerare 48 ore di inattività; un sistema di pagamento online no.
+              Not all business functions have the same priority. During planning, the organization must identify which processes, systems, and data are indispensable to survive an outage and in what order they must be restored. An accounting system might tolerate 48 hours of downtime; an online payment system cannot.
             </dd>
 
-            <dt>Ordine di recupero</dt>
+            <dt>Recovery order</dt>
             <dd>
-              Il <em>recovery order</em> stabilisce la sequenza in cui i sistemi vengono ripristinati durante un evento di disaster recovery. La sequenza deve seguire le dipendenze tecniche: prima l'infrastruttura di rete e directory (Active Directory, DNS), poi i database, poi le applicazioni che dipendono dai database, poi i servizi di front-end. Ignorare le dipendenze porta a ripristini falliti o a sistemi che si avviano ma non funzionano.
+              The <em>recovery order</em> establishes the sequence in which systems are restored during a disaster recovery event. The sequence must follow technical dependencies: first network and directory infrastructure (Active Directory, DNS), then databases, then applications that depend on the databases, then front-end services. Ignoring dependencies leads to failed restores or systems that start but do not function.
             </dd>
 
-            <dt>Non-persistent Systems e immagini gold</dt>
+            <dt>Non-persistent systems and gold images</dt>
             <dd>
-              I sistemi <em>non persistenti</em> (es. virtual desktop in VDI, container effimeri, ambienti cloud auto-provisioned) sono progettati per essere distrutti e ricreati a partire da un'immagine di riferimento (<em>gold master image</em>) in caso di compromissione o guasto. Questo semplifica enormemente il recovery: invece di ripristinare un backup complesso, si rilancia l'immagine certificata. Il vantaggio di sicurezza è che eventuali modifiche non autorizzate (malware, configurazioni errate) vengono eliminate a ogni riavvio.
+              <em>Non-persistent</em> systems (e.g., virtual desktops in VDI, ephemeral containers, auto-provisioned cloud environments) are designed to be destroyed and recreated from a reference image (<em>gold master image</em>) in case of compromise or failure. This greatly simplifies recovery: instead of restoring a complex backup, the certified image is relaunched. The security advantage is that any unauthorized changes (malware, misconfigurations) are eliminated on every reboot.
             </dd>
           </dl>
 
           <h3 id="capacity">Capacity Planning</h3>
           <p>
-            Il <strong>capacity planning</strong> è il processo di previsione e gestione delle risorse necessarie per sostenere le operazioni, sia in condizioni normali sia durante eventi di failover o picco. Se il sito di DR viene attivato ma non ha sufficiente capacità per sostenere il carico del sito principale, la continuità operativa fallisce comunque.
+            <strong>Capacity planning</strong> is the process of forecasting and managing the resources needed to sustain operations, both under normal conditions and during failover events or peak loads. If the DR site is activated but does not have sufficient capacity to sustain the primary site's load, operational continuity fails regardless.
           </p>
 
           <dl class="termlist">
-            <dt>People (Persone)</dt>
+            <dt>People</dt>
             <dd>
-              Il capacity planning delle persone riguarda la disponibilità di personale qualificato sia in condizioni normali sia durante un'emergenza. Include: documentazione delle procedure (perché se la persona che conosce la procedura è irreperibile, il recovery si blocca), formazione incrociata (<em>cross-training</em>) affinché più persone sappiano eseguire le stesse operazioni critiche, e pianificazione della catena di comando durante un'emergenza. Un piano DR dipendente da una singola persona crea un SPOF umano.
+              People capacity planning concerns the availability of qualified personnel both under normal conditions and during an emergency. It includes: documenting procedures (because if the person who knows the procedure is unavailable, recovery stalls), cross-training so that multiple people can perform the same critical operations, and planning the chain of command during an emergency. A DR plan dependent on a single person creates a human SPOF.
             </dd>
 
-            <dt>Technology (Tecnologia)</dt>
+            <dt>Technology</dt>
             <dd>
-              Il capacity planning tecnologico garantisce che hardware, software, licenze e banda siano sufficienti per sostenere il carico operativo anche durante il failover. Un warm site con hardware sottodimensionato rispetto al sito primario non può reggere il carico completo: si crea un collo di bottiglia che de facto rende inutilizzabile il sito di backup sotto stress. Il piano deve prevedere non solo la capacità media, ma anche i picchi prevedibili (es. mesi fiscali, campagne promozionali).
+              Technological capacity planning ensures that hardware, software, licenses, and bandwidth are sufficient to sustain the operational load even during failover. A warm site with hardware undersized relative to the primary site cannot handle the full load: a bottleneck is created that effectively makes the backup site unusable under stress. The plan must account not only for average capacity, but also for foreseeable peaks (e.g., fiscal months, promotional campaigns).
             </dd>
 
-            <dt>Infrastructure (Infrastruttura)</dt>
+            <dt>Infrastructure</dt>
             <dd>
-              Il capacity planning infrastrutturale copre spazio fisico, alimentazione elettrica, raffreddamento, connettività di rete e storage. Un datacenter di backup deve avere PDU (Power Distribution Unit) e UPS dimensionati per il carico effettivo previsto, raffreddamento sufficiente per l'hardware, e banda di rete adeguata per gestire il traffico di produzione. Questi elementi hanno lunghi tempi di approvvigionamento: non si possono aggiungere in emergenza.
+              Infrastructure capacity planning covers physical space, electrical power, cooling, network connectivity, and storage. A backup datacenter must have PDUs (Power Distribution Units) and UPS sized for the expected actual load, sufficient cooling for the hardware, and adequate network bandwidth to handle production traffic. These elements have long procurement lead times: they cannot be added in an emergency.
             </dd>
           </dl>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-D</strong>: il capacity planning viene testato nell'esame con scenari che descrivono un failover riuscito tecnicamente ma fallito operativamente (es. "il sito DR è attivo ma le applicazioni sono lente perché i server sono sotto-dimensionati"). Il problema identificato è una carenza di capacity planning nella dimensione Technology o Infrastructure.
+            <strong>EXAM TIP 3.4-D</strong>: capacity planning is tested in the exam with scenarios that describe a technically successful but operationally failed failover (e.g., "the DR site is active but applications are slow because servers are undersized"). The identified problem is a capacity planning deficiency in the Technology or Infrastructure dimension.
           </div>
         </section>
 
@@ -475,75 +475,75 @@
         <section id="testing">
           <h2>Testing Continuity and Recovery Plans</h2>
           <p>
-            Un piano di business continuity o disaster recovery che non viene mai testato è, di fatto, un documento di intenzioni privo di valore pratico. I test servono a verificare che i sistemi tecnici funzionino come previsto, che il personale conosca le procedure e che i tempi reali (RTO, RPO) soddisfino i requisiti. Esistono quattro metodologie principali, ordinate per costo, impatto e livello di verifica.
+            A business continuity or disaster recovery plan that is never tested is, in fact, a statement of intent with no practical value. Tests serve to verify that technical systems work as expected, that staff know the procedures, and that actual times (RTO, RPO) meet requirements. There are four main methodologies, ordered by cost, impact, and level of verification.
           </p>
 
           <dl class="termlist" id="tabletop">
-            <dt>Tabletop exercise (Esercitazione a tavolino)</dt>
+            <dt>Tabletop exercise</dt>
             <dd>
-              Un tabletop exercise è una discussione strutturata in cui i responsabili chiave analizzano uno scenario ipotetico (es. "il datacenter primario è andato a fuoco") e descrivono verbalmente le azioni che intraprenderebbero. Nessun sistema viene effettivamente attivato o modificato. Il valore di questo tipo di test sta nell'identificare lacune nelle procedure, ambiguità nei ruoli e mancanze di comunicazione, a costo praticamente zero e senza alcun rischio per la produzione. È il metodo con il minor impatto, ma il minor livello di verifica tecnica.
+              A tabletop exercise is a structured discussion in which key stakeholders analyze a hypothetical scenario (e.g., "the primary datacenter has burned down") and verbally describe the actions they would take. No system is actually activated or modified. The value of this type of test lies in identifying gaps in procedures, ambiguities in roles, and communication deficiencies, at virtually zero cost and with no risk to production. It is the method with the lowest impact, but the lowest level of technical verification.
             </dd>
 
             <dt id="failover-test">Failover Test</dt>
             <dd>
-              Un failover test esegue realmente la procedura di commutazione verso il sito di backup o verso i sistemi ridondanti, verificando che il failover automatico o manuale avvenga nei tempi previsti. Può essere eseguito in modo <em>pianificato</em> (con manutenzione programmata) o <em>a sorpresa</em> per verificare che i sistemi automatici reagiscano correttamente. Il failover test verifica RTO reale: se il manuale dice "ripristino in 2 ore" ma il test richiede 6 ore, il piano va rivisto. È più invasivo del tabletop: può causare interruzioni brevi se mal gestito.
+              A failover test actually executes the switchover procedure to the backup site or to redundant systems, verifying that automatic or manual failover occurs within the expected timeframes. It can be performed in a <em>planned</em> manner (with scheduled maintenance) or as a <em>surprise</em> to verify that automatic systems respond correctly. The failover test validates the actual RTO: if the manual says "restore in 2 hours" but the test requires 6 hours, the plan must be revised. It is more disruptive than a tabletop: it can cause brief interruptions if poorly managed.
             </dd>
 
             <dt id="simulation">Simulation</dt>
             <dd>
-              Una simulazione replica un evento di disastro in modo più realistico del tabletop, coinvolgendo i team operativi nell'esecuzione delle procedure in un ambiente controllato (non in produzione). Ad esempio, si può simulare un attacco ransomware su sistemi di test, eseguire il processo di isolamento, notifica e recovery come se fosse reale. La simulazione rivela problemi procedurali e tecnici che il tabletop non può evidenziare, ma richiede più risorse e pianificazione.
+              A simulation replicates a disaster event more realistically than a tabletop, involving operational teams in executing procedures in a controlled environment (not in production). For example, a ransomware attack can be simulated on test systems, executing the isolation, notification, and recovery process as if it were real. Simulation reveals procedural and technical problems that a tabletop cannot surface, but requires more resources and planning.
             </dd>
 
             <dt id="parallel">Parallel Processing Test</dt>
             <dd>
-              Nel parallel processing test, il sito di backup viene portato online e i sistemi critici vengono eseguiti contemporaneamente sia sul sito primario sia su quello secondario. I risultati vengono confrontati per verificare che il sito di backup produca output identici. È il test più costoso e complesso (richiede risorse doppie per la durata del test), ma è anche il più realistico: verifica non solo che il sito DR si avvii, ma che le applicazioni producano risultati corretti. Permette di identificare problemi di sincronizzazione dei dati o di configurazione prima di aver bisogno davvero del sito di backup.
+              In a parallel processing test, the backup site is brought online and critical systems are run simultaneously on both the primary and secondary sites. Results are compared to verify that the backup site produces identical output. It is the most expensive and complex test (requires double resources for the duration of the test), but also the most realistic: it verifies not only that the DR site starts up, but that applications produce correct results. It allows identification of data synchronization or configuration problems before the backup site is actually needed.
             </dd>
           </dl>
 
           <table>
             <thead>
               <tr>
-                <th>Tipo di test</th>
-                <th>Sistemi reali attivati</th>
-                <th>Interruzione servizi</th>
-                <th>Livello di verifica</th>
-                <th>Costo</th>
+                <th>Test type</th>
+                <th>Real systems activated</th>
+                <th>Service interruption</th>
+                <th>Verification level</th>
+                <th>Cost</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td class="label">Tabletop</td>
                 <td>No</td>
-                <td>Nessuna</td>
-                <td>Procedurale / comunicazione</td>
-                <td>Minimo</td>
+                <td>None</td>
+                <td>Procedural / communication</td>
+                <td>Minimal</td>
               </tr>
               <tr>
                 <td class="label">Failover</td>
-                <td>Sì (DR site)</td>
-                <td>Possibile breve interruzione</td>
-                <td>Tecnico + tempo di failover</td>
-                <td>Medio</td>
+                <td>Yes (DR site)</td>
+                <td>Possible brief interruption</td>
+                <td>Technical + failover time</td>
+                <td>Medium</td>
               </tr>
               <tr>
                 <td class="label">Simulation</td>
-                <td>Sì (ambiente test)</td>
-                <td>Solo in ambiente test</td>
-                <td>Procedurale + tecnico</td>
-                <td>Medio-alto</td>
+                <td>Yes (test environment)</td>
+                <td>Test environment only</td>
+                <td>Procedural + technical</td>
+                <td>Medium-high</td>
               </tr>
               <tr>
                 <td class="label">Parallel Processing</td>
-                <td>Sì (entrambi i siti)</td>
-                <td>Nessuna (ambienti paralleli)</td>
-                <td>Funzionale completo</td>
-                <td>Alto</td>
+                <td>Yes (both sites)</td>
+                <td>None (parallel environments)</td>
+                <td>Full functional</td>
+                <td>High</td>
               </tr>
             </tbody>
           </table>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-E</strong>: l'esame distingue nettamente i quattro tipi di test. Se lo scenario dice "nessun sistema può essere interrotto o messo a rischio" → Tabletop. Se dice "si vuole verificare che il sito DR sia effettivamente funzionante senza rischiare la produzione" → Parallel Processing. Se dice "si vuole misurare il tempo reale di failover" → Failover Test.
+            <strong>EXAM TIP 3.4-E</strong>: the exam clearly distinguishes the four test types. If the scenario says "no system can be interrupted or put at risk" → Tabletop. If it says "we want to verify that the DR site is actually functional without risking production" → Parallel Processing. If it says "we want to measure the actual failover time" → Failover Test.
           </div>
         </section>
 
@@ -551,158 +551,158 @@
              BACKUPS
         ════════════════════════════════════════════════════════ -->
         <section id="backups">
-          <h2>Backup and Recovery dei Dati</h2>
+          <h2>Data Backup and Recovery</h2>
           <p>
-            Il backup è il fondamento della protezione dei dati e del recovery. Un backup è una copia dei dati effettuata in un momento specifico, conservata in modo da permettere il ripristino in caso di perdita, corruzione, cancellazione accidentale o attacco (es. ransomware). La progettazione di una strategia di backup efficace richiede decisioni su: frequenza, tipo, posizione, cifratura e procedure di test del ripristino.
+            Backup is the foundation of data protection and recovery. A backup is a copy of data made at a specific point in time, stored in a way that allows restoration in case of loss, corruption, accidental deletion, or attack (e.g., ransomware). Designing an effective backup strategy requires decisions about: frequency, type, location, encryption, and restore test procedures.
           </p>
 
-          <h3 id="backup-types">Tipi di Backup</h3>
+          <h3 id="backup-types">Backup Types</h3>
           <dl class="termlist">
-            <dt>Full Backup (Backup completo)</dt>
+            <dt>Full Backup</dt>
             <dd>
-              Un backup completo copia l'intero set di dati in ogni esecuzione, indipendentemente da modifiche precedenti. È il più semplice da ripristinare — basta un singolo file di backup — ma richiede più spazio di storage e più tempo per ogni esecuzione. Tipicamente si esegue settimanalmente o in occasioni meno frequenti, combinato con backup incrementali o differenziali nei giorni intermedi.
+              A full backup copies the entire dataset on every run, regardless of previous changes. It is the simplest to restore — only a single backup file is needed — but requires more storage space and more time for each run. It is typically performed weekly or less frequently, combined with incremental or differential backups on intermediate days.
             </dd>
 
-            <dt>Incremental Backup (Backup incrementale)</dt>
+            <dt>Incremental Backup</dt>
             <dd>
-              Un backup incrementale copia solo i dati modificati dall'<strong>ultimo backup eseguito</strong> (completo o incrementale). È veloce e richiede poco spazio per ogni singola esecuzione. Il problema emerge al momento del ripristino: per ricostruire lo stato completo, bisogna applicare in sequenza il backup completo più <em>tutti</em> i backup incrementali successivi. Se uno degli incrementali è corrotto o mancante, il ripristino si interrompe.
+              An incremental backup copies only the data modified since the <strong>last backup performed</strong> (full or incremental). It is fast and requires little space for each individual run. The problem arises at restore time: to reconstruct the full state, the full backup plus <em>all</em> subsequent incremental backups must be applied in sequence. If any of the incrementals is corrupted or missing, the restore stops.
             </dd>
 
-            <dt>Differential Backup (Backup differenziale)</dt>
+            <dt>Differential Backup</dt>
             <dd>
-              Un backup differenziale copia tutti i dati modificati dall'<strong>ultimo backup completo</strong>, indipendentemente da quanti backup differenziali siano stati effettuati nel frattempo. Ogni differenziale è quindi più grande dell'incrementale corrispondente (perché accumula tutte le modifiche dal completo), ma il ripristino richiede solo due elementi: il backup completo più l'ultimo differenziale. Offre un buon compromesso tra spazio di storage e semplicità di recovery.
+              A differential backup copies all data modified since the <strong>last full backup</strong>, regardless of how many differential backups have been performed in the meantime. Each differential is therefore larger than the corresponding incremental (because it accumulates all changes since the full), but restore requires only two elements: the full backup plus the last differential. It offers a good compromise between storage space and recovery simplicity.
             </dd>
           </dl>
 
           <table>
             <thead>
               <tr>
-                <th>Tipo</th>
-                <th>Cosa viene copiato</th>
-                <th>Spazio richiesto</th>
-                <th>Velocità di backup</th>
-                <th>Complessità di ripristino</th>
+                <th>Type</th>
+                <th>What is copied</th>
+                <th>Space required</th>
+                <th>Backup speed</th>
+                <th>Restore complexity</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td class="label">Full</td>
-                <td>Tutto il dataset</td>
-                <td>Massimo</td>
-                <td>Lenta</td>
-                <td>Minima (un file)</td>
+                <td>Entire dataset</td>
+                <td>Maximum</td>
+                <td>Slow</td>
+                <td>Minimal (one file)</td>
               </tr>
               <tr>
                 <td class="label">Incremental</td>
-                <td>Modifiche dall'ultimo backup (full o incr.)</td>
-                <td>Minimo per esecuzione</td>
-                <td>Velocissima</td>
-                <td>Alta (full + tutti gli incrementali)</td>
+                <td>Changes since last backup (full or incr.)</td>
+                <td>Minimum per run</td>
+                <td>Very fast</td>
+                <td>High (full + all incrementals)</td>
               </tr>
               <tr>
                 <td class="label">Differential</td>
-                <td>Tutte le modifiche dall'ultimo full</td>
-                <td>Medio (cresce nel tempo)</td>
-                <td>Media</td>
-                <td>Media (full + ultimo diff.)</td>
+                <td>All changes since last full</td>
+                <td>Medium (grows over time)</td>
+                <td>Medium</td>
+                <td>Medium (full + last diff.)</td>
               </tr>
             </tbody>
           </table>
 
           <div class="pitfall">
-            <strong>⚠ PITFALL — Incrementale vs Differenziale:</strong> la confusione più comune è dimenticare il punto di riferimento. L'incrementale si confronta con l'ultimo backup eseguito (qualunque tipo fosse). Il differenziale si confronta sempre e solo con l'ultimo backup completo. Questa differenza è quasi sempre testata in forma di domanda a risposta multipla sull'esame.
+            <strong>PITFALL — Incremental vs Differential:</strong> the most common confusion is forgetting the reference point. Incremental is compared to the last backup performed (of any type). Differential is always compared only to the last full backup. This difference is almost always tested as a multiple-choice question on the exam.
           </div>
 
-          <h3>Posizione dei Backup: Onsite e Offsite</h3>
+          <h3>Backup Location: Onsite and Offsite</h3>
           <dl class="termlist">
             <dt>Onsite Backup</dt>
             <dd>
-              I backup in sede offrono recovery rapido: i dati sono vicini, la banda non è un problema e i tempi di ripristino sono minimi. Il problema è che un evento catastrofico che colpisce la sede principale (incendio, alluvione, furto) distrugge sia i sistemi originali sia i loro backup. I backup onsite proteggono contro guasti hardware o cancellazioni accidentali, non contro disastri fisici.
+              On-site backups offer fast recovery: data is nearby, bandwidth is not an issue, and restore times are minimal. The problem is that a catastrophic event affecting the primary site (fire, flood, theft) destroys both the original systems and their backups. Onsite backups protect against hardware failures or accidental deletions, not against physical disasters.
             </dd>
 
             <dt>Offsite Backup</dt>
             <dd>
-              I backup off-site vengono conservati in una posizione geograficamente separata — un secondo datacenter, un fornitore di cloud storage, un deposito fisico di nastri magnetici. Proteggono contro disastri che colpiscono l'intera sede. Il limite è la velocità di recupero: trasferire decine di terabyte via internet o attendere la consegna fisica di nastri può richiedere ore o giorni, allungando l'RTO. Per questo motivo molte organizzazioni adottano la regola <strong>3-2-1</strong>: 3 copie dei dati, su 2 supporti diversi, di cui 1 off-site.
+              Off-site backups are stored in a geographically separate location — a second datacenter, a cloud storage provider, a physical tape storage facility. They protect against disasters that affect the entire site. The limitation is recovery speed: transferring tens of terabytes over the internet or waiting for physical tape delivery can take hours or days, extending RTO. For this reason many organizations adopt the <strong>3-2-1</strong> rule: 3 copies of data, on 2 different media, with 1 off-site.
             </dd>
 
-            <dt>Frequenza dei backup</dt>
+            <dt>Backup frequency</dt>
             <dd>
-              La frequenza con cui vengono eseguiti i backup determina direttamente l'RPO: più frequente è il backup, minore è la quantità massima di dati che si possono perdere. Un backup giornaliero implica un RPO di 24 ore (si perde al massimo un giorno di lavoro). Un backup orario abbassa l'RPO a 60 minuti. La frequenza ottimale dipende dalla criticità dei dati e dal volume di modifiche quotidiane: eseguire full backup completi ogni ora su dataset di petabyte è tecnicamente impraticabile senza sistemi di backup specializzati.
+              The frequency with which backups are performed directly determines RPO: the more frequent the backup, the less data can be lost. A daily backup implies an RPO of 24 hours (at most one day of work is lost). An hourly backup lowers RPO to 60 minutes. The optimal frequency depends on the criticality of the data and the volume of daily changes: performing full backups every hour on petabyte datasets is technically impractical without specialized backup systems.
             </dd>
           </dl>
 
-          <h3 id="snapshots">Snapshot e Immagini</h3>
+          <h3 id="snapshots">Snapshots and Images</h3>
           <dl class="termlist">
             <dt>Snapshot</dt>
             <dd>
-              Uno snapshot è una <strong>fotografia del sistema in un preciso istante</strong>, implementata tipicamente a livello di hypervisor o di storage. A differenza di un backup tradizionale (che copia fisicamente tutti i file), uno snapshot registra solo i blocchi di dati che cambiano dopo lo snapshot stesso (tecnica copy-on-write). Questo li rende estremamente veloci da creare e poco costosi in termini di spazio iniziale. Sono molto usati negli ambienti virtualizzati prima di aggiornamenti o cambiamenti di configurazione: se l'aggiornamento va male, si torna allo snapshot in pochi minuti. Il limite è che gli snapshot dipendono dal sistema di storage originale: se il datastore è compromesso, anche gli snapshot sono persi.
+              A snapshot is a <strong>point-in-time photograph of the system</strong>, typically implemented at the hypervisor or storage level. Unlike a traditional backup (which physically copies all files), a snapshot records only the data blocks that change after the snapshot itself (copy-on-write technique). This makes them extremely fast to create and inexpensive in terms of initial space. They are widely used in virtualized environments before updates or configuration changes: if the update goes wrong, revert to the snapshot in a few minutes. The limitation is that snapshots depend on the original storage system: if the datastore is compromised, the snapshots are also lost.
             </dd>
 
-            <dt>Immagine di sistema (System Image)</dt>
+            <dt>System Image</dt>
             <dd>
-              Un'immagine di sistema è una copia completa e indipendente del disco o del volume, inclusi sistema operativo, applicazioni, configurazioni e dati. A differenza dello snapshot, un'immagine può essere ripristinata su hardware diverso o in un ambiente cloud diverso. Le immagini sono fondamentali per il disaster recovery di sistemi critici (es. server DNS, controller di dominio) e per mantenere le <em>gold master image</em> da cui vengono generati i sistemi non persistenti (VDI, cloud instances).
+              A system image is a complete and independent copy of the disk or volume, including operating system, applications, configurations, and data. Unlike a snapshot, an image can be restored to different hardware or a different cloud environment. Images are essential for disaster recovery of critical systems (e.g., DNS servers, domain controllers) and for maintaining <em>gold master images</em> from which non-persistent systems (VDI, cloud instances) are generated.
             </dd>
           </dl>
 
           <div class="pitfall">
-            <strong>⚠ PITFALL — Snapshot ≠ Backup:</strong> uno snapshot non è un backup indipendente. Se il datastore o il disco originale viene corrotto, cancellato o distrutto, anche gli snapshot vengono persi. Gli snapshot sono strumenti operativi per recupero rapido da errori recenti, non una strategia di protezione a lungo termine. Devono essere accompagnati da backup reali copiati in altra sede.
+            <strong>PITFALL — Snapshot ≠ Backup:</strong> a snapshot is not an independent backup. If the datastore or original disk is corrupted, deleted, or destroyed, the snapshots are also lost. Snapshots are operational tools for fast recovery from recent errors, not a long-term protection strategy. They must be accompanied by real backups copied to another location.
           </div>
 
-          <h3 id="replication">Replicazione</h3>
+          <h3 id="replication">Replication</h3>
           <dl class="termlist">
-            <dt>Replicazione sincrona</dt>
+            <dt>Synchronous replication</dt>
             <dd>
-              Nella replica sincrona, ogni operazione di scrittura sul sistema primario viene considerata completata solo quando è stata confermata anche sul sistema secondario. Garantisce che in nessun momento i dati sul secondario siano indietro rispetto al primario: RPO ≈ zero. Il costo è la latenza aggiunta da ogni scrittura: il sistema primario deve attendere la conferma del secondario. Funziona bene per distanze brevi (bassa latenza di rete); su grandi distanze geografiche la latenza può diventare inaccettabile per applicazioni ad alto volume di scritture.
+              In synchronous replication, every write operation on the primary system is considered complete only when it has been confirmed on the secondary system as well. This guarantees that at no point are the secondary's data behind the primary: RPO ≈ zero. The cost is the latency added by each write: the primary system must wait for the secondary's confirmation. It works well for short distances (low network latency); over large geographic distances, latency can become unacceptable for applications with high write volumes.
             </dd>
 
-            <dt>Replicazione asincrona</dt>
+            <dt>Asynchronous replication</dt>
             <dd>
-              Nella replica asincrona, le operazioni di scrittura sul primario vengono completate immediatamente senza attendere la conferma del secondario. I dati vengono replicati con un ritardo (lag). Questo consente distanze geografiche maggiori e migliori prestazioni del primario, ma introduce un RPO diverso da zero: in caso di disastro improvviso, le ultime modifiche non ancora replicate vanno perse.
+              In asynchronous replication, write operations on the primary are completed immediately without waiting for the secondary's confirmation. Data is replicated with a delay (lag). This allows greater geographic distances and better primary performance, but introduces an RPO greater than zero: in case of sudden disaster, the most recent changes not yet replicated are lost.
             </dd>
 
-            <dt>Replicazione vs Backup</dt>
+            <dt>Replication vs Backup</dt>
             <dd>
-              La replicazione mantiene una copia aggiornata in tempo reale, ideale per ridurre l'RPO. Ma se un dato viene cancellato per errore o cifrato da ransomware, la replica porta immediatamente la corruzione anche nel sistema secondario. La replicazione protegge dai guasti hardware, non dagli errori umani o dagli attacchi logici. I backup con retention policy (versioni storiche dei dati) sono l'unico strumento che permette di tornare a uno stato precedente alla corruzione.
+              Replication maintains an up-to-date real-time copy, ideal for reducing RPO. But if data is accidentally deleted or encrypted by ransomware, replication immediately carries the corruption to the secondary system as well. Replication protects against hardware failures, not against human errors or logical attacks. Backups with retention policies (historical versions of data) are the only tool that allows returning to a state prior to the corruption.
             </dd>
           </dl>
 
           <h3 id="journaling">Journaling</h3>
           <dl class="termlist">
-            <dt>Journaling del filesystem</dt>
+            <dt>Filesystem journaling</dt>
             <dd>
-              Il journaling è una funzione dei filesystem moderni (ext4, NTFS, XFS) che registra le operazioni pianificate in un <em>journal</em> (registro) prima di eseguirle effettivamente sul disco. Se il sistema va offline in modo imprevisto (blackout, crash) mentre una scrittura era in corso, al riavvio il filesystem controlla il journal e <strong>completa o annulla</strong> le operazioni incomplete in pochi secondi. Questo previene la corruzione del filesystem che nei sistemi non-journaled richiedeva ore di scansione (fsck). Il journaling non è un backup: non consente di recuperare versioni precedenti dei file, ma garantisce che il filesystem rimanga in uno stato coerente.
+              Journaling is a feature of modern filesystems (ext4, NTFS, XFS) that records planned operations in a <em>journal</em> (log) before actually performing them on disk. If the system goes offline unexpectedly (power outage, crash) while a write was in progress, on reboot the filesystem checks the journal and <strong>completes or cancels</strong> incomplete operations in a few seconds. This prevents filesystem corruption that on non-journaled systems required hours of scanning (fsck). Journaling is not a backup: it does not allow recovering previous versions of files, but ensures that the filesystem remains in a consistent state.
             </dd>
 
             <dt>Database journaling / Write-Ahead Logging (WAL)</dt>
             <dd>
-              I database relazionali usano un meccanismo simile chiamato <em>Write-Ahead Logging</em>: ogni transazione viene prima scritta nel log (journal) e solo poi applicata alle tabelle. In caso di crash, il database si ripristina applicando o annullando le transazioni registrate nel log. Il WAL permette anche la replica: il log del primario viene inviato al secondario che lo applica, mantenendo una copia sincronizzata senza overhead di copia completa. PostgreSQL, Oracle e SQL Server usano tutti varianti di questo approccio.
+              Relational databases use a similar mechanism called <em>Write-Ahead Logging</em>: each transaction is first written to the log (journal) and only then applied to the tables. In case of a crash, the database recovers by applying or rolling back the transactions recorded in the log. WAL also enables replication: the primary's log is sent to the secondary which applies it, maintaining a synchronized copy without full copy overhead. PostgreSQL, Oracle, and SQL Server all use variants of this approach.
             </dd>
           </dl>
 
           <div class="example-box">
-            <strong>Esempio pratico — Journaling in azione:</strong> un database PostgreSQL sta elaborando 500 transazioni al secondo. Alle 03:22 un UPS si esaurisce e il server si spegne brutalmente mentre 12 transazioni erano parzialmente scritte. Al riavvio, PostgreSQL legge il WAL: le 12 transazioni incomplete vengono identificate e annullate (rollback automatico). Il database è coerente e operativo in meno di 30 secondi, senza richiedere intervento manuale.
+            <strong>Practical example — Journaling in action:</strong> a PostgreSQL database is processing 500 transactions per second. At 03:22 a UPS runs out and the server shuts down abruptly while 12 transactions were partially written. On reboot, PostgreSQL reads the WAL: the 12 incomplete transactions are identified and rolled back (automatic rollback). The database is consistent and operational in less than 30 seconds, without requiring manual intervention.
           </div>
 
-          <h3 id="backup-security">Sicurezza dei Backup</h3>
+          <h3 id="backup-security">Backup Security</h3>
           <dl class="termlist">
-            <dt>Cifratura dei backup</dt>
+            <dt>Backup encryption</dt>
             <dd>
-              I backup devono essere cifrati — sia in transito sia a riposo — perché contengono spesso tutto il patrimonio informativo dell'organizzazione. Un backup non cifrato conservato su un nastro off-site o su un servizio cloud è un vettore di esfiltrazione dati se intercettato o rubato. La cifratura va applicata prima del trasferimento e deve usare standard moderni (AES-256). La gestione delle chiavi di cifratura è critica: una chiave persa rende il backup irrecuperabile.
+              Backups must be encrypted — both in transit and at rest — because they often contain the organization's entire information assets. An unencrypted backup stored on an off-site tape or on a cloud service is a data exfiltration vector if intercepted or stolen. Encryption must be applied before transfer and must use modern standards (AES-256). Encryption key management is critical: a lost key makes the backup unrecoverable.
             </dd>
 
-            <dt>Gestione delle chiavi di cifratura dei backup</dt>
+            <dt>Backup encryption key management</dt>
             <dd>
-              Le chiavi usate per cifrare i backup devono essere conservate separatamente dai backup stessi — idealmente in un Key Management System (KMS) o in un HSM. Se la chiave viene conservata insieme al backup cifrato (es. stessa cartella, stessa credenziale cloud), la cifratura non aggiunge protezione reale: chiunque acceda al backup accede anche alla chiave. In caso di disaster recovery, il processo di recupero deve prevedere l'accesso alla chiave come passaggio documentato.
+              Keys used to encrypt backups must be stored separately from the backups themselves — ideally in a Key Management System (KMS) or in an HSM. If the key is stored together with the encrypted backup (e.g., same folder, same cloud credential), encryption adds no real protection: anyone who accesses the backup also accesses the key. In a disaster recovery scenario, the recovery process must include access to the key as a documented step.
             </dd>
 
-            <dt>Test di ripristino dei backup</dt>
+            <dt>Backup restore testing</dt>
             <dd>
-              Un backup non testato non è un backup affidabile: può essere corrotto, incompleto, incompatibile con l'hardware attuale o protetto da una chiave persa. I test di ripristino devono essere eseguiti periodicamente su un ambiente di test isolato, verificando che i dati siano completi, integri e ripristinabili entro i tempi previsti dall'RTO. Molte organizzazioni scoprono che i loro backup sono inutilizzabili solo quando ne hanno effettivamente bisogno.
+              An untested backup is not a reliable backup: it may be corrupted, incomplete, incompatible with current hardware, or protected by a lost key. Restore tests must be performed periodically in an isolated test environment, verifying that data is complete, intact, and restorable within the RTO timeframes. Many organizations discover that their backups are unusable only when they actually need them.
             </dd>
           </dl>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-F</strong>: l'esame può presentare scenari in cui un backup esiste ma non è utilizzabile. Le cause più frequenti sono: backup non cifrati ma chiave persa, backup mai testati e risultati corrotti, backup onsite-only distrutti insieme al sito primario, backup non comprensivi di tutti i dati (es. esclusi database aperti). Identificare il problema specifico nello scenario è la chiave per scegliere la risposta corretta.
+            <strong>EXAM TIP 3.4-F</strong>: the exam may present scenarios where a backup exists but cannot be used. The most common causes are: unencrypted backups with a lost key, untested backups that turned out to be corrupted, onsite-only backups destroyed along with the primary site, backups that do not include all data (e.g., open databases excluded). Identifying the specific problem in the scenario is the key to choosing the correct answer.
           </div>
         </section>
 
@@ -710,90 +710,90 @@
              POWER
         ════════════════════════════════════════════════════════ -->
         <section id="power">
-          <h2>Power Ridondante (Power)</h2>
+          <h2>Redundant Power (Power)</h2>
           <p>
-            L'alimentazione elettrica è una delle dipendenze più critiche e spesso sottovalutate della resilienza infrastrutturale. Un'interruzione dell'alimentazione — anche di pochi secondi — può causare perdita di dati, corruzione dei filesystem, guasti hardware (dischi in scrittura, memorie non flushate) e interruzioni di servizio. La resilienza dell'alimentazione si ottiene attraverso due tecnologie complementari: UPS e generatori.
+            Electrical power is one of the most critical and often underestimated dependencies of infrastructure resilience. A power interruption — even for a few seconds — can cause data loss, filesystem corruption, hardware failures (disks mid-write, unflushed memory), and service outages. Power resilience is achieved through two complementary technologies: UPS and generators.
           </p>
 
           <h3 id="ups">UPS — Uninterruptible Power Supply</h3>
           <dl class="termlist">
-            <dt>UPS (Gruppo di Continuità)</dt>
+            <dt>UPS (Uninterruptible Power Supply)</dt>
             <dd>
-              Un UPS è un dispositivo che fornisce alimentazione istantanea da batterie quando l'alimentazione principale viene meno. La chiave del termine è "uninterruptible": a differenza di un generatore (che richiede secondi per avviarsi), l'UPS interviene <strong>in millisecondi</strong>, senza alcuna interruzione percepita dai sistemi elettronici. Le batterie di un UPS garantiscono autonomia tipicamente da pochi minuti a decine di minuti, a seconda della capacità. Questo tempo serve per: mantenere i sistemi operativi mentre si avvia il generatore, eseguire uno shutdown controllato dei sistemi se il generatore non è disponibile, e proteggere contro brevi interruzioni senza necessità di avviare alcun generatore.
+              A UPS is a device that provides instant power from batteries when the main power fails. The key to the term is "uninterruptible": unlike a generator (which takes seconds to start), the UPS kicks in <strong>within milliseconds</strong>, with no perceived interruption by electronic systems. UPS batteries provide autonomy typically from a few minutes to tens of minutes, depending on capacity. This time serves to: keep systems operational while the generator starts, perform a controlled shutdown of systems if the generator is not available, and protect against brief interruptions without needing to start any generator.
             </dd>
 
-            <dt>Tipologie di UPS</dt>
+            <dt>UPS types</dt>
             <dd>
-              Gli UPS si dividono in tre categorie principali: <em>Offline/Standby</em> (intervengono solo quando rilevano un'interruzione, con un breve tempo di commutazione di 10-20ms), <em>Line-Interactive</em> (gestiscono anche sbalzi di tensione attraverso un trasformatore autoregressivo) e <em>Online/Double Conversion</em> (l'alimentazione passa sempre attraverso le batterie, quindi offrono protezione completa contro ogni tipo di anomalia elettrica: interruzioni, sbalzi, rumori di rete). I datacenter usano quasi sempre UPS Online per i sistemi critici.
+              UPS units fall into three main categories: <em>Offline/Standby</em> (intervene only when they detect an interruption, with a brief switchover time of 10-20ms), <em>Line-Interactive</em> (also handle voltage fluctuations through an autotransformer), and <em>Online/Double Conversion</em> (power always passes through the batteries, offering complete protection against all types of electrical anomalies: interruptions, surges, line noise). Datacenters almost always use Online UPS for critical systems.
             </dd>
 
-            <dt>Autonomia e dimensionamento</dt>
+            <dt>Autonomy and sizing</dt>
             <dd>
-              Il dimensionamento di un UPS dipende dal carico da alimentare (in Watt o VA) e dall'autonomia richiesta. Un UPS sovraccaricato fornisce autonomia inferiore al previsto. Nei datacenter moderni gli UPS sono spesso modulari (si aggiungono batterie in base alla necessità) e ridondanti (N+1: un modulo in più rispetto al necessario, in modo che il guasto di un modulo non interrompa l'erogazione).
+              UPS sizing depends on the load to be powered (in Watts or VA) and the required autonomy. An overloaded UPS provides less autonomy than expected. In modern datacenters, UPS units are often modular (batteries are added as needed) and redundant (N+1: one extra module beyond what is necessary, so that failure of one module does not interrupt power delivery).
             </dd>
           </dl>
 
           <h3 id="generators">Generators</h3>
           <dl class="termlist">
-            <dt>Generatore elettrico (Generator)</dt>
+            <dt>Generator</dt>
             <dd>
-              Un generatore alimenta i sistemi critici durante interruzioni prolungata della rete elettrica — eventi che superano l'autonomia degli UPS. I generatori tipici dei datacenter sono alimentati a diesel o a gas naturale e possono sostenere carichi elettrici elevati per ore o giorni. Il tempo di avvio da zero è tipicamente di 10-30 secondi, durante i quali gli UPS mantengono i sistemi operativi. Il trasferimento automatico (ATS, Automatic Transfer Switch) rileva l'interruzione e avvia il generatore senza intervento manuale.
+              A generator powers critical systems during prolonged power outages — events that exceed UPS autonomy. Typical datacenter generators are diesel or natural gas powered and can sustain high electrical loads for hours or days. Startup time from cold is typically 10-30 seconds, during which UPS units keep systems operational. Automatic transfer (ATS, Automatic Transfer Switch) detects the interruption and starts the generator without manual intervention.
             </dd>
 
-            <dt>Carburante e autonomia</dt>
+            <dt>Fuel and autonomy</dt>
             <dd>
-              I generatori a diesel richiedono rifornimento periodico: durante eventi prolungati (uragani, blackout regionali), l'accesso alle forniture di carburante può diventare critico. I piani di continuità devono prevedere contratti con fornitori prioritari di carburante e calcolare quante ore di autonomia garantisce il serbatoio a pieno. Alcuni datacenter mantengono serbatoi da 48-72 ore a pieno carico; per eventi di maggiore durata, servono accordi di rifornimento.
+              Diesel generators require periodic refueling: during prolonged events (hurricanes, regional blackouts), access to fuel supplies can become critical. Continuity plans must include priority fuel supply contracts and calculate how many hours of autonomy the tank provides when full. Some datacenters maintain 48-72 hours of fuel at full load; for longer duration events, refueling agreements are needed.
             </dd>
 
-            <dt>Test periodici dei generatori</dt>
+            <dt>Periodic generator testing</dt>
             <dd>
-              I generatori diesel devono essere avviati e messi a carico periodicamente (tipicamente mensilmente) per verificarne il funzionamento e prevenire problemi meccanici dovuti all'inattività prolungata. Un generatore che non si avvia al momento del bisogno vanifica completamente l'investimento. I test devono includere la verifica del trasferimento automatico (ATS) e la simulazione di carichi reali, non solo avvii a vuoto.
+              Diesel generators must be started and loaded periodically (typically monthly) to verify their operation and prevent mechanical problems from prolonged inactivity. A generator that does not start when needed completely nullifies the investment. Tests must include verification of the automatic transfer (ATS) and simulation of real loads, not just no-load starts.
             </dd>
           </dl>
 
           <table>
             <thead>
               <tr>
-                <th>Caratteristica</th>
+                <th>Feature</th>
                 <th>UPS</th>
-                <th>Generatore</th>
+                <th>Generator</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="label">Tempo di intervento</td>
-                <td>Istantaneo (millisecondi)</td>
-                <td>10-30 secondi (richiede avvio)</td>
+                <td class="label">Response time</td>
+                <td>Instantaneous (milliseconds)</td>
+                <td>10-30 seconds (requires startup)</td>
               </tr>
               <tr>
-                <td class="label">Autonomia tipica</td>
-                <td>Minuti – decine di minuti</td>
-                <td>Ore – giorni (con rifornimento)</td>
+                <td class="label">Typical autonomy</td>
+                <td>Minutes – tens of minutes</td>
+                <td>Hours – days (with refueling)</td>
               </tr>
               <tr>
-                <td class="label">Protezione da sbalzi</td>
-                <td>Sì (specialmente tipo Online)</td>
-                <td>No (solo interruzioni prolungate)</td>
+                <td class="label">Protection from surges</td>
+                <td>Yes (especially Online type)</td>
+                <td>No (only prolonged interruptions)</td>
               </tr>
               <tr>
-                <td class="label">Uso primario</td>
-                <td>Bridging verso il generatore + protezione qualità elettrica</td>
-                <td>Power prolungata durante blackout</td>
+                <td class="label">Primary use</td>
+                <td>Bridging to generator + power quality protection</td>
+                <td>Extended power during blackout</td>
               </tr>
               <tr>
-                <td class="label">Manutenzione</td>
-                <td>Sostituzione batterie (3-5 anni)</td>
-                <td>Manutenzione meccanica, carburante</td>
+                <td class="label">Maintenance</td>
+                <td>Battery replacement (3-5 years)</td>
+                <td>Mechanical maintenance, fuel</td>
               </tr>
             </tbody>
           </table>
 
           <div class="example-box">
-            <strong>Esempio pratico — UPS + Generatore in un datacenter:</strong> alle 02:14 la rete elettrica esterna cade per un guasto alla cabina di trasformazione. In 8 millisecondi gli UPS del datacenter prendono il carico: i server non percepiscono nulla. Il monitoraggio elettrico rileva l'interruzione e invia il segnale all'ATS. Dopo 18 secondi il generatore diesel si avvia e raggiunge la tensione corretta. L'ATS commuta il carico dal UPS al generatore. I sistemi rimangono operativi per le successive 36 ore finché l'ENEL non ripristina la linea. Senza UPS, quei 18 secondi di avvio del generatore avrebbero causato un crash di tutti i server.
+            <strong>Practical example — UPS + Generator in a datacenter:</strong> at 02:14 the external power grid fails due to a transformer substation fault. Within 8 milliseconds the datacenter UPS units take the load: servers notice nothing. Power monitoring detects the outage and signals the ATS. After 18 seconds the diesel generator starts and reaches the correct voltage. The ATS switches the load from the UPS to the generator. Systems remain operational for the next 36 hours until the utility restores the line. Without the UPS, those 18 seconds of generator startup would have caused a crash of all servers.
           </div>
 
           <div class="exam-tip">
-            <strong>EXAM TIP 3.4-G</strong>: UPS e generatori vengono testati insieme in scenari di "power outage". Ricorda: l'UPS copre il gap tra l'interruzione e l'avvio del generatore. Se uno scenario descrive un'interruzione di 20 minuti senza generatore ma con UPS → l'UPS da solo non basta per interruzioni prolungate. Se uno scenario descrive un generatore che si avvia ma i server sono andati in crash nei 20 secondi prima → mancava l'UPS.
+            <strong>EXAM TIP 3.4-G</strong>: UPS and generators are tested together in "power outage" scenarios. Remember: the UPS covers the gap between the outage and generator startup. If a scenario describes a 20-minute outage without a generator but with a UPS → the UPS alone is not enough for prolonged outages. If a scenario describes a generator that starts but servers crashed in the 20 seconds before → the UPS was missing.
           </div>
         </section>
 
@@ -801,32 +801,32 @@
              FLASHCARD
         ════════════════════════════════════════════════════════ -->
         <section id="flashcard">
-          <h2>Flashcards di riepilogo — CH9</h2>
+          <h2>Summary flashcards — CH9</h2>
           <ul class="flashcard">
-            <li><strong>High Availability (HA)</strong> — Proprietà di un sistema progettato per minimizzare i tempi di inattività non pianificata attraverso ridondanza e failover automatico.</li>
-            <li><strong>Load Balancing</strong> — Distribuzione del traffico tra più server; il bilanciatore esclude automaticamente i nodi non funzionanti. Ideale per app stateless.</li>
-            <li><strong>Clustering HA</strong> — Gruppo di server che si monitorano a vicenda e si passano le risorse in caso di failover. Necessario per app stateful come database.</li>
-            <li><strong>RAID 1</strong> — Mirroring: copia identica su 2 dischi. Sopravvive al guasto di 1 disco. Non è un sostituto del backup.</li>
-            <li><strong>RAID 5</strong> — Striping con parità distribuita (min. 3 dischi). Sopravvive al guasto di 1 disco, bilancia prestazioni e ridondanza.</li>
-            <li><strong>Hot Site</strong> — Sito DR completamente operativo, dati sincronizzati. RTO: minuti. Costo: massimo.</li>
-            <li><strong>Warm Site</strong> — Sito DR con hardware pronto ma dati parzialmente aggiornati. RTO: ore/giorni. Costo: medio.</li>
-            <li><strong>Cold Site</strong> — Solo struttura fisica, nessun sistema installato. RTO: giorni/settimane. Costo: minimo.</li>
-            <li><strong>RPO (Recovery Point Objective)</strong> — Quantità massima di perdita di dati accettabile, espressa come intervallo temporale. Determina la frequenza dei backup.</li>
-            <li><strong>RTO (Recovery Time Objective)</strong> — Tempo massimo accettabile per ripristinare un servizio dopo un'interruzione.</li>
-            <li><strong>Regola 3-2-1 backup</strong> — 3 copie, su 2 supporti diversi, di cui 1 off-site. Standard minimo per la protezione dei dati.</li>
-            <li><strong>Backup incrementale</strong> — Copia solo le modifiche dall'ultimo backup (di qualunque tipo). Veloce, ma recovery complesso (full + tutti gli incr.).</li>
-            <li><strong>Backup differenziale</strong> — Copia tutte le modifiche dall'ultimo full. Recovery semplice (full + ultimo diff.). Crescita progressiva dello spazio.</li>
-            <li><strong>Snapshot</strong> — Fotografia del sistema in un istante. Veloce da creare, dipende dallo storage originale. Non è un backup indipendente.</li>
-            <li><strong>Replica sincrona</strong> — Ogni scrittura viene confermata anche sul secondario prima di completarsi. RPO ≈ zero, ma introduce latenza.</li>
-            <li><strong>Replica asincrona</strong> — Le scritture vengono replicate con ritardo. Migliori prestazioni e tolleranza alla latenza geografica, ma RPO > 0.</li>
-            <li><strong>Journaling del filesystem</strong> — Registra le operazioni pianificate prima di eseguirle; previene la corruzione del filesystem in caso di crash. Non è un backup.</li>
-            <li><strong>Tabletop exercise</strong> — Discussione strutturata su uno scenario ipotetico. Nessun sistema attivato. Costo minimo, verifica procedure e comunicazione.</li>
-            <li><strong>Parallel Processing Test</strong> — Entrambi i siti operativi in parallelo, output confrontati. Test più completo e costoso; verifica funzionalità reale del DR.</li>
-            <li><strong>UPS</strong> — Fornisce alimentazione istantanea da batterie (millisecondi). Copre il gap durante l'avvio del generatore. Autonomia: minuti.</li>
-            <li><strong>Generatore</strong> — Power prolungata (ore/giorni) durante blackout. Avvio: 10-30 secondi. Richiede carburante e manutenzione periodica.</li>
-            <li><strong>Platform Diversity</strong> — Uso di sistemi eterogenei (OS, vendor, cloud diversi) per ridurre il rischio che un singolo exploit o guasto colpisca tutto.</li>
-            <li><strong>Multi-cloud</strong> — Uso di almeno due provider cloud diversi. Elimina vendor lock-in e riduce rischio di outage del singolo provider.</li>
-            <li><strong>Capacity Planning</strong> — Pianificazione di persone, tecnologia e infrastruttura per sostenere le operazioni anche in scenari di failover e picco di carico.</li>
+            <li><strong>High Availability (HA)</strong> — Property of a system designed to minimize unplanned downtime through redundancy and automatic failover.</li>
+            <li><strong>Load Balancing</strong> — Distribution of traffic across multiple servers; the balancer automatically excludes non-functioning nodes. Ideal for stateless apps.</li>
+            <li><strong>HA Clustering</strong> — Group of servers that monitor each other and pass resources on failover. Required for stateful apps such as databases.</li>
+            <li><strong>RAID 1</strong> — Mirroring: identical copy on 2 disks. Survives failure of 1 disk. Not a substitute for backup.</li>
+            <li><strong>RAID 5</strong> — Striping with distributed parity (min. 3 disks). Survives failure of 1 disk, balances performance and redundancy.</li>
+            <li><strong>Hot Site</strong> — Fully operational DR site, synchronized data. RTO: minutes. Cost: maximum.</li>
+            <li><strong>Warm Site</strong> — DR site with hardware ready but data partially updated. RTO: hours/days. Cost: medium.</li>
+            <li><strong>Cold Site</strong> — Physical structure only, no installed systems. RTO: days/weeks. Cost: minimum.</li>
+            <li><strong>RPO (Recovery Point Objective)</strong> — Maximum acceptable amount of data loss, expressed as a time interval. Determines backup frequency.</li>
+            <li><strong>RTO (Recovery Time Objective)</strong> — Maximum acceptable time to restore a service after an outage.</li>
+            <li><strong>3-2-1 backup rule</strong> — 3 copies, on 2 different media, with 1 off-site. Minimum standard for data protection.</li>
+            <li><strong>Incremental backup</strong> — Copies only changes since the last backup (of any type). Fast, but complex recovery (full + all incrementals).</li>
+            <li><strong>Differential backup</strong> — Copies all changes since the last full. Simple recovery (full + last diff.). Progressive space growth.</li>
+            <li><strong>Snapshot</strong> — Point-in-time photograph of the system. Fast to create, depends on original storage. Not an independent backup.</li>
+            <li><strong>Synchronous replication</strong> — Each write is confirmed on the secondary before completing. RPO ≈ zero, but introduces latency.</li>
+            <li><strong>Asynchronous replication</strong> — Writes are replicated with a delay. Better performance and tolerance for geographic latency, but RPO > 0.</li>
+            <li><strong>Filesystem journaling</strong> — Records planned operations before executing them; prevents filesystem corruption on crash. Not a backup.</li>
+            <li><strong>Tabletop exercise</strong> — Structured discussion of a hypothetical scenario. No systems activated. Minimal cost, verifies procedures and communication.</li>
+            <li><strong>Parallel Processing Test</strong> — Both sites operational in parallel, outputs compared. Most complete and expensive test; verifies real DR functionality.</li>
+            <li><strong>UPS</strong> — Provides instant battery power (milliseconds). Covers the gap during generator startup. Autonomy: minutes.</li>
+            <li><strong>Generator</strong> — Extended power (hours/days) during blackout. Startup: 10-30 seconds. Requires fuel and periodic maintenance.</li>
+            <li><strong>Platform Diversity</strong> — Use of heterogeneous systems (different OS, vendors, clouds) to reduce the risk that a single exploit or failure affects everything.</li>
+            <li><strong>Multi-cloud</strong> — Use of at least two different cloud providers. Eliminates vendor lock-in and reduces risk of single provider outage.</li>
+            <li><strong>Capacity Planning</strong> — Planning of people, technology, and infrastructure to sustain operations even in failover and peak load scenarios.</li>
           </ul>
         </section>
 
