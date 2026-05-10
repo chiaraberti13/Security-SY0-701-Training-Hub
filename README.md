@@ -8,7 +8,14 @@
 ## 🇬🇧 English
 
 ### Overview
-**Security+ SY0-701 Training Hub** is a bilingual study web app for CompTIA Security+ exam preparation. It combines guided theory, objective-based quizzes, and progress tracking in one learning flow.
+**Security+ SY0-701 Training Hub** is a bilingual study web app designed for structured preparation of the CompTIA Security+ SY0-701 certification exam. The platform aligns study activities with the official exam domains and objectives, combining guided theory, objective-based quizzes, detailed explanations, and progress analytics to help learners move from foundational understanding to exam-ready decision making. It is built to support both first-time candidates and professionals who need a focused review path before scheduling the certification exam.
+
+
+### Certification Focus (SY0-701)
+- Covers all five official domains defined by the SY0-701 blueprint.
+- Reinforces practical security reasoning across governance, risk, security operations, and incident response scenarios.
+- Helps identify weak objectives early through measurable quiz performance and chapter completion data.
+- Supports bilingual learning (English/Italian) to reduce comprehension friction on technical topics.
 
 ### Key Features
 - **Interactive study manual** organized across the 5 official SY0-701 domains.
@@ -47,7 +54,14 @@ App URL: `http://localhost:3000`
 ## 🇮🇹 Italiano
 
 ### Panoramica
-**Security+ SY0-701 Training Hub** è una web app bilingue per preparare l’esame CompTIA Security+. Unisce teoria guidata, quiz per obiettivo e monitoraggio dei progressi in un unico flusso di studio.
+**Security+ SY0-701 Training Hub** è una web app bilingue progettata per una preparazione strutturata alla certificazione CompTIA Security+ SY0-701. La piattaforma segue i domini e gli obiettivi ufficiali dell’esame, integrando teoria guidata, quiz per obiettivo, spiegazioni dettagliate e analisi dei progressi per accompagnare lo studente dalla comprensione dei concetti fino alla capacità decisionale richiesta in sede d’esame. È adatta sia a candidati alla prima certificazione sia a professionisti che necessitano di un ripasso mirato prima della prova.
+
+
+### Focus sulla certificazione (SY0-701)
+- Copertura dei cinque domini ufficiali previsti dal blueprint SY0-701.
+- Rafforzamento del ragionamento pratico su governance, rischio, security operations e incident response.
+- Individuazione precoce delle aree deboli tramite risultati quiz e avanzamento dei capitoli.
+- Supporto bilingue (inglese/italiano) per ridurre la frizione di comprensione nei temi tecnici.
 
 ### Funzionalità principali
 - **Manuale di studio interattivo** organizzato sui 5 domini ufficiali SY0-701.
