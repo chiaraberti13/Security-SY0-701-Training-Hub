@@ -163,7 +163,11 @@ const CH_DOMAIN: Record<string, number> = {
 // ManualView
 // ---------------------------------------------------------------------------
 
-function ManualView({ lang }: { lang: Language }) {
+function ManualView({ lang, onOpenChapter, onSelectObjective }: { 
+  lang: Language; 
+  onOpenChapter: (id: string) => void;
+  onSelectObjective: (obj: string) => void;
+}) {
   const [progress, setProgress] = useState<Record<string, boolean>>(() => {
     try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}'); } catch { return {}; }
   });
@@ -270,6 +274,19 @@ function ManualView({ lang }: { lang: Language }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Open the first objective of the domain as a default jump
+                      if (domain.objectives.length > 0) {
+                        onSelectObjective(domain.objectives[0].num);
+                      }
+                    }}
+                    className="p-2 text-slate-400 hover:text-accent transition-colors hidden sm:block"
+                    title={lang === 'it' ? 'Vai al Quiz' : 'Go to Quiz'}
+                  >
+                    <BookOpen size={16} />
+                  </button>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-50 text-slate-500 border border-slate-100">
                     {domain.examPct}
                   </span>
@@ -325,13 +342,13 @@ function ManualView({ lang }: { lang: Language }) {
                               </span>
                             ))}
                           </div>
-                          <a
-                            href={ch.href[lang]}
+                          <button
+                            onClick={() => onOpenChapter(ch.id)}
                             className="inline-flex items-center gap-1.5 text-[11px] font-medium text-accent hover:underline"
                           >
                             <ExternalLink size={11} />
                             {lang === 'it' ? 'Apri capitolo' : 'Open chapter'}
-                          </a>
+                          </button>
                         </div>
                       );
                     })}
@@ -343,17 +360,14 @@ function ManualView({ lang }: { lang: Language }) {
         })}
       </div>
 
-      {/* Full guide link */}
       <div className="mt-8 text-center">
-        <a
-          href={lang === 'en'
-            ? 'manual/chapters/en/security_plus_sy0_701_guida.html'
-            : 'manual/chapters/security_plus_sy0_701_guida.html'}
+        <button
+          onClick={() => onOpenChapter('full-guide')}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-accent/40 hover:text-accent transition-colors"
         >
           <BookOpen size={15} />
           {lang === 'it' ? 'Apri la guida di studio completa' : 'Open the complete study guide'}
-        </a>
+        </button>
         <p className="text-[10px] text-slate-300 mt-2">18 {lang === 'it' ? 'capitoli' : 'chapters'} · 21 {lang === 'it' ? 'obiettivi' : 'objectives'} · 5 {lang === 'it' ? 'domini' : 'domains'}</p>
       </div>
     </div>
@@ -531,7 +545,7 @@ const getMatchingPairs = (q: Question, lang: Language) => {
 // Root App
 // ---------------------------------------------------------------------------
 
-type View = 'manual' | 'home' | 'quiz' | 'stats';
+type View = 'manual' | 'home' | 'quiz' | 'stats' | 'reader';
 
 export default function App() {
   const [lang, setLang] = useState<Language>(() =>
@@ -541,8 +555,23 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, any>>({});
   const [view, setView] = useState<View>('home');
+  const [activeChapterId, setActiveChapterId] = useState<string | null>(null);
 
   const questions = questionsData as Question[];
+
+  const readerUrl = useMemo(() => {
+    if (!activeChapterId) return null;
+    if (activeChapterId === 'full-guide') {
+      return lang === 'en'
+        ? 'manual/chapters/en/security_plus_sy0_701_guida.html'
+        : 'manual/chapters/security_plus_sy0_701_guida.html';
+    }
+    for (const d of MANUAL_DOMAINS) {
+      const ch = d.chapters.find(c => c.id === activeChapterId);
+      if (ch) return ch.href[lang];
+    }
+    return null;
+  }, [activeChapterId, lang]);
 
   const handleLangChange = (l: Language) => {
     setLang(l);
@@ -624,6 +653,7 @@ export default function App() {
   };
 
   const isQuizSection = view === 'home' || view === 'quiz' || view === 'stats';
+  const isManualSection = view === 'manual' || view === 'reader';
 
   return (
     <div className="h-screen flex flex-col bg-[#fcfcfc] text-slate-900 font-sans overflow-hidden">
@@ -632,7 +662,13 @@ export default function App() {
         {/* Brand */}
         <button
           className="flex items-center gap-2"
-          onClick={() => setView(isQuizSection ? 'home' : 'manual')}
+          onClick={() => {
+            if (isManualSection) {
+              setView('manual');
+            } else {
+              setView('home');
+            }
+          }}
         >
           <ShieldCheck className="text-accent w-5 h-5" />
           <div className="hidden sm:flex flex-col leading-tight text-left">
@@ -648,7 +684,7 @@ export default function App() {
           <button
             onClick={() => setView('manual')}
             className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-all flex items-center gap-1.5 ${
-              view === 'manual'
+              isManualSection
                 ? 'bg-white text-slate-900 shadow-sm'
                 : 'text-slate-400 hover:text-slate-600'
             }`}
@@ -695,11 +731,71 @@ export default function App() {
             {view === 'manual' && (
               <motion.div
                 key="manual"
+                className="w-full"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
               >
-                <ManualView lang={lang} />
+                <ManualView
+                  lang={lang}
+                  onOpenChapter={(id) => {
+                    setActiveChapterId(id);
+                    setView('reader');
+                  }}
+                  onSelectObjective={handleSelectObjective}
+                />
+              </motion.div>
+            )}
+
+            {/* Reader view */}
+            {view === 'reader' && readerUrl && (
+              <motion.div
+                key="reader"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 flex flex-col bg-white"
+              >
+                <div className="flex items-center justify-between px-6 py-3 border-b border-slate-100 shrink-0">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => setView('manual')}
+                      className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest hover:text-accent transition-colors"
+                    >
+                      <ChevronLeft size={14} />
+                      {lang === 'it' ? 'Torna all\'elenco' : 'Back to list'}
+                    </button>
+                    
+                    {/* Domain Quiz Links */}
+                    {activeChapterId && CH_DOMAIN[activeChapterId] && (
+                      <div className="hidden md:flex items-center gap-2 pl-4 border-l border-slate-100">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                          {lang === 'it' ? 'Quiz Obiettivi:' : 'Quiz Objectives:'}
+                        </span>
+                        <div className="flex gap-1">
+                          {MANUAL_DOMAINS.find(d => d.id === CH_DOMAIN[activeChapterId])?.objectives.map(obj => (
+                            <button
+                              key={obj.num}
+                              onClick={() => handleSelectObjective(obj.num)}
+                              className="px-2 py-0.5 text-[9px] font-bold bg-slate-50 text-slate-500 border border-slate-200 rounded hover:bg-accent hover:text-white hover:border-accent transition-all"
+                            >
+                              {obj.num}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest hidden sm:block">
+                    {lang === 'it' ? 'Lettore Manuale' : 'Manual Reader'}
+                  </div>
+                </div>
+                <iframe
+                  src={readerUrl}
+                  className="flex-1 w-full border-none"
+                  title="Manual Reader"
+                />
               </motion.div>
             )}
 

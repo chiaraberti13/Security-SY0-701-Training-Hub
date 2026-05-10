@@ -85,7 +85,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "VM escape is a critical vulnerability where an attacker bypasses the isolation between the guest OS and the hypervisor to gain access to the host or other VMs.",
+      "it": "Il VM escape è una vulnerabilità critica in cui un utente malintenzionato bypassa l'isolamento tra il sistema operativo guest e l'hypervisor per ottenere l'accesso all'host o ad altre VM."
+    }
   },
   {
     "id": "SCREEN_003",
@@ -181,7 +185,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "EOSL (End of Service Life) means the vendor no longer supports the product with updates or security patches, making it a major security risk.",
+      "it": "EOSL (End of Service Life) significa che il fornitore non supporta più il prodotto con aggiornamenti o patch di sicurezza, rendendolo un grave rischio per la sicurezza."
+    }
   },
   {
     "id": "SCREEN_005",
@@ -269,7 +277,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A Web Application Firewall (WAF) is specifically designed to protect web applications by filtering and monitoring HTTP traffic, blocking attacks like buffer overflows and SQL injections.",
+      "it": "Un Web Application Firewall (WAF) è progettato specificamente per proteggere le applicazioni web filtrando e monitorando il traffico HTTP, bloccando attacchi come buffer overflow e SQL injection."
+    }
   },
   {
     "id": "SCREEN_007",
@@ -357,7 +369,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A Disaster Recovery Plan (DRP) defines the procedures for restoring IT systems and data after a significant outage or failure.",
+      "it": "Un piano di disaster recovery (DRP) definisce le procedure per il ripristino dei sistemi IT e dei dati dopo un'interruzione o un guasto significativo."
+    }
   },
   {
     "id": "SCREEN_009",
@@ -399,7 +415,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Active reconnaissance involves sending probes or traffic directly to the target system to discover open ports and services, which risks detection by security monitoring.",
+      "it": "La ricognizione attiva comporta l'invio di sonde o traffico direttamente al sistema bersaglio per scoprire porte e servizi aperti, con il rischio di essere rilevati dal monitoraggio della sicurezza."
+    }
   },
   {
     "id": "SCREEN_010",
@@ -841,7 +861,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "An Intrusion Prevention System (IPS) operates in active mode to intercept and block malicious traffic in real-time based on known attack signatures.",
+      "it": "Un sistema di prevenzione delle intrusioni (IPS) opera in modalità attiva per intercettare e bloccare il traffico dannoso in tempo reale in base a firme di attacco note."
+    }
   },
   {
     "id": "SCREEN_019",
@@ -883,7 +907,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "The principle of least privilege ensures that users and systems are granted only the minimum level of access required to perform their specific job functions.",
+      "it": "Il principio del minimo privilegio garantisce che agli utenti e ai sistemi venga concesso solo il livello minimo di accesso necessario per svolgere le proprie funzioni lavorative specifiche."
+    }
   },
   {
     "id": "SCREEN_020",
@@ -925,7 +953,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A DMZ acts as a buffer zone between an untrusted network (like the internet) and a trusted internal network, hosting public-facing services while protecting internal resources.",
+      "it": "Una DMZ funge da zona cuscinetto tra una rete non fidata (come Internet) e una rete interna fidata, ospitando servizi rivolti al pubblico e proteggendo al contempo le risorse interne."
+    }
   },
   {
     "id": "SCREEN_021",
@@ -1013,7 +1045,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "An Acceptable Use Policy (AUP) is a managerial (administrative) control that outlines the rules for how employees should use an organization's resources.",
+      "it": "Una Acceptable Use Policy (AUP) è un controllo gestionale (amministrativo) che delinea le regole su come i dipendenti dovrebbero utilizzare le risorse di un'organizzazione."
+    }
   },
   {
     "id": "SCREEN_023",
@@ -1055,7 +1091,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "The malicious code found in the backup routine suggests a database command injection; reviewing WAF logs can help identify the source and method of the injection.",
+      "it": "Il codice malevolo trovato nella routine di backup suggerisce un'iniezione di comandi nel database; la revisione dei log del WAF può aiutare a identificare l'origine e il metodo dell'iniezione."
+    }
   },
   {
     "id": "SCREEN_024",
@@ -1097,7 +1137,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "When implementing Single Sign-On (SSO) to reduce the number of credentials, the first step is to select an Identity Provider (IdP) to manage users and authentication.",
+      "it": "Quando si implementa il Single Sign-On (SSO) per ridurre il numero di credenziali, il primo passo è selezionare un Identity Provider (IdP) per gestire gli utenti e l'autenticazione."
+    }
   },
   {
     "id": "SCREEN_025",
@@ -1139,7 +1183,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "The 'Lessons Learned' phase of incident response typically involves documented analysis and generating a final report to improve future responses.",
+      "it": "La fase 'Lezioni apprese' della risposta agli incidenti comporta solitamente un'analisi documentata e la generazione di un rapporto finale per migliorare le risposte future."
+    }
   },
   {
     "id": "SCREEN_026",
@@ -1273,7 +1321,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "If logs on a compromised endpoint are deleted, the security analyst should check network infrastructure logs like the firewall to find evidence of outbound communication.",
+      "it": "Se i log su un endpoint compromesso vengono cancellati, l'analista della sicurezza dovrebbe controllare i log dell'infrastruttura di rete come il firewall per trovare prove di comunicazioni in uscita."
+    }
   },
   {
     "id": "SCREEN_029",
@@ -1315,7 +1367,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A retention policy defines how long records must be kept for compliance and when they should be destroyed to minimize data risk.",
+      "it": "Una policy di conservazione definisce per quanto tempo i record devono essere conservati per la conformità e quando dovrebbero essere distrutti per ridurre al minimo il rischio dei dati."
+    }
   },
   {
     "id": "SCREEN_030",
@@ -1415,7 +1471,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A site survey is the first step in deploying security cameras to ensure optimal placement, field of view, and coverage of critical areas.",
+      "it": "Un sopralluogo sul sito (site survey) è il primo passo nell'installazione delle telecamere di sicurezza per garantire il posizionamento ottimale, il campo visivo e la copertura delle aree critiche."
+    }
   },
   {
     "id": "SCREEN_032",
@@ -1545,7 +1605,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "The biggest risk in cloud computing is the lack of control, as the organization relies on the cloud provider for infrastructure security, availability, and management.",
+      "it": "Il rischio maggiore nel cloud computing è la mancanza di controllo, poiché l'organizzazione si affida al fornitore di servizi cloud per la sicurezza, la disponibilità e la gestione dell'infrastruttura."
+    }
   },
   {
     "id": "SCREEN_035",
@@ -1587,7 +1651,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Common Vulnerabilities and Exposures (CVE) is a publicly available list of known cybersecurity vulnerabilities that helps security professionals identify and track software flaws.",
+      "it": "Le Common Vulnerabilities and Exposures (CVE) sono un elenco pubblico di vulnerabilità di cybersicurezza note che aiuta i professionisti della sicurezza a identificare e monitorare i difetti del software."
+    }
   },
   {
     "id": "SCREEN_036",
@@ -1629,7 +1697,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Passive reconnaissance involves gathering information about a target (e.g., using OSINT) without interacting with its systems directly, making it the stealthiest method to avoid detection.",
+      "it": "La ricognizione passiva comporta la raccolta di informazioni su un bersaglio (ad esempio, utilizzando l'OSINT) senza interagire direttamente con i suoi sistemi, rendendola il metodo più furtivo per evitare il rilevamento."
+    }
   },
   {
     "id": "SCREEN_037",
@@ -1671,7 +1743,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Telnet, HTTP, and FTP are considered unsecure because they transmit data, including credentials, in plain text, making them vulnerable to eavesdropping and interception.",
+      "it": "Telnet, HTTP e FTP sono considerati protocolli non sicuri perché trasmettono dati, comprese le credenziali, in chiaro, rendendoli vulnerabili all'intercettazione."
+    }
   },
   {
     "id": "SCREEN_038",
@@ -1713,7 +1789,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "An End of Service Life (EOSL) item is no longer supported by the Original Equipment Manufacturer (OEM), meaning it will no longer receive security updates or patches.",
+      "it": "Un elemento End of Service Life (EOSL) non è più supportato dal produttore originale (OEM), il che significa che non riceverà più aggiornamenti o patch di sicurezza."
+    }
   },
   {
     "id": "SCREEN_039",
@@ -1755,7 +1835,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "DDoS attacks often use IP spoofing to hide the true source of the malicious traffic and to bypass filtering mechanisms.",
+      "it": "Gli attacchi DDoS utilizzano spesso lo spoofing IP per nascondere la vera origine del traffico dannoso e per aggirare i meccanismi di filtraggio."
+    }
   },
   {
     "id": "SCREEN_040",
@@ -1797,7 +1881,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "SSH is superior to Telnet because it encrypts the entire connection and can use asymmetric keys for strong, certificate-less authentication.",
+      "it": "L'SSH è superiore a Telnet perché crittografa l'intera connessione e può utilizzare chiavi asimmetriche per un'autenticazione forte e senza certificati."
+    }
   },
   {
     "id": "SCREEN_041",
@@ -1839,7 +1927,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A Non-Disclosure Agreement (NDA) is a legal document used to ensure that penetration testers keep sensitive information discovered during the test confidential.",
+      "it": "Un accordo di non divulgazione (NDA) è un documento legale utilizzato per garantire che i penetration tester mantengano riservate le informazioni sensibili scoperte durante il test."
+    }
   },
   {
     "id": "SCREEN_042",
@@ -2313,7 +2405,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A Public Cloud is a service model where infrastructure and resources are shared among multiple organizations and managed by a third-party provider.",
+      "it": "Un Cloud Pubblico è un modello di servizio in cui l'infrastruttura e le risorse sono condivise tra più organizzazioni e gestire da un fornitore terzo."
+    }
   },
   {
     "id": "SCREEN_053",
@@ -2355,7 +2451,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Containment is the phase of incident response where the priority is to limit the scope and impact of the incident, such as by disconnecting a compromised system from the network.",
+      "it": "Il contenimento è la fase della risposta all'incidente in cui la priorità è limitare la portata e l'impatto dell'evento, ad esempio scollegando dalla rete un sistema compromesso."
+    }
   },
   {
     "id": "SCREEN_054",
@@ -2397,7 +2497,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Guardrails in software development are automated checks and validations (like input/output validation) that prevent developers from introducing security flaws.",
+      "it": "I guardrail nello sviluppo del software sono controlli e validazioni automatizzati (come la validazione di input/output) che impediscono agli sviluppatori di introdurre falle di sicurezza."
+    }
   },
   {
     "id": "SCREEN_055",
@@ -2543,7 +2647,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Agentless monitoring allows security teams to scan and query devices without installing software on the endpoints, reducing the management burden on user devices.",
+      "it": "Il monitoraggio senza agenti (agentless) consente ai team di sicurezza di scansionare e interrogare i dispositivi senza installare software sugli endpoint, riducendo l'onere di gestione sui dispositivi utente."
+    }
   },
   {
     "id": "SCREEN_059",
@@ -2585,7 +2693,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Bug bounty programs incentivize ethical hackers and the public to find and report vulnerabilities in software in exchange for compensation or recognition.",
+      "it": "I programmi bug bounty incentivano gli hacker etici e il pubblico a trovare e segnalare vulnerabilità nel software in cambio di un compenso o di un riconoscimento."
+    }
   },
   {
     "id": "SCREEN_060",
@@ -2627,7 +2739,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Unlike network firewalls, host-based firewalls can see which specific applications or services are generating traffic, allowing for much more granular control.",
+      "it": "A differenza dei firewall di rete, i firewall basati su host possono vedere quali applicazioni o servizi specifici generano traffico, consentendo un controllo molto più granulare."
+    }
   },
   {
     "id": "SCREEN_061",
@@ -2669,7 +2785,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A load balancer distributes incoming network traffic across multiple servers to ensure reliability, performance, and high availability.",
+      "it": "Un bilanciatore di carico (load balancer) distribuisce il traffico di rete in entrata su più server per garantire affidabilità, prestazioni e alta disponibilità."
+    }
   },
   {
     "id": "SCREEN_062",
@@ -2753,7 +2873,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "In risk management terms, a threat is a potential danger that could exploit an existing vulnerability to cause harm to an asset.",
+      "it": "In termini di gestione del rischio, una minaccia è un potenziale pericolo che potrebbe sfruttare una vulnerabilità esistente per causare danni a un asset."
+    }
   },
   {
     "id": "SCREEN_064",
@@ -2795,7 +2919,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A threat assessment identifies and analyzes potential threats and their ability to exploit weaknesses within an organization.",
+      "it": "Una valutazione delle minacce identifica e analizza le potenziali minacce e la loro capacità di sfruttare i punti deboli all'interno di un'organizzazione."
+    }
   },
   {
     "id": "SCREEN_065",
@@ -3003,7 +3131,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Time-of-day restrictions (or shift-based access) allow administrators to limit system access to specific time windows, ensuring employees can only log in during their scheduled hours.",
+      "it": "Le restrizioni per ora del giorno consentono agli amministratori di limitare l'accesso al sistema a finestre temporali specifiche, garantendo che i dipendenti possano accedere solo durante l'orario previsto."
+    }
   },
   {
     "id": "SCREEN_070",
@@ -28959,7 +29091,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Input validation is the most effective measure against injection attacks, as it ensures that only properly formatted data is processed by the application.",
+      "it": "La validazione dell'input è la misura più efficace contro gli attacchi di injection, poiché garantisce che solo i dati formattati correttamente vengano elaborati dall'applicazione."
+    }
   },
   {
     "id": "SCREEN_728",
@@ -29001,7 +29137,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Updating software (patching) is a critical first step in server hardening to address known vulnerabilities that might be present in the default installation.",
+      "it": "L'aggiornamento del software (patching) è un primo passo fondamentale nel rafforzamento del server (hardening) per risolvere le vulnerabilità note che potrebbero essere presenti nell'installazione predefinita."
+    }
   },
   {
     "id": "SCREEN_729",
@@ -29043,7 +29183,11 @@
         },
         "correct": true
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Running malware in a sandbox (an isolated environment) is the safest and most effective way to observe its behavior and perform advanced analysis.",
+      "it": "L'esecuzione di malware in una sandbox (un ambiente isolato) è il modo più sicuro ed efficace per osservarne il comportamento ed eseguire analisi avanzate."
+    }
   },
   {
     "id": "SCREEN_730",
@@ -29085,7 +29229,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "The principle of least privilege ensures that users have only the minimum access necessary to perform their job duties, which enhances security by limiting potential damage.",
+      "it": "Il principio del minimo privilegio garantisce che gli utenti abbiano solo l'accesso minimo necessario per svolgere le proprie mansioni lavorative, il che aumenta la sicurezza limitando i potenziali danni."
+    }
   },
   {
     "id": "SCREEN_731",
@@ -29219,7 +29367,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "A right-to-audit clause in a contract allows an organization to verify that a vendor or partner is meeting agreed-upon security and operational standards.",
+      "it": "Una clausola di diritto alla revisione (right-to-audit) in un contratto consente a un'organizzazione di verificare che un fornitore o un partner soddisfi gli standard operativi e di sicurezza concordati."
+    }
   },
   {
     "id": "SCREEN_734",
@@ -29261,7 +29413,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Single Loss Expectancy (SLE) is the monetary loss expected each time a specific asset is compromised by a threat.",
+      "it": "L'aspettativa di perdita singola (SLE - Single Loss Expectancy) è la perdita monetaria prevista ogni volta che un asset specifico viene compromesso da una minaccia."
+    }
   },
   {
     "id": "SCREEN_735",
@@ -29303,7 +29459,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Under GDPR, the Data Controller is the entity that determines the purposes and means of processing personal data.",
+      "it": "Ai sensi del GDPR, il Titolare del trattamento (Data Controller) è l'entità che determina le finalità e i mezzi del trattamento dei dati personali."
+    }
   },
   {
     "id": "SCREEN_736",
@@ -29345,7 +29505,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "If web filtering is failing to block malicious links, it may be because those specific URLs are incorrectly categorized in the content database.",
+      "it": "Se il filtraggio web non riesce a bloccare i link malevoli, potrebbe essere dovuto al fatto che quegli URL specifici sono categorizzati in modo errato nel database dei contenuti."
+    }
   },
   {
     "id": "SCREEN_737",
@@ -29387,7 +29551,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Impossible travel is an alert triggered when a user logs in from two geographically distant locations in a timeframe that would be physically impossible to travel between.",
+      "it": "Il viaggio impossibile (impossible travel) è un alert attivato quando un utente accede da due località geograficamente distanti in un arco di tempo in cui sarebbe fisicamente impossibile spostarsi."
+    }
   },
   {
     "id": "SCREEN_738",
@@ -29429,7 +29597,11 @@
         },
         "correct": false
       }
-    ]
+    ],
+    "explanation": {
+      "en": "Containment aims to stop the spread of an incident, thereby minimizing further disruption and damage to organization's systems and data.",
+      "it": "Il contenimento mira a fermare la diffusione di un incidente, riducendo così al minimo l'ulteriore interruzione e il danno ai sistemi e ai dati dell'organizzazione."
+    }
   },
   {
     "id": "SCREEN_739",
