@@ -25,7 +25,26 @@ import questionsData from './data/questions.json';
 // Manual data
 // ---------------------------------------------------------------------------
 
-const MANUAL_DOMAINS = [
+type BilingualText = Record<Language, string>;
+
+interface ManualChapter {
+  id: string;
+  title: BilingualText;
+  objectives: string[];
+  href: BilingualText;
+}
+
+interface ManualDomain {
+  id: number;
+  color: string;
+  label: BilingualText;
+  summary: BilingualText;
+  examPct: string;
+  objectives: Array<{ num: string } & BilingualText>;
+  chapters: ManualChapter[];
+}
+
+const MANUAL_DOMAINS: ManualDomain[] = [
   {
     id: 1,
     color: '#0B1F3A',
@@ -327,7 +346,9 @@ function ManualView({ lang }: { lang: Language }) {
       {/* Full guide link */}
       <div className="mt-8 text-center">
         <a
-          href="manual/chapters/security_plus_sy0_701_guida.html"
+          href={lang === 'en'
+            ? 'manual/chapters/en/security_plus_sy0_701_guida.html'
+            : 'manual/chapters/security_plus_sy0_701_guida.html'}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-accent/40 hover:text-accent transition-colors"
         >
           <BookOpen size={15} />
