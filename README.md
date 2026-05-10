@@ -1,65 +1,95 @@
 # Security+ SY0-701 Training Hub
 
-[English](#english-guide) | [Italiano](#guida-italiano)
+[English Guide](#english) | [Guida in Italiano](#italiano)
 
 ---
 
-<a name="english-guide"></a>
-## 🇬🇧 English User Guide
+<a name="english"></a>
+# 🇬🇧 English Guide
 
 Welcome to the **Security+ SY0-701 Training Hub**, a comprehensive platform designed to help you prepare for the CompTIA Security+ certification through interactive quizzes and a structured study manual.
 
-### Core Features
+## Core Features
+1. **Interactive Study Manual**: Navigate through the 5 official domains with an integrated reader. Jump to relevant quizzes directly from the chapters.
+2. **Quiz System**: Objective-based learning (e.g., 1.1, 2.3) with dual-language support and detailed explanations.
+3. **Progress Tracking**: Monitor your success rates per objective and keep track of completed chapters.
 
-#### 1. Interactive Study Manual
-- **Structured Domains:** Navigate through the 5 official certification domains.
-- **Chapter Reader:** Read detailed lessons directly within the app using the integrated reader.
-- **Cross-Reference:** While reading a chapter, you can instantly jump to the specific objective quizzes related to that topic via the top menu bar.
+## Local Installation Guide
 
-#### 2. Quiz System
-- **Objective-Based Learning:** Focus your studies on specific sub-objectives (e.g., 1.1, 2.3).
-- **Dual Language Support:** Switch between English and Italian at any time to better understand technical terms.
-- **Explanations:** Every question includes a detailed explanation in both languages to help you learn from your mistakes.
+### Prerequisites
+- **Node.js**: Version 18 or higher. [Download here](https://nodejs.org/).
+- **Git**: To clone the repository.
 
-#### 3. Statistics and Progress
-- **Performance Tracking:** Monitor your success rate for each objective.
-- **Manual Progress:** Track which chapters you have already reviewed using the completion toggles in the manual view.
+### 1. Download/Clone the Repository
+Open your terminal (Terminal on Mac/Linux, Command Prompt or PowerShell on Windows) and run:
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
 
----
+### 2. Install Dependencies
+Run the following command in the project root:
+```bash
+npm install
+```
 
-<a name="guida-italiano"></a>
-## 🇮🇹 Guida all'Uso (Italiano)
-
-Benvenuto in **Security+ SY0-701 Training Hub**, una piattaforma completa progettata per aiutarti a preparare la certificazione CompTIA Security+ attraverso quiz interattivi e un manuale di studio strutturato.
-
-### Funzionalità Principali
-
-#### 1. Manuale di Studio Interattivo
-- **Domini Strutturati:** Naviga attraverso i 5 domini ufficiali della certificazione.
-- **Lettore Integrato:** Leggi le lezioni dettagliate direttamente nell'app senza perdere il contesto.
-- **Riferimenti Incrociati:** Mentre leggi un capitolo, puoi saltare istantaneamente ai quiz degli obiettivi specifici relativi a quell'argomento tramite la barra dei menu in alto.
-
-#### 2. Sistema di Quiz
-- **Apprendimento Mirato:** Focalizza lo studio su specifici sotto-obiettivi (es. 1.1, 2.3).
-- **Supporto Bilingue:** Cambia tra inglese e italiano in qualsiasi momento per comprendere meglio i termini tecnici originali.
-- **Spiegazioni:** Ogni domanda include una spiegazione dettagliata in entrambe le lingue per aiutarti a imparare dai tuoi errori.
-
-#### 3. Statistiche e Progressi
-- **Monitoraggio Performance:** Controlla la tua percentuale di successo per ogni singolo obiettivo.
-- **Progressi Manuale:** Segna i capitoli completati per tenere traccia del tuo percorso di studio.
+### 3. Run the Application
+Start the development server:
+```bash
+npm run dev
+```
+The application will be available at `http://localhost:3000` (or the port specified in your terminal).
 
 ---
 
-## 📄 License & Terms of Use / Licenza e Termini d'Uso
-
-### English
+## 📄 License & Terms of Use
 **Free Distribution and Use License**
 - This application and its content (manuals and questions) are provided for **free** for educational purposes.
 - You are allowed to use and distribute this application freely.
-- **Modification Prohibited:** You are strictly forbidden from modifying, altering, or creating derivative works from the source code or the content of this application without explicit permission.
+- **Modification Prohibited**: You are strictly forbidden from modifying, altering, or creating derivative works from the source code or the content of this application without explicit permission.
 
-### Italiano
+---
+
+<a name="italiano"></a>
+# 🇮🇹 Guida in Italiano
+
+Benvenuto nel **Security+ SY0-701 Training Hub**, una piattaforma completa progettata per aiutarti a preparare la certificazione CompTIA Security+ attraverso quiz interattivi e un manuale di studio strutturato.
+
+## Funzionalità Principali
+1. **Manuale di Studio Interattivo**: Naviga attraverso i 5 domini ufficiali con un lettore integrato. Salta ai quiz correlati direttamente dai capitoli.
+2. **Sistema di Quiz**: Apprendimento mirato per obiettivo (es. 1.1, 2.3) con supporto bilingue e spiegazioni dettagliate.
+3. **Monitoraggio Progressi**: Controlla le percentuali di successo per obiettivo e tieni traccia dei capitoli completati.
+
+## Guida all'Installazione Locale
+
+### Prerequisiti
+- **Node.js**: Versione 18 o superiore. [Scarica qui](https://nodejs.org/).
+- **Git**: Per clonare il repository.
+
+### 1. Scaricare/Clonare il Repository
+Apri il terminale (Terminale su Mac/Linux, Prompt dei comandi o PowerShell su Windows) ed esegui:
+```bash
+git clone <url-del-repository>
+cd <cartella-del-progetto>
+```
+
+### 2. Installare le Dipendenze
+Esegui il seguente comando nella cartella principale:
+```bash
+npm install
+```
+
+### 3. Avviare l'Applicazione
+Avvia il server di sviluppo:
+```bash
+npm run dev
+```
+L'applicazione sarà disponibile all'indirizzo `http://localhost:3000` (o la porta indicata nel terminale).
+
+---
+
+## 📄 Licenza e Termini d'Uso
 **Licenza di Libera Diffusione e Uso**
 - Questa applicazione e i suoi contenuti (manuali e domande) sono forniti **gratuitamente** per scopi educativi.
 - È consentito l'uso e la distribuzione gratuita dell'applicazione.
-- **Divieto di Modifica:** È severamente vietato modificare, alterare o creare opere derivate dal codice sorgente o dai contenuti di questa applicazione senza esplicita autorizzazione.
+- **Divieto di Modifica**: È severamente vietato modificare, alterare o creare opere derivate dal codice sorgente o dai contenuti di questa applicazione senza esplicita autorizzazione.
