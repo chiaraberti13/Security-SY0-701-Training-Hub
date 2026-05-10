@@ -18,7 +18,6 @@
       <span>CH8 — Identity &amp; Access Management</span>
     </div>
 
-
     <div class="lang-switch" aria-label="Language selector">
       <span>Language:</span>
       <a href="../ch8_identity_access_management_canonical.html">IT</a>
@@ -50,8 +49,6 @@
     </div>
 
     <div class="layout">
-
-      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
       <nav class="toc-sticky" aria-label="Chapter table of contents">
         <div class="toc-section">Objective 4.6</div>
         <a href="#obj-4-6">IAM — overview</a>
@@ -97,1067 +94,322 @@
         <a href="#flashcard">Flashcard</a>
       </nav>
 
-      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
       <main class="content" id="contenuto-principale">
 
-        <!-- ═══════════════════════════════════════════════════════
-             OBIETTIVO 4.6 — PANORAMICA
-        ════════════════════════════════════════════════════════ -->
         <section id="obj-4-6">
           <h2>Objective 4.6 — Identity &amp; Access Management</h2>
           <p>
-            La <strong>Identity and Access Management (IAM)</strong> è la disciplina che governa <em>chi</em>
-            può accedere a quali risorse, <em>come</em> viene verificata la sua identità e <em>quali azioni</em>
-            gli sono consentite una volta autenticato. Non si tratta semplicemente di gestire password e login:
-            IAM abbraccia l'intero ciclo di vita di un'identità — dalla sua creazione e verifica iniziale,
-            passando per l'assegnazione granulare dei privilegi, fino alla revoca completa quando il soggetto
-            non ha più diritto di accesso.
+            <strong>Identity and Access Management (IAM)</strong> is the discipline that governs <em>who</em>
+            can access which resources, <em>how</em> their identity is verified, and <em>which actions</em>
+            they are allowed to perform after authentication. It is not simply password and login management:
+            IAM covers the full identity lifecycle, from initial creation and verification, through granular
+            privilege assignment, to complete revocation when the subject no longer has a right to access.
           </p>
           <p>
-            Dal punto di vista architetturale, IAM è il punto di raccordo tra il modello Zero Trust (che richiede
-            verifica continua), i protocolli di rete (che trasportano le credenziali) e le policy organizzative
-            (che stabiliscono cosa è consentito). L'esame SY0-701 testa la capacità di scegliere il meccanismo
-            di accesso corretto dato uno scenario: account di servizio, utente federato, accesso privilegiato
-            temporaneo o autenticazione biometrica richiedono risposte tecniche completamente diverse.
+            Architecturally, IAM connects the Zero Trust model, which requires continuous verification, network
+            protocols that transport credentials, and organizational policies that define what is allowed. The
+            SY0-701 exam tests whether you can choose the correct access mechanism for a scenario: service
+            accounts, federated users, temporary privileged access, and biometric authentication require very
+            different technical answers.
           </p>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             IDENTITÀ E ACCOUNT
-        ════════════════════════════════════════════════════════ -->
         <section id="identita">
           <h2>Identity and attributes</h2>
           <p>
-            Un'<strong>identità</strong> è l'insieme strutturato di affermazioni (<em>claims</em>) che descrivono
-            un soggetto all'interno di un sistema. Il soggetto può essere una persona fisica, un'applicazione,
-            un dispositivo, un servizio o un'intera organizzazione. L'identità non coincide con l'account: l'account
-            è la rappresentazione tecnica dell'identità nel sistema, mentre l'identità è il concetto più ampio
-            che include attributi, ruoli, relazioni organizzative e storico delle azioni.
+            An <strong>identity</strong> is the structured set of claims that describe a subject inside a system.
+            The subject may be a person, an application, a device, a service, or an entire organization. Identity
+            is not the same as an account: the account is the technical representation of the identity in a system,
+            while identity is the broader concept that includes attributes, roles, organizational relationships,
+            and action history.
           </p>
           <p>
-            Gli <strong>attributi</strong> associati a un'identità si dividono in due categorie: attributi
-            <em>modificabili</em> nel tempo (ruolo, reparto, livello di clearance) e <strong>tratti</strong>
-            <em>stabili</em> intrinseci al soggetto (impronte digitali, geometria facciale). Questa distinzione
-            è rilevante perché i meccanismi di autenticazione più robusti combinano i due tipi: verificano
-            sia qualcosa che il soggetto <em>ha</em> (attributo mutabile, come un token) sia qualcosa che
-            il soggetto <em>è</em> (tratto stabile, come un'impronta).
+            <strong>Attributes</strong> associated with an identity fall into two categories: attributes that
+            <em>change</em> over time, such as role, department, or clearance level, and stable intrinsic
+            <strong>traits</strong>, such as fingerprints or facial geometry. This distinction matters because
+            stronger authentication mechanisms combine both types: they verify something the subject <em>has</em>
+            and something the subject <em>is</em>.
           </p>
-
           <dl class="termlist">
-            <dt>Subject (Soggetto)</dt>
-            <dd>
-              Entità che richiede l'accesso a una risorsa. Può essere umano, software (un processo, un microservizio)
-              o hardware (un dispositivo IoT). In Zero Trust, ogni soggetto è trattato come non attendibile di default
-              e deve dimostrare la propria identità e il proprio stato di sicurezza prima di ricevere accesso.
-            </dd>
-
+            <dt>Subject</dt>
+            <dd>Entity requesting access to a resource. It may be human, software, such as a process or microservice, or hardware, such as an IoT device. In Zero Trust, every subject is considered untrusted by default and must prove its identity and security posture before receiving access.</dd>
             <dt>Claim / Assertion</dt>
-            <dd>
-              Affermazione sull'identità di un soggetto prodotta da un sistema di autenticazione o da un identity
-              provider. Esempio: "questo utente appartiene al gruppo Amministratori" è un claim. I claim vengono
-              trasportati da protocolli come SAML e OAuth e vengono verificati dal service provider prima di
-              concedere l'accesso.
-            </dd>
-
+            <dd>Statement about a subject's identity produced by an authentication system or identity provider. For example, “this user belongs to the Administrators group” is a claim. Claims are carried by protocols such as SAML and OAuth and are verified by the service provider before access is granted.</dd>
             <dt>Identity Provider (IdP)</dt>
-            <dd>
-              Sistema o organizzazione che autentica il soggetto e produce le assertion sull'identità. In un modello
-              federato, l'IdP è il punto di fiducia centrale: se un service provider si fida dell'IdP, accetta
-              le sue assertion senza richiedere una propria autenticazione locale. Esempi: Microsoft Entra ID
-              (ex Azure AD), Okta, Google Workspace.
-            </dd>
-
+            <dd>System or organization that authenticates the subject and produces identity assertions. In a federated model, the IdP is the central trust point: if a service provider trusts the IdP, it accepts its assertions without requiring separate local authentication. Examples include Microsoft Entra ID, Okta, and Google Workspace.</dd>
             <dt>Service Provider (SP)</dt>
-            <dd>
-              Applicazione o servizio che delega l'autenticazione a un IdP esterno. L'SP riceve le assertion
-              dall'IdP, ne verifica la firma crittografica e, se valide, concede l'accesso in base alle policy
-              locali. L'SP non gestisce credenziali proprie: si affida completamente alla catena di fiducia
-              con l'IdP.
-            </dd>
-
+            <dd>Application or service that delegates authentication to an external IdP. The SP receives assertions from the IdP, verifies their cryptographic signature, and grants access according to local policies. The SP does not manage its own credentials; it relies on the trust chain with the IdP.</dd>
             <dt>Relying Party (RP)</dt>
-            <dd>
-              Termine usato in OpenID Connect e OAuth per indicare l'applicazione che si affida all'identity
-              provider per la verifica dell'identità. Funzionalmente equivale al Service Provider nel contesto
-              SAML, ma il termine viene usato in ecosistemi con protocolli diversi.
-            </dd>
+            <dd>Term used in OpenID Connect and OAuth for the application that relies on the identity provider to verify identity. Functionally, it is similar to the Service Provider in SAML, but the term is used in different protocol ecosystems.</dd>
           </dl>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             PROVISIONING / DE-PROVISIONING
-        ════════════════════════════════════════════════════════ -->
         <section id="provisioning">
           <h2>Account provisioning and de-provisioning</h2>
-          <p>
-            Il <strong>provisioning</strong> è il processo formale con cui si crea un account utente, gli si
-            assegnano ruoli e permessi e lo si collega alle risorse necessarie allo svolgimento delle sue
-            mansioni. Un provisioning corretto segue il principio del <em>least privilege</em>: si assegnano
-            solo i permessi strettamente necessari al ruolo, non di più. Il provisioning non è un evento
-            una-tantum ma deve essere rivisto ogni volta che cambiano le mansioni della persona.
-          </p>
-          <p>
-            Il <strong>de-provisioning</strong> è altrettanto critico dal punto di vista della sicurezza:
-            quando un dipendente lascia l'organizzazione o cambia ruolo, tutti gli accessi non più giustificati
-            devono essere revocati <em>tempestivamente</em>. Gli account orfani — account attivi di ex dipendenti
-            o di sistemi dismessi — sono una delle vulnerabilità più sfruttate nei breach aziendali perché
-            le credenziali non vengono monitorizzate e possono rimanere valide per mesi.
-          </p>
-
-          <div class="example-box">
-            <strong>Practical example — Joiner/Mover/Leaver:</strong><br>
-            Un'azienda usa il framework <em>Joiner-Mover-Leaver</em> per gestire il ciclo di vita degli account.
-            Quando una persona entra (<em>joiner</em>), viene fatto un provisioning automatico via HR system →
-            Active Directory. Quando cambia dipartimento (<em>mover</em>), i permessi del vecchio ruolo vengono
-            revocati e quelli del nuovo vengono assegnati entro 24 ore. Quando lascia (<em>leaver</em>),
-            l'account viene disabilitato il giorno stesso della partenza e cancellato dopo 30 giorni di retention.
-          </div>
-
+          <p><strong>Provisioning</strong> is the formal process used to create a user account, assign roles and permissions, and connect it to the resources required for the user’s duties. Correct provisioning follows the principle of <em>least privilege</em>: only the permissions strictly required for the role are assigned. Provisioning is not a one-time event; it must be reviewed every time a person’s duties change.</p>
+          <p><strong>De-provisioning</strong> is equally critical from a security perspective. When an employee leaves the organization or changes role, all access that is no longer justified must be revoked <em>promptly</em>. Orphaned accounts, meaning active accounts belonging to former employees or retired systems, are a common weakness in corporate breaches because their credentials are rarely monitored and may remain valid for months.</p>
+          <div class="example-box"><strong>Practical example — Joiner/Mover/Leaver:</strong><br>A company uses the <em>Joiner-Mover-Leaver</em> framework to manage the account lifecycle. When someone joins, provisioning is automated through the HR system into Active Directory. When the person changes department, old-role permissions are revoked and new-role permissions are assigned within 24 hours. When the person leaves, the account is disabled on the same day and deleted after 30 days of retention.</div>
           <dl class="termlist">
-            <dt>Account lifecycle</dt>
-            <dd>
-              L'insieme delle fasi che un account attraversa: creazione → attivazione → modifica dei permessi
-              (per promozioni, trasferimenti) → sospensione temporanea (per ferie prolungate, procedimenti
-              disciplinari) → disabilitazione → cancellazione definitiva. Una buona governance IAM automatizza
-              il più possibile queste transizioni per ridurre l'errore umano.
-            </dd>
-
-            <dt>Orphaned account</dt>
-            <dd>
-              Account che rimane attivo dopo che il soggetto a cui appartiene non ha più diritto di accesso.
-              Causa comune: il processo di offboarding non è stato eseguito correttamente o il sistema HR
-              non è integrato con l'identity management. Gli orphaned account sono bersagli primari per
-              attacchi di tipo credential stuffing e privilege escalation.
-            </dd>
-
-            <dt>Permission creep</dt>
-            <dd>
-              Accumulo progressivo di permessi nel tempo causato da mancate revoche durante i cambi di ruolo.
-              Un utente che ha cambiato funzione tre volte può trovarsi con i permessi di tutti e tre i ruoli
-              precedenti, violando il principio del least privilege. Si contrasta con revisioni periodiche
-              degli accessi (<em>access reviews</em> o <em>user access reviews</em>).
-            </dd>
+            <dt>Account lifecycle</dt><dd>The set of phases an account goes through: creation → activation → permission changes for promotions or transfers → temporary suspension for extended leave or disciplinary processes → disabling → final deletion. Strong IAM governance automates these transitions as much as possible to reduce human error.</dd>
+            <dt>Orphaned account</dt><dd>An account that remains active after the subject it belongs to no longer has a right to access. Common causes include failed offboarding or lack of integration between HR and identity management. Orphaned accounts are prime targets for credential stuffing and privilege escalation.</dd>
+            <dt>Permission creep</dt><dd>Progressive accumulation of permissions over time caused by missing revocation during role changes. A user who has changed position three times may end up with permissions from all previous roles, violating least privilege. It is mitigated with periodic <em>access reviews</em> or <em>user access reviews</em>.</dd>
           </dl>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — Provisioning:</strong> nelle domande sugli account orfani o sul permission
-            creep, la risposta corretta indica sempre un processo di <em>access review</em> periodico o
-            l'integrazione automatica tra HR e identity management. Se lo scenario parla di un ex dipendente
-            che accede ancora ai sistemi, la causa è de-provisioning mancato e la soluzione è disabilitare
-            l'account immediatamente + revisione degli accessi.
-          </div>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — Provisioning:</strong> in questions about orphaned accounts or permission creep, the correct answer usually points to periodic <em>access review</em> or automated integration between HR and identity management. If the scenario says a former employee can still access systems, the cause is failed de-provisioning and the solution is immediate account disabling plus access review.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             IDENTITY PROOFING
-        ════════════════════════════════════════════════════════ -->
         <section id="identity-proofing">
           <h2>Identity Proofing</h2>
-          <p>
-            L'<strong>identity proofing</strong> è il processo con cui un'organizzazione verifica che la persona
-            che richiede un account o un accesso sia davvero chi afferma di essere, <em>prima</em> di creare
-            le credenziali. Non si tratta di autenticazione (che avviene dopo), ma di un processo una-tantum
-            di verifica dell'identità reale del richiedente. Il NIST SP 800-63A definisce tre livelli di
-            assurance per l'identity proofing: IAL1 (autodichiarazione), IAL2 (documenti verificati da remoto),
-            IAL3 (verifica fisica con biometria).
-          </p>
-          <p>
-            Negli ambienti aziendali, l'identity proofing avviene tipicamente durante l'onboarding: il team HR
-            verifica documento d'identità, contratto e referenze prima che l'IT crei l'account. Negli ambienti
-            digitali (es. apertura conto bancario online), l'identity proofing usa tecnologie come OCR di
-            documenti, liveness detection e confronto con banche dati pubbliche.
-          </p>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — Identity proofing:</strong> se lo scenario descrive il momento in cui
-            <em>viene creato</em> l'account (non quando viene usato), si parla di identity proofing. Se
-            lo scenario descrive il momento in cui <em>si accede</em> con l'account già esistente, si parla
-            di autenticazione. La differenza temporale è il discriminante.
-          </div>
+          <p><strong>Identity proofing</strong> is the process by which an organization verifies that the person requesting an account or access really is who they claim to be, <em>before</em> credentials are created. It is not authentication, which occurs later, but a one-time verification of the requester’s real identity. NIST SP 800-63A defines three identity proofing assurance levels: IAL1 (self-assertion), IAL2 (remotely verified documents), and IAL3 (physical verification with biometrics).</p>
+          <p>In corporate environments, identity proofing typically occurs during onboarding: HR verifies ID documents, contract, and references before IT creates the account. In digital services, such as online bank account opening, identity proofing may use document OCR, liveness detection, and checks against public databases.</p>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — Identity proofing:</strong> if the scenario describes the moment when the account is <em>created</em>, it is identity proofing. If it describes the moment when an existing account is <em>used</em> to log in, it is authentication. The timing is the key discriminator.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             ATTESTATION
-        ════════════════════════════════════════════════════════ -->
         <section id="attestation">
           <h2>Attestation</h2>
-          <p>
-            L'<strong>attestation</strong> è il processo formale con cui un soggetto autorizzato — tipicamente
-            un manager, un data owner o un responsabile IT — certifica periodicamente che gli accessi assegnati
-            a un account sono ancora appropriati e necessari. L'attestation è diversa dall'identity proofing:
-            quest'ultimo avviene una volta sola alla creazione dell'account, mentre l'attestation è un processo
-            ricorrente (mensile, trimestrale, annuale) che combatte il permission creep.
-          </p>
-          <p>
-            Dal punto di vista tecnico, l'attestation produce una traccia di audit formale: chi ha certificato
-            che quell'accesso era legittimo, quando e in quale contesto. Questo è fondamentale per la compliance
-            con normative come SOX, HIPAA e ISO 27001, che richiedono evidenza documentale che i privilegi
-            siano stati revisionati e approvati regolarmente.
-          </p>
-
-          <div class="pitfall">
-            <strong>PITFALL — Attestation vs Auditing:</strong> l'<em>auditing</em> registra automaticamente
-            le azioni compiute (chi ha fatto cosa e quando) senza intervento umano. L'<em>attestation</em>
-            è invece una revisione umana e deliberata degli accessi esistenti per confermare che siano ancora
-            appropriati. L'esame può proporre entrambi come risposte: se lo scenario parla di "<em>qualcuno
-            che certifica</em>" i permessi → attestation; se parla di "<em>log automatici</em>" → auditing.
-          </div>
+          <p><strong>Attestation</strong> is the formal process in which an authorized person, typically a manager, data owner, or IT owner, periodically certifies that the access assigned to an account is still appropriate and necessary. Attestation differs from identity proofing: identity proofing happens once at account creation, while attestation is a recurring process that combats permission creep.</p>
+          <p>Technically, attestation creates a formal audit trail: who certified that access was legitimate, when, and in what context. This is essential for compliance with frameworks and regulations such as SOX, HIPAA, and ISO 27001, which require documentary evidence that privileges have been reviewed and approved regularly.</p>
+          <div class="pitfall"><strong>PITFALL — Attestation vs Auditing:</strong> <em>auditing</em> automatically records actions performed, such as who did what and when, without human judgment. <em>Attestation</em> is a deliberate human review of existing access to confirm that it remains appropriate. If the scenario says someone <em>certifies</em> permissions, choose attestation; if it mentions <em>automatic logs</em>, choose auditing.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             PERMISSION ASSIGNMENTS E IMPLICAZIONI
-        ════════════════════════════════════════════════════════ -->
         <section id="permission">
-          <h2>Permission assignments e implicazioni</h2>
-          <p>
-            L'assegnazione dei permessi è l'operazione con cui si stabilisce quali azioni un soggetto può
-            compiere su una risorsa. Le implicazioni di questa operazione sono spesso sottovalutate: un permesso
-            assegnato in modo troppo ampio non solo viola il least privilege ma crea superficie di attacco
-            reale. Un utente con permesso di scrittura su una share di rete può cancellare file critici
-            (deliberatamente o per errore); un account di servizio con permessi di Domain Admin può essere
-            usato per escalation verso l'intera infrastruttura.
-          </p>
-
+          <h2>Permission assignments and implications</h2>
+          <p>Permission assignment defines which actions a subject may perform on a resource. Its implications are often underestimated: overly broad permissions not only violate least privilege but create a real attack surface. A user with write permission on a network share can delete critical files, deliberately or accidentally; a service account with Domain Admin rights can be abused to escalate across the entire infrastructure.</p>
           <table>
-            <thead>
-              <tr>
-                <th>Tipo di permesso</th>
-                <th>Cosa consente</th>
-                <th>Rischio se sovrassegnato</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Permission type</th><th>What it allows</th><th>Risk if over-assigned</th></tr></thead>
             <tbody>
-              <tr>
-                <td class="label">Read</td>
-                <td>Visualizzare il contenuto di file, cartelle, oggetti</td>
-                <td>Esfiltrazione di dati confidenziali</td>
-              </tr>
-              <tr>
-                <td class="label">Write / Modify</td>
-                <td>Creare, modificare o sovrascrivere contenuto</td>
-                <td>Corruzione di dati, sabotaggio, ransomware preparation</td>
-              </tr>
-              <tr>
-                <td class="label">Execute</td>
-                <td>Eseguire programmi o script</td>
-                <td>Esecuzione di malware, privilege escalation</td>
-              </tr>
-              <tr>
-                <td class="label">Full Control / Admin</td>
-                <td>Tutte le operazioni + modifica dei permessi stessi</td>
-                <td>Completo compromesso della risorsa e bypass di altri controlli</td>
-              </tr>
-              <tr>
-                <td class="label">Delete</td>
-                <td>Eliminare oggetti</td>
-                <td>Cancellazione di log, backup o dati critici</td>
-              </tr>
+              <tr><td class="label">Read</td><td>View the contents of files, folders, or objects</td><td>Exfiltration of confidential data</td></tr>
+              <tr><td class="label">Write / Modify</td><td>Create, modify, or overwrite content</td><td>Data corruption, sabotage, ransomware preparation</td></tr>
+              <tr><td class="label">Execute</td><td>Run programs or scripts</td><td>Malware execution, privilege escalation</td></tr>
+              <tr><td class="label">Full Control / Admin</td><td>All operations plus permission changes</td><td>Complete resource compromise and bypass of other controls</td></tr>
+              <tr><td class="label">Delete</td><td>Delete objects</td><td>Deletion of logs, backups, or critical data</td></tr>
             </tbody>
           </table>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — Implicazioni dei permessi:</strong> quando lo scenario descrive un account
-            di servizio, applicazione o sistema automatizzato, la risposta corretta quasi sempre indica
-            di assegnare solo i permessi <em>minimi necessari</em> per quella funzione specifica. Se l'account
-            di servizio del backup ha bisogno di leggere i file, non deve avere Write o Execute. L'esame
-            testa se sai individuare il permesso in eccesso nello scenario.
-          </div>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — Permission implications:</strong> when a scenario describes a service account, application, or automated system, the correct answer almost always assigns only the <em>minimum necessary</em> permissions for that function. If the backup service account only needs to read files, it should not have Write or Execute.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             MULTIFACTOR AUTHENTICATION
-        ════════════════════════════════════════════════════════ -->
         <section id="mfa">
           <h2>Multifactor Authentication (MFA)</h2>
-          <p>
-            La <strong>Multifactor Authentication (MFA)</strong> è il meccanismo che richiede la presentazione
-            di due o più fattori di autenticazione appartenenti a categorie diverse. Il principio fondante
-            è che un attaccante che compromette un fattore (es. ruba la password) non può automaticamente
-            compromettere anche gli altri fattori (es. il telefono fisico). L'MFA non elimina tutti i rischi
-            — attacchi MFA fatigue, SIM swapping e realtime phishing proxy possono bypassarla — ma
-            innalza significativamente il costo dell'attacco.
-          </p>
-          <p>
-            Affinché si parli di MFA, i fattori devono appartenere a <em>categorie diverse</em>: usare due
-            password diverse è <strong>two-step verification</strong>, non MFA. Usare una password (qualcosa
-            che sai) + un OTP da app (qualcosa che hai) è MFA reale.
-          </p>
+          <p><strong>Multifactor Authentication (MFA)</strong> requires two or more authentication factors from different categories. The core principle is that an attacker who compromises one factor, such as a password, cannot automatically compromise the other factors, such as a physical phone. MFA does not eliminate all risk, because MFA fatigue, SIM swapping, and real-time phishing proxies may bypass it, but it significantly raises the cost of attack.</p>
+          <p>For something to qualify as MFA, the factors must come from <em>different categories</em>. Two different passwords are <strong>two-step verification</strong>, not MFA. A password, which is something you know, plus an OTP from an authenticator app, which is something you have, is true MFA.</p>
         </section>
 
         <section id="mfa-factors">
-          <h3>Fattori di autenticazione</h3>
-
+          <h3>Authentication factors</h3>
           <dl class="termlist">
-            <dt>Something you know (Conoscenza)</dt>
-            <dd>
-              Informazione segreta nota solo al soggetto: password, PIN, passphrase, risposta a domanda
-              segreta. È il fattore più diffuso ma anche il più vulnerabile: può essere rubato via phishing,
-              indovinato con brute force, ceduto involontariamente via social engineering. Da solo non è
-              sufficiente per sistemi critici.
-            </dd>
-
-            <dt>Something you have (Possesso)</dt>
-            <dd>
-              Oggetto fisico o digitale in possesso del soggetto: smartphone con app authenticator, smart card,
-              security key (FIDO2), token hardware OTP. Il presupposto è che l'attaccante non possa avere
-              il dispositivo fisico da remoto. Vulnerabilità residua: SIM swapping (per SMS OTP), furto
-              del dispositivo, duplicazione della smart card.
-            </dd>
-
-            <dt>Something you are (Inerenza / Biometria)</dt>
-            <dd>
-              Caratteristica biometrica del soggetto: impronta digitale, riconoscimento facciale, iris scan,
-              voce, geometria della mano, ritmo di battitura. Vantaggi: non può essere dimenticata o persa.
-              Svantaggi: non può essere cambiata se compromessa, soggetta a errori (falso positivo/negativo),
-              richiede hardware dedicato, solleva questioni di privacy.
-            </dd>
-
-            <dt>Somewhere you are (Contesto geografico)</dt>
-            <dd>
-              Posizione geografica o di rete del soggetto: indirizzo IP, geolocalizzazione GPS, rete Wi-Fi
-              riconosciuta, prossimità Bluetooth. Usato tipicamente come fattore supplementare o come
-              trigger per step-up authentication: se l'utente si autentica da un paese mai visitato prima,
-              viene richiesto un secondo fattore aggiuntivo. Non è considerato un fattore forte da solo
-              perché la posizione è manipolabile tramite VPN.
-            </dd>
+            <dt>Something you know (Knowledge)</dt><dd>Secret information known only to the subject: password, PIN, passphrase, or answer to a security question. It is the most common factor and also the most vulnerable: it can be phished, guessed, brute-forced, or revealed through social engineering.</dd>
+            <dt>Something you have (Possession)</dt><dd>A physical or digital object in the subject’s possession: smartphone with authenticator app, smart card, FIDO2 security key, or hardware OTP token. The assumption is that a remote attacker cannot possess the physical device. Residual risks include SIM swapping, device theft, and smart card duplication.</dd>
+            <dt>Something you are (Inherence / Biometrics)</dt><dd>A biometric characteristic of the subject: fingerprint, facial recognition, iris scan, voice, hand geometry, or typing rhythm. Advantages: it cannot be forgotten or lost. Disadvantages: it cannot be changed if compromised, may produce false positives or false negatives, requires dedicated hardware, and raises privacy concerns.</dd>
+            <dt>Somewhere you are (Geographic context)</dt><dd>The subject’s geographic or network location: IP address, GPS geolocation, recognized Wi-Fi network, or Bluetooth proximity. It is usually used as an additional context signal or as a trigger for step-up authentication. It is not strong on its own because location can be manipulated with VPNs.</dd>
           </dl>
-
-          <div class="pitfall">
-            <strong>PITFALL — MFA vs Two-Step:</strong> l'esame distingue nettamente. Due password
-            consecutive = two-step, un solo fattore (conoscenza). Password + SMS OTP = MFA se lo SMS
-            è legato al telefono fisico (possesso). Password + domanda segreta = due fattori di conoscenza,
-            quindi <strong>NON è MFA</strong> ma solo two-step verification.
-          </div>
+          <div class="pitfall"><strong>PITFALL — MFA vs Two-Step:</strong> the exam makes a clear distinction. Two consecutive passwords = two-step, one factor type. Password + SMS OTP = MFA if the SMS is tied to the physical phone. Password + security question = two knowledge factors, therefore <strong>NOT MFA</strong>.</div>
         </section>
 
         <section id="mfa-impl">
-          <h3>Implementazioni MFA</h3>
-
+          <h3>MFA implementations</h3>
           <dl class="termlist">
-            <dt>Biometrics</dt>
-            <dd>
-              Misure fisiologiche o comportamentali usate per verificare l'identità. Le metriche chiave
-              per l'esame sono: <strong>FAR</strong> (False Acceptance Rate) — percentuale di impostori
-              accettati erroneamente; <strong>FRR</strong> (False Rejection Rate) — percentuale di utenti
-              legittimi rifiutati; <strong>CER / EER</strong> (Crossover Error Rate) — punto in cui FAR = FRR,
-              usato per confrontare la precisione di sistemi biometrici diversi. Un CER più basso indica
-              un sistema più accurato.
-            </dd>
-
-            <dt>Hard authentication tokens</dt>
-            <dd>
-              Dispositivi fisici dedicati che generano OTP (One-Time Password) o firmano challenge crittografiche.
-              I token TOTP (Time-based OTP, RFC 6238) generano un codice a 6 cifre che cambia ogni 30 secondi
-              sincronizzando un segreto condiviso con un timestamp. I token HOTP (HMAC-based OTP, RFC 4226)
-              usano invece un contatore incrementale. Esempi hardware: RSA SecurID, YubiKey in modalità OTP.
-            </dd>
-
-            <dt>Soft authentication tokens</dt>
-            <dd>
-              App su smartphone che implementano TOTP o HOTP: Google Authenticator, Microsoft Authenticator,
-              Authy. Hanno il vantaggio di non richiedere hardware aggiuntivo ma sono vulnerabili se il
-              dispositivo viene compromesso o se si fa phishing in real-time (attaccante che riusa il codice
-              OTP immediatamente dopo averlo intercettato).
-            </dd>
-
-            <dt>Security keys (FIDO2 / WebAuthn)</dt>
-            <dd>
-              Dispositivi hardware (es. YubiKey, Google Titan) o platform authenticator (Windows Hello,
-              Face ID) basati sullo standard FIDO2. Usano crittografia a chiave pubblica: la chiave privata
-              non lascia mai il dispositivo, eliminando il rischio di phishing tradizionale perché il token
-              risponde solo per il dominio esatto a cui è stato registrato. Considerati la forma più robusta
-              di MFA disponibile oggi.
-            </dd>
+            <dt>Biometrics</dt><dd>Physiological or behavioral measurements used to verify identity. Key exam metrics are <strong>FAR</strong> (False Acceptance Rate), the percentage of impostors incorrectly accepted; <strong>FRR</strong> (False Rejection Rate), the percentage of legitimate users incorrectly rejected; and <strong>CER / EER</strong> (Crossover/Equal Error Rate), the point where FAR = FRR. A lower CER indicates a more accurate biometric system.</dd>
+            <dt>Hard authentication tokens</dt><dd>Dedicated physical devices that generate OTPs or sign cryptographic challenges. TOTP tokens generate a six-digit code that changes about every 30 seconds by synchronizing a shared secret with time. HOTP tokens use an incrementing counter. Hardware examples include RSA SecurID and YubiKey in OTP mode.</dd>
+            <dt>Soft authentication tokens</dt><dd>Smartphone apps that implement TOTP or HOTP, such as Google Authenticator, Microsoft Authenticator, and Authy. They avoid extra hardware but remain vulnerable if the device is compromised or if a real-time phishing proxy immediately reuses the OTP.</dd>
+            <dt>Security keys (FIDO2 / WebAuthn)</dt><dd>Hardware devices, such as YubiKey or Google Titan, or platform authenticators, such as Windows Hello or Face ID, based on FIDO2. They use public-key cryptography: the private key never leaves the device, and the token responds only for the exact domain where it was registered. They are among the strongest MFA methods available.</dd>
           </dl>
-
-          <div class="example-box">
-            <strong>Esempio pratico — Attacco MFA fatigue:</strong><br>
-            Un attaccante ha rubato le credenziali di un utente ma l'account ha MFA via push notification.
-            L'attaccante invia decine di richieste push in rapida successione sperando che l'utente,
-            stanco o confuso, approvi una. Contromisura: configurare il sistema di MFA per richiedere
-            un codice numerico che l'utente deve digitare nell'app (number matching) invece di un
-            semplice tap su "Approva". Questo rende l'attacco fatigue molto più difficile.
-          </div>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — MFA implementations:</strong> se lo scenario chiede la forma di MFA
-            più resistente al phishing, la risposta è sempre <strong>FIDO2/security key</strong>. Se
-            chiede quale metodo OTP è legato al tempo, è <strong>TOTP</strong>. Se chiede quale è legato
-            a un contatore, è <strong>HOTP</strong>. CER basso = biometrico più accurato.
-          </div>
+          <div class="example-box"><strong>Practical example — MFA fatigue attack:</strong><br>An attacker has stolen a user’s password, but the account uses push-notification MFA. The attacker sends dozens of push requests, hoping the tired or confused user will approve one. Countermeasure: require number matching, where the user must type a numeric code into the app instead of simply tapping “Approve.”</div>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — MFA implementations:</strong> if the scenario asks for the MFA method most resistant to phishing, the answer is <strong>FIDO2/security key</strong>. Time-based OTP is <strong>TOTP</strong>; counter-based OTP is <strong>HOTP</strong>. Low CER = more accurate biometrics.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             PASSWORD CONCEPTS
-        ════════════════════════════════════════════════════════ -->
         <section id="password">
           <h2>Password concepts</h2>
-          <p>
-            Le password rimangono il meccanismo di autenticazione più diffuso nonostante i loro limiti ben noti.
-            La chiave per proteggere i sistemi basati su password non è imporre regole rigide e controproducenti
-            (come il cambio mensile obbligatorio) ma applicare principi basati su evidenze che bilanciano
-            sicurezza e usabilità. Il NIST SP 800-63B è la guida di riferimento e ha ribaltato molte pratiche
-            tradizionali.
-          </p>
-
+          <p>Passwords remain the most common authentication mechanism despite their known limitations. The key to protecting password-based systems is not imposing rigid and counterproductive rules, such as mandatory monthly changes, but applying evidence-based principles that balance security and usability. NIST SP 800-63B is the reference guidance and has overturned many traditional practices.</p>
           <h3>Password best practices</h3>
-
           <dl class="termlist">
-            <dt>Length (Lunghezza)</dt>
-            <dd>
-              La lunghezza è il fattore singolo più importante per la resistenza al brute force. Una password
-              di 16 caratteri casuali è esponenzialmente più difficile da craccare rispetto a una di 8 caratteri
-              complessa. Il NIST raccomanda un minimo di 8 caratteri (12–16+ come best practice) e di supportare
-              passphrase fino a 64 caratteri. Le passphrase (<em>correct horse battery staple</em>) sono
-              più lunghe, più facili da ricordare e più sicure di password corte con simboli.
-            </dd>
-
-            <dt>Complexity (Complessità)</dt>
-            <dd>
-              L'uso di maiuscole, minuscole, numeri e simboli aumenta lo spazio delle chiavi ma non tanto
-              quanto la lunghezza. Il problema è che le regole di complessità portano gli utenti a pattern
-              prevedibili: <em>Password1!</em> soddisfa quasi tutti i requisiti ma è banalmente crackabile.
-              Il NIST raccomanda di non imporre regole di complessità arbitrarie ma di bloccare solo le password
-              presenti in dizionari di password note e breachate.
-            </dd>
-
-            <dt>Reuse (Riutilizzo)</dt>
-            <dd>
-              Il riutilizzo della stessa password su più sistemi è uno dei vettori di compromissione più comuni:
-              se un sito terzo viene violato e la password esfiltrata, l'attaccante usa le stesse credenziali
-              su tutti i servizi di valore (credential stuffing). I sistemi dovrebbero controllare la password
-              nuova contro una lista delle ultime N password usate (password history) e bloccare il riutilizzo.
-            </dd>
-
-            <dt>Expiration (Scadenza)</dt>
-            <dd>
-              La scadenza periodica obbligatoria (es. ogni 90 giorni) era una best practice consolidata ma
-              il NIST SP 800-63B l'ha messa in discussione: costringe gli utenti a scegliere password deboli
-              e prevedibili (Password1 → Password2 → Password3) e non è utile se la password non è stata
-              compromessa. Il NIST ora raccomanda di imporre il cambio password <em>solo</em> quando ci sono
-              evidenze di compromissione, non a intervalli fissi arbitrari.
-            </dd>
-
-            <dt>Age (Età minima)</dt>
-            <dd>
-              La <em>minimum password age</em> impedisce a un utente di cambiare la password subito dopo
-              averla appena cambiata. Serve a prevenire l'aggiramento della password history: senza un
-              vincolo di età minima, un utente potrebbe cambiare la password 10 volte in 10 minuti per
-              poi reimpostare quella originale.
-            </dd>
-
-            <dt>Password managers</dt>
-            <dd>
-              Software che genera, archivia e compila automaticamente password uniche e complesse per ogni
-              servizio. Eliminano il problema del riutilizzo e rendono praticabile l'uso di password lunghe
-              e casuali per ogni account. L'unica password che l'utente deve ricordare è la <em>master
-              password</em> del vault, che deve essere particolarmente robusta e protetta da MFA.
-              Esempi: Bitwarden, 1Password, KeePass.
-            </dd>
+            <dt>Length</dt><dd>Length is the single most important factor for brute-force resistance. A random 16-character password is exponentially harder to crack than a complex 8-character one. NIST recommends a minimum of 8 characters, 12–16+ as a best practice, and support for passphrases up to 64 characters.</dd>
+            <dt>Complexity</dt><dd>Using uppercase letters, lowercase letters, numbers, and symbols increases keyspace, but not as much as length. Complexity rules often push users toward predictable patterns: <em>Password1!</em> meets many requirements but is easy to crack. NIST recommends blocking known breached or dictionary passwords rather than imposing arbitrary complexity rules.</dd>
+            <dt>Reuse</dt><dd>Reusing the same password across systems is one of the most common compromise vectors. If a third-party site is breached, attackers try the same credentials against higher-value services. Systems should check new passwords against password history and prevent reuse.</dd>
+            <dt>Expiration</dt><dd>Mandatory periodic expiration was once standard, but NIST SP 800-63B challenged it because it drives users to weak predictable changes, such as Password1 → Password2. Current guidance recommends forcing a change <em>only</em> when there is evidence of compromise, not at arbitrary fixed intervals.</dd>
+            <dt>Age</dt><dd><em>Minimum password age</em> prevents a user from changing a password again immediately after changing it. It stops users from cycling through password history quickly and then returning to the original password.</dd>
+            <dt>Password managers</dt><dd>Software that generates, stores, and autofills unique complex passwords for each service. They eliminate reuse and make long random passwords practical. The only password the user must remember is the vault <em>master password</em>, which must be strong and protected with MFA.</dd>
           </dl>
-
-          <div class="example-box">
-            <strong>Esempio pratico — Password policy basata su NIST:</strong><br>
-            Un'organizzazione che segue le raccomandazioni NIST aggiorna la propria password policy:
-            elimina la scadenza trimestrale obbligatoria, rimuove l'obbligo di simboli, introduce un
-            controllo automatico contro le 10.000 password più comuni (haveibeenpwned API), impone
-            un minimo di 12 caratteri e abilita passphrase. Il risultato: gli utenti scelgono password
-            più lunghe e smettono di fare variazioni prevedibili su quelle scadute.
-          </div>
-
-          <div class="pitfall">
-            <strong>PITFALL — Expiration periodica vs NIST:</strong> molte domande d'esame mettono
-            a confronto pratiche tradizionali e raccomandazioni NIST. La risposta corretta secondo
-            SY0-701 segue il NIST: la scadenza obbligatoria periodica <strong>non</strong> è raccomandata
-            a meno che ci siano evidenze di compromissione. Se lo scenario dice "forza la password a
-            scadere ogni 60 giorni" e chiede se è best practice, la risposta tende a essere NO secondo
-            le linee guida moderne.
-          </div>
+          <div class="example-box"><strong>Practical example — NIST-based password policy:</strong><br>An organization updates its policy by removing mandatory quarterly expiration, removing symbol requirements, checking new passwords against common breached passwords, requiring at least 12 characters, and enabling passphrases. Users choose longer passwords and stop making predictable expired-password variations.</div>
+          <div class="pitfall"><strong>PITFALL — Periodic expiration vs NIST:</strong> many exam questions compare traditional practice with modern NIST guidance. According to SY0-701 alignment, mandatory periodic expiration is <strong>not</strong> recommended unless there is evidence of compromise.</div>
         </section>
 
         <section id="passwordless">
           <h3>Passwordless</h3>
-          <p>
-            L'autenticazione <strong>passwordless</strong> elimina del tutto il fattore di conoscenza
-            tradizionale (la password) a favore di metodi basati su possesso o inerenza. Il vantaggio
-            principale è che non esistono credenziali testuali rubabili via phishing o data breach.
-            Le implementazioni più comuni sono: FIDO2/WebAuthn con security key o biometria di piattaforma,
-            magic link via email, push notification con number matching, certificati client.
-          </p>
-          <p>
-            Nel modello <strong>passkey</strong> (implementazione FIDO2 per consumer), la chiave privata
-            è legata al dispositivo e protetta da biometria locale. L'autenticazione avviene tramite
-            sfida crittografica: il server invia un challenge, il dispositivo lo firma con la chiave privata
-            (sbloccata dall'impronta o dal PIN locale) e il server verifica la firma con la chiave pubblica.
-            Non viaggia nessun segreto condiviso, quindi non c'è nulla da rubare lato server.
-          </p>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — Passwordless:</strong> lo scenario tipico chiede quale metodo di
-            autenticazione elimina il rischio di phishing di credenziali. La risposta è sempre il
-            modello passwordless basato su FIDO2/passkey. Se lo scenario chiede invece quale metodo
-            usa crittografia a chiave pubblica per l'autenticazione senza password, la risposta è
-            ancora FIDO2/WebAuthn o certificati client.
-          </div>
+          <p><strong>Passwordless</strong> authentication removes the traditional knowledge factor, the password, in favor of possession or inherence-based methods. Its main advantage is that there are no text credentials to steal through phishing or a data breach. Common implementations include FIDO2/WebAuthn with security keys or platform biometrics, magic links, push notifications with number matching, and client certificates.</p>
+          <p>In the <strong>passkey</strong> model, a FIDO2 consumer implementation, the private key is bound to the device and protected by local biometrics. Authentication uses a cryptographic challenge: the server sends a challenge, the device signs it with the private key, and the server verifies the signature with the public key. No shared secret travels over the network, so there is nothing useful to steal from the server side.</p>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — Passwordless:</strong> if a scenario asks which authentication method removes credential-phishing risk, the answer is FIDO2/passkey-based passwordless. If it asks which method uses public-key cryptography for passwordless authentication, the answer is FIDO2/WebAuthn or client certificates.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             FEDERATION E SSO
-        ════════════════════════════════════════════════════════ -->
         <section id="federation">
-          <h2>Federation (Federazione delle identità)</h2>
-          <p>
-            La <strong>federazione delle identità</strong> è un modello in cui più organizzazioni o sistemi
-            concordano di fidarsi reciprocamente delle rispettive autenticazioni. Invece che ogni organizzazione
-            gestisca le proprie credenziali per tutti gli utenti che accedono ai suoi sistemi, si stabilisce
-            una relazione di fiducia (<em>trust relationship</em>) tra identity provider e service provider
-            che consente di riutilizzare l'identità attraverso confini organizzativi.
-          </p>
-          <p>
-            La federazione è la base tecnologica per il B2B (<em>business-to-business</em>) moderno: consente
-            a un dipendente di Azienda A di accedere alle applicazioni di un partner Azienda B usando le
-            credenziali dell'Azienda A, senza creare un account separato nell'Azienda B. Questo semplifica
-            la gestione degli accessi ma richiede accordi tecnici e di governance precisi per stabilire
-            la catena di fiducia.
-          </p>
-
+          <h2>Federation</h2>
+          <p><strong>Identity federation</strong> is a model in which multiple organizations or systems agree to trust one another’s authentication. Instead of every organization managing separate credentials for every user, a <em>trust relationship</em> is established between an identity provider and a service provider, allowing identities to be reused across organizational boundaries.</p>
+          <p>Federation is the technological foundation of modern B2B access. It allows an employee of Company A to access Company B applications using Company A credentials, without creating a separate Company B account. This simplifies access management but requires precise technical and governance agreements to define the trust chain.</p>
           <dl class="termlist">
-            <dt>Trust relationship</dt>
-            <dd>
-              Accordo formale tra due entità in cui una (il service provider) accetta le assertion di identità
-              prodotte dall'altra (l'identity provider) come sufficienti per concedere accesso. La fiducia
-              è tipicamente stabilita tramite scambio di metadati SAML o configurazione OAuth/OIDC, con
-              verifica crittografica delle assertion tramite firma digitale.
-            </dd>
-
-            <dt>Circle of trust</dt>
-            <dd>
-              Gruppo di service provider che accettano tutti le assertion dello stesso identity provider,
-              formando un perimetro di fiducia condiviso. Tipico nei consorzi universitari o nelle
-              piattaforme cloud enterprise: una singola autenticazione aziendale dà accesso a decine di
-              servizi terzi appartenenti allo stesso circle of trust.
-            </dd>
-
-            <dt>Cross-domain identity management (SCIM)</dt>
-            <dd>
-              Standard (RFC 7642/7643/7644) per il provisioning automatico di identità tra sistemi diversi.
-              Consente di sincronizzare automaticamente gli account da un sistema HR verso tutti i service
-              provider federati: quando un utente viene creato o disabilitato nell'IdP, la modifica si
-              propaga automaticamente a tutti i sistemi via SCIM.
-            </dd>
+            <dt>Trust relationship</dt><dd>Formal agreement in which one entity, the service provider, accepts identity assertions produced by another entity, the identity provider, as sufficient to grant access. Trust is typically established through SAML metadata exchange or OAuth/OIDC configuration, with cryptographic verification of signed assertions.</dd>
+            <dt>Circle of trust</dt><dd>Group of service providers that all accept assertions from the same identity provider, forming a shared trust perimeter. Common in university consortia or enterprise cloud platforms.</dd>
+            <dt>Cross-domain identity management (SCIM)</dt><dd>Standard for automatic identity provisioning across different systems. It synchronizes accounts from HR or an IdP to federated service providers, so user creation or disabling propagates automatically through SCIM.</dd>
           </dl>
-
-          <div class="example-box">
-            <strong>Esempio pratico — Federazione B2B:</strong><br>
-            Una società di consulenza (Azienda A) lavora con un cliente bancario (Azienda B). Invece di
-            creare account bancari per ogni consulente, le due aziende configurano una federazione SAML:
-            l'Azienda A è l'IdP, l'Azienda B è il SP. I consulenti si autenticano con le credenziali
-            aziendali A e, tramite SAML assertion, ottengono accesso ai sistemi B. Quando un consulente
-            lascia l'Azienda A, il suo account viene disabilitato nell'IdP e automaticamente perde
-            accesso ai sistemi B senza che la Banca debba fare nulla.
-          </div>
+          <div class="example-box"><strong>Practical example — B2B federation:</strong><br>A consulting company works with a banking client. Instead of creating bank accounts for every consultant, the companies configure SAML federation: the consulting company is the IdP and the bank is the SP. Consultants authenticate with their company credentials and receive access to the bank’s systems through a SAML assertion. When a consultant leaves the consulting company, disabling the account in the IdP automatically removes access to the bank.</div>
         </section>
 
         <section id="sso">
           <h2>Single Sign-On (SSO)</h2>
-          <p>
-            Il <strong>Single Sign-On</strong> è il meccanismo che consente a un utente di autenticarsi
-            una volta sola e accedere a più applicazioni e servizi senza dover reinserire le credenziali.
-            SSO riduce il carico cognitivo (meno password da ricordare), migliora l'usabilità e centralizza
-            il controllo: il de-provisioning avviene in un solo punto e ha effetto su tutti i servizi
-            collegati.
-          </p>
-          <p>
-            Dal punto di vista della sicurezza, SSO è un trade-off: centralizza la fiducia, quindi
-            se l'IdP viene compromesso, tutti i servizi federati sono a rischio. Per questo motivo
-            l'IdP deve essere protetto con MFA robusta, monitoraggio avanzato e controlli di accesso
-            privilegiato stringenti.
-          </p>
+          <p><strong>Single Sign-On</strong> allows a user to authenticate once and access multiple applications and services without re-entering credentials. SSO reduces cognitive load, improves usability, and centralizes control: de-provisioning happens in one place and affects all connected services.</p>
+          <p>From a security perspective, SSO is a trade-off: it centralizes trust. If the IdP is compromised, all federated services are at risk. For this reason, the IdP must be protected with strong MFA, advanced monitoring, and strict privileged access controls.</p>
         </section>
 
         <section id="ldap">
           <h3>LDAP (Lightweight Directory Access Protocol)</h3>
-          <p>
-            <strong>LDAP</strong> è un protocollo standard (RFC 4511) per accedere e gestire directory
-            di informazioni distribuite, tipicamente usato per archiviare e interrogare informazioni su
-            utenti, gruppi, dispositivi e policy in una rete aziendale. La porta standard è la <strong>389</strong>
-            (LDAP non cifrato) e la <strong>636</strong> (LDAPS — LDAP su TLS).
-          </p>
-          <p>
-            In un'implementazione tipica, Active Directory di Microsoft usa LDAP come protocollo di accesso
-            alla directory. Le applicazioni che devono autenticare utenti aziendali interrogano il Domain
-            Controller via LDAP per verificare credenziali e recuperare attributi (gruppi, ruoli, email).
-            La struttura dei dati in LDAP è gerarchica: il DN (<em>Distinguished Name</em>) identifica
-            univocamente ogni oggetto nella directory.
-          </p>
-
-          <div class="pitfall">
-            <strong>PITFALL — LDAP vs Kerberos in AD:</strong> in un ambiente Active Directory, l'autenticazione
-            avviene tramite <strong>Kerberos</strong> (non LDAP). LDAP viene usato per le <em>query</em>
-            sulla directory (cercare utenti, recuperare attributi di gruppo). Lo scenario di esame che
-            parla di "ticket" e "KDC" riguarda Kerberos; quello che parla di "query sulla directory"
-            o "bind" riguarda LDAP.
-          </div>
+          <p><strong>LDAP</strong> is a standard protocol for accessing and managing distributed directory information, typically used to store and query information about users, groups, devices, and policies in an enterprise network. The standard port is <strong>389</strong> for unencrypted LDAP and <strong>636</strong> for LDAPS, LDAP over TLS.</p>
+          <p>In a typical implementation, Microsoft Active Directory uses LDAP as the directory access protocol. Applications query a Domain Controller through LDAP to verify credentials and retrieve attributes such as groups, roles, and email. LDAP data is hierarchical: the DN, or <em>Distinguished Name</em>, uniquely identifies each object in the directory.</p>
+          <div class="pitfall"><strong>PITFALL — LDAP vs Kerberos in AD:</strong> in Active Directory, authentication is handled by <strong>Kerberos</strong>, not LDAP. LDAP is used for directory <em>queries</em>. Scenarios mentioning tickets and KDC refer to Kerberos; scenarios mentioning directory query or bind refer to LDAP.</div>
         </section>
 
         <section id="saml">
           <h3>SAML (Security Assertions Markup Language)</h3>
-          <p>
-            <strong>SAML</strong> è uno standard XML-based (OASIS) per lo scambio di dati di autenticazione
-            e autorizzazione tra un Identity Provider e un Service Provider. SAML 2.0 è la versione corrente
-            e dominante per applicazioni enterprise e SSO web-based.
-          </p>
-          <p>
-            Il flusso SAML più comune è il <em>SP-initiated flow</em>: l'utente accede a un servizio (SP),
-            che reindirizza il browser verso l'IdP, l'utente si autentica, l'IdP genera una SAML Assertion
-            firmata digitalmente e la invia al SP tramite il browser (POST binding), il SP verifica la
-            firma, estrae le informazioni sull'utente e concede l'accesso. L'assertion contiene attributi
-            come username, gruppi e ruoli.
-          </p>
-
+          <p><strong>SAML</strong> is an XML-based standard for exchanging authentication and authorization data between an Identity Provider and a Service Provider. SAML 2.0 is the dominant current version for enterprise applications and web-based SSO.</p>
+          <p>The most common flow is the <em>SP-initiated flow</em>: the user accesses a service, the SP redirects the browser to the IdP, the user authenticates, the IdP generates a digitally signed SAML Assertion and sends it to the SP through the browser, and the SP verifies the signature, extracts user information, and grants access. The assertion contains attributes such as username, groups, and roles.</p>
           <table>
-            <thead>
-              <tr>
-                <th>Componente SAML</th>
-                <th>Ruolo</th>
-                <th>Analogia semplificata</th>
-              </tr>
-            </thead>
+            <thead><tr><th>SAML component</th><th>Role</th><th>Simplified analogy</th></tr></thead>
             <tbody>
-              <tr>
-                <td class="label">SAML Assertion</td>
-                <td>Documento XML firmato che attesta l'identità dell'utente</td>
-                <td>Il "lasciapassare" firmato dall'IdP</td>
-              </tr>
-              <tr>
-                <td class="label">Identity Provider (IdP)</td>
-                <td>Autentica l'utente e produce l'assertion</td>
-                <td>L'ufficio che emette il lasciapassare</td>
-              </tr>
-              <tr>
-                <td class="label">Service Provider (SP)</td>
-                <td>Riceve l'assertion e decide se concedere accesso</td>
-                <td>Il controllo che accetta il lasciapassare</td>
-              </tr>
-              <tr>
-                <td class="label">Metadata</td>
-                <td>Configurazione condivisa tra IdP e SP (certificati, URL)</td>
-                <td>L'accordo preventivo tra i due uffici</td>
-              </tr>
+              <tr><td class="label">SAML Assertion</td><td>Signed XML document proving the user’s identity</td><td>The “pass” signed by the IdP</td></tr>
+              <tr><td class="label">Identity Provider (IdP)</td><td>Authenticates the user and produces the assertion</td><td>The office that issues the pass</td></tr>
+              <tr><td class="label">Service Provider (SP)</td><td>Receives the assertion and decides whether to grant access</td><td>The checkpoint that accepts the pass</td></tr>
+              <tr><td class="label">Metadata</td><td>Shared configuration between IdP and SP, including certificates and URLs</td><td>The prior agreement between the two offices</td></tr>
             </tbody>
           </table>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — SAML:</strong> SAML è la risposta corretta negli scenari che descrivono
-            SSO <em>enterprise</em> o B2B con assertion XML. Se lo scenario descrive invece un'applicazione
-            mobile o una API che delega l'autorizzazione senza condividere credenziali, la risposta
-            tende a essere OAuth/OIDC.
-          </div>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — SAML:</strong> SAML is the correct answer for scenarios describing <em>enterprise</em> or B2B SSO with XML assertions. If the scenario describes a mobile app or API delegating authorization without sharing credentials, the answer tends to be OAuth/OIDC.</div>
         </section>
 
         <section id="oauth">
-          <h3>OAuth e OpenID Connect (OIDC)</h3>
-          <p>
-            <strong>OAuth 2.0</strong> è un framework di <em>autorizzazione delegata</em> (RFC 6749): consente
-            a un'applicazione di accedere a risorse protette per conto di un utente, senza che l'applicazione
-            veda le credenziali dell'utente. Il meccanismo centrale è l'<em>access token</em>: l'utente
-            autorizza l'applicazione, l'authorization server emette un token, l'applicazione usa il token
-            per accedere alle API.
-          </p>
-          <p>
-            <strong>OpenID Connect (OIDC)</strong> è uno strato di autenticazione costruito sopra OAuth 2.0:
-            aggiunge l'<em>ID token</em> (in formato JWT) che contiene informazioni sull'identità dell'utente.
-            OIDC è oggi la soluzione preferita per l'autenticazione federata nelle applicazioni moderne,
-            sia web sia mobile.
-          </p>
-
-          <div class="pitfall">
-            <strong>PITFALL — OAuth non è autenticazione:</strong> OAuth 2.0 di per sé è un framework
-            di <em>autorizzazione</em>, non di <em>autenticazione</em>. Questo è un errore concettuale
-            comune e spesso testato nell'esame. Se hai bisogno di autenticare un utente (cioè sapere
-            <em>chi è</em>), usi OIDC (che usa OAuth sotto). Se hai bisogno di autorizzare un'app ad
-            accedere a risorse (cioè cosa <em>può fare</em>), usi OAuth. SAML fa entrambe le cose nello
-            stesso protocollo.
-          </div>
+          <h3>OAuth and OpenID Connect (OIDC)</h3>
+          <p><strong>OAuth 2.0</strong> is a delegated <em>authorization</em> framework: it allows an application to access protected resources on behalf of a user without the application seeing the user’s credentials. The central mechanism is the <em>access token</em>: the user authorizes the app, the authorization server issues a token, and the app uses that token to access APIs.</p>
+          <p><strong>OpenID Connect (OIDC)</strong> is an authentication layer built on top of OAuth 2.0. It adds the <em>ID token</em>, usually a JWT, containing information about the user’s identity. OIDC is now the preferred solution for federated authentication in modern web and mobile applications.</p>
+          <div class="pitfall"><strong>PITFALL — OAuth is not authentication:</strong> OAuth 2.0 by itself is an <em>authorization</em> framework, not an <em>authentication</em> protocol. If you need to know <em>who the user is</em>, use OIDC. If you need to authorize an app to access resources, use OAuth. SAML can cover both in the same protocol.</div>
         </section>
 
         <section id="interop">
-          <h3>Interoperabilità</h3>
-          <p>
-            L'<strong>interoperabilità</strong> in IAM si riferisce alla capacità di sistemi di identità
-            diversi di lavorare insieme, anche quando appartengono a organizzazioni o piattaforme tecnologiche
-            differenti. Standard aperti come SAML, OAuth, OIDC e SCIM esistono proprio per garantire questa
-            interoperabilità: un IdP basato su Okta deve poter federarsi con un SP che usa Salesforce,
-            indipendentemente dal vendor.
-          </p>
-          <p>
-            Le sfide di interoperabilità emergono tipicamente in scenari di fusione aziendale (due AD
-            diversi da unire), migrazione cloud (da on-premises a cloud identity) o supply chain digitale
-            (partner con tecnologie diverse). La soluzione è sempre basata su standard aperti e protocolli
-            condivisi, non su soluzioni proprietarie vendor-specific.
-          </p>
+          <h3>Interoperability</h3>
+          <p><strong>Interoperability</strong> in IAM is the ability of different identity systems to work together, even when they belong to different organizations or technology platforms. Open standards such as SAML, OAuth, OIDC, and SCIM exist to make this possible: an Okta-based IdP must be able to federate with a Salesforce SP regardless of vendor.</p>
+          <p>Interoperability challenges usually appear in mergers, cloud migrations, or digital supply chains involving partners with different technologies. The solution is based on open standards and shared protocols, not proprietary vendor-specific mechanisms.</p>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             MODELLI DI CONTROLLO DEGLI ACCESSI
-        ════════════════════════════════════════════════════════ -->
         <section id="access-models">
           <h2>Access control models</h2>
-          <p>
-            Un <strong>modello di controllo degli accessi</strong> definisce le regole con cui si decide
-            chi può accedere a cosa e in quali condizioni. La scelta del modello ha implicazioni architetturali
-            profonde: determina la flessibilità del sistema, il costo amministrativo, la facilità di auditing
-            e la resistenza agli attacchi insider. I modelli non sono mutuamente esclusivi: un'organizzazione
-            può usare RBAC per le applicazioni enterprise, MAC per i sistemi classificati e ABAC per i
-            microservizi cloud.
-          </p>
+          <p>An <strong>access control model</strong> defines the rules used to decide who may access what and under which conditions. The choice has deep architectural implications: it determines system flexibility, administrative cost, auditability, and resistance to insider attacks. Models are not mutually exclusive: an organization may use RBAC for enterprise apps, MAC for classified systems, and ABAC for cloud microservices.</p>
         </section>
 
         <section id="mac">
           <h3>MAC — Mandatory Access Control</h3>
-          <p>
-            Nel <strong>Mandatory Access Control</strong>, le decisioni di accesso sono determinate da
-            policy di sistema imposte centralmente, non dal proprietario della risorsa. Ogni soggetto
-            (utente, processo) e ogni oggetto (file, risorsa) riceve un <em>security label</em> o
-            <em>classification level</em>. L'accesso è consentito solo quando il livello di clearance
-            del soggetto è compatibile con la classificazione dell'oggetto, secondo regole rigide che
-            non possono essere modificate dall'utente.
-          </p>
-          <p>
-            MAC è il modello usato negli ambienti governativi e militari con dati classificati (Top Secret,
-            Secret, Confidential, Unclassified). Il vantaggio è la resistenza agli errori umani e agli
-            insider: nemmeno il proprietario di un file può concedere accesso a utenti con clearance
-            insufficiente. Lo svantaggio è la rigidità e il costo amministrativo elevato.
-          </p>
+          <p>In <strong>Mandatory Access Control</strong>, access decisions are determined by centrally enforced system policy, not by the resource owner. Each subject and object receives a <em>security label</em> or <em>classification level</em>. Access is allowed only when the subject’s clearance is compatible with the object’s classification under rigid rules the user cannot change.</p>
+          <p>MAC is used in government and military environments with classified data. Its advantage is resistance to human error and insider abuse: even a file owner cannot grant access to users with insufficient clearance. Its disadvantage is rigidity and high administrative cost.</p>
         </section>
 
         <section id="dac">
           <h3>DAC — Discretionary Access Control</h3>
-          <p>
-            Nel <strong>Discretionary Access Control</strong>, il proprietario di una risorsa decide chi
-            può accedervi e con quali permessi. È il modello dei filesystem tradizionali: il creatore di
-            un file può modificarne i permessi e condividerlo con altri utenti a propria discrezione.
-            DAC è flessibile e intuitivo ma presenta un rischio intrinseco: se un utente autorizzato viene
-            compromesso (o è malintenzionato), può condividere le risorse a cui ha accesso con utenti
-            non autorizzati, e il sistema non può impedirlo.
-          </p>
-          <p>
-            In Windows, le ACL (Access Control List) dei file NTFS sono un esempio di DAC: il proprietario
-            del file decide le autorizzazioni. Questo spiega perché il malware che gira con i privilegi
-            dell'utente può leggere e cifrare tutti i file dell'utente (ransomware): il sistema lascia
-            al proprietario il controllo.
-          </p>
+          <p>In <strong>Discretionary Access Control</strong>, the resource owner decides who may access the resource and with which permissions. It is the model used by traditional filesystems: the creator of a file can modify permissions and share it at their discretion. DAC is flexible and intuitive, but if an authorized user is compromised or malicious, they may share resources with unauthorized users.</p>
+          <p>In Windows, NTFS file ACLs are an example of DAC. This also explains why malware running with a user’s privileges can read and encrypt all files the user owns: the system gives the owner control.</p>
         </section>
 
         <section id="rbac">
           <h3>RBAC — Role-Based Access Control</h3>
-          <p>
-            Nel <strong>Role-Based Access Control</strong>, i permessi non vengono assegnati direttamente
-            agli utenti ma a <em>ruoli</em>, e gli utenti vengono assegnati ai ruoli. Un ruolo è un insieme
-            predefinito di permessi corrispondente a una funzione aziendale (es. "Contabile", "Sviluppatore",
-            "Amministratore IT"). RBAC semplifica enormemente la gestione in grandi organizzazioni: aggiornare
-            i permessi di un ruolo aggiorna automaticamente tutti gli utenti con quel ruolo.
-          </p>
-          <p>
-            RBAC previene il permission creep strutturalmente: cambiando il ruolo di un utente, si revocano
-            automaticamente i permessi del vecchio ruolo. La sfida è la granularità: ruoli troppo ampi
-            portano a over-provisioning, ruoli troppo numerosi portano a complessità ingestibile
-            (<em>role explosion</em>).
-          </p>
-
-          <div class="example-box">
-            <strong>Esempio pratico — RBAC in un ospedale:</strong><br>
-            Un ospedale definisce ruoli: Medico, Infermiere, Amministrativo, Tecnico IT. Il ruolo Medico
-            ha accesso completo alle cartelle cliniche di tutti i pazienti del reparto. Il ruolo Infermiere
-            può leggere le cartelle ma non prescrivere. Il ruolo Amministrativo vede solo dati anagrafici,
-            non clinici. Quando un medico passa a un ruolo amministrativo, il cambio di ruolo revoca
-            automaticamente l'accesso alle cartelle cliniche.
-          </div>
+          <p>In <strong>Role-Based Access Control</strong>, permissions are assigned to <em>roles</em>, and users are assigned to roles. A role is a predefined set of permissions aligned to a business function, such as Accountant, Developer, or IT Administrator. RBAC greatly simplifies management in large organizations because updating a role updates every user assigned to that role.</p>
+          <p>RBAC structurally reduces permission creep: when a user changes role, the old role’s permissions can be revoked and the new ones applied. The challenge is granularity: roles that are too broad cause over-provisioning, while too many roles create <em>role explosion</em>.</p>
+          <div class="example-box"><strong>Practical example — RBAC in a hospital:</strong><br>A hospital defines roles such as Doctor, Nurse, Administrative Staff, and IT Technician. Doctors can access clinical records for patients in their department. Nurses can read records but not prescribe. Administrative staff can see demographic data but not clinical information. When a doctor moves into an administrative role, the role change automatically revokes clinical-record access.</div>
         </section>
 
         <section id="rule-based">
           <h3>Rule-Based Access Control</h3>
-          <p>
-            Il <strong>Rule-Based Access Control</strong> usa regole condizionali definite dall'amministratore
-            per controllare l'accesso, indipendentemente dall'identità specifica del soggetto. Le regole
-            tipicamente hanno forma "SE condizione ALLORA azione": <em>se la richiesta arriva dall'IP
-            interno E l'ora è tra le 9 e le 18, consenti l'accesso; altrimenti nega</em>. Le ACL dei
-            firewall sono un esempio classico di rule-based access control.
-          </p>
-          <p>
-            Rule-based si distingue da RBAC perché le condizioni non riguardano necessariamente l'identità
-            o il ruolo del soggetto ma qualsiasi attributo della richiesta: ora del giorno, indirizzo IP
-            sorgente, protocollo usato, stato del dispositivo. Può coesistere con RBAC in sistemi complessi.
-          </p>
-
-          <div class="pitfall">
-            <strong>PITFALL — Rule-based vs RBAC:</strong> l'esame usa spesso questi due termini per
-            confondere. <strong>RBAC</strong> = permessi basati sul <em>ruolo dell'utente</em>;
-            <strong>Rule-based</strong> = permessi basati su <em>regole condizionali</em> (ora, IP,
-            protocollo). Se lo scenario menziona ACL di firewall o condizioni temporali → Rule-based.
-            Se menziona gruppi e ruoli utente → RBAC.
-          </div>
+          <p><strong>Rule-Based Access Control</strong> uses administrator-defined conditional rules to control access, independently of the specific subject identity. Rules typically follow an “IF condition THEN action” structure: if the request comes from an internal IP and the time is between 9:00 and 18:00, allow access; otherwise deny it. Firewall ACLs are a classic example.</p>
+          <p>Rule-based control differs from RBAC because conditions do not necessarily depend on the subject’s role; they may depend on request attributes such as time of day, source IP, protocol, or device state. It can coexist with RBAC in complex systems.</p>
+          <div class="pitfall"><strong>PITFALL — Rule-based vs RBAC:</strong> <strong>RBAC</strong> = permissions based on the <em>user’s role</em>. <strong>Rule-based</strong> = permissions based on <em>conditional rules</em>, such as time, IP, or protocol. Firewall ACLs and time conditions point to Rule-based; groups and user roles point to RBAC.</div>
         </section>
 
         <section id="abac">
           <h3>ABAC — Attribute-Based Access Control</h3>
-          <p>
-            L'<strong>Attribute-Based Access Control</strong> è il modello più flessibile e granulare:
-            le decisioni di accesso vengono prese valutando una combinazione di attributi del soggetto,
-            dell'oggetto e dell'ambiente al momento della richiesta. Un soggetto con attributo
-            <em>department=HR</em>, che richiede un file con attributo <em>classification=HR-confidential</em>
-            dall'ambiente con attributo <em>network=corporate-vpn</em>, può ricevere accesso. Se uno
-            degli attributi non corrisponde, l'accesso viene negato.
-          </p>
-          <p>
-            ABAC è la base del modello Zero Trust di nuova generazione e dei sistemi IAM cloud-native:
-            consente policy estremamente precise senza dover creare un ruolo per ogni combinazione
-            possibile di condizioni. Lo svantaggio è la complessità di gestione delle policy e il rischio
-            di conflitti tra regole.
-          </p>
-
+          <p><strong>Attribute-Based Access Control</strong> is the most flexible and granular model. Access decisions are made by evaluating a combination of attributes about the subject, the object, and the environment at request time. A subject with <em>department=HR</em> requesting a file with <em>classification=HR-confidential</em> from an environment with <em>network=corporate-vpn</em> may receive access. If any attribute does not match, access is denied.</p>
+          <p>ABAC is a foundation of next-generation Zero Trust and cloud-native IAM systems. It enables highly precise policies without creating a role for every possible combination of conditions. Its disadvantage is policy complexity and the risk of conflicting rules.</p>
           <table>
-            <thead>
-              <tr>
-                <th>Modello</th>
-                <th>Cosa controlla l'accesso</th>
-                <th>Flessibilità</th>
-                <th>Caso d'uso tipico</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Model</th><th>What controls access</th><th>Flexibility</th><th>Typical use case</th></tr></thead>
             <tbody>
-              <tr>
-                <td class="label">MAC</td>
-                <td>Classification label + clearance level</td>
-                <td>Bassa (rigido)</td>
-                <td>Sistemi governativi/militari classificati</td>
-              </tr>
-              <tr>
-                <td class="label">DAC</td>
-                <td>Decisione del proprietario della risorsa</td>
-                <td>Alta (troppa)</td>
-                <td>Filesystem utente standard</td>
-              </tr>
-              <tr>
-                <td class="label">RBAC</td>
-                <td>Ruolo assegnato all'utente</td>
-                <td>Media</td>
-                <td>ERP, applicazioni enterprise, AD Groups</td>
-              </tr>
-              <tr>
-                <td class="label">Rule-based</td>
-                <td>Regole condizionali (ora, IP, protocollo)</td>
-                <td>Media</td>
-                <td>Firewall ACL, accesso temporizzato</td>
-              </tr>
-              <tr>
-                <td class="label">ABAC</td>
-                <td>Combinazione di attributi soggetto+oggetto+ambiente</td>
-                <td>Molto alta</td>
-                <td>Cloud IAM, Zero Trust, microservizi</td>
-              </tr>
+              <tr><td class="label">MAC</td><td>Classification label + clearance level</td><td>Low (rigid)</td><td>Classified government/military systems</td></tr>
+              <tr><td class="label">DAC</td><td>Resource owner’s decision</td><td>High (too much)</td><td>Standard user filesystems</td></tr>
+              <tr><td class="label">RBAC</td><td>Role assigned to the user</td><td>Medium</td><td>ERP, enterprise apps, AD groups</td></tr>
+              <tr><td class="label">Rule-based</td><td>Conditional rules (time, IP, protocol)</td><td>Medium</td><td>Firewall ACLs, time-based access</td></tr>
+              <tr><td class="label">ABAC</td><td>Combination of subject + object + environment attributes</td><td>Very high</td><td>Cloud IAM, Zero Trust, microservices</td></tr>
             </tbody>
           </table>
         </section>
 
         <section id="time-least">
-          <h3>Time-of-Day Restrictions e Least Privilege</h3>
-
+          <h3>Time-of-Day Restrictions and Least Privilege</h3>
           <dl class="termlist">
-            <dt>Time-of-day restrictions</dt>
-            <dd>
-              Controllo di accesso che limita l'accesso a sistemi e risorse a determinate fasce orarie.
-              Un account di un dipendente part-time può essere configurato per accedere solo tra le 8:00
-              e le 17:00 dal lunedì al venerdì. Qualsiasi tentativo di accesso fuori da questi orari
-              viene automaticamente rifiutato, anche con credenziali valide. Questo riduce la finestra
-              di attacco per account compromessi: un attaccante che ottiene le credenziali non può
-              utilizzarle di notte.
-            </dd>
-
-            <dt>Least privilege</dt>
-            <dd>
-              Principio fondamentale secondo cui ogni soggetto deve avere <em>solo</em> i permessi strettamente
-              necessari per svolgere le proprie funzioni, niente di più. Si applica a utenti, account di
-              servizio, applicazioni e processi di sistema. Non è un evento una-tantum ma un processo
-              continuo: i permessi devono essere revisti periodicamente e ridotti se l'attività non richiede
-              più certi accessi. È strettamente legato al principio di <em>need-to-know</em> (accesso
-              alle informazioni solo se necessario per il proprio compito).
-            </dd>
+            <dt>Time-of-day restrictions</dt><dd>Access control that limits access to systems and resources to specific time windows. A part-time employee account may be configured to log in only from 8:00 to 17:00 Monday to Friday. Any attempt outside those hours is automatically denied even with valid credentials. This reduces the attack window for compromised accounts.</dd>
+            <dt>Least privilege</dt><dd>Core principle stating that every subject must have <em>only</em> the permissions strictly required to perform its function, nothing more. It applies to users, service accounts, applications, and system processes. It is continuous, not one-time: permissions must be periodically reviewed and reduced when no longer needed. It is closely related to <em>need-to-know</em>.</dd>
           </dl>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — Least privilege:</strong> nelle domande "quale principio di sicurezza
-            si applica?" quando lo scenario descrive la minimizzazione dei permessi → least privilege.
-            Quando lo scenario descrive un account con troppi permessi accumulati nel tempo → permission
-            creep, soluzione: access review. Quando descrive permessi limitati a certe ore → time-of-day
-            restrictions.
-          </div>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — Least privilege:</strong> when the scenario describes minimizing permissions, choose least privilege. When it describes excessive permissions accumulated over time, identify permission creep and solve it with access review. When it describes access limited to certain hours, choose time-of-day restrictions.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             PRIVILEGED ACCESS MANAGEMENT (PAM)
-        ════════════════════════════════════════════════════════ -->
         <section id="pam">
           <h2>Privileged Access Management (PAM)</h2>
-          <p>
-            Il <strong>Privileged Access Management</strong> è l'insieme di strumenti, processi e controlli
-            che governano l'uso degli account privilegiati — account con poteri amministrativi su sistemi,
-            infrastrutture o dati critici. Gli account privilegiati (Domain Admin, root, account DBA) sono
-            i bersagli più ambiti dagli attaccanti perché il loro compromesso dà accesso illimitato a
-            sistemi interi, non solo a singoli file.
-          </p>
-          <p>
-            Il PAM moderno adotta il principio del <em>just enough access</em> (JEA) combinato con
-            <em>just-in-time</em> (JIT): i privilegi amministrativi non sono permanenti ma vengono concessi
-            solo per il tempo strettamente necessario a eseguire un'operazione specifica, e poi revocati
-            automaticamente. Questo riduce drasticamente la finestra di esposizione.
-          </p>
+          <p><strong>Privileged Access Management</strong> is the set of tools, processes, and controls that govern the use of privileged accounts, meaning accounts with administrative power over systems, infrastructure, or critical data. Domain Admin, root, and DBA accounts are high-value targets because compromising them gives broad access to entire systems, not just individual files.</p>
+          <p>Modern PAM uses <em>just enough access</em> (JEA) combined with <em>just-in-time</em> (JIT): administrative privileges are not permanent but are granted only for the time required to perform a specific operation and then automatically revoked. This drastically reduces exposure time.</p>
         </section>
 
         <section id="jit">
           <h3>Just-in-Time (JIT) Permissions</h3>
-          <p>
-            Le <strong>just-in-time permissions</strong> sono privilegi temporanei concessi solo quando
-            necessario e per la durata minima indispensabile. Invece di avere un account Domain Admin
-            permanente, un amministratore richiede l'elevazione dei privilegi per una specifica attività
-            (es. installare una patch su un server), riceve un accesso temporaneo (es. 1 ora), esegue
-            il lavoro e i privilegi vengono automaticamente revocati allo scadere del tempo o al completamento
-            del task.
-          </p>
-          <p>
-            Il vantaggio sicurezza è rilevante: un attaccante che compromette l'account dell'amministratore
-            fuori da una finestra JIT non ottiene alcun privilegio elevato. Sistemi che implementano JIT:
-            Microsoft PIM (Privileged Identity Management) in Azure AD, CyberArk, HashiCorp Vault.
-          </p>
+          <p><strong>Just-in-time permissions</strong> are temporary privileges granted only when needed and for the minimum necessary duration. Instead of having a permanent Domain Admin account, an administrator requests privilege elevation for a specific task, such as installing a patch, receives temporary access, for example one hour, performs the work, and the privileges are automatically revoked when the time expires or the task completes.</p>
+          <p>The security benefit is significant: an attacker who compromises the administrator’s account outside a JIT window gains no elevated privilege. Systems that implement JIT include Microsoft PIM in Entra ID, CyberArk, and HashiCorp Vault.</p>
         </section>
 
         <section id="vaulting">
           <h3>Password Vaulting</h3>
-          <p>
-            Il <strong>password vaulting</strong> è la pratica di archiviare le credenziali privilegiate
-            in un vault sicuro centralizzato invece che nei file di configurazione, nei post-it o nelle
-            menti degli amministratori. Il vault cifra le credenziali a riposo, controlla chi può
-            recuperarle, registra ogni accesso nel log di audit e può ruotare automaticamente le password
-            dopo ogni uso.
-          </p>
-          <p>
-            Il check-out workflow tipico è: l'amministratore richiede la password di un sistema dal vault,
-            il vault verifica la sua identità e i suoi permessi, registra la richiesta nel log di audit,
-            fornisce la password per un tempo limitato, al termine della sessione il vault ruota automaticamente
-            la password. In questo modo nessun amministratore conosce mai la password reale in modo permanente.
-          </p>
-
-          <div class="example-box">
-            <strong>Esempio pratico — Password vaulting per account di servizio:</strong><br>
-            Un'applicazione web deve connettersi a un database. La password del DB non viene scritta
-            nel file di configurazione (dove potrebbe essere letta da sviluppatori o esfiltrata in un
-            breach del repository) ma viene recuperata a runtime da un vault (es. HashiCorp Vault o
-            AWS Secrets Manager). Il vault controlla che l'applicazione abbia il diritto di accedere
-            a quella specifica credenziale e restituisce un token temporaneo con TTL di 1 ora. Alla
-            scadenza, l'applicazione ne richiede uno nuovo.
-          </div>
+          <p><strong>Password vaulting</strong> stores privileged credentials in a secure centralized vault instead of in configuration files, sticky notes, or administrator memory. The vault encrypts credentials at rest, controls who can retrieve them, records every access in an audit log, and can automatically rotate passwords after use.</p>
+          <p>A typical check-out workflow is: the administrator requests a system password from the vault; the vault verifies identity and permissions; it records the request; it provides the password for a limited time; at the end of the session it rotates the password automatically. This way, no administrator permanently knows the real password.</p>
+          <div class="example-box"><strong>Practical example — Password vaulting for service accounts:</strong><br>A web application must connect to a database. The DB password is not stored in the configuration file, where developers or repository attackers could read it, but retrieved at runtime from a vault such as HashiCorp Vault or AWS Secrets Manager. The vault verifies that the application may access that credential and returns a temporary token with a one-hour TTL. When it expires, the application requests a new one.</div>
         </section>
 
         <section id="ephemeral">
           <h3>Ephemeral Credentials</h3>
-          <p>
-            Le <strong>ephemeral credentials</strong> (credenziali effimere) sono credenziali con un
-            ciclo di vita brevissimo — da pochi secondi a poche ore — generate dinamicamente per una
-            specifica sessione o operazione e che scadono automaticamente. Non esistono prima che vengano
-            richieste e non esistono più dopo la scadenza: eliminano completamente il rischio di furto
-            di credenziali statiche.
-          </p>
-          <p>
-            Sono il paradigma adottato dai moderni sistemi cloud: AWS STS (Security Token Service) genera
-            credenziali temporanee per accedere alle API AWS, valide tipicamente per 15 minuti – 12 ore.
-            I certificati X.509 short-lived per l'autenticazione mutual TLS, i token JWT con breve TTL
-            e i lease di HashiCorp Vault sono tutti esempi di credenziali effimere.
-          </p>
-
+          <p><strong>Ephemeral credentials</strong> are credentials with a very short lifecycle, from seconds to hours, generated dynamically for a specific session or operation and automatically expired. They do not exist before being requested and no longer exist after expiration, eliminating the risk associated with long-lived static credentials.</p>
+          <p>They are a standard pattern in modern cloud systems: AWS STS generates temporary API credentials, typically valid from 15 minutes to 12 hours. Short-lived X.509 certificates for mutual TLS, JWTs with a short TTL, and HashiCorp Vault leases are all examples of ephemeral credentials.</p>
           <table>
-            <thead>
-              <tr>
-                <th>Tipo di credenziale PAM</th>
-                <th>Durata</th>
-                <th>Caso d'uso</th>
-                <th>Vantaggio sicurezza</th>
-              </tr>
-            </thead>
+            <thead><tr><th>PAM credential type</th><th>Duration</th><th>Use case</th><th>Security advantage</th></tr></thead>
             <tbody>
-              <tr>
-                <td class="label">Just-in-time permissions</td>
-                <td>Ore (finestra task)</td>
-                <td>Elevazione privilegio amministratore</td>
-                <td>Nessun privilegio permanente</td>
-              </tr>
-              <tr>
-                <td class="label">Password vaulting</td>
-                <td>Fino alla prossima rotazione</td>
-                <td>Credenziali di sistema/servizio</td>
-                <td>Nessun umano conosce la password</td>
-              </tr>
-              <tr>
-                <td class="label">Ephemeral credentials</td>
-                <td>Secondi / minuti</td>
-                <td>API cloud, certificati mTLS</td>
-                <td>Nulla da rubare: scade prima</td>
-              </tr>
+              <tr><td class="label">Just-in-time permissions</td><td>Hours (task window)</td><td>Administrator privilege elevation</td><td>No permanent privilege</td></tr>
+              <tr><td class="label">Password vaulting</td><td>Until next rotation</td><td>System/service credentials</td><td>No human permanently knows the password</td></tr>
+              <tr><td class="label">Ephemeral credentials</td><td>Seconds / minutes</td><td>Cloud APIs, mTLS certificates</td><td>Nothing durable to steal</td></tr>
             </tbody>
           </table>
-
-          <div class="exam-tip">
-            <strong>EXAM TIP 4.6 — PAM tools:</strong> quando lo scenario descrive un amministratore
-            che riceve accesso temporaneo con revoca automatica → <strong>just-in-time</strong>. Quando
-            descrive credenziali conservate in un sistema sicuro con rotazione automatica → <strong>password
-            vaulting</strong>. Quando descrive credenziali generate dinamicamente che scadono dopo pochi
-            minuti/secondi → <strong>ephemeral credentials</strong>. I tre concetti sono complementari
-            e spesso usati insieme in una soluzione PAM completa.
-          </div>
+          <div class="exam-tip"><strong>EXAM TIP 4.6 — PAM tools:</strong> temporary administrator access with automatic revocation = <strong>just-in-time</strong>. Credentials stored in a secure system with rotation = <strong>password vaulting</strong>. Dynamically generated credentials expiring after minutes or seconds = <strong>ephemeral credentials</strong>. These concepts are complementary and often used together.</div>
         </section>
 
-
-        <!-- ═══════════════════════════════════════════════════════
-             FLASHCARD
-        ════════════════════════════════════════════════════════ -->
         <section id="flashcard">
-          <h2>Flashcard di riepilogo — Capitolo 8</h2>
+          <h2>Summary flashcards — Chapter 8</h2>
           <ul class="flashcard">
-            <li><strong>Identity proofing</strong> — verifica dell'identità reale del richiedente <em>prima</em> della creazione dell'account; avviene una sola volta durante l'onboarding</li>
-            <li><strong>Attestation</strong> — revisione periodica e formale degli accessi esistenti da parte di un responsabile, per confermare che siano ancora appropriati</li>
-            <li><strong>Provisioning / de-provisioning</strong> — creazione e revoca formale degli account seguendo il ciclo di vita dell'identità; il de-provisioning tempestivo previene orphaned accounts</li>
-            <li><strong>Permission creep</strong> — accumulo progressivo di permessi durante i cambi di ruolo; si previene con access review periodici</li>
-            <li><strong>Something you know / have / are / somewhere</strong> — quattro categorie di fattori MFA; MFA richiede almeno due categorie <em>diverse</em></li>
-            <li><strong>TOTP</strong> — OTP time-based (cambia ogni 30s); <strong>HOTP</strong> — OTP counter-based; entrambi RFC standard per hard/soft token</li>
-            <li><strong>FAR / FRR / CER</strong> — metriche biometria: FAR = impostori accettati, FRR = legittimi rifiutati, CER = punto di equilibrio (più basso = più accurato)</li>
-            <li><strong>FIDO2 / WebAuthn</strong> — standard passwordless resistente al phishing: chiave privata non lascia mai il dispositivo, risponde solo per il dominio registrato</li>
-            <li><strong>SAML 2.0</strong> — standard XML enterprise per SSO federato; produce assertion firmate; usato per B2B e applicazioni web enterprise</li>
-            <li><strong>OAuth 2.0</strong> — framework di <em>autorizzazione delegata</em>, non autenticazione; OIDC aggiunge il layer di autenticazione sopra OAuth</li>
-            <li><strong>LDAP port 389 / LDAPS 636</strong> — protocollo per query su directory (Active Directory); Kerberos gestisce l'autenticazione, LDAP gestisce le query</li>
-            <li><strong>MAC</strong> — classificazione label + clearance level, decisa dal sistema non dall'utente; usato in ambienti governativi/militari</li>
-            <li><strong>DAC</strong> — il proprietario decide i permessi; flessibile ma vulnerabile se l'account proprietario è compromesso</li>
-            <li><strong>RBAC</strong> — permessi assegnati a ruoli, utenti assegnati a ruoli; combatte permission creep strutturalmente</li>
-            <li><strong>ABAC</strong> — decisione basata su combinazione di attributi soggetto + oggetto + ambiente; più granulare di RBAC, base per Zero Trust</li>
-            <li><strong>Just-in-time permissions</strong> — privilegi elevati concessi solo per il tempo necessario a un task specifico, poi revocati automaticamente</li>
-            <li><strong>Password vaulting</strong> — credenziali privilegiate in vault cifrato con rotazione automatica; nessun umano conosce la password in modo permanente</li>
-            <li><strong>Ephemeral credentials</strong> — credenziali generate dinamicamente con TTL brevissimo (secondi/minuti); eliminate il rischio di furto di credenziali statiche</li>
+            <li><strong>Identity proofing</strong> — verifies the requester’s real identity <em>before</em> account creation; it happens once during onboarding.</li>
+            <li><strong>Attestation</strong> — periodic formal review of existing access by an owner or manager to confirm it is still appropriate.</li>
+            <li><strong>Provisioning / de-provisioning</strong> — formal creation and revocation of accounts following the identity lifecycle; timely de-provisioning prevents orphaned accounts.</li>
+            <li><strong>Permission creep</strong> — gradual accumulation of permissions during role changes; prevented with periodic access reviews.</li>
+            <li><strong>Something you know / have / are / somewhere</strong> — MFA factor categories; MFA requires at least two <em>different</em> categories.</li>
+            <li><strong>TOTP</strong> — time-based OTP; <strong>HOTP</strong> — counter-based OTP.</li>
+            <li><strong>FAR / FRR / CER</strong> — biometric metrics: FAR = impostors accepted, FRR = legitimate users rejected, CER = balance point; lower is better.</li>
+            <li><strong>FIDO2 / WebAuthn</strong> — phishing-resistant passwordless standard; the private key never leaves the device and responds only to the registered domain.</li>
+            <li><strong>SAML 2.0</strong> — XML enterprise standard for federated SSO; produces signed assertions for B2B and enterprise web applications.</li>
+            <li><strong>OAuth 2.0</strong> — delegated <em>authorization</em> framework, not authentication; OIDC adds authentication on top of OAuth.</li>
+            <li><strong>LDAP port 389 / LDAPS 636</strong> — directory query protocol; Kerberos handles authentication, LDAP handles queries.</li>
+            <li><strong>MAC</strong> — label classification + clearance level, decided by the system, not the user; used in government and military environments.</li>
+            <li><strong>DAC</strong> — the owner decides permissions; flexible but risky if the owner account is compromised.</li>
+            <li><strong>RBAC</strong> — permissions assigned to roles and users assigned to roles; structurally reduces permission creep.</li>
+            <li><strong>ABAC</strong> — decision based on subject + object + environment attributes; more granular than RBAC and foundational for Zero Trust.</li>
+            <li><strong>Just-in-time permissions</strong> — elevated privileges granted only for a specific task and then automatically revoked.</li>
+            <li><strong>Password vaulting</strong> — privileged credentials stored in an encrypted vault with automatic rotation; no human permanently knows the password.</li>
+            <li><strong>Ephemeral credentials</strong> — dynamically generated credentials with a very short TTL; reduce static credential theft risk.</li>
           </ul>
         </section>
 
-
-        <!-- Navigazione capitoli -->
         <div class="chapter-nav">
           <a href="ch7_crittografia_pki_canonical.html" class="secondary">← CH7 — Cryptography and PKI</a>
-          <a href="ch9_resilience_physical_security_canonical.html">CH9 — Resilienza e Sicurezza Fisica →</a>
+          <a href="ch9_resilience_physical_security_canonical.html">CH9 — Resilience and Physical Security →</a>
         </div>
 
       </main>
