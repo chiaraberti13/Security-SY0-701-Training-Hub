@@ -17,28 +17,41 @@ Welcome to the **Security+ SY0-701 Training Hub**, a comprehensive platform desi
 ## Local Installation Guide
 
 ### Prerequisites
-- **Node.js**: Version 18 or higher. [Download here](https://nodejs.org/).
+- **Node.js**: Version 18 or higher (includes `npm`). [Download here](https://nodejs.org/).
 - **Git**: To clone the repository.
 
 ### 1. Download/Clone the Repository
-Open your terminal (Terminal on Mac/Linux, Command Prompt or PowerShell on Windows) and run:
+
+#### 🪟 Windows (Command Prompt or PowerShell)
+```cmd
+git clone <repository-url>
+cd <repository-directory>
+```
+
+#### 🍎 macOS (Terminal)
 ```bash
 git clone <repository-url>
 cd <repository-directory>
 ```
 
-### 2. Install Dependencies
-Run the following command in the project root:
+#### 🐧 Linux (Terminal)
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
+
+### 2. Install Dependencies (All Systems)
+Run the following command in the project root directory:
 ```bash
 npm install
 ```
 
-### 3. Run the Application
+### 3. Run the Application (All Systems)
 Start the development server:
 ```bash
 npm run dev
 ```
-The application will be available at `http://localhost:3000` (or the port specified in your terminal).
+The application will be available at `http://localhost:3000`.
 
 ---
 
@@ -63,28 +76,41 @@ Benvenuto nel **Security+ SY0-701 Training Hub**, una piattaforma completa proge
 ## Guida all'Installazione Locale
 
 ### Prerequisiti
-- **Node.js**: Versione 18 o superiore. [Scarica qui](https://nodejs.org/).
+- **Node.js**: Versione 18 o superiore (include `npm`). [Scarica qui](https://nodejs.org/).
 - **Git**: Per clonare il repository.
 
 ### 1. Scaricare/Clonare il Repository
-Apri il terminale (Terminale su Mac/Linux, Prompt dei comandi o PowerShell su Windows) ed esegui:
+
+#### 🪟 Windows (Prompt dei comandi o PowerShell)
+```cmd
+git clone <url-del-repository>
+cd <cartella-del-progetto>
+```
+
+#### 🍎 macOS (Terminale)
 ```bash
 git clone <url-del-repository>
 cd <cartella-del-progetto>
 ```
 
-### 2. Installare le Dipendenze
-Esegui il seguente comando nella cartella principale:
+#### 🐧 Linux (Terminale)
+```bash
+git clone <url-del-repository>
+cd <cartella-del-progetto>
+```
+
+### 2. Installare le Dipendenze (Tutti i sistemi)
+Esegui il seguente comando nella cartella principale del progetto:
 ```bash
 npm install
 ```
 
-### 3. Avviare l'Applicazione
+### 3. Avviare l'Applicazione (Tutti i sistemi)
 Avvia il server di sviluppo:
 ```bash
 npm run dev
 ```
-L'applicazione sarà disponibile all'indirizzo `http://localhost:3000` (o la porta indicata nel terminale).
+L'applicazione sarà disponibile all'indirizzo `http://localhost:3000`.
 
 ---
 
