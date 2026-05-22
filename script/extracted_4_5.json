@@ -1,0 +1,972 @@
+[
+  {
+    "id": "SCREEN_018",
+    "text": "A security engineer is installing an IPS to block signature-based attacks in the environment. Which of the following modes will best accomplish this task?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Monitor",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Sensor",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Active",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Audit",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_032",
+    "text": "A security team has been alerted to a flood of incoming emails that have various subject lines and are addressed to multiple email inboxes. Each email contains a URL shortener link that is redirecting to a dead domain. Which of the following is the best step for the security team to take?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Create a blocklist for all subject lines.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Send the dead domain to a DNS sinkhole.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Quarantine all emails received and notify all employees.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Block the URL shortener domain in the web proxy.",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_060",
+    "text": "What is the largest advantage host-based firewalls have over network-based firewalls?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Host-based firewalls have knowledge of the functions of the endpoint and can tune the traffic management to match.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Host-based firewalls do not need rulesets like network-based firewalls require, due to being directly on the host and able to run heuristic traffic analysis.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Host-based firewalls can control outbound traffic before it reaches the network and sets off intrusion detection alarms.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Host-based firewalls can coordinate with other endpoints’ host-based firewalls to perform a unified attack response.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_080",
+    "text": "A company tested and validated the effectiveness of network security appliances within the corporate network. The IDS detected a high rate of SQL injection attacks against the company's servers, and the company's perimeter firewall is at capacity. Which of the following would be the best action to maintain security and reduce the traffic to the perimeter firewall?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Set the appliance to IPS mode and place it in front of the company firewall.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Convert the firewall to a WAF and use IPSec tunnels to increase throughput.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Set the firewall to fail open if it is overloaded with traffic and send alerts to the SIEM.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Configure the firewall to perform deep packet inspection and monitor TLS traffic.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_091",
+    "text": "What type of NIDS commonly uses artificial intelligence and data mining to identify malicious network traffic?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Rule-based NIDS",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Filter-based NIDS",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Signature-based NIDS",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Anomaly-based NIDS",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_103",
+    "text": "You get a new batch of servers into your network operations center. After you install the initial operating system (OS), what is your first step in applying system hardening to the servers?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Removing default users",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Installing a patch management system",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Encrypting the system's data",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Closing unused ports and disabling unused services",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_107",
+    "text": "What capability is used to check the origin of an email sender?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "DNS",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "NAC",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "NIDS/NIPS",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "DLP",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_113",
+    "text": "An enterprise is trying to limit outbound DNS traffic originating from its internal network. Outbound DNS requests will only be allowed from one device with the IP address 10.50.10.25. Which of the following firewall ACLs will accomplish this goal?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Access list outbound permit 0.0.0.0/0 0.0.0.0/0 port 53; Access list outbound deny 10.50.10.25/32 0.0.0.0/0 port 53",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Access list outbound permit 0.0.0.0/0 10.50.10.25/32 port 53; Access list outbound deny 0.0.0.0/0 0.0.0.0/0 port 53",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Access list outbound permit 0.0.0.0/0 0.0.0.0/0 port 53; Access list outbound deny 0.0.0.0/0 10.50.10.25/32 port 53",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Access list outbound permit 10.50.10.25/32 0.0.0.0/0 port 53; Access list outbound deny 0.0.0.0/0 0.0.0.0/0 port 53",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_130",
+    "text": "An enterprise is trying to limit outbound DNS traffic originating from its internal network. Outbound DNS requests will only be allowed from one device with the IP address 10.50.10.25. Which of the following firewall ACLs will accomplish this goal?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Access list outbound permit 0.0.0.0/0 0.0.0.0/0 port 53; Access list outbound deny 10.50.10.25/32 0.0.0.0/0 port 53",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Access list outbound permit 0.0.0.0/0 10.50.10.25/32 port 53; Access list outbound deny 0.0.0.0/0 0.0.0.0/0 port 53",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Access list outbound permit 0.0.0.0/0 0.0.0.0/0 port 53; Access list outbound deny 0.0.0.0/0 10.50.10.25/32 port 53",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Access list outbound permit 10.50.10.25/32 0.0.0.0/0 port 53; Access list outbound deny 0.0.0.0/0 0.0.0.0/0 port 53",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_146",
+    "text": "A company’s web filter is configured to scan the URL for strings and deny access when matches are found. Which of the following search strings should an analyst employ to prohibit access to non-encrypted websites?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "encryption=off",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "http://",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "www.*.com",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": ":443",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_147",
+    "text": "During a security incident, the security operations team identified sustained network traffic from a malicious IP address: 10.1.4.9. A security analyst is creating an inbound firewall rule to block the IP address from accessing the organization’s network. Which of the following fulfills this request?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "access-list inbound deny ip source 0.0.0.0/0 destination 10.1.4.9/32",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "access-list inbound deny ip source 10.1.4.9/32 destination 0.0.0.0/0",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "access-list inbound permit ip source 10.1.4.9/32 destination 0.0.0.0/0",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "access-list inbound permit ip source 0.0.0.0/0 destination 10.1.4.9/32",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_183",
+    "text": "Which of the following can be used to identify potential attacker activities without affecting production servers?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Honeypot",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Video surveillance",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Zero Trust",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Geofencing",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_210",
+    "text": "An enterprise has been experiencing attacks focused on exploiting vulnerabilities in older browser versions with well-known exploits. Which of the following security solutions should be configured to best provide the ability to monitor and block these known signature-based attacks?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "ACL",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "DLP",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "IDS",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "IPS",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_295",
+    "text": "Users at a company are reporting they are unable to access the URL for a new retail website because it is flagged as gambling and is being blocked. Which of the following changes would allow users to access the site?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Creating a firewall rule to allow HTTPS traffic",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Configuring the IPS to allow shopping",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Tuning the DLP rule that detects credit card data",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Updating the categorization in the content filter",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_298",
+    "text": "The CIRT is reviewing an incident that involved a human resources recruiter exfiltrating sensitive company data. The CIRT found that the recruiter was able to use HTTP over port 53 to upload documents to a web server. Which of the following security infrastructure devices could have identified and blocked this activity?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "WAF utilizing SSL decryption",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "NGFW utilizing application inspection",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "UTM utilizing a threat feed",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "SD-WAN utilizing IPSec",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_306",
+    "text": "A security engineer is installing an IPS to block signature-based attacks in the environment. Which of the following modes will best accomplish this task?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Monitor",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Sensor",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Audit",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Active",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_307",
+    "text": "An IT manager is increasing the security capabilities of an organization after a data classification initiative determined that sensitive data could be exfiltrated from the environment. Which of the following solutions would mitigate the risk?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "XDR",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "SPF",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "DLP",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "DMARC",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_361",
+    "text": "Which of the following methods can be used to detect attackers who have successfully infiltrated a network? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "CI/CD",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Honeypots",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Threat modeling",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "DNS sinkhole",
+        "c": true
+      },
+      {
+        "id": "F",
+        "t": "Data obfuscation",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_374",
+    "text": "Which of the following best describes a use case for a DNS sinkhole?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Attackers can see a DNS sinkhole as a highly valuable resource to identify a company's domain structure.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "A DNS sinkhole can be used to draw employees away from known-good websites to malicious ones owned by the attacker.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "A DNS sinkhole can be used to capture traffic to known-malicious domains used by attackers.",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "A DNS sinkhole can be set up to attract potential attackers away from a company's network resources.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_385",
+    "text": "A security team has been alerted to a flood of incoming emails that have various subject lines and are addressed to multiple email inboxes. Each email contains a URL shortener link that is redirecting to a dead domain. Which of the following is the best step for the security team to take?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Create a blocklist for all subject lines.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Send the dead domain to a DNS sinkhole.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Quarantine all emails received and notify all employees.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Block the URL shortener domain in the web proxy.",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_406",
+    "text": "A company wants to implement MFA. Which of the following enables the additional factor while using a smart card?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "PIN",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Hardware token",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "User ID",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "SMS",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_407",
+    "text": "A company hired an external consultant to assist with required system upgrades to a critical business application. A systems administrator needs to secure the consultant's access without sharing passwords to critical systems. Which of the following solutions should most likely be utilized?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "TACACS+",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "SAML",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "An SSO platform",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Role-based access control",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "PAM software",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_422",
+    "text": "A security team is addressing a risk associated with the attack surface of the organization's web application over port 443. Currently, no advanced network security capabilities are in place. Which of the following would be best to set up? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "NIDS",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Honeypot",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Certificate revocation list",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "HIPS",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "WAF",
+        "c": true
+      },
+      {
+        "id": "F",
+        "t": "SIEM",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_436",
+    "text": "An organization recently started hosting a new service that customers access through a web portal. A security engineer needs to add to the existing security devices a new solution to protect this new service. Which of the following is the engineer most likely to deploy?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Layer 4 firewall",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "NGFW",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "WAF",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "UTM",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_446",
+    "text": "The security team has been asked to only enable host A (10.2.2.7) and host B (10.3.9.9) to the new isolated network segment (10.9.8.14) that provides access to legacy devices. Access from all other hosts should be blocked. Which of the following entries would need to be added on the firewall?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Permit 10.2.2.0/24 to 10.9.8.14/27; Permit 10.3.9.0/24 to 10.9.8.14/27; Deny 0.0.0.0/0 to 10.9.8.14/27",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Deny 0.0.0.0/0 to 10.9.8.14/27; Permit 10.2.2.0/24 to 10.9.8.14/27; Permit 10.3.9.0/24 to 10.9.8.14/27",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Permit 10.2.2.7/32 to 10.9.8.14/27; Permit 10.3.9.9/32 to 10.9.8.14/27; Deny 0.0.0.0/0 to 10.9.8.14/27",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Permit 10.2.2.7/32 to 10.9.8.14/27; Permit 10.3.9.0/24 to 10.9.8.14/27; Deny 10.9.8.14/27 to 0.0.0.0/0",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_448",
+    "text": "A systems administrator needs to ensure the secure communication of sensitive data within the organization’s private cloud. Which of the following is the best choice for the administrator to implement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "IPSec",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "SHA-1",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "RSA",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "TGT",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_459",
+    "text": "Which of the following techniques would attract the attention of a malicious attacker in an insider threat scenario?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Creating a false text file in /docs/salaries",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Setting weak passwords in /etc/shadow",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Scheduling vulnerable jobs in /etc/crontab",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Adding a fake account to /etc/passwd",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_464",
+    "text": "Which of the following should an organization use to protect its environment from external attacks conducted by an unauthorized hacker?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "ACL",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "IDS",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "HIDS",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "NIPS",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_478",
+    "text": "A security engineer configured a remote access VPN. The remote access VPN allows end users to connect to the network by using an agent that is installed on the endpoint, which establishes an encrypted tunnel. Which of the following protocols did the engineer most likely implement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "GRE",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "IPSec",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "SD-WAN",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "EAP",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_540",
+    "text": "A security architect wants to prevent employees from receiving malicious attachments by email. Which of the following functions should the chosen solution do?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Apply IP address reputation data.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Tap and monitor the email feed.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Scan email traffic inline.",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Check SPF records.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_581",
+    "text": "An organization purchased a critical business application containing sensitive data. The organization would like to ensure that the application is not exploited by common data exfiltration attacks. Which of the following approaches would best help to fulfill this requirement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "URL scanning",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "WAF",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Reverse proxy",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "NAC",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_610",
+    "text": "An administrator has configured a quarantine subnet for all guest devices that connect to the network. Which of the following would be best for the security team to perform before allowing access to corporate resources?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Device fingerprinting",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Compliance attestation",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Penetration test",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Application vulnerability test",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_652",
+    "text": "A security analyst created a fake account and saved the password in a non-readily accessible directory in a spreadsheet. An alert was also configured to notify the security team if the spreadsheet is opened. Which of the following best describes the deception method being deployed?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Honeypot",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Honeyfile",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Honeytoken",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Honeynet",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_669",
+    "text": "A Chief Information Security Officer (CISO) wants to: prevent employees from downloading malicious content; establish controls based on departments and users; map internet access for business applications to specific service accounts; restrict content based on categorization. Which of the following should the CSO implement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Web application firewall",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Secure DNS server",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Jump server",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Next-generation firewall",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_736",
+    "text": "An administrator implements web-filtering products but still sees that users are visiting malicious links. Which of the following configuration items does the security administrator need to review?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Intrusion prevention system",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Content categorization",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Encryption",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "DNS service",
+        "c": false
+      }
+    ],
+    "expl": ""
+  }
+]

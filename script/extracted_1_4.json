@@ -1,0 +1,1264 @@
+[
+  {
+    "id": "SCREEN_007",
+    "text": "Which of the following is used to add extra complexity before using a one way data transformation algorithm?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Salting",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Key stretching",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Steganography",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_026",
+    "text": "A company wants to ensure that the software it develops will not be tampered with after the final version is completed. Which of the following should the company most likely use?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Encryption",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Hashing",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Baselines",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_033",
+    "text": "During a penetration test, a flaw in the internal PKI was exploited to gain domain administrator rights using specially crafted certificates. Which of the following remediation tasks should be completed as part of the cleanup phase?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Changing passwords",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Updating the CRL",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Implementing SOAR",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Patching the CA",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_048",
+    "text": "You have been tasked with planning a solution where cryptographic key generation and web application cryptographic operations are centralized on the network. What should you implement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "HSM",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "TPM",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Certificate authority",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Blockchain",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_051",
+    "text": "What are two major causes of weak encryption?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Storing public keys in the cloud and using TLS 1.3",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Developing your own, proprietary algorithm and using weak cipher suites",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Using encryption over wireless networks and using quantum computers",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Using 256-bit keys and rotating keys frequently",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_065",
+    "text": "When information is converted to an unreadable state using cryptography, in what form is the information?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Plaintext",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Ciphertext",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Message digest",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Hash",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_100",
+    "text": "Which of the following are characteristics of hashing? (Select three choices)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Hashing can be used to protect data integrity.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Hashes are cryptographic representations of plaintext.",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Hashes are decrypted using the same algorithm and key that encrypted them.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Hashes produce fixed-length digests for variable-length text.",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_105",
+    "text": "Which of the following DES/AES encryption modes is considered the weakest?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "OFB",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "ECB",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "CTR",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "CBC",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_111",
+    "text": "Which of the following is used to add extra complexity before using a one-way data transformation algorithm?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Key stretching",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Steganography",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Salting",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_128",
+    "text": "Which of the following is used to add extra complexity before using a one-way data transformation algorithm?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Key stretching",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Steganography",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Salting",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_152",
+    "text": "A security administrator would like to protect data on employees’ laptops. Which of the following encryption techniques should the security administrator use?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Partition",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Asymmetric",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Full disk",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Database",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_182",
+    "text": "A software development manager wants to ensure the authenticity of the code created by the company. Which of the following options is the most appropriate?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Testing input validation on the user input fields",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Performing code signing on company-developed software",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Performing static code analysis on the software",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Ensuring secure cookies are use",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_188",
+    "text": "Which of the following allows for the attribution of messages to individuals?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Adaptive identity",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Non-repudiation",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Authentication",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Access logs",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_208",
+    "text": "A security engineer is implementing FDE for all laptops in an organization. Which of the following are the most important for the engineer to consider as part of the planning process? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Key escrow",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "TPM presence",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Digital signatures",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Data tokenization",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "Public key management",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "Certificate authority linking",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_222",
+    "text": "Which of the following is used to validate a certificate when it is presented to a user?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "OCSP",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "CSR",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "CA",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "CRC",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_272",
+    "text": "Which of the following describes the process of concealing code or text inside a graphical image?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Symmetric encryption",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Hashing",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Steganography",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_283",
+    "text": "In order to strengthen a password and prevent a hacker from cracking it, a random string of 36 characters was added to the password. Which of the following best describes this technique?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Key stretching",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Salting",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_289",
+    "text": "A systems administrator uses a key to encrypt a message being sent to a peer in a different branch office. The peer then uses the same key to decrypt the message. Which of the following describes this example?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Symmetric",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Asymmetric",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Hashing",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Salting",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_301",
+    "text": "A software developer released a new application and is distributing application files via the developer's website. Which of the following should the developer post on the website to allow users to verify the integrity of the downloaded files?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Hashes",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Certificates",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Algorithms",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Salting",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_302",
+    "text": "An organization wants to limit potential impact to its log-in database in the event of a breach. Which of the following options is the security team most likely to recommend?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Hashing",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Obfuscation",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Segmentation",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_322",
+    "text": "A company wants to verify that the software the company is deploying came from the vendor the company purchased the software from. Which of the following is the best way for the company to confirm this information?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Validate the code signature.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Execute the code in a sandbox.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Search the executable for ASCII strings.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Generate a hash of the files.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_362",
+    "text": "A company wants to ensure that the software it develops will not be tampered with after the final version is completed. Which of the following should the company most likely use?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Hashing",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Encryption",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Baselines",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Tokenization",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_376",
+    "text": "Which of the following most likely describes why a security engineer would configure all outbound emails to use S/MIME digital signatures?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "To meet compliance standards",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "To increase delivery rates",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "To block phishing attacks",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "To ensure non-repudiation",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_378",
+    "text": "Which of the following considerations is the most important regarding cryptography used in an IoT device?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Resource constraints",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Available bandwidth",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "The use of block ciphers",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "The compatibility of the TLS version",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_394",
+    "text": "An administrator is installing an LDAP browser tool in order to view objects in the corporate LDAP directory. Secure connections to the LDAP server are required. When the browser connects to the server, certificate errors are being displayed, and then the connection is terminated. Which of the following is the most likely solution?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "The administrator should allow SAN certificates in the browser configuration.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "The administrator needs to install the server certificate into the local truststore.",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "The administrator should request that the secure LDAP port be opened to the server.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "The administrator needs to increase the TLS version on the organization's RA.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_398",
+    "text": "A security administrator is working to find a cost-effective solution to implement certificates for a large number of domains and subdomains owned by the company. Which of the following types of certificates should the administrator implement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Wildcard",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Client certificate",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Self-signed",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Code signing",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_412",
+    "text": "The author of a software package is concerned about bad actors repackaging and inserting malware into the software. The software download is hosted on a website, and the author exclusively controls the website's contents. Which of the following techniques would best ensure the software's integrity?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Input validation",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Code signing",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Secure cookies",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Fuzzing",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_442",
+    "text": "Which of the following would be the most appropriate way to protect data in transit?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "SHA-256",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "SSL3.0",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "TLS 1.3",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "AES-256",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_453",
+    "text": "A database administrator is updating the company’s SQL database, which stores credit card information for pending purchases. Which of the following is the best method to secure the data against a potential breach?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Hashing",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Obfuscation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Tokenization",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Masking",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_463",
+    "text": "Which of the following cryptographic solutions protects data at rest?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Digital signatures",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Full disk encryption",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Private key",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Steganography",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_467",
+    "text": "Which of the following is the best way to securely store an encryption key for a data set in a manner that allows multiple entities to access the key when needed?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Public key infrastructure",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Open public ledger",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Public key encryption",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Key escrow",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_468",
+    "text": "For which of the following reasons would a systems administrator leverage a 3DES hash from an installer file that is posted on a vendor’s website?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "To test the integrity of the file",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "To validate the authenticity of the file",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "To activate the license for the file",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "To calculate the checksum of the file",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_484",
+    "text": "An administrator is installing an SSL certificate on a new system. During testing, errors indicate that the certificate is not trusted. The administrator has verified with the issuing CA and has validated the private key. Which of the following should the administrator check for next?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "If the wildcard certificate is configured",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "If the certificate signing request is valid",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "If the root certificate is installed",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "If the public key is configured",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_488",
+    "text": "An accountant is transferring information to a bank over FTP. Which of the following mitigations should the accountant use to protect the confidentiality of the data?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Encryption",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Obfuscation",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_505",
+    "text": "Which of the following cryptographic methods is preferred for securing communications with limited computing resources?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Hashing algorithm",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Public key infrastructure",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Symmetric encryption",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Elliptic curve cryptography",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_523",
+    "text": "When trying to access an internal website, an employee reports that a prompt displays, stating that the site is insecure. Which of the following certificate types is the site most likely using?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Wildcard",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Root of trust",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Third-party",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Self-signed",
+        "c": true
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_526",
+    "text": "The private key for a website was stolen, and a new certificate has been issued. Which of the following needs to be updated next?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "SCEP",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "CRL",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "OCSP",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "CSR",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_560",
+    "text": "Which of the following types of vulnerabilities is primarily caused by improper use and management of cryptographic certificates?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Misconfiguration",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Resource reuse",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Insecure key storage",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Weak cipher suites",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_564",
+    "text": "Which of the following should be used to ensure an attacker is unable to read the contents of a mobile device's drive if the device is lost?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "TPM",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "ECC",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "FDE",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "HSM",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_600",
+    "text": "A company is using a legacy FTP server to transfer financial data to a third party. The legacy system does not support SFTP, so a compensating control is needed to protect the sensitive, financial data in transit. Which of the following would be the most appropriate for the company to use?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Telnet connection",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "SSH tunneling",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Patch installation",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Full disk encryption",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_620",
+    "text": "Which of the following cryptographic solutions is used to hide the fact that communication is occurring?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Steganography",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Data masking",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Private key",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_624",
+    "text": "A security administrator is addressing an issue with a legacy system that communicates data using an unencrypted protocol to transfer sensitive data to a third party. No software updates that use an encrypted protocol are available, so a compensating control is needed. Which of the following are the most appropriate for the administrator to suggest? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tokenization",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Cryptographic downgrade",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SSH tunneling",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Segmentation",
+        "c": true
+      },
+      {
+        "id": "E",
+        "t": "Patch installation",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "Data masking",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_648",
+    "text": "Which of the following describes the difference between encryption and hashing?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Encryption protects data in transit, while hashing protects data at rest.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Encryption replaces cleartext with ciphertext, while hashing calculates a checksum.",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Encryption ensures data integrity, while hashing ensures data confidentiality.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Encryption uses a public-key exchange, while hashing uses a private key.",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_658",
+    "text": "A certificate authority needs to post information about expired certificates. Which of the following would accomplish this task?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "TPM",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "CRL",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "PKI",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "CSR",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_667",
+    "text": "An administrator must replace an expired SSL certificate. Which of the following does the administrator need to create the new SSL certificate?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "CSR",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "OCSP",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Key",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "CRL",
+        "c": false
+      }
+    ],
+    "expl": ""
+  },
+  {
+    "id": "SCREEN_687",
+    "text": "An engineer needs to ensure that a script has not been modified before it is launched. Which of the following best provides this functionality?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Masking",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Obfuscation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Hashing",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Encryption",
+        "c": false
+      }
+    ],
+    "expl": ""
+  }
+]

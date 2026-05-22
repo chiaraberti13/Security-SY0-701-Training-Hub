@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 4.8 — Attività di Incident Response (IR) · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.8 — Incident Response</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.8 — Implementare e Gestire le Attività di Incident Response (IR)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain appropriate incident response activities.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">4.8</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisiti:</strong>
+        <a href="obj4_5_incident_response.html">OBJ 4.5 — Configurare le capacità enterprise</a> ·
+        <a href="obj4_7_automation_orchestration.html">OBJ 4.7 — Automazione e Orchestrazione</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Fasi del Ciclo IR</div>
+        <a href="#ir_lifecycle">Fasi dell'Incident Response (NIST)</a>
+        <a href="#containment_limit">Contenimento ed Isolamento</a>
+        <a href="#lessons_learned_report">Lessons Learned e Reporting</a>
+
+        <div class="toc-section">Prevenzione e Test</div>
+        <a href="#tabletop_exercises">Esercitazioni Tabletop</a>
+        <a href="#threat_hunting_intro">Threat Hunting proattivo</a>
+
+        <div class="toc-section">Integrità e Investigazioni</div>
+        <a href="#chain_of_custody_pki">Catena di Custodia e Forensics</a>
+        <a href="#yellow_team">Yellow Team ed Integrazione</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (23 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — IL CICLO DI VITA IR NIST ═══════════════ -->
+        <section id="ir_lifecycle">
+          <h2>Fasi del Ciclo di Vita dell'Incident Response (NIST / CompTIA)</h2>
+          <p>
+            L'Incident Response (IR) è un insieme coordinato di attività, politiche e strumenti volto ad identificare, contenere e rimediare alle minacce di sicurezza. Un'organizzazione struttura la risposta secondo il modello standardizzato <strong>NIST SP 800-61</strong> <code>(SCREEN_612)</code>.
+          </p>
+
+          <div class="critical">
+            <strong>Fasi Sequenziali d'Esame:</strong>
+            <ol>
+              <li><strong>Preparation (Preparazione)</strong>: Si stabiliscono preventivamente ruoli, responsabilità strutturate del personale, si redigono i playbook e si addestrano le persone <code>(SCREEN_204)</code>.</li>
+              <li><strong>Detection and Analysis (Rilevamento e Analisi)</strong>: È la prima fase attiva volta a scoprire anomalie e confermare che l'evento costituisca formalmente una violazione attiva <code>(SCREEN_541)</code>.</li>
+              <li><strong>Containment, Eradication, and Recovery (Contenimento, Eradicazione e Ripristino)</strong>: Sotto-fasi preposte prima a contenere il raggio d'azione del virus, poi a disinfettare i sistemi e infine a riportarli online <code>(SCREEN_053, SCREEN_738)</code>.</li>
+              <li><strong>Post-Incident Activity (Attività Post-Incidente / Lessons Learned)</strong>: Analisi conclusiva per documentare l'accaduto e implementare difese strutturali aggiuntive <code>(SCREEN_025, SCREEN_347, SCREEN_474)</code>.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 2 — CONTENIMENTO ED ISOLAMENTO ════════════ -->
+        <section id="containment_limit">
+          <h2>Contenimento vs Eradicazione</h2>
+          <p>
+            Nello svolgimento delle operazioni del SOC di fronte ad un attacco malware, discriminare tra isolamento iniziale e bonifica è di fondamentale importanza:
+          </p>
+          <ul>
+            <li>
+              <strong>Contenimento (Containment)</strong>: Colloca al primo posto l'obiettivo di <strong>limitare la propagazione del danno</strong> e minimizzare l'interruzione complessiva delle attività <code>(SCREEN_738)</code>. Un'azione tipo consiste nell'usare il SIEM o l'EDR per disconnettere o isolare un server compromesso dalla rete <code>(SCREEN_053)</code>.
+            </li>
+            <li>
+              <strong>Eradicazione (Eradication)</strong>: Subentra in seguito all'isolamento. Consiste nel neutralizzare integralmente il malware all'origine, rimuovendo le minacce e i file cloni residui.
+            </li>
+          </ul>
+
+          <div class="example-box">
+            <strong>Analisi di Scenario — Macchina Isolata ma non sanata <code>(SCREEN_053)</code>:</strong><br>
+            Se il team del SOC individua un endpoint compromesso e il software SIEM riesce a disconnetterlo dall'ambiente di rete principale, ma i tecnici non hanno ancora eliminato i file maligni da quel computer, il team ha completato esclusivamente la fase di <strong>Contenimento (Containment)</strong>.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 3 — LESSONS LEARNED E REPORTING ════════════ -->
+        <section id="lessons_learned_report">
+          <h2>Attività Post-Incidente: Lessons Learned e Reporting</h2>
+          <p>
+            Al termine delle fasi di sanificazione ed espulsione degli aggressori, il team si riunisce per le attività conclusive di rendicontazione:
+          </p>
+          <dl class="termlist">
+            <dt>Generazione di Report Formali <code>(SCREEN_025, SCREEN_347)</code></dt>
+            <dd>Determinati audit o normative richiedono la formalizzazione e sottomissione di relazioni scritte (Incident reports). Tali report ufficiali descrivono l'intera sequenza temporale del breach e vengono scritti e generati solo durante la fase finale di <strong>Lessons learned</strong>.</dd>
+            
+            <dt>Ricerca delle cause di fondo (Root Cause Analysis - RCA) <code>(SCREEN_170, SCREEN_474)</code></dt>
+            <dd>Identifica sistematicamente la falla primaria che ha concesso l'accaduto. Ricercare la root cause ha il fine ultimo di <strong>prevenire futuri incidenti aventi la medesima origine</strong>, correggendo la vulnerabilità alla radice.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 4 — ESERCITAZIONI TABLETOP ═════════════════ -->
+        <section id="tabletop_exercises">
+          <h2>Strumenti di Convalida ed Addestramento: Le Tabletop Exercise</h2>
+          <p>
+            Un Incident Response Plan (IRP) ha poco valore pratico se il personale chiave non è stato addestrato ad applicarlo in condizioni stressanti.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Tabletop Exercises (Esercitazioni da Tavolo) <code>(SCREEN_249, SCREEN_337, SCREEN_525, SCREEN_616)</code>:</strong><br>
+            Una Tabletop Exercise è una simulazione formale, verbale e discussiva in cui i rappresentanti dei dipartimenti chiave d'azienda (dirigenti, legali, tecnici, pubbliche relazioni) si riuniscono verbalmente per esaminare uno scenario d'attacco ipotetico.
+            <br><br>
+            <strong>Caratteristiche e Obiettivi Fondamentali:</strong>
+            <ul>
+              <li><strong>Obiettivo di fondo</strong>: Familiarizzare compiutamente i partecipanti con il piano di risposta all'incidente e i rispettivi ruoli <code>(SCREEN_525)</code>.</li>
+              <li><strong>Metodologia</strong>: Si svolge a parole in modo pianificato (es: intorno a un tavolo in riunione ufficiale), confrontando e coordinando le reazioni all'attacco <code>(SCREEN_337)</code>.</li>
+              <li><strong>Riconfigurazione dei Piani</strong>: Serve all'organizzazione cyber per scovare discrepanze o buchi procedurali e provvedere prontamente ad <strong>aggiornare l'Incident Response Plan (IRP)</strong> <code>(SCREEN_683)</code>.</li>
+              <li><strong>Timing ideale</strong>: Costituisce il passaggio logico immediatamente successivo all'introduzione di nuovi playbook o dopo la revisione critica della documentazione aziendale di sicurezza <code>(SCREEN_471)</code>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 5 — THREAT HUNTING PROATTIVO ═══════════════ -->
+        <section id="threat_hunting_intro">
+          <h2>Caccia Attiva alle Minacce: Threat Hunting proattivo</h2>
+          <p>
+            Molti dei cybercriminali odierni permangono all'interno della rete bersaglio per mesi senza emettere segnali eclatanti. I tradizionali allarmi basati su firme fisse o SIEM non configurati per le ultime tendenze restano silenti. 
+          </p>
+          <p>
+            In questo scenario, l'analista di sicurezza adotta e mette in atto il <strong>Threat Hunting (Caccia alle minacce)</strong> <code>(SCREEN_150)</code>.
+          </p>
+          <p>
+            A differenza della risposta reattiva subordinata a un allarme del SIEM, il Threat Hunting è una <strong>ricerca proattiva e sistematica</strong> avviata per identificare comportamenti ostili, anomalie silenti o tattiche cyber emergenti non ancora coperte dalle notifiche automatiche esistenti <code>(SCREEN_150)</code>.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 6 — FORENSICS E CHAIN OF CUSTODY ═══════════ -->
+        <section id="chain_of_custody_pki">
+          <h2>Integrità delle Prove e Investigazione Informatica (Digital Forensics)</h2>
+          <p>
+            Durante lo svolgimento delle investigazioni informatiche su endpoint o server manomessi, ogni azione svolta dagli analisti deve preservare il reperto per eventuali procedimenti legali.
+          </p>
+
+          <dl class="termlist">
+            <dt>Chain of Custody (Catena di Custodia) <code>(SCREEN_083, SCREEN_213)</code></dt>
+            <dd>È il protocollo ufficiale deputato a documentare l'intera storia di vita delle prove digitali dal momento in cui vengono estratte fino alla presentazione in tribunale, annotando l'ora, il responsabile della presa di possesso e il luogo di custodia. La compilazione meticolosa della catena di custodia è indispensabile affinché le evidenze vengano reputate <strong>correttamente e validamente maneggiate</strong> <code>(SCREEN_083, SCREEN_213)</code>.</dd>
+            
+            <dt>Data Preservation (Preservazione del Dato) <code>(SCREEN_533)</code></dt>
+            <dd>È una prassi cardine volta ad <strong>assicurare l'integrità formale della prova crittografica</strong> prima e dopo l'acquisizione (ad esempio l'esecuzione di una copia bit-a-bit protetta da hash immodificabile per evitare la corruzione dei metadati fisici sui dischi fissi).</dd>
+          </dl>
+
+          <div class="example-box font-mono text-sm">
+            <strong>Esempio Dinamico d'Esame — Password in Chiarofila <code>(SCREEN_664)</code>:</strong><br>
+            Nel momento in cui un analista del SOC si avvede (tramite sessioni remote o registri) che un utente ha trascritto sul proprio computer un file in cui figurano in chiaro gli account email personali completi delle rispettive password, la prima azione da fare per isolare l'esposizione è consigliare all'utente di <strong>cambiare subito le password</strong> <code>(SCREEN_664)</code>.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 7 — YELLOW TEAM E SVILUPPO SICURO ═════════ -->
+        <section id="yellow_team">
+          <h2>Il Ruolo dello Yellow Team nel Modello dei Team di Sviluppo</h2>
+          <p>
+            Nelle moderne metodiche software DevSecOps, la collaborazione tra chi scrive codice e chi lo attacca e difende ha un ruolo trainante:
+          </p>
+          <dl class="termlist">
+            <dt>Yellow Team (I Costruttori) <code>(SCREEN_613)</code></dt>
+            <dd>Lo <strong>Yellow Team</strong> incarna il ruolo degli sviluppatori software, dei progettisti dell'architettura e degli ingegneri applicativi. Opera e coopera con l'apporto sia offensivo (Red Team) sia protettivo (Blue Team) al fine di recepire logiche d'attacco ed erigere software e applicazioni intrinsecamente robusti e privi di falle fin dall'inizio della fase di sviluppo.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.8</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>23 domande d'esame reali</strong> su fasi NIST, contenimento, Tabletop, Threat Hunting, Catena di Custodia, reazione d'emergenza e il ruolo del Yellow Team.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.8 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.8</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è l'obiettivo centrale del Threat Hunting?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La ricerca proattiva e manuale di minacce cyber striscianti e silenti che abbiano raggirato i consueti sensori di rilevazione automatica o per cui non esistono specifiche regole del SIEM <code>(SCREEN_150)</code>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>In quale fase di IR si documentano raccomandazioni e report?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>In corrispondenza della fase finale di <strong>Lessons learned</strong> (Lezioni apprese) <code>(SCREEN_025, SCREEN_347)</code>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cosa assicura l'integrità giuridica di una prova?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La rigorosa conformità alla <strong>Catena di Custodia</strong> (Chain of custody), volta a documentare cronologicamente ogni singola custodia o manipolazione del reperto <code>(SCREEN_083, SCREEN_213)</code>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità di esercitazione</p>
+      <p class="quiz-setup-sub">Obiettivo 4.8 · 23 domande reali disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>Set completo di tutti i 23 quesiti dell'archivio d'esame</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 domande selezionate casualmente</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato finale OBJ 4.8</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Completo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPT DATI & LOGICA QUIZ ═══════════════════════════════ -->
+<script>
+(function() {
+  const Q = [
+  {
+    "id": "SCREEN_025",
+    "text": "Which of the following phases of an incident response involves generating reports?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Recovery",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Preparation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Lessons learned",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Containment",
+        "c": false
+      }
+    ],
+    "expl": "La fase 'Lessons learned' (Lezioni apprese) è la parte conclusiva del ciclo di risposta all'incidente in cui si redigono i report ufficiali, si analizza l'accaduto e si documentano i miglioramenti da apportare alle procedure."
+  },
+  {
+    "id": "SCREEN_053",
+    "text": "Jewel's team located a compromised system. Their SIEM software successfully disconnected the system, but her team hasn't yet cleaned up the compromised system. What point of the incident response process has Jewel's team completed?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Eradication",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Lessons learned",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Containment",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Recovery",
+        "c": false
+      }
+    ],
+    "expl": "Il contenimento (Containment) consiste nel limitare ed isolare la propagazione del danno (ad esempio scollegando un computer compromesso dalla rete). Se la macchina è stata isolata ma non ancora bonificata, la fase completata è appunto il contenimento, mentre la bonifica avverrà nella fase di eradicazione (Eradication)."
+  },
+  {
+    "id": "SCREEN_083",
+    "text": "Which of the following incident response activities ensures evidence is properly handled?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "E-discovery",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Legal hold",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Preservation",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Chain of custody",
+        "c": true
+      }
+    ],
+    "expl": "La catena di custodia (Chain of custody) è un processo di documentazione sequenziale e ininterrotto che attesta chi ha raccolto, maneggiato, trasferito e conservato le prove digitali, salvaguardandone la validità legale in giudizio."
+  },
+  {
+    "id": "SCREEN_150",
+    "text": "A cyber operations team informs a security analyst about a new tactic malicious actors are using to compromise networks. SIEM alerts have not yet been configured. Which of the following best describes what the security analyst should do to identify this behavior?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Digital forensics",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "E-discovery",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Incident response",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Threat hunting",
+        "c": true
+      }
+    ],
+    "expl": "La ricerca proattiva delle minacce (Threat Hunting) consiste nell'indagare manualmente e in modo mirato tra i sistemi aziendali per individuare comportamenti sospetti non ancora identificati dalle regole o dagli alert pre-configurati del SIEM."
+  },
+  {
+    "id": "SCREEN_170",
+    "text": "Which of the following describes the reason root cause analysis should be conducted as part of incident response?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "To gather IoCs for the investigation",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "To discover which systems have been affected",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "To eradicate any trace of malware on the network",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "To prevent future incidents of the same nature",
+        "c": true
+      }
+    ],
+    "expl": "L'analista di sicurezza conduce l'analisi delle cause radice (Root cause analysis) con lo scopo cardine di identificare la debolezza originaria che ha consentito l'insorgere del breach, prevenendo così il ripetersi di incidenti analoghi in futuro."
+  },
+  {
+    "id": "SCREEN_204",
+    "text": "Which of the following is the phase in the incident response process when a security analyst reviews roles and responsibilities?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Preparation",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Recovery",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Lessons learned",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Analysis",
+        "c": false
+      }
+    ],
+    "expl": "La fase di Preparazione (Preparation) prevede di istruire il personale, strutturare gli Incident Response Plan e mappare preliminarmente ruoli e responsabilità prima che l'evento critico accada."
+  },
+  {
+    "id": "SCREEN_213",
+    "text": "Which of the following incident response activities ensures evidence is properly handled?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "E-discovery",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Chain of custody",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Legal hold",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Preservation",
+        "c": false
+      }
+    ],
+    "expl": "La catena di custodia (Chain of custody) tiene traccia documentale rigorosa in ordine cronologico dell'identità di chiunque manipoli o custodisca un reperto elettronico, garantendone l'integrità legale."
+  },
+  {
+    "id": "SCREEN_249",
+    "text": "Which of the following exercises should an organization use to improve its incident response process?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tabletop",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Replication",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Failover",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Recovery",
+        "c": false
+      }
+    ],
+    "expl": "Le esercitazioni di discussione verbale su scenari ipotetici di attacco, note come Tabletop exercise, servono alla ditta per collaudare l'efficacia delle risposte e ottimizzare le procedure prima di affrontare minacce reali."
+  },
+  {
+    "id": "SCREEN_337",
+    "text": "Which of the following describes an executive team that is meeting in a board room and testing the company's incident response plan?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Continuity of operations",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Capacity planning",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Tabletop exercise",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Parallel processing",
+        "c": false
+      }
+    ],
+    "expl": "Una riunione seduta in una boardroom della dirigenza aziendale per analizzare passaggi, responsabilità ed escalation a fronte di un ipotetico scenario di cyberattacco è un esempio classico di Tabletop exercise."
+  },
+  {
+    "id": "SCREEN_347",
+    "text": "Which of the following phases of an incident response involves generating reports?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Recovery",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Preparation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Lessons learned",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Containment",
+        "c": false
+      }
+    ],
+    "expl": "La finalizzazione e sottomissione di relazioni formali dell'incidente all'alta dirigenza (incident report status) avviene interamente nella fase di Lessons learned."
+  },
+  {
+    "id": "SCREEN_471",
+    "text": "A security manager created new documentation to use in response to various types of security incidents. Which of the following is the next step the manager should take?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Set the maximum data retention policy.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Securely store the documents on an air-gapped network.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Review the documents’ data classification policy.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Conduct a tabletop exercise with the team.",
+        "c": true
+      }
+    ],
+    "expl": "Ogni volta che si introducono o aggiornano documenti operativi e playbook, il passaggio ideale da effettuare consiste nell'eseguire una Tabletop exercise per formare il personale sui nuovi processi."
+  },
+  {
+    "id": "SCREEN_474",
+    "text": "Which of the following activities is included in the post-incident review phase?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Determining the root cause of the incident",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Developing steps to mitigate the risks of the incident",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Validating the accuracy of the evidence collected during the investigation",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Reestablishing the compromised system’s configuration and settings",
+        "c": false
+      }
+    ],
+    "expl": "L'analisi post-incidente ha il compito prioritario di evidenziare la causa originaria (root cause) che ha generato il problema, identificando le mitigazioni adatte a non farlo avvenire mai più."
+  },
+  {
+    "id": "SCREEN_477",
+    "text": "Which of the following is most likely to be used as a just-in-time reference document within a security operations center?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Change management policy",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Risk profile",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Playbook",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "SIEM profile",
+        "c": false
+      }
+    ],
+    "expl": "I Playbook fungono da pratici fogli di riferimento subitanei (just-in-time reference document) progettati per fornire flussi d'azione guidati per minacce e allarmi specifici."
+  },
+  {
+    "id": "SCREEN_525",
+    "text": "Which of the following objectives is best achieved by a tabletop exercise?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Familiarizing participants with the incident response process",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Deciding red and blue team rules of engagement",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Quickly determining the impact of an actual security breach",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Conducting multiple security investigations in parallel",
+        "c": false
+      }
+    ],
+    "expl": "Lo scopo cardine e intrinseco di una Tabletop exercise è fare in modo che tutti i differenti attori azionari e aziendali conoscano ed abbiano confidenza con i flussi dell'Incident Response Plan."
+  },
+  {
+    "id": "SCREEN_533",
+    "text": "Which of the following elements of digital forensics should a company use if it needs to ensure the integrity of evidence?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Preservation",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "E-discovery",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Acquisition",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Containment",
+        "c": false
+      }
+    ],
+    "expl": "La catena di custodia, il contenimento tempestivo e i test di tipo tabletop assicurano la conformità e la robustezza del processo di Incident Response."
+  },
+  {
+    "id": "SCREEN_541",
+    "text": "Which of the following activities is the first stage in the incident response process?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Detection",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Declaration",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Containment",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Verification",
+        "c": false
+      }
+    ],
+    "expl": "Il ciclo formale della gestione dell'incidente principia con il rilevamento iniziale (Detection), fase investigativa deputata a riscontrare che l'anomalia o l'evento si stia effettivamente verificando."
+  },
+  {
+    "id": "SCREEN_612",
+    "text": "A Chief Information Security Officer is developing procedures to guide detective and corrective activities associated with common threats, including phishing, social engineering, and business email compromise. Which of the following documents would be most relevant to revise as part of this process?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "SDLC",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "IRP",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "BCP",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "AUP",
+        "c": false
+      }
+    ],
+    "expl": "L'Incident Response Plan (IRP) è il documento strutturato d'organo massimo che stabilisce e guida dettagliatamente l'intero operato correttivo e preventivo del SOC contro tipi di minacce note."
+  },
+  {
+    "id": "SCREEN_613",
+    "text": "Which of the following testing techniques uses both defensive and offensive testing methodologies with developers to securely build key applications and software?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Blue",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Yellow",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Red",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Green",
+        "c": false
+      }
+    ],
+    "expl": "Il colore 'Yellow' nel modello dei team di sicurezza descrive lo strato dei programmatori o degli sviluppatori (System Builders). Lo Yellow Team opera in sinergia integrata sia con chi difende o revisiona (Blue) sia con chi effettua test d'intrusione (Red)."
+  },
+  {
+    "id": "SCREEN_616",
+    "text": "Various company stakeholders meet to discuss roles and responsibilities in the event of a security breach that would affect offshore offices. Which of the following is this an example of?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tabletop exercise",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Penetration test",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Geographic dispersion",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Incident response",
+        "c": false
+      }
+    ],
+    "expl": "La discussione guidata orizzontale su scala multinazionale inerente a responsabilità logistiche, legali e operative dinanzi a una ipotetica compromissione costituisce una Tabletop exercise."
+  },
+  {
+    "id": "SCREEN_638",
+    "text": "Which of the following activities uses OSINT?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Social engineering testing",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Data analysis of logs",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Collecting evidence of malicious activity",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Producing IOC for malicious artifacts",
+        "c": false
+      }
+    ],
+    "expl": "L'Open Source Intelligence (OSINT) estrae informazioni da fonti pubbliche per fini investigativi o per pianificare test ed esercizi realistici di social engineering contro l'organizzazione."
+  },
+  {
+    "id": "SCREEN_664",
+    "text": "A SOC analyst establishes a remote control session on an end user's machine and discovers the following in a file: gmail.com[ENT]my.name@gmail.com[ENT]NoOneCanGuessThis123! [ENT]Hello Susan, it was great to see you the other day! Let's plan a followup[BACKSPACE]follow-up meeting soon. Here is the link to register. [RTN][CTRL]c [CTRL]v [RTN]after[BACKSPACE]After you register give me a call on my cellphone. Which of the following actions should the SOC analyst perform first?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Advise the user to change passwords.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Reimage the end user's machine.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Check the policy on personal email at work.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Check host firewall logs.",
+        "c": false
+      }
+    ],
+    "expl": "Nel momento in cui l'analista constata un file (es. logger o session recovery) in cui l'utente ha esposto credenziali private e password in chiaro, la norma d'emergenza dispone di avvertire istantaneamente il proprietario dell'account affinché provveda a cambiare subito la password."
+  },
+  {
+    "id": "SCREEN_683",
+    "text": "Which of the following is the best reason to perform a tabletop exercise?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "To address audit findings",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "To collect remediation response times",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "To update the IRP",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "To calculate the ROI",
+        "c": false
+      }
+    ],
+    "expl": "Le Tabletop exercise rappresentano lo strumento ideale per vagliare a freddo l'efficacia dei ruoli e, di riflesso, servono all'organizzazione per aggiornare e sanare l'Incident Response Plan (IRP)."
+  },
+  {
+    "id": "SCREEN_738",
+    "text": "Which of the following phases of the incident response process attempts to minimize disruption?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Recovery",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Containment",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Preparation",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Analysis",
+        "c": false
+      }
+    ],
+    "expl": "La fase di contenimento (Containment) persegue lo scopo principale di frenare, limitare o isolare la propagazione del cyberattacco verso il resto dell'infrastruttura di rete, sventando l'aggravarsi del danno e riducendo al minimo l'impatto e l'interruzione operativa."
+  }
+];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 4.8';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 15 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+    optionsEl.innerHTML    = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className   = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 4.7 — Automazione e Orchestrazione nelle Operazioni di Sicurezza · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.7 — Automazione e Orchestrazione</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.7 — Automazione e Orchestrazione nelle Operazioni di Sicurezza</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain the importance of automation and orchestration related to secure operations.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">4.7</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisiti:</strong>
+        <a href="obj4_4_alerting_monitoring.html">OBJ 4.4 — Allertamento e Monitoraggio</a> ·
+        <a href="obj4_5_incident_response.html">OBJ 4.5 — Attività di Incident Response</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">SOAR & SIEM</div>
+        <a href="#soar_concept">Funzionamento del SOAR</a>
+        <a href="#nextgen_siem">SIEM di Nuova Generazione</a>
+
+        <div class="toc-section">Procedure operative</div>
+        <a href="#playbooks_runbooks">Playbook e Runbook</a>
+        <a href="#alert_tuning">Tuning delle Regole & Log Applicativi</a>
+
+        <div class="toc-section">Casi di Cleanup</div>
+        <a href="#ca_patching">Patching di Emergenza della CA</a>
+        <a href="#wpa3_sae">WPA3 e Sicurezza Password-Based</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (8 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — IL PARADIGMA SOAR ═════════════════════ -->
+        <section id="soar_concept">
+          <h2>Security Orchestration, Automation, and Response (SOAR)</h2>
+          <p>
+            Nei Security Operations Center (SOC) enterprise, l'enorme volume di avvisi giornalieri impedisce un'efficace gestione manuale. La risposta a questa sfida risiede nell'implementazione di piattaforme <strong>SOAR (Security Orchestration, Automation, and Response)</strong> <code>(SCREEN_601)</code>.
+          </p>
+          <p>
+            Il SOAR funge da collettore centrale in grado di intercettare gli alert emessi dal SIEM o dai sistemi EDR/firewall, ed eseguire flussi di risposta automatizzati senza che un operatore debba compiere decine di passaggi manuali nel terminale <code>(SCREEN_601)</code>.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Il Fornitore di Efficienza — Workforce Multiplier <code>(SCREEN_491)</code>:</strong><br>
+            La primaria utilità derivante dall'inclusione di processi di automazione e orchestrazione all'interno dei motori di sicurezza SOC risiede nella sua funzione di <strong>workforce multiplier (moltiplicatore della forza lavoro)</strong>. Questo consente ai pochissimi analisti umani del SOC di sovrintendere a migliaia di incidenti simultanei con tempi di reazione sub-secondo, delegando i flussi ripetitivi e di routine ai motori automatizzati.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 2 — SIEM DI NUOVA GENERAZIONE ══════════════ -->
+        <section id="nextgen_siem">
+          <h2>SIEM di Nuova Generazione e Azioni di Risposta</h2>
+          <p>
+            I SIEM tradizionali (legacy) si limitavano a raccogliere, aggregare, correlare storicamente e archiviare passivamente i registri di sistema per scopi di auditing o compliance fiscale. 
+          </p>
+          <p>
+            I <strong>SIEM di Nuova Generazione (Next-Gen SIEM)</strong> superano questa limitazione integrando in un'unica interfaccia l'analisi del comportamento degli utenti (UBA) e apposite funzionalità di <strong>risposta automatica all'incidente (Automated response actions)</strong> <code>(SCREEN_340)</code>. Tali reazioni possono includere l'isolamento istantaneo in quarantena di una macchina compromessa segnalata dall'EDR, o la revoca automatica di una sessione utente anomala.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 3 — PLAYBOOKS E RUNBOOKS ═══════════════════ -->
+        <section id="playbooks_runbooks">
+          <h2>Standardizzazione: Playbook e Runbook</h2>
+          <p>
+            Le strategie incidentali devono essere pianificate a freddo per evitare errori umani sotto pressione:
+          </p>
+          <dl class="termlist">
+            <dt>Playbook (Guida Strategica al Contenimento)</dt>
+            <dd>È una guida o matrice procedurale di alto livello che delinea l'intera logica di gestione dell'incidente <code>(SCREEN_336)</code>. Ad esempio, indica chi deve essere notificato legalmente, quando isolare un server critico, quali autorizzazioni sono indispensabili e come allertare il PR Manager in presenza di data breach. I SOC adoperano i <strong>playbook</strong> per guidare e standardizzare la reazione coordinata del team.</dd>
+            
+            <dt>Runbook (Procedura Tecnica Esecutiva)</dt>
+            <dd>Contiene la sequenza restrittiva e granulare di comandi tecnici o script esatti adoperati per eseguire materialmente una determinata porzione di automazione (es: stringhe PowerShell o configurazioni router da lanciare per bloccare una porta IP).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 4 — ALLERTA TUNING E LOG APPLICATIVI ═══════ -->
+        <section id="alert_tuning">
+          <h2>Tuning delle Regole & Audit dei registri Software</h2>
+          <p>
+            Nel normale flusso delle Security Operations, la ridondanza di allerte errate (falsi positivi) rischia di indurre la sindrome di 'alert fatigue' (assuefazione agli allarmi) negli analisti.
+          </p>
+
+          <h3>Il Processo del Tuning (Sintonizzazione delle Assunzioni)</h3>
+          <p>
+            Quando un analista del SOC rileva che determinati comportamenti anomali (es: un software gestionale interno che interpella porte non standard) sono in realtà da considerarsi sani e operativi per il ciclo lavorativo corrente, compie un'attività di <strong>Tuning (Tuning delle Regole)</strong> <code>(SCREEN_089)</code>. Il tuning modifica i filtri d'allarme per ignorare formalmente tale attività d'ora in avanti.
+          </p>
+
+          <h3>L'Importanza dei Registri Software specifici (Application Logs)</h3>
+          <p>
+            Molti degli incidenti più dannosi avvengono non sulla infrastruttura di rete o a livello di firewall, bensì per via di transazioni logiche di backend. 
+          </p>
+          <div class="critical">
+            <strong>Esempio Chiave — Audit della Frode Contabile <code>(SCREEN_455)</code>:</strong><br>
+            Se un utente usa illegittimamente il software di fatturazione interna della ditta per emettere clandestinamente check e pagamenti fraudolenti, i tecnici che indagano non troveranno evidenza di questa infrazione nei log dei firewall, delle porte IDS o dello scanner di vulnerabilità di sistema. L'amministratore dovrà procedere analizzando con massima cura i <strong>log applicativi (Application logs)</strong> del gestionale per tracciare la cronologia esatta delle transazioni abusive.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 5 — CASI DI CLEANUP E INDAGINI PKI ════════ -->
+        <section id="ca_patching">
+          <h2>Gestione Post-Attacco: Patching della CA</h2>
+          <p>
+            Al termine di un attacco accertato o di un penetration test in cui un cybercriminale è penetrato nel perimetro AD usando certificati fittizi abilmente contraffatti a causa di una debolezza della Certification Authority, è necessario avviare il ripristino sicuro (Cleanup Phase).
+          </p>
+          <p class="focused-concept">
+            <strong>Cleanup Task — Patching the CA <code>(SCREEN_405)</code>:</strong><br>
+            Fintanto che la debolezza del codice o della configurazione della Certification Authority rimane aperta sul server, l'attaccante potrà ritornare forgiando nuove identità. Per questo motivo, il principale e immediato remediation task da compiere durante la fase di cleanup consiste nel <strong>patchare il server CA (Patching the CA)</strong> per sradicare la vulnerabilità all'origine, prima di attuare modifiche accessorie come il reintegro delle password.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 6 — PROTOCOLLI EVOLUTI: WPA3 SAE ═════════ -->
+        <section id="wpa3_sae">
+          <h2>WPA3 e Sicurezza Password-Based (SAE)</h2>
+          <p>
+            Un'ulteriore applicazione di tecniche crittografiche moderne preposte a rendere sicuro lo scambio di chiavi sul perimetro fisico (Wi-Fi) riguarda l'introduzione dello standard <strong>WPA3</strong>.
+          </p>
+          <dl class="termlist">
+            <dt>Simultaneous Authentication of Equals (SAE)</dt>
+            <dd>SAE è l'algoritmo di scambio di chiavi impiegato in WPA3 Personal per sostituire il vulnerabile protocollo basato su PSK d'era WPA2. Funge da <strong>scambio di chiavi basato su password (password-based key exchange)</strong> progettato per resistere intrinsecamente ad attacchi a dizionario o intercettazioni offline <code>(SCREEN_044)</code>. SAE garantisce la generazione di solidi segreti di crittografia condivisi escludendo lo scambio in chiaro dell'handshake.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.7</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>8 domande d'esame</strong> su SOAR, playbook, SIEM next-gen, tuning delle allerte, registri applicativi e scambio chiavi SAE, con feedback immediato e spiegazione strutturata in italiano.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.7 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.7</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cos'è il Tuning nell'ambito del SOC?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Il <strong>Tuning</strong> è il processo di affinamento e calibrazione delle regole del SIEM o dell'IDS per escludere eventi benigni e azzerare la nascita di falsi positivi futuri.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale caratteristica distingue un SIEM Next-Gen?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La disponibilità integrata di <strong>funzionalità di risposta automatizzata (Automated response actions)</strong> sui dispositivi di infrastruttura.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>In quale file di log cercheresti prove di ricatti o frodi sul gestionale contabile?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Nei <strong>Log Applicativi (Application logs)</strong> specifici della piattaforma di contabilità violata, non nei log di rete o del firewall.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Esercitazione ufficiale OBJ 4.7</p>
+      <p class="quiz-setup-sub">Obiettivo d'esame · 8 domande reali disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all" style="width: 100%;"><strong>Avvia il test completo</strong><span>Tutti gli 8 quesiti dell'archivio d'esame</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato finale OBJ 4.7</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Completo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPT DATI & LOGICA QUIZ ═══════════════════════════════ -->
+<script>
+(function() {
+  const Q = [
+  {
+    "id": "SCREEN_044",
+    "text": "What does WPA3 use Simultaneous Authentication of Equals (SAE) to do?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "It is used as a password-based key exchange to create strong shared secrets.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "It is used to create the Quick Response (QR) codes.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "It is used to create the elliptic curves for the main encryption.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "It is used to create collision-resistant hash values.",
+        "c": false
+      }
+    ],
+    "expl": "Simultaneous Authentication of Equals (SAE) sostituisce la chiave pre-condivisa (PSK) in WPA3. Fornisce uno scambio di chiavi basato su password (password-based key exchange) altamente resistente ai tentativi di cracking offline (attacchi a dizionario), generando segreti condivisi robusti anche con password utente deboli o corte."
+  },
+  {
+    "id": "SCREEN_089",
+    "text": "A security operations center determines that the malicious activity detected on a server is normal. Which of the following activities describes the act of ignoring detected activity in the future?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Tuning",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Aggregating",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Quarantining",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Archiving",
+        "c": false
+      }
+    ],
+    "expl": "Il 'Tuning' (sintonizzazione) consiste nel ricalibrare e perfezionare le regole di allerta del SIEM o dell'IDS. Quando una determinata attività innocua viene rilevata erroneamente come minaccia, l'analista esegue il tuning sulla regola d'allerta per escluderla in futuro, azzerando i falsi positivi."
+  },
+  {
+    "id": "SCREEN_336",
+    "text": "Which of the following should a security operations center use to improve its incident response procedure?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Playbooks",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Frameworks",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Baselines",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Benchmarks",
+        "c": false
+      }
+    ],
+    "expl": "I Playbook sono guide procedurali incentrate sulla risposta a specifici incidenti cibernetici. Il Security Operations Center (SOC) si serve dei playbook per armonizzare, velocizzare e rendere riproducibili le fasi dell'Incident Response."
+  },
+  {
+    "id": "SCREEN_340",
+    "text": "Which of the following is a feature of a next-generation SIEM system?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Virus signatures",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Automated response actions",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Security agent deployment",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Vulnerability scanning",
+        "c": false
+      }
+    ],
+    "expl": "I SIEM di nuova generazione (Next-Gen SIEM) affiancano alla classica ricezione ed indicizzazione passiva dei log la capacità di avviare azioni proattive di contenimento e interazione automatica (Automated response actions), anche integrando tecnologie SOAR."
+  },
+  {
+    "id": "SCREEN_405",
+    "text": "During a penetration test, a flaw in the internal PKI was exploited to gain domain administrator rights using specially crafted certificates. Which of the following remediation tasks should be completed as part of the cleanup phase?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Updating the CRL",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Patching the CA",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Changing passwords",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Implementing SOAR",
+        "c": false
+      }
+    ],
+    "expl": "Durante l'audit o il cleanup che segue un penetration test, se una falla di sicurezza della Certification Authority (CA) interna ha ammesso la forgiatura abusiva di certificati con diritti di amministratore di dominio, la misura di bonifica primaria è applicare la patch correttiva alla CA (Patching the CA)."
+  },
+  {
+    "id": "SCREEN_455",
+    "text": "An employee used a company’s billing system to issue fraudulent checks. The administrator is looking for evidence of other occurrences of this activity. Which of the following should the administrator examine?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Application logs",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Vulnerability scanner logs",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "IDS/IPS logs",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Firewall logs",
+        "c": false
+      }
+    ],
+    "expl": "Poiché il rilascio di check finanziari fittizi costituisce un evento logico gestito dal database applicativo del portale di contabilità, le tracce dell'incidente o prove storiche analoghe si collocano univocamente nei registri applicativi (Application logs) di quel pacchetto software."
+  },
+  {
+    "id": "SCREEN_491",
+    "text": "A security engineer would like to enhance the use of automation and orchestration within the SIEM. Which of the following would be the primary benefit of this enhancement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "It increases complexity.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "It removes technical debt.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "It adds additional guard rails.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "It acts as a workforce multiplier.",
+        "c": true
+      }
+    ],
+    "expl": "L'introduzione di procedure di automazione e orchestrazione consente di rispondere all'istante alle allerte comuni. Questo solleva e scarica gli operatori umani dai compiti banali ripetitivi, agendo come un eccezionale moltiplicatore di forza lavoro (Workforce multiplier) per l'intero SOC."
+  },
+  {
+    "id": "SCREEN_601",
+    "text": "A security manager wants to reduce the number of steps required to identify and contain basic threats. Which of the following will help achieve this goal?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "SOAR",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "SIEM",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "DMARC",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "NIDS",
+        "c": false
+      }
+    ],
+    "expl": "Il SOAR (Security Orchestration, Automation, and Response) aggrega gli strumenti di sicurezza aziendali (firewall, EDR, cataloghi di rete) ed esegue flussi predeterminati (workflow) per ridurre i tempi e i passaggi operativi di identificazione e contenimento dei pericoli."
+  }
+];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 4.7';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+    optionsEl.innerHTML    = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className   = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

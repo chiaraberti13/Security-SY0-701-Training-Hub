@@ -1,0 +1,14 @@
+{
+  "name": "comptia-security-study-guide",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "mkdir -p dist && cp -r index.html style script chapters dist/",
+    "lint": "echo 'No lint needed for static site'"
+  },
+  "devDependencies": {
+    "pdf-parse": "^2.4.5"
+  }
+}

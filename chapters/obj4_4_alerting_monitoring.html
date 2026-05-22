@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 4.4 — Allarmistica e Monitoraggio di Sicurezza · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.4 — Allarmistica e Monitoraggio</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.4 — Concetti e Strumenti di Allarmistica e Monitoraggio di Sicurezza (Security Alerting and Monitoring)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain security alerting and monitoring concepts and tools.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">4.4</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisiti:</strong>
+        <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
+        <a href="obj4_2_asset_management.html">OBJ 4.2 — Gestione degli asset</a> ·
+        <a href="obj4_3_vulnerability_management.html">OBJ 4.3 — Gestione delle vulnerabilità</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Centralizzazione</div>
+        <a href="#intro">Il ruolo del SIEM</a>
+        <a href="#correlation">Correlazione dei Log</a>
+        <a href="#automation-alerts">Automazione degli Allarmi</a>
+
+        <div class="toc-section">Strategie di Raccolta</div>
+        <a href="#agent-vs-agentless">Agente vs Senza Agente</a>
+        <a href="#costs-retention">Costi & Retention: Packet Capture</a>
+
+        <div class="toc-section">Protezione dei Dati</div>
+        <a href="#dlp">DLP: Prevenire la Fuga Dati</a>
+        <a href="#fim">FIM: Monitoraggio Integrità</a>
+
+        <div class="toc-section">Comportamento & EDR</div>
+        <a href="#behavioral-analytics">UBA & Analisi Comportamentale</a>
+        <a href="#edr">EDR: Monitoraggio Endpoint</a>
+
+        <div class="toc-section">Diagnosi & Performance</div>
+        <a href="#resource-consumption">Resource Consumption</a>
+        <a href="#signatures">Signature-based vs IDS</a>
+        <a href="#incident-response">IR: Fase di Analisi</a>
+
+        <div class="toc-section">Verifica</div>
+        <a href="#quiz-section">Quiz interattivo (19 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ INTRODUZIONE & SIEM ═════════════════════════════════ -->
+        <section id="intro">
+          <h2>La Gestione Centralizzata dei Log: Il SIEM</h2>
+          <p>
+            In un'infrastruttura di rete moderna, centinaia di server, firewall, database ed endpoint generano incessantemente flussi massivi di record testuali chiamati <strong>Log (File di Registro)</strong>. Gestirli ed analizzarli singolarmente rappresenta un'impresa irrealizzabile e inefficace per rilevare attacchi complessi e coordinati.
+          </p>
+          <p>
+            La soluzione a questo problema organizzativo è rappresentata dal <strong>SIEM (Security Information and Event Management)</strong>, un sistema centralizzato deputato ad aggregare, archiviare, correlare e analizzare i log provenienti da molteplici sistemi operativi, applicazioni aziendali e apparati di rete attivi <code>(SCREEN_267, SCREEN_486)</code>.
+          </p>
+          <div class="example-box">
+            <strong>I Benefici Chiave del SIEM per l'esame:</strong><br>
+            <ul>
+              <li><strong>Aggregazione Centrale (Aggregation)</strong>: Raccoglie i dati in un'unica console logistica centralizzata per creare report standard consolidati da tutti i diversi dispositivi della rete enterprise, ottimizzando anche il monitoraggio negli ambienti Cloud <code>(SCREEN_498, SCREEN_518, SCREEN_530)</code>.</li>
+              <li><strong>Rilevamento delle Anomalie (Anomaly Detection)</strong>: Analizza la baseline di comportamento per evidenziare e notificare condotte eccezionali.</li>
+              <li><strong>Risparmio di Tempo</strong>: Rimpiazza i controlli frammentati sui singoli server fisici.</li>
+            </ul>
+          </div>
+
+          <h3 id="correlation">Il Concetto di Correlazione dei Log (Log Correlation)</h3>
+          <p>
+            Una delle funzioni primarie del SIEM è la <strong>Correlazione dei Log (Log Correlation)</strong>. Risolvere le sfide d'esame su questo concetto richiede di ricordare la definizione esatta definita da CompTIA:
+          </p>
+          <p class="focused-concept">
+            <strong>Definizione Ufficiale — Correlazione dei Log:</strong><br>
+            La correlazione dei log descrive il processo di <strong>Ricerca ed elaborazione di dati provenienti da più sorgenti per identificare pattern logici di attività malevola (Searching and processing data to identify patterns of malicious activity)</strong> <code>(SCREEN_507)</code>.
+          </p>
+          <p>
+            Ad esempio, un singolo log di fallimento login su un web server è privo di rilevanza; ma se correlato simultaneamente con una richiesta HTTP anomala registrata dal firewall e un'escalation di privilegi sull'host locale nello stesso identico momento, il SIEM individuerà un tentativo concreto d'intrusione.
+          </p>
+
+          <h3 id="automation-alerts">Automazione dell'Allarmistica (Automated Alerting)</h3>
+          <p>
+            Diverse ditte mantengono procedure arcaiche che prevedono di raccogliere i log d'accesso al sistema e farli ispezionare manualmente a un analista ogni fine settimana alla ricerca di anomalie insolite (come tentativi di login errati eccessivi o lockouts persistenti degli account) <code>(SCREEN_595)</code>.
+          </p>
+          <p>
+            Questo schema manuale soffre di ritardi insostenibili di svariati giorni che lasciano l'operatore indifeso qualora l'azione degli hacker sia immediata. Per elevare la resilienza infrastrutturale, la migliore azione strategica per l'analista consiste nell'<strong>introdurre sistemi di Allarmistica Automatizzata (Adding automated alerting when anomalies occur)</strong> <code>(SCREEN_595)</code>. L'allarme automatizzato scatta all'istante dell'incidente, riducendo a millisecondi i tempi di notifica e di mitigazione post-breach.
+          </p>
+        </section>
+
+        <!-- ══ AGENTE VS SENZA AGENTE + COSTI RETENTION ════════════ -->
+        <section id="agent-vs-agentless">
+          <h2>Strategie di Monitoraggio: Architetture con o senza Agente</h2>
+          <p>
+            Nel progettare la distribuzione dei sistemi di allarmistica e monitoraggio degli endpoint, gli ingegneri devono validare la tipologia di interazione con i nodi:
+          </p>
+          <dl class="termlist">
+            <dt>Soluzione Basata su Agente (Agent-Based Solution)</dt>
+            <dd>Richiede l'installazione e la manutenzione di un software software proprietario dedicato (chiamato agente) a bordo dell'endpoint. Offre il vantaggio di ispezioni localizzate profonde ed esecuzione di risposte dirette (come isolamento del disco o disconnessione dei processi), ma aumenta i costi di manutenzione e consuma cicli CPU interni sul client.</dd>
+            <dt>Soluzione Senza Agente (Agentless Solution)</dt>
+            <dd>Rappresenta un modello di monitoraggio che <strong>non richiede alcuna installazione di programmi sugli host o sugli endpoint tracciati</strong> <code>(SCREEN_431)</code>. Al contrario, lo scanner raccoglie le informazioni interrogando le macchine target tramite canali standard e protocolli remoti integrati (come syslog, WMI o API di rete). Questo semplifica l'installazione, riduce l'overhead e facilita l'ispezione immediata di dispositivi che non potrebbero accogliere l'agente (es: macchine medicali, stampanti o switch).</dd>
+          </dl>
+
+          <h3 id="costs-retention">Strategia di Riduzione dei Costi di Archiviazione Forense (Packet Capture Storage Costs)</h3>
+          <p>
+            Una rete geografica distribuisce grandi volumi di dati dedicati alle investigazioni forensi post-incidente. Tuttavia, la ritenzione a lungo termine (retention policy) di canali di record immensi comporta costi di memorizzazione stellari che sovraccaricano il budget.
+          </p>
+          <div class="critical">
+            <strong>STRATEGIA D'ESAME — Ridurre i Costi dello Storage Forense</strong><br>
+            Per tagliare significativamente i costi esorbitanti di storage dei log minimizzando l'impatto sulla visibilità complessiva delle indagini, l'archivio su cui la ditta deve ridurre drasticamente la durata di conservazione (retention length) è la <strong>Cattura dei Pacchetti di Rete (Packet Capture - PCAP)</strong> <code>(SCREEN_575)</code>. 
+            <br><br>
+            Mentre i log degli endpoint (Endpoint logs) o del sistema operativo (OS security logs) sono record testuali super compressi ed economici, i PCAP estraggono l'intero payload binario in transito, saturando istantaneamente i server di storage.
+          </div>
+        </section>
+
+        <!-- ══ PROTEZIONE DEI DATI: DLP E FIM ══════════════════════ -->
+        <section id="dlp">
+          <h2>Prevenzione dell'Integrità e della Fuga dei Dati: DLP e FIM</h2>
+          <p>
+            La protezione delle informazioni sensibili o della PII dei clienti all'interno dell'host si avvale di tecnologie progettate per bloccarne l'uso improprio o alterazioni:
+          </p>
+          <dl class="termlist">
+            <dt>Prevenzione della Fuga dei Dati / DLP (Data Loss Prevention)</dt>
+            <dd>Filtra e ispeziona i byte in uscita per rilevare la fuoriuscita non approvata di materiale aziendale. È il controllo primario impiegato per **identificare e bloccare un lavoratore che invia via email cataloghi o tabelle riservate clienti (Customer list) verso caselle email personali** o cloud non autorizzati prima di rassegnare le dimissioni e abbandonare l'impresa <code>(SCREEN_079)</code>. 
+            <br>
+            Per perseguire questa protezione, l'amministratore esegue il **fingerprinting (impronta digitale o hashing preventivo)** delle tabelle e dei file critici, istruendo l'infrastruttura DLP a sollevare immediatamente un alert qualora questi specifici file tentino di valicare i confini della Intranet <code>(SCREEN_300)</code>.</dd>
+            
+            <dt>Monitoraggio dell'Integrità dei File / FIM (File Integrity Monitoring)</dt>
+            <dd>Controlla se i file di sistema o database sensibili vengono modificati <code>(SCREEN_294)</code>. Ad esempio, se un istituto bancario implementa un nuovo server adibito alla custodia di PII (Personally Identifiable Information) dei risparmiatori, il metodo strategico d'elezione per **assicurarsi che questi dati sensibili non subiscano alterazioni o modifiche arbitrarie** è l'implementazione del <strong>File Integrity Monitoring (FIM)</strong> <code>(SCREEN_294)</code>. Il FIM ricalcola e convalida costantemente gli hash crittografici dei file, allertando in tempo reale il SOC ad ogni minima variazione non convalidata.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ COMPORTAMENTO & MONITORAGGIO ENDPOINT ═══════════════ -->
+        <section id="behavioral-analytics">
+          <h2>Analisi Comportamentale ed Endpoint Protection</h2>
+          <p>
+            Molti degli attacchi cyber moderni più temibili non utilizzano malware noti o file dannosi, ma sfruttano credenziali legittime rubate o di dipendenti interni (Insider Threats). In questi casi, i controlli basati sui soli file infetti falliscono, ed è necessario ricorrere all'<strong>Analisi Comportamentale (Behavioral Analytics)</strong>:
+          </p>
+          <dl class="termlist">
+            <dt>Analisi del Comportamento degli Utenti / UBA (User Behavior Analytics)</dt>
+            <dd>Si focalizza sullo studio delle abitudini d'uso degli account degli impiegati. Rappresenta la risposta d'elezione per contrastare scenari interni nei quali **i direttori mostrano ansietà circa tentativi perpetrati dai lavoratori di accedere a file, sistemi e cartelle di progetti riservati estranei al proprio ordinario mansionario operativo giornaliero** <code>(SCREEN_479, SCREEN_520)</code>. L'UBA rileva l'attività insolita e genera alert quando l'utente si discosta improvvisamente dal profilo matematico stabilito.</dd>
+            
+            <dt>Rilevamento e Risposta degli Endpoint / EDR (Endpoint Detection and Response)</dt>
+            <dd>La tecnologia residente sugli endpoint che garantisce visibilità completa sul comportamento di utenti e archivi, agendo come sensore avanzato per **rilevare quando le condotte deviano o registrano scostamenti (deviations) dai parametri comuni della baseline prestabilita**, bloccando e mitigando in tempo reale anomalie locali <code>(SCREEN_536)</code>.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ PERFORMANCE, DETECTING & INCIDENT RESPONSE ═══════════ -->
+        <section id="resource-consumption">
+          <h2>Indicatori di Performance, Gestione delle Firme e Incident Response</h2>
+          <p>
+            Il monitoraggio di sicurezza include anche l'intercettazione dei disservizi e lo studio degli indicatori fisici per determinare se le macchine siano sotto attacco DOS o in crash:
+          </p>
+          <dl class="termlist">
+            <dt>Consumo di Risorse (Resource Consumption)</dt>
+            <dd>Misura i carichi delle CPU, l'uso delle memorie volatili (RAM) e l'efficacia dell'I/O su disco. Se un amministratore riceve un allarme relativo a un file server corporate estremamente lento ed intermittente, scoprendo nei parametri d'interfaccia dell'hypervisor un impiego costante della **CPU al 99.6% e della RAM al 97%** (sebbene vi siano pochissimi utenti collegati), l'indicatore che ha chiaramente generato la notifica di sicurezza è il <strong>Consumo di Risorse (Resource Consumption)</strong> <code>(SCREEN_492)</code>.</dd>
+            
+            <dt>Utilizzo delle Firme (Signatures)</dt>
+            <dd>I descrittori standard di pattern d'attacco univoci usati da IDS/IDP o antivirus. Se un analista intercetta traffico malevolo o comportamenti insoliti sulla rete intranet che i motori di rilevamento dell'IDS (basati magari su euristiche generiche) non hanno catturato, egli deve caricare e definire nell'IDS nuove **Firme (Signatures)** mirate per assicurarne il blocco metodico in futuro senza rischi d'errore <code>(SCREEN_643)</code>.</dd>
+          </dl>
+
+          <h3 id="incident-response">Il Collocamento nell'Incident Response: La Fase d'Analisi (Analysis)</h3>
+          <p>
+            Quando si rileva un'allarmistica severa e l'Incident Response Team (Squadra di Risposta agli Incidenti) avvia un'indagine formale **cercando di comprendere a fondo l'esatta causa d'infiltrazione e rintracciare la sorgente scatenante dell'incidente**, questa determinata sequenza operativa ricade programmaticamente sotto la fase di <strong>Analisi (Analysis)</strong> del ciclo di vita IR <code>(SCREEN_184, SCREEN_185)</code>. Essa costituisce una fase distinta che precede l'isolamento della minaccia (Containment) e l'eradicazione del malware (Eradication).
+          </p>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.4</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>19 domande d'esame</strong> su SIEM, correlazione dei log, DLP, FIM, Agentless, EDR, UBA, catture dei pacchetti forensi e fasi di Incident Response, con feedback immediato e spiegazione in italiano per ogni risposta.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.4 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.4</h2>
+          <p>Verifica al volo concetti e keyword bilingue sulla gestione dell'allarmistica.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cos'è il DLP e come sfrutta il file fingerprinting?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Il DLP (Data Loss Prevention) blocca l'invio non autorizzato di dati aziendali all'esterno. Usando il <strong>fingerprinting</strong>, associa firme crittografiche a file top-secret, allertando o bloccando immediatamente ogni tentativo di trasmissione non pianificato.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale e perché è il dato forense più caro da conservare?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Il <strong>Packet Capture (PCAP)</strong>, perché memorizza l'intero payload binario di tutti i frame di rete, saturando rapidamente i dischi. Ridurne la ritenzione è la mossa più efficace per tagliare i costi dello storage logistico.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>A cosa serve l'UBA (User Behavior Analytics)?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Traccia i pattern comportamentali insoliti degli utenti internamente (Insider Threat Identification), rilevando ad esempio se un impiegato consulta database sensibili non correlati al proprio mansionario lavorativo standard.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità di esercitazione</p>
+      <p class="quiz-setup-sub">Obiettivo 4.4 · 19 domande d'esame disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>Tutti i 19 quesiti del database originale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>10 quesiti in ordine casuale</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 4.4</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const Q = [
+  {
+    "id": "SCREEN_079",
+    "text": "Which of the following would be used to detect an employee who is emailing a customer list to a personal account before leaving the company?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "DLP",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "FIM",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "IDS",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "EDR",
+        "c": false
+      }
+    ],
+    "expl": "Il sistema DLP (Data Loss Prevention) è specificamente progettato per tracciare e bloccare fuoriuscite non autorizzate di dati della ditta verso host esterni, account personali o email esterne prima delle dimissioni di un dipendente."
+  },
+  {
+    "id": "SCREEN_184",
+    "text": "During an investigation, an incident response team attempts to understand the source of an incident. Which of the following incident response activities describes this process?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Analysis",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Lessons learned",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Detection",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Containment",
+        "c": false
+      }
+    ],
+    "expl": "Durante un'indagine post-breach, interpretare i frammenti logistici alla ricerca della causa scatenante (root cause) dell'incidente e da quale punto provenga l'incursione si colloca espressamente all'interno della fase di Analisi (Analysis)."
+  },
+  {
+    "id": "SCREEN_185",
+    "text": "During an investigation, an incident response team attempts to understand the source of an incident. Which of the following incident response activities describes this process?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Analysis",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Lessons learned",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Detection",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Containment",
+        "c": false
+      }
+    ],
+    "expl": "Durante un'indagine post-breach, interpretare i frammenti logistici alla ricerca della causa scatenante (root cause) dell'incidente e da quale punto provenga l'incursione si colloca espressamente all'interno della fase di Analisi (Analysis)."
+  },
+  {
+    "id": "SCREEN_267",
+    "text": "Which of the following describes a security alerting and monitoring tool that collects system, application, and network logs from multiple sources in a centralized system?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "SIEM",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "DLP",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "IDS",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "SNMP",
+        "c": false
+      }
+    ],
+    "expl": "Il SIEM (Security Information and Event Management) centralizza l'aggregazione di log eterogenei (applicativi, di sistema, e di rete) provenienti da piú apparati attivi del network o ambienti cloud, abilitando allarmi automatici basati su metriche consolidate."
+  },
+  {
+    "id": "SCREEN_294",
+    "text": "A bank set up a new server that contains customers' PII. Which of the following should the bank use to make sure the sensitive data is not modified?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Full disk encryption",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Network access control",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "File integrity monitoring",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "User behavior analytics",
+        "c": false
+      }
+    ],
+    "expl": "Il File Integrity Monitoring (FIM) è un controllo specifico deputato a calcolare sequenzialmente l'hash crittografico (es: SHA-256) dei file e rilevare istantaneamente alterazioni non permesse o modifiche accidentali di dati PII sensibili dei conti della banca."
+  },
+  {
+    "id": "SCREEN_300",
+    "text": "An administrator has identified and fingerprinted specific files that will generate an alert if an attempt is made to email these files outside of the organization. Which of the following best describes the tool the administrator is using?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "DLP",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "SNMP traps",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SCAP",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "IPS",
+        "c": false
+      }
+    ],
+    "expl": "L'azione di 'fingerprint' (creare un'impronta digitale o hash unico) di file top-secret da parte dell'amministratore per impedirne ed allertare in caso di trasmissione web all'esterno rispecchia il funzionamento profondo del DLP."
+  },
+  {
+    "id": "SCREEN_431",
+    "text": "A systems administrator deployed a monitoring solution that does not require installation on the endpoints that the solution is monitoring. Which of the following is described in this scenario?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Agentless solution",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Client-based solution",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Open port",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "File-based solution",
+        "c": false
+      }
+    ],
+    "expl": "Le soluzioni di monitoraggio senza agente (Agentless solution) non richiedono il caricamento o l'installazione di moduli software o demoni locali dedicati sugli endpoint target, diminuendo sensibilmente la manutenzione ma alleggerendo l'host."
+  },
+  {
+    "id": "SCREEN_479",
+    "text": "Executives at a company are concerned about employees accessing systems and information about sensitive company projects unrelated to the employees’ normal job duties. Which of the following enterprise security capabilities will the security team most likely deploy to detect that activity?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "UBA",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "EDR",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "NAC",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "DLP",
+        "c": false
+      }
+    ],
+    "expl": "L'UBA (User Behavior Analytics) o UEBA (User and Entity Behavior Analytics) si focalizza sul tracciamento delle anomalie comportamentali di un determinato account che esegue accessi o query insolite su file o progetti non attinenti al proprio mansionario quotidiano."
+  },
+  {
+    "id": "SCREEN_486",
+    "text": "Which of the following strategies should an organization use to efficiently manage and analyze multiple types of logs?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Deploy a SIEM solution",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Create custom scripts to aggregate and analyze logs.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Implement EDR technology.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Install a unified threat management appliance.",
+        "c": false
+      }
+    ],
+    "expl": "Per gestire simultaneamente, in modo strutturato e ad alta velocità milioni di log formati da stringhe di testo eterogenee su canali multipli, la strategia d'elezione rimane la distribuzione di un modulo SIEM centrale."
+  },
+  {
+    "id": "SCREEN_492",
+    "text": "A systems administrator receives an alert that a company’s internal file server is very slow and is only working intermittently. The systems administrator reviews the server management software and finds the following information about the server: ServerName | #Connections | CPU% | MEM% | Read/s | Writes/s; FileSev01 | 12 | 99.6% | 97% | 50KB/s | 100KB/s. Which of the following indicators most likely triggered this alert?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Concurrent session usage",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Network saturation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Account lockout",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Resource consumption",
+        "c": true
+      }
+    ],
+    "expl": "La visualizzazione di livelli percentuali costanti prossimi al 99% di CPU e memoria (RAM) per un internal file server congestionato e molto lento è l'indicatore principe di un eccessivo Consumo di Risorse (Resource consumption)."
+  },
+  {
+    "id": "SCREEN_498",
+    "text": "Which of the following should be used to aggregate log data in order to create alerts and detect anomalous activity?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "SIEM",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "WAF",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Network taps",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "IDS",
+        "c": false
+      }
+    ],
+    "expl": "Il SIEM (Security Information and Event Management) centralizza l'aggregazione di log eterogenei (applicativi, di sistema, e di rete) provenienti da piú apparati attivi del network o ambienti cloud, abilitando allarmi automatici basati su metriche consolidate."
+  },
+  {
+    "id": "SCREEN_507",
+    "text": "Which of the following definitions best describes the concept of log correlation?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Combining relevant logs from multiple sources into one location",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Searching and processing data to identify patterns of malicious activity",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Making a record of the events that occur in the system",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Analyzing the log files of the system components",
+        "c": false
+      }
+    ],
+    "expl": "La correlazione dei log (Log correlation) consiste nell'esaminare e processare sistematicamente dati e registri di provenienza multipla per identificare pattern complessi di condotta o attività distruttive/malevole che altrimenti sembrerebbero normali eventi isolati."
+  },
+  {
+    "id": "SCREEN_518",
+    "text": "Which of the following enables the ability to receive a consolidated report from different devices on the network?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "IPS",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "DLP",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SIEM",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Firewall",
+        "c": false
+      }
+    ],
+    "expl": "Il SIEM (Security Information and Event Management) centralizza l'aggregazione di log eterogenei (applicativi, di sistema, e di rete) provenienti da piú apparati attivi del network o ambienti cloud, abilitando allarmi automatici basati su metriche consolidate."
+  },
+  {
+    "id": "SCREEN_520",
+    "text": "An organization needs to monitor its users’ activities in order to prevent insider threats. Which of the following solutions would help the organization achieve this goal?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Behavioral analytics",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Access control lists",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Identity and access management",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Network intrusion detection system",
+        "c": false
+      }
+    ],
+    "expl": "L'analisi comportamentale (Behavioral analytics) si focalizza sul rilevamento di pattern insoliti d'accesso ad opera degli impiegati, costituendo la prima linea di difesa per mappare e neutralizzare le minacce interne (Insider Threats)."
+  },
+  {
+    "id": "SCREEN_530",
+    "text": "Which of the following tools is best for logging and monitoring in a cloud environment?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "IPS",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "FIM",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "NAC",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "SIEM",
+        "c": true
+      }
+    ],
+    "expl": "Il SIEM (Security Information and Event Management) centralizza l'aggregazione di log eterogenei (applicativi, di sistema, e di rete) provenienti da piú apparati attivi del network o ambienti cloud, abilitando allarmi automatici basati su metriche consolidate."
+  },
+  {
+    "id": "SCREEN_536",
+    "text": "A security analyst wants to better understand the behavior of users and devices in order to gain visibility into potential malicious activities. The analyst needs a control to detect when actions deviate from a common baseline. Which of the following should the analyst use?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Intrusion prevention system",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Sandbox",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Endpoint detection and response",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Antivirus",
+        "c": false
+      }
+    ],
+    "expl": "L'EDR (Endpoint Detection and Response) offre visibilità e monitoraggio continuo sulle condotte di utenti e macchine sul singolo terminale, applicando risposte mirate per mitigare scostamenti anomalistici rispetto alle baseline convalidate."
+  },
+  {
+    "id": "SCREEN_575",
+    "text": "A security team at a large, global company needs to reduce the cost of storing data used for performing investigations. Which of the following types of data should have its retention length reduced?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Packet capture",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Endpoint logs",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "OS security logs",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Vulnerability scan",
+        "c": false
+      }
+    ],
+    "expl": "I Packet Capture (PCAP) registrano l'intero transito e il payload delle comunicazioni. Riducono drasticamente la capacità di archiviazione complessiva per le indagini forensi; tagliarne la retention policy allenta massicciamente i costi di storage rispetto a semplici log testuali."
+  },
+  {
+    "id": "SCREEN_595",
+    "text": "A company captures log-in details and reviews them each week to identify conditions such as excessive log-in attempts and frequent lockouts. Which of the following should a security analyst recommend to improve security compliance monitoring?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Including the date and person who reviewed the information in a report",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Adding automated alerting when anomalies occur",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Requiring a statement each week that no exceptions were noted",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Masking the username in a report to protect privacy",
+        "c": false
+      }
+    ],
+    "expl": "Il monitoraggio manuale periodico o settimanale dei fallimenti d'accesso o blocco account è prono a ritardi severi. La migliore soluzione strategica risiede nell'introdurre l'allarmistica automatizzata al rilevamento di anomalie (Automated alerting when anomalies occur)."
+  },
+  {
+    "id": "SCREEN_643",
+    "text": "A security analyst notices unusual behavior on the network. The IDS on the network was not able to detect the activities. Which of the following should the security analyst use to help the IDS detect such attacks in the future?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Signatures",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Trends",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Honeypot",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Reputation",
+        "c": false
+      }
+    ],
+    "expl": "Se l'IDS non intercetta determinati attacchi anomali sul network, l'analista deve istruire il motore introducendo nuove specifiche Firme (Signatures) capaci di identificare univocamente tali minacce nei flussi futuri."
+  }
+];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 4.4';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 10 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+    optionsEl.innerHTML    = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className   = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

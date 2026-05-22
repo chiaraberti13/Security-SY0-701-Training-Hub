@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 1.2 — Concetti fondamentali di sicurezza · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 1 — General Security Concepts</span>
+      <span>OBJ 1.2 — Concetti fondamentali di sicurezza</span>
+    </div>
+
+    <header>
+      <h1>OBJ 1.2 — Concetti Fondamentali di Sicurezza (Fundamental Security Concepts)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 1 — General Security Concepts · Peso esame: 12%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Summarize fundamental security concepts.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">1.2</span>
+        <span class="weight-badge">D1 = 12%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong> <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> — comprendere le categorie e i tipi di controllo aiuta a contestualizzare ogni concetto trattato qui.</p>
+      <p>
+        <strong>Capitoli correlati:</strong>
+        <a href="obj1_4_cryptography.html">OBJ 1.4 — Crittografia e PKI</a> ·
+        <a href="obj2_1_threat_actors.html">OBJ 2.1 — Threat Actors</a> ·
+        <a href="obj4_6_identity_access.html">OBJ 4.6 — Identity &amp; Access Management</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 1.2</div>
+        <a href="#cia">CIA Triad</a>
+        <a href="#non-repudiation">Non-repudiation</a>
+
+        <div class="toc-section">AAA</div>
+        <a href="#aaa-intro">AAA — Panoramica</a>
+        <a href="#authn-people">↳ Autenticare persone</a>
+        <a href="#authn-systems">↳ Autenticare sistemi</a>
+        <a href="#authz-models">↳ Modelli di autorizzazione</a>
+        <a href="#gap-analysis">Gap Analysis</a>
+
+        <div class="toc-section">Zero Trust</div>
+        <a href="#zt-intro">Zero Trust — Paradigma</a>
+        <a href="#zt-control-plane">↳ Control Plane</a>
+        <a href="#zt-data-plane">↳ Data Plane</a>
+
+        <div class="toc-section">Physical Security</div>
+        <a href="#physical">Sicurezza fisica</a>
+        <a href="#sensors">↳ Sensori</a>
+
+        <div class="toc-section">Deception</div>
+        <a href="#deception">Deception Technology</a>
+
+        <div class="toc-section">Verifica</div>
+        <a href="#quiz-section">Quiz interattivo</a>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+
+        <!-- ══ CIA TRIAD ══════════════════════════════════════════ -->
+        <section id="cia">
+          <h2>La Triade CIA (CIA Triad)</h2>
+          <p>
+            La <strong>Triade CIA (CIA Triad)</strong> è il modello fondante di tutta la sicurezza
+            informatica. Non è una tecnologia né un prodotto: è un <em>framework concettuale</em>
+            che guida la progettazione, la valutazione e la prioritizzazione di qualsiasi controllo
+            di sicurezza. Ogni decisione di sicurezza — dall'acquisto di un firewall alla scrittura
+            di una policy — dovrebbe rispondere alla domanda: "quale pilastro della triade stiamo
+            proteggendo, e a quale costo per gli altri?"
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Pilastro</th>
+                <th>Definizione</th>
+                <th>Minaccia tipica</th>
+                <th>Controllo esemplare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Confidentiality (Riservatezza)</td>
+                <td>Solo le entità autorizzate possono leggere i dati.</td>
+                <td>Eavesdropping, data breach, shoulder surfing</td>
+                <td>Crittografia, MFA, ACL, classificazione dati</td>
+              </tr>
+              <tr>
+                <td class="label">Integrity (Integrità)</td>
+                <td>I dati non sono alterati in modo non autorizzato, né in transito né a riposo.</td>
+                <td>Man-in-the-middle, SQL injection, insider malicious</td>
+                <td>Hashing, firma digitale, FIM, controllo versioni</td>
+              </tr>
+              <tr>
+                <td class="label">Availability (Disponibilità)</td>
+                <td>Sistemi e dati sono accessibili agli utenti autorizzati quando necessario.</td>
+                <td>DDoS, ransomware, guasti hardware, disastri</td>
+                <td>Ridondanza, load balancer, backup, DR plan, UPS</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 id="confidentiality">Confidentiality (Riservatezza)</h3>
+          <p>
+            La <strong>Riservatezza (Confidentiality)</strong> garantisce che le informazioni siano
+            accessibili <em>esclusivamente a chi è autorizzato</em> a vederle. Il concetto va oltre
+            la semplice crittografia: include la classificazione dei dati (chi deve sapere cosa),
+            i controlli di accesso (chi può accedere a cosa) e le procedure operative (come si
+            gestisce fisicamente un documento riservato). Una violazione della riservatezza non
+            richiede necessariamente un attacco informatico — un dipendente che lascia un laptop
+            incustodito in un bar è una violazione altrettanto grave.
+          </p>
+          <dl class="termlist">
+            <dt>Data at rest (dati a riposo)</dt>
+            <dd>Dati memorizzati su disco, database o backup. Protetti da crittografia full-disk (BitLocker, FileVault) e da ACL sul filesystem.</dd>
+            <dt>Data in transit (dati in transito)</dt>
+            <dd>Dati che viaggiano su rete. Protetti da TLS, VPN, SSH. La cifratura impedisce l'intercettazione anche su reti non fidate.</dd>
+            <dt>Data in use (dati in uso)</dt>
+            <dd>Dati attivamente elaborati in memoria RAM. La protezione è più complessa: richiede Secure Enclaves (TEE), crittografia omomorfica o controlli di processo.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Tre stati dei dati in un'unica transazione bancaria</strong><br>
+            Il numero di carta è <em>at rest</em> nel database cifrato della banca.
+            Diventa <em>in transit</em> quando viaggia via TLS dal browser al server.
+            È <em>in use</em> nel momento in cui il processore del server lo legge dalla RAM
+            per eseguire la verifica antifrode. Tre stati, tre superfici di attacco distinte,
+            tre famiglie di controlli diverse.
+          </div>
+
+          <h3 id="integrity">Integrity (Integrità)</h3>
+          <p>
+            L'<strong>Integrità (Integrity)</strong> garantisce che i dati siano <em>completi,
+            accurati e non modificati</em> se non da chi ha l'autorizzazione. Esistono due
+            dimensioni: l'integrità dei dati (il contenuto non è stato alterato) e l'integrità
+            dei sistemi (il software non è stato manomesso). L'integrità è verificabile — si
+            può dimostrare matematicamente che un file non è stato modificato usando l'hashing —
+            a differenza della riservatezza, che una volta violata non lascia sempre traccia.
+          </p>
+          <dl class="termlist">
+            <dt>Hashing (funzione hash)</dt>
+            <dd>Produce un digest a lunghezza fissa da un input di qualsiasi dimensione. Se anche un solo bit del file cambia, il digest cambia completamente. Algoritmi: SHA-256, SHA-3.</dd>
+            <dt>Digital signature (firma digitale)</dt>
+            <dd>Combina hashing e crittografia asimmetrica: autentica il mittente E garantisce l'integrità del messaggio. Usata nei certificati TLS e nel code signing.</dd>
+            <dt>File Integrity Monitoring (FIM)</dt>
+            <dd>Monitora continuamente i file critici di sistema (es. /etc/passwd, dll di Windows) e genera alert se il hash cambia rispetto alla baseline.</dd>
+          </dl>
+
+          <h3 id="availability">Availability (Disponibilità)</h3>
+          <p>
+            La <strong>Disponibilità (Availability)</strong> garantisce che sistemi e servizi siano
+            <em>operativi e accessibili</em> quando gli utenti autorizzati ne hanno bisogno.
+            È il pilastro che spesso entra in tensione con gli altri due: cifrare ogni dato e
+            richiedere autenticazione forte aumenta riservatezza e integrità, ma può ridurre la
+            disponibilità se i sistemi diventano troppo lenti o complessi. L'obiettivo è trovare
+            il punto di equilibrio appropriato per il contesto.
+          </p>
+          <dl class="termlist">
+            <dt>Load balancer (bilanciatore di carico)</dt>
+            <dd>Distribuisce il traffico su più server, eliminando il single point of failure e permettendo la scalabilità orizzontale.</dd>
+            <dt>High Availability (HA)</dt>
+            <dd>Architettura ridondante che elimina i single point of failure. Misurata in "nines": 99,9% = ~8,7 ore/anno di downtime; 99,999% = ~5 minuti/anno.</dd>
+            <dt>Disaster Recovery (DR)</dt>
+            <dd>Insieme di procedure per ripristinare i servizi dopo un evento catastrofico. Definisce RTO (Recovery Time Objective) e RPO (Recovery Point Objective).</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — CIA e le domande scenario</strong><br>
+            Quando lo scenario descrive un attacco DDoS o un guasto → <strong>Availability</strong>.
+            Quando descrive un accesso non autorizzato ai dati o una fuga di informazioni →
+            <strong>Confidentiality</strong>. Quando descrive una modifica non autorizzata
+            di record o file → <strong>Integrity</strong>. Un load balancer protegge sempre
+            la <strong>Availability</strong>, non la Confidentiality.
+          </div>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — I tre pilastri non sono equivalenti in ogni contesto</strong><br>
+            Un sistema di monitoraggio cardiaco ospedaliero deve prioritizzare
+            <strong>Availability</strong> sopra tutto — un secondo di downtime può costare
+            una vita. Un sistema di voto elettronico deve prioritizzare <strong>Integrity</strong>
+            — un'alterazione dei risultati è peggio del downtime temporaneo. Non esiste una
+            gerarchia universale: dipende dal contesto e dal risk assessment.
+          </div>
+        </section>
+
+
+        <!-- ══ NON-REPUDIATION ════════════════════════════════════ -->
+        <section id="non-repudiation">
+          <h2>Non-repudiation (Non-ripudio)</h2>
+          <p>
+            Il <strong>Non-ripudio (Non-repudiation)</strong> è la proprietà che rende impossibile
+            a un'entità negare di aver eseguito un'azione. Non è semplicemente un log di audit —
+            è la <em>prova crittograficamente verificabile</em> che un'azione è stata compiuta
+            da una specifica entità, in modo che nemmeno l'entità stessa possa smentirlo in sede
+            legale o disciplinare. È l'equivalente digitale della firma autografa su un contratto.
+          </p>
+          <p>
+            Il meccanismo principale è la <strong>firma digitale (digital signature)</strong>:
+            solo il possessore della chiave privata può generare una firma valida su un documento.
+            Se la firma è verificabile con la chiave pubblica corrispondente, si prova
+            matematicamente che il firmatario ha prodotto quel documento. I sistemi di log
+            centralizzati (SIEM) contribuiscono al non-ripudio degli eventi di sistema,
+            rendendo difficile modificare o cancellare le tracce di un'azione.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Non-ripudio in una transazione di e-commerce</strong><br>
+            Un dipendente approva digitalmente un ordine da 500.000 € usando il suo certificato
+            personale. Tre mesi dopo sostiene di non aver mai approvato quella transazione.
+            La firma digitale — firmata con la sua chiave privata, verificabile con la sua
+            chiave pubblica nel certificato emesso dalla CA aziendale — è prova legalmente
+            rilevante che l'approvazione è avvenuta. Non può ripudiare l'azione.
+          </div>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Non-repudiation ≠ Authentication</strong><br>
+            L'<strong>autenticazione</strong> risponde a "sei chi dici di essere?" —
+            verifica l'identità al momento dell'accesso. Il <strong>non-ripudio</strong>
+            risponde a "puoi provare di aver fatto questa cosa?" — garantisce che l'azione
+            non possa essere negata in seguito. Un sistema può autenticare perfettamente
+            gli utenti senza offrire non-ripudio (es. password condivise, nessun audit log).
+          </div>
+        </section>
+
+
+        <!-- ══ AAA ════════════════════════════════════════════════ -->
+        <section id="aaa-intro">
+          <h2>AAA — Authentication, Authorization, Accounting</h2>
+          <p>
+            Il framework <strong>AAA (Authentication, Authorization, Accounting)</strong> descrive
+            i tre passi fondamentali attraverso cui un sistema di sicurezza gestisce l'accesso
+            alle risorse. Ogni passo è necessario ma non sufficiente da solo: un sistema che
+            autentica ma non autorizza in modo granulare è vulnerabile agli abusi interni;
+            un sistema che autorizza ma non registra (accounting) rende impossibile le indagini
+            forensi.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Fase</th>
+                <th>Domanda a cui risponde</th>
+                <th>Tecnologie tipiche</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Authentication (Autenticazione)</td>
+                <td><em>Sei chi dici di essere?</em></td>
+                <td>Password, MFA, biometria, certificati, smart card, SSO</td>
+              </tr>
+              <tr>
+                <td class="label">Authorization (Autorizzazione)</td>
+                <td><em>Cosa ti è permesso fare?</em></td>
+                <td>RBAC, ABAC, MAC, DAC, ACL, policy di least privilege</td>
+              </tr>
+              <tr>
+                <td class="label">Accounting (Rendicontazione)</td>
+                <td><em>Cosa hai fatto e quando?</em></td>
+                <td>Audit log, SIEM, sistemi di billing, session tracking</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 id="authn-people">Autenticare le persone (Authenticating People)</h3>
+          <p>
+            L'autenticazione delle persone si basa su uno o più <em>fattori</em>, ciascuno
+            appartenente a una categoria distinta. Il principio alla base è che combinare
+            fattori di categorie diverse rende l'attacco molto più difficile: rubare una
+            password è banale, ma rubare contemporaneamente la password E il telefono fisico
+            di una persona è molto più complesso.
+          </p>
+          <dl class="termlist">
+            <dt>Something you know (Qualcosa che sai)</dt>
+            <dd>Password, PIN, passphrase, domanda di sicurezza. Il fattore più debole: può essere indovinato, intercettato, phishato o trapelato in un breach. Non richiede presenza fisica dell'attaccante.</dd>
+            <dt>Something you have (Qualcosa che hai)</dt>
+            <dd>Token hardware (YubiKey), smartphone con app OTP (Google Authenticator, Microsoft Authenticator), smart card, certificato digitale su chiavetta. Richiede il possesso fisico del dispositivo.</dd>
+            <dt>Something you are (Qualcosa che sei)</dt>
+            <dd>Biometria: impronta digitale, riconoscimento facciale, scanner dell'iride, voce. Il fattore più difficile da falsificare ma anche da revocare se compromesso — non puoi "cambiare" la tua impronta digitale.</dd>
+            <dt>Somewhere you are (Dove sei)</dt>
+            <dd>Geolocalizzazione, indirizzo IP, rete Wi-Fi aziendale. Usato come fattore aggiuntivo contestuale (es. accesso consentito solo dalla rete aziendale o da certi Paesi).</dd>
+            <dt>Single Sign-On (SSO)</dt>
+            <dd>Permette all'utente di autenticarsi una sola volta e accedere a più applicazioni senza reinserire le credenziali. Riduce il numero di password da gestire e il rischio di password deboli per i sistemi secondari. Protocolli: SAML, OAuth 2.0, OpenID Connect.</dd>
+            <dt>Multi-Factor Authentication (MFA)</dt>
+            <dd>Combina almeno due fattori di categorie diverse. Esempio canonico: password (know) + OTP via app (have). Riduce drasticamente il rischio di account takeover: anche se la password viene rubata, l'attaccante non può accedere senza il secondo fattore.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — SSO vs MFA</strong><br>
+            <strong>SSO</strong> risolve il problema della moltiplicazione delle credenziali:
+            una sola autenticazione per molti sistemi. <strong>MFA</strong> risolve il problema
+            della debolezza delle credenziali: più prove di identità per ogni accesso. I due
+            non si escludono — anzi, si usano spesso insieme: SSO + MFA è la combinazione
+            standard enterprise. Se la domanda parla di "ridurre il numero di password" → SSO.
+            Se parla di "aumentare la sicurezza dell'accesso" → MFA.
+          </div>
+
+          <h3 id="authn-systems">Autenticare i sistemi (Authenticating Systems)</h3>
+          <p>
+            Non solo le persone devono autenticarsi: anche i <em>sistemi, i servizi e i
+            dispositivi</em> devono dimostrare la propria identità prima di comunicare.
+            Questo è particolarmente critico in architetture Zero Trust, dove nessun dispositivo
+            è considerato fidato per default anche se si trova nella rete interna.
+          </p>
+          <dl class="termlist">
+            <dt>Certificati digitali di macchina (Machine Certificates)</dt>
+            <dd>Ogni server, endpoint o dispositivo IoT riceve un certificato X.509 emesso dalla CA interna. Il certificato autentica l'identità della macchina nelle comunicazioni TLS mTLS (mutual TLS).</dd>
+            <dt>IEEE 802.1X</dt>
+            <dd>Standard per il controllo degli accessi basato su porta. Prima che un dispositivo si connetta alla rete (cablata o Wi-Fi), deve autenticarsi tramite EAP, tipicamente con certificato o credenziali RADIUS. Impedisce ai dispositivi non autorizzati di ottenere connettività.</dd>
+            <dt>API Key / Token di servizio</dt>
+            <dd>Le applicazioni e i microservizi si autenticano scambiando token (JWT, OAuth 2.0 client credentials) invece di credenziali umane. Ogni servizio ha la propria identità con privilege minimi.</dd>
+          </dl>
+
+          <h3 id="authz-models">Modelli di autorizzazione (Authorization Models)</h3>
+          <p>
+            Una volta autenticato, il sistema deve decidere <em>cosa l'utente o il sistema può
+            fare</em>. I modelli di autorizzazione definiscono le regole con cui vengono prese
+            queste decisioni. La scelta del modello ha implicazioni significative sulla sicurezza,
+            sulla flessibilità e sulla complessità di gestione.
+          </p>
+          <dl class="termlist">
+            <dt>DAC — Discretionary Access Control (Controllo accessi discrezionale)</dt>
+            <dd>Il proprietario della risorsa decide chi può accedervi e con quali permessi. Flessibile ma rischioso: un proprietario disattento può concedere accessi eccessivi. Usato nei filesystem Unix/Windows per i file degli utenti.</dd>
+            <dt>MAC — Mandatory Access Control (Controllo accessi obbligatorio)</dt>
+            <dd>Il sistema operativo impone le policy di accesso in base a etichette di classificazione (es. TOP SECRET, SECRET, UNCLASSIFIED). L'utente non può modificare le policy. Usato in ambienti militari e governativi ad alta sicurezza (SELinux, AppArmor).</dd>
+            <dt>RBAC — Role-Based Access Control (Controllo accessi basato sul ruolo)</dt>
+            <dd>I permessi sono assegnati ai ruoli (es. "Amministratore HR", "Tecnico IT"), e gli utenti ricevono i permessi tramite l'appartenenza ai ruoli. Semplifica la gestione in ambienti con molti utenti: modificare un ruolo aggiorna automaticamente tutti gli utenti che lo hanno.</dd>
+            <dt>ABAC — Attribute-Based Access Control (Controllo accessi basato sugli attributi)</dt>
+            <dd>Le decisioni di accesso si basano su attributi dell'utente (reparto, livello), della risorsa (classificazione, tipo) e del contesto (ora, luogo, dispositivo). Il modello più flessibile e granulare, ideale per Zero Trust.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Authorization ≠ Authentication</strong><br>
+            All'esame confondere i due termini è un errore comune. <strong>Authentication</strong>
+            = "Sei chi dici di essere?" → verifica dell'identità. <strong>Authorization</strong>
+            = "Cosa ti è permesso fare?" → concessione dei permessi. Un utente può essere
+            autenticato (ha fatto login correttamente) ma non autorizzato (non ha i permessi
+            per accedere alla risorsa richiesta). Il messaggio "Access Denied" dopo un login
+            corretto è un problema di Authorization, non di Authentication.
+          </div>
+
+          <h3 id="accounting-section">Accounting (Rendicontazione)</h3>
+          <p>
+            L'<strong>Accounting (Rendicontazione)</strong> è il processo di registrazione e
+            tracciamento delle attività degli utenti e dei sistemi. Non si tratta solo di
+            logging: è la capacità di rispondere con precisione alle domande "chi ha fatto cosa,
+            quando e da dove?" Il suo valore principale emerge durante le indagini forensi, gli
+            audit di compliance e la risposta agli incidenti.
+          </p>
+          <dl class="termlist">
+            <dt>Audit log (registro di audit)</dt>
+            <dd>Registro immutabile degli eventi di sistema: login, logout, accessi a risorse, modifiche alla configurazione, escalation di privilegi. Deve essere protetto da manomissioni (write-once storage, firma crittografica dei log).</dd>
+            <dt>SIEM (Security Information and Event Management)</dt>
+            <dd>Centralizza i log da sorgenti multiple, li correla in tempo reale e genera alert su pattern sospetti. Supporta sia la funzione di accounting (storico) che quella di detective control (rilevamento in tempo reale).</dd>
+            <dt>Session tracking / Billing</dt>
+            <dd>In ambienti ISP o cloud, l'accounting traccia l'uso delle risorse per la fatturazione e per rilevare anomalie di consumo (indicatori di account compromesso o di cripto-mining non autorizzato).</dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ GAP ANALYSIS ═══════════════════════════════════════ -->
+        <section id="gap-analysis">
+          <h2>Gap Analysis (Analisi delle lacune)</h2>
+          <p>
+            La <strong>Gap Analysis (Analisi delle lacune)</strong> è il processo sistematico che
+            confronta lo stato attuale della sicurezza di un'organizzazione con lo stato desiderato
+            (definito da un framework, da una normativa o da una policy interna) per identificare
+            le aree in cui i controlli sono assenti, insufficienti o non conformi. Non è un audit
+            puntuale: è il fondamento strategico su cui si basano il piano di remediation e
+            l'allocazione del budget di sicurezza.
+          </p>
+          <p>
+            Il processo tipico prevede: (1) definire il baseline di riferimento (es. NIST CSF,
+            ISO 27001, CIS Controls); (2) valutare lo stato attuale dei controlli; (3) documentare
+            le lacune tra i due; (4) prioritizzare le remediation in base al rischio e al costo.
+            Il risultato è un <em>gap report</em> che indica esattamente dove investire risorse
+            per massimizzare la riduzione del rischio.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Gap Analysis nel contesto dell'esame</strong><br>
+            La Gap Analysis è classificata come controllo <em>Managerial</em> per categoria
+            (è un'attività di pianificazione e governance) e come strumento di supporto alle
+            decisioni strategiche. Se la domanda chiede "cosa dovrebbe fare per prima cosa
+            un CISO che si insedia in una nuova azienda?", la risposta tipica è condurre
+            una gap analysis prima di qualsiasi investimento tecnologico.
+          </div>
+        </section>
+
+
+        <!-- ══ ZERO TRUST ════════════════════════════════════════ -->
+        <section id="zt-intro">
+          <h2>Zero Trust — Il nuovo paradigma di sicurezza</h2>
+          <p>
+            Il modello <strong>Zero Trust</strong> ribalta il presupposto tradizionale della
+            sicurezza perimetrale, che assumeva: "tutto ciò che è dentro la rete aziendale è
+            fidato, tutto ciò che è fuori non lo è." Questo presupposto era già fragile in
+            passato; nell'era del cloud, del lavoro remoto e dei dispositivi BYOD è diventato
+            insostenibile. Zero Trust parte da un'assunzione radicalmente diversa:
+            <em>"non fidarsi mai, verificare sempre" (never trust, always verify)</em>.
+          </p>
+          <p>
+            Zero Trust non è un prodotto che si acquista, ma un'<em>architettura</em> e una
+            filosofia operativa. Ogni richiesta di accesso — indipendentemente da chi la fa,
+            da dove la fa e con quale dispositivo — deve essere verificata, autenticata,
+            autorizzata e registrata. L'architettura Zero Trust si divide in due piani logici:
+            il <strong>Control Plane</strong> (il cervello che decide) e il
+            <strong>Data Plane</strong> (il braccio che esegue).
+          </p>
+
+          <h3 id="zt-control-plane">Control Plane — Il cervello decisionale</h3>
+          <p>
+            Il <strong>Control Plane</strong> è la componente logica di Zero Trust che valuta
+            ogni richiesta di accesso e determina se concederla o negarla. Non gestisce il
+            traffico direttamente: produce <em>decisioni di policy</em> che vengono poi
+            eseguite dal Data Plane.
+          </p>
+          <dl class="termlist">
+            <dt>Policy Engine (PE) — Motore delle policy</dt>
+            <dd>Il componente che prende la decisione finale di concedere, negare o revocare l'accesso. Valuta la richiesta combinando le policy configurate, i dati di intelligence sulle minacce, la postura del dispositivo e il contesto dell'utente. È il "giudice" del sistema Zero Trust.</dd>
+            <dt>Policy Administrator (PA) — Amministratore delle policy</dt>
+            <dd>Traduce la decisione del Policy Engine in istruzioni operative: comunica al Policy Enforcement Point se aprire o chiudere il canale di accesso, configura le credenziali di sessione e gestisce il ciclo di vita delle connessioni. È il "cancelliere" che esegue le sentenze del giudice.</dd>
+            <dt>Adaptive Identity (Identità adattiva)</dt>
+            <dd>Il sistema valuta continuamente il contesto dell'identità: chi è l'utente, da dove si connette, con quale dispositivo, in che orario, con quale postura di sicurezza del dispositivo. Un utente che si connette dall'ufficio alle 9:00 con il PC aziendale riceve accesso pieno; lo stesso utente che si connette alle 3:00 di notte da un Paese straniero riceve accesso limitato o step-up authentication. L'identità non è statica: si "adatta" al contesto.</dd>
+            <dt>Threat Scope Reduction (Riduzione della superficie di attacco)</dt>
+            <dd>Principio per cui ogni componente del sistema dovrebbe avere accesso solo alle risorse strettamente necessarie per la sua funzione (least privilege, microsegmentazione). Riduce l'impatto potenziale di una compromissione: anche se un componente viene compromesso, l'attaccante non può muoversi lateralmente attraverso l'intera rete.</dd>
+            <dt>Policy-Driven Access Control (Controllo accessi guidato da policy)</dt>
+            <dd>Tutti i diritti di accesso sono definiti da policy esplicite, centralizzate e verificabili — non da regole implicite o da fiducia basata sulla posizione di rete. Le policy sono dinamiche: possono cambiare in base al contesto senza richiedere intervento manuale per ogni singola richiesta.</dd>
+          </dl>
+
+          <h3 id="zt-data-plane">Data Plane — Il braccio esecutivo</h3>
+          <p>
+            Il <strong>Data Plane</strong> è la componente di Zero Trust che gestisce il traffico
+            effettivo — il "come" si muovono i dati una volta che il Control Plane ha deciso
+            "se" debbano muoversi. È qui che le decisioni astratte diventano regole di rete concrete.
+          </p>
+          <dl class="termlist">
+            <dt>Policy Enforcement Point (PEP) — Punto di applicazione delle policy</dt>
+            <dd>Il componente che fisicamente consente o blocca il traffico in base alle istruzioni ricevute dal Policy Administrator. Può essere un proxy, un gateway, un firewall applicativo, un agente sul client o una combinazione. È il "confine" che separa il soggetto dalla risorsa: nessun traffico lo attraversa senza autorizzazione esplicita del Control Plane.</dd>
+            <dt>Subject / System (Soggetto / Sistema)</dt>
+            <dd>L'entità che richiede l'accesso: può essere un utente umano, un dispositivo, un'applicazione o un servizio automatizzato. In Zero Trust, ogni soggetto è trattato come potenzialmente non fidato finché non viene verificato, indipendentemente dalla sua posizione di rete. Questo include i dispositivi sulla rete interna.</dd>
+            <dt>Implicit Trust Zones (Zone di fiducia implicita)</dt>
+            <dd>In architetture tradizionali, esistono "zone sicure" (la rete interna) dove i dispositivi si fidano automaticamente l'uno dell'altro. Zero Trust elimina queste zone: la fiducia non è mai implicita e deve essere guadagnata a ogni richiesta. Questa è la differenza fondamentale con il modello perimetrale.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Una richiesta Zero Trust dall'inizio alla fine</strong><br>
+            Un dipendente (Subject) vuole accedere al CRM aziendale (risorsa) dal suo laptop.
+            La richiesta arriva al <strong>PEP</strong> (es. un proxy Zero Trust).
+            Il PEP la invia al <strong>Policy Administrator</strong>, che interroga il
+            <strong>Policy Engine</strong>. Il PE valuta: utente autenticato con MFA ✓,
+            dispositivo conforme alle policy (MDM) ✓, orario normale ✓, paese coerente con
+            la cronologia ✓ → decisione: <em>accesso concesso</em> solo al CRM (non all'intera
+            rete). Il PA configura il PEP per aprire il tunnel specifico. L'accesso è
+            registrato per l'accounting. Se il dispositivo perde la conformità MDM durante
+            la sessione, il PE può revocare l'accesso in tempo reale.
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Control Plane vs Data Plane: chi fa cosa</strong><br>
+            <strong>Control Plane</strong> = decide (Policy Engine) + comunica la decisione
+            (Policy Administrator). Componenti: PE, PA, Adaptive Identity, Threat Scope
+            Reduction, Policy-Driven Access Control.<br>
+            <strong>Data Plane</strong> = esegue la decisione. Componenti: PEP (blocca/consente
+            il traffico), Subject/System (chi fa la richiesta), Implicit Trust Zones (il concetto
+            che Zero Trust vuole eliminare).<br>
+            Se la domanda chiede di componenti che <em>valutano</em> l'accesso → Control Plane.
+            Se chiede di componenti che <em>applicano</em> la decisione → Data Plane.
+          </div>
+        </section>
+
+
+        <!-- ══ PHYSICAL SECURITY ═════════════════════════════════ -->
+        <section id="physical">
+          <h2>Sicurezza fisica (Physical Security)</h2>
+          <p>
+            La sicurezza fisica protegge le persone, le strutture e i dispositivi dall'accesso
+            fisico non autorizzato, dal danneggiamento intenzionale e dai disastri ambientali.
+            È spesso sottovalutata rispetto alla sicurezza logica, ma rimane il fondamento
+            su cui tutto il resto si regge: un server room fisicamente accessibile a chiunque
+            rende inutili firewall e crittografia — un attaccante con accesso fisico può
+            estrarre dischi, installare keylogger hardware o bypassare l'intera infrastruttura
+            di rete con una semplice chiavetta USB.
+          </p>
+
+          <dl class="termlist">
+            <dt>Bollards (barriere antiveicolo)</dt>
+            <dd>Colonne di acciaio o cemento posizionate davanti a ingressi, edifici e aree riservate per impedire l'ingresso di veicoli. Controllo Physical Preventive. Non hanno alcun effetto deterrente sulle persone a piedi — sono specifici per minacce veicolari (car ramming attacks).</dd>
+            <dt>Access Control Vestibule (mantrap)</dt>
+            <dd>Area di transizione a doppia porta: la prima porta deve chiudersi prima che la seconda si apra, e l'accesso richiede verifica dell'identità. Previene il tailgating (l'ingresso di una persona non autorizzata subito dopo una autorizzata) e il piggybacking (accesso con il consenso di chi è autorizzato). Physical Preventive.</dd>
+            <dt>Fencing (recinzione)</dt>
+            <dd>Barriera perimetrale che delimita e protegge un'area. Altezze diverse offrono livelli di protezione diversi: meno di 1 metro = semplice delimitazione; 2+ metri = deterrente efficace; recinzione con filo spinato = ostacolo fisico serio. Physical Deterrent + Preventive.</dd>
+            <dt>Video surveillance (videosorveglianza CCTV)</dt>
+            <dd>Sistema di telecamere per il monitoraggio visivo di aree fisiche. Svolge contemporaneamente funzione Deterrent (la telecamera visibile scoraggia) e Detective (la registrazione permette indagini post-incidente). Non è Preventive da sola: non blocca fisicamente nessuno.</dd>
+            <dt>Security guard (guardia di sicurezza)</dt>
+            <dd>Personale di sorveglianza che monitora, risponde agli incidenti e controlla gli accessi. Il controllo fisico più flessibile: può ragionare sul contesto e rispondere a situazioni impreviste. Operational + Physical; può essere Preventive (blocca l'accesso), Detective (rileva anomalie) e Deterrent (presenza visibile).</dd>
+            <dt>Access badge (badge di accesso)</dt>
+            <dd>Credenziale fisica (smart card, badge RFID/NFC) che verifica l'identità e controlla l'accesso a porte, zone e sistemi fisici. Physical Preventive (blocca chi non ha il badge) + Physical Detective (ogni passaggio viene registrato con timestamp e identità). Contro la minaccia insider è più efficace dei bollards.</dd>
+            <dt>Lighting (illuminazione)</dt>
+            <dd>Illuminazione perimetrale e delle aree comuni. Svolge duplice funzione: Deterrent (riduce l'anonimato e scoraggia chi vuole agire nell'ombra) e Detective (migliora la qualità delle riprese CCTV, rendendo le registrazioni utilizzabili come prove). Le domande "choose two" spesso richiedono entrambe queste classificazioni.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Badge vs Biometria per insider threat</strong><br>
+            Per proteggere un data center da un insider (dipendente autorizzato che abusa
+            dei privilegi), la risposta migliore è l'<strong>access badge</strong> combinato
+            con log di accesso — perché registra chi è entrato e quando. I bollards proteggono
+            da minacce veicolari esterne, non dagli insider. I sensori e le telecamere
+            (Detective) rilevano ma non prevengono. Solo il badge controlla e registra
+            simultaneamente l'accesso fisico individuale.
+          </div>
+
+          <h3 id="sensors">Sensori (Sensors)</h3>
+          <p>
+            I sensori sono dispositivi elettronici che rilevano condizioni fisiche specifiche
+            nell'ambiente monitorato. Appartengono alla categoria Physical Detective: non
+            impediscono l'evento, ma lo rilevano e generano un alert. La scelta del tipo di
+            sensore dipende dall'ambiente fisico, dalla tipologia di minaccia e dai vincoli
+            di installazione (es. falsi positivi, copertura area, condizioni ambientali).
+          </p>
+          <dl class="termlist">
+            <dt>Infrared sensor (sensore a infrarossi — PIR)</dt>
+            <dd>Rileva il movimento rilevando le variazioni di radiazione infrarossa (calore corporeo) nell'area di copertura. I più comuni nei sistemi di allarme domestici e aziendali. Falsi positivi possibili con fonti di calore non umane (es. termosifoni, animali domestici).</dd>
+            <dt>Pressure sensor (sensore di pressione)</dt>
+            <dd>Rileva il peso esercitato su una superficie (pavimento, scala, tappeto). Utile in aree dove l'accesso non autorizzato implica necessariamente calpestare una superficie monitorata. Non rilevabile visivamente dall'intruso se nascosto sotto il pavimento.</dd>
+            <dt>Microwave sensor (sensore a microonde)</dt>
+            <dd>Emette impulsi a microonde e rileva variazioni nel segnale riflesso causate dal movimento. Penetra le superfici fisiche (pareti leggere, vetri) permettendo la copertura di aree più grandi. Più difficile da eludere rispetto agli infrarossi perché copre anche l'ambiente al di là delle pareti.</dd>
+            <dt>Ultrasonic sensor (sensore ultrasonico)</dt>
+            <dd>Emette onde sonore ad alta frequenza (inudibili all'uomo) e rileva il movimento tramite l'effetto Doppler. Adatto a spazi chiusi come caveau e sale server. Più sensibile ai movimenti lenti rispetto ai sensori a microonde.</dd>
+          </dl>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Sensore</th>
+                <th>Principio fisico</th>
+                <th>Penetra le pareti</th>
+                <th>Caso d'uso tipico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Infrared (PIR)</td>
+                <td>Variazione di calore</td>
+                <td>No</td>
+                <td>Corridoi, uffici, parcheggi</td>
+              </tr>
+              <tr>
+                <td class="label">Pressure</td>
+                <td>Peso su superficie</td>
+                <td>N/A</td>
+                <td>Scale, aree di accesso obbligatorio</td>
+              </tr>
+              <tr>
+                <td class="label">Microwave</td>
+                <td>Riflessione onde radio</td>
+                <td>Sì (pareti leggere)</td>
+                <td>Perimetri ampi, magazzini</td>
+              </tr>
+              <tr>
+                <td class="label">Ultrasonic</td>
+                <td>Effetto Doppler (suono)</td>
+                <td>No</td>
+                <td>Caveau, sale server chiuse</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+        <!-- ══ DECEPTION TECHNOLOGY ══════════════════════════════ -->
+        <section id="deception">
+          <h2>Deception and Disruption Technology</h2>
+          <p>
+            Le tecnologie di <strong>inganno e disturbo (Deception and Disruption Technology)</strong>
+            sono controlli di sicurezza che invertono il vantaggio informativo dell'attaccante:
+            invece di difendere passivamente, creano esche che attraggono, rilevano e analizzano
+            il comportamento dell'attaccante in un ambiente controllato. Ogni interazione con
+            una risorsa "esca" è automaticamente sospetta — nessun utente legittimo dovrebbe
+            mai toccarla — e genera alert ad alta fedeltà, con pochissimi falsi positivi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Honeypot</dt>
+            <dd>Sistema fittizio progettato per sembrare un bersaglio attraente (un server con vulnerabilità note, un database "sensibile"). Attira gli attaccanti, registra ogni loro azione e fornisce intelligence sulle tecniche usate. Non ha valore produttivo: qualsiasi accesso è per definizione sospetto. Physical Detective + Technical Detective.</dd>
+            <dt>Honeynet</dt>
+            <dd>Una rete di honeypot interconnessi che simula un'intera infrastruttura aziendale: più server, workstation, router e servizi fittizi. Permette di osservare il comportamento dell'attaccante su una scala più ampia, incluso il movimento laterale e le tecniche di privilege escalation. Più costosa da gestire di un singolo honeypot.</dd>
+            <dt>Honeyfile</dt>
+            <dd>File fittizio posizionato in una posizione attraente (es. "passwords.xlsx", "contracts_2024.pdf" in una cartella condivisa). Se viene aperto o copiato, genera immediatamente un alert. Efficace contro insider threat e attaccanti che cercano dati sensibili nelle condivisioni di rete.</dd>
+            <dt>Honeytoken</dt>
+            <dd>Credenziale, API key, record di database o account fittizio creato appositamente come trappola. Se il token viene usato in qualsiasi contesto (accesso, richiesta API, query), significa che è stato rubato da un data breach o usato da un insider malicious. Fornisce prova immediata di compromissione con minimo overhead.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Honeypot vs Honeynet vs Honeyfile vs Honeytoken</strong><br>
+            <strong>Honeypot</strong> = singolo sistema fittizio.<br>
+            <strong>Honeynet</strong> = rete di honeypot (scala maggiore).<br>
+            <strong>Honeyfile</strong> = file esca in un filesystem o condivisione.<br>
+            <strong>Honeytoken</strong> = credenziale/account/record esca in un database or sistema.
+          </div>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Honeytoken per rilevare un data breach</strong><br>
+            Un'azienda inserisce nel proprio database clienti 50 record fittizi con indirizzi
+            email univoci (es. canary-leak-2024@company.com). Questi indirizzi ricevono
+            automaticamente un alert se arriva una qualsiasi email. Tre mesi dopo, uno degli
+            indirizzi honeypot riceve uno spam commerciale. Questo è la prova che il database
+            è stato esfiltrato e venduto a spammer — senza honeytoken, il breach potrebbe
+            non essere mai rilevato.
+          </div>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 1.2</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>16 domande d'esame</strong> su CIA, AAA, Zero Trust, sicurezza fisica
+              e deception technology, con feedback immediato e spiegazione in italiano.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 1.2 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 1.2</h2>
+          <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>I tre pilastri della triade CIA</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Confidentiality</strong> (riservatezza: accesso solo agli autorizzati),<br><strong>Integrity</strong> (integrità: dati non alterati),<br><strong>Availability</strong> (disponibilità: sistemi pronti all'uso quando necessari).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Data at rest, in transit, e in use</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>At rest</strong>: nei dispositivi di archiviazione (crittografia disco).<br><strong>In transit</strong>: in movimento sulla rete (TLS/VPN).<br><strong>In use</strong>: in memoria d'elaborazione RAM (Secure Enclave, TEE).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cos'è il Non-repudiation (Non-ripudio)?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Impossibilità logica e legale per un mittente di negare l'invio o il contenuto di un messaggio.<br>Garantito tramite la <strong>firma digitale</strong> (che richiede l'uso esclusivo della chiave privata).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Il modello AAA di sicurezza logica</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Authentication</strong> (identificazione e verifica con MFA),<br><strong>Authorization</strong> (assegnazione dei privilegi d'accesso via RBAC/ABAC),<br><strong>Accounting</strong> (auditing, tracciamento e logging delle azioni).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>RBAC vs ABAC per l'autorizzazione</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>RBAC</strong>: ruoli statici d'ufficio (semplice e ordinato).<br><strong>ABAC</strong>: attributi dinamici e flessibili basati sul contesto (posizione, ora, IP). ABAC è l'ideale per implementare la <em>Zero Trust</em>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Control Plane vs Data Plan in Zero Trust</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Control Plane</strong>: governa l'autenticazione ed esegue il Policy Engine.<br><strong>Data Plane</strong>: invia dati grezzi dell'utente tramite il Policy Enforcement Point (PEP) una volta che l'accesso è autorizzato.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Distinguere i sensori fisici</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>PIR</strong>: calore corporeo.<br><strong>Pressure</strong>: sensibili al peso al suolo.<br><strong>Microwave</strong>: emettono radioonde (rilevano oltre pareti).<br><strong>Ultrasonic</strong>: usano ultrasuoni in stanze chiuse.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Honeytoken vs Honeypot</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Honeypot</strong>: un intero server esca vulnerabile con finti database.<br><strong>Honeytoken</strong>: una specifica credenziale o finto account all'interno del DB adoperato come esca attiva di telemetria.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="obj1_1_security_controls.html">← OBJ 1.1 — Controlli di sicurezza</a>
+          <a href="obj1_3_change_management.html" class="secondary">OBJ 1.3 — Change Management →</a>
+          <a href="obj1_4_cryptography.html" class="secondary">OBJ 1.4 — Crittografia →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 1.2 · 16 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>16 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 1.2</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct"   class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn"  class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* ── Dati quiz OBJ 1.2 (16 domande d'esame) ─────────────────── */
+  const Q = [
+    { id:'SCREEN_095', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'Il login verifica l\'identità (Authentication). Ciò che avviene dopo — decidere cosa l\'utente può fare — è Authorization. Le due fasi sono sequenziali e distinte.' },
+    { id:'SCREEN_108', text:'You have been tasked with conducting a security assessment of hosts on an IP subnet. When configuring the vulnerability scan, you enter valid credentials. A colleague suggests the scan results are useless since the credentials were known. Which IT security concept validates the scan results?', opts:[{id:'A',t:'Zero trust',c:true},{id:'B',t:'Principle of least privilege',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Zero-day',c:false}], expl:'Zero Trust assume che ogni sistema debba essere verificato e testato, anche dall\'interno. Usare credenziali valide per una scansione autenticata è coerente con il paradigma: "verificare sempre", indipendentemente dalla posizione o dall\'identità.' },
+    { id:'SCREEN_114', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'SSO (Single Sign-On) permette di usare un\'unica autenticazione (le credenziali di dominio) per accedere a più applicazioni SaaS. MFA aumenta la sicurezza dell\'accesso ma non riduce il numero di credenziali. LEAP e PEAP sono protocolli EAP per reti Wi-Fi.' },
+    { id:'SCREEN_131', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'Stessa domanda di SCREEN_114. SSO federated (es. SAML con Active Directory) è esattamente il pattern descritto: le credenziali di dominio vengono usate come identity provider per i SaaS applicativi.' },
+    { id:'SCREEN_144', text:'An analyst is evaluating the implementation of Zero Trust principles within the data plane. Which of the following would be most relevant for the analyst to evaluate?', opts:[{id:'A',t:'Secured zones',c:false},{id:'B',t:'Subject role',c:true},{id:'C',t:'Adaptive identity',c:false},{id:'D',t:'Threat scope reduction',c:false}], expl:'Il Data Plane include Subject/System, Policy Enforcement Point e il concetto di Implicit Trust Zones. "Subject role" si riferisce al componente Subject nel Data Plane. Adaptive identity e Threat scope reduction appartengono al Control Plane.' },
+    { id:'SCREEN_280', text:'A network administrator is working on a project to deploy a load balancer in the company\'s cloud environment. Which of the following fundamental security requirements does this project fulfill?', opts:[{id:'A',t:'Privacy',c:false},{id:'B',t:'Integrity',c:false},{id:'C',t:'Confidentiality',c:false},{id:'D',t:'Availability',c:true}], expl:'Un load balancer distribuisce il traffico su più server, eliminando il single point of failure. Questo protegge la Availability: i servizi rimangono accessibili anche se un server cade. Non cifra dati (non Confidentiality) né verifica l\'integrità.' },
+    { id:'SCREEN_309', text:'Client files can only be accessed by employees who need to know the information and have specified roles in the company. Which of the following best describes this security concept?', opts:[{id:'A',t:'Availability',c:false},{id:'B',t:'Confidentiality',c:true},{id:'C',t:'Integrity',c:false},{id:'D',t:'Non-repudiation',c:false}], expl:'"Need to know" + "ruoli specifici" = accesso limitato alle sole persone autorizzate → Confidentiality. Il principio need-to-know è una delle implementazioni classiche della riservatezza.' },
+    { id:'SCREEN_338', text:'A healthcare organization wants to provide a web application that allows individuals to digitally report health emergencies. Which of the following is the most important consideration during development?', opts:[{id:'A',t:'Scalability',c:false},{id:'B',t:'Availability',c:true},{id:'C',t:'Cost',c:false},{id:'D',t:'Ease of deployment',c:false}], expl:'Un\'applicazione per segnalare emergenze sanitarie che va offline può costare vite umane. La Availability è il requisito prioritario assoluto: il sistema deve funzionare sempre, soprattutto nelle emergenze.' },
+    { id:'SCREEN_470', text:'Which of the following security concepts is being followed when implementing a product that offers protection against DDoS attacks?', opts:[{id:'A',t:'Availability',c:true},{id:'B',t:'Non-repudiation',c:false},{id:'C',t:'Integrity',c:false},{id:'D',t:'Confidentiality',c:false}], expl:'Un attacco DDoS mira a rendere un servizio irraggiungibile → viola la Availability. Difendersi da DDoS significa proteggere la Availability. Il prodotto (CDN, anti-DDoS) garantisce che il servizio rimanga accessibile anche sotto attacco.' },
+    { id:'SCREEN_493', text:'Which of the following data states applies to data that is being actively processed by a database server?', opts:[{id:'A',t:'In use',c:true},{id:'B',t:'At rest',c:false},{id:'C',t:'In transit',c:false},{id:'D',t:'Being hashed',c:false}], expl:'"Actively processed" = il dato è in memoria RAM, letto e manipolato dal processore del database → stato In use. At rest = sul disco. In transit = sulla rete. "Being hashed" non è uno stato standard del ciclo di vita del dato.' },
+    { id:'SCREEN_500', text:'Which of the following is the primary purpose of a service that tracks log-ins and time spent using the service?', opts:[{id:'A',t:'Availability',c:false},{id:'B',t:'Accounting',c:true},{id:'C',t:'Authentication',c:false},{id:'D',t:'Authorization',c:false}], expl:'Tracciare login e tempo di utilizzo è esattamente la funzione di Accounting nel framework AAA: registra chi ha fatto cosa e per quanto tempo. Non è Authentication (verifica identità) né Authorization (decide i permessi).' },
+    { id:'SCREEN_524', text:'Which of the following would most likely be deployed to obtain and analyze attacker activity and techniques?', opts:[{id:'A',t:'Firewall',c:false},{id:'B',t:'IDS',c:false},{id:'C',t:'Honeypot',c:true},{id:'D',t:'Layer 3 switch',c:false}], expl:'Un honeypot è progettato esattamente per questo: attirare gli attaccanti, registrare ogni loro azione e fornire intelligence sulle tecniche usate. IDS rileva le intrusioni ma non le "studia" in un ambiente controllato.' },
+    { id:'SCREEN_587', text:'A company discovers suspicious transactions that were entered into the company\'s database and attached to a user account that was created as a trap for malicious activity. Which of the following is the user account an example of?', opts:[{id:'A',t:'Honeytoken',c:true},{id:'B',t:'Honeynet',c:false},{id:'C',t:'Honeypot',c:false},{id:'D',t:'Honeyfile',c:false}], expl:'Un account utente creato appositamente come trappola (esca) in un database → Honeytoken. Honeypot = sistema/server fittizio. Honeyfile = file esca. Honeynet = rete di honeypot. La chiave è "account creato come trap" → trappola a livello di credenziale/record.' },
+    { id:'SCREEN_609', text:'A security administrator is implementing encryption on all hard drives in an organization. Which of the following security concepts is the administrator applying?', opts:[{id:'A',t:'Integrity',c:false},{id:'B',t:'Authentication',c:false},{id:'C',t:'Zero Trust',c:false},{id:'D',t:'Confidentiality',c:true}], expl:'La cifratura del disco (full-disk encryption) protegge i dati at rest garantendo che solo chi ha la chiave possa leggerli → Confidentiality. Non verifica l\'identità (non Authentication) né impedisce la modifica in modo verificabile (non Integrity).' },
+    { id:'SCREEN_630', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'Variante di SCREEN_095. "Granting access after logging in" = la fase post-autenticazione in cui si decidono i permessi → Authorization. Il login stesso è Authentication.' },
+    { id:'SCREEN_686', text:'An organization designs an inbound firewall with a fail-open configuration while implementing a website. Which of the following would the organization consider to be the highest priority?', opts:[{id:'A',t:'Confidentiality',c:false},{id:'B',t:'Non-repudiation',c:false},{id:'C',t:'Availability',c:true},{id:'D',t:'Integrity',c:false}], expl:'Fail-open significa che in caso di guasto il firewall consente tutto il traffico, privilegiando la continuità del servizio sulla sicurezza. La priorità dichiarata è la Availability: il sito deve essere raggiungibile anche se il firewall ha un problema.' }
+  ];
+
+  /* ── Logica quiz ────────────────────────────────────────────── */
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 1.2';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 10 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

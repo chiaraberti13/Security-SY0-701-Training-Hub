@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 2.4 — Indicatori di attività malevola · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 2 — Threats, Vulnerabilities and Mitigations</span>
+  <span>OBJ 2.4 — Indicatori di attività malevola</span>
+</div>
+
+<header>
+  <h1>OBJ 2.4 — Indicatori di Attività Malevola (Indicators of Malicious Activity)</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 2 — Threats, Vulnerabilities and Mitigations · Peso esame: 22%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Given a scenario, analyze indicators of malicious activity.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">2.4</span> <span class="weight-badge">D2 = 22%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj2_3_vulnerabilities.html">OBJ 2.3 — Tipi di vulnerabilità</a> · <a href="obj1_4_cryptography.html">OBJ 1.4 — Crittografia</a></p>
+  <p><strong>Correlati:</strong> <a href="obj2_5_mitigation.html">OBJ 2.5 — Tecniche di mitigazione</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Malware</div>
+  <a href="#ransomware">Ransomware</a>
+  <a href="#trojan">Trojan</a>
+  <a href="#worm">Worm</a>
+  <a href="#spyware-key">Spyware / Keylogger</a>
+  <a href="#altri-malware">Virus · Bloatware · Rootkit</a>
+  <a href="#logic-bomb">Logic bomb</a>
+
+  <div class="toc-section">Attacchi fisici</div>
+  <a href="#phys-brute">Brute force fisico</a>
+  <a href="#rfid">RFID cloning</a>
+  <a href="#environmental">Environmental</a>
+
+  <div class="toc-section">Attacchi di rete</div>
+  <a href="#ddos">DDoS (Amplified / Reflected)</a>
+  <a href="#dns-attacks">DNS attacks</a>
+  <a href="#wireless">Wireless attacks</a>
+  <a href="#on-path">On-path (MitM)</a>
+  <a href="#cred-replay">Credential replay</a>
+
+  <div class="toc-section">Attacchi applicativi</div>
+  <a href="#injection">Injection</a>
+  <a href="#priv-esc">Privilege escalation</a>
+  <a href="#forgery">Forgery</a>
+  <a href="#dir-trav">Directory traversal</a>
+
+  <div class="toc-section">Attacchi crittografici</div>
+  <a href="#crypto-attacks">Downgrade · Collision · Birthday</a>
+
+  <div class="toc-section">Attacchi alle password</div>
+  <a href="#spraying">Password spraying</a>
+  <a href="#pass-hash">Pass-the-hash</a>
+
+  <div class="toc-section">Indicatori</div>
+  <a href="#indicators">Indicators of Compromise</a>
+
+  <div class="toc-section">Verifica</div>
+  <a href="#quiz-section">Quiz interattivo</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Leggere gli indicatori: dalla sintomatologia alla diagnosi</h2>
+  <p>
+    L'obiettivo 2.4 non chiede di sapere <em>come</em> costruire un attacco, ma di
+    saper riconoscere i suoi <strong>indicatori (indicators)</strong> — i segnali che
+    rimangono nel sistema dopo o durante un'attività malevola. Come un medico che
+    diagnostica una malattia dai sintomi senza averla vista formarsi, un analista di
+    sicurezza deve leggere log, traffico di rete, comportamento dei processi e
+    anomalie di sistema per identificare cosa sta accadendo.
+  </p>
+  <p>
+    Le domande d'esame presentano sempre uno <em>scenario</em>: un log, un output di
+    monitoring, un comportamento anomalo. Il compito è classificare correttamente
+    l'attività. Il metodo: identificare prima la <em>categoria</em> dell'attacco
+    (malware, rete, applicativo, crittografico, password), poi il tipo specifico.
+  </p>
+</section>
+
+
+<!-- ══ MALWARE ══════════════════════════════════════════════════ -->
+<section id="malware">
+  <h2>Attacchi malware (Malware Attacks)</h2>
+
+  <h3 id="ransomware">Ransomware</h3>
+  <p>
+    Il <strong>ransomware</strong> è malware che cifra i file della vittima e richiede
+    un riscatto per fornire la chiave di decifratura. È la minaccia economicamente più
+    impattante degli ultimi anni. L'indicatore caratteristico è la presenza di file con
+    estensioni anomale (es. <code>.ryk</code>, <code>.locked</code>, <code>.encrypted</code>)
+    e di un file di testo o immagine con le istruzioni per il pagamento del riscatto.
+  </p>
+  <dl class="termlist">
+    <dt>Indicatori tipici</dt>
+    <dd>File con estensione modificata in modo non riconosciuto (SCREEN_303: <code>.ryk</code>). Nota di riscatto (ransom note) sul desktop o in ogni cartella cifrata. CPU e I/O disco elevati durante la fase di cifratura. Accesso massiccio e sequenziale ai file in breve tempo. Comunicazione outbound verso indirizzi sospetti (C2 per la chiave).</dd>
+    <dt>Ransomware-as-a-Service (RaaS)</dt>
+    <dd>Il modello operativo del crimine organizzato: il gruppo sviluppa il ransomware e lo affitta ad affiliati che si occupano della distribuzione, dividendo il riscatto. Ha democratizzato gli attacchi ransomware aumentandone il volume.</dd>
+    <dt>Double extortion</dt>
+    <dd>Tecnica moderna: l'attaccante non solo cifra i dati ma li esfil prima, minacciando di pubblicarli se il riscatto non viene pagato — anche se la vittima ripristina dal backup.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Ransomware: l'estensione è la chiave</strong><br>
+    "All user workstations and servers are displaying a message associated with files
+    containing extension .ryk" → <strong>Ransomware</strong> (SCREEN_303).
+    L'estensione anomala + messaggio di riscatto = indicatori diagnostici del ransomware.
+    Non è un virus (che non cifra necessariamente), non è spyware (che non blocca i file).
+  </div>
+
+  <h3 id="trojan">Trojan (Cavallo di Troia)</h3>
+  <p>
+    Un <strong>Trojan (Trojan Horse)</strong> è malware mascherato da software legittimo
+    o utile. L'utente lo installa volontariamente credendo si tratti di un'applicazione
+    desiderabile (gioco, utility, codec, crack di software a pagamento). Una volta
+    installato, esegue funzionalità malevole nascoste: aprire backdoor, scaricare altro
+    malware, registrare l'attività dell'utente.
+  </p>
+  <p>
+    Il Trojan <em>non si replica autonomamente</em> (si distingue dal worm per questo)
+    e non infetta altri file (si distingue dal virus). Richiede che l'utente lo installi
+    deliberatamente, sfruttando l'inganno. Lo scenario SCREEN_372 (software scaricato
+    da forum online che genera traffico outbound su porta non comune) descrive un Trojan
+    con <strong>backdoor</strong> integrata.
+  </p>
+
+  <h3 id="worm">Worm</h3>
+  <p>
+    Un <strong>worm</strong> è malware che si replica e si propaga autonomamente
+    attraverso la rete <em>senza bisogno di intervento umano</em>: non richiede
+    che l'utente clicchi su un link, apra un allegato o installi qualcosa. Sfrutta
+    vulnerabilità di servizi di rete per infettare sistemi raggiungibili.
+    È questa caratteristica di auto-propagazione che lo distingue da tutti gli altri
+    malware.
+  </p>
+  <dl class="termlist">
+    <dt>Indicatori tipici</dt>
+    <dd>Traffico di rete elevato e anomalo su porte di servizi specifici (SCREEN_713: TCP 445 = SMB, tipico di worm come WannaCry). Latenza di rete elevata. Sistemi che tentano di connettersi a molti altri host in sequenza. Nessun intervento utente rilevato prima dell'infezione.</dd>
+    <dt>Vettori tipici</dt>
+    <dd>Vulnerabilità nei servizi di rete esposti (SMB, RDP, SSH). Una volta entrato in un sistema, il worm scansiona automaticamente altri host raggiungibili e ripete il processo.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Worm vs Virus vs Trojan</strong><br>
+    <strong>Worm:</strong> si propaga autonomamente, nessun intervento umano, sfrutta
+    vulnerabilità di rete. Indicatore: alto traffico di rete, molti sistemi infettati
+    simultaneamente (SCREEN_003, SCREEN_713).<br>
+    <strong>Virus:</strong> si replica infettando altri file, richiede esecuzione del
+    file infetto da parte dell'utente.<br>
+    <strong>Trojan:</strong> si maschera da software legittimo, richiede installazione
+    volontaria, non si replica autonomamente.
+  </div>
+
+  <h3 id="spyware-key">Spyware e Keylogger</h3>
+  <p>
+    Lo <strong>spyware</strong> è malware che raccoglie informazioni sull'utente e le
+    trasmette a terzi senza consenso: cronologia di navigazione, abitudini d'uso,
+    credenziali, dati personali. È spesso installato insieme ad altro software
+    (bundling) o tramite siti web compromessi. Difficile da rilevare perché opera
+    silenziosamente in background.
+  </p>
+  <p>
+    Il <strong>keylogger</strong> è un tipo specializzato di spyware che registra ogni
+    tasto premuto dall'utente, catturando credenziali, messaggi privati, numeri di carta
+    di credito e qualsiasi altra informazione digitata. Può essere software (processo
+    che intercetta gli eventi tastiera) o hardware (dispositivo fisico tra tastiera
+    e PC).
+  </p>
+  <dl class="termlist">
+    <dt>Indicatori keylogger software</dt>
+    <dd>Processo sconosciuto in esecuzione con permessi elevati. Traffico outbound verso IP sospetti con dati cifrati. Degradazione delle prestazioni. Logs di sistema che mostrano accesso a API di hook della tastiera.</dd>
+    <dt>Indicatori keylogger hardware</dt>
+    <dd>Dispositivo fisico tra il connettore della tastiera e la porta USB/PS2 del PC. Rilevabile solo con ispezione fisica del cablaggio.</dd>
+  </dl>
+
+  <h3 id="altri-malware">Virus · Bloatware · Rootkit</h3>
+  <dl class="termlist">
+    <dt>Virus</dt>
+    <dd>Malware che si replica infettando altri file eseguibili. Richiede che l'utente esegua il file infetto per attivarsi e propagarsi. Non si diffonde autonomamente sulla rete (a differenza del worm). Indicatore: hash di file eseguibili cambiato senza patch applicate.</dd>
+    <dt>Bloatware</dt>
+    <dd>Software indesiderato pre-installato dai produttori (tipicamente su PC nuovi) o installato come bundle. Non sempre malevolo, ma consuma risorse, riduce le prestazioni e può introdurre vulnerabilità. L'indicatore è la presenza di applicazioni non richieste che si avviano automaticamente.</dd>
+    <dt>Rootkit</dt>
+    <dd>Malware progettato per nascondere la sua presenza e quella di altri malware al sistema operativo e ai tool di sicurezza. Modifica le API di sistema per restituire risultati alterati: se cerchi il processo malevolo, il rootkit lo nasconde dall'elenco dei processi. Indicatore classico: hash di file di sistema cambiato senza patch recenti (SCREEN_012, SCREEN_164: cmd.exe con hash modificato = rootkit). Può essere introdotto tramite side loading (SCREEN_690).</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Rootkit: il file integrity monitoring è il rilevatore</strong><br>
+    Scenario: "FIM alert: hash di cmd.exe cambiato. Nessuna patch applicata negli ultimi
+    2 mesi" → <strong>Rootkit</strong> (SCREEN_012, SCREEN_164). Il rootkit modifica
+    file di sistema critici. Senza patch che giustifichino la modifica, la causa è
+    malware. Non è una collision crittografica (estremamente improbabile su file reali),
+    non è una snapshot (non modifica il file).
+  </div>
+
+  <h3 id="logic-bomb">Logic bomb (Bomba logica)</h3>
+  <p>
+    Una <strong>logic bomb (bomba logica)</strong> è codice malevolo dormiente che si
+    attiva solo quando si verificano condizioni specifiche: una data, un'ora, l'assenza
+    dell'utente dal sistema, il licenziamento di un account. Non è rilevabile finché
+    le condizioni non si verificano perché sembra codice legittimo. È tipicamente
+    piantata da un <em>insider malevolo</em> — un dipendente scontento o in procinto
+    di essere licenziato — che vuole colpire l'organizzazione dopo la sua partenza.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Logic bomb da insider (OBJ 2.3 · SCREEN_440 + OBJ 2.4 · SCREEN_109)</strong><br>
+    Il codice: <code>IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END</code>
+    inserito nello script di backup da un DBA in uscita è una logic bomb classica:
+    condizione = data specifica; payload = eliminazione del database.
+    Appariva come codice legittimo per mesi, si attiva silenziosamente alla data
+    programmata. Il primo passo investigativo: verificare i DBA recentemente licenziati.
+  </div>
+</section>
+
+
+<!-- ══ ATTACCHI FISICI ═══════════════════════════════════════════ -->
+<section id="physical-attacks">
+  <h2>Attacchi fisici (Physical Attacks)</h2>
+
+  <h3 id="phys-brute">Brute force fisico</h3>
+  <p>
+    Il <strong>brute force fisico</strong> nel contesto degli attacchi fisici si riferisce
+    al tentativo di accedere fisicamente a un'area o a un dispositivo attraverso la
+    forza: forzare serrature, rompere vetri, tagliare recinzioni. Da non confondere con
+    il brute force informatico (tentativi di password): il contesto è l'accesso fisico
+    non autorizzato tramite forza diretta.
+  </p>
+
+  <h3 id="rfid">RFID cloning (Clonazione RFID)</h3>
+  <p>
+    La <strong>clonazione RFID (RFID cloning)</strong> è la copia non autorizzata dei
+    dati presenti in un badge o in una scheda di accesso RFID/NFC. Un lettore RFID
+    portatile nascosto vicino al badge legittimo della vittima può copiare i dati
+    del badge in pochi secondi, senza che la vittima se ne accorga. Il clone viene
+    poi usato per accedere fisicamente alle aree protette come se fosse il badge
+    originale.
+  </p>
+  <p>
+    L'indicatore caratteristico è il log di accesso fisico che mostra lo stesso badge
+    usato in più luoghi in un intervallo di tempo impossibile (<em>impossible travel</em>)
+    o in rapida sequenza sullo stesso varco (SCREEN_662: multiple entries from the same
+    employee ID badge within a two-minute period).
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — RFID cloning: l'indicatore è la duplicazione temporale</strong><br>
+    "Multiple entries from an employee's ID badge within a two-minute period" →
+    <strong>RFID cloning</strong> (SCREEN_662). Non è tailgating (che è una persona
+    che segue fisicamente un'altra senza usare il badge). Non è shoulder surfing
+    (che riguarda l'osservazione di informazioni visualizzate). La rapidità degli
+    accessi sullo stesso badge indica che è stato clonato e usato da un'altra persona.
+  </div>
+
+  <h3 id="environmental">Environmental attacks (Attacchi ambientali)</h3>
+  <p>
+    Gli <strong>attacchi ambientali (environmental attacks)</strong> sfruttano o
+    provocano condizioni ambientali avverse per causare danni ai sistemi IT:
+    sbalzi di tensione, variazioni di temperatura, umidità eccessiva, interferenze
+    elettromagnetiche, o danni fisici deliberati (allagamento, incendio, sabotaggio
+    degli impianti di climatizzazione). Un data center senza sistemi di protezione
+    ambientali adeguati (UPS, HVAC, sistema antincendio) è vulnerabile anche ad
+    attacchi non informatici.
+  </p>
+</section>
+
+
+<!-- ══ ATTACCHI DI RETE ══════════════════════════════════════════ -->
+<section id="network-attacks">
+  <h2>Attacchi di rete (Network Attacks)</h2>
+
+  <h3 id="ddos">DDoS — Amplified e Reflected</h3>
+  <p>
+    Un <strong>DDoS (Distributed Denial of Service)</strong> è un attacco che travolge
+    un sistema bersaglio con traffico proveniente da molteplici sorgenti distribuite
+    (botnet), rendendo il servizio inaccessibile agli utenti legittimi. L'indicatore
+    primario è un aumento improvviso e massiccio del traffico in ingresso, spesso
+    con caratteristiche anomale (stesse flag TCP, stesso payload, stesse porte sorgente).
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio — Lettura di log DDoS (SCREEN_304)</strong><br>
+    Log firewall: molti IP sorgente diversi, tutti inviando pacchetti SYN alla stessa
+    destinazione (100.50.20.7:443) nello stesso secondo. Questo pattern — molti SYN senza
+    ACK di risposta — è un <strong>SYN flood DDoS</strong>. Il server esaurisce le risorse
+    mantenendo aperte connessioni TCP half-open in attesa degli ACK che non arriveranno mai.
+  </div>
+
+  <dl class="termlist">
+    <dt>Amplified DDoS (Amplificato)</dt>
+    <dd>L'attaccante invia piccole richieste a server intermedi (DNS, NTP, SSDP) con IP sorgente falsificato (quello della vittima). I server rispondono con risposte molto più grandi alla vittima. L'amplificazione può essere 50x–100x: 1 GB di traffico inviato dall'attaccante diventa 50–100 GB ricevuti dalla vittima.</dd>
+    <dt>Reflected DDoS (Riflesso)</dt>
+    <dd>L'attaccante usa server legittimi come "riflettori" inviando richieste con IP sorgente della vittima. I server rispondono alla vittima (non all'attaccante). La tecnica usa la <strong>spoofing</strong> dell'IP sorgente. Il DNS reflected DoS (SCREEN_264) usa il DNS come riflettore: piccola query DNS → grande risposta DNS verso la vittima.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — DDoS reflected: l'indicatore DNS</strong><br>
+    "DNS server: CPU/memoria minimi, ma interfaccia di rete inondata di traffico in ingresso.
+    Solo poche query DNS inviate da questo server" → <strong>Reflected DoS</strong>
+    (SCREEN_264). Il server DNS non sta generando il traffico: lo sta <em>ricevendo</em>
+    come riflettore. L'attaccante ha spoofato l'IP del DNS server e inviato richieste a
+    molti server che ora rispondono tutti al DNS server (vittima).
+  </div>
+
+  <h3 id="dns-attacks">DNS attacks (Attacchi DNS)</h3>
+  <p>
+    Il <strong>DNS poisoning (avvelenamento DNS)</strong> — anche detto DNS spoofing —
+    inserisce record DNS falsi nella cache di un resolver DNS, reindirizzando gli utenti
+    verso indirizzi IP controllati dall'attaccante invece di quelli legittimi. È
+    particolarmente insidioso perché opera in modo trasparente per l'utente: l'URL
+    digitato è corretto, ma viene risolto con un IP sbagliato.
+  </p>
+  <p>
+    L'indicatore caratteristico è la modifica non autorizzata dei record DNS
+    (SCREEN_565: i record A e CNAME che puntano da 192.168.1.1 a 233.123.123.23 —
+    un IP non appartenente all'azienda). La difesa è DNSSEC
+    (DNS Security Extensions).
+  </p>
+  <p>
+    Il <strong>DNS tunneling</strong> (SCREEN_218) usa le query DNS come canale
+    nascosto per esfiltrare dati: l'attaccante codifica i dati rubati nei sottodomain
+    delle query DNS (es. <code>dati.base64encoded.attacker.com</code>). Il traffico DNS
+    è spesso permesso anche dai firewall più restrittivi, rendendolo un canale di
+    esfiltrazione efficace. Indicatore: volume elevato di query DNS verso domini
+    inusuali durante orari non lavorativi.
+  </p>
+
+  <h3 id="wireless">Wireless attacks (Attacchi wireless)</h3>
+  <dl class="termlist">
+    <dt>Evil twin (Access point gemello malevolo)</dt>
+    <dd>Un attaccante crea un access point Wi-Fi con lo stesso SSID e caratteristiche di un AP legittimo. Gli utenti si connettono al falso AP credendolo legittimo. L'attaccante vede tutto il traffico non cifrato e può iniettare contenuti malevoli.</dd>
+    <dt>Deauthentication attack</dt>
+    <dd>L'attaccante invia frame di deauthentication falsificati per disconnettere i client dall'AP legittimo, forzandoli a riconnettersi (possibilmente all'evil twin) o per catturare l'handshake WPA2 durante la riconnessione (per attacchi offline alla password).</dd>
+    <dt>Jamming</dt>
+    <dd>Interferenza radio che rende inutilizzabile il canale wireless. Indicatore: degradazione o interruzione del segnale Wi-Fi in un'area specifica senza causa tecnica apparente.</dd>
+  </dl>
+
+  <h3 id="on-path">On-path attack (Attacco sul percorso — MitM)</h3>
+  <p>
+    Un <strong>on-path attack</strong> (storicamente noto come Man-in-the-Middle, MitM)
+    è un attacco in cui l'attaccante si posiziona segretamente tra due parti
+    comunicanti, intercettando e potenzialmente modificando il traffico. La vittima
+    crede di comunicare direttamente con la controparte legittima, ma tutto il traffico
+    transita attraverso l'attaccante.
+  </p>
+  <p>
+    Lo scenario SCREEN_584 (attaccante che intercetta e riusa le credenziali di login
+    per accedere a informazioni finanziarie) descrive un on-path attack con credential
+    replay. Il <strong>pass-the-hash</strong> (SCREEN_418) è una variante: invece delle
+    credenziali in chiaro, l'attaccante ruba e riusa l'hash NTLM dell'autenticazione.
+  </p>
+
+  <h3 id="cred-replay">Credential replay (Replay delle credenziali)</h3>
+  <p>
+    Un attacco di <strong>credential replay</strong> riusa credenziali di autenticazione
+    catturate in precedenza per autenticarsi come la vittima senza conoscere la password
+    originale. Include il <strong>pass-the-hash</strong> (uso dell'hash NTLM), il
+    <strong>pass-the-ticket</strong> (uso di ticket Kerberos rubati — golden ticket,
+    silver ticket), e il replay di token di sessione o cookie.
+  </p>
+  <p>
+    Il comando <code>mimikatz sekurlsa::pth /ntlm:B4B9B02E...</code> (SCREEN_418) è
+    il tool più famoso per il pass-the-hash: estrae gli hash NTLM dalla memoria LSASS
+    di Windows e li usa per aprire nuove sessioni autenticate senza conoscere la password.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Pass-the-hash: riconosci mimikatz</strong><br>
+    Se vedi <code>mimikatz</code> o <code>sekurlsa::pth</code> o <code>/ntlm:</code>
+    in un comando → <strong>pass-the-hash attack</strong> (SCREEN_418).
+    Mimikatz è lo strumento standard per il dump degli hash NTLM e il loro riuso.
+    Non è social engineering, non è fileless malware.
+  </div>
+</section>
+
+
+<!-- ══ ATTACCHI APPLICATIVI ══════════════════════════════════════ -->
+<section id="app-attacks">
+  <h2>Attacchi applicativi (Application Attacks)</h2>
+
+  <h3 id="injection">Injection (Iniezione)</h3>
+  <p>
+    Gli attacchi di <strong>injection</strong> inseriscono dati malevoli in input
+    che vengono poi interpretati dal sistema come comandi. La famiglia include:
+    SQL injection (dati SQL → database), command injection (comandi OS → shell),
+    LDAP injection (query LDAP → directory service), XML/XPath injection.
+    Il denominatore comune è la mancanza di <em>input validation</em>.
+    La mitigazione universale è sempre l'<strong>input validation</strong>
+    (SCREEN_727).
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio — Data exfiltration via DNS tunneling (SCREEN_400)</strong><br>
+    Il PCAP mostra traffico da 10.5.1.1 verso 52.165.16.154 usando encapsulation IPv6
+    in IPv4 (proto 41) su una porta non standard (13788). Dati sensibili vengono
+    esfiltrati incapsulando IPv6 dentro IPv4 per nascondere il traffico malevolo in
+    quello apparentemente legittimo. L'indicatore: protocollo di encapsulation usato
+    su porte non standard verso IP esterni sospetti.
+  </div>
+
+  <h3 id="priv-esc">Privilege escalation (Escalation dei privilegi)</h3>
+  <p>
+    La <strong>privilege escalation</strong> è l'atto di ottenere permessi superiori
+    a quelli originariamente concessi. Esistono due varianti: <em>verticale</em>
+    (da utente normale a amministratore/root) e <em>orizzontale</em> (da utente A
+    ad utente B con lo stesso livello di privilegi ma accesso a risorse diverse).
+    È quasi sempre un passo intermedio — raramente un fine in sé — nel percorso
+    dell'attaccante verso il suo obiettivo finale.
+  </p>
+  <dl class="termlist">
+    <dt>Tecniche comuni</dt>
+    <dd>Sfruttamento di SUID/SGID bit su Unix, token impersonation su Windows, Kerberoasting (richiesta di ticket TGS per account con SPN e offline cracking dell'hash), DLL hijacking, unquoted service paths.</dd>
+    <dt>Valid accounts (SCREEN_516)</dt>
+    <dd>L'attaccante usa credenziali rubate o create appositamente per accedere a sistemi con privilegi elevati. È una tecnica MITRE ATT&CK: sfrutta account legittime invece di vulnerabilità tecniche, rendendo l'attività difficile da distinguere da quella normale.</dd>
+  </dl>
+
+  <h3 id="forgery">Forgery (Falsificazione)</h3>
+  <dl class="termlist">
+    <dt>CSRF — Cross-Site Request Forgery (Falsificazione delle richieste tra siti)</dt>
+    <dd>Forza un browser autenticato a inviare richieste non volute a un sito web per cui l'utente è già autenticato. L'attaccante inserisce una richiesta malevola in una pagina che l'utente visita: il browser la invia automaticamente con i cookie di sessione dell'utente. Mitigazione: token CSRF nelle form, SameSite cookie attribute.</dd>
+    <dt>SSRF — Server-Side Request Forgery (Falsificazione lato server)</dt>
+    <dd>L'attaccante forza il server web a fare richieste verso risorse interne non accessibili dall'esterno (es. metadata endpoint del cloud, servizi interni). Il server diventa un proxy non intenzionale.</dd>
+  </dl>
+
+  <h3 id="dir-trav">Directory traversal</h3>
+  <p>
+    Il <strong>directory traversal</strong> (path traversal) usa sequenze <code>../</code>
+    per navigare fuori dalla directory consentita e accedere a file di sistema sensibili.
+    Pattern canonico: <code>GET ../../../../etc/passwd</code>. Già trattato in OBJ 2.3
+    come tipo di vulnerabilità; qui è il suo indicator come attacco in uno scenario.
+  </p>
+</section>
+
+
+<!-- ══ ATTACCHI CRITTOGRAFICI ════════════════════════════════════ -->
+<section id="crypto-attacks-section">
+  <h2>Attacchi crittografici (Cryptographic Attacks)</h2>
+
+  <h3 id="crypto-attacks">Downgrade · Collision · Birthday</h3>
+  <dl class="termlist">
+    <dt>Downgrade attack (Attacco di degradazione)</dt>
+    <dd>Forza due sistemi a usare una versione più vecchia e vulnerabile di un protocollo crittografico, invece di quella sicura negoziata originariamente. Esempio classico: POODLE (forzava da TLS a SSLv3), BEAST (forzava TLS 1.0). Indicatore: negoziazione di protocolli obsoleti (SSL, TLS 1.0) nonostante la disponibilità di versioni moderne.</dd>
+    <dt>Collision attack (Attacco di collisione)</dt>
+    <dd>Trova due input diversi che producono lo stesso hash (collisione). Se l'algoritmo di hashing è debole (MD5, SHA-1), l'attaccante può creare un file malevolo con lo stesso hash di un file legittimo: il sistema di verifica dell'integrità non rileva la sostituzione. Indicatore: due file con hash identico ma contenuto diverso.</dd>
+    <dt>Birthday attack (Attacco del compleanno)</dt>
+    <dd>Sfrutta il paradosso del compleanno della teoria della probabilità: con N possibili valori di hash, bastano √N input casuali per avere probabilità del 50% di trovare una collisione. È il fondamento matematico degli attacchi di collisione. Indica la necessità di hash più lunghi per resistere a questi attacchi.</dd>
+  </dl>
+</section>
+
+
+<!-- ══ ATTACCHI ALLE PASSWORD ════════════════════════════════════ -->
+<section id="password-attacks">
+  <h2>Attacchi alle password (Password Attacks)</h2>
+
+  <h3 id="spraying">Password spraying</h3>
+  <p>
+    Il <strong>password spraying</strong> è un attacco che testa una <em>singola
+    password comune</em> (o poche password) su <em>molti account diversi</em>.
+    È l'opposto del brute-force classico (molte password su un account). L'obiettivo
+    è evitare i lockout degli account: la maggior parte dei sistemi blocca un account
+    dopo N tentativi falliti consecutivi sullo stesso account. Con lo spraying, ogni
+    account riceve un solo tentativo — mai abbastanza per scatenare il lockout.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio — Lettura dei log di password spraying (SCREEN_010, SCREEN_143)</strong><br>
+    Log: login fallito per administrator, jsmith, guest, cpolk, fmartin — tutti con
+    la stessa password "Spring2023", negli stessi secondi. Pattern diagnostico del
+    password spraying: <em>password uguale, username diversi, timestamp ravvicinati</em>.
+    Non è brute-force (che userebbe password diverse sullo stesso account).
+    Non è pass-the-hash (che userebbe hash, non password in chiaro).
+  </div>
+
+  <dl class="termlist">
+    <dt>Brute-force (informatico)</dt>
+    <dd>Testa tutte le combinazioni possibili di password su un singolo account finché non trova quella corretta. Molto lento, scatena facilmente i lockout. Indicatore: molti tentativi falliti consecutivi sullo stesso account (SCREEN_198: password authentication succeeded ma MFA failed ripetutamente = tentativo di brute-force sul MFA).</dd>
+    <dt>Differenza operativa chiave</dt>
+    <dd>Spraying: 1 password × N account → evita lockout. Brute-force: N password × 1 account → causa lockout. Il pattern nei log è diagnostico e immediato.</dd>
+  </dl>
+
+  <h3 id="pass-hash">Pass-the-hash</h3>
+  <p>
+    Il <strong>pass-the-hash</strong> è un attacco di credential replay che usa l'hash
+    NTLM di una password di Windows per autenticarsi, senza conoscere la password in
+    chiaro. NTLM autentica usando un challenge-response basato sull'hash, non sulla
+    password: se l'attaccante ha l'hash, può autenticarsi esattamente come se avesse
+    la password. Lo strumento principale è <code>mimikatz</code> con il modulo
+    <code>sekurlsa::pth</code>.
+  </p>
+</section>
+
+
+<!-- ══ INDICATORI ════════════════════════════════════════════════ -->
+<section id="indicators-section">
+  <h2>Indicatori di compromissione (Indicators of Compromise — IoC)</h2>
+  <p>
+    Gli <strong>Indicators of Compromise (IoC)</strong> sono segnali osservabili che
+    suggeriscono che un sistema è stato compromesso o è sotto attacco. Non sono prove
+    definitive, ma trigger per l'investigazione. Riconoscerli rapidamente riduce il
+    dwell time (tempo che l'attaccante trascorre inosservato nel sistema).
+  </p>
+
+  <dl class="termlist" id="indicators">
+    <dt>Account lockout (Blocco account)</dt>
+    <dd>Un account viene bloccato dopo troppi tentativi di autenticazione falliti. Può indicare brute-force o password spraying. Anomalo se avviene per molti account contemporaneamente o per account normalmente non usati.</dd>
+    <dt>Concurrent session usage (Sessioni concorrenti)</dt>
+    <dd>Lo stesso account risulta autenticato da più posizioni geografiche o da più dispositivi contemporaneamente. Indica credenziali rubate usate da un attaccante mentre l'utente legittimo è ancora connesso.</dd>
+    <dt>Impossible travel (Viaggio impossibile)</dt>
+    <dd>Un account si autentica da Milano alle 10:00 e da Tokyo alle 10:05 — fisicamente impossibile. Indica credenziali rubate usate da una posizione geografica diversa da quella dell'utente legittimo. Molti SIEM moderni rilevano questo pattern automaticamente.</dd>
+    <dt>Resource consumption (Consumo di risorse anomalo)</dt>
+    <dd>CPU, memoria, I/O disco o larghezza di banda di rete significativamente superiori al normale senza causa giustificata. Indicatori tipici di: cryptojacking (CPU elevata), ransomware in fase di cifratura (I/O disco elevato), worm (traffico di rete elevato), DDoS in ingresso.</dd>
+    <dt>Resource inaccessibility (Inaccessibilità delle risorse)</dt>
+    <dd>Sistemi, servizi o file che normalmente sono disponibili diventano irraggiungibili. Indica potenziale DDoS, ransomware che ha cifrato i file, o sabotaggio (cancellazione, corruzione dei dati).</dd>
+    <dt>Out-of-cycle logging (Logging fuori ciclo)</dt>
+    <dd>Log generati in orari inusuali (es. attività amministrativa alle 3:00 di notte) o picchi di logging improvvisi durante orari di basso utilizzo. Indicatore di attività non autorizzata quando gli amministratori legittimi non sono presenti.</dd>
+    <dt>Missing logs (Log mancanti)</dt>
+    <dd>Un attaccante sofisticato cerca di coprire le proprie tracce cancellando o modificando i log. L'assenza di log in un periodo in cui dovrebbero esistere è un indicatore di compromissione (e spesso peggiore dei log anomali, perché significa che l'attaccante aveva privilegi sufficienti per cancellarli).</dd>
+    <dt>Blocked content (Contenuti bloccati)</dt>
+    <dd>Un sistema tenta di accedere a contenuti che vengono bloccati da filtri di sicurezza: URL categorizzate come malware, IP in blacklist, download di file eseguibili non autorizzati. Indica malware che tenta di scaricare payload aggiuntivi o di comunicare con C2.</dd>
+    <dt>Published/documented (Pubblicato/documentato)</dt>
+    <dd>Una vulnerabilità o un indicatore di compromissione che è stato pubblicamente documentato da vendor, CISA, o threat intelligence. Se un IoC è già nella threat intelligence, il sistema dovrebbe rilevarlo automaticamente.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Data exfiltration via VPN (SCREEN_586)</strong><br>
+    I log VPN mostrano che un utente si connette durante la notte (orari non lavorativi =
+    out-of-cycle logging) e trasferisce dati verso un IP sospetto (resource consumption
+    anomala + blocked content potenziale). La combinazione di orario anomalo + destinazione
+    sospetta + volume di traffico = indicatori di <strong>data exfiltration</strong>.
+    Il fatto che l'attività avvenga via VPN legittima suggerisce credenziali rubate.
+  </div>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 2.4</h2>
+  <div class="chapter-meta">
+    <p><strong>25 domande d'esame</strong> su indicatori di attività malevola, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 2.4 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 2.4</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Ransomware Indicators</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Presenza di file con estensioni anomale (.ryk, .locked, .crypto) + dicitura di riscatto (.txt/.html) + picchi elevatissimi di I/O disco causati dal processo di cifratura massivo dei file.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Trojan vs Worm propagation</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Trojan</strong>: richiede interazione o installazione cosciente (nascosto dentro software lecito).<br><strong>Worm</strong>: si diffonde in modo 100% automatico e autonomo tra sistemi in rete senza interazione.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Rootkit vs Logic Bomb indicatori</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Rootkit</strong>: alterazione hash di sistema (alert FIM) + mascheramento processi avanzati.<br><strong>Logic Bomb</strong>: codice letale silente attivato da date/orari o licenziamenti dipendenti.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>DNS Poisoning vs DNS Tunneling</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>DNS Poisoning</strong>: manipolazione dei record DNS per fare hijack traffico.<br><strong>DNS Tunneling</strong>: esfiltrazione fraudolenta incapsulando dati crittografati in query/subdomain DNS.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Password Spraying vs Brute Force</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Spraying</strong>: prova la stessa password comune su migliaia di username (evita lockout).<br><strong>Brute Force</strong>: prova migliaia di password sullo stesso singolo account utente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>RFID Cloning indicatori fisici</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Il medesimo badge ID registrato in varchi distanti nello stesso istante, oppure in varchi d'accesso consecutivi in un lasso di tempo fisicamente impossibile (impossibility travel locale).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="obj2_3_vulnerabilities.html">← OBJ 2.3 — Vulnerabilità</a>
+  <a href="obj2_5_mitigation.html" class="secondary">OBJ 2.5 — Mitigazioni →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 2.4 · 25 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>25 domande in ordine casuale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>12 domande casuali</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 2.4</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var Q=[
+{id:'SCREEN_003',text:'A company has found malware in their lab which can move between systems without clicking any links. Which of the following would best describe this malware?',opts:[{id:'A',t:'SQL injection',c:false},{id:'B',t:'Sideloading',c:false},{id:'C',t:'Worm',c:true},{id:'D',t:'VM escape',c:false}],expl:'La caratteristica distintiva del worm è la propagazione autonoma senza intervento umano: "move between systems without clicking any links" è esattamente la definizione di worm. SQL injection è un attacco web. Sideloading è installazione di app non ufficiali. VM escape riguarda la virtualizzazione.'},
+{id:'SCREEN_010',text:'A security analyst is reviewing the following logs: [10:00:00 AM] Login rejected - username administrator - password Spring2023; [10:00:01 AM] Login rejected - username jsmith - password Spring2023; [10:00:01 AM] Login rejected - username guest - password Spring2023; [10:00:02 AM] Login rejected - username cpolk - password Spring2023; [10:00:03 AM] Login rejected - username fmartin - password Spring2023. Which of the following attacks is most likely occurring?',opts:[{id:'A',t:'Password spraying',c:true},{id:'B',t:'Account forgery',c:false},{id:'C',t:'Pass-the-hash',c:false},{id:'D',t:'Brute-force',c:false}],expl:'Pattern diagnostico: stessa password ("Spring2023") testata su account diversi in rapida successione. Questo è password spraying: 1 password × N account, progettato per evitare il lockout. Il brute-force userebbe password diverse sullo stesso account.'},
+{id:'SCREEN_012',text:'A systems administrator receives the following alert from a file integrity monitoring tool: The hash of the cmd.exe file has changed. The systems administrator checks the OS logs and notices that no patches were applied in the last two months. Which of the following most likely occurred?',opts:[{id:'A',t:'The end user changed the file permissions.',c:false},{id:'B',t:'A cryptographic collision was detected.',c:false},{id:'C',t:'A snapshot of the file system was taken.',c:false},{id:'D',t:'A rootkit was deployed.',c:true}],expl:'cmd.exe è un file di sistema critico. L\'hash è cambiato senza patch recenti che lo giustifichino. Un rootkit modifica file di sistema critici per nascondersi o per persistere. Una collisione crittografica reale è estremamente improbabile. Una snapshot non modifica il file, ne crea una copia.'},
+{id:'SCREEN_039',text:'Which technique is employed when executing a distributed denial-of-service (DDoS) attack?',opts:[{id:'A',t:'Spoofing',c:true},{id:'B',t:'Spraying',c:false},{id:'C',t:'SQL injection',c:false},{id:'D',t:'Hashing',c:false}],expl:'Il DDoS utilizza lo spoofing dell\'IP sorgente: l\'attaccante falsifica gli IP di origine per nascondere la fonte reale dell\'attacco e per il reflected DDoS (dove i server intermediari rispondono all\'IP spoofato della vittima, amplificando il traffico verso di essa).'},
+{id:'SCREEN_109',text:'Which of the following is generally a script planted by a disgruntled employee or other malicious actor that is set to execute at a certain time?',opts:[{id:'A',t:'Trojan horse',c:false},{id:'B',t:'Logic bomb',c:true},{id:'C',t:'Adware',c:false},{id:'D',t:'Virus',c:false}],expl:'Una logic bomb è codice dormiente che si attiva a una condizione specifica (tipicamente una data/ora). È tipicamente piantata da insider malevoli (dipendenti scontenti). Il Trojan si maschera da software legittimo ma non è necessariamente time-triggered. Il virus si replica infettando altri file.'},
+{id:'SCREEN_143',text:'A security analyst is reviewing the following logs: [10:00:00 AM] Login rejected - username administrator - password Spring2023; [10:00:01 AM] Login rejected - username jsmith - password Spring2023; [10:00:01 AM] Login rejected - username guest - password Spring2023; [10:00:02 AM] Login rejected - username cpolk - password Spring2023; [10:00:03 AM] Login rejected - username fmartin - password Spring2023. Which of the following attacks is most likely occurring?',opts:[{id:'A',t:'Password spraying',c:true},{id:'B',t:'Account forgery',c:false},{id:'C',t:'Pass-the-hash',c:false},{id:'D',t:'Brute-force',c:false}],expl:'Variante di SCREEN_010. Il pattern è identico: stessa password su molti account diversi in rapida successione. Password spraying. Il brute-force prova molte password sullo stesso account.'},
+{id:'SCREEN_164',text:'A systems administrator receives the following alert from a file integrity monitoring tool: The hash of the cmd.exe file has changed. The systems administrator checks the OS logs and notices that no patches were applied in the last two months. Which of the following most likely occurred?',opts:[{id:'A',t:'The end user changed the file permissions.',c:false},{id:'B',t:'A cryptographic collision was detected.',c:false},{id:'C',t:'A snapshot of the file system was taken.',c:false},{id:'D',t:'A rootkit was deployed.',c:true}],expl:'Variante di SCREEN_012. Hash di file di sistema cambiato senza patch recenti = rootkit. Il rootkit modifica i file critici del sistema operativo per nascondersi e persistere.'},
+{id:'SCREEN_198',text:'A security analyst reviews domain activity logs and notices the following: UserID jsmith, password authentication: succeeded, MFA: failed (invalid code) repeated multiple times. Which of the following is the best explanation for what the security analyst has discovered?',opts:[{id:'A',t:'The user jsmith\'s account has been locked out.',c:false},{id:'B',t:'A keylogger is installed on jsmith\'s workstation.',c:false},{id:'C',t:'An attacker is attempting to brute force jsmith\'s account.',c:true},{id:'D',t:'Ransomware has been deployed in the domain.',c:false}],expl:'La password è corretta (autenticazione password: succeeded) ma il codice MFA fallisce ripetutamente. L\'attaccante ha rubato la password ma non ha accesso al secondo fattore e tenta di indovinarlo (brute-force sul MFA). Il keylogger avrebbe catturato anche il MFA se fosse state TOTP digitato.'},
+{id:'SCREEN_218',text:'A security analyst receives alerts about an internal system sending a large amount of unusual DNS queries to systems on the internet over short periods of time during non-business hours. Which of the following is most likely occurring?',opts:[{id:'A',t:'A worm is propagating across the network.',c:false},{id:'B',t:'Data is being exfiltrated.',c:true},{id:'C',t:'A logic bomb is deleting data.',c:false},{id:'D',t:'Ransomware is encrypting files.',c:false}],expl:'Volume elevato di query DNS non usuali verso internet durante orari non lavorativi è il pattern del DNS tunneling: i dati vengono codificati nei sottodomini delle query DNS per esfiltrare informazioni attraverso un canale (DNS) che i firewall di solito non bloccano.'},
+{id:'SCREEN_264',text:'A company\'s end users are reporting that they are unable to reach external websites. After reviewing the performance data for the DNS servers, the analyst discovers that the CPU, disk, and memory usage are minimal, but the network interface is flooded with inbound traffic. Network logs show only a small number of DNS queries sent to this server. Which of the following best describes what the security analyst is seeing?',opts:[{id:'A',t:'Concurrent session usage',c:false},{id:'B',t:'Secure DNS cryptographic downgrade',c:false},{id:'C',t:'On-path resource consumption',c:false},{id:'D',t:'Reflected denial of service',c:true}],expl:'Il server DNS ha CPU/memoria minimi (non sta elaborando molto) ma la rete è inondata di traffico in ingresso e ha inviato poche query. Questo è un reflected DoS: l\'attaccante ha spoofato l\'IP del DNS come sorgente di richieste, e molti server internet ora inviano risposte a questo DNS (che non le ha richieste).'},
+{id:'SCREEN_285',text:'A company is experiencing a web services outage on the public network. The services are up and available but inaccessible. The network logs show a sudden increase in network traffic that is causing the outage. Which of the following attacks is the organization experiencing?',opts:[{id:'A',t:'ARP poisoning',c:false},{id:'B',t:'Brute force',c:false},{id:'C',t:'Buffer overflow',c:false},{id:'D',t:'DDoS',c:true}],expl:'Il servizio è operativo ("up and available") ma inaccessibile a causa di un improvviso aumento del traffico di rete. Questa è la firma di un DDoS: il servizio funziona tecnicamente, ma è travolto dal volume di traffico malevolo che impedisce agli utenti legittimi di accedervi.'},
+{id:'SCREEN_303',text:'An administrator finds that all user workstations and servers are displaying a message that is associated with files containing an extension of .ryk. Which of the following types of infections is present on the systems?',opts:[{id:'A',t:'Virus',c:false},{id:'B',t:'Trojan',c:false},{id:'C',t:'Spyware',c:false},{id:'D',t:'Ransomware',c:true}],expl:'I file con estensione .ryk (Ryuk ransomware) e un messaggio associato sono gli indicatori classici del ransomware: i file sono stati cifrati e l\'attaccante mostra le istruzioni per il riscatto. .ryk è la firma specifica della famiglia di ransomware Ryuk.'},
+{id:'SCREEN_304',text:'A systems administrator is advised that an external web server is not functioning properly. The administrator reviews the following firewall logs containing traffic going to the web server: many source IPs all sending SYN packets to the same destination (100.50.20.7:443) at the same timestamp. Which of the following attacks is likely occurring?',opts:[{id:'A',t:'DDoS',c:true},{id:'B',t:'Directory traversal',c:false},{id:'C',t:'Brute-force',c:false},{id:'D',t:'HTTPS downgrade',c:false}],expl:'Molti IP sorgente diversi che inviano SYN a una sola destinazione nello stesso momento: questo è un SYN flood DDoS. Il server esaurisce le risorse mantenendo aperte connessioni TCP half-open in attesa degli ACK che non arriveranno. Directory traversal appare nei log come richieste GET con ../.. .'},
+{id:'SCREEN_372',text:'A user downloaded software from an online forum. After the user installed the software, the security team observed external network traffic connecting to the user\'s computer on an uncommon port. Which of the following is the most likely explanation of this unauthorized connection?',opts:[{id:'A',t:'The software had a hidden keylogger.',c:false},{id:'B',t:'The software was ransomware.',c:false},{id:'C',t:'The user\'s computer had a fileless virus.',c:false},{id:'D',t:'The software contained a backdoor.',c:true}],expl:'Software scaricato da forum non ufficiale che genera connessioni in entrata su porte non standard: classico Trojan con backdoor integrata. La backdoor apre una porta per permettere all\'attaccante di connettersi da remoto. Un keylogger genererebbe traffico in uscita, non in entrata.'},
+{id:'SCREEN_384',text:'A systems administrator notices that a testing system is down. The servers are online and accessible from any device on the server network. Test01 (10.25.1.3) received 654,123,168 bytes. Test02 (10.25.1.4) received 651,321,685 bytes. Other servers received normal traffic. Which of the following is the most likely cause of the outage?',opts:[{id:'A',t:'Denial of service',c:true},{id:'B',t:'ARP poisoning',c:false},{id:'C',t:'Jamming',c:false},{id:'D',t:'Kerberoasting',c:false}],expl:'Test01 e Test02 hanno ricevuto 650+ milioni di byte di traffico mentre gli altri server ricevono volumi normali. Questa anomalia estrema di traffico in ricezione che causa il down dei soli test server è un attacco Denial of Service: i sistemi sono travolti dal volume di traffico ricevuto.'},
+{id:'SCREEN_400',text:'A security analyst is reviewing a PCAP and notices traffic between an internal server and an external host that includes IPv6 encapsulated in IPv4 (proto 41) on non-standard port 13788. Sensitive data was found to have been leaked. Which of the following was most likely used to exfiltrate the data?',opts:[{id:'A',t:'Encapsulation',c:true},{id:'B',t:'MAC address spoofing',c:false},{id:'C',t:'Steganography',c:false},{id:'D',t:'Broken encryption',c:false},{id:'E',t:'Sniffing via on-path position',c:false}],expl:'Il traffico usa proto 41 (IPv6-in-IPv4 encapsulation) su una porta non standard (13788). I dati vengono nascosti dentro pacchetti IPv6 incapsulati in IPv4 per eludere i controlli di sicurezza che non ispezionano il payload. L\'encapsulation come tecnica di esfiltrazione è l\'indicatore diagnostico.'},
+{id:'SCREEN_418',text:'An analyst finds the following in the command history on a compromised PC: PS> .\\mimikatz.exe "sekurlsa::pth /user:localadmin /domain:corp-domain.com /ntlm:B4B9B02E1F29A3CF193EAB28C8D617D3F327". Which of the following best describes how the attacker gained access to the hardened PC?',opts:[{id:'A',t:'The attacker created fileless malware hosted by the banking platform.',c:false},{id:'B',t:'The attacker performed a pass-the-hash attack using a shared support account.',c:true},{id:'C',t:'The attacker utilized living-off-the-land binaries to evade EDR software.',c:false},{id:'D',t:'The attacker socially engineered the accountant.',c:false}],expl:'Il comando mimikatz sekurlsa::pth con /ntlm: è la firma del pass-the-hash: uso dell\'hash NTLM dell\'account localadmin per autenticarsi senza conoscere la password. L\'account è condiviso (shared support account) il che spiega come l\'hash è stato ottenuto da un altro PC.'},
+{id:'SCREEN_516',text:'Attackers have redirected all outgoing database traffic to a server under their control. Which of the following MITRE ATT&CK techniques did the attacker most likely use to redirect database traffic?',opts:[{id:'A',t:'Browser extension',c:false},{id:'B',t:'Process injection',c:false},{id:'C',t:'Valid accounts',c:true},{id:'D',t:'Escape to host',c:false}],expl:'Usare "valid accounts" (account legittimi) è una tecnica MITRE ATT&CK: l\'attaccante ha ottenuto credenziali valide per accedere al sistema di database e modificarne la configurazione per reindirizzare il traffico. Non è process injection (non è un attacco in memoria) né escape to host (virtualizzazione).'},
+{id:'SCREEN_565',text:'A security administrator noticed that DNS records (A and CNAME for @ and WWW) changed from 192.168.1.1 to 233.123.123.23 — an address not part of the company network. Which of the following was the company most likely experiencing?',opts:[{id:'A',t:'DDoS attack',c:false},{id:'B',t:'DNS poisoning',c:true},{id:'C',t:'Ransomware compromise',c:false},{id:'D',t:'Spyware infection',c:false}],expl:'La modifica non autorizzata dei record DNS per puntare a un IP esterno sconosciuto è DNS poisoning (avvelenamento DNS): gli utenti che risolvono il dominio vengono reindirizzati verso un server controllato dall\'attaccante invece di quello legittimo.'},
+{id:'SCREEN_586',text:'VPN logs show that during non-working hours a user is accessing the company file server and information is being transferred to a suspicious IP address. Which of the following threats is most likely occurring?',opts:[{id:'A',t:'Typosquatting',c:false},{id:'B',t:'Root or trust',c:false},{id:'C',t:'Data exfiltration',c:true},{id:'D',t:'Blackmail',c:false}],expl:'Accesso durante orari non lavorativi (out-of-cycle logging) + trasferimento dati verso IP sospetto = indicatori classici di data exfiltration. Le credenziali VPN sono probabilmente state rubate. Il fatto che i dati vengano inviati a un IP esterno sospetto conferma l\'esfiltrazione.'},
+{id:'SCREEN_662',text:'A company\'s gate access logs show multiple entries from an employee\'s ID badge within a two-minute period. Which of the following is this an example of?',opts:[{id:'A',t:'RFID cloning',c:true},{id:'B',t:'Side-channel attack',c:false},{id:'C',t:'Shoulder surfing',c:false},{id:'D',t:'Tailgating',c:false}],expl:'Più accessi dallo stesso badge in 2 minuti sullo stesso varco: il badge è stato clonato e qualcuno lo sta usando contemporaneamente all\'utente legittimo. Il tailgating non usa il badge: una persona segue fisicamente un\'altra. Lo shoulder surfing osserva informazioni visualizzate.'},
+{id:'SCREEN_690',text:'Which of the following could potentially be introduced at the time of side loading?',opts:[{id:'A',t:'User impersonation',c:false},{id:'B',t:'Rootkit',c:true},{id:'C',t:'On-path attack',c:false},{id:'D',t:'Buffer overflow',c:false}],expl:'Il side loading installa app da fonti non ufficiali senza controllo di sicurezza. Un\'app scaricata da un forum underground può contenere un rootkit: il malware si installa con privilegi elevati, modifica il sistema per nascondersi e per la persistenza.'},
+{id:'SCREEN_713',text:'A security team receives reports about high latency and complete network unavailability throughout most of the office building. Flow logs from the campus switches show high traffic on TCP 445. Which of the following is most likely the root cause of this incident?',opts:[{id:'A',t:'Buffer overflow',c:false},{id:'B',t:'NTP amplification attack',c:false},{id:'C',t:'Worm',c:true},{id:'D',t:'DoS attack',c:false}],expl:'Alto traffico su TCP 445 (SMB) con latenza elevata in tutto l\'edificio senza causa esterna: pattern classico di un worm che si propaga autonomamente sulla rete locale usando SMB. WannaCry e NotPetya usavano esattamente questo vettore. Un DoS avrebbe traffico inbound esterno.'},
+{id:'SCREEN_715',text:'When used with an access control vestibule which of the following would provide the best prevention against tailgating?',opts:[{id:'A',t:'PIN',c:false},{id:'B',t:'Access card',c:false},{id:'C',t:'Security guard',c:true},{id:'D',t:'CCTV',c:false}],expl:'Il tailgating è una persona che segue fisicamente un\'altra attraverso un varco di accesso. Solo una guardia di sicurezza può rilevare e fermare fisicamente il tailgating in un mantrap. PIN e access card verificano l\'identità ma non impediscono che una seconda persona entri insieme. La CCTV rileva ma non previene.'},
+{id:'SCREEN_727',text:'During a recent log review, an analyst discovers evidence of successful injection attacks. Which of the following will best address this issue?',opts:[{id:'A',t:'Authentication',c:false},{id:'B',t:'Secure cookies',c:false},{id:'C',t:'Static code analysis',c:false},{id:'D',t:'Input validation',c:true}],expl:'La mitigazione primaria e universale per tutti gli attacchi di injection (SQL, command, LDAP, XSS) è l\'input validation: verificare e sanitizzare ogni input prima che venga elaborato o incluso in query/output. Static code analysis può rilevarli durante lo sviluppo ma non li previene in produzione.'}
+];
+
+var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
+contentEl.style.display='none';resultEl.style.display='none';
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.4';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?12:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
+function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
+function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
+function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
+document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
+document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
+nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
+})();
+</script>
+</body>
+</html>

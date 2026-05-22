@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 2.3 — Tipi di vulnerabilità · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 2 — Threats, Vulnerabilities and Mitigations</span>
+  <span>OBJ 2.3 — Tipi di vulnerabilità</span>
+</div>
+
+<header>
+  <h1>OBJ 2.3 — Tipi di Vulnerabilità (Types of Vulnerabilities)</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 2 — Threats, Vulnerabilities and Mitigations · Peso esame: 22%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Explain various types of vulnerabilities.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">2.3</span> <span class="weight-badge">D2 = 22%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj2_1_threat_actors.html">OBJ 2.1 — Threat Actors</a> · <a href="obj1_4_cryptography.html">OBJ 1.4 — Crittografia</a></p>
+  <p><strong>Correlati:</strong> <a href="obj2_4_malicious_activity.html">OBJ 2.4 — Indicatori di attività malevola</a> · <a href="obj2_5_mitigation.html">OBJ 2.5 — Mitigazioni</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Applicative</div>
+  <a href="#mem-injection">Memory injection</a>
+  <a href="#buffer-overflow">Buffer overflow</a>
+  <a href="#race-condition">Race condition (TOC/TOU)</a>
+  <a href="#malicious-update">Malicious update</a>
+
+  <div class="toc-section">Web-based</div>
+  <a href="#sqli">SQL injection (SQLi)</a>
+  <a href="#xss">Cross-site scripting (XSS)</a>
+  <a href="#dir-traversal">Directory traversal</a>
+
+  <div class="toc-section">OS e Hardware</div>
+  <a href="#os-based">OS-based</a>
+  <a href="#firmware">Firmware</a>
+  <a href="#eol-legacy">End-of-life / Legacy</a>
+
+  <div class="toc-section">Virtualizzazione</div>
+  <a href="#vm-escape">VM escape</a>
+  <a href="#resource-reuse">Resource reuse</a>
+
+  <div class="toc-section">Supply chain e Cloud</div>
+  <a href="#supply-chain">Supply chain</a>
+  <a href="#cloud">Cloud-specific</a>
+
+  <div class="toc-section">Crittografia e Config</div>
+  <a href="#crypto">Cryptographic</a>
+  <a href="#misconfig">Misconfiguration</a>
+
+  <div class="toc-section">Mobile</div>
+  <a href="#side-loading">Side loading</a>
+  <a href="#jailbreaking">Jailbreaking</a>
+
+  <div class="toc-section">Zero-day</div>
+  <a href="#zero-day">Zero-day</a>
+
+  <div class="toc-section">Verifica</div>
+  <a href="#quiz-section">Quiz interattivo</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+
+<!-- ══ VULNERABILITÀ APPLICATIVE ════════════════════════════════ -->
+<section id="app-vulns">
+  <h2>Vulnerabilità applicative (Application Vulnerabilities)</h2>
+  <p>
+    Le vulnerabilità applicative nascono da errori nel codice software: logica difettosa,
+    mancata validazione dell'input, gestione scorretta della memoria. Sono le più diffuse
+    e le più sfruttate dagli attaccanti perché il software è ovunque e il codice sicuro
+    è difficile da scrivere. OWASP (Open Web Application Security Project) è la risorsa
+    di riferimento per le tecniche di exploitation applicativo più comuni (SCREEN_419).
+  </p>
+
+  <h3 id="mem-injection">Memory injection (Iniezione di memoria)</h3>
+  <p>
+    La <strong>memory injection (iniezione di memoria)</strong> è una tecnica in cui
+    l'attaccante inserisce codice malevolo nello spazio di memoria allocato di un processo
+    già in esecuzione. Il codice malevolo viene eseguito nel contesto del processo legittimo,
+    il che permette di bypassare i controlli di sicurezza del sistema operativo che si
+    basano sull'identità del processo. Poiché il malware non esiste come file su disco
+    ma solo in memoria, può eludere molti antivirus tradizionali basati su firma di file
+    (SCREEN_510).
+  </p>
+  <dl class="termlist">
+    <dt>Process injection</dt>
+    <dd>La forma più comune: il codice malevolo viene iniettato in un processo legittimo (es. svchost.exe su Windows, o il browser) e viene eseguito nel suo contesto, ereditandone i privilegi e le autorizzazioni.</dd>
+    <dt>DLL injection</dt>
+    <dd>Un attaccante forza un processo a caricare una Dynamic Link Library (DLL) malevola. La DLL viene eseguita nel contesto del processo, con i suoi permessi.</dd>
+    <dt>Shellcode injection</dt>
+    <dd>Codice macchina compatto (shellcode) viene iniettato in memoria e poi l'esecuzione viene reindirizzata ad esso tramite tecniche come buffer overflow o return-oriented programming (ROP).</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Memory injection su RTOS (SCREEN_538)</strong><br>
+    Un Real-Time Operating System (RTOS) è un sistema operativo utilizzato in dispositivi
+    embedded (PLC industriali, dispositivi medici, sistemi di controllo). Un attaccante
+    che vuole compromettere un RTOS non può installare malware tradizionale — non c'è
+    filesystem standard. La soluzione è la memory injection: il codice malevolo viene
+    iniettato direttamente nella memoria del sistema durante l'esecuzione, senza mai
+    toccare il disco.
+  </div>
+
+  <h3 id="buffer-overflow">Buffer overflow (Overflow del buffer)</h3>
+  <p>
+    Il <strong>buffer overflow</strong> si verifica quando un programma scrive più dati
+    di quanti un buffer (area di memoria allocata) possa contenere, sovrascrivendo aree
+    di memoria adiacenti. Se il programma non verifica i limiti dell'input
+    (<em>bounds checking</em>), un attaccante può deliberatamente fornire un input
+    troppo grande per sovrascrivere: l'indirizzo di ritorno di una funzione
+    (puntando a codice malevolo), variabili critiche del programma, o registri del
+    processore con indirizzi malevoli (SCREEN_270).
+  </p>
+  <p>
+    È una delle vulnerabilità più antiche e ancora diffuse, specialmente in codice C/C++
+    che gestisce direttamente la memoria. Linguaggi moderni come Java, Python e Rust
+    includono controlli automatici dei limiti che prevengono questi overflow.
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Buffer overflow vs Memory injection</strong><br>
+    <strong>Buffer overflow:</strong> il programma riceve dati di dimensione inaspettata
+    che sovrascrivono memoria adiacente → l'attacco sfrutta l'assenza di bounds checking
+    (SCREEN_005, SCREEN_270).<br>
+    <strong>Memory injection:</strong> codice malevolo viene copiato nello spazio di
+    memoria allocato di un processo già in esecuzione → il processo esiste già,
+    l'attaccante vi "inietta" il codice dall'esterno (SCREEN_608).<br>
+    Il buffer overflow può essere il <em>vettore</em> attraverso cui si realizza
+    una memory injection.
+  </div>
+
+  <h3 id="race-condition">Race condition — TOC/TOU</h3>
+  <p>
+    Una <strong>race condition (condizione di gara)</strong> si verifica quando il
+    comportamento di un sistema dipende dalla sequenza temporale di eventi concorrenti
+    che non è garantita. In sicurezza, la race condition più rilevante è il pattern
+    <strong>TOC/TOU (Time-of-Check / Time-of-Use)</strong>:
+  </p>
+  <dl class="termlist">
+    <dt>Time-of-Check (TOC)</dt>
+    <dd>Il momento in cui il sistema verifica una condizione (es. "questo utente ha i permessi per accedere a questo file?").</dd>
+    <dt>Time-of-Use (TOU)</dt>
+    <dd>Il momento in cui il sistema usa il risultato di quella verifica (es. "apri il file").</dd>
+    <dt>L'attacco</dt>
+    <dd>Se un attaccante riesce a modificare le condizioni <em>tra</em> il TOC e il TOU — nella finestra temporale tra la verifica e l'uso — può sfruttare il sistema. Esempio classico: la verifica (TOC) controlla che un file sia legittimo; l'attaccante lo sostituisce con un file malevolo prima che venga usato (TOU). Il sistema usa il file malevolo credendolo legittimo.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Race condition in un database (SCREEN_531)</strong><br>
+    Durante un aggiornamento SQL del database, viene creato un campo temporaneo per la
+    transazione. Un attaccante sfrutta la finestra temporale tra la creazione del campo
+    (TOC) e il suo utilizzo (TOU) per sostituire il valore del campo con uno malevolo
+    che permette l'accesso al sistema. Il database usa il valore modificato credendolo
+    legittimo. Questo scenario è classificato come "malicious update" con la tecnica
+    della race condition.
+  </div>
+
+  <h3 id="malicious-update">Malicious update (Aggiornamento malevolo)</h3>
+  <p>
+    Un <strong>malicious update (aggiornamento malevolo)</strong> è un aggiornamento
+    software apparentemente legittimo che contiene o introduce codice malevolo. Può
+    avvenire a diversi livelli: un attaccante che compromette l'infrastruttura di update
+    di un vendor (supply chain attack), un aggiornamento distribuito da un vendor
+    compromesso, o un aggiornamento falso che imita quello del vendor reale
+    (SCREEN_531). È distinto dal supply chain attack nel senso che riguarda
+    specificamente il meccanismo di aggiornamento, non l'intera catena di fornitura.
+  </p>
+</section>
+
+
+<!-- ══ VULNERABILITÀ WEB ════════════════════════════════════════ -->
+<section id="web-vulns">
+  <h2>Vulnerabilità web-based (Web-based Vulnerabilities)</h2>
+
+  <h3 id="sqli">SQL injection (SQLi)</h3>
+  <p>
+    La <strong>SQL injection (SQLi)</strong> è un attacco in cui l'attaccante inserisce
+    comandi SQL malevoli in un campo di input di un'applicazione web che non esegue
+    la validazione dell'input. Se il backend costruisce le query SQL concatenando
+    direttamente l'input dell'utente, l'attaccante può modificare la query originale
+    per: visualizzare dati non autorizzati, modificare o cancellare dati, bypassare
+    l'autenticazione, ed eseguire comandi sul sistema operativo sottostante.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — SQLi classico</strong><br>
+    Un form di login costruisce la query: <code>SELECT * FROM users WHERE
+    username='[input]' AND password='[input]'</code><br>
+    L'attaccante inserisce come username: <code>' OR '1'='1</code><br>
+    La query diventa: <code>SELECT * FROM users WHERE username='' OR '1'='1'
+    AND password='...'</code><br>
+    Poiché <code>'1'='1'</code> è sempre vero, la query restituisce tutti gli utenti.
+    L'attaccante accede senza password valida.<br>
+    <strong>Mitigazione:</strong> prepared statements (query parametrizzate),
+    input validation, principio del least privilege per l'account DB.
+  </div>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — SQLi: le parole chiave dello scenario</strong><br>
+    "Input field to run commands that view or manipulate data" → <strong>SQL injection</strong>
+    (SCREEN_159). "Unexpected characters to gain unauthorized access to underlying systems"
+    → <strong>SQL injection</strong> (SCREEN_549). "Database misconfigurations" +
+    exploitation → <strong>SQL injection</strong> (SCREEN_221).
+    L'applicazione web che permette l'upload di immagini con un processo che genera
+    traffico outbound verso IP a bassa reputazione → web shell deploiata via vulnerabilità
+    di upload, non direttamente SQLi (SCREEN_429).
+  </div>
+
+  <h3 id="xss">Cross-site scripting (XSS)</h3>
+  <p>
+    Il <strong>Cross-site scripting (XSS)</strong> è una vulnerabilità che permette
+    a un attaccante di iniettare script malevoli (tipicamente JavaScript) in pagine
+    web visualizzate da altri utenti. A differenza della SQLi (che attacca il database),
+    la XSS attacca il <em>client</em>: il browser della vittima esegue il codice
+    malevolo credendo che provenga dal sito legittimo, permettendo all'attaccante di
+    rubare cookie di sessione, reindirizzare l'utente, modificare il contenuto della
+    pagina, o eseguire azioni per conto della vittima.
+  </p>
+  <dl class="termlist">
+    <dt>Stored XSS (Persistente)</dt>
+    <dd>Lo script malevolo viene salvato nel database del server (es. in un commento di un forum). Ogni utente che carica la pagina esegue lo script. È la forma più pericolosa perché non richiede ingegneria sociale per ogni vittima.</dd>
+    <dt>Reflected XSS (Non persistente)</dt>
+    <dd>Lo script malevolo è nell'URL della richiesta. Il server lo "riflette" nella risposta. La vittima deve essere indotta a cliccare su un link appositamente costruito (es. via phishing).</dd>
+    <dt>DOM-based XSS</dt>
+    <dd>L'attacco avviene interamente nel browser della vittima: JavaScript legittimo del sito usa parametri dell'URL o dell'ambiente DOM per scrivere contenuto nella pagina, e l'attaccante manipola quei parametri.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — XSS vs SQLi: qual è il bersaglio?</strong><br>
+    <strong>SQLi</strong>: bersaglio = database del server → l'attaccante manipola
+    le query SQL per leggere/modificare i dati nel DB.<br>
+    <strong>XSS</strong>: bersaglio = browser del client → l'attaccante inietta
+    script che vengono eseguiti nel browser degli utenti.<br>
+    Nello scenario SCREEN_496 vedi <code>&lt;script&gt;function(send_info)&lt;/script&gt;</code>
+    nei log → è <strong>XSS</strong>, non SQLi: è JavaScript iniettato, non comandi SQL.
+    Mitigazione XSS: <strong>input validation</strong> (SCREEN_167).
+  </div>
+
+  <h3 id="dir-traversal">Directory traversal (Path traversal)</h3>
+  <p>
+    Il <strong>directory traversal</strong> (anche noto come <em>path traversal</em>)
+    permette a un attaccante di accedere a file e directory al di fuori della cartella
+    web root del server, navigando verso l'alto nella gerarchia del filesystem usando
+    sequenze come <code>../</code>. Se l'applicazione non sanitizza i percorsi nei
+    parametri di input, l'attaccante può leggere file sensibili del sistema operativo.
+  </p>
+  <p>
+    Il pattern classico in SCREEN_545 è: <code>GET ../../../../etc/passwd</code> —
+    quattro livelli su dalla web root per raggiungere <code>/etc/passwd</code>,
+    il file delle password di sistema Unix/Linux. Ogni <code>../</code> sale di un
+    livello nella gerarchia del filesystem.
+  </p>
+</section>
+
+
+<!-- ══ OS E HARDWARE ════════════════════════════════════════════ -->
+<section id="hw-os-vulns">
+  <h2>Vulnerabilità OS e Hardware</h2>
+
+  <h3 id="os-based">OS-based (Vulnerabilità del sistema operativo)</h3>
+  <p>
+    Le <strong>vulnerabilità OS-based</strong> esistono nel kernel o nei componenti
+    core del sistema operativo. Sono particolarmente critiche perché il sistema operativo
+    ha il controllo totale sull'hardware e sulle applicazioni: una vulnerabilità nel
+    kernel può permettere a un attaccante di ottenere privilegi elevati (privilege
+    escalation), bypassare tutti i controlli di sicurezza applicativi, o compromettere
+    l'intero sistema. Le patch del sistema operativo sono tra le più urgenti da applicare.
+  </p>
+  <p>
+    Le vulnerabilità OS-based includono: difetti nel kernel, nel gestore della memoria,
+    nel sistema di controllo degli accessi, nei driver di dispositivo, e nei servizi
+    di sistema. Molte vulnerabilità famose come EternalBlue (usato da WannaCry) erano
+    vulnerabilità OS-based nel protocollo SMBv1 di Windows.
+  </p>
+
+  <h3 id="firmware">Firmware (Vulnerabilità del firmware)</h3>
+  <p>
+    Il <strong>firmware</strong> è il software embedded nell'hardware: BIOS/UEFI dei
+    computer, firmware dei router e switch, firmware delle stampanti, dei dispositivi
+    IoT, delle schede di rete. Le vulnerabilità firmware sono particolarmente insidiose
+    perché:
+  </p>
+  <dl class="termlist">
+    <dt>Persistenza</dt>
+    <dd>Il firmware risiede in memoria non volatile (flash ROM). Una reinstallazione del sistema operativo o la formattazione del disco non rimuove il malware installato nel firmware. Sopravvive anche alla sostituzione del disco.</dd>
+    <dt>Difficoltà di rilevamento</dt>
+    <dd>Il firmware viene eseguito prima del sistema operativo, quindi i tradizionali strumenti di sicurezza (AV, EDR) che girano sull'OS non possono rilevarlo.</dd>
+    <dt>Aggiornamenti rari e complessi</dt>
+    <dd>Gli aggiornamenti firmware (es. BIOS update, router firmware update) sono spesso ignorati dagli amministratori per paura di brick del dispositivo, lasciando vulnerabilità aperte a lungo.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Firmware = Hardware-specific vulnerability</strong><br>
+    "Which of the following is a hardware-specific vulnerability?" → <strong>Firmware
+    version</strong> (SCREEN_174). Buffer overflow, SQL injection e XSS sono
+    vulnerabilità software/applicative, non hardware-specific. Il firmware è
+    strettamente legato all'hardware su cui gira.
+    "Vendor sends security bulletin recommending a BIOS update" → vulnerabilità di tipo
+    <strong>Firmware</strong> (SCREEN_223).
+  </div>
+
+  <h3 id="eol-legacy">End-of-life (EOL) / Legacy</h3>
+  <p>
+    Un sistema o un'applicazione raggiunge lo stato di <strong>End-of-Life (EOL)</strong>
+    quando il vendor non rilascia più patch di sicurezza, aggiornamenti o supporto tecnico.
+    Il rischio critico non è la mancanza di nuove funzionalità, ma la <strong>mancanza
+    di aggiornamenti di sicurezza</strong>: le vulnerabilità scoperte dopo la data EOL
+    non vengono mai corrette, lasciando il sistema permanentemente esposto
+    (SCREEN_395, SCREEN_413).
+  </p>
+  <p>
+    I sistemi <strong>legacy</strong> sono sistemi obsoleti ancora in uso perché il
+    costo o la complessità della sostituzione è troppo elevata (es. sistemi di controllo
+    industriale, applicazioni custom critiche). La loro vulnerabilità principale è spesso
+    l'impossibilità di ricevere patch — a cui si risponde con controlli compensativi
+    (segmentazione di rete, VLAN isolate, monitoring rinforzato).
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — EOL: il rischio principale non è tecnico</strong><br>
+    Quando un'applicazione raggiunge EOL, il rischio critico è la
+    <strong>mancanza di aggiornamenti di sicurezza (lack of security updates)</strong>
+    (SCREEN_413) — non la mancanza di nuove funzionalità, non la mancanza di supporto
+    tecnico (quella è una conseguenza), e non la mancanza di accesso al codice sorgente.
+    Il vendor smette di patchare: qualsiasi vulnerabilità scoperta d'ora in poi rimane
+    aperta per sempre.
+  </div>
+</section>
+
+
+<!-- ══ VIRTUALIZZAZIONE ══════════════════════════════════════════ -->
+<section id="virt-vulns">
+  <h2>Vulnerabilità di virtualizzazione (Virtualization Vulnerabilities)</h2>
+
+  <h3 id="vm-escape">VM escape (Fuga dalla VM)</h3>
+  <p>
+    Il <strong>VM escape (fuga dalla macchina virtuale)</strong> è una delle vulnerabilità
+    più critiche in ambienti virtualizzati: un attaccante che ha compromesso una
+    macchina virtuale (guest) riesce a "uscire" dal suo ambiente isolato e ad accedere
+    all'<strong>hypervisor</strong> — il software che gestisce tutte le VM sul
+    host fisico. Una volta sull'hypervisor, l'attaccante può accedere e compromettere
+    tutte le altre VM sullo stesso host fisico (SCREEN_574).
+  </p>
+  <p>
+    Il VM escape è raro ma catastrofico: sfrutta vulnerabilità nell'hypervisor stesso
+    o nei driver virtuali (es. la scheda grafica virtuale, il controller USB virtuale).
+    In un cloud pubblico, un VM escape potrebbe permettere a un tenant di accedere
+    ai dati di altri tenant sullo stesso hardware fisico — violazione totale
+    dell'isolamento multi-tenant.
+  </p>
+
+  <h3 id="resource-reuse">Resource reuse (Riutilizzo delle risorse)</h3>
+  <p>
+    Il <strong>resource reuse (riutilizzo delle risorse)</strong> è una vulnerabilità
+    che si verifica quando risorse hardware o software (memoria, storage, registri)
+    vengono riassegnate a un nuovo utente o processo senza essere prima azzerata o
+    bonificata. I dati del precedente utente possono essere letti dal nuovo utente.
+    In ambienti virtualizzati e cloud, questo è particolarmente rilevante: quando una
+    VM viene terminata e le sue risorse (RAM, storage) vengono allocate a un nuovo tenant,
+    se la bonifica non è completa i dati del vecchio tenant possono essere esposti.
+  </p>
+</section>
+
+
+<!-- ══ SUPPLY CHAIN E CLOUD ═════════════════════════════════════ -->
+<section id="supply-chain-cloud">
+  <h2>Supply chain e Cloud</h2>
+
+  <h3 id="supply-chain">Supply chain (Catena di fornitura)</h3>
+  <p>
+    Una <strong>supply chain vulnerability (vulnerabilità della catena di fornitura)</strong>
+    si verifica quando un attaccante compromette un fornitore (software, hardware o servizi)
+    per poi raggiungere i clienti finali attraverso prodotti o servizi apparentemente
+    legittimi. Non si attacca direttamente il bersaglio — si attacca un suo fornitore
+    di fiducia, sfruttando il livello di trust implicito in quella relazione.
+  </p>
+  <dl class="termlist">
+    <dt>Software provider (Fornitore software)</dt>
+    <dd>Attacchi come SolarWinds (2020): gli attaccanti hanno compromesso il sistema di build del vendor, inserendo malware nell'aggiornamento legittimo distribuito a 18.000+ clienti. Il codice malevolo era firmato digitalmente dal vendor — i clienti non avevano modo di distinguerlo da un aggiornamento legittimo.</dd>
+    <dt>Hardware provider (Fornitore hardware)</dt>
+    <dd>Componenti hardware (chip, schede di rete, router) vengono compromessi durante la produzione o la distribuzione. Il malware è nel firmware o nell'hardware stesso, invisibile al software di sicurezza tradizionale.</dd>
+    <dt>Service provider (Fornitore di servizi)</dt>
+    <dd>Un Managed Service Provider (MSP) o un SaaS provider che gestisce sistemi per molti clienti diventa un bersaglio ad alto valore: compromettere l'MSP significa accedere a tutti i suoi clienti simultaneamente (SCREEN_219).</dd>
+    <dt>SBOM (Software Bill of Materials)</dt>
+    <dd>Un inventario completo di tutti i componenti, librerie e dipendenze incluse in un prodotto software. Permette di identificare rapidamente quali dipendenze sono vulnerabili e quali prodotti ne sono affetti (SCREEN_093).</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Supply chain: lo scenario "malicious update" distribuito</strong><br>
+    "Un malicious update è stato distribuito a una piattaforma software comune,
+    disabilitando servizi in molte organizzazioni" → <strong>Supply chain</strong>
+    vulnerability (SCREEN_428). Non è un DDoS (non è un attacco di rete), non è
+    un insider threat (è un aggiornamento distribuito), non è un rogue employee.
+    È un supply chain attack perché il vettore è il sistema di distribuzione del software.
+  </div>
+
+  <h3 id="cloud">Cloud-specific (Vulnerabilità specifiche del cloud)</h3>
+  <p>
+    Le <strong>cloud-specific vulnerabilities</strong> sono rischi unici o amplificati
+    dall'architettura cloud. La più comune e sottovalutata è la
+    <strong>credential leakage nei code repository</strong>: gli sviluppatori
+    commettono accidentalmente credenziali cloud (API key, access token, password di
+    database) in repository Git pubblici o privati. Chiunque acceda al repository
+    può usare quelle credenziali per accedere alle risorse cloud (SCREEN_388).
+  </p>
+  <dl class="termlist">
+    <dt>Misconfigured storage buckets</dt>
+    <dd>Bucket S3, Azure Blob Storage o Google Cloud Storage configurati come pubblici per errore espongono dati sensibili a chiunque conosca l'URL (o anche senza conoscerlo, tramite tool di enumerazione).</dd>
+    <dt>Insecure APIs</dt>
+    <dd>Le API cloud prive di autenticazione, autorizzazione o rate limiting possono essere sfruttate per accedere, modificare o cancellare risorse cloud senza autorizzazione.</dd>
+    <dt>Shared responsibility model violations</dt>
+    <dd>I clienti cloud non comprendono correttamente cosa è responsabilità del provider e cosa è responsabilità loro, lasciando gap di sicurezza in aree di cui credevano il provider si occupasse.</dd>
+  </dl>
+</section>
+
+
+<!-- ══ CRITTOGRAFIA E CONFIGURAZIONE ════════════════════════════ -->
+<section id="crypto-config">
+  <h2>Vulnerabilità crittografiche e di configurazione</h2>
+
+  <h3 id="crypto">Cryptographic vulnerabilities (Vulnerabilità crittografiche)</h3>
+  <p>
+    Le <strong>vulnerabilità crittografiche</strong> derivano dall'uso di algoritmi
+    deprecati, chiavi di lunghezza insufficiente, implementazioni scorrette di algoritmi
+    corretti, o dalla gestione non sicura delle chiavi. Non è necessario "rompere" la
+    crittografia matematicamente — spesso è sufficiente sfruttare implementazioni deboli
+    o algoritmi obsoleti per cui esistono già attacchi pratici.
+  </p>
+  <dl class="termlist">
+    <dt>Algoritmi deprecati</dt>
+    <dd>MD5 e SHA-1 per l'hashing: vulnerabili a collision attack. RC4 per la cifratura simmetrica: vulnerabile a attacchi statistici. DES con chiave a 56 bit: forzabile con brute-force moderno in ore. L'uso di questi algoritmi introduce vulnerabilità crittografiche (SCREEN_720).</dd>
+    <dt>Chiavi deboli o corte</dt>
+    <dd>RSA a 512 o 1024 bit è considerato insicuro. Chiavi simmetriche a 56 o 64 bit sono forzabili. La lunghezza della chiave è direttamente correlata alla sicurezza: chiavi più corte = vulnerabilità crittografiche.</dd>
+    <dt>Password cracking via weak crypto</dt>
+    <dd>Se le password sono hashate con algoritmi deboli (MD5, SHA-1 non salted), un attaccante con le hash può usare rainbow table o GPU per trovare le password originali rapidamente (SCREEN_475).</dd>
+  </dl>
+
+  <h3 id="misconfig">Misconfiguration (Errata configurazione)</h3>
+  <p>
+    La <strong>misconfiguration (errata configurazione)</strong> è una delle cause più
+    frequenti di violazioni di sicurezza: sistemi tecnicamente validi configurati in
+    modo non sicuro. La complessità dei sistemi moderni (cloud, container, microservizi,
+    firewall) rende facile commettere errori di configurazione che espongono risorse
+    critiche.
+  </p>
+  <dl class="termlist">
+    <dt>Default credentials (Credenziali predefinite)</dt>
+    <dd>Dispositivi (router, switch, IoT) con username/password di fabbrica non cambiati. Sono pubblicamente note — gli scanner automatizzati le provano sistematicamente.</dd>
+    <dt>Open permissions (Permessi aperti)</dt>
+    <dd>File, directory, bucket cloud o database con permessi troppo permissivi: accesso in lettura/scrittura per "tutti" o per gruppi troppo ampi.</dd>
+    <dt>Configurazioni di sicurezza disabilitate</dt>
+    <dd>Firewall con regole troppo permissive, logging disabilitato, TLS non configurato su servizi che supportano solo HTTP, autenticazione disabilitata per "comodità".</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Environmental variables come misconfiguration (SCREEN_665)</strong><br>
+    Le variabili d'ambiente (environment variables) sono configurazioni che modificano
+    il comportamento di applicazioni e sistemi. Possono contenere: stringhe di connessione
+    al database, API key, flag di debug, configurazioni di sicurezza. Se una variabile
+    d'ambiente contiene un valore non sicuro (es. debug=true in produzione, una chiave
+    API con permessi eccessivi), influenza direttamente la portata e l'impatto di una
+    vulnerabilità già esistente. Una XSS in un'applicazione con debug=true può esporre
+    stack trace con informazioni sensibili; senza debug, la stessa XSS è meno informativa
+    per l'attaccante.
+  </div>
+</section>
+
+
+<!-- ══ MOBILE ═══════════════════════════════════════════════════ -->
+<section id="mobile-vulns">
+  <h2>Vulnerabilità mobile (Mobile Device Vulnerabilities)</h2>
+
+  <h3 id="side-loading">Side loading (Caricamento laterale)</h3>
+  <p>
+    Il <strong>side loading</strong> è l'installazione di applicazioni su un dispositivo
+    mobile attraverso canali non ufficiali — al di fuori dell'app store ufficiale del
+    produttore (App Store per iOS, Google Play per Android). L'app store ufficiale
+    esegue controlli di sicurezza sulle app (revisione del codice, scansione malware,
+    verifica della firma). Le app installate via side loading bypassano questi controlli,
+    aumentando significativamente il rischio di installare malware o app non attendibili
+    (SCREEN_618, SCREEN_142).
+  </p>
+
+  <h3 id="jailbreaking">Jailbreaking / Rooting</h3>
+  <p>
+    Il <strong>jailbreaking</strong> (per iOS) e il <strong>rooting</strong> (per Android)
+    sono processi che rimuovono le restrizioni imposte dal produttore sul sistema operativo
+    mobile, ottenendo accesso root (privilegio massimo) al dispositivo. Dal punto di
+    vista della sicurezza aziendale, il jailbreaking è critico perché:
+  </p>
+  <dl class="termlist">
+    <dt>Bypass dei controlli di sicurezza</dt>
+    <dd>Il jailbreaking rimuove o disabilita il sandboxing, il secure boot, e altri controlli di sicurezza del sistema operativo. Le app malevole possono accedere a risorse di sistema normalmente inaccessibili.</dd>
+    <dt>Rischio BYOD (Bring Your Own Device)</dt>
+    <dd>In un programma BYOD, se un dipendente usa un dispositivo jailbroken per accedere alle risorse aziendali, tutti i dati aziendali sul dispositivo sono potenzialmente esposti (SCREEN_200). La policy BYOD deve proibire esplicitamente il jailbreaking (SCREEN_238).</dd>
+    <dt>MDM bypass</dt>
+    <dd>I dispositivi jailbroken spesso bypassano le soluzioni di Mobile Device Management (MDM), rendendo impossibile per l'IT aziendale applicare policy di sicurezza e gestire il dispositivo.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Side loading vs Jailbreaking</strong><br>
+    <strong>Side loading:</strong> installazione di app da fonti non ufficiali, senza
+    modificare il sistema operativo. Il device rimane "normale", ma l'app non è stata
+    controllata. → "unauthorized installation through means other than the official
+    app store" (SCREEN_618).<br>
+    <strong>Jailbreaking:</strong> modifica del sistema operativo per rimuovere le
+    restrizioni del produttore, ottenendo accesso root. → "modifying the operating
+    system on mobile devices" (SCREEN_238).
+  </div>
+</section>
+
+
+<!-- ══ ZERO-DAY ══════════════════════════════════════════════════ -->
+<section id="zero-day-section">
+  <h2>Zero-day (Vulnerabilità zero-day)</h2>
+  <p>
+    Una <strong>vulnerabilità zero-day</strong> è una vulnerabilità software che è stata
+    scoperta ma per cui il vendor non ha ancora rilasciato una patch. Il termine "zero-day"
+    indica che il difensore ha avuto zero giorni per prepararsi: nel momento in cui la
+    vulnerabilità viene exploited per la prima volta (o pubblicata), non esiste ancora
+    una correzione disponibile. Le organizzazioni sono per definizione esposte perché
+    non c'è niente da patchare.
+  </p>
+  <p>
+    Le zero-day sono particolarmente pericolose nelle dipendenze open-source: una
+    libreria usata da decine di migliaia di applicazioni (come Log4j nel 2021) può
+    avere una zero-day che espone simultaneamente tutte le applicazioni che la
+    includono — e le organizzazioni che dipendono da librerie open source non
+    controllano il codice di quelle librerie (SCREEN_645).
+  </p>
+  <p>
+    I nation-state actor e il crimine organizzato più sofisticato investono significativamente
+    per scoprire e acquistare zero-day, pagando da decine di migliaia a milioni di dollari
+    per exploit su piattaforme ad alto valore. Quando una zero-day diventa pubblica,
+    il tempo tra la divulgazione e lo sviluppo di exploit "di massa" si è ridotto
+    da settimane a ore nell'ultimo decennio.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Zero-day in sistemi con dipendenze open source</strong><br>
+    "Un'azienda usa librerie open-source. Quale tipo di vulnerabilità sarebbe più
+    difficile da rimediare?" → <strong>Zero-day</strong> (SCREEN_645). Le librerie
+    open source non sono sotto il controllo dell'organizzazione: non possono patchare
+    da sole, devono aspettare il maintainer della libreria. Per buffer overflow, SQLi
+    e XSS nel codice proprio, l'organizzazione può agire direttamente.
+  </div>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 2.3</h2>
+  <div class="chapter-meta">
+    <p><strong>35 domande d'esame</strong> su tutti i tipi di vulnerabilità, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 2.3 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 2.3</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Buffer Overflow vs Memory Injection</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Buffer overflow</strong>: mancanza di bounds checking sugli input che sovrascrivono memoria adiacente.<br><strong>Memory injection</strong>: copia di codice malevolo in memoria di un processo già attivo.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Cosa si intende per Race Condition TOC/TOU?</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Differenza temporale critica tra la verifica di una condizione (Time-of-Check) e il suo utilizzo operativo (Time-of-Use), dove l'attaccante infiltra modifiche dannose intermediate.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>SQL Injection vs Cross-Site Scripting (XSS)</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>SQLi</strong>: comandi iniettati che attaccano il server database interno.<br><strong>XSS</strong>: script JavaScript iniettati che esegue esclusivamente il client browser della vittima.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>La vulnerabilità Directory Traversal (GET ../..)</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Consente di uscire dai limiti della directory root del server web per leggere o scaricare file di sistema sensibili (es: <code>GET ../../../../etc/passwd</code>).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Che cos'è una VM Escape?</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Un attacco in cui un malintenzionato riesce a evadere dall'isolamento logico della propria Virtual Machine per accedere all'hypervisor sottostante, compromettendo l'intero host.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Jailbreaking / Rooting vs Sideloading</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Jailbreak/Root</strong>: sblocca privileges amministrativi modificando l'OS e disattivando mdms.<br><strong>Sideloading</strong>: installazione manuale delle app al di fuori degli application store ufficiali.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="obj2_1_threat_actors.html">← OBJ 2.1 — Threat Actors</a>
+  <a href="obj2_4_malicious_activity.html" class="secondary">OBJ 2.4 — Attività malevola →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 2.3 · 35 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>35 domande in ordine casuale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 domande casuali</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 2.3</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var Q=[
+{id:'SCREEN_001',text:'A technician is installing a new cloud-based application for customer tracking and billing. Which of the following would be the most significant security concern associated with this installation?',opts:[{id:'A',t:'Brand Impersonation',c:false},{id:'B',t:'SMS Phishing',c:false},{id:'C',t:'Piggybacking',c:false},{id:'D',t:'SQL injection',c:true}],expl:'Un\'applicazione cloud per il tracking clienti e la fatturazione interagisce con un database. Il rischio più significativo è la SQL injection: se i campi di input non sono validati, un attaccante può manipolare le query per accedere o modificare dati sensibili dei clienti. Brand impersonation e SMS phishing sono vettori di social engineering, non vulnerabilità applicative.'},
+{id:'SCREEN_005',text:'An application does not perform any bounds checking when a user provides input. Which of the following exploits would be the most likely result of this issue?',opts:[{id:'A',t:'Race condition',c:false},{id:'B',t:'Zero-day',c:false},{id:'C',t:'Buffer overflow',c:true},{id:'D',t:'Open permission',c:false}],expl:'La mancanza di bounds checking è esattamente la condizione che rende possibile un buffer overflow: l\'input dell\'utente può eccedere la dimensione del buffer allocato, sovrascrivendo memoria adiacente. Le race condition riguardano la tempistica degli eventi, non la dimensione dell\'input.'},
+{id:'SCREEN_093',text:'A software company learns their product contains a vulnerability, and the security team suspects the issue was caused by a third-party dependency. What can the team consult to learn which dependencies are included in the product?',opts:[{id:'A',t:'Continuous integration (CI)',c:false},{id:'B',t:'The staging environment',c:false},{id:'C',t:'The software bill of materials (SBOM)',c:true},{id:'D',t:'The testing environment',c:false}],expl:'Lo SBOM (Software Bill of Materials) è un inventario completo di tutti i componenti, librerie e dipendenze di terze parti incluse in un prodotto software. Permette di identificare rapidamente se una dipendenza vulnerabile è presente. CI, staging e testing environment non documentano le dipendenze.'},
+{id:'SCREEN_142',text:'Which of the following vulnerabilities is associated with installing software outside of a manufacturer\'s approved software repository?',opts:[{id:'A',t:'Jailbreaking',c:false},{id:'B',t:'Memory injection',c:false},{id:'C',t:'Resource reuse',c:false},{id:'D',t:'Side loading',c:true}],expl:'Il side loading è l\'installazione di applicazioni attraverso canali non ufficiali, al di fuori dell\'app store approvato dal produttore. Il jailbreaking modifica il sistema operativo per rimuovere le restrizioni — è un passaggio diverso che spesso precede il side loading ma non è la stessa cosa.'},
+{id:'SCREEN_159',text:'Which of the following enables the use of an input field to run commands that can view or manipulate data?',opts:[{id:'A',t:'Cross-site scripting',c:false},{id:'B',t:'Side loading',c:false},{id:'C',t:'Buffer overflow',c:false},{id:'D',t:'SQL injection',c:true}],expl:'La SQL injection usa i campi di input per inserire comandi SQL che possono visualizzare o modificare dati nel database. La XSS usa i campi di input per iniettare script nel browser del client, non per manipolare dati del database.'},
+{id:'SCREEN_167',text:'A security team is reviewing the findings in a report that was delivered after a third party performed a penetration test. One of the findings indicated that a web application form field is vulnerable to cross-site scripting. Which of the following application security techniques should the security analyst recommend the developer implement to prevent this vulnerability?',opts:[{id:'A',t:'Secure cookies',c:false},{id:'B',t:'Version control',c:false},{id:'C',t:'Input validation',c:true},{id:'D',t:'Code signing',c:false}],expl:'La mitigazione primaria per la XSS è l\'input validation (e l\'output encoding): se l\'applicazione verifica e sanitizza l\'input prima di includerlo nella risposta HTML, gli script malevoli non possono essere iniettati. Secure cookies proteggono i cookie ma non prevengono la XSS. Code signing verifica l\'origine del software.'},
+{id:'SCREEN_174',text:'Which of the following is a hardware-specific vulnerability?',opts:[{id:'A',t:'Firmware version',c:true},{id:'B',t:'Buffer overflow',c:false},{id:'C',t:'SQL injection',c:false},{id:'D',t:'Cross-site scripting',c:false}],expl:'Il firmware è il software embedded nell\'hardware (BIOS, firmware router, firmware IoT). Una versione di firmware vulnerabile è una vulnerabilità hardware-specific: è legata a quel componente hardware specifico. Buffer overflow, SQLi e XSS sono vulnerabilità del codice software, applicabili a molte piattaforme diverse.'},
+{id:'SCREEN_200',text:'Which of the following is a primary security concern for a company setting up a BYOD program?',opts:[{id:'A',t:'End of life',c:false},{id:'B',t:'Buffer overflow',c:false},{id:'C',t:'VM escape',c:false},{id:'D',t:'Jailbreaking',c:true}],expl:'In un programma BYOD, il rischio primario è il jailbreaking: un dispositivo mobile jailbroken ha rimosso le restrizioni di sicurezza del produttore, bypassando sandboxing, MDM e altri controlli. I dati aziendali su un dispositivo jailbroken sono potenzialmente esposti.'},
+{id:'SCREEN_219',text:'A technician is opening ports on a firewall for a new system being deployed and supported by a SaaS provider. Which of the following is a risk in the new system?',opts:[{id:'A',t:'Default credentials',c:false},{id:'B',t:'Non-segmented network',c:false},{id:'C',t:'Supply chain vendor',c:true},{id:'D',t:'Vulnerable software',c:false}],expl:'Quando si apre un sistema a un provider SaaS (terza parte), il rischio principale è la supply chain: il fornitore di servizi ha accesso ai sistemi o ai dati dell\'organizzazione. Se il provider è compromesso, lo sono anche i sistemi del cliente. Le credenziali predefinite sono un rischio di misconfiguration, non supply chain.'},
+{id:'SCREEN_221',text:'Which of the following involves an attempt to take advantage of database misconfigurations?',opts:[{id:'A',t:'Buffer overflow',c:false},{id:'B',t:'SQL injection',c:true},{id:'C',t:'VM escape',c:false},{id:'D',t:'Memory injection',c:false}],expl:'La SQL injection sfrutta le misconfigurations del database (input non validato, query costruite per concatenazione) per manipolare le query SQL. Il buffer overflow sfrutta la mancanza di bounds checking, non le configurazioni del database.'},
+{id:'SCREEN_223',text:'One of a company\'s vendors sent an analyst a security bulletin that recommends a BIOS update. Which of the following vulnerability types is being addressed by the patch?',opts:[{id:'A',t:'Virtualization',c:false},{id:'B',t:'Firmware',c:true},{id:'C',t:'Application',c:false},{id:'D',t:'Operating system',c:false}],expl:'Il BIOS è firmware: il software embedded nella scheda madre che gestisce l\'avvio del sistema. Un aggiornamento BIOS affronta vulnerabilità di tipo firmware. Non è una vulnerabilità applicativa né del sistema operativo — viene eseguito prima del boot dell\'OS.'},
+{id:'SCREEN_238',text:'A company is adding a clause to its AUP that states employees are not allowed to modify the operating system on mobile devices. Which of the following vulnerabilities is the organization addressing?',opts:[{id:'A',t:'Cross-site scripting',c:false},{id:'B',t:'Buffer overflow',c:false},{id:'C',t:'Jailbreaking',c:true},{id:'D',t:'Side loading',c:false}],expl:'"Modify the operating system on mobile devices" è la definizione del jailbreaking/rooting: modificare l\'OS per rimuovere le restrizioni del produttore. Il side loading installa app non ufficiali senza modificare l\'OS. La policy AUP indirizza specificamente il jailbreaking.'},
+{id:'SCREEN_270',text:'Which of the following vulnerabilities is exploited when an attacker overwrites a register with a malicious address?',opts:[{id:'A',t:'VM escape',c:false},{id:'B',t:'SQL injection',c:false},{id:'C',t:'Buffer overflow',c:true},{id:'D',t:'Race condition',c:false}],expl:'Sovrascrivere un registro del processore con un indirizzo malevolo è la tecnica di sfruttamento classica del buffer overflow: l\'attaccante fa traboccare il buffer per sovrascrivere il return address (o un instruction pointer) con l\'indirizzo del suo shellcode.'},
+{id:'SCREEN_334',text:'A security analyst is investigating an application server and discovers that software on the server is behaving abnormally. The software normally runs batch jobs locally and does not generate traffic, but the process is now generating outbound traffic over random high ports. Which of the following vulnerabilities has likely been exploited in this software?',opts:[{id:'A',t:'Memory injection',c:true},{id:'B',t:'Race condition',c:false},{id:'C',t:'Side loading',c:false},{id:'D',t:'SQL injection',c:false}],expl:'Il software legittimo è stato compromesso e ora esegue codice malevolo aggiuntivo — il processo originale (batch job locale) ora genera traffico outbound, tipico di una reverse shell o di un C2. Memory injection: codice malevolo iniettato nel processo legittimo in esecuzione, che continua a sembrare legittimo al sistema operativo mentre esegue funzionalità malevole.'},
+{id:'SCREEN_388',text:'Which of the following is a common source of unintentional corporate credential leakage in cloud environments?',opts:[{id:'A',t:'Code repositories',c:true},{id:'B',t:'Dark web',c:false},{id:'C',t:'Threat feeds',c:false},{id:'D',t:'State actors',c:false},{id:'E',t:'Vulnerability databases',c:false}],expl:'I code repository (Git, GitHub, GitLab) sono la fonte più comune di credential leakage involontario: gli sviluppatori committono accidentalmente API key, connection string, token di accesso e password nel codice. Questi repository possono essere pubblici o accessibili a molte persone.'},
+{id:'SCREEN_395',text:'Which of the following is the most important security concern when using legacy systems to provide production service?',opts:[{id:'A',t:'Instability',c:false},{id:'B',t:'Lack of vendor support',c:true},{id:'C',t:'Loss of availability',c:false},{id:'D',t:'Use of insecure protocols',c:false}],expl:'Il rischio principale dei sistemi legacy in produzione è la mancanza di supporto del vendor: il vendor non rilascia più patch di sicurezza, lasciando le vulnerabilità scoperte permanentemente aperte. L\'instabilità e l\'uso di protocolli non sicuri sono conseguenze, non la causa principale.'},
+{id:'SCREEN_413',text:'A third-party vendor is moving a particular application to the end-of-life stage at the end of the current year. Which of the following is the most critical risk if the company chooses to continue running the application?',opts:[{id:'A',t:'Lack of security updates',c:true},{id:'B',t:'Lack of new features',c:false},{id:'C',t:'Lack of support',c:false},{id:'D',t:'Lack of source code access',c:false}],expl:'Il rischio critico dell\'EOL è la mancanza di aggiornamenti di sicurezza: qualsiasi vulnerabilità scoperta dopo la data EOL non verrà mai corretta. La mancanza di nuove funzionalità è un problema di business, non di sicurezza. La mancanza di supporto tecnico è correlata ma non è il rischio più critico.'},
+{id:'SCREEN_419',text:'Which of the following is the best resource to consult for information on the most common application exploitation methods?',opts:[{id:'A',t:'OWASP',c:true},{id:'B',t:'STIX',c:false},{id:'C',t:'OVAL',c:false},{id:'D',t:'Threat intelligence feed',c:false},{id:'E',t:'Common Vulnerabilities and Exposures',c:false}],expl:'OWASP (Open Web Application Security Project) è la risorsa di riferimento per le vulnerabilità e le tecniche di sfruttamento delle applicazioni web (OWASP Top 10). STIX è un formato per la condivisione di threat intelligence; OVAL è per la descrizione di vulnerabilità di sistema; CVE cataloga le vulnerabilità individuali.'},
+{id:'SCREEN_428',text:'A malicious update was distributed to a common software platform and disabled services at many organizations. Which of the following best describes this type of vulnerability?',opts:[{id:'A',t:'DDoS attack',c:false},{id:'B',t:'Rogue employee',c:false},{id:'C',t:'Insider threat',c:false},{id:'D',t:'Supply chain',c:true}],expl:'Un aggiornamento malevolo distribuito attraverso i canali ufficiali del vendor a molte organizzazioni è un supply chain attack: l\'attaccante ha compromesso il meccanismo di distribuzione del software del vendor (il componente della supply chain) per raggiungere i clienti finali tramite un vettore considerato fidato.'},
+{id:'SCREEN_429',text:'A company web server is initiating outbound traffic to a low-reputation, public IP on non-standard port. The web server is used to present an unauthenticated page to clients who upload images to the company. An analyst notices a suspicious process running on the server that was not created by the company development team. Which of the following is the most likely explanation for this security incident?',opts:[{id:'A',t:'A web shell has been deployed to the server through the page.',c:true},{id:'B',t:'A vulnerability has been exploited to deploy a worm to the server.',c:false},{id:'C',t:'Malicious insiders are using the server to mine cryptocurrency.',c:false},{id:'D',t:'Attackers have deployed a rootkit Trojan to the server over an exposed RDP port.',c:false}],expl:'Il web server accetta upload di immagini non autenticati: un attaccante ha caricato un web shell (un\'applicazione web malevola che fornisce accesso remoto) mascherato da immagine. Il web shell genera il processo non autorizzato e il traffico outbound verso il C2. Non è un worm (che si propaga autonomamente) né un rootkit via RDP (non menzionto nel scenario).'},
+{id:'SCREEN_475',text:'Which of the following attacks exploits a potential vulnerability as a result of using weak cryptographic algorithms?',opts:[{id:'A',t:'Password cracking',c:true},{id:'B',t:'On-path',c:false},{id:'C',t:'Digital signing',c:false},{id:'D',t:'Side-channel',c:false}],expl:'Se le password sono hashate con algoritmi deboli (MD5, SHA-1 non salted), un attaccante con le hash può usare GPU e rainbow table per trovare le password originali rapidamente. È una vulnerabilità crittografica sfruttata tramite password cracking. On-path è un attacco di rete; side-channel sfrutta informazioni fisiche (timing, consumo energetico).'},
+{id:'SCREEN_496',text:'While reviewing logs, a security administrator identifies the following code: &lt;script&gt;function (send_info)&lt;/script&gt;. Which of the following best describes the vulnerability being exploited?',opts:[{id:'A',t:'XSS',c:true},{id:'B',t:'SQLi',c:false},{id:'C',t:'DDoS',c:false},{id:'D',t:'CSRF',c:false}],expl:'Il tag &lt;script&gt; con una funzione JavaScript nei log indica un tentativo di Cross-Site Scripting (XSS): un attaccante ha iniettato JavaScript in un campo di input o URL. SQLi userebbe comandi SQL (SELECT, INSERT, DROP), non JavaScript. DDoS è un attacco di rete.'},
+{id:'SCREEN_510',text:'Which of the following allows an exploit to go undetected by the operating system?',opts:[{id:'A',t:'Firmware vulnerabilities',c:false},{id:'B',t:'Side loading',c:false},{id:'C',t:'Memory injection',c:true},{id:'D',t:'Encrypted payloads',c:false}],expl:'La memory injection esegue il codice malevolo all\'interno di un processo legittimo già in esecuzione, senza creare file su disco. I tool di sicurezza OS-based che cercano processi sospetti o file malevoli non lo rilevano perché il processo sembra legittimo e non c\'è traccia su disco.'},
+{id:'SCREEN_531',text:'During a SQL update of a database, a temporary field that was created was replaced by an attacker in order to allow access to the system. Which of the following best describes this type of vulnerability?',opts:[{id:'A',t:'Race condition',c:false},{id:'B',t:'Memory injection',c:false},{id:'C',t:'Malicious update',c:true},{id:'D',t:'Side loading',c:false}],expl:'Un campo temporaneo creato durante un aggiornamento SQL e poi sostituito da un attaccante descrive un malicious update: l\'attaccante ha modificato il contenuto dell\'aggiornamento legittimo. La race condition (TOC/TOU) è la tecnica usata, ma la classificazione della vulnerabilità è malicious update.'},
+{id:'SCREEN_538',text:'Which of the following can be used to compromise a system that is running an RTOS?',opts:[{id:'A',t:'Cross-site scripting',c:false},{id:'B',t:'Memory injection',c:true},{id:'C',t:'Replay attack',c:false},{id:'D',t:'Ransomware',c:false}],expl:'Un RTOS (Real-Time Operating System) è un sistema operativo per dispositivi embedded con risorse limitate. Non ha filesystem tradizionale e non supporta software convenzionale. La memory injection permette di inserire codice malevolo direttamente nella memoria del sistema durante l\'esecuzione, senza passare dal filesystem.'},
+{id:'SCREEN_545',text:'A security administrator observed the following in a web server log while investigating an incident: "GET ../../../../etc/passwd" Which of the following attacks did the security administrator most likely see?',opts:[{id:'A',t:'Privilege escalation',c:false},{id:'B',t:'Credential replay',c:false},{id:'C',t:'Brute force',c:false},{id:'D',t:'Directory traversal',c:true}],expl:'La sequenza ../../../../etc/passwd è il pattern canonico del directory traversal (path traversal): l\'attaccante usa sequenze ../ per risalire dalla web root fino alla root del filesystem e accedere al file /etc/passwd del sistema Unix/Linux. Ogni ../ sale di un livello nella gerarchia.'},
+{id:'SCREEN_549',text:'An attacker submits a request containing unexpected characters in an attempt to gain unauthorized access to information within the underlying systems. Which of the following best describes this attack?',opts:[{id:'A',t:'Side loading',c:false},{id:'B',t:'Target of evaluation',c:false},{id:'C',t:'Resource reuse',c:false},{id:'D',t:'SQL injection',c:true}],expl:'"Unexpected characters" in una richiesta per accedere a "underlying systems" (il database sottostante) → SQL injection. I caratteri speciali come apostrofo, trattino doppio, virgola e punto e virgola sono usati per modificare la struttura delle query SQL.'},
+{id:'SCREEN_574',text:'Which of the following is a possible consequence of a VM escape?',opts:[{id:'A',t:'Malicious instructions can be inserted into memory and give the attacker elevated permissions.',c:false},{id:'B',t:'An attacker can access the hypervisor and compromise other VMs.',c:true},{id:'C',t:'Unencrypted data can be read by a user who is in a separate environment.',c:false},{id:'D',t:'Users can install software that is not on the manufacturer\'s approved list.',c:false}],expl:'Il VM escape permette all\'attaccante di uscire dall\'isolamento della VM e accedere all\'hypervisor — il layer che gestisce tutte le VM. Dall\'hypervisor, può compromettere tutte le altre VM sullo stesso host fisico. A descrive memory injection; C descrive resource reuse parzialmente; D descrive side loading.'},
+{id:'SCREEN_576',text:'Which of the following is a type of vulnerability that involves inserting scripts into web-based applications in order to take control of the client\'s web browser?',opts:[{id:'A',t:'SQL injection',c:false},{id:'B',t:'Cross-site scripting',c:true},{id:'C',t:'Zero-day exploit',c:false},{id:'D',t:'On-path attack',c:false}],expl:'La Cross-site scripting (XSS) inietta script in applicazioni web per controllare il browser del client: il browser della vittima esegue il codice malevolo credendo provenga dal sito legittimo. La SQLi manipola il database, non il browser del client.'},
+{id:'SCREEN_584',text:'A malicious actor is trying to access sensitive financial information from a company\'s database by intercepting and reusing log-in credentials. Which of the following attacks is the malicious actor attempting?',opts:[{id:'A',t:'SQL injection',c:false},{id:'B',t:'On-path',c:true},{id:'C',t:'Brute-force',c:false},{id:'D',t:'Password spraying',c:false}],expl:'Intercettare e riutilizzare credenziali di login è un attacco on-path (man-in-the-middle) con credential replay: l\'attaccante si posiziona tra client e server, cattura le credenziali in transito, e le riusa. Non è brute-force (non indovina le password) né SQLi (non manipola il database direttamente).'},
+{id:'SCREEN_608',text:'Which of the following is an example of memory injection?',opts:[{id:'A',t:'Two processes access the same variable, allowing one to cause a privilege escalation.',c:false},{id:'B',t:'A process receives an unexpected amount of data, which causes malicious code to be executed.',c:false},{id:'C',t:'Malicious code is copied to the allocated space of an already running process.',c:true},{id:'D',t:'An executable is overwritten on the disk, and malicious code runs the next time it is executed.',c:false}],expl:'Memory injection: codice malevolo copiato nello spazio di memoria allocato di un processo già in esecuzione (C). A descrive una race condition con privilege escalation. B descrive un buffer overflow (dati inaspettati che causano esecuzione di codice). D descrive la modifica di un eseguibile su disco — non è injection in memoria, il malware è sul disco.'},
+{id:'SCREEN_618',text:'Which of the following is a type of vulnerability that refers to the unauthorized installation of applications on a device through means other than the official application store?',opts:[{id:'A',t:'Cross-site scripting',c:false},{id:'B',t:'Buffer overflow',c:false},{id:'C',t:'Jailbreaking',c:false},{id:'D',t:'Side loading',c:true}],expl:'Il side loading è l\'installazione non autorizzata di applicazioni attraverso canali diversi dall\'app store ufficiale. Il jailbreaking rimuove le restrizioni dell\'OS — è spesso un prerequisito per il side loading su iOS, ma non è la stessa cosa.'},
+{id:'SCREEN_645',text:'A company relies on open-source software libraries to build the software used by its customers. Which of the following vulnerability types would be the most difficult to remediate due to the company\'s reliance on open-source libraries?',opts:[{id:'A',t:'Buffer overflow',c:false},{id:'B',t:'SQL injection',c:false},{id:'C',t:'Cross-site scripting',c:false},{id:'D',t:'Zero-day',c:true}],expl:'Le librerie open-source non sono sotto il controllo dell\'organizzazione. Per buffer overflow, SQLi e XSS nel proprio codice, l\'organizzazione può applicare fix direttamente. Per una zero-day in una libreria open-source, deve aspettare che il maintainer della libreria rilasci la patch — non può rimediare autonomamente.'},
+{id:'SCREEN_665',text:'Which of the following is a reason environmental variables are a concern when reviewing potential system vulnerabilities?',opts:[{id:'A',t:'The contents of environmental variables could affect the scope and impact of an exploited vulnerability.',c:true},{id:'B',t:'In-memory environmental variable values can be overwritten and used by attackers to insert malicious code.',c:false},{id:'C',t:'Environmental variables define cryptographic standards for the system and could create vulnerabilities if deprecated algorithms are used.',c:false},{id:'D',t:'Environmental variables will determine when updates are run and could mitigate the likelihood of vulnerability exploitation.',c:false}],expl:'Le variabili d\'ambiente influenzano il comportamento del sistema: debug=true può esporre stack trace dettagliati, una variabile con permessi eccessivi può amplificare l\'impatto di una vulnerability già presente. Non sono la causa della vulnerability, ma ne amplificano la portata (scope e impact).'},
+{id:'SCREEN_720',text:'Which of the following is a type of vulnerability that may result from outdated algorithms or keys?',opts:[{id:'A',t:'Hash collision',c:false},{id:'B',t:'Cryptographic',c:true},{id:'C',t:'Buffer overflow',c:false},{id:'D',t:'Input validation',c:false}],expl:'Algoritmi crittografici obsoleti (MD5, SHA-1, RC4, DES) o chiavi di lunghezza insufficiente creano vulnerabilità di tipo crittografico (cryptographic). Hash collision è un attacco specifico, non un tipo di vulnerabilità generale. Buffer overflow e input validation sono categorie diverse.'}
+];
+
+var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
+contentEl.style.display='none';resultEl.style.display='none';
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.3';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
+function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
+function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
+function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
+document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
+document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
+nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
+})();
+</script>
+</body>
+</html>

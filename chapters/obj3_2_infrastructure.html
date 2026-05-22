@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 3.2 — Infrastruttura enterprise sicura · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 3 — Security Architecture</span>
+  <span>OBJ 3.2 — Infrastruttura enterprise sicura</span>
+</div>
+
+<header>
+  <h1>OBJ 3.2 — Principi di sicurezza per l'infrastruttura enterprise</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 3 — Security Architecture · Peso esame: 18%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Given a scenario, apply security principles to secure enterprise infrastructure.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">3.2</span> <span class="weight-badge">D3 = 18%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj3_1_architecture.html">OBJ 3.1 — Modelli architetturali</a> · <a href="obj2_5_mitigation.html">OBJ 2.5 — Mitigazioni</a></p>
+  <p><strong>Correlati:</strong> <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Infrastruttura</div>
+  <a href="#device-placement">Device placement</a>
+  <a href="#security-zones">Security zones / DMZ</a>
+  <a href="#failure-modes">Failure modes</a>
+  <a href="#active-passive">Active vs Passive / Inline vs Tap</a>
+
+  <div class="toc-section">Appliance</div>
+  <a href="#jump-server">Jump server</a>
+  <a href="#proxy">Proxy server</a>
+  <a href="#ips-ids">IPS / IDS</a>
+  <a href="#load-balancer">Load balancer</a>
+
+  <div class="toc-section">Port security</div>
+  <a href="#port-security">Port security / MAC filtering</a>
+  <a href="#8021x">802.1X e EAP</a>
+
+  <div class="toc-section">Firewall</div>
+  <a href="#firewall-types">WAF · UTM · NGFW · L4/L7</a>
+
+  <div class="toc-section">Accesso sicuro</div>
+  <a href="#vpn">VPN e Remote access</a>
+  <a href="#tunneling">TLS / IPSec</a>
+  <a href="#protocols">Protocolli sicuri vs non sicuri</a>
+
+  <div class="toc-section">Verifica</div>
+  <a href="#quiz-section">Quiz interattivo</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+<section id="intro">
+  <h2>Dalla teoria alla configurazione: applicare la sicurezza all'infrastruttura</h2>
+  <p>
+    L'OBJ 3.2 è pratico: dato uno scenario reale, scegliere e applicare i controlli
+    di sicurezza corretti all'infrastruttura enterprise. Ogni strumento ha un ruolo
+    preciso, un posizionamento ottimale e un contesto d'uso specifico. L'esame
+    mette alla prova la capacità di distinguere strumenti simili in scenari concreti.
+  </p>
+</section>
+
+<!-- INFRASTRUTTURA -->
+<section id="infra">
+  <h2>Considerazioni infrastrutturali</h2>
+
+  <h3 id="device-placement">Device placement (Posizionamento dei dispositivi)</h3>
+  <p>
+    Il <strong>posizionamento dei dispositivi (device placement)</strong> determina
+    l'efficacia di ogni controllo. I dispositivi di sicurezza devono essere nel
+    <em>percorso del traffico</em> che devono controllare. Un firewall dopo il traffico
+    da filtrare è inutile. La regola: posizionare ogni controllo nel punto che massimizza
+    visibilità ed efficacia con il minimo impatto sulle prestazioni.
+  </p>
+
+  <h3 id="security-zones">Security zones e DMZ</h3>
+  <p>
+    Le <strong>zone di sicurezza (security zones)</strong> sono segmenti di rete con
+    policy specifiche basate sul livello di fiducia. Il modello classico a tre zone:
+  </p>
+  <dl class="termlist">
+    <dt>Internet (Zona non fidata)</dt>
+    <dd>Traffico non controllato. Nessun accesso diretto alle risorse interne. Tutto il traffico deve attraversare almeno un firewall.</dd>
+    <dt>DMZ (Demilitarized Zone)</dt>
+    <dd>Zona tampone tra internet e rete interna. Ospita servizi pubblici (web, mail, DNS). Protetta da firewall su entrambi i lati. Anche se un server DMZ viene compromesso, l'attaccante non accede direttamente alla rete interna (SCREEN_020).</dd>
+    <dt>Rete interna (Zona fidata)</dt>
+    <dd>Workstation, server interni, database. Accesso da DMZ/internet regolato da policy esplicite.</dd>
+    <dt>Shared services zone</dt>
+    <dd>Zone dedicata a servizi condivisi: DNS interno, AD, jump server, monitoring. Raggiungibile da tutte le zone con policy restrittive.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Scopo primario della DMZ</strong><br>
+    "Primary purpose of implementing a DMZ?" → <strong>Isolare e aggiungere un layer
+    di sicurezza tra rete interna ed esterna</strong> (SCREEN_020). Non per migliorare
+    le performance, non per il backup sicuro.
+  </div>
+
+  <h3 id="failure-modes">Failure modes: Fail-open vs Fail-closed</h3>
+  <dl class="termlist">
+    <dt>Fail-open</dt>
+    <dd>In caso di guasto permette tutto il traffico. Priorità: disponibilità. Usato per controlli fisici di emergenza (porte antincendio) dove un blocco mette a rischio la vita.</dd>
+    <dt>Fail-closed</dt>
+    <dd>In caso di guasto blocca tutto il traffico. Priorità: sicurezza. Standard per firewall e IPS: meglio interrompere il servizio che lasciare passare traffico non controllato.</dd>
+  </dl>
+
+  <h3 id="active-passive">Active vs Passive / Inline vs Tap</h3>
+  <dl class="termlist">
+    <dt>Active / Inline</dt>
+    <dd>Il dispositivo è nel percorso del traffico e può intervenire (bloccare, modificare). Esempi: IPS, firewall, load balancer, WAF. Impatto diretto sulla disponibilità se si guasta.</dd>
+    <dt>Passive / Tap</dt>
+    <dd>Riceve una copia del traffico (via SPAN/mirror port). Solo osserva, non può bloccare. Nessun impatto sulle prestazioni. Esempi: IDS, packet sniffer, SIEM collector.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio — IPS inline per bloccare pacchetti malevoli (SCREEN_596)</strong><br>
+    Un team vuole proteggere la rete da pacchetti malevoli esterni. Serve un
+    <strong>IPS inline</strong>: deve essere nel percorso del traffico per poterlo
+    bloccare prima che raggiunga la rete interna. Un IDS passivo rileva ma non blocca.
+    Anti-malware e host-based firewall agiscono sull'endpoint, non sul flusso di rete.
+  </div>
+</section>
+
+<!-- APPLIANCE -->
+<section id="appliances">
+  <h2>Appliance di rete</h2>
+
+  <h3 id="jump-server">Jump server / Bastion host</h3>
+  <p>
+    Un <strong>jump server (bastion host)</strong> è l'<em>unico</em> punto di accesso
+    amministrativo a zone di rete protette. Gli amministratori si autenticano sul
+    jump server e da lì raggiungono i sistemi interni. Centralizza e audita tutte
+    le sessioni amministrative.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Jump server: cinque scenari</strong><br>
+    (1) "Admin workstations cannot access DB segment directly" → <strong>Jump server</strong> (SCREEN_116, 121, 133).<br>
+    (2) "Layer of security preventing unauthorized access to internal resources" → <strong>Jump server</strong> (SCREEN_145).<br>
+    (3) "Minimize admin traffic through security boundary" → <strong>Bastion host</strong> (SCREEN_148).<br>
+    (4) "RDP exposed, secure setup" → <strong>VPN + jump server inside firewall</strong> (SCREEN_209).<br>
+    (5) "Servers segmented, reachable only from authorized internal systems" → <strong>Internal jump server</strong> (SCREEN_706).
+  </div>
+
+  <h3 id="proxy">Proxy server</h3>
+  <dl class="termlist">
+    <dt>Forward proxy</dt>
+    <dd>Media le richieste degli utenti interni verso internet. Funzioni: web filtering, caching, logging, anonimizzazione degli IP interni. Il client è configurato per usarlo.</dd>
+    <dt>Reverse proxy</dt>
+    <dd>Media le richieste esterne verso server interni. Il client non sa che esiste. Funzioni: load balancing, TLS termination, caching, protezione identità server. Spesso implementa il WAF.</dd>
+  </dl>
+
+  <h3 id="ips-ids">IPS e IDS</h3>
+  <dl class="termlist">
+    <dt>IDS (Intrusion Detection System)</dt>
+    <dd>Passivo/tap. Genera alert ma non blocca il traffico. Nessun impatto sulle prestazioni. Utile per visibilità e analisi forense.</dd>
+    <dt>IPS (Intrusion Prevention System)</dt>
+    <dd>Inline. Blocca attivamente il traffico malevolo. Introduce latenza e rischio di falsi positivi. Necessario per prevenire attacchi in tempo reale.</dd>
+    <dt>Signature-based vs Anomaly-based</dt>
+    <dd>Signature: alta accuratezza per attacchi noti, zero per zero-day. Anomaly/Behavioral: rileva deviazioni dalla baseline, più falsi positivi ma cattura attacchi nuovi.</dd>
+  </dl>
+
+  <h3 id="load-balancer">Load balancer</h3>
+  <p>
+    Distribuisce il traffico tra più server backend per performance e HA
+    (SCREEN_061, SCREEN_094, SCREEN_631). Funzionalità chiave:
+  </p>
+  <dl class="termlist">
+    <dt>Affinity scheduling (Sticky session)</dt>
+    <dd>Stesso utente sempre allo stesso server durante la sessione (SCREEN_043). Critico per app stateful: senza affinity, ogni richiesta va a un server diverso che non ha la sessione dell'utente.</dd>
+    <dt>Health checks</dt>
+    <dd>Monitora i server backend. Se uno cade, ridistribuisce automaticamente il traffico tra i rimanenti.</dd>
+    <dt>SSL offloading (TLS termination)</dt>
+    <dd>Il load balancer gestisce TLS, riducendo il carico computazionale sui server backend.</dd>
+  </dl>
+</section>
+
+<!-- PORT SECURITY -->
+<section id="port-sec">
+  <h2>Sicurezza delle porte</h2>
+
+  <h3 id="port-security">Port security e MAC filtering</h3>
+  <p>
+    La <strong>port security</strong> controlla quali dispositivi possono connettersi
+    a una porta fisica dello switch basandosi sul MAC address. Previene che utenti
+    non autorizzati colleghino dispositivi non approvati alla rete.
+  </p>
+  <p>
+    <strong>MAC filtering</strong>: la porta accetta solo MAC address pre-approvati
+    (SCREEN_597). Forma più semplice di port security. Agirabile con MAC spoofing
+    (cambiare il MAC del proprio dispositivo), quindi non è robusta contro attaccanti
+    determinati. La soluzione più robusta è 802.1X.
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Port security vs 802.1X</strong><br>
+    <strong>Port security/MAC filtering:</strong> blocca dispositivi con MAC non
+    approvati. Semplice ma aggirabile con MAC spoofing.<br>
+    <strong>802.1X:</strong> autenticazione crittograficamente forte (certificati,
+    credenziali) prima dell'accesso alla rete. Non aggirabile con MAC spoofing.
+    "Visitor plugs into lobby jack" → port security o 802.1X (SCREEN_290).
+  </div>
+
+  <h3 id="8021x">802.1X e EAP</h3>
+  <p>
+    <strong>IEEE 802.1X</strong> è lo standard per il controllo degli accessi basato
+    su porta: il dispositivo deve autenticarsi prima di comunicare sulla rete.
+    Tre componenti:
+  </p>
+  <dl class="termlist">
+    <dt>Supplicant</dt>
+    <dd>Il dispositivo client con software 802.1X che gestisce l'autenticazione.</dd>
+    <dt>Authenticator</dt>
+    <dd>Lo switch o AP Wi-Fi che controlla l'accesso fisico: blocca tutto finché il supplicant non si autentica.</dd>
+    <dt>Authentication server</dt>
+    <dd>Server RADIUS che verifica le credenziali e autorizza/nega l'accesso, integrando AD o certificati digitali.</dd>
+    <dt>EAP (Extensible Authentication Protocol)</dt>
+    <dd>Framework di autenticazione usato da 802.1X. Varianti: EAP-TLS (certificati, più sicuro), PEAP (password over TLS), EAP-TTLS. L'autenticazione avviene prima dell'accesso alla rete.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio — Wi-Fi heat map: i primi passi (SCREEN_676)</strong><br>
+    Per sviluppare una heat map Wi-Fi: (1) <strong>ottenere/creare la pianta dell'ufficio</strong>
+    (base cartografica per mappare i dati) e (2) <strong>girare metodicamente nell'ufficio
+    misurando la potenza del segnale</strong> (raccolta dati sul campo). Non si inizia
+    accedendo agli AP né si misurano i cavi.
+  </div>
+</section>
+
+<!-- FIREWALL -->
+<section id="firewall-types">
+  <h2>Tipi di firewall</h2>
+
+  <dl class="termlist">
+    <dt>WAF (Web Application Firewall)</dt>
+    <dd>L7 HTTP/HTTPS. Filtra attacchi web: SQLi, XSS, CSRF, buffer overflow su parametri HTTP. Prima linea di difesa per applicazioni web pubbliche. Scenario attacco web app → WAF, non NGFW.</dd>
+    <dt>UTM (Unified Threat Management)</dt>
+    <dd>All-in-one: firewall + IPS + VPN + AV gateway + web filtering + anti-spam. Per PMI con risorse limitate. Semplicità di gestione ma single point of failure.</dd>
+    <dt>NGFW (Next-Generation Firewall)</dt>
+    <dd>Estende il firewall tradizionale con DPI applicativa, identificazione applicazioni (non solo porta), user identity awareness, TLS inspection, threat intelligence integration.</dd>
+    <dt>Layer 4 vs Layer 7</dt>
+    <dd>L4 (stateful): IP, porta, stato TCP. Veloce, non capisce il payload applicativo. L7 (applicativo): ispeziona il contenuto, distingue le applicazioni, policy per utente. Più lento ma molto più granulare.</dd>
+  </dl>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Tipo</th><th>Livello OSI</th><th>Visibilità</th><th>Uso tipico</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Packet filter</td><td>L3-L4</td><td>IP, porta</td><td>Router ACL base</td></tr>
+      <tr><td class="label">Stateful</td><td>L4</td><td>IP, porta, stato TCP</td><td>Firewall perimetrale tradizionale</td></tr>
+      <tr><td class="label">NGFW</td><td>L4-L7</td><td>Applicazione, utente, contenuto</td><td>Firewall enterprise moderno</td></tr>
+      <tr><td class="label">WAF</td><td>L7 HTTP</td><td>Payload HTTP, parametri</td><td>Protezione web app</td></tr>
+      <tr><td class="label">UTM</td><td>L3-L7</td><td>Multi-funzione integrato</td><td>PMI, branch office</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ACCESSO SICURO -->
+<section id="secure-access">
+  <h2>Comunicazioni e accesso sicuro</h2>
+
+  <h3 id="vpn">VPN e Remote access</h3>
+  <p>
+    Una <strong>VPN</strong> crea un tunnel cifrato su internet per connettere
+    dispositivi remoti alla rete aziendale (SCREEN_653). Tipi principali:
+  </p>
+  <dl class="termlist">
+    <dt>Client-to-site (Remote access VPN)</dt>
+    <dd>Singolo dispositivo si connette alla rete aziendale tramite client VPN. Per lavoratori remoti.</dd>
+    <dt>Site-to-site VPN</dt>
+    <dd>Connessione permanente tra due reti (es. sede + filiale). Gestita da VPN gateway, non da client software.</dd>
+    <dt>Split tunneling</dt>
+    <dd>Solo il traffico verso la rete aziendale usa la VPN; il traffico internet esce direttamente. Riduce il carico sul concentrator ma riduce la visibilità dell'IT.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — VPN + Jump server per accesso sicuro</strong><br>
+    "RDP esposto su internet" → <strong>VPN + jump server inside firewall</strong>
+    (SCREEN_209). La VPN cifra il canale; il jump server è il punto di accesso
+    controllato. Non cambiare solo la porta RDP (security through obscurity).<br>
+    "Accesso remoto sicuro minimizzando l'esposizione della rete interna" →
+    <strong>VPN</strong> (SCREEN_653).
+  </div>
+
+  <h3 id="tunneling">TLS vs IPSec</h3>
+  <dl class="termlist">
+    <dt>TLS (Transport Layer Security)</dt>
+    <dd>L5-L6. Protegge singole connessioni applicative (HTTPS, SMTP/TLS). Semplice da configurare. Non protegge l'intero stack IP.</dd>
+    <dt>IPSec (Internet Protocol Security)</dt>
+    <dd>L3. Protegge l'intero payload IP, incluse le informazioni di routing. Modalità Tunnel: cifra il pacchetto IP completo con nuovo header. Per VPN site-to-site con tutto il traffico cifrato (SCREEN_299).</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — IPSec per traffico inter-rete</strong><br>
+    "Third party access between two networks, encryption on ALL traffic traversing" →
+    <strong>IPSec</strong> (SCREEN_299). EAP è per autenticazione. SD-WAN ottimizza
+    il routing. TLS protegge singole connessioni, non tutto il traffico IP.
+  </div>
+
+  <h3 id="protocols">Protocolli sicuri vs non sicuri</h3>
+  <dl class="termlist">
+    <dt>Non sicuri (trasmettono in chiaro)</dt>
+    <dd>Telnet (23), FTP (21), HTTP (80), SNMP v1/v2 — trasmettono credenziali e dati senza cifratura (SCREEN_037).</dd>
+    <dt>Sostituzioni sicure</dt>
+    <dd>SSH ← Telnet: autenticazione con chiavi asimmetriche + connessione cifrata (SCREEN_040, SCREEN_397). SFTP/FTPS ← FTP. HTTPS ← HTTP. SNMPv3 ← SNMPv1/v2.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — SSH: i due motivi vs Telnet (SCREEN_040)</strong><br>
+    "Perché passare a SSH?" → <strong>(A) chiavi asimmetriche per autenticazione
+    + (D) connessione cifrata</strong>. Non perché permette comandi superuser
+    (anche Telnet li permette). Non perché non richiede pre-shared key (SSH le usa).
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — VoIP: i protocolli (SCREEN_403)</strong><br>
+    RTP, SIP, H.323, SRTP sono tutti protocolli <strong>VoIP</strong>. Regole firewall
+    per questi protocolli → supporto VoIP. Non confondere con RTOS, SoC, o HVAC.
+  </div>
+
+  <h3 id="zero-trust-net">Zero Trust per la rete enterprise</h3>
+  <p>
+    "Secure zone + company-wide access control policy + reduce scope of threats"
+    = <strong>Zero Trust</strong> (SCREEN_220). Nessuna zona implicitamente fidata,
+    ogni accesso verificato, policy applicata consistentemente. Non è AAA (solo
+    autenticazione), non è CIA (principi dei dati).
+  </p>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 3.2</h2>
+  <div class="chapter-meta">
+    <p><strong>29 domande d'esame</strong> su infrastruttura enterprise sicura, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 3.2 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 3.2</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>DMZ (De-Militarized Zone)</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>La zona tampone isolata da firewall per l'esposizione di database o servizi pubblici, per evitare che la compromissione di un server esterno garantisca accessi diretti alla rete aziendale.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Fail-Open vs Fail-Closed</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Fail-Open</strong>: privilegia l'Availability (disponibilità, porte tagliafuoco che si aprono in assenza di corrente).<br><strong>Fail-Closed</strong>: privilegia la Security (firewall che blocca tutto).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>802.1X Network Authentication</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Protocollo ubiquo client-switch-RADIUS. Richiede imperativamente autenticazione formale (identità sicura) prima che la porta fisica dello switch venga abilitata sul server.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Active/Inline vs Passive/Tap</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Active/Inline</strong>: il sensore è collocato sul canale di traffico e può decidere di droppare pacchetti (IPS).<br><strong>Passive/Tap</strong>: riceve una copia del traffico silente, senza poter mai bloccare (IDS).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>IPSec per flussi inter-rete</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Protocollo a Layer 3 (Network) ideale per stabilire tunnel VPN site-to-site sicuri che crittografano interamente l'intiero payload IP tra due reti geografiche.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Zero Trust per il network design</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Metodo architetturale granulare privo di perimetri fiduciari impliciti, focalizzato sulla segmentazione provonda dei server tramite ACL per contenere il threat scope.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="obj3_1_architecture.html">← OBJ 3.1 — Modelli architetturali</a>
+  <a href="obj3_3_data_protection.html" class="secondary">OBJ 3.3 — Protezione dei dati →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- QUIZ MODAL -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 3.2 · 29 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>29 domande in ordine casuale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 domande casuali</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 3.2</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var Q=[
+{id:'SCREEN_020',text:'What is the primary purpose of implementing a DMZ (Demilitarized Zone) in a network architecture?',opts:[{id:'A',t:'To provide a secure area for sensitive internal resources',c:false},{id:'B',t:'To isolate and add an additional layer of security between the internal network and external network',c:true},{id:'C',t:'To enhance the performance of the internal network by offloading traffic',c:false},{id:'D',t:'To store backup data securely',c:false}],expl:'La DMZ crea una zona tampone tra internet e la rete interna. Ospita servizi pubblici (web, mail, DNS) proteggendo la rete interna: anche se un server DMZ viene compromesso, l\'attaccante non accede direttamente alla rete interna.'},
+{id:'SCREEN_037',text:'Which of these items are considered "unsecure" protocols? (Select three choices).',opts:[{id:'A',t:'Telnet',c:true},{id:'B',t:'SSH',c:false},{id:'C',t:'HTTP',c:true},{id:'D',t:'FTP',c:true}],expl:'Telnet, HTTP e FTP trasmettono dati (incluse credenziali) in chiaro, senza cifratura. SSH è sicuro (sostituisce Telnet). HTTPS è sicuro. SFTP/FTPS sostituiscono FTP.'},
+{id:'SCREEN_040',text:'Your monitoring system uses Telnet with credentials in a flat file. What are some reasons you would mandate switching to SSH? (Select two choices)',opts:[{id:'A',t:'Uses asymmetric keys for authentication',c:true},{id:'B',t:'Allows access to superuser commands',c:false},{id:'C',t:'Does not require the use of pre-shared keys',c:false},{id:'D',t:'Uses an encrypted connection',c:true}],expl:'SSH vs Telnet: (A) usa chiavi asimmetriche per l\'autenticazione (più sicuro delle credenziali in chiaro) e (D) cifra tutta la connessione. Anche Telnet permette comandi superuser (B non è specifico di SSH). SSH può usare pre-shared key (C è falso).'},
+{id:'SCREEN_043',text:'Your web application developers request affinity scheduling from the load balancers. Why does a web application benefit from affinity scheduling?',opts:[{id:'A',t:'Affinity scheduling can allow a user to stay logged in to a session instead of opening a new session each time they are sent to a new server host.',c:true},{id:'B',t:'Affinity scheduling allows the load balancer to move traffic to the closest server, reducing overall latency.',c:false},{id:'C',t:'Affinity scheduling reduces the total number of connections by offloading TLS operations.',c:false},{id:'D',t:'Affinity scheduling helps web servers know the source of the traffic.',c:false}],expl:'L\'affinity scheduling (sticky session) garantisce che le richieste di uno stesso utente vadano sempre allo stesso server backend. Critico per app stateful: senza affinity, ogni richiesta potrebbe andare a un server diverso che non ha la sessione, causando logout.'},
+{id:'SCREEN_050',text:'For security purposes, how are network hosts typically separated? (Select two choices).',opts:[{id:'A',t:'Functionally',c:false},{id:'B',t:'Logically',c:true},{id:'C',t:'Geographically',c:false},{id:'D',t:'Physically',c:true}],expl:'Gli host di rete vengono separati logicamente (VLAN, subnet, zone) e fisicamente (reti fisicamente separate, switch dedicati). La separazione funzionale e geografica non sono i criteri primari di sicurezza.'},
+{id:'SCREEN_061',text:'Which of the following is a software or hardware appliance responsible for balancing user requests and network traffic among several different physical or virtualized hosts?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Guest operating system',c:false},{id:'C',t:'Host operating system',c:false},{id:'D',t:'Hypervisor',c:false}],expl:'Il load balancer distribuisce il traffico tra più server. L\'hypervisor gestisce le VM su un singolo host fisico ma non bilancia il traffico di rete tra host diversi.'},
+{id:'SCREEN_076',text:'Which of the following would be the best way to handle a critical business application that is running on a legacy server?',opts:[{id:'A',t:'Segmentation',c:true},{id:'B',t:'Isolation',c:false},{id:'C',t:'Hardening',c:false},{id:'D',t:'Decommissioning',c:false}],expl:'Un\'applicazione critica su server legacy: non può essere dismessa né facilmente hardenita. La segmentazione la mantiene operativa isolandola in un segmento con accesso controllato. L\'isolamento totale impedirebbe l\'accesso agli utenti legittimi.'},
+{id:'SCREEN_094',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Con più server virtuali, il load balancer è il passo successivo: distribuisce il traffico, garantisce HA con failover automatico, permette scalabilità orizzontale.'},
+{id:'SCREEN_116',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Il jump server è il punto di accesso intermedio per amministrare sistemi in zone protette: il DBA si connette al jump server, poi da lì ai DB server. RADIUS è per AAA. HSM gestisce chiavi crittografiche.'},
+{id:'SCREEN_121',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Variante di SCREEN_116. Jump server = punto di accesso controllato per zone di rete separate e protette.'},
+{id:'SCREEN_133',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Terza occorrenza. CompTIA enfatizza: accesso amministrativo a zona separata → jump server.'},
+{id:'SCREEN_145',text:'An engineer needs to find a solution that creates an added layer of security by preventing unauthorized access to internal company resources. Which of the following would be the best solution?',opts:[{id:'A',t:'RDP server',c:false},{id:'B',t:'Jump server',c:true},{id:'C',t:'Proxy server',c:false},{id:'D',t:'Hypervisor',c:false}],expl:'Il jump server crea un layer aggiuntivo di sicurezza: centralizza l\'accesso, applica autenticazione forte, registra tutte le sessioni. Un RDP server esposto è un rischio.'},
+{id:'SCREEN_148',text:'A company needs to provide administrative access to internal resources while minimizing the traffic allowed through the security boundary. Which of the following methods is most secure?',opts:[{id:'A',t:'Implementing a bastion host',c:true},{id:'B',t:'Deploying a perimeter network',c:false},{id:'C',t:'Installing a WAF',c:false},{id:'D',t:'Utilizing single sign-on',c:false}],expl:'Un bastion host minimizza il traffico attraverso il security boundary: solo le connessioni al bastion sono consentite, poi il bastion accede internamente. Non servono regole per ogni admin verso ogni server.'},
+{id:'SCREEN_209',text:'A security analyst discovers a host running a remote desktop that can be used to access the production network. Which of the following changes should the security analyst recommend?',opts:[{id:'A',t:'Changing the remote desktop port to a non-standard number',c:false},{id:'B',t:'Setting up a VPN and placing the jump server inside the firewall',c:true},{id:'C',t:'Using a proxy for web connections from the remote desktop server',c:false},{id:'D',t:'Connecting the remote server to the domain and increasing the password length',c:false}],expl:'RDP esposto su internet = grave rischio. Soluzione: VPN (canale cifrato + autenticazione) + jump server inside the firewall (accesso controllato alla produzione). Cambiare la porta è security through obscurity, non risolve il problema.'},
+{id:'SCREEN_220',text:'A systems administrator is working on a solution with the following requirements: provide a secure zone, enforce a company-wide access control policy, and reduce the scope of threats. Which of the following is the systems administrator setting up?',opts:[{id:'A',t:'Zero Trust',c:true},{id:'B',t:'AAA',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'CIA',c:false}],expl:'Zero Trust: zone sicure (nessuna implicitamente fidata) + policy di controllo accessi a livello aziendale + riduzione della superficie di attacco. AAA è solo autenticazione/autorizzazione. Non-repudiation è la prova di azioni. CIA sono principi dei dati.'},
+{id:'SCREEN_240',text:'An organization would like to store customer data on a separate part of the network that is not accessible to users on the main corporate network. Which of the following should the administrator use?',opts:[{id:'A',t:'Segmentation',c:true},{id:'B',t:'Isolation',c:false},{id:'C',t:'Patching',c:false},{id:'D',t:'Encryption',c:false}],expl:'La segmentazione crea un segmento separato accessibile solo alle applicazioni autorizzate. L\'isolamento totale renderebbe i dati inaccessibili anche alle app legittime. Patching e cifratura non risolvono il problema dell\'accesso non autorizzato alla rete.'},
+{id:'SCREEN_290',text:'A visitor plugs a laptop into a network jack in the lobby and is able to connect to the company\'s network. Which of the following should be configured to best prevent this activity?',opts:[{id:'A',t:'Port security',c:true},{id:'B',t:'Web application firewall',c:false},{id:'C',t:'Transport layer security',c:false},{id:'D',t:'Virtual private network',c:false}],expl:'La port security (o 802.1X) impedisce che dispositivi non autorizzati si connettano tramite porte fisiche libere. WAF protegge le app web. TLS cifra le comunicazioni. VPN è per l\'accesso remoto.'},
+{id:'SCREEN_299',text:'An enterprise needs to allow access between the internal networks of both parties for a secure file migration. The solution needs to ensure encryption is applied to ALL traffic traversing the networks. Which of the following should most likely be implemented?',opts:[{id:'A',t:'EAP',c:false},{id:'B',t:'IPSec',c:true},{id:'C',t:'SD-WAN',c:false},{id:'D',t:'TLS',c:false}],expl:'IPSec cifra tutto il traffico IP a L3, incluso il routing. Ideale per connessioni site-to-site. EAP è per autenticazione. SD-WAN ottimizza il routing WAN. TLS protegge singole connessioni applicative, non tutto il traffico IP.'},
+{id:'SCREEN_352',text:'A company is decommissioning physical servers and replacing them with an architecture that will reduce the number of individual operating systems. Which of the following strategies should the company use?',opts:[{id:'A',t:'Microservices',c:false},{id:'B',t:'Containerization',c:true},{id:'C',t:'Virtualization',c:false},{id:'D',t:'Infrastructure as code',c:false}],expl:'La containerizzazione riduce il numero di OS: più container girano sullo stesso kernel host senza un OS separato per ciascuno. La virtualizzazione richiede un OS per ogni VM. IaC è per il provisioning.'},
+{id:'SCREEN_397',text:'A user is requesting Telnet access to manage a remote development web server. Insecure protocols are not allowed. Which of the following should be configured to allow remote access?',opts:[{id:'A',t:'HTTPS',c:false},{id:'B',t:'SNMPv3',c:false},{id:'C',t:'SSH',c:true},{id:'D',t:'RDP',c:false},{id:'E',t:'SMTP',c:false}],expl:'SSH è la sostituzione sicura di Telnet per la gestione remota di server Linux/Unix. Cifra la connessione e usa chiavi asimmetriche. HTTPS è per app web. SNMPv3 per gestione rete. RDP per desktop remoto Windows.'},
+{id:'SCREEN_403',text:'A security administrator needs to create firewall rules for the following protocols: RTP, SIP, H.323, and SRTP. Which of the following does this rule set support?',opts:[{id:'A',t:'RTOS',c:false},{id:'B',t:'VoIP',c:true},{id:'C',t:'SoC',c:false},{id:'D',t:'HVAC',c:false}],expl:'RTP, SIP, H.323 e SRTP sono tutti protocolli VoIP (Voice over IP). RTOS è un sistema operativo real-time. SoC è un chip integrato. HVAC è la climatizzazione.'},
+{id:'SCREEN_555',text:'An organization wants a secure solution for remote users handling sensitive PHI. Users need to access an internally developed corporate application. Which of the following best meet the requirements? (Choose two.)',opts:[{id:'A',t:'Local administrative password',c:false},{id:'B',t:'Perimeter network',c:false},{id:'C',t:'Jump server',c:true},{id:'D',t:'WAF',c:false},{id:'E',t:'MFA',c:true},{id:'F',t:'VPN',c:true}],expl:'Per accesso remoto sicuro a dati PHI sensibili: VPN (canale cifrato) + MFA (autenticazione forte) + jump server (accesso controllato all\'applicazione interna). WAF protegge le app web dagli attacchi, non gestisce l\'accesso remoto.'},
+{id:'SCREEN_596',text:'A security team is in the process of hardening the network against externally crafted malicious packets. Which of the following is the most secure method to protect the internal network?',opts:[{id:'A',t:'Anti-malware solutions',c:false},{id:'B',t:'Host-based firewalls',c:false},{id:'C',t:'Intrusion prevention systems',c:true},{id:'D',t:'Network access control',c:false},{id:'E',t:'Network allow list',c:false}],expl:'Un IPS inline blocca pacchetti malevoli a livello di rete prima che raggiungano qualsiasi host. Anti-malware agisce sull\'endpoint dopo l\'arrivo. Host-based firewall protegge il singolo host. NAC controlla l\'autenticazione alla rete, non il contenuto dei pacchetti.'},
+{id:'SCREEN_597',text:'Which of the following is the best way to prevent an unauthorized user from plugging a laptop into an employee\'s phone network port and then using tools to scan for database servers?',opts:[{id:'A',t:'MAC filtering',c:true},{id:'B',t:'Segmentation',c:false},{id:'C',t:'Certification',c:false},{id:'D',t:'Isolation',c:false}],expl:'Il MAC filtering blocca la connessione di dispositivi con MAC non pre-approvati sulla porta switch. La segmentazione limiterebbe cosa l\'utente potrebbe fare dopo la connessione, ma non impedirebbe la connessione stessa.'},
+{id:'SCREEN_631',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Variante di SCREEN_094. Con più server virtuali, il load balancer distribuisce il traffico, garantisce HA e permette scalabilità orizzontale.'},
+{id:'SCREEN_642',text:'An administrator is creating a secure method for a contractor to access a test environment. Which of the following would provide the contractor with the best access?',opts:[{id:'A',t:'Application server',c:false},{id:'B',t:'Jump server',c:true},{id:'C',t:'RDP server',c:false},{id:'D',t:'Proxy server',c:false}],expl:'Il jump server fornisce accesso controllato e auditato all\'ambiente di test per i contractor: autenticazione forte, sessioni registrate, senza esporre direttamente i server dell\'ambiente.'},
+{id:'SCREEN_653',text:'Which of the following is the best way to provide secure, remote access for employees while minimizing the exposure of a company\'s internal network?',opts:[{id:'A',t:'VPN',c:true},{id:'B',t:'LDAP',c:false},{id:'C',t:'FTP',c:false},{id:'D',t:'RADIUS',c:false}],expl:'Una VPN cifra tutto il traffico tra il dispositivo remoto e la rete aziendale minimizzando l\'esposizione. LDAP è per la directory. FTP è non sicuro. RADIUS è per autenticazione, non per l\'accesso remoto diretto.'},
+{id:'SCREEN_676',text:'Which of the following are the first steps an analyst should perform when developing a heat map? (Choose two.)',opts:[{id:'A',t:'Methodically walk around the office noting Wi-Fi signal strength.',c:true},{id:'B',t:'Log in to each access point and check the settings.',c:false},{id:'C',t:'Create or obtain a layout of the office.',c:true},{id:'D',t:'Measure cable lengths between access points.',c:false},{id:'E',t:'Review access logs to determine the most active devices.',c:false},{id:'F',t:'Remove possible impediments to radio transmissions.',c:false}],expl:'Per una heat map Wi-Fi: (C) ottenere/creare la pianta dell\'ufficio (base cartografica) e (A) girare l\'ufficio misurando la potenza del segnale (raccolta dati). Non si inizia dagli AP né si misurano i cavi.'},
+{id:'SCREEN_706',text:'Multiple servers need to be segmented on different networks and reachable only from authorized internal systems. Which of the following would meet the requirements?',opts:[{id:'A',t:'Configure firewall rules to block external access to internal resources.',c:false},{id:'B',t:'Set up a WAP to allow internal access from public networks.',c:false},{id:'C',t:'Implement a new IPSec tunnel from internal resources.',c:false},{id:'D',t:'Deploy an internal jump server to access resources.',c:true}],expl:'Un jump server interno fornisce accesso controllato ai server segmentati solo ai sistemi autorizzati. Le regole firewall bloccano l\'accesso esterno ma non controllano quali sistemi interni possono accedere. Il tunnel IPSec è per connessioni tra reti, non per il controllo degli accessi interni.'}
+];
+
+var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
+contentEl.style.display='none';resultEl.style.display='none';
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 3.2';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
+function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
+function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
+function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
+document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
+document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
+nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
+})();
+</script>
+</body>
+</html>

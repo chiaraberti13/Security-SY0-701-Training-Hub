@@ -1,0 +1,6 @@
+{
+  "name": "CompTIA Security+ SY0-701 Guida",
+  "description": "Guida interattiva per la preparazione all'esame CompTIA Security+ SY0-701",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

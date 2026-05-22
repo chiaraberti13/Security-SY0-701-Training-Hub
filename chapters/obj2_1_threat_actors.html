@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 2.1 — Threat Actors e Motivazioni · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 2 — Threats, Vulnerabilities and Mitigations</span>
+  <span>OBJ 2.1 — Threat Actors</span>
+</div>
+
+<header>
+  <h1>OBJ 2.1 — Threat Actors e Motivazioni (Threat Actors and Motivations)</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 2 — Threats, Vulnerabilities and Mitigations · Peso esame: 22%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Compare and contrast common threat actors and motivations.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">2.1</span> <span class="weight-badge">D2 = 22%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj1_2_fundamental_concepts.html">OBJ 1.2 — CIA, AAA, Zero Trust</a></p>
+  <p><strong>Correlati:</strong> <a href="obj2_2_threat_vectors.html">OBJ 2.2 — Threat Vectors</a> · <a href="obj2_4_malicious_activity.html">OBJ 2.4 — Indicatori di attività malevola</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Introduzione</div>
+  <a href="#intro">Il modello attaccante</a>
+
+  <div class="toc-section">Threat Actors</div>
+  <a href="#nation-state">Nation-state</a>
+  <a href="#unskilled">Unskilled attacker</a>
+  <a href="#hacktivist">Hacktivist</a>
+  <a href="#insider">Insider threat</a>
+  <a href="#organized-crime">Organized crime</a>
+  <a href="#shadow-it">Shadow IT</a>
+
+  <div class="toc-section">Attributi</div>
+  <a href="#attributi">Internal / External</a>
+  <a href="#risorse">Risorse e funding</a>
+  <a href="#sophistication">Sophistication</a>
+
+  <div class="toc-section">Motivazioni</div>
+  <a href="#motivazioni">Panoramica motivazioni</a>
+  <a href="#data-exfil">Data exfiltration</a>
+  <a href="#espionage">Espionage</a>
+  <a href="#disruption">Service disruption</a>
+  <a href="#blackmail">Blackmail</a>
+  <a href="#financial">Financial gain</a>
+  <a href="#philosophical">Philosophical/political</a>
+  <a href="#revenge">Revenge / Ethical / War</a>
+
+  <div class="toc-section">Matrice</div>
+  <a href="#matrice">Attore × Motivazione</a>
+
+  <div class="toc-section">Verifica</div>
+  <a href="#quiz-section">Quiz interattivo</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+<!-- ══ INTRODUZIONE ════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Il modello attaccante: chi attacca e perché</h2>
+  <p>
+    Comprendere <em>chi</em> attacca un'organizzazione è tanto importante quanto sapere
+    <em>come</em> lo fa. I controlli di sicurezza più efficaci non sono quelli tecnicamente
+    più avanzati, ma quelli calibrati sul profilo reale dell'attaccante più probabile.
+    Un piccolo studio legale e un'agenzia governativa affrontano minacce radicalmente
+    diverse: il primo rischia ransomware da organized crime, il secondo spionaggio
+    sponsorizzato da nation-state. Difese identiche per rischi diversi producono
+    risultati subottimali in entrambi i casi.
+  </p>
+  <p>
+    Il framework SY0-701 classifica i <strong>threat actor (attori della minaccia)</strong>
+    lungo due assi indipendenti: la loro <em>identità/categoria</em> (chi sono) e le loro
+    <em>motivazioni</em> (perché attaccano). Un terzo asse trasversale descrive i loro
+    <em>attributi</em>: posizione (interna/esterna), risorse disponibili e livello di
+    sofisticazione tecnica.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Come rispondere alle domande "quale threat actor?"</strong><br>
+    Le domande presentano uno scenario e chiedono di identificare il threat actor più probabile.
+    Applica questo filtro in sequenza: (1) L'attaccante è <em>interno o esterno</em>?
+    (2) Qual è la sua <em>motivazione principale</em>? (3) Quale <em>livello di risorse</em>
+    possiede? La combinazione di queste tre risposte identifica univocamente l'attore.
+  </div>
+</section>
+
+<!-- ══ THREAT ACTORS ════════════════════════════════════════════ -->
+<section id="threat-actors">
+  <h2>Threat Actors (Attori della minaccia)</h2>
+
+  <h3 id="nation-state">Nation-state (Stato nazionale)</h3>
+  <p>
+    I <strong>nation-state actor (attori a livello di stato nazionale)</strong> sono gruppi
+    sponsorizzati o direttamente gestiti da governi stranieri. Rappresentano la minaccia
+    più sofisticata, persistente e ben finanziata nel panorama della cybersecurity.
+    Operano con obiettivi strategici a lungo termine — non cercano un guadagno rapido
+    ma vogliono raccogliere intelligence, sabotare infrastrutture critiche o prepararsi
+    a conflitti futuri. Il loro modus operandi è caratterizzato da <strong>APT (Advanced
+    Persistent Threats)</strong>: intrusioni silenziose che possono rimanere inosservate
+    per mesi o anni.
+  </p>
+  <dl class="termlist">
+    <dt>Caratteristiche distintive</dt>
+    <dd>Risorse pressoché illimitate (budget governativo), team di specialisti dedicati, accesso a zero-day esclusivi, capacità di operare 24/7 su più fronti simultaneamente. Possono permettersi attacchi che richiedono anni di pianificazione.</dd>
+    <dt>Bersagli tipici</dt>
+    <dd>Infrastrutture critiche (energia, acqua, telecomunicazioni), istituzioni governative e militari, aziende di difesa e aerospaziale, centri di ricerca e proprietà intellettuale avanzata.</dd>
+    <dt>Esempi storici</dt>
+    <dd>Stuxnet (sabotaggio centrifughe iraniane, attribuito a USA/Israele), SolarWinds supply chain attack (attribuito a Russia/SVR), Operation Aurora (attribuito a Cina, bersagli Google e aziende tecnologiche).</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Nation-state: le parole chiave dello scenario</strong><br>
+    "Large financial resources", "attack critical systems in other countries", "long-term
+    espionage", "government-sponsored" → <strong>Nation-state</strong> (SCREEN_158).
+    Se lo scenario menziona un foreign government che ingaggia qualcuno per attaccare
+    infrastrutture critiche estere → possibile risposta <strong>Organized crime</strong>
+    se il focus è sul "hired" (mercenari), ma Nation-state se il focus è sul "government".
+  </div>
+
+  <h3 id="unskilled">Unskilled attacker (Attaccante non qualificato)</h3>
+  <p>
+    Gli <strong>unskilled attacker (attaccanti non qualificati)</strong>, storicamente
+    noti come <em>script kiddie</em>, sono individui con competenze tecniche limitate
+    che utilizzano strumenti, exploit e script pre-confezionati sviluppati da altri.
+    Non comprendono necessariamente come funzionano gli strumenti che usano — li
+    applicano meccanicamente. Il loro livello di sofisticazione è basso, ma non sono
+    da sottovalutare: i tool che usano possono essere molto potenti, e il volume degli
+    attacchi che generano (spesso automatizzati) può causare danni reali.
+  </p>
+  <p>
+    La loro motivazione è tipicamente la notorietà, il divertimento, il senso di sfida
+    o il desiderio di impressionare la propria community. Non sono solitamente motivati
+    da profitto finanziario strutturato né da obiettivi politici sofisticati.
+    Un attacco tipico: defacement di un sito web di un artista famoso (SCREEN_539)
+    — un obiettivo visibile e di alto profilo ma non strategicamente rilevante.
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Unskilled ≠ Innocuo</strong><br>
+    Uno script kiddie che esegue un tool DDoS pre-confezionato può portare offline un
+    sito web aziendale per ore. L'assenza di sofisticazione tecnica non equivale ad
+    assenza di impatto. La differenza rispetto agli altri attori è la <em>mancanza di
+    obiettivi strategici</em> e l'incapacità di adattare l'attacco quando le difese
+    reagiscono.
+  </div>
+
+  <h3 id="hacktivist">Hacktivist</h3>
+  <p>
+    Gli <strong>hacktivist (hacktivisti)</strong> sono individui o gruppi che usano
+    tecniche di hacking per promuovere cause politiche, sociali o ideologiche.
+    La motivazione principale non è il profitto ma la <strong>philosophical/political
+    belief (convinzione filosofica/politica)</strong>: vogliono inviare un messaggio,
+    portare visibilità a una causa, punire organizzazioni che considerano moralmente
+    riprovevoli o fare pressione su governi e aziende. Il danno economico è spesso
+    un mezzo, non un fine.
+  </p>
+  <p>
+    Il livello di sofisticazione varia enormemente: da gruppi altamente organizzati come
+    Anonymous (con capacità tecniche significative) a singoli individui con competenze
+    limitate. La caratteristica unificante è l'<em>ideologia come driver</em>, non
+    l'interesse economico o la sponsorizzazione statale.
+  </p>
+  <dl class="termlist">
+    <dt>Tattiche tipiche</dt>
+    <dd>Defacement di siti web (sostituire la homepage con messaggi politici), DDoS contro siti governativi o aziendali, data breach e pubblicazione di documenti riservati ("doxing"), campagne di disinformazione.</dd>
+    <dt>Esempi storici</dt>
+    <dd>Anonymous contro Scientology (Operation Chanology), Anonymous contro governi durante le Primavere Arabe, LulzSec contro Sony e FBI (motivazione mista: divertimento + ideologia).</dd>
+  </dl>
+
+  <h3 id="insider">Insider threat (Minaccia interna)</h3>
+  <p>
+    L'<strong>insider threat (minaccia interna)</strong> è la minaccia posta da individui
+    con accesso legittimo ai sistemi e alle risorse dell'organizzazione: dipendenti attuali,
+    ex dipendenti, collaboratori, fornitori con accesso ai sistemi interni. Rappresenta
+    una delle minacce più difficili da rilevare e contrastare perché l'attaccante ha
+    già superato i controlli perimetrali — usa credenziali valide, conosce i sistemi
+    dall'interno, e il suo comportamento può apparire normale.
+  </p>
+  <dl class="termlist">
+    <dt>Insider malevolo (Malicious insider)</dt>
+    <dd>Agisce intenzionalmente per danneggiare l'organizzazione: esfiltrazione di dati verso concorrenti, sabotaggio, furto di proprietà intellettuale. Motivazione: vendetta, guadagno finanziario, spionaggio su commissione. Esempio: un DBA licenziato che installa una time bomb nel database (SCREEN_440).</dd>
+    <dt>Insider negligente (Negligent insider)</dt>
+    <dd>Non agisce con malizia ma causa danni attraverso comportamenti scorretti: aprire allegati phishing, usare password deboli, inviare dati sensibili per email a destinatari sbagliati, lasciare workstation sbloccate. Causa statisticamente più incidenti degli insider malevoli.</dd>
+    <dt>Insider compromesso (Compromised insider)</dt>
+    <dd>Le credenziali di un utente legittimo sono state rubate da un attaccante esterno. L'attaccante agisce "dall'interno" usando l'identità della vittima. Particolarmente pericoloso perché le sue azioni appaiono come attività legittima dell'utente.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Time bomb da insider (SCREEN_440)</strong><br>
+    Il database di un e-commerce va offline il 30 gennaio 2023. L'analista trova nel codice
+    di backup: <code>IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END</code>
+    — una time bomb programmata. Il primo passo dell'analista: <strong>verificare i DBA
+    recentemente licenziati</strong>. Non cercare malware (non c'è), non analizzare WAF
+    logs (non è SQL injection). È un insider malevolo con accesso privilegiato che ha
+    lasciato una trappola prima di andarsene.
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Insider threat vs External attacker</strong><br>
+    La chiave è l'<em>accesso legittimo preesistente</em>. Un dipendente che copia dati
+    su un dispositivo personale (SCREEN_187) → <strong>Insider threat</strong>.
+    Un utente esterno che ottiene accesso tramite phishing → External attacker
+    (compromised insider solo se usa le credenziali di qualcun altro).
+    L'ARP poisoning fatto da qualcuno sulla rete interna scolastica (SCREEN_691)
+    → <strong>Insider threat</strong>: ha accesso fisico alla rete.
+  </div>
+
+  <h3 id="organized-crime">Organized crime (Crimine organizzato)</h3>
+  <p>
+    Il <strong>crimine organizzato (organized crime)</strong> nel cyberspazio è rappresentato
+    da gruppi strutturati professionalmente con l'obiettivo primario del <strong>profitto
+    finanziario (financial gain)</strong>. Operano come vere e proprie aziende criminali,
+    con divisioni specializzate (sviluppo malware, distribuzione, riscossione dei riscatti,
+    riciclaggio di criptovalute), strutture gerarchiche e, in alcuni casi, servizi di
+    "customer support" per le vittime di ransomware.
+  </p>
+  <p>
+    Il modello di business più redditizio degli ultimi anni è il
+    <strong>Ransomware-as-a-Service (RaaS)</strong>: i gruppi di organized crime sviluppano
+    e mantengono il ransomware, e lo "affittano" ad affiliati che si occupano della
+    distribuzione, dividendo i proventi. Questo modello ha democratizzato gli attacchi
+    ransomware, aumentandone enormemente il volume.
+  </p>
+  <dl class="termlist">
+    <dt>Ransomware-as-a-Service (RaaS)</dt>
+    <dd>Modello in cui il gruppo criminale sviluppa il ransomware e lo mette a disposizione di affiliati (che possono essere anche unskilled attacker) in cambio di una percentuale del riscatto. Esempi: REvil, DarkSide, LockBit.</dd>
+    <dt>Capacità operative</dt>
+    <dd>Risorse significative (non ai livelli dei nation-state, ma superiori ai singoli individui), buon livello di sofisticazione, struttura organizzativa, spesso operano da Paesi con legislazioni permissive o senza trattati di estradizione.</dd>
+    <dt>Bersagli</dt>
+    <dd>Organizzazioni in grado di pagare riscatti elevati: aziende manifatturiere, ospedali, studi legali, enti governativi regionali. La selezione è spesso opportunistica ma può essere anche mirata ("big game hunting").</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Organized crime: le parole chiave</strong><br>
+    "Motivated by profit", "ransomware", "ransomware-as-a-service", "financial gain",
+    "hired by foreign government" (come mercenari) → <strong>Organized crime</strong>
+    (SCREEN_015, SCREEN_235, SCREEN_444). Nota: anche "hired by foreign government"
+    può puntare a organized crime se il focus è sulla natura mercenaria, non statale.
+  </div>
+
+  <h3 id="shadow-it">Shadow IT</h3>
+  <p>
+    Lo <strong>Shadow IT</strong> non è un attore ostile in senso tradizionale: è il
+    fenomeno per cui dipendenti o reparti usano tecnologie, software, servizi cloud
+    o dispositivi senza l'approvazione e la supervisione del reparto IT. Non è un attacco
+    intenzionale — spesso nasce da buone intenzioni (essere più produttivi, usare strumenti
+    migliori) — ma crea rischi di sicurezza reali: dati aziendali su servizi cloud non
+    approvati, dispositivi personali sulla rete aziendale, app non patchate.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Shadow IT in azienda (SCREEN_086)</strong><br>
+    Un reparto non usa la VPN aziendale quando accede ai servizi aziendali da remoto.
+    Usano invece connessioni dirette su reti non sicure. Non stanno attaccando l'azienda:
+    stanno semplicemente aggirando i controlli di sicurezza perché li trovano scomodi.
+    Il risultato è lo stesso: dati aziendali potenzialmente esposti su reti non cifrate.
+    Questo scenario descrive Shadow IT, non data exfiltration né espionage.
+  </div>
+</section>
+
+<!-- ══ ATTRIBUTI ════════════════════════════════════════════════ -->
+<section id="attributi-section">
+  <h2>Attributi degli attori (Attributes of Actors)</h2>
+  <p>
+    Oltre alla categoria, ogni threat actor si caratterizza per tre attributi trasversali
+    che determinano la natura e la gravità della minaccia che rappresenta.
+  </p>
+
+  <h3 id="attributi">Internal vs External (Interno vs Esterno)</h3>
+  <p>
+    La distinzione <strong>interno/esterno</strong> descrive la posizione dell'attaccante
+    rispetto al perimetro dell'organizzazione, non necessariamente la sua posizione fisica.
+    Un insider threat è <em>interno</em> perché ha accesso legittimo ai sistemi, anche se
+    agisce da remoto. Un attaccante esterno è colui che non ha credenziali o accesso
+    autorizzato ai sistemi — deve prima "entrare" prima di poter agire.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Attore</th><th>Posizione</th><th>Perché</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Nation-state</td><td>Esterno</td><td>Non ha accesso legittimo ai sistemi bersaglio</td></tr>
+      <tr><td class="label">Unskilled attacker</td><td>Esterno</td><td>Opera dall'esterno del perimetro</td></tr>
+      <tr><td class="label">Hacktivist</td><td>Esterno (tipicamente)</td><td>Raramente ha accesso interno legittimo</td></tr>
+      <tr><td class="label">Insider threat</td><td>Interno</td><td>Ha credenziali e accesso autorizzato</td></tr>
+      <tr><td class="label">Organized crime</td><td>Esterno (tipicamente)</td><td>Deve penetrare il perimetro; può reclutare insider</td></tr>
+      <tr><td class="label">Shadow IT</td><td>Interno</td><td>È un dipendente che aggira le policy IT</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="risorse">Risorse e finanziamenti (Resources / Funding)</h3>
+  <p>
+    Il livello di risorse disponibile determina la complessità e la persistenza degli attacchi
+    che un threat actor può sostenere nel tempo. Più risorse significa: exploit zero-day,
+    infrastrutture di attacco elaborate, team specializzati, capacità di operare 24/7.
+  </p>
+  <dl class="termlist">
+    <dt>Risorse molto elevate</dt>
+    <dd><strong>Nation-state</strong> — Budget governativo, accesso a zero-day sviluppati o acquistati, team di centinaia di specialisti, infrastrutture di C2 distribuite globalmente.</dd>
+    <dt>Risorse significative</dt>
+    <dd><strong>Organized crime</strong> — Profitti da attività criminali precedenti reinvestiti, capacità di acquistare exploit sul darkweb, infrastrutture professionali, struttura organizzativa.</dd>
+    <dt>Risorse variabili</dt>
+    <dd><strong>Hacktivist</strong> — Da singoli individui con poche risorse a collettivi organizzati con capacità significative. Spesso si affidano a tool open source o a volunteer DDoS.</dd>
+    <dt>Risorse limitate</dt>
+    <dd><strong>Unskilled attacker</strong> — Usa principalmente tool gratuiti disponibili online o su forum underground. Non ha budget per acquistare exploit.</dd>
+    <dt>Risorse interne legittime</dt>
+    <dd><strong>Insider threat</strong> — Il suo "vantaggio" non è il budget ma l'accesso privilegiato: conosce i sistemi dall'interno, ha credenziali valide, sa dove sono i dati sensibili.</dd>
+  </dl>
+
+  <h3 id="sophistication">Livello di sofisticazione (Level of Sophistication / Capability)</h3>
+  <p>
+    La sofisticazione tecnica descrive la capacità dell'attaccante di sviluppare strumenti
+    propri, adattare gli attacchi alle difese incontrate, e operare senza essere rilevato.
+  </p>
+  <dl class="termlist">
+    <dt>Altissima sofisticazione</dt>
+    <dd><strong>Nation-state</strong> — Sviluppano exploit originali, operano con tecniche di evasione avanzate, possono compromettere supply chain, condurre attacchi fisici coordinati con quelli cyber.</dd>
+    <dt>Alta sofisticazione</dt>
+    <dd><strong>Organized crime</strong> — Sviluppano o acquistano malware custom, usano tecniche di evasione degli AV, gestiscono infrastrutture C2 resilienti, si aggiornano rapidamente sulle difese.</dd>
+    <dt>Media sofisticazione (variabile)</dt>
+    <dd><strong>Hacktivist, Insider threat</strong> — Capacità tecniche variabili. Un insider privilegiato (es. sysadmin) può essere molto pericoloso pur non avendo competenze offensive avanzate.</dd>
+    <dt>Bassa sofisticazione</dt>
+    <dd><strong>Unskilled attacker</strong> — Usa tool pre-confezionati, non sa adattarsi quando le difese reagiscono, lascia tracce evidenti nei log.</dd>
+  </dl>
+</section>
+
+<!-- ══ MOTIVAZIONI ══════════════════════════════════════════════ -->
+<section id="motivazioni-section">
+  <h2>Motivazioni (Motivations)</h2>
+  <p>
+    Le motivazioni determinano <em>perché</em> un attaccante agisce e, di conseguenza,
+    <em>cosa cercherà di fare</em> una volta ottenuto l'accesso. Comprendere le motivazioni
+    permette di prevedere il comportamento dell'attaccante e di prioritizzare le difese
+    in modo appropriato.
+  </p>
+
+  <h3 id="data-exfil">Data exfiltration (Esfiltrazione di dati)</h3>
+  <p>
+    La <strong>data exfiltration</strong> è il trasferimento non autorizzato di dati
+    dall'interno verso l'esterno dell'organizzazione. È spesso il mezzo attraverso cui
+    si realizzano altre motivazioni (spionaggio, ricatto, vendita sul darkweb), ma può
+    essere anche il fine in sé. Le tecniche includono: copia su dispositivi rimovibili,
+    upload su cloud storage non autorizzati, tunneling di dati in protocolli apparentemente
+    legittimi (DNS tunneling, ICMP tunneling), steganografia.
+  </p>
+
+  <h3 id="espionage">Espionage (Spionaggio)</h3>
+  <p>
+    Lo <strong>spionaggio (espionage)</strong> mira a raccogliere informazioni riservate
+    senza che la vittima se ne accorga. A differenza della data exfiltration (che può
+    essere opportunistica), lo spionaggio è sempre mirato: si cerca intelligence specifica
+    (piani militari, brevetti, negoziati diplomatici, strategie aziendali). È la motivazione
+    dominante dei nation-state actor. Lo spionaggio preferisce la <em>silenziosità</em>
+    alla velocità: rimanere nell'infrastruttura per mesi senza essere rilevati vale
+    molto più di un accesso rapido e rumoroso.
+  </p>
+
+  <h3 id="disruption">Service disruption (Interruzione del servizio)</h3>
+  <p>
+    La <strong>service disruption (interruzione del servizio)</strong> mira a rendere
+    un sistema o un servizio non disponibile. Il mezzo più comune è il
+    <strong>DDoS (Distributed Denial of Service)</strong>. La motivazione può essere
+    politica (hacktivist che colpiscono siti governativi), finanziaria (competizione
+    sleale, estorsione), o militare (cyber warfare). La service disruption è spesso
+    usata come distrazione: mentre il difensore si concentra sul DDoS visibile, l'attaccante
+    esegue un'intrusione silente altrove.
+  </p>
+
+  <h3 id="blackmail">Blackmail (Ricatto)</h3>
+  <p>
+    Il <strong>ricatto (blackmail)</strong> usa informazioni sensibili o compromettenti
+    come leva per ottenere denaro o altri vantaggi. Nel cyberspazio, il meccanismo tipico
+    è: (1) ottenere accesso a informazioni sensibili (dati personali, foto, email riservate,
+    segreti aziendali), (2) contattare la vittima minacciando di pubblicarle, (3) richiedere
+    un pagamento per non farlo. Il ransomware è una forma automatizzata di blackmail su scala.
+    Lo scenario SCREEN_569 (busta con foto e richiesta di denaro) descrive blackmail
+    classico, non organized crime né espionage.
+  </p>
+
+  <h3 id="financial">Financial gain (Guadagno finanziario)</h3>
+  <p>
+    Il <strong>guadagno finanziario (financial gain)</strong> è la motivazione principale
+    dell'<strong>organized crime</strong>. Si manifesta attraverso: ransomware (pagamento
+    del riscatto per decriptare i dati), business email compromise (BEC — truffe tramite
+    email aziendali compromesse), furto di credenziali bancarie, frodi con carte di credito,
+    cryptojacking (uso non autorizzato di risorse per il mining di criptovalute), e
+    vendita di dati sul darkweb.
+  </p>
+
+  <h3 id="philosophical">Philosophical/political beliefs (Convinzioni filosofiche/politiche)</h3>
+  <p>
+    Le <strong>convinzioni filosofiche o politiche</strong> sono la motivazione principale
+    degli <strong>hacktivist</strong>. L'attacco è un atto di protesta digitale: si colpisce
+    un'organizzazione non per un vantaggio personale ma per inviare un messaggio ideologico,
+    attirare l'attenzione su una causa, o punire un'entità considerata moralmente responsabile
+    di qualcosa. La domanda SCREEN_726 è diretta: "motive di un hacktivist" →
+    <strong>philosophical beliefs</strong>.
+  </p>
+
+  <h3 id="revenge">Revenge / Ethical / Disruption / War (Altre motivazioni)</h3>
+  <dl class="termlist">
+    <dt>Revenge (Vendetta)</dt>
+    <dd>Un ex dipendente licenziato che sabota i sistemi, un concorrente che si vendica di una pratica commerciale scorretta. La vendetta è una motivazione tipica dell'insider threat malevolo. Spesso combinata con la necessità di "provare qualcosa" dopo il licenziamento.</dd>
+    <dt>Ethical (Etica)</dt>
+    <dd>Motivazione di whistleblower o security researcher che espongono vulnerabilità o illeciti. Distinguersi dagli hacktivist: l'etica come motivazione implica la convinzione di agire nell'interesse pubblico, non di una causa politica specifica. Es: un ricercatore che pubblica una vulnerabilità dopo che il vendor non risponde al responsible disclosure.</dd>
+    <dt>Disruption / Chaos (Disturbo / Caos)</dt>
+    <dd>Alcuni attori — soprattutto unskilled attacker — non hanno un obiettivo specifico: vogliono semplicemente causare caos, dimostrare di poterlo fare, o testare le proprie capacità. La disruption fine a sé stessa è rara nei threat actor professionali ma comune negli script kiddie.</dd>
+    <dt>War (Guerra)</dt>
+    <dd>Nel contesto del cyber warfare, gli attacchi informatici sono componenti di conflitti militari o diplomatici più ampi. Obiettivi: degradare le capacità militari del nemico, interrompere le comunicazioni, sabotare infrastrutture critiche. Motivazione esclusiva dei nation-state actor.</dd>
+  </dl>
+</section>
+
+<!-- ══ MATRICE ═══════════════════════════════════════════════════ -->
+<section id="matrice">
+  <h2>Matrice Attore × Motivazione</h2>
+  <p>
+    Usa questa matrice per rispondere rapidamente alle domande scenario: identifica
+    la motivazione descritta, risali all'attore più probabile.
+  </p>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr>
+        <th>Attore</th>
+        <th>Posizione</th>
+        <th>Risorse</th>
+        <th>Sofisticazione</th>
+        <th>Motivazioni principali</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">Nation-state</td>
+        <td>Esterno</td>
+        <td>Molto elevate</td>
+        <td>Altissima</td>
+        <td>Espionage · War · Service disruption · Data exfiltration</td>
+      </tr>
+      <tr>
+        <td class="label">Organized crime</td>
+        <td>Esterno</td>
+        <td>Significative</td>
+        <td>Alta</td>
+        <td>Financial gain · Blackmail · Data exfiltration</td>
+      </tr>
+      <tr>
+        <td class="label">Hacktivist</td>
+        <td>Esterno</td>
+        <td>Variabili</td>
+        <td>Media–variabile</td>
+        <td>Philosophical/political beliefs · Service disruption</td>
+      </tr>
+      <tr>
+        <td class="label">Insider threat</td>
+        <td>Interno</td>
+        <td>Accesso privilegiato</td>
+        <td>Media (varia)</td>
+        <td>Revenge · Financial gain · Data exfiltration · Espionage</td>
+      </tr>
+      <tr>
+        <td class="label">Unskilled attacker</td>
+        <td>Esterno</td>
+        <td>Limitate</td>
+        <td>Bassa</td>
+        <td>Disruption/chaos · Notorietà · Philosophical (raro)</td>
+      </tr>
+      <tr>
+        <td class="label">Shadow IT</td>
+        <td>Interno</td>
+        <td>Risorse aziendali</td>
+        <td>N/A (non è un attacco)</td>
+        <td>Produttività · Comodità (non è un attacco intenzionale)</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Il metodo delle esclusioni</strong><br>
+    Quando lo scenario non è immediato, esclude gli attori improbabili:<br>
+    — Accesso interno / credenziali valide → <strong>Insider threat</strong> o Shadow IT<br>
+    — Profitto / ransomware / RaaS → <strong>Organized crime</strong><br>
+    — Causa politica / sito web famoso defaced → <strong>Hacktivist</strong> o Unskilled<br>
+    — Risorse enormi / infrastrutture critiche / stato estero → <strong>Nation-state</strong><br>
+    — Dipendente che usa tool non approvati → <strong>Shadow IT</strong>
+  </div>
+</section>
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 2.1</h2>
+  <div class="chapter-meta">
+    <p><strong>15 domande d'esame</strong> su threat actor e motivazioni, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 2.1 →</button>
+  </div>
+</section>
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 2.1</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Nation-State in pillole d'esame</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Nation-state</strong>: sponsorizzato da governi esteri. Altissima sofisticazione, budget infinito e attacchi APT silenti indirizzati a infrastrutture critiche e spionaggio industriale.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Hacker "Unskilled / Script Kiddie"</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Bassa competenza tecnica. Utilizza script preconfezionati e tools automatizzati altrui. Cerca notorietà o divertimento temporaneo (tipico d'esame: <em>deface website</em>).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>La definizione d'esame di Hacktivist</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Attaccano per motivi <strong>ideologici o politici</strong> (Philosophical/Political beliefs). Le loro tecniche preferite sono attacchi DDoS massivi, data leaks e defacement simbolici.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Tipi di Insider Threat</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Possiedono credenziali ed accessi legittimi esterni/interni. Si dividono in tre macro-categorie: <strong>malicious</strong> (doloso), <strong>negligent</strong> (comportamento sbadato), e <strong>compromised</strong> (subito hijack).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Organized Crime e RaaS</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Guidati unicamente dal <strong>guadagno finanziario</strong> (financial gain/profit). Sottoscrivono piattaforme RaaS (Ransomware-as-a-Service) e operano con veri e propri modelli aziendali.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Cos'è la Shadow IT?</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Non è un attore ostile, ma i dipendenti che utilizzano software, reti personali (senza VPN) o cloud non registrati o non specificamente approvati dal dipartimento IT.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="obj1_4_cryptography.html">← OBJ 1.4 — Crittografia</a>
+  <a href="obj2_2_threat_vectors.html" class="secondary">OBJ 2.2 — Threat Vectors →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 2.1 · 15 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>15 domande in ordine casuale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>10 domande casuali</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 2.1</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var Q=[
+{id:'SCREEN_015',text:'Which of the following threat actors is the most likely to be motivated by profit?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Shadow IT',c:false}],expl:'Il crimine organizzato (organized crime) è motivato principalmente dal profitto finanziario. Opera come un\'azienda criminale professionale: ransomware, frodi, furto di credenziali. L\'hacktivist è motivato da convinzioni politiche; l\'insider threat da vendetta o opportunismo; lo Shadow IT non è un attore ostile.'},
+{id:'SCREEN_086',text:'A department is not using the company VPN when accessing various company-related services and systems. Which of the following scenarios describes this activity?',opts:[{id:'A',t:'Espionage',c:false},{id:'B',t:'Data exfiltration',c:false},{id:'C',t:'Nation-state attack',c:false},{id:'D',t:'Shadow IT',c:true}],expl:'Lo Shadow IT descrive l\'uso di tecnologie o pratiche non approvate dall\'IT aziendale senza intenti malevoli. Non usare la VPN aziendale è un esempio classico: il reparto non sta attaccando, sta semplicemente aggirando inconsapevolmente i controlli di sicurezza.'},
+{id:'SCREEN_110',text:'Which of the following threat actors is the most likely to be hired by a foreign government to attack critical systems located in other countries?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Whistleblower',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Unskilled attacker',c:false}],expl:'Il crimine organizzato può essere ingaggiato come mercenario da governi stranieri per attaccare infrastrutture critiche. Non sono "nation-state" perché non sono agenti governativi diretti, ma gruppi criminali pagati. Il focus è sulla natura mercenaria ("hired") piuttosto che sull\'identità statale.'},
+{id:'SCREEN_127',text:'Which of the following threat actors is the most likely to be hired by a foreign government to attack critical systems located in other countries?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Whistleblower',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Unskilled attacker',c:false}],expl:'Variante di SCREEN_110. Il crimine organizzato agisce come mercenario: ha le capacità tecniche e la struttura organizzativa per attacchi sofisticati, e opera per chiunque paghi. Il whistleblower espone illeciti, non attacca sistemi.'},
+{id:'SCREEN_158',text:'Which of the following threat actors is the most likely to use large financial resources to attack critical systems located in other countries?',opts:[{id:'A',t:'Insider',c:false},{id:'B',t:'Unskilled attacker',c:false},{id:'C',t:'Nation-state',c:true},{id:'D',t:'Hacktivist',c:false}],expl:'Le "large financial resources" per attaccare infrastrutture critiche di altri paesi è la firma dei nation-state actor: hanno budget governativo praticamente illimitato e obiettivi strategici nazionali. Organized crime ha risorse significative ma non "large" in senso governativo, e non attacca infrastrutture critiche per obiettivi strategici.'},
+{id:'SCREEN_187',text:'An administrator was notified that a user logged in remotely after hours and copied large amounts of data to a personal device. Which of the following best describes the user\'s activity?',opts:[{id:'A',t:'Penetration testing',c:false},{id:'B',t:'Phishing campaign',c:false},{id:'C',t:'External audit',c:false},{id:'D',t:'Insider threat',c:true}],expl:'Un utente con credenziali legittime che accede dopo l\'orario lavorativo e copia dati su un dispositivo personale → Insider threat. Ha accesso autorizzato ai sistemi (non è un attaccante esterno) ma lo usa per scopi non autorizzati. Non è penetration testing (non autorizzato), né audit (non documentato).'},
+{id:'SCREEN_235',text:'A Chief Information Security Officer (CISO) wants to explicitly raise awareness about the increase of ransomware-as-a-service in a report to the management team. Which of the following best describes the threat actor in the CISO\'s report?',opts:[{id:'A',t:'Insider threat',c:false},{id:'B',t:'Hacktivist',c:false},{id:'C',t:'Nation-state',c:false},{id:'D',t:'Organized crime',c:true}],expl:'Il Ransomware-as-a-Service (RaaS) è il modello di business del crimine organizzato: sviluppano il ransomware, lo "affittano" agli affiliati e dividono i profitti. È una struttura professionale motivata dal guadagno finanziario, caratteristica dell\'organized crime.'},
+{id:'SCREEN_286',text:'Which of the following threat actors is the most likely to be motivated by profit?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Shadow IT',c:false}],expl:'Variante di SCREEN_015. Il profitto finanziario è la motivazione primaria e caratterizzante dell\'organized crime. Shadow IT non è un attore ostile. Hacktivist è motivato da ideologia. Insider threat può essere motivato da vendetta o denaro, ma non è la risposta primaria per "motivated by profit".'},
+{id:'SCREEN_440',text:'A company\'s online shopping website became unusable shortly after midnight on January 30, 2023. When a security analyst reviewed the database server, the analyst noticed the following code used for backing up data: IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END. Which of the following should the analyst do next?',opts:[{id:'A',t:'Check for recently terminated DBAs.',c:true},{id:'B',t:'Review WAF logs for evidence of command injection.',c:false},{id:'C',t:'Scan the database server for malware.',c:false},{id:'D',t:'Search the web server for ransomware notes.',c:false}],expl:'Il codice è una time bomb deliberata inserita nel processo di backup. Non è malware (non c\'è payload malevolo da scansionare), non è SQL injection (non viene dal traffico web), non è ransomware. È sabotaggio da insider: un DBA con accesso privilegiato ha inserito il codice malevolo. Prima azione: verificare i DBA recentemente licenziati.'},
+{id:'SCREEN_444',text:'Which of the following threat actors is the most likely to seek financial gain through the use of ransomware attacks?',opts:[{id:'A',t:'Organized crime',c:true},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Nation-state',c:false},{id:'D',t:'Hacktivists',c:false}],expl:'Gli attacchi ransomware per guadagno finanziario sono la firma dell\'organized crime. I nation-state usano il ransomware più raramente e per scopi disruptivi, non principalmente finanziari. Gli hacktivist usano DDoS e defacement, non ransomware per profitto.'},
+{id:'SCREEN_539',text:'Which of the following threat actors would most likely deface the website of a high-profile music group?',opts:[{id:'A',t:'Unskilled attacker',c:true},{id:'B',t:'Organized crime',c:false},{id:'C',t:'Nation-state',c:false},{id:'D',t:'Insider threat',c:false}],expl:'Il defacement di un sito di un gruppo musicale famoso è un bersaglio ad alta visibilità ma senza valore strategico o finanziario. È tipico dell\'unskilled attacker (script kiddie) che vuole notorietà, dimostrare le proprie capacità, o semplicemente causare disruption senza obiettivi sofisticati.'},
+{id:'SCREEN_569',text:'A government official receives a blank envelope containing photos and a note instructing the official to wire a large sum of money by midnight to prevent the photos from being leaked on the internet. Which of the following best describes the threat actor\'s intent?',opts:[{id:'A',t:'Organized crime',c:false},{id:'B',t:'Philosophical beliefs',c:false},{id:'C',t:'Espionage',c:false},{id:'D',t:'Blackmail',c:true}],expl:'L\'uso di informazioni compromettenti (foto) come leva per estorcere denaro è la definizione di blackmail. La domanda chiede l\'intent (motivazione), non il threat actor. Blackmail non è espionage (che raccoglie informazioni senza interagire con la vittima) né organized crime (che è un attore, non un\'intent). L\'organized crime può usare il blackmail, ma l\'intent specifico è blackmail.'},
+{id:'SCREEN_579',text:'Which of the following actors attacking an organization is the most likely to be motivated by personal beliefs?',opts:[{id:'A',t:'Nation-state',c:false},{id:'B',t:'Organized crime',c:false},{id:'C',t:'Hacktivist',c:true},{id:'D',t:'Insider threat',c:false}],expl:'Le "personal beliefs" (convinzioni personali) sono la motivazione caratterizzante dell\'hacktivist: agisce per promuovere o difendere una causa politica, sociale o ideologica. Nation-state agisce per obiettivi statali; organized crime per profitto; insider threat per vendetta o guadagno.'},
+{id:'SCREEN_691',text:'While a school district is performing state testing, a security analyst notices all internet services are unavailable. The analyst discovers that ARP poisoning is occurring on the network and then terminates access for the host. Which of the following is most likely responsible for this malicious activity?',opts:[{id:'A',t:'Unskilled attacker',c:false},{id:'B',t:'Shadow IT',c:false},{id:'C',t:'Insider threat',c:true},{id:'D',t:'Nation-state',c:false}],expl:'L\'ARP poisoning richiede accesso alla rete locale (LAN). In un distretto scolastico durante i test di stato, l\'attaccante è fisicamente sulla rete interna: probabile studente o dipendente con accesso. Nation-state non prenderebbe di mira un test scolastico. Shadow IT non è malevolo. Unskilled attacker tipicamente opera dall\'esterno.'},
+{id:'SCREEN_726',text:'Which of the following would most likely be a hacktivist\'s motive?',opts:[{id:'A',t:'Financial gain',c:false},{id:'B',t:'Espionage',c:false},{id:'C',t:'Philosophical beliefs',c:true},{id:'D',t:'Revenge',c:false}],expl:'Il motive caratterizzante dell\'hacktivist è le convinzioni filosofiche/politiche (philosophical beliefs): agisce per promuovere una causa ideologica, non per profitto (organized crime), spionaggio (nation-state) o vendetta (insider threat).'}
+];
+
+var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
+contentEl.style.display='none';resultEl.style.display='none';
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.1';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?10:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
+function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
+function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
+function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
+document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
+document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
+nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
+})();
+</script>
+</body>
+</html>

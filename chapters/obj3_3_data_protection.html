@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 3.3 — Proteggere i dati · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 3 — Security Architecture</span>
+  <span>OBJ 3.3 — Proteggere i dati</span>
+</div>
+
+<header>
+  <h1>OBJ 3.3 — Strategie per proteggere i dati (Data Protection Strategies)</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 3 — Security Architecture · Peso esame: 18%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Compare and contrast concepts and strategies to protect data.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">3.3</span> <span class="weight-badge">D3 = 18%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj1_4_cryptography.html">OBJ 1.4 — Crittografia</a> · <a href="obj1_2_fundamental_concepts.html">OBJ 1.2 — CIA, stati dei dati</a></p>
+  <p><strong>Correlati:</strong> <a href="obj2_3_vulnerabilities.html">OBJ 2.3 — Vulnerabilità</a> · <a href="obj3_2_infrastructure.html">OBJ 3.2 — Infrastruttura</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Tipi di dati</div>
+  <a href="#regulated">Regulated</a>
+  <a href="#trade-secret">Trade secret</a>
+  <a href="#intellectual">Intellectual property</a>
+  <a href="#legal">Legal information</a>
+  <a href="#financial">Financial information</a>
+  <a href="#human-readable">Human- / Non-human-readable</a>
+
+  <div class="toc-section">Classificazioni</div>
+  <a href="#classifications">Sensitive · Confidential · Public</a>
+  <a href="#restricted">Restricted · Private · Critical</a>
+  <a href="#dlp-prereq">DLP e classificazione</a>
+
+  <div class="toc-section">Considerazioni</div>
+  <a href="#data-states">Stati dei dati</a>
+  <a href="#sovereignty">Data sovereignty</a>
+  <a href="#geolocation">Geolocation</a>
+
+  <div class="toc-section">Metodi di protezione</div>
+  <a href="#encryption-data">Encryption</a>
+  <a href="#hashing-data">Hashing</a>
+  <a href="#masking-data">Masking</a>
+  <a href="#tokenization-data">Tokenization</a>
+  <a href="#obfuscation-data">Obfuscation</a>
+  <a href="#segmentation-data">Segmentation</a>
+  <a href="#permissions">Permission restrictions</a>
+
+  <div class="toc-section">Gestione del ciclo di vita</div>
+  <a href="#sanitization">Sanitization</a>
+  <a href="#destruction">Destruction / Certification</a>
+
+  <div class="toc-section">Verifica</div>
+  <a href="#quiz-section">Quiz interattivo</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Proteggere i dati: il "cosa" prima del "come"</h2>
+  <p>
+    La protezione dei dati richiede prima di tutto di sapere <em>cosa</em> si sta
+    proteggendo: non tutti i dati hanno lo stesso valore e non tutti richiedono
+    lo stesso livello di protezione. Il processo inizia con l'identificazione dei
+    tipi di dati, passa attraverso la loro classificazione, considera il loro stato
+    corrente (at rest, in transit, in use), e infine applica i metodi di protezione
+    appropriati. Questo capitolo copre l'intera catena, dalla tipologia dei dati
+    ai metodi di distruzione sicura.
+  </p>
+</section>
+
+
+<!-- ══ TIPI DI DATI ═════════════════════════════════════════════ -->
+<section id="data-types">
+  <h2>Tipi di dati (Data Types)</h2>
+  <p>
+    I tipi di dati descrivono la <em>natura</em> delle informazioni: chi ne è
+    proprietario, quali obblighi legali o di business vi sono associati, e quale
+    tipo di danno causerebbe la loro compromissione. La classificazione viene poi
+    applicata sopra questa distinzione tipologica.
+  </p>
+
+  <h3 id="regulated">Regulated (Dati regolamentati)</h3>
+  <p>
+    I <strong>dati regolamentati (regulated data)</strong> sono soggetti a normative
+    legali specifiche che impongono requisiti di protezione, conservazione e notifica
+    delle violazioni. La conformità è obbligatoria — non è una scelta — e le sanzioni
+    per la non conformità possono essere severe.
+  </p>
+  <dl class="termlist">
+    <dt>PHI — Protected Health Information (Informazioni sanitarie protette)</dt>
+    <dd>Qualsiasi informazione relativa alla salute di un individuo che possa identificarlo. Regolamentata da HIPAA negli USA. Esempi: cartelle cliniche, referti medici, informazioni assicurative sanitarie. Il paziente è il titolare dei dati, non la struttura sanitaria.</dd>
+    <dt>PII — Personally Identifiable Information (Informazioni di identificazione personale)</dt>
+    <dd>Qualsiasi informazione che possa identificare direttamente o indirettamente una persona fisica: nome, codice fiscale, indirizzo email, numero di telefono, indirizzo IP, dati biometrici. Regolamentata da GDPR in Europa, CCPA in California, e molte altre normative.</dd>
+    <dt>PCI-DSS — Dati delle carte di pagamento</dt>
+    <dd>Numeri di carte di credito/debito, CVV, PIN. Regolamentati dal PCI-DSS (Payment Card Industry Data Security Standard). Richiedono tokenizzazione, cifratura e restrizioni severe sull'archiviazione.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Dati pazienti ospedalieri: classificazione</strong><br>
+    "Hospital systems administrator needs to protect patient data. Which data classification?"
+    → <strong>Sensitive</strong> (SCREEN_178). I dati dei pazienti sono PHI (Protected
+    Health Information) — una categoria di dati regolamentati. La classificazione
+    appropriata è "Sensitive" perché include dati personali e di salute che richiedono
+    protezione speciale. Non "Private" (che riguarda dati personali generici senza
+    implicazioni sanitarie), non "Critical" (che riguarda i dati la cui perdita causa
+    il maggior impatto operativo).
+  </div>
+
+  <h3 id="trade-secret">Trade secret (Segreto commerciale)</h3>
+  <p>
+    Un <strong>segreto commerciale (trade secret)</strong> è qualsiasi informazione
+    di business che fornisce un vantaggio competitivo e che viene tenuta segreta.
+    A differenza dei brevetti (pubblicamente depositati), i trade secret non hanno
+    scadenza finché rimangono segreti. Esempi classici: la formula della Coca-Cola,
+    gli algoritmi di Google, le ricette di McDonald's. La compromissione di un
+    trade secret può essere catastrofica per l'organizzazione: il vantaggio competitivo
+    costruito in anni di R&D può essere perso in un istante.
+  </p>
+
+  <h3 id="intellectual">Intellectual property (Proprietà intellettuale)</h3>
+  <p>
+    La <strong>proprietà intellettuale (intellectual property — IP)</strong> è il
+    risultato della creatività intellettuale umana protetto da leggi specifiche:
+    brevetti, copyright, marchi registrati, design industriali. I dipendenti del
+    dipartimento R&D (Research and Development) lavorano principalmente con dati
+    di tipo intellectual property nel loro lavoro quotidiano (SCREEN_160): codice
+    sorgente, design di prodotti, ricerche, formule brevettate.
+  </p>
+
+  <h3 id="legal">Legal information (Informazioni legali)</h3>
+  <p>
+    Le <strong>informazioni legali</strong> includono contratti, pareri legali,
+    documenti processuali, corrispondenza con avvocati, accordi di non divulgazione
+    (NDA). Sono protette dal privilegio avvocato-cliente in molte giurisdizioni e
+    la loro divulgazione non autorizzata può compromettere procedimenti legali,
+    svelare strategie di negoziazione, o creare responsabilità legali.
+  </p>
+
+  <h3 id="financial">Financial information (Informazioni finanziarie)</h3>
+  <p>
+    Le <strong>informazioni finanziarie</strong> includono bilanci, proiezioni di
+    ricavo, costi di produzione, budget, dati sull'acquisizione di aziende, e
+    soprattutto i dati di pagamento dei clienti (numeri di carta, dati bancari).
+    Sono soggette a normative finanziarie (SOX per le aziende quotate USA, PCI-DSS
+    per i pagamenti) e la loro divulgazione può creare opportunità di insider trading,
+    frodi finanziarie o perdita di fiducia da parte dei clienti.
+  </p>
+
+  <h3 id="human-readable">Human-readable vs Non-human-readable</h3>
+  <dl class="termlist">
+    <dt>Human-readable (Leggibile dall'uomo)</dt>
+    <dd>Dati che possono essere letti e compresi direttamente da una persona senza strumenti: documenti di testo, PDF, HTML, CSV, immagini. La protezione deve garantire che solo gli utenti autorizzati vi accedano, perché un accesso non autorizzato espone immediatamente il contenuto.</dd>
+    <dt>Non-human-readable (Non leggibile dall'uomo)</dt>
+    <dd>Dati in formati binari, cifrati, compressi o proprietari che richiedono strumenti specifici per essere interpretati: file binari, database proprietari, flussi di protocollo di rete. La protezione si concentra sul controllo degli strumenti che possono interpretarli.</dd>
+  </dl>
+</section>
+
+
+<!-- ══ CLASSIFICAZIONI ══════════════════════════════════════════ -->
+<section id="data-classifications">
+  <h2>Classificazioni dei dati (Data Classifications)</h2>
+  <p>
+    La <strong>classificazione dei dati (data classification)</strong> è il processo
+    di categorizzazione dei dati in base al loro livello di sensibilità e al danno
+    che la loro compromissione causerebbe. La classificazione è il prerequisito
+    fondamentale di qualsiasi sistema DLP (Data Loss Prevention): senza sapere
+    quali dati sono sensibili, il DLP non può proteggere nulla (SCREEN_723).
+    È anche il fondamento delle policy di controllo degli accessi e della scelta
+    dei metodi di protezione appropriati (SCREEN_389).
+  </p>
+  <p>
+    I livelli di classificazione non sono universali — ogni organizzazione definisce
+    i propri — ma SY0-701 usa questi come reference:
+  </p>
+
+  <h3 id="classifications">Sensitive · Confidential · Public</h3>
+  <dl class="termlist">
+    <dt>Sensitive (Sensibile)</dt>
+    <dd>Dati che richiedono protezione speciale per il loro contenuto personale o sanitario: PHI, dati medici, informazioni personali identificabili con impatto su privacy e salute. Il termine "sensitive" nel contesto SY0-701 si riferisce specificamente a dati che includono PII e PHI. Classificazione tipica per dati sanitari (SCREEN_178).</dd>
+    <dt>Confidential (Riservato)</dt>
+    <dd>Dati di business riservati che, se divulgati, causerebbero danno competitivo o legale all'organizzazione: trade secret, proprietà intellettuale, piani strategici, informazioni finanziarie interne. Non destinati al pubblico o a tutti i dipendenti. Un progetto critico per il governo viene classificato come Confidential + Restricted (SCREEN_473).</dd>
+    <dt>Public (Pubblico)</dt>
+    <dd>Dati che possono essere condivisi liberamente senza impatto sulla sicurezza: comunicati stampa, siti web pubblici, rapporti annuali destinati agli investitori. La compromissione non causa danni significativi. Nessun requisito speciale di protezione.</dd>
+  </dl>
+
+  <h3 id="restricted">Restricted · Private · Critical</h3>
+  <dl class="termlist">
+    <dt>Restricted (Ristretto)</dt>
+    <dd>Il livello più alto di protezione nell'organizzazione. Accesso limitato a un numero molto ristretto di persone con necessità esplicita (need-to-know). Esempi: piani militari, segreti di stato, informazioni classificate. La divulgazione non autorizzata causa i danni più gravi. Associato a "Confidential" per progetti governativi critici (SCREEN_473).</dd>
+    <dt>Private (Privato)</dt>
+    <dd>Dati personali di dipendenti o clienti che non sono di natura sanitaria: stipendi, valutazioni delle performance, informazioni di contatto personale, dati HR. Protetti dalle normative sulla privacy ma non necessariamente dalle stesse normative che proteggono i dati sanitari.</dd>
+    <dt>Critical (Critico)</dt>
+    <dd>Dati la cui perdita o indisponibilità causerebbe il maggior impatto operativo sull'organizzazione (SCREEN_310). Non si riferisce alla sensibilità del contenuto, ma all'impatto della sua perdita: se perdi questi dati, l'organizzazione smette di funzionare. Esempi: configurazioni di sistema critiche, database operativi core, dati di continuità operativa.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Sensitive vs Private vs Critical</strong><br>
+    <strong>Sensitive:</strong> il contenuto include PII/PHI — focus sulla privacy e sulla salute della persona.<br>
+    <strong>Private:</strong> dati personali senza implicazioni sanitarie (stipendi, HR) — focus sulla riservatezza personale.<br>
+    <strong>Critical:</strong> l'impatto della perdita è massimo — focus sull'operatività dell'organizzazione, non sul contenuto.<br>
+    "Most impacted when lost" → <strong>Critical</strong> (SCREEN_310). "Patient data" → <strong>Sensitive</strong> (SCREEN_178). "Employee personal information" → <strong>Privacy</strong> (SCREEN_716).
+  </div>
+
+  <h3 id="dlp-prereq">DLP e classificazione dei dati</h3>
+  <p>
+    Un sistema <strong>DLP (Data Loss Prevention)</strong> monitora e blocca il
+    trasferimento non autorizzato di dati sensibili fuori dall'organizzazione.
+    Il prerequisito fondamentale per implementare un DLP efficace è la
+    <strong>classificazione dei dati (data classification)</strong> (SCREEN_723):
+    il DLP deve sapere quali dati sono sensibili per poterli proteggere. Senza
+    classificazione, il DLP non ha baseline da cui partire per determinare cosa
+    bloccare e cosa permettere. La sequenza corretta: classificare prima,
+    poi implementare il DLP.
+  </p>
+</section>
+
+
+<!-- ══ CONSIDERAZIONI GENERALI ══════════════════════════════════ -->
+<section id="general-considerations">
+  <h2>Considerazioni generali sui dati</h2>
+
+  <h3 id="data-states">Stati dei dati (Data States)</h3>
+  <p>
+    I dati esistono in tre stati distinti, ognuno con la sua superficie di attacco
+    e i suoi meccanismi di protezione:
+  </p>
+  <dl class="termlist">
+    <dt>Data at rest (Dati a riposo)</dt>
+    <dd>Dati memorizzati su qualsiasi supporto persistente: dischi rigidi, SSD, database, backup, nastri, cloud storage. Protezione primaria: cifratura del disco (FDE), cifratura del database (TDE), cifratura a livello di file. Scenario: laptop rubato → i dati at rest devono essere cifrati per essere inaccessibili (SCREEN_263, SCREEN_386, SCREEN_700).</dd>
+    <dt>Data in transit (Dati in transito)</dt>
+    <dd>Dati che si muovono su una rete: traffico web, email, trasferimenti VPN, API calls, comunicazioni tra microservizi. Protezione primaria: TLS 1.3, VPN (IPSec), SSH. Una VPN protegge i dati in transito tra sede centrale e filiale (SCREEN_077, SCREEN_226). Cifratura in transito è anche la protezione per dati su infrastrutture geograficamente distribuite (SCREEN_705).</dd>
+    <dt>Data in use (Dati in uso)</dt>
+    <dd>Dati attivamente elaborati in memoria RAM dal processore. È il più difficile da proteggere perché i dati devono essere in chiaro per essere processati. Tecnologie emergenti: Secure Enclave (Intel SGX, ARM TrustZone), crittografia omomorfica (permette calcoli su dati cifrati senza decifrarli). Scenario: database che elabora query → i dati sono in use.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — VPN protegge i dati in transito</strong><br>
+    "VPN between headquarters and branch — what does it protect?" →
+    <strong>Data in transit</strong> (SCREEN_077, SCREEN_226). La VPN crea un tunnel
+    cifrato per il traffico di rete tra i due siti. Non protegge i dati at rest
+    (che sono sui dischi locali) né i dati in use (in memoria durante l'elaborazione).
+    Non è una geographic restriction (quella è una policy di accesso, non di cifratura).
+  </div>
+
+  <h3 id="sovereignty">Data sovereignty (Sovranità dei dati)</h3>
+  <p>
+    La <strong>sovranità dei dati (data sovereignty)</strong> è il principio che
+    i dati sono soggetti alle leggi del paese in cui sono fisicamente archiviati,
+    indipendentemente da dove sono stati generati o di chi è l'organizzazione che
+    li gestisce. Questo ha implicazioni significative per il cloud computing: se
+    i dati di clienti europei vengono archiviati su server AWS in Virginia (USA),
+    potrebbero essere soggetti alle leggi americane (incluso il CLOUD Act che può
+    obbligare i provider USA a fornire dati al governo americano), anche se il GDPR
+    europeo vorrebbe che fossero protetti dalle leggi europee.
+  </p>
+  <p>
+    Per le organizzazioni globali, la data sovereignty richiede di scegliere
+    attentamente la localizzazione geografica dei data center cloud e di comprendere
+    le leggi di tutti i paesi in cui i dati vengono archiviati.
+  </p>
+
+  <h3 id="geolocation">Geolocation (Geolocalizzazione)</h3>
+  <p>
+    La <strong>geolocalizzazione (geolocation)</strong> come controllo dei dati
+    usa la posizione geografica dell'utente per determinare l'accesso alle risorse.
+    È diversa dalla data sovereignty (che riguarda dove sono i dati) perché riguarda
+    dove si trovano gli utenti che vi accedono. Come tecnica di protezione dei dati,
+    permette di bloccare l'accesso da paesi ad alto rischio o di applicare policy
+    diverse in base alla giurisdizione dell'utente. Una geolocation policy è più
+    efficace di data masking o cifratura per bloccare l'accesso da paesi specifici
+    (OBJ 3.1, SCREEN_173).
+  </p>
+</section>
+
+
+<!-- ══ METODI DI PROTEZIONE ═════════════════════════════════════ -->
+<section id="protection-methods">
+  <h2>Metodi di protezione dei dati (Data Protection Methods)</h2>
+  <p>
+    Questi metodi non si escludono a vicenda: un sistema di pagamento potrebbe usare
+    contemporaneamente tokenizzazione (per i numeri di carta), cifratura (per i dati
+    at rest), TLS (per i dati in transito), masking (per i log) e controllo degli
+    accessi (per chi può vedere cosa). La scelta dipende dallo stato dei dati, dal
+    requisito funzionale (reversibilità?), e dal contesto normativo.
+  </p>
+
+  <h3 id="encryption-data">Encryption (Cifratura)</h3>
+  <p>
+    La <strong>cifratura (encryption)</strong> trasforma i dati in formato illeggibile
+    usando un algoritmo matematico e una chiave. È l'unico metodo che garantisce
+    contemporaneamente riservatezza, e con le firme digitali anche integrità e
+    autenticità. La cifratura è <em>reversibile</em> — con la chiave corretta i dati
+    originali sono recuperabili — il che la distingue dall'hashing.
+  </p>
+  <dl class="termlist">
+    <dt>Encryption at rest (Cifratura a riposo)</dt>
+    <dd>FDE sui laptop protegge tutti i dati se il dispositivo viene rubato (SCREEN_263, SCREEN_386, SCREEN_700). TDE (Transparent Data Encryption) cifra i file del database sul disco. Scenario: "bank requires vendors to prevent data loss on stolen laptops" → encryption at rest (SCREEN_263).</dd>
+    <dt>Encryption in transit (Cifratura in transito)</dt>
+    <dd>TLS 1.3 per tutto il traffico web e API. VPN (IPSec) per connessioni site-to-site. "Protect sensitive data in transit across geographically dispersed infrastructure" → encryption (SCREEN_705). È la risposta corretta: più efficace di masking, tokenization o obfuscation per proteggere dati in movimento.</dd>
+    <dt>Full Disk Encryption (FDE)</dt>
+    <dd>"Encrypt all data on employee laptops" → Full disk encryption (SCREEN_700). Non volume (limitato a un volume logico), non partition (limitato a una partizione), non file (troppo granulare per proteggere l'intero sistema). FDE è la soluzione comprensiva per i laptop.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Encryption: le tre domande dirette</strong><br>
+    "Sensitive data at rest — unreadable" → <strong>Encryption</strong> (SCREEN_261).<br>
+    "Prevent data loss on stolen laptops" → <strong>Encryption at rest</strong> (SCREEN_263).<br>
+    "Encrypt all data on employee laptops" → <strong>Full disk encryption</strong> (SCREEN_700).<br>
+    "Protect data in transit across distributed infrastructure" → <strong>Encryption</strong> (SCREEN_705).
+  </div>
+
+  <h3 id="hashing-data">Hashing (Funzione hash)</h3>
+  <p>
+    L'<strong>hashing</strong> produce un digest a lunghezza fissa dall'input.
+    È a <em>senso unico</em> — non è reversibile — quindi non è adatto quando
+    il dato originale deve essere recuperato. È usato per verificare l'integrità
+    dei dati, archiviare le password, e creare fingerprint di file. Non cifra
+    il dato — lo "riassume" in modo non invertibile.
+  </p>
+  <p>
+    Il context è fondamentale: se il requisito è <em>"vedere solo le ultime 4 cifre"</em>
+    di un numero di carta (SCREEN_331), la risposta è <strong>masking</strong>, non
+    hashing (un hash non mostrerebbe le ultime 4 cifre originali). Se il requisito
+    è <em>"proteggere la password nel database"</em>, la risposta è hashing con salt.
+  </p>
+
+  <h3 id="masking-data">Masking (Mascheramento)</h3>
+  <p>
+    Il <strong>data masking (mascheramento dei dati)</strong> sostituisce i dati
+    reali con dati fittizi ma plausibili, o mostra solo una porzione del dato
+    reale. È usato per: proteggere i log che potrebbero contenere dati sensibili
+    (SCREEN_435, SCREEN_515), mostrare parzialmente i dati agli utenti
+    (SCREEN_331: ultime 4 cifre), e creare ambienti di test con dati realistici
+    ma non reali.
+  </p>
+  <dl class="termlist">
+    <dt>Static masking</dt>
+    <dd>Il dato viene sostituito permanentemente nel database: i dati di produzione vengono copiati e mascherati prima di essere forniti agli sviluppatori. Il dato originale non è recuperabile dalla versione mascherata.</dd>
+    <dt>Dynamic masking</dt>
+    <dd>Il dato originale rimane nel database, ma viene mascherato "al volo" quando utenti non autorizzati lo richiedono: l'amministratore vede il numero completo, il call center vede solo le ultime 4 cifre.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Masking: tre scenari</strong><br>
+    (1) "Show only last four numbers on credit card" → <strong>Masking</strong> (SCREEN_331).<br>
+    (2) "Credit card information in a database log file" → <strong>Masking</strong> (SCREEN_435).<br>
+    (3) "Cardholder database logs exposing account numbers" → <strong>Masking</strong> (SCREEN_515).<br>
+    Il masking è la soluzione per nascondere parzialmente i dati nei log e nelle interfacce utente.
+    Non è reversibile nel modo in cui lo è la tokenization (non c'è un vault che mappa
+    dato mascherato → dato originale).
+  </div>
+
+  <h3 id="tokenization-data">Tokenization (Tokenizzazione)</h3>
+  <p>
+    La <strong>tokenizzazione (tokenization)</strong> sostituisce un dato sensibile
+    con un token — un valore casuale privo di relazione matematica con il dato
+    originale. La mappatura token→dato originale è conservata solo nel token vault.
+    È l'unico metodo <em>reversibile</em> che non dipende dalla crittografia:
+    anche se l'attaccante ottiene il token, non può risalire al dato senza accedere
+    al vault.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Tokenization: quando usarla</strong><br>
+    (1) "Reversible technology to protect sensitive information" → <strong>Tokenization</strong>
+    (SCREEN_698). Non hashing (non reversibile), non steganografia (nasconde, non protegge).<br>
+    (2) "Replacing sensitive data with surrogate values" → <strong>Tokenization</strong>
+    (SCREEN_617).<br>
+    (3) "Financial industry to mask sensitive data" → <strong>Tokenization</strong>
+    (SCREEN_719).<br>
+    (4) Legacy system, unencrypted protocol, compensating controls → <strong>Tokenization
+    + SSH tunneling</strong> (SCREEN_096).
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Confronto tra i metodi di protezione</strong><br>
+    <strong>Encryption:</strong> reversibile con chiave, rende illeggibili i dati, protegge at rest e in transit.<br>
+    <strong>Hashing:</strong> NON reversibile, digest a lunghezza fissa, verifica integrità e password storage.<br>
+    <strong>Masking:</strong> nasconde parzialmente (prime X cifre sostituite con *), per log e UI. Non sempre reversibile.<br>
+    <strong>Tokenization:</strong> reversibile solo via vault, sostituisce il dato con un token casuale, per pagamenti e dati regolamentati.
+  </div>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Metodo</th><th>Reversibile?</th><th>Relazione con l'originale</th><th>Uso tipico</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Encryption</td><td>Sì (con chiave)</td><td>Matematica</td><td>Dati at rest, in transit</td></tr>
+      <tr><td class="label">Hashing</td><td>No</td><td>Nessuna (senso unico)</td><td>Password, integrità file</td></tr>
+      <tr><td class="label">Masking</td><td>No (static) / Sì (dynamic)</td><td>Parziale (mostra porzione)</td><td>Log, UI, ambienti test</td></tr>
+      <tr><td class="label">Tokenization</td><td>Sì (solo via vault)</td><td>Nessuna matematica</td><td>Carte di credito, PCI-DSS</td></tr>
+      <tr><td class="label">Obfuscation</td><td>Sì (con strumento)</td><td>Nasconde il significato</td><td>Codice sorgente, IP</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="obfuscation-data">Obfuscation (Offuscamento)</h3>
+  <p>
+    L'<strong>offuscamento (obfuscation)</strong> rende le informazioni difficili
+    da comprendere o da usare senza eliminarle o cifrarle. Nel contesto del software,
+    l'offuscamento del codice sorgente rende il codice molto difficile da leggere
+    e da invertire (decompilare), proteggendo la proprietà intellettuale dell'autore
+    senza usare cifratura (SCREEN_678: proteggere software proprietario durante
+    l'esportazione → obfuscation). Non è una misura di sicurezza robusta da sola
+    — un attaccante determinato può ancora analizzare il codice offuscato — ma
+    aumenta significativamente il costo dell'analisi.
+  </p>
+
+  <h3 id="segmentation-data">Segmentation (Segmentazione per la protezione dei dati)</h3>
+  <p>
+    La <strong>segmentazione (segmentation)</strong> come metodo di protezione dei
+    dati isola i dati sensibili in segmenti di rete separati, accessibili solo a
+    chi ha legittima necessità. È un controllo di accesso basato sulla rete piuttosto
+    che sul singolo dato: invece di cifrare ogni dato sensibile, si crea un confine
+    di rete che limita chi può raggiungere il sistema dove i dati risiedono.
+    Complementa, ma non sostituisce, la cifratura.
+  </p>
+
+  <h3 id="permissions">Permission restrictions (Restrizioni di accesso)</h3>
+  <p>
+    Le <strong>restrizioni di accesso (permission restrictions)</strong> implementano
+    il principio del least privilege sui dati: ogni soggetto ha accesso solo ai
+    dati di cui ha effettivamente bisogno per svolgere le proprie funzioni.
+    Si implementano tramite ACL sul filesystem, permessi del database (GRANT/REVOKE),
+    policy di controllo degli accessi (RBAC, ABAC), e sistemi di gestione delle
+    identità. La combinazione di segmentazione + permission restrictions crea
+    una difesa in profondità per i dati sensibili.
+  </p>
+</section>
+
+
+<!-- ══ GESTIONE DEL CICLO DI VITA ═══════════════════════════════ -->
+<section id="data-lifecycle">
+  <h2>Gestione del ciclo di vita dei dati</h2>
+  <p>
+    La protezione dei dati non termina con la loro creazione — dura per tutto il
+    loro ciclo di vita, inclusa la fase finale di dismissione. Un dato non
+    correttamente eliminato è una vulnerabilità permanente: anche un hard disk
+    "formattato" contiene i dati originali recuperabili con tool forensi.
+  </p>
+
+  <h3 id="sanitization">Sanitization (Bonifica)</h3>
+  <p>
+    La <strong>bonifica (sanitization)</strong> è il processo di rimozione sicura
+    di tutti i dati sensibili da un supporto di memorizzazione in modo che non
+    possano essere recuperati, permettendo il riutilizzo del supporto stesso
+    (SCREEN_425). È distinta dalla distruzione fisica: il supporto è ancora
+    utilizzabile dopo la sanitizzazione.
+  </p>
+  <dl class="termlist">
+    <dt>Overwriting (Sovrascrittura)</dt>
+    <dd>I dati vengono sovrascritti con pattern casuali o predefiniti (es. DoD 5220.22-M: 7 passaggi). Efficace per HDD magnetici. Meno efficace per SSD (la gestione del wear leveling può lasciare copie in celle non mappate).</dd>
+    <dt>Degaussing</dt>
+    <dd>Applicazione di un campo magnetico intenso che cancella i dati su supporti magnetici (HDD, nastri). Rende il supporto inutilizzabile (distrugge anche il servomeccanismo nei moderni HDD). Non efficace su SSD, USB flash, o supporti ottici.</dd>
+    <dt>Cryptographic erasure (Cancellazione crittografica)</dt>
+    <dd>Per i supporti cifrati: basta eliminare la chiave di cifratura. I dati rimangono fisicamente sul disco ma sono permanentemente illeggibili. Molto veloce e pratico per grandi volumi di storage cifrato.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Sanitization per riutilizzo ripetibile</strong><br>
+    "Common data removal option for companies wanting to wipe sensitive data from hard drives
+    in a repeatable manner but allow the hard drives to be reused" →
+    <strong>Sanitization</strong> (SCREEN_425). Non formatting (recuperabile facilmente),
+    non degaussing (il disco non può essere riutilizzato dopo), non defragmentation
+    (non rimuove i dati). La sanitizzazione è la risposta quando il disco deve essere
+    riutilizzato in modo sicuro e ripetibile.
+  </div>
+
+  <h3 id="destruction">Destruction e Certification (Distruzione e Certificazione)</h3>
+  <p>
+    La <strong>distruzione (destruction)</strong> è l'eliminazione fisica del supporto
+    di memorizzazione in modo che i dati non possano essere recuperati: shredding fisico
+    del disco, incenerimento, fusione. È la misura più radicale — il supporto non può
+    essere riutilizzato — ma garantisce la distruzione definitiva dei dati.
+  </p>
+  <p>
+    La <strong>certificazione (certification)</strong> è la documentazione formale
+    che attesta che la distruzione dei dati è avvenuta correttamente e che i dati
+    non sono più recuperabili. È particolarmente importante quando i dati sono
+    soggetti a normative che richiedono la prova della distruzione sicura
+    (es. HIPAA, PCI-DSS, GDPR) (SCREEN_724). Quando una banca deve distruggere
+    dati secondo le normative, l'aspetto più importante della distruzione è la
+    <strong>certificazione</strong> che prova che la distruzione è avvenuta
+    correttamente.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Riassegnare il laptop di un ex dipendente (SCREEN_291)</strong><br>
+    Un amministratore deve riassegnare il laptop di un ex dipendente a un nuovo utente.
+    Le due attività di gestione dei dati da eseguire sono: (1) <strong>Sanitization</strong>
+    — bonifica sicura del disco per rimuovere tutti i dati del precedente utente, e
+    (2) <strong>Certification</strong> — documentare formalmente che la bonifica è
+    avvenuta correttamente. Non "data retention" (si fa quando si conservano i dati,
+    non quando li si elimina), non "destruction" (il laptop deve essere riusato).
+  </div>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 3.3</h2>
+  <div class="chapter-meta">
+    <p><strong>31 domande d'esame</strong> su tipi di dati, classificazioni, stati e metodi di protezione, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 3.3 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 3.3</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Data Classification & DLP</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>La classificazione coerente dei dati sensibili (PHI, PII, Confidential) è il <strong>prerequisito assoluto e imprescindibile</strong> per poter implementare e sintonizzare qualsiasi regola o sistema DLP.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Data Masking: quando si usa?</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Ideale per oscurare parzialmente dati d'esposizione come le cifre delle carte di credito (es: mostrare solo le ultime 4 cifre) o celare stringhe identificative nei file di log.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Tokenization: reversibile col Vault</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Sostituzione di dati d'alto valore con surrogate casuali ("token"). È un processo 100% reversibile solo interrogando l'apposito database sicuro centralizzato (il vault dei token).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Obfuscation del codice sorgente</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Tecnica programmata per rendere codice sorgente ostico da leggere ed analizzare (reverse engineering), tesa a proteggere brevetti e proprietà intellettuale (IP) all'esportazione.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Data at Rest vs Data in Transit</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>At Rest</strong> (su disco): mitigato con FDE (Full Disk Encryption) o TDE dei database.<br><strong>In Transit</strong> (in rete): protetto esclusivamente da tunnel crittografati come VPN e protocolli TLS.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Sanitization vs Destruction</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Sanitization</strong>: sovrascrittura sicura (wiping) per poter riutilizzare il disco con certificazione formale.<br><strong>Destruction</strong>: distruzione fisica assoluta e definitiva (smagnetizzazione o frantumazione).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="obj3_2_infrastructure.html">← OBJ 3.2 — Infrastruttura enterprise</a>
+  <a href="obj3_4_resilience.html" class="secondary">OBJ 3.4 — Resilienza e recovery →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 3.3 · 31 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>31 domande in ordine casuale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 domande casuali</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 3.3</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var Q=[
+{id:'SCREEN_077',text:'An organization is leveraging a VPN between its headquarters and a branch location. Which of the following is the VPN protecting?',opts:[{id:'A',t:'Data in use',c:false},{id:'B',t:'Data in transit',c:true},{id:'C',t:'Geographic restrictions',c:false},{id:'D',t:'Data sovereignty',c:false}],expl:'Una VPN crea un tunnel cifrato per il traffico di rete tra i due siti. Protegge i dati mentre si muovono attraverso la rete (in transit). Non protegge i dati at rest (sui dischi locali) né i dati in use (elaborati in memoria). Le geographic restrictions sono policy di accesso, non di cifratura del traffico.'},
+{id:'SCREEN_096',text:'A security administrator is addressing an issue with a legacy system that communicates data using an unencrypted protocol to transfer sensitive data to a third party. No software updates are available. Which of the following are the most appropriate compensating controls? (Choose two.)',opts:[{id:'A',t:'Tokenization',c:true},{id:'B',t:'Cryptographic downgrade',c:false},{id:'C',t:'SSH tunneling',c:true},{id:'D',t:'Segmentation',c:false},{id:'E',t:'Patch installation',c:false},{id:'F',t:'Data masking',c:false}],expl:'Due compensating controls: SSH tunneling crea un canale cifrato per proteggere i dati in transito anche con il protocollo non cifrato (es. FTP dentro SSH tunnel). Tokenization protegge i dati sensibili sostituendoli con token prima del trasferimento. Il cryptographic downgrade riduce la sicurezza. La patch non è disponibile. La segmentazione non cifra il canale.'},
+{id:'SCREEN_160',text:'Employees in the research and development business unit receive extensive training to ensure they understand how to best protect company data. Which of the following is the type of data these employees are most likely to use in day-to-day work activities?',opts:[{id:'A',t:'Encrypted',c:false},{id:'B',t:'Intellectual property',c:true},{id:'C',t:'Critical',c:false},{id:'D',t:'Data in transit',c:false}],expl:'I dipendenti R&D lavorano principalmente con la proprietà intellettuale dell\'organizzazione: brevetti, design di prodotti, codice sorgente, ricerche. Non è "encrypted" (che descrive uno stato, non un tipo). "Critical" descrive l\'impatto della perdita, non il tipo di dati. "Data in transit" descrive lo stato, non il tipo.'},
+{id:'SCREEN_178',text:'A systems administrator works for a local hospital and needs to ensure patient data is protected and secure. Which of the following data classifications should be used to secure patient data?',opts:[{id:'A',t:'Private',c:false},{id:'B',t:'Critical',c:false},{id:'C',t:'Sensitive',c:true},{id:'D',t:'Public',c:false}],expl:'"Sensitive" è la classificazione appropriata per i dati sanitari dei pazienti (PHI): include PII e PHI che richiedono protezione speciale per la privacy e la salute. "Private" si usa per dati personali generici senza implicazioni sanitarie. "Critical" indica i dati la cui perdita causa il maggior impatto operativo, non necessariamente dati sanitari.'},
+{id:'SCREEN_226',text:'An organization is leveraging a VPN between its headquarters and a branch location. Which of the following is the VPN protecting?',opts:[{id:'A',t:'Data in use',c:false},{id:'B',t:'Data in transit',c:true},{id:'C',t:'Geographic restrictions',c:false},{id:'D',t:'Data sovereignty',c:false}],expl:'Variante di SCREEN_077. La VPN protegge i dati in transito (in transit) cifrando il traffico di rete tra HQ e filiale.'},
+{id:'SCREEN_229',text:'A security consultant needs secure, remote access to a client environment. Which of the following should the security consultant most likely use to gain access?',opts:[{id:'A',t:'EAP',c:false},{id:'B',t:'DHCP',c:false},{id:'C',t:'IPSec',c:true},{id:'D',t:'NAT',c:false}],expl:'IPSec è il protocollo standard per VPN e accesso remoto sicuro: cifra tutto il traffico IP a livello di rete. EAP è un protocollo di autenticazione (usato dentro 802.1X). DHCP assegna indirizzi IP. NAT è per il routing, non per la sicurezza del canale di accesso.'},
+{id:'SCREEN_261',text:'A company must ensure sensitive data at rest is rendered unreadable. Which of the following will the company most likely use?',opts:[{id:'A',t:'Hashing',c:false},{id:'B',t:'Tokenization',c:false},{id:'C',t:'Encryption',c:true},{id:'D',t:'Segmentation',c:false}],expl:'La cifratura rende i dati at rest illeggibili a chiunque non abbia la chiave. L\'hashing è a senso unico e non rende recuperabile il dato originale — non è adatto per proteggere generici dati at rest. La tokenization sostituisce il dato, non lo cifra. La segmentazione limita l\'accesso ma non rende i dati illeggibili.'},
+{id:'SCREEN_263',text:'A bank insists all of its vendors must prevent data loss on stolen laptops. Which of the following strategies is the bank requiring?',opts:[{id:'A',t:'Encryption at rest',c:true},{id:'B',t:'Masking',c:false},{id:'C',t:'Data classification',c:false},{id:'D',t:'Permission restrictions',c:false}],expl:'Se un laptop viene rubato, la cifratura at rest (FDE) è l\'unica misura che protegge i dati: senza la chiave di decifratura, i dati sul disco sono illeggibili. Il masking e le permission restrictions non proteggono se l\'attaccante ha accesso fisico al disco. La classificazione è un prerequisito ma non la strategia di protezione.'},
+{id:'SCREEN_291',text:'A security administrator is reissuing a former employee\'s laptop. Which of the following is the best combination of data handling activities for the administrator to perform? (Choose two.)',opts:[{id:'A',t:'Data retention',c:false},{id:'B',t:'Certification',c:true},{id:'C',t:'Destruction',c:false},{id:'D',t:'Classification',c:false},{id:'E',t:'Sanitization',c:true},{id:'F',t:'Enumeration',c:false}],expl:'Per riassegnare un laptop: Sanitization (bonifica sicura del disco per rimuovere i dati del precedente utente in modo che non siano recuperabili) + Certification (documentazione formale che la bonifica è avvenuta correttamente). Non Destruction (il laptop deve essere riutilizzato). Non Data retention (si conservano i dati, non si eliminano).'},
+{id:'SCREEN_310',text:'Which of the following describes the category of data that is most impacted when it is lost?',opts:[{id:'A',t:'Confidential',c:false},{id:'B',t:'Public',c:false},{id:'C',t:'Private',c:false},{id:'D',t:'Critical',c:true}],expl:'"Critical" descrive i dati la cui perdita o indisponibilità causa il maggior impatto operativo sull\'organizzazione. Non si riferisce alla sensibilità del contenuto, ma all\'impatto della perdita: se perdi questi dati, l\'organizzazione non può funzionare. "Confidential" riguarda la riservatezza del contenuto, non l\'impatto della perdita.'},
+{id:'SCREEN_331',text:'Which of the following methods to secure credit card data is best to use when a requirement is to see only the last four numbers on a credit card?',opts:[{id:'A',t:'Encryption',c:false},{id:'B',t:'Hashing',c:false},{id:'C',t:'Masking',c:true},{id:'D',t:'Tokenization',c:false}],expl:'Il masking è la tecnica che permette di mostrare solo una porzione del dato originale (le ultime 4 cifre) sostituendo il resto con caratteri neutri (es. **** **** **** 4321). L\'encryption non mostrebbe le cifre originali. L\'hashing produce un digest completamente diverso. La tokenization sostituisce l\'intero numero con un token casuale.'},
+{id:'SCREEN_345',text:'A recent penetration test identified that an attacker could flood the MAC address table of network switches. Which of the following would best mitigate this type of attack?',opts:[{id:'A',t:'Load balancer',c:false},{id:'B',t:'Port security',c:true},{id:'C',t:'IPS',c:false},{id:'D',t:'NGFW',c:false}],expl:'Il MAC address table flooding (CAM table overflow) è un attacco in cui si inviano molti frame con MAC sorgenti fittizi per riempire la CAM table dello switch, costringendolo a operare in modalità hub (broadcast di tutti i frame). La port security limita il numero di MAC address appresi per porta, prevenendo questo attacco.'},
+{id:'SCREEN_349',text:'Employees located off-site must have access to company resources in order to complete their assigned tasks. These employees utilize a solution that allows remote access without interception concerns. Which of the following best describes this solution?',opts:[{id:'A',t:'Proxy server',c:false},{id:'B',t:'NGFW',c:false},{id:'C',t:'VPN',c:true},{id:'D',t:'Security zone',c:false}],expl:'Una VPN fornisce accesso remoto sicuro cifrando tutto il traffico tra il dispositivo remoto e la rete aziendale, eliminando le preoccupazioni di intercettazione. Il proxy server media il traffico web ma non crea un tunnel sicuro per tutte le comunicazioni. NGFW è un firewall, non una soluzione di accesso remoto.'},
+{id:'SCREEN_350',text:'A company allows customers to upload PDF documents to its public e-commerce website. Which of the following would a security analyst most likely recommend?',opts:[{id:'A',t:'Utilizing attack signatures in an IDS',c:false},{id:'B',t:'Enabling malware detection through a UTM',c:true},{id:'C',t:'Limiting the affected servers with a load balancer',c:false},{id:'D',t:'Blocking command injections via a WAF',c:false}],expl:'I file PDF caricati dai clienti possono contenere malware incorporato (JavaScript malevolo, exploit PDF). Un UTM con rilevamento malware è la soluzione più appropriata: scansiona i file caricati per malware prima che vengano memorizzati. Il WAF blocca attacchi web (SQLi, XSS) ma non scansiona i file caricati per malware.'},
+{id:'SCREEN_386',text:'A security administrator is working to secure company data on corporate laptops in case the laptops are stolen. Which of the following solutions should the administrator consider?',opts:[{id:'A',t:'Disk encryption',c:true},{id:'B',t:'Data loss prevention',c:false},{id:'C',t:'Operating system hardening',c:false},{id:'D',t:'Boot security',c:false}],expl:'La disk encryption (FDE) protegge tutti i dati sul laptop in caso di furto fisico: senza la chiave, i dati sul disco sono inaccessibili. DLP protegge dalla perdita di dati via rete o email, non dal furto fisico del dispositivo. OS hardening riduce le vulnerabilità software ma non protegge se il disco viene estratto.'},
+{id:'SCREEN_389',text:'Which of the following is the best reason an organization should enforce a data classification policy to help protect its most sensitive information?',opts:[{id:'A',t:'End users will be required to consider the classification of data that can be used in documents.',c:false},{id:'B',t:'The policy will result in the creation of access levels for each level of classification.',c:false},{id:'C',t:'The organization will have the ability to create security requirements based on classification levels.',c:true},{id:'D',t:'Security analysts will be able to see the classification of data within a document before opening it.',c:false}],expl:'Il valore principale della classificazione è permettere all\'organizzazione di creare requisiti di sicurezza differenziati in base al livello di classificazione: i dati "Restricted" richiedono cifratura forte e accesso molto limitato, i dati "Public" non richiedono protezione speciale. La classificazione è il foundation su cui si costruisce tutta la policy di sicurezza dei dati.'},
+{id:'SCREEN_425',text:'Which of the following is a common data removal option for companies that want to wipe sensitive data from hard drives in a repeatable manner but allow the hard drives to be reused?',opts:[{id:'A',t:'Sanitization',c:true},{id:'B',t:'Formatting',c:false},{id:'C',t:'Degaussing',c:false},{id:'D',t:'Defragmentation',c:false}],expl:'La sanitizzazione è la bonifica sicura e ripetibile del disco (sovrascrittura con pattern) che permette il riutilizzo del supporto. Il formatting (formattazione) non rimuove veramente i dati — sono recuperabili con tool forensi. Il degaussing rende il disco inutilizzabile. La deframmentazione riorganizza i file, non li cancella.'},
+{id:'SCREEN_435',text:'Which of the following is used to conceal credit card information in a database log file?',opts:[{id:'A',t:'Tokenization',c:false},{id:'B',t:'Masking',c:true},{id:'C',t:'Hashing',c:false},{id:'D',t:'Obfuscation',c:false}],expl:'Il masking nasconde (sostituisce con caratteri neutri) i dati sensibili nei log file: i numeri di carta vengono mostrati come **** **** **** 4321. La tokenization sostituisce il dato con un token nel sistema transazionale, ma per i log il masking è la tecnica appropriata. L\'hashing produrrebbe un digest incomprensibile e non utile per audit.'},
+{id:'SCREEN_473',text:'A company is developing a critical system for the government and storing project information on a fileshare. Which of the following describes how this data will most likely be classified? (Choose two.)',opts:[{id:'A',t:'Private',c:false},{id:'B',t:'Confidential',c:true},{id:'C',t:'Public',c:false},{id:'D',t:'Operational',c:false},{id:'E',t:'Urgent',c:false},{id:'F',t:'Restricted',c:true}],expl:'Un sistema critico per il governo contiene informazioni sensibili che richiedono: Confidential (riservato, non per il pubblico) e Restricted (accesso molto limitato, solo chi ha need-to-know). Non "Private" (che è per dati personali di individui). Non "Public" (è ovviamente non pubblico). "Operational" e "Urgent" non sono classificazioni standard SY0-701.'},
+{id:'SCREEN_515',text:'An audit reveals that cardholder database logs are exposing account numbers inappropriately. Which of the following mechanisms would help limit the impact of this error?',opts:[{id:'A',t:'Segmentation',c:false},{id:'B',t:'Hashing',c:false},{id:'C',t:'Journaling',c:false},{id:'D',t:'Masking',c:true}],expl:'Il masking applicato ai log del database sostituirebbe i numeri di carta completi con versioni parziali (es. **** **** **** 4321). La segmentazione limita l\'accesso ai sistemi ma non modifica il contenuto dei log. L\'hashing produrrebbe un digest illeggibile utile per integrità ma non per limitare l\'esposizione nei log.'},
+{id:'SCREEN_542',text:'Which of the following is the main consideration when a legacy system that is a critical part of a company\'s infrastructure cannot be replaced?',opts:[{id:'A',t:'Resource provisioning',c:false},{id:'B',t:'Cost',c:false},{id:'C',t:'Single point of failure',c:true},{id:'D',t:'Complexity',c:false}],expl:'Un sistema legacy critico che non può essere sostituito introduce un single point of failure (singolo punto di guasto): se questo sistema va offline (per guasto, attacco ransomware, o qualsiasi problema), il business si ferma. La mancanza di ridondanza è la considerazione principale. Il costo è secondario rispetto al rischio operativo.'},
+{id:'SCREEN_563',text:'A penetration tester finds an unused Ethernet port during an on-site penetration test. Upon plugging a device into the unused port, the penetration tester notices that the machine is assigned an IP address, allowing enumeration of the local network. Which of the following should an administrator implement?',opts:[{id:'A',t:'Port security',c:true},{id:'B',t:'Transport Layer Security',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'Security zones',c:false}],expl:'La port security (o 802.1X) impedisce che dispositivi non autorizzati si connettano tramite porte fisiche libere: la porta deve essere autenticata prima di assegnare un indirizzo IP. TLS cifra le comunicazioni ma non impedisce la connessione. Il proxy server non controlla l\'accesso fisico alla rete.'},
+{id:'SCREEN_617',text:'Which of the following is an example of a data protection strategy that uses tokenization?',opts:[{id:'A',t:'Encrypting databases containing sensitive data',c:false},{id:'B',t:'Replacing sensitive data with surrogate values',c:true},{id:'C',t:'Removing sensitive data from production systems',c:false},{id:'D',t:'Hashing sensitive data in critical systems',c:false}],expl:'La tokenization sostituisce i dati sensibili con "valori surrogati" (surrogate values) — token privi di relazione matematica con il dato originale. Solo il token vault conosce la mappatura. Non è cifratura (non c\'è relazione matematica chiave-dato). Non rimuove i dati (li sostituisce). Non è hashing (il token è invertibile tramite vault).'},
+{id:'SCREEN_678',text:'An organization is preparing to export proprietary software to a customer. Which of the following would be the best way to prevent the loss of intellectual property?',opts:[{id:'A',t:'Code signing',c:false},{id:'B',t:'Obfuscation',c:true},{id:'C',t:'Tokenization',c:false},{id:'D',t:'Blockchain',c:false}],expl:'L\'obfuscation del codice sorgente rende il software molto difficile da decompilare e analizzare, proteggendo la proprietà intellettuale dell\'autore durante l\'esportazione a clienti. Il code signing verifica l\'origine e l\'integrità, non protegge il codice dall\'analisi. La tokenization è per dati, non per codice sorgente.'},
+{id:'SCREEN_698',text:'An organization that handles sensitive information wants to protect the information by using a reversible technology. Which of the following best satisfies this requirement?',opts:[{id:'A',t:'Hardware security module',c:false},{id:'B',t:'Hashing algorithm',c:false},{id:'C',t:'Tokenization',c:true},{id:'D',t:'Steganography',c:false}],expl:'La tokenization è reversibile: il dato originale può essere recuperato tramite il token vault. L\'hashing NON è reversibile (a senso unico). HSM gestisce le chiavi crittografiche, non è un metodo di protezione dei dati in sé. La steganografia nasconde i dati ma non li protegge in modo reversibile strutturato.'},
+{id:'SCREEN_700',text:'A systems administrator needs to encrypt all data on employee laptops. Which of the following encryption levels should be implemented?',opts:[{id:'A',t:'Volume',c:false},{id:'B',t:'Partition',c:false},{id:'C',t:'Full disk',c:true},{id:'D',t:'File',c:false}],expl:'Full disk encryption (FDE) cifra l\'intero contenuto del disco, inclusi OS, file di sistema, e tutti i dati. È la soluzione completa per proteggere i laptop. La cifratura a livello di volume, partizione o file è più granulare ma lascia parti del disco non protette (es. i metadati del filesystem, i file temporanei del sistema operativo).'},
+{id:'SCREEN_705',text:'Which of the following best protects sensitive data in transit across a geographically dispersed infrastructure?',opts:[{id:'A',t:'Encryption',c:true},{id:'B',t:'Masking',c:false},{id:'C',t:'Tokenization',c:false},{id:'D',t:'Obfuscation',c:false}],expl:'La cifratura protegge i dati in transito su reti non fidate che attraversano infrastrutture geograficamente distribuite. TLS e VPN/IPSec sono le implementazioni specifiche. Masking e tokenization modificano il dato, non il canale di trasmissione. Obfuscation rende i dati difficili da capire ma non li protegge da intercettazioni.'},
+{id:'SCREEN_716',text:'A security professional discovers a folder containing an employee\'s personal information on the enterprise\'s shared drive. Which of the following best describes the data type the security professional should use to identify organizational policies concerning the storage of employees\' personal information?',opts:[{id:'A',t:'Legal',c:false},{id:'B',t:'Financial',c:false},{id:'C',t:'Privacy',c:true},{id:'D',t:'Intellectual property',c:false}],expl:'Le informazioni personali dei dipendenti (nome, stipendio, indirizzo, dati HR) rientrano nella categoria "Privacy" dei dati. Le policy organizzative sulla privacy definiscono come tali dati devono essere gestiti, archiviati e protetti. Non "Legal" (che riguarda documenti legali/contratti), non "IP" (che riguarda brevetti/copyright).'},
+{id:'SCREEN_719',text:'Which of the following solutions would most likely be used in the financial industry to mask sensitive data?',opts:[{id:'A',t:'Tokenization',c:true},{id:'B',t:'Hashing',c:false},{id:'C',t:'Salting',c:false},{id:'D',t:'Steganography',c:false}],expl:'Il settore finanziario usa la tokenization per mascherare i dati delle carte di credito: sostituisce i numeri con token privi di valore crittografico, permettendo l\'elaborazione delle transazioni senza conservare i dati reali delle carte. È lo standard PCI-DSS. L\'hashing non è reversibile (non puoi recuperare il numero per completare una transazione).'},
+{id:'SCREEN_723',text:'Which of the following is a prerequisite for a DLP solution?',opts:[{id:'A',t:'Data destruction',c:false},{id:'B',t:'Data sanitization',c:false},{id:'C',t:'Data classification',c:true},{id:'D',t:'Data masking',c:false}],expl:'La classificazione dei dati è il prerequisito fondamentale per un DLP: il sistema DLP deve sapere quali dati sono sensibili per proteggerli. Senza classificazione, il DLP non ha una baseline per determinare cosa bloccare. La sequenza corretta è: classificare i dati → poi implementare il DLP.'},
+{id:'SCREEN_724',text:'A business provides long-term cold storage services to banks required to follow regulator-imposed data retention guidelines. Banks require that data is disposed of in a specific manner at the conclusion of the regulatory threshold. Which of the following aspects of data management is the most important to the bank in the destruction of this data?',opts:[{id:'A',t:'Encryption',c:false},{id:'B',t:'Classification',c:false},{id:'C',t:'Certification',c:true},{id:'D',t:'Procurement',c:false}],expl:'La certification (certificazione) è la documentazione formale che prova che la distruzione dei dati è avvenuta correttamente secondo i requisiti normativi. Per le banche soggette a normative di data retention, la prova documentale della distruzione corretta è fondamentale per audit e conformità regolamentare. La cifratura protegge i dati, non documenta la loro distruzione.'}
+];
+
+var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
+contentEl.style.display='none';resultEl.style.display='none';
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 3.3';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
+function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
+function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
+function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
+document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
+document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
+nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
+})();
+</script>
+</body>
+</html>

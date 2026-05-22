@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 1.3 — Change Management · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 1 — General Security Concepts</span>
+      <span>OBJ 1.3 — Change Management</span>
+    </div>
+
+    <header>
+      <h1>OBJ 1.3 — Gestione delle modifiche (Change Management)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 1 — General Security Concepts · Peso esame: 12%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain the importance of change management processes and the impact to security.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">1.3</span>
+        <span class="weight-badge">D1 = 12%</span>
+      </p>
+      <p>
+        <strong>Prerequisiti:</strong>
+        <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
+        <a href="obj1_2_fundamental_concepts.html">OBJ 1.2 — Concetti fondamentali</a>
+      </p>
+      <p>
+        <strong>Capitoli correlati:</strong>
+        <a href="obj5_1_security_governance.html">OBJ 5.1 — Governance</a> ·
+        <a href="obj4_3_vulnerability_management.html">OBJ 4.3 — Vulnerability Management</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 1.3</div>
+        <a href="#intro">Cos'è il Change Management</a>
+
+        <div class="toc-section">Processi di business</div>
+        <a href="#approval">Approval process</a>
+        <a href="#ownership">Ownership</a>
+        <a href="#stakeholders">Stakeholders</a>
+        <a href="#impact-analysis">Impact analysis</a>
+        <a href="#test-results">Test results</a>
+        <a href="#backout-plan">Backout plan</a>
+        <a href="#maintenance-window">Maintenance window</a>
+        <a href="#sop">Standard operating procedure</a>
+
+        <div class="toc-section">Implicazioni tecniche</div>
+        <a href="#allowlists">Allow lists / Deny lists</a>
+        <a href="#restricted">Restricted activities</a>
+        <a href="#downtime">Downtime</a>
+        <a href="#restarts">Service / App restart</a>
+        <a href="#legacy">Legacy applications</a>
+        <a href="#dependencies">Dependencies</a>
+
+        <div class="toc-section">Documentazione</div>
+        <a href="#diagrams">Updating diagrams</a>
+        <a href="#policies">Updating policies</a>
+        <a href="#version-control">Version control</a>
+
+        <div class="toc-section">Verifica</div>
+        <a href="#quiz-section">Quiz interattivo</a>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ INTRODUZIONE ════════════════════════════════════════ -->
+        <section id="intro">
+          <h2>Cos'è il Change Management e perché è critico per la sicurezza</h2>
+          <p>
+            Il <strong>Change Management (Gestione delle modifiche)</strong> è il processo
+            formalizzato attraverso cui un'organizzazione pianifica, approva, implementa e
+            documenta qualsiasi modifica ai propri sistemi IT. Non si tratta di burocrazia
+            fine a sé stessa: statistiche di settore mostrano che tra il 60% e l'80% delle
+            interruzioni di servizio non pianificate è causato da modifiche mal gestite.
+            Un firewall mal configurato, una patch applicata senza test, una regola ACL
+            errata — queste non sono vulnerabilità introdotte dagli attaccanti ma
+            <em>dall'interno</em>, per mancanza di processo.
+          </p>
+          <p>
+            Per la sicurezza, il change management è doppiamente importante: ogni modifica
+            a un sistema è una potenziale finestra di vulnerabilità. Durante il periodo in
+            cui un sistema è sotto modifica, la sua postura di sicurezza può essere temporaneamente
+            ridotta. Il processo deve garantire che ogni modifica sia valutata per il suo
+            <em>impatto sulla sicurezza</em> prima, durante e dopo l'implementazione.
+          </p>
+
+          <div class="critical">
+            <strong>NODO CRITICO — Sequenza obbligatoria</strong><br>
+            L'esame mette frequentemente alla prova la conoscenza della sequenza corretta.
+            Per qualsiasi modifica a un sistema di produzione — anche una patch ad alta
+            priorità — il primo passo è sempre <strong>creare una richiesta di change
+            control (change control request)</strong>, non applicare direttamente la modifica.
+            Ignorare il processo, anche per urgenze, è una violazione della procedura e
+            può essere fonte di liability per il tecnico.
+          </div>
+        </section>
+
+
+        <!-- ══ PROCESSI DI BUSINESS ═══════════════════════════════ -->
+        <section id="business-processes">
+          <h2>Processi di business che impattano la sicurezza operativa</h2>
+          <p>
+            I seguenti elementi costituiscono il nucleo del processo di change management.
+            Ogni modifica significativa dovrebbe attraversare tutti questi passaggi in sequenza.
+            La loro omissione non solo espone l'organizzazione a rischi tecnici, ma può anche
+            costituire una violazione di compliance (PCI-DSS, SOX, HIPAA richiedono processi
+            di change management documentati).
+          </p>
+
+          <h3 id="approval">Processo di approvazione (Approval Process)</h3>
+          <p>
+            Il <strong>processo di approvazione (approval process)</strong> è il meccanismo
+            formale attraverso cui una modifica proposta ottiene l'autorizzazione a procedere.
+            L'obiettivo è garantire che persone con le competenze adeguate abbiano valutato
+            la modifica prima dell'implementazione, riducendo la probabilità di errori imprevisti.
+            In ambienti regolamentati, l'approvazione deve essere documentata e tracciabile.
+          </p>
+          <dl class="termlist">
+            <dt>Change Advisory Board (CAB)</dt>
+            <dd>Comitato composto da rappresentanti di IT, sicurezza, business e management che valuta e approva le richieste di modifica significative. Non tutte le modifiche richiedono il CAB: le modifiche standard (pre-approvate) possono seguire un percorso più rapido.</dd>
+            <dt>Change Request (CR)</dt>
+            <dd>Documento formale che descrive la modifica proposta, il suo scopo, i rischi associati, il piano di implementazione, il piano di backout e i criteri di successo. È il punto di partenza obbligatorio di qualsiasi modifica.</dd>
+            <dt>Standard change vs Emergency change</dt>
+            <dd>Le modifiche standard (es. patch routine pre-approvate) seguono un percorso semplificato. Le emergency change (es. patch zero-day critica) possono bypassare parte del processo formale, ma devono essere documentate a posteriori — mai ignorate definitivamente.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — "Quale passo prima?"</strong><br>
+            Scenario tipico: "Un tecnico deve applicare una patch ad alta priorità a un sistema
+            di produzione. Qual è il primo passo?" → <strong>Creare una change control request</strong>
+            (opzione C nei test reali: SCREEN_013, SCREEN_169). Non applicare la patch, non
+            isolare il sistema, non spostarlo su un altro segmento. Il processo viene prima,
+            anche per le emergenze.
+          </div>
+
+          <h3 id="ownership">Proprietà (Ownership)</h3>
+          <p>
+            Ogni richiesta di modifica deve avere un <strong>owner (proprietario)</strong>
+            chiaramente identificato: la persona o il team responsabile dell'implementazione,
+            del monitoraggio e dell'esito della modifica. La proprietà non è solo un
+            formalismo burocratico — è il meccanismo che garantisce accountability.
+            Se qualcosa va storto, si sa chi deve rispondere e chi ha l'autorità di decidere
+            se procedere, rinviare o annullare.
+          </p>
+          <p>
+            In ambito sicurezza, l'ownership include anche la responsabilità di verificare
+            che la modifica non degradi la postura di sicurezza del sistema, e di comunicare
+            tempestivamente eventuali problemi durante l'implementazione.
+          </p>
+
+          <h3 id="stakeholders">Parti interessate (Stakeholders)</h3>
+          <p>
+            Gli <strong>stakeholder (parti interessate)</strong> sono tutti i soggetti che
+            hanno un interesse diretto o indiretto nell'esito di una modifica: i team
+            tecnici che la implementano, i reparti di business che usano i sistemi impattati,
+            il team di sicurezza che deve valutare i rischi, il management che approva
+            i costi e il downtime associato.
+          </p>
+          <p>
+            Identificare correttamente tutti gli stakeholder è critico per l'impact analysis:
+            una modifica che sembra limitata a un singolo server potrebbe impattare sistemi
+            di altri reparti tramite dipendenze non documentate. Il coinvolgimento degli
+            stakeholder nella fase di pianificazione riduce le sorprese in fase di
+            implementazione.
+          </p>
+
+          <h3 id="impact-analysis">Analisi dell'impatto (Impact Analysis)</h3>
+          <p>
+            L'<strong>impact analysis (analisi dell'impatto)</strong> è la valutazione
+            sistematica degli effetti che la modifica avrà su sistemi, servizi, utenti
+            e sicurezza. È forse il passaggio più critico del processo: una modifica
+            apparentemente innocua può avere effetti a cascata su sistemi che dipendono
+            da quello modificato, o può introdurre vulnerabilità in componenti che
+            sembravano non correlati.
+          </p>
+          <dl class="termlist">
+            <dt>Impatto sulla disponibilità (Availability impact)</dt>
+            <dd>Il servizio sarà interrotto durante la modifica? Per quanto tempo? Quali utenti saranno impattati? Esistono dipendenze upstream o downstream che cadranno di conseguenza?</dd>
+            <dt>Impatto sulla sicurezza (Security impact)</dt>
+            <dd>La modifica introduce nuove superfici di attacco? Modifica regole di firewall, ACL o policy di autenticazione? Richiede l'apertura temporanea di porte o la disabilitazione di controlli di sicurezza?</dd>
+            <dt>Impatto sulla conformità (Compliance impact)</dt>
+            <dd>La modifica mantiene o altera la conformità con standard regolatori (PCI-DSS, HIPAA, SOX)? Richiede una nuova valutazione di conformità post-implementazione?</dd>
+          </dl>
+
+          <h3 id="test-results">Risultati dei test (Test Results)</h3>
+          <p>
+            Prima di applicare una modifica a un sistema di produzione, deve essere
+            testata in un <strong>ambiente non di produzione (non-production environment)</strong>
+            — tipicamente un ambiente di staging o di test che replica fedelmente la
+            configurazione di produzione. I risultati dei test documentano che la modifica
+            funziona come previsto e che non produce effetti collaterali inattesi.
+          </p>
+          <p>
+            I test devono essere abbastanza rappresentativi del contesto reale da essere
+            significativi. Un test che non include le dipendenze presenti in produzione
+            ha un valore limitato: potrebbero esistere interazioni tra componenti che
+            non emergono in un ambiente isolato.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Il costo di saltare i test</strong><br>
+            Un tecnico aggiunge una regola "deny any" in fondo all'ACL di un firewall
+            senza testare in staging. In produzione, la regola causa l'irraggiungibilità
+            di diversi server aziendali per tre ore durante l'orario lavorativo (SCREEN_175).
+            La causa? Le regole preesistenti non includevano esplicitamente i server interni
+            come permessi, assumendo implicitamente che il "deny any" finale non li colpisse.
+            Un test in staging avrebbe rivelato il problema in 10 minuti. Il costo del downtime
+            supera di gran lunga il tempo necessario per il test.
+          </div>
+
+          <h3 id="backout-plan">Piano di ripristino (Backout Plan)</h3>
+          <p>
+            Il <strong>backout plan (piano di ripristino o rollback)</strong> è la procedura
+            documentata per riportare il sistema allo stato precedente la modifica nel caso
+            in cui l'implementazione fallisca o causi problemi inattesi. Non è un'ammissione
+            di sconfitta — è una misura prudenziale obbligatoria. Qualsiasi modifica a un
+            sistema di produzione deve avere un backout plan approvato prima di poter
+            procedere all'implementazione.
+          </p>
+          <p>
+            Un backout plan efficace include: i passi specifici per il rollback, il tempo
+            stimato necessario per il rollback, i criteri che triggherano il rollback
+            (quando decidere che la modifica ha fallito), e chi ha l'autorità di autorizzare
+            il rollback. Senza questi elementi, il backout plan è una dichiarazione di
+            intenti, non una procedura operativa.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Backout plan all'esame</strong><br>
+            Due domande tipiche: (1) "Quale documento deve presentare un amministratore
+            per dimostrare che il sistema può essere ripristinato?" → <strong>Backout plan</strong>
+            (SCREEN_292). (2) "Qual è una caratteristica di un change management efficace?" →
+            "Avere un backout plan quando una patch fallisce" (SCREEN_017, SCREEN_297).
+            Il backout plan è la risposta corretta ogni volta che lo scenario chiede
+            "cosa fare se la modifica va male".
+          </div>
+
+          <h3 id="maintenance-window">Finestra di manutenzione (Maintenance Window)</h3>
+          <p>
+            La <strong>maintenance window (finestra di manutenzione)</strong> è il periodo
+            di tempo pre-definito e pre-approvato durante il quale le modifiche ai sistemi
+            di produzione possono essere implementate. Viene scelta per minimizzare l'impatto
+            sul business: tipicamente nelle ore notturne, nei weekend, o durante i periodi
+            di bassa attività aziendale.
+          </p>
+          <p>
+            La finestra di manutenzione non è solo una convenienza operativa: è uno strumento
+            di sicurezza. Concentrare le modifiche in periodi controllati permette al personale
+            di sicurezza di monitorare attivamente i sistemi durante le modifiche, di avere
+            il team completo disponibile per rispondere a problemi, e di isolare più facilmente
+            le cause di eventuali incidenti (se qualcosa va storto durante la finestra di
+            manutenzione, la causa è probabilmente la modifica appena applicata).
+          </p>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Maintenance window ≠ Scheduled downtime</strong><br>
+            La <strong>maintenance window</strong> è il periodo durante il quale le modifiche
+            <em>possono</em> essere applicate — non implica necessariamente downtime.
+            Lo <strong>scheduled downtime (downtime pianificato)</strong> è il periodo
+            specifico in cui il sistema è intenzionalmente reso non disponibile per permettere
+            le modifiche. Uno stesso upgrade può avvenire durante una maintenance window
+            senza scheduled downtime (upgrade a caldo) oppure con scheduled downtime
+            (upgrade che richiede il riavvio del servizio).
+          </div>
+
+          <h3 id="sop">Procedura operativa standard (Standard Operating Procedure — SOP)</h3>
+          <p>
+            La <strong>Standard Operating Procedure (SOP)</strong> è un documento che descrive
+            in modo dettagliato e ripetibile i passaggi necessari per eseguire un'attività
+            operativa specifica. Nel contesto del change management, le SOP definiscono come
+            eseguire tipi comuni di modifiche (es. "come applicare una patch a un server
+            Windows", "come aggiornare le regole del firewall") in modo uniforme e conforme
+            alle policy aziendali.
+          </p>
+          <p>
+            Le SOP hanno un doppio valore per la sicurezza: garantiscono che le modifiche
+            siano eseguite in modo prevedibile e riducono la dipendenza dalla conoscenza
+            personale del singolo tecnico. Se un tecnico assente non può essere contattato,
+            un collega può seguire la SOP e eseguire la stessa operazione con lo stesso
+            livello di qualità e sicurezza.
+          </p>
+        </section>
+
+
+        <!-- ══ IMPLICAZIONI TECNICHE ═════════════════════════════ -->
+        <section id="technical-implications">
+          <h2>Implicazioni tecniche (Technical Implications)</h2>
+          <p>
+            Le modifiche ai sistemi IT producono effetti tecnici concreti che devono essere
+            anticipati, gestiti e comunicati. Queste implicazioni tecniche sono spesso
+            la ragione principale per cui le modifiche devono essere pianificate con cura
+            e non applicate improvvisamente.
+          </p>
+
+          <h3 id="allowlists">Allow lists e Deny lists (Liste di autorizzazione e blocco)</h3>
+          <p>
+            Ogni modifica che altera le regole di accesso a un sistema deve considerare
+            l'impatto sulle <strong>allow list (liste di autorizzazione)</strong> e sulle
+            <strong>deny list (liste di blocco)</strong> esistenti. Questi meccanismi
+            controllano quale traffico, quali applicazioni o quali utenti possono interagire
+            con un sistema, e una modifica errata può sia aprire accessi non autorizzati
+            che bloccare accessi legittimi.
+          </p>
+          <dl class="termlist">
+            <dt>Allow list (lista di autorizzazione)</dt>
+            <dd>Approccio "deny by default": solo ciò che è esplicitamente elencato è permesso. Più sicuro per natura — qualsiasi entità non in lista è automaticamente bloccata — ma più costoso da gestire (ogni nuova applicazione legittima deve essere aggiunta manualmente).</dd>
+            <dt>Deny list (lista di blocco)</dt>
+            <dd>Approccio "allow by default": tutto è permesso tranne ciò che è esplicitamente bloccato. Più facile da gestire inizialmente, ma meno sicuro — qualsiasi nuova minaccia non ancora catalogata bypassa automaticamente il controllo. Usato tipicamente dagli antivirus tradizionali (signature-based).</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Allow list vs Whitelist / Deny list vs Blacklist</strong><br>
+            CompTIA SY0-701 usa esclusivamente la terminologia aggiornata:
+            <strong>allow list</strong> (non whitelist) e <strong>deny list</strong>
+            (non blacklist). Nelle domande d'esame, "whitelist" e "blacklist" sono
+            considerati termini obsoleti. Memorizza i nuovi termini — potrebbero
+            essere presenti sia la terminologia corretta che quella obsoleta come
+            distrattori.
+          </div>
+
+          <h3 id="restricted">Attività con restrizioni (Restricted Activities)</h3>
+          <p>
+            Alcune modifiche rientrano nelle cosiddette <strong>restricted activities
+            (attività con restrizioni)</strong>: operazioni che non possono essere eseguite
+            senza autorizzazione esplicita del management, del security team o del CAB,
+            indipendentemente dalla competenza tecnica del richiedente. Esempi tipici:
+            modifiche alle regole del firewall perimetrale, cambiamenti alla configurazione
+            del directory service (Active Directory), modifiche ai sistemi di produzione
+            durante l'orario di punta, e disabilitazione di controlli di sicurezza
+            (es. antivirus, logging).
+          </p>
+          <p>
+            L'obiettivo delle restricted activities non è ostacolare il lavoro tecnico,
+            ma garantire che le operazioni con il maggior potenziale di impatto sulla
+            sicurezza e sulla continuità operativa siano soggette a supervisione aggiuntiva.
+          </p>
+
+          <h3 id="downtime">Downtime pianificato (Scheduled Downtime)</h3>
+          <p>
+            Il <strong>downtime pianificato (scheduled downtime)</strong> è il periodo
+            durante il quale un servizio viene intenzionalmente reso non disponibile per
+            permettere l'implementazione di una modifica. Deve essere comunicato con
+            anticipo a tutti gli stakeholder, documentato nel change request, e limitato
+            alla durata strettamente necessaria.
+          </p>
+          <p>
+            Per la sicurezza, il downtime pianificato ha un'implicazione specifica: durante
+            il periodo di indisponibilità, il servizio non offre protezione. Un sistema
+            di firewall in downtime durante un aggiornamento, ad esempio, può lasciare
+            la rete temporaneamente esposta. Il piano di modifica deve includere misure
+            di mitigazione per il periodo di downtime (es. traffic failover su un sistema
+            secondario, blocco temporaneo del traffico a monte).
+          </p>
+
+          <h3 id="restarts">Riavvio dei servizi e delle applicazioni (Service / Application Restart)</h3>
+          <p>
+            Molte modifiche — aggiornamenti di configurazione, patch, cambi di certificati —
+            richiedono il <strong>riavvio del servizio (service restart)</strong> o
+            dell'<strong>applicazione (application restart)</strong> per essere attivate.
+            Questo crea due problemi distinti che devono essere pianificati:
+          </p>
+          <dl class="termlist">
+            <dt>Interruzione temporanea del servizio</dt>
+            <dd>Anche un riavvio di pochi secondi può interrompere sessioni utente attive, transazioni in corso, o connessioni di rete. In sistemi ad alta disponibilità, il riavvio deve essere gestito con tecniche come il rolling restart (riavvio progressivo di un nodo alla volta) per evitare interruzioni percepibili.</dd>
+            <dt>Stato della configurazione prima/dopo il riavvio</dt>
+            <dd>Alcune configurazioni sono attive "in memoria" e non vengono persistite su disco finché non si esegue un comando esplicito di salvataggio (es. "write memory" su router Cisco). Un riavvio imprevisto dopo una modifica non salvata può ripristinare la configurazione precedente, vanificando la modifica o, peggio, lasciando il sistema in uno stato ibrido.</dd>
+          </dl>
+
+          <h3 id="legacy">Applicazioni legacy (Legacy Applications)</h3>
+          <p>
+            Le <strong>applicazioni legacy</strong> sono sistemi software e hardware obsoleti
+            che l'organizzazione non può aggiornare o sostituire nel breve termine, tipicamente
+            per motivi di costo, dipendenza da funzionalità non disponibili nelle versioni
+            moderne, o integrazione con hardware specifico non più prodotto. Dal punto di
+            vista del change management, le applicazioni legacy rappresentano il rischio
+            maggiore:
+          </p>
+          <dl class="termlist">
+            <dt>Incompatibilità con le patch</dt>
+            <dd>Una patch applicata a un componente del sistema può rompere la compatibilità con un'applicazione legacy che dipende da una versione specifica di una libreria o di un protocollo. Il testing in ambiente non-production è particolarmente critico quando sono presenti applicazioni legacy.</dd>
+            <dt>Impossibilità di aggiornare</dt>
+            <dd>Alcune applicazioni legacy non ricevono più patch di sicurezza dal vendor (End of Life / End of Support). In questo caso, il change management deve prevedere controlli compensativi (es. VLAN isolate, WAF, monitoring rinforzato) — non l'aggiornamento diretto.</dd>
+            <dt>Documentazione scarsa o assente</dt>
+            <dd>I sistemi legacy spesso non hanno documentazione aggiornata delle loro dipendenze, configurazioni e interazioni. Questo rende l'impact analysis più difficile e aumenta il rischio di effetti collaterali imprevisti.</dd>
+          </dl>
+
+          <h3 id="dependencies">Dipendenze (Dependencies)</h3>
+          <p>
+            Le <strong>dipendenze (dependencies)</strong> sono le relazioni tra componenti
+            di un sistema IT: il componente A dipende dal componente B se A non può
+            funzionare correttamente senza B. Una modifica al componente B impatta
+            automaticamente tutti i componenti che dipendono da esso. L'identificazione
+            completa delle dipendenze è uno degli obiettivi principali dell'impact analysis.
+          </p>
+          <p>
+            In ambienti complessi, le dipendenze possono essere a più livelli: un'applicazione
+            web dipende da un application server, che dipende da un database, che dipende
+            da un sistema di storage, che dipende da un sistema di networking. Una modifica
+            all'infrastruttura di storage può impattare inaspettatamente l'applicazione web
+            attraverso questa catena di dipendenze.
+          </p>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Dipendenze non documentate e downtime a cascata</strong><br>
+            Un amministratore aggiorna il certificato TLS di un server interno di
+            autenticazione (LDAP). Il certificato vecchio scade, quello nuovo viene installato.
+            Tuttavia, tre applicazioni aziendali che usano LDAP per l'autenticazione erano
+            configurate con il thumbprint del vecchio certificato hardcoded nella loro
+            configurazione. Risultato: le tre applicazioni smettono di autenticare gli utenti
+            simultaneamente. Nessuno sapeva di queste dipendenze perché non erano documentate.
+            L'impact analysis avrebbe rivelato la dipendenza; la documentazione aggiornata
+            avrebbe permesso di aggiornare le applicazioni prima del cambio certificato.
+          </div>
+        </section>
+
+
+        <!-- ══ DOCUMENTAZIONE ═════════════════════════════════════ -->
+        <section id="documentation">
+          <h2>Documentazione (Documentation)</h2>
+          <p>
+            La documentazione è la memoria persistente del sistema IT. Senza di essa, la
+            conoscenza dell'infrastruttura esiste solo nella testa delle persone — e le
+            persone cambiano lavoro, si ammalano, vanno in vacanza. Il change management
+            impone che ogni modifica significativa aggiorni la documentazione rilevante,
+            non come formalità, ma perché la documentazione obsoleta è <em>peggio</em>
+            di nessuna documentazione: porta i tecnici a prendere decisioni basate su
+            informazioni errate.
+          </p>
+
+          <h3 id="diagrams">Aggiornamento dei diagrammi (Updating Diagrams)</h3>
+          <p>
+            I <strong>diagrammi di rete e di architettura (network and architecture diagrams)</strong>
+            devono essere aggiornati ogni volta che una modifica altera la topologia della
+            rete, l'architettura dei sistemi o la configurazione della sicurezza. Un diagramma
+            di rete obsoleto è un rischio operativo concreto: un tecnico che risponde a un
+            incidente a mezzanotte e consulta un diagramma errato può prendere decisioni
+            sbagliate con conseguenze gravi.
+          </p>
+          <dl class="termlist">
+            <dt>Network diagram (diagramma di rete)</dt>
+            <dd>Rappresenta la topologia della rete: switch, router, firewall, VLAN, connessioni WAN/LAN, zone di sicurezza. Deve riflettere la configurazione attuale, non quella pianificata o quella di tre anni fa.</dd>
+            <dt>Architecture diagram (diagramma architetturale)</dt>
+            <dd>Rappresenta le relazioni tra i componenti applicativi: server, database, microservizi, API, sistemi di autenticazione. Critico per comprendere le dipendenze e per il troubleshooting degli incidenti.</dd>
+            <dt>Data flow diagram (diagramma del flusso dati)</dt>
+            <dd>Mostra come i dati si muovono attraverso i sistemi. Essenziale per le valutazioni di sicurezza, per identificare dove i dati sensibili transitano e dove devono essere applicati controlli di riservatezza.</dd>
+          </dl>
+
+          <h3 id="policies">Aggiornamento di policy e procedure (Updating Policies/Procedures)</h3>
+          <p>
+            Alcune modifiche richiedono non solo l'aggiornamento della documentazione tecnica
+            ma anche la revisione delle <strong>policy e delle procedure</strong> aziendali.
+            Ad esempio, l'adozione di un nuovo sistema di autenticazione MFA richiede
+            l'aggiornamento della policy password, dell'AUP, e delle procedure di onboarding
+            per i nuovi dipendenti. Un nuovo sistema di backup richiede l'aggiornamento
+            delle procedure di DR e dei contratti SLA.
+          </p>
+          <p>
+            Le policy e le procedure devono riflettere il modo in cui i sistemi operano
+            realmente — non il modo in cui erano stati progettati di operare anni fa.
+            Una discrepanza tra policy e realtà operativa è una vulnerabilità: i dipendenti
+            che seguono la policy obsoleta si comportano in modo non conforme alla realtà,
+            e i controlli basati su quella policy non funzionano come previsto.
+          </p>
+
+          <h3 id="version-control">Controllo delle versioni (Version Control)</h3>
+          <p>
+            Il <strong>controllo delle versioni (version control)</strong> è il processo
+            e la tecnologia che tracciano le modifiche ai file nel tempo, permettendo di
+            vedere chi ha modificato cosa e quando, confrontare versioni diverse, e
+            ripristinare versioni precedenti. Non riguarda solo il codice sorgente:
+            si applica anche a configurazioni di sistema, policy, procedure, script
+            di automazione e qualsiasi documento che subisce revisioni nel tempo.
+          </p>
+          <dl class="termlist">
+            <dt>Git e sistemi di version control distribuiti</dt>
+            <dd>Git è il sistema di version control più diffuso. Ogni modifica è un "commit" con autore, timestamp e messaggio descrittivo. I branch permettono di sviluppare modifiche in isolamento prima di integrarle nel branch principale (main/master). I repository remoti (GitHub, GitLab, Bitbucket) fungono da backup e punto di collaborazione.</dd>
+            <dt>Branch protection requirements</dt>
+            <dd>Regole che impediscono modifiche dirette ai branch critici (es. main, production) senza una pull request approvata da almeno un reviewer. Un cambio di codice su un sistema critico senza review è l'equivalente software di applicare una patch senza change management.</dd>
+            <dt>Version control per la documentazione</dt>
+            <dd>Policy, procedure e configurazioni devono anch'esse essere soggette a version control. Uno strumento come Git applicato a file Markdown o YAML permette di tracciare chi ha cambiato una policy e perché, e di ripristinare versioni precedenti se una modifica si rivela problematica.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Version control e SDLC</strong><br>
+            Quando lo scenario descrive documenti o contratti che hanno subito multiple
+            revisioni e chiede come tracciarle → <strong>version control</strong> (SCREEN_356).
+            Quando lo scenario menziona il ciclo di vita del software e chiede cosa include
+            l'SDLC → <strong>branch protection requirements</strong> (SCREEN_437): le branch
+            protection rules sono un controllo tecnico che applica il change management
+            direttamente nel processo di sviluppo software.
+          </div>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 1.3</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>15 domande d'esame</strong> sul processo di change management, backout
+              planning, version control e implicazioni tecniche delle modifiche, con feedback
+              immediato e spiegazione in italiano.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 1.3 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 1.3</h2>
+          <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è il primo passo prima di applicare una modifica?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Inviare ufficialmente una fidata <strong>Change Control Request</strong> (richiesta di modifica). Mai implementare modifiche direttamente in produzione senza pianificazione ed approvazione.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cos'è il Backout Plan (piano di ripristino)?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La procedura documentata e testata pass-pass per <strong>ripristinare</strong> il sistema allo stato originale funzionante (rollback) nel caso in cui l'aggiornamento pianificato fallisca.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Maintenance Window vs Scheduled Downtime</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Maintenance Window</strong>: finestra temporale autorizzata per fare modifiche.<br><strong>Scheduled Downtime</strong>: il tempo effettivo in cui il servizio è disattivato intenzionalmente.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Allow List vs Deny List</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Allow List</strong>: approvazione esplicita (Default Deny - massima sicurezza).<br><strong>Deny List</strong>: blocco esplicito (Default Allow - vulnerabile). Nota: non usare termini obsoleti come whitelist/blacklist.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Come si gestiscono i Legacy Systems vulnerabili?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Non forzando patch incompatibili, bensì applicando <strong>controlli compensativi</strong> (es. segmentazione di rete, VLAN isolata con firewall o sonde di monitoraggio dedicate).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SOP (Standard Operating Procedure)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Procedure operative standardizzate, chiare, scritte e ripetibili che garantiscono coerenza, limitando gli errori umani durante le modifiche di configurazione.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="obj1_2_fundamental_concepts.html">← OBJ 1.2 — Concetti fondamentali</a>
+          <a href="obj1_4_cryptography.html" class="secondary">OBJ 1.4 — Crittografia →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 1.3 · 15 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>15 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 1.3</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  const Q = [
+    {
+      id: 'SCREEN_013',
+      text: 'A technician needs to apply a high-priority patch to a production system. Which of the following steps should be taken first?',
+      opts: [
+        { id: 'A', t: 'Air gap the system', c: false },
+        { id: 'B', t: 'Move the system to a different network segment', c: false },
+        { id: 'C', t: 'Create a change control request', c: true },
+        { id: 'D', t: 'Apply the patch to the system', c: false }
+      ],
+      expl: 'Anche per una patch ad alta priorità, il primo passo obbligatorio è creare una change control request. Il processo di change management viene prima dell\'azione tecnica, anche in caso di urgenza.'
+    },
+    {
+      id: 'SCREEN_017',
+      text: 'Which of the following describes effective change management procedures?',
+      opts: [
+        { id: 'A', t: 'Approving the change after a successful deployment', c: false },
+        { id: 'B', t: 'Having a backout plan when a patch fails', c: true },
+        { id: 'C', t: 'Using a spreadsheet for tracking changes', c: false },
+        { id: 'D', t: 'Using an automatic change control bypass for security updates', c: false }
+      ],
+      expl: 'Un backout plan è il requisito fondamentale di un change management efficace: garantisce che il sistema possa essere ripristinato allo stato precedente se la modifica fallisce. Approvare dopo il deployment è troppo tardi. Il bypass automatico elimina il controllo. Il foglio di calcolo non è una soluzione scalabile.'
+    },
+    {
+      id: 'SCREEN_088',
+      text: 'Which of the following should a security administrator adhere to when setting up a new set of firewall rules?',
+      opts: [
+        { id: 'A', t: 'Disaster recovery plan', c: false },
+        { id: 'B', t: 'Incident response procedure', c: false },
+        { id: 'C', t: 'Business continuity plan', c: false },
+        { id: 'D', t: 'Change management procedure', c: true }
+      ],
+      expl: 'Configurare nuove regole del firewall è una modifica a un sistema di produzione critico → deve seguire la change management procedure. Il DR plan si attiva dopo un disastro. L\'IR procedure si attiva dopo un incidente. Il BCP garantisce la continuità operativa in scenari di crisi.'
+    },
+    {
+      id: 'SCREEN_156',
+      text: 'Which of the following should a security administrator adhere to when setting up a new set of firewall rules?',
+      opts: [
+        { id: 'A', t: 'Disaster recovery plan', c: false },
+        { id: 'B', t: 'Incident response procedure', c: false },
+        { id: 'C', t: 'Business continuity plan', c: false },
+        { id: 'D', t: 'Change management procedure', c: true }
+      ],
+      expl: 'Variante di SCREEN_088. Qualsiasi modifica alla configurazione di sicurezza — incluse le regole firewall — deve seguire la change management procedure per garantire approvazione, test, documentazione e possibilità di rollback.'
+    },
+    {
+      id: 'SCREEN_169',
+      text: 'A technician needs to apply a high-priority patch to a production system. Which of the following steps should be taken first?',
+      opts: [
+        { id: 'A', t: 'Air gap the system', c: false },
+        { id: 'B', t: 'Move the system to a different network segment', c: false },
+        { id: 'C', t: 'Create a change control request', c: true },
+        { id: 'D', t: 'Apply the patch to the system', c: false }
+      ],
+      expl: 'Variante di SCREEN_013. La sequenza corretta è: (1) change control request → (2) approvazione → (3) test in non-production → (4) implementazione in production con backout plan pronto. L\'urgenza non giustifica il bypass del processo.'
+    },
+    {
+      id: 'SCREEN_175',
+      text: 'While troubleshooting a firewall configuration, a technician determines that a "deny any" policy should be added to the bottom of the ACL. The technician updates the policy, but the new policy causes several company servers to become unreachable. Which of the following actions would prevent this issue?',
+      opts: [
+        { id: 'A', t: 'Documenting the new policy in a change request and submitting the request to change management', c: false },
+        { id: 'B', t: 'Testing the policy in a non-production environment before enabling the policy in the production network', c: true },
+        { id: 'C', t: 'Disabling any intrusion prevention signatures on the "deny any" policy prior to enabling the new policy', c: false },
+        { id: 'D', t: 'Including an "allow any" policy above the "deny any" policy', c: false }
+      ],
+      expl: 'Il test in ambiente non-production avrebbe rivelato che la regola "deny any" bloccava i server interni non esplicitamente permessi. La documentazione (opzione A) è necessaria ma non avrebbe prevenuto il problema tecnico: il test sì. Disabilitare IPS o aggiungere "allow any" sono soluzioni tecnicamente errate o controproducenti.'
+    },
+    {
+      id: 'SCREEN_260',
+      text: 'Which of the following best practices gives administrators a set period to perform changes to an operational system to ensure availability and minimize business impacts?',
+      opts: [
+        { id: 'A', t: 'Impact analysis', c: false },
+        { id: 'B', t: 'Scheduled downtime', c: true },
+        { id: 'C', t: 'Backout plan', c: false },
+        { id: 'D', t: 'Change management boards', c: false }
+      ],
+      expl: 'Uno "scheduled downtime" è il periodo pre-definito in cui il sistema è reso temporaneamente non disponibile per permettere le modifiche. Garantisce disponibilità minimizzando l\'impatto sul business concentrando l\'indisponibilità in orari di bassa attività.'
+    },
+    {
+      id: 'SCREEN_292',
+      text: 'A systems administrator would like to deploy a change to a production system. Which of the following must the administrator submit to demonstrate that the system can be restored to a working state in the event of a performance issue?',
+      opts: [
+        { id: 'A', t: 'Backout plan', c: true },
+        { id: 'B', t: 'Impact analysis', c: false },
+        { id: 'C', t: 'Test procedure', c: false },
+        { id: 'D', t: 'Approval procedure', c: false }
+      ],
+      expl: 'Il backout plan è il documento che descrive come ripristinare il sistema allo stato funzionante precedente in caso di problemi. È il requisito specifico per dimostrare che esiste un piano di recupero — diverso dall\'impact analysis (che valuta i rischi) o dal test procedure (che descrive i test).'
+    },
+    {
+      id: 'SCREEN_297',
+      text: 'Which of the following describes effective change management procedures?',
+      opts: [
+        { id: 'A', t: 'Approving the change after a successful deployment', c: false },
+        { id: 'B', t: 'Having a backout plan when a patch fails', c: true },
+        { id: 'C', t: 'Using a spreadsheet for tracking changes', c: false },
+        { id: 'D', t: 'Using an automatic change control bypass for security updates', c: false }
+      ],
+      expl: 'Variante di SCREEN_017. Il backout plan è il requisito fondamentale di qualsiasi change management efficace. Approvare dopo il deployment è tardivo e non preventivo. Il bypass automatico elimina la supervisione. Il foglio di calcolo non è un sistema di change management formale.'
+    },
+    {
+      id: 'SCREEN_356',
+      text: 'After creating a contract for IT contractors, the human resources department changed several clauses. The contract has gone through three revisions. Which of the following processes should the human resources department follow to track revisions?',
+      opts: [
+        { id: 'A', t: 'Version validation', c: false },
+        { id: 'B', t: 'Version changes', c: false },
+        { id: 'C', t: 'Version updates', c: false },
+        { id: 'D', t: 'Version control', c: true }
+      ],
+      expl: 'Il version control è il processo formale per tracciare le revisioni di documenti nel tempo: chi ha modificato cosa, quando, e qual era il contenuto precedente. Si applica a contratti, policy, configurazioni e codice — non solo al software. Le altre opzioni non sono terminologia standard di change management.'
+    },
+    {
+      id: 'SCREEN_416',
+      text: 'During an annual review of the system design, an engineer identified a few issues with the currently released design. Which of the following should be performed next according to best practices?',
+      opts: [
+        { id: 'A', t: 'Risk management process', c: false },
+        { id: 'B', t: 'Product design process', c: false },
+        { id: 'C', t: 'Design review process', c: false },
+        { id: 'D', t: 'Change control process', c: true }
+      ],
+      expl: 'Identificare problemi in un design già rilasciato e volerli correggere costituisce una modifica a un sistema esistente → deve seguire il change control process. Il risk management avviene prima (identifica i rischi, non gestisce le modifiche). Il design review process avviene prima del rilascio, non dopo.'
+    },
+    {
+      id: 'SCREEN_437',
+      text: 'Which of the following topics would most likely be included within an organization\'s SDLC?',
+      opts: [
+        { id: 'A', t: 'Service-level agreements', c: false },
+        { id: 'B', t: 'Information security policy', c: false },
+        { id: 'C', t: 'Penetration testing methodology', c: false },
+        { id: 'D', t: 'Branch protection requirements', c: true }
+      ],
+      expl: 'Le branch protection requirements sono un controllo direttamente integrato nel ciclo di sviluppo software (SDLC): impediscono modifiche non approvate ai branch critici del repository, applicando change management al processo di sviluppo. SLA, policy di sicurezza e pentest methodology sono argomenti correlati ma non specifici dell\'SDLC.'
+    },
+    {
+      id: 'SCREEN_445',
+      text: 'Which of the following would a systems administrator follow when upgrading the firmware of an organization\'s router?',
+      opts: [
+        { id: 'A', t: 'Software development life cycle', c: false },
+        { id: 'B', t: 'Risk tolerance', c: false },
+        { id: 'C', t: 'Certificate signing request', c: false },
+        { id: 'D', t: 'Maintenance window', c: true }
+      ],
+      expl: 'L\'aggiornamento del firmware di un router di produzione è una modifica critica che richiede il riavvio del dispositivo → deve essere eseguita durante una maintenance window per minimizzare l\'impatto sul business. L\'SDLC è per lo sviluppo software. La risk tolerance è un concetto strategico. Il CSR è per i certificati TLS.'
+    },
+    {
+      id: 'SCREEN_621',
+      text: 'Which of the following steps should be taken before mitigating a vulnerability in a production server?',
+      opts: [
+        { id: 'A', t: 'Escalate the issue to the SDLC team', c: false },
+        { id: 'B', t: 'Use the IR plan to evaluate the changes', c: false },
+        { id: 'C', t: 'Perform a risk assessment to classify the vulnerability', c: false },
+        { id: 'D', t: 'Refer to the change management policy', c: true }
+      ],
+      expl: 'Prima di applicare qualsiasi mitigazione a un server di produzione — anche per una vulnerabilità nota — si deve seguire la change management policy. Il risk assessment potrebbe essere già stato fatto (la vulnerabilità è identificata). L\'IR plan si attiva per gli incidenti in corso, non per le patch pianificate. L\'SDLC team non è responsabile delle patch di produzione.'
+    },
+    {
+      id: 'SCREEN_674',
+      text: 'Prior to implementing a design change, the change must go through multiple steps to ensure that it does not cause any security issues. Which of the following is most likely to be one of those steps?',
+      opts: [
+        { id: 'A', t: 'Board review', c: false },
+        { id: 'B', t: 'Service restart', c: false },
+        { id: 'C', t: 'Backout planning', c: true },
+        { id: 'D', t: 'Maintenance', c: false }
+      ],
+      expl: 'Il backout planning è un passo obbligatorio nel processo di change management prima di implementare qualsiasi modifica: garantisce che esista una procedura per tornare allo stato precedente se la modifica causa problemi. Il "board review" non è terminologia standard. Il service restart avviene durante, non prima. La maintenance avviene dopo.'
+    }
+  ];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 1.3';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 10 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+    optionsEl.innerHTML    = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className   = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

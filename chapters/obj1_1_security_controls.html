@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 1.1 — Controlli di sicurezza · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 1 — General Security Concepts</span>
+      <span>OBJ 1.1 — Controlli di sicurezza</span>
+    </div>
+
+    <header>
+      <h1>OBJ 1.1 — Controlli di Sicurezza (Security Controls)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 1 — General Security Concepts · Peso esame: 12% (~11 domande)</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Compare and contrast various types of security controls.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">1.1</span>
+        <span class="weight-badge">D1 = 12%</span>
+      </p>
+      <p><strong>Prerequisiti:</strong> Nessuno — è il capitolo di partenza del dominio.</p>
+      <p>
+        <strong>Capitoli correlati:</strong>
+        <a href="obj1_2_fundamental_concepts.html">OBJ 1.2 — CIA, AAA, Zero Trust</a> ·
+        <a href="obj2_5_mitigation_techniques.html">OBJ 2.5 — Tecniche di mitigazione</a> ·
+        <a href="obj5_1_security_governance.html">OBJ 5.1 — Governance</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Obiettivo 1.1</div>
+        <a href="#intro">Il modello a due assi</a>
+
+        <div class="toc-section">Categorie (Categories)</div>
+        <a href="#cat-technical">↳ Technical</a>
+        <a href="#cat-managerial">↳ Managerial</a>
+        <a href="#cat-operational">↳ Operational</a>
+        <a href="#cat-physical">↳ Physical</a>
+
+        <div class="toc-section">Tipi (Control Types)</div>
+        <a href="#tipo-preventive">↳ Preventive</a>
+        <a href="#tipo-deterrent">↳ Deterrent</a>
+        <a href="#tipo-detective">↳ Detective</a>
+        <a href="#tipo-corrective">↳ Corrective</a>
+        <a href="#tipo-compensating">↳ Compensating</a>
+        <a href="#tipo-directive">↳ Directive</a>
+
+        <div class="toc-section">Sintesi</div>
+        <a href="#matrice">Matrice Categoria × Tipo</a>
+        <a href="#metodo">Metodo per le domande</a>
+        <a href="#insidie">Errori comuni</a>
+
+        <div class="toc-section">Verifica</div>
+        <a href="#quiz-section">Quiz interattivo</a>
+        <a href="#flashcard">Flashcard</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ── INTRODUZIONE ─────────────────────────────────────── -->
+        <section id="intro">
+          <h2>Il modello a due assi (Two-Axis Model)</h2>
+          <p>
+            Un <strong>Controllo di Sicurezza (Security Control)</strong> è qualsiasi misura —
+            tecnica, organizzativa o fisica — implementata per ridurre la probabilità o l'impatto
+            di un evento di sicurezza. Non tutti i controlli sono uguali: un firewall e una policy
+            aziendale sono entrambi controlli, ma operano in modi radicalmente diversi. Per questo
+            CompTIA richiede di classificare ogni controllo lungo <em>due assi ortogonali e
+            indipendenti</em>:
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Asse</th>
+                <th>Domanda a cui risponde</th>
+                <th>Valori possibili</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Categoria (Category)</td>
+                <td><em>Di che natura è il controllo? Chi lo gestisce?</em></td>
+                <td>Technical · Managerial · Operational · Physical</td>
+              </tr>
+              <tr>
+                <td class="label">Tipo (Control Type)</td>
+                <td><em>Quando interviene? Qual è il suo obiettivo funzionale?</em></td>
+                <td>Preventive · Deterrent · Detective · Corrective · Compensating · Directive</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            Un controllo reale porta <strong>un'etichetta da ciascun asse</strong>. Una telecamera
+            CCTV è <em>Physical</em> (categoria) e contemporaneamente <em>Deterrent + Detective</em>
+            (due tipi). Questa doppia classificazione non è ambiguità: è la realtà operativa.
+            L'esame testa la capacità di ragionare su entrambe le dimensioni in modo simultaneo.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Doppia classificazione</strong> — Quando la domanda chiede
+            <em>"quale tipo di controllo?"</em> sta chiedendo la funzione temporale (Preventive,
+            Deterrent…). Quando chiede <em>"quale categoria?"</em> sta chiedendo la natura della
+            misura (Technical, Physical…). Le domande <em>"choose two"</em> spesso chiedono
+            simultaneamente categoria e tipo dello stesso controllo.
+          </div>
+        </section>
+
+
+        <!-- ══ CATEGORIE ════════════════════════════════════════════ -->
+        <section id="categorie">
+          <h2>Le quattro categorie (Categories)</h2>
+          <p>
+            La categoria descrive <em>dove</em> opera il controllo e <em>chi</em> ne è responsabile.
+            È completamente indipendente dall'obiettivo funzionale: due controlli con categorie
+            diverse possono svolgere la stessa funzione, e viceversa. Capire la categoria è il
+            primo passo per classificare qualsiasi controllo.
+          </p>
+
+          <h3 id="cat-technical">Technical (Tecnico)</h3>
+          <p>
+            I <strong>Controlli Tecnici (Technical Controls)</strong> sono implementati tramite
+            software, hardware o sistemi digitali e agiscono in modo <em>automatico</em>, senza
+            richiedere intervento umano per ogni singola decisione. Questo li rende scalabili:
+            un firewall protegge 10.000 utenti con la stessa configurazione che proteggeva 10.
+            Il personale IT li configura e mantiene, ma non "li esegue" manualmente ogni giorno.
+          </p>
+          <dl class="termlist">
+            <dt>Firewall / IDS / IPS</dt>
+            <dd>Analizzano il traffico di rete in tempo reale e applicano regole automaticamente.</dd>
+            <dt>MFA (Multi-Factor Authentication)</dt>
+            <dd>Richiede più prove di identità prima di concedere l'accesso, senza intervento umano.</dd>
+            <dt>EDR (Endpoint Detection and Response)</dt>
+            <dd>Monitora il comportamento degli endpoint e isola automaticamente gli host compromessi.</dd>
+            <dt>SIEM (Security Information and Event Management)</dt>
+            <dd>Aggrega e correla log da sorgenti multiple, genera alert automatici su pattern anomali.</dd>
+            <dt>Crittografia (Encryption) / ACL / Patch di sistema</dt>
+            <dd>Proteggono i dati e limitano gli accessi in modo sistematico e automatizzato.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Technical vs Operational a confronto</strong><br>
+            Un <em>firewall con regole configurate</em> è Technical: valuta e filtra ogni pacchetto
+            automaticamente, 24/7, senza che nessuno debba agire. La <em>revisione manuale
+            settimanale dei suoi log</em> da parte di un amministratore è invece Operational:
+            richiede che una persona dedichi tempo specifico all'attività. Stesso sistema, due
+            categorie di controllo diverse.
+          </div>
+
+          <h3 id="cat-managerial">Managerial (Gestionale)</h3>
+          <p>
+            I <strong>Controlli Gestionali (Managerial Controls)</strong> operano a livello di
+            governance, pianificazione e supervisione. Non producono effetti tecnici diretti,
+            ma definiscono il <em>quadro</em> entro cui tutti gli altri controlli devono operare.
+            Sono il "cervello" strategico della sicurezza: senza di essi, i controlli tecnici e
+            operativi sarebbero non coordinati e non misurabili. L'organizzazione non saprebbe
+            verso quale obiettivo di sicurezza stare muovendo.
+          </p>
+          <dl class="termlist">
+            <dt>Policy di sicurezza (Security Policies)</dt>
+            <dd>Definiscono le regole del gioco: chi può fare cosa, quali standard adottare, quali responsabilità assume ciascun ruolo.</dd>
+            <dt>Risk Assessment / Gap Analysis</dt>
+            <dd>Identificano e misurano i rischi esistenti, evidenziando dove i controlli attuali sono insufficienti.</dd>
+            <dt>Acceptable Use Policy (AUP)</dt>
+            <dd>Documento che stabilisce come i dipendenti possono utilizzare le risorse IT aziendali.</dd>
+            <dt>Framework di compliance (NIST, ISO 27001, SOC 2)</dt>
+            <dd>Strutture di riferimento che guidano l'implementazione e la misurazione dei controlli di sicurezza.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Managerial vs Operational</strong> — La confusione più frequente
+            all'esame. <strong>Managerial</strong> = pianificazione e decisione (chi stabilisce le
+            regole, il documento che le prescrive, chi autorizza una spesa). <strong>Operational</strong>
+            = esecuzione quotidiana (chi applica le regole ogni giorno in modo concreto). Una
+            <em>policy password</em> (documento di governance) è Managerial; la <em>procedura di
+            reset della password</em> eseguita dall'helpdesk è Operational.
+          </div>
+
+          <h3 id="cat-operational">Operational (Operativo)</h3>
+          <p>
+            I <strong>Controlli Operativi (Operational Controls)</strong> sono attuati attraverso
+            processi e attività quotidiane <em>eseguite da persone</em>. Colmano il divario tra le
+            policy (Managerial) e i sistemi automatici (Technical): una policy dice "esegui il
+            backup ogni giorno", ma è un amministratore che fisicamente verifica il completamento
+            del backup o sostituisce i nastri. La loro efficacia dipende dalla disciplina del
+            personale e dalla qualità dei processi definiti — se le persone non li seguono,
+            i controlli falliscono.
+          </p>
+          <dl class="termlist">
+            <dt>Procedure di backup e ripristino</dt>
+            <dd>Attività ripetute regolarmente da tecnici per garantire la disponibilità dei dati.</dd>
+            <dt>Gestione degli incidenti (Incident Response)</dt>
+            <dd>Processi che il team di sicurezza esegue manualmente quando si verifica un evento.</dd>
+            <dt>Formazione anti-phishing (Security Awareness Training)</dt>
+            <dd>Programmi periodici che insegnano agli utenti a riconoscere e segnalare le minacce.</dd>
+            <dt>Change management / Onboarding / Offboarding</dt>
+            <dd>Procedure umane che controllano le modifiche ai sistemi e i diritti di accesso del personale.</dd>
+          </dl>
+
+          <h3 id="cat-physical">Physical (Fisico)</h3>
+          <p>
+            I <strong>Controlli Fisici (Physical Controls)</strong> proteggono l'ambiente fisico
+            e l'accesso corporeo a strutture e hardware. Operano <em>indipendentemente dalla rete</em>:
+            un data center fisicamente esposto è vulnerabile anche con una rete perfettamente
+            configurata. Un attaccante con accesso fisico non controllato può bypassare quasi tutti
+            i controlli logici — ad esempio, può estrarre un disco rigido non cifrato o collegare
+            una chiavetta USB per caricare malware su un sistema air-gapped.
+          </p>
+          <dl class="termlist">
+            <dt>Bollards (barriere antiveicolo)</dt>
+            <dd>Pali di cemento o acciaio che impediscono l'ingresso di veicoli nelle aree riservate.</dd>
+            <dt>Access Control Vestibule (mantrap)</dt>
+            <dd>Anticamera a doppia porta che verifica l'identità di una persona alla volta, impedendo il tailgating.</dd>
+            <dt>Badge RFID / Biometria</dt>
+            <dd>Sistemi di verifica dell'identità che consentono l'accesso fisico solo agli autorizzati.</dd>
+            <dt>CCTV, sensori (infrarossi, ultrasonici, pressione, microonde), illuminazione</dt>
+            <dd>Sistemi che rilevano e/o scoraggiano l'accesso non autorizzato agli spazi fisici.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Le quattro categorie in una frase</strong><br>
+            Technical = <em>automatico via software/hardware</em>.
+            Managerial = <em>governance e pianificazione</em>.
+            Operational = <em>persone che eseguono processi</em>.
+            Physical = <em>ambiente fisico e strutture</em>.
+            Quando leggi uno scenario, fai questa domanda: "Chi o cosa esegue il controllo?"
+            La risposta ti dà la categoria.
+          </div>
+        </section>
+
+
+        <!-- ══ TIPI ═════════════════════════════════════════════════ -->
+        <section id="tipi">
+          <h2>I sei tipi di controllo (Control Types)</h2>
+          <p>
+            Il tipo descrive <em>quando</em> interviene il controllo rispetto all'evento di
+            sicurezza e <em>qual è il suo obiettivo funzionale</em>. La sequenza temporale —
+            <strong>prima · durante · dopo</strong> — è la chiave per distinguerli. I sei tipi
+            non si escludono mutualmente: un singolo controllo fisico può essere
+            contemporaneamente Deterrent e Detective.
+          </p>
+
+          <h3 id="tipo-preventive">Preventive (Preventivo)</h3>
+          <p>
+            Il <strong>Controllo Preventivo (Preventive Control)</strong> agisce <em>prima</em>
+            dell'evento: impedisce che la minaccia si materializzi o che l'accesso non autorizzato
+            avvenga. È il tipo più desiderabile — eliminare il danno alla radice è sempre preferibile
+            al doverlo riparare — ma non sempre è praticabile: sistemi legacy non patchabili,
+            zero-day senza patch disponibile, o vincoli di budget possono rendere necessario
+            ricorrere ad alternative (Compensating).
+          </p>
+          <dl class="termlist">
+            <dt>Technical Preventive</dt>
+            <dd>Firewall che blocca traffico non autorizzato, MFA, patch che chiude una CVE, crittografia, ACL, VPN con tunnel cifrato.</dd>
+            <dt>Managerial Preventive</dt>
+            <dd>Risk assessment che porta a eliminare un rischio, policy di least privilege, procedure di approvazione prima di ogni modifica.</dd>
+            <dt>Operational Preventive</dt>
+            <dd>Formazione anti-phishing che insegna a non cliccare link sospetti, separazione dei compiti (segregation of duties), procedure di change management.</dd>
+            <dt>Physical Preventive</dt>
+            <dd>Serratura biometrica su una porta server, access control vestibule (mantrap), bollards all'ingresso di un parcheggio.</dd>
+          </dl>
+
+          <h3 id="tipo-deterrent">Deterrent (Deterrente)</h3>
+          <p>
+            Il <strong>Controllo Deterrente (Deterrent Control)</strong> scoraggia un potenziale
+            attaccante <em>prima o durante</em> il tentativo, ma non lo blocca fisicamente.
+            Opera sulla <em>percezione del rischio</em>: l'attaccante valuta che il costo
+            o la probabilità di essere scoperto siano troppo elevati per proseguire.
+            La differenza critica rispetto al Preventive è che il Deterrent non impedisce
+            fisicamente l'azione — un attaccante determinato può comunque procedere ignorandolo.
+          </p>
+          <dl class="termlist">
+            <dt>Technical Deterrent</dt>
+            <dd>Banner di login "Questo sistema è monitorato — ogni accesso è registrato e perseguibile legalmente".</dd>
+            <dt>Managerial Deterrent</dt>
+            <dd>Policy con sanzioni disciplinari esplicite e pubblicizzate, minaccia di audit periodici non annunciati.</dd>
+            <dt>Operational Deterrent</dt>
+            <dd>Programma di security awareness visibile e pubblicizzato, pattugliamento perimetrale visibile delle guardie.</dd>
+            <dt>Physical Deterrent</dt>
+            <dd>Telecamera CCTV visibile, cartello "Area videosorvegliata", recinzione alta, illuminazione perimetrale intensa.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Deterrent ≠ Preventive</strong><br>
+            Una <strong>telecamera visibile</strong> è <em>Deterrent</em>: scoraggia
+            psicologicamente ma non ferma fisicamente l'attaccante. Una <strong>serratura
+            biometrica</strong> è <em>Preventive</em>: blocca fisicamente l'accesso
+            indipendentemente dalla volontà dell'attaccante.<br>
+            <strong>Regola pratica:</strong> se l'attaccante può <em>ignorarlo e procedere</em>
+            senza ostacoli fisici → Deterrent. Se il controllo lo <em>blocca materialmente</em>
+            prima che l'azione avvenga → Preventive.
+          </div>
+
+          <h3 id="tipo-detective">Detective (Rilevativo)</h3>
+          <p>
+            Il <strong>Controllo Rilevativo (Detective Control)</strong> identifica e registra
+            eventi di sicurezza <em>mentre accadono o dopo</em> che si sono verificati.
+            Non impedisce l'evento, ma permette l'analisi, la risposta e le indagini forensi.
+            Senza controlli detective, un attacco potrebbe non essere mai scoperto: l'attaccante
+            potrebbe rimanere nell'infrastruttura per mesi (dwell time) senza allertare nessuno.
+          </p>
+          <dl class="termlist">
+            <dt>Technical Detective</dt>
+            <dd>IDS (Intrusion Detection System), SIEM, audit log, File Integrity Monitoring (FIM), NetFlow, analisi del comportamento (UEBA).</dd>
+            <dt>Managerial Detective</dt>
+            <dd>Audit formale periodico, revisione dei report di compliance, revisione delle policy dopo un incident report.</dd>
+            <dt>Operational Detective</dt>
+            <dd>Revisione manuale degli accessi fisici, registro degli ingressi firmato, ronde di sicurezza pianificate.</dd>
+            <dt>Physical Detective</dt>
+            <dd>Registrazione CCTV, sensori (infrarossi, microonde, ultrasonici, pressione), allarme perimetrale.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio pratico — Tre tipi in sequenza dopo un attacco ransomware</strong><br>
+            (1) L'amministratore analizza i log del SIEM per ricostruire il vettore d'ingresso →
+            <strong>Detective</strong>. (2) Ripristina i file cifrati dal backup →
+            <strong>Corrective</strong>. (3) Applica la patch che chiude la vulnerabilità
+            sfruttata dall'attaccante → ora diventa <strong>Preventive</strong> per attacchi
+            futuri. Un solo incidente attiva tre tipi diversi in sequenza temporale precisa.
+          </div>
+
+          <h3 id="tipo-corrective">Corrective (Correttivo)</h3>
+          <p>
+            Il <strong>Controllo Correttivo (Corrective Control)</strong> minimizza il danno e
+            ripristina il sistema a uno stato sicuro <em>dopo</em> un incidente. L'obiettivo non
+            è prevenire — è già troppo tardi per quello — ma limitare le conseguenze e riprendere
+            l'operatività nel minor tempo possibile. Presuppone sempre che un evento negativo sia
+            già avvenuto: senza un incidente precedente, un controllo correttivo non entra in azione.
+          </p>
+          <dl class="termlist">
+            <dt>Technical Corrective</dt>
+            <dd>Ripristino da backup dopo ransomware, patch applicata post-exploit, isolamento automatico di un host infetto da parte di EDR.</dd>
+            <dt>Managerial Corrective</dt>
+            <dd>Attivazione del piano di Incident Response (IR), revisione delle policy dopo un data breach, aggiornamento del risk register.</dd>
+            <dt>Operational Corrective</dt>
+            <dd>Ripristino manuale dei sistemi seguendo le procedure post-incidente, comunicazione agli utenti impattati.</dd>
+            <dt>Physical Corrective</dt>
+            <dd>Sistema antincendio FM-200 o sprinkler che spegne un incendio già sviluppato nel server room.</dd>
+          </dl>
+
+          <h3 id="tipo-compensating">Compensating (Compensativo)</h3>
+          <p>
+            Il <strong>Controllo Compensativo (Compensating Control)</strong> è una misura
+            alternativa adottata quando il controllo primario ideale <em>non può essere
+            implementato</em>, tipicamente per incompatibilità tecnica (sistemi legacy),
+            assenza di patch, o vincoli di budget insuperabili. È documentata formalmente come
+            accettabile nel contesto di un risk assessment, per il periodo in cui il controllo
+            primario rimane non praticabile. Non è mai una soluzione permanente, ma un
+            "ponticello" temporaneo con piano di dismissione.
+          </p>
+          <dl class="termlist">
+            <dt>Technical Compensating</dt>
+            <dd>VLAN isolata per un server legacy non patchabile, bastion host davanti a un sistema vulnerabile, crittografia aggiuntiva su un sistema che non supporta protocolli moderni.</dd>
+            <dt>Managerial Compensating</dt>
+            <dd>Cyber insurance (trasferimento del rischio finanziario) quando un rischio residuo non può essere eliminato tecnicamente.</dd>
+            <dt>Operational Compensating</dt>
+            <dd>Supervisione umana costante di un sistema che non supporta MFA, ispezioni manuali più frequenti in sostituzione di un sistema automatico guasto.</dd>
+            <dt>Physical Compensating</dt>
+            <dd>Guardia di sicurezza di fronte a una stanza il cui badge reader è guasto o non installabile per vincoli strutturali.</dd>
+          </dl>
+
+          <div class="critical">
+            <strong>NODO CRITICO — Compensating vs Preventive: il contesto decide</strong><br>
+            "Isolare un server legacy in una VLAN privata" può ricevere due classificazioni
+            diverse a seconda del wording dello scenario:<br>
+            • La domanda evidenzia che <em>il sistema non può ricevere patch o essere sostituito</em>
+            → il controllo primario ideale non è praticabile → <strong>Compensating</strong>.<br>
+            • La domanda dice solo che <em>si vuole limitare l'accesso a un sistema critico</em>
+            → è un'azione proattiva senza vincoli → <strong>Preventive</strong>.<br>
+            Il <em>perché</em> dell'azione determina il tipo. Leggi sempre l'intero scenario prima
+            di rispondere.
+          </div>
+
+          <h3 id="tipo-directive">Directive (Direttivo)</h3>
+          <p>
+            Il <strong>Controllo Direttivo (Directive Control)</strong> guida il comportamento
+            attraverso regole, policy o obblighi documentati. Non produce effetti tecnici diretti
+            e non blocca fisicamente nessuno: è efficace <em>solo se le persone lo seguono</em>.
+            Stabilisce le aspettative, assegna le responsabilità e fornisce il quadro normativo
+            che rende possibili audit e verifiche di conformità.
+          </p>
+          <dl class="termlist">
+            <dt>Technical Directive</dt>
+            <dd>Banner di login con accettazione obbligatoria delle condizioni d'uso del sistema (Terms and Conditions click-through).</dd>
+            <dt>Managerial Directive</dt>
+            <dd>Acceptable Use Policy (AUP), Information Security Policy, codice etico aziendale, politica di classificazione dei dati.</dd>
+            <dt>Operational Directive</dt>
+            <dd>Standard Operating Procedure (SOP), checklist obbligatorie pre-manutenzione, procedure di escalation degli incidenti.</dd>
+            <dt>Physical Directive</dt>
+            <dd>Cartello "Vietato l'accesso ai non autorizzati — Area videosorvegliata", segnaletica di sicurezza in sala server.</dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Directive vs Managerial: due assi diversi</strong><br>
+            L'AUP è <em>Managerial</em> per <strong>categoria</strong> (emesso dalla governance
+            aziendale, dal management) e <em>Directive</em> per <strong>tipo</strong> (guida il
+            comportamento tramite regole documentate). Una domanda che chiede "quale categoria?"
+            vuole Managerial. Una che chiede "quale tipo?" vuole Directive. Non confondere i due
+            assi: sono indipendenti.
+          </div>
+        </section>
+
+
+        <!-- ══ MATRICE ═══════════════════════════════════════════════ -->
+        <section id="matrice">
+          <h2>Matrice Categoria × Tipo</h2>
+          <p>
+            Riga = categoria · Colonna = tipo. Un controllo può occupare più colonne
+            simultaneamente se svolge più funzioni. Usa questa matrice come strumento di
+            revisione: per ogni cella, sai fornire almeno un esempio concreto?
+          </p>
+
+          <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th>Preventive</th>
+                <th>Deterrent</th>
+                <th>Detective</th>
+                <th>Corrective</th>
+                <th>Compensating</th>
+                <th>Directive</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label">Technical</td>
+                <td>Firewall, MFA, patch, ACL</td>
+                <td>Banner "sistema monitorato"</td>
+                <td>IDS, SIEM, log, FIM</td>
+                <td>EDR isola host, restore da backup</td>
+                <td>VLAN legacy, bastion host</td>
+                <td>Banner accettazione T&amp;C</td>
+              </tr>
+              <tr>
+                <td class="label">Managerial</td>
+                <td>Risk assessment, policy least privilege</td>
+                <td>Policy sanzionatorie, minaccia audit</td>
+                <td>Audit formale, compliance review</td>
+                <td>Piano IR, revisione policy post-breach</td>
+                <td>Cyber insurance</td>
+                <td>AUP, Info Security Policy, SOP</td>
+              </tr>
+              <tr>
+                <td class="label">Operational</td>
+                <td>Anti-phishing training, segregation of duties</td>
+                <td>Security awareness visibile, pattugliamento</td>
+                <td>Revisione manuale accessi, registro ingressi</td>
+                <td>Ripristino manuale post-incidente</td>
+                <td>Supervisione umana su sistema senza MFA</td>
+                <td>SOP, checklist pre-manutenzione</td>
+              </tr>
+              <tr>
+                <td class="label">Physical</td>
+                <td>Serratura biometrica, mantrap, bollards</td>
+                <td>CCTV visibile, cartelli, illuminazione</td>
+                <td>CCTV (registrazione), sensori, allarme</td>
+                <td>FM-200 / sprinkler antincendio</td>
+                <td>Guardia su stanza senza badge reader</td>
+                <td>Cartello "Vietato l'accesso"</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+
+
+        <!-- ── METODO ──────────────────────────────────────────────── -->
+        <section id="metodo">
+          <h2>Metodo sistematico per le domande scenario</h2>
+          <p>
+            Le domande sull'Obiettivo 1.1 presentano quasi sempre uno scenario e chiedono
+            categoria, tipo, o entrambi. Applica questa procedura in due passi prima di guardare
+            le opzioni di risposta: costruire la risposta internamente riduce il rischio di
+            essere ingannati dai distrattori plausibili.
+          </p>
+
+          <h3>Passo 1 — Identifica la categoria (Category)</h3>
+          <dl class="termlist">
+            <dt>Software, hardware o sistema digitale automatico?</dt>
+            <dd>→ <strong>Technical</strong></dd>
+            <dt>Policy, piano, documento di governance, decisione manageriale?</dt>
+            <dd>→ <strong>Managerial</strong></dd>
+            <dt>Persona che esegue un'attività ripetuta ogni giorno?</dt>
+            <dd>→ <strong>Operational</strong></dd>
+            <dt>Oggetto fisico, struttura o ambiente tangibile?</dt>
+            <dd>→ <strong>Physical</strong></dd>
+          </dl>
+
+          <h3>Passo 2 — Identifica il tipo (Control Type)</h3>
+          <dl class="termlist">
+            <dt>Blocca l'azione prima che avvenga fisicamente?</dt>
+            <dd>→ <strong>Preventive</strong></dd>
+            <dt>Scoraggia psicologicamente senza bloccare fisicamente?</dt>
+            <dd>→ <strong>Deterrent</strong></dd>
+            <dt>Rileva e registra l'evento (durante o dopo)?</dt>
+            <dd>→ <strong>Detective</strong></dd>
+            <dt>Ripristina lo stato sicuro dopo l'incidente?</dt>
+            <dd>→ <strong>Corrective</strong></dd>
+            <dt>È un'alternativa perché il controllo primario non è praticabile?</dt>
+            <dd>→ <strong>Compensating</strong></dd>
+            <dt>Stabilisce regole o obblighi comportamentali tramite documenti?</dt>
+            <dd>→ <strong>Directive</strong></dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — "Choose two" e la doppia risposta</strong> — Nelle domande a
+            risposta multipla, di solito una risposta è la <em>categoria</em> e l'altra è il
+            <em>tipo</em> dello stesso controllo. Esempio: VLAN per server end-of-life →
+            <strong>Technical</strong> (categoria) + <strong>Compensating</strong> (tipo).
+            Applica sempre entrambi i passi del metodo prima di selezionare le opzioni.
+          </div>
+        </section>
+
+
+        <!-- ── INSIDIE ─────────────────────────────────────────────── -->
+        <section id="insidie">
+          <h2>Errori comuni all'esame (Common Pitfalls)</h2>
+
+          <dl class="termlist">
+            <dt>1. Telecamere CCTV = Preventive?</dt>
+            <dd>No. Una telecamera visibile = <strong>Physical Deterrent</strong> (scoraggia). La sua registrazione = <strong>Physical Detective</strong> (rileva). Non blocca fisicamente nessuno → non è mai Preventive da sola.</dd>
+
+            <dt>2. AUP = Technical?</dt>
+            <dd>No. L'Acceptable Use Policy è un documento di governance → categoria <strong>Managerial</strong>, tipo <strong>Directive</strong>. Non è software né un'azione quotidiana dell'helpdesk.</dd>
+
+            <dt>3. Segmentazione VLAN = sempre Compensating?</dt>
+            <dd>Dipende dal contesto. Con sistema non patchabile / end-of-life → <strong>Compensating</strong>. Con scopo di limitare l'accesso senza vincoli tecnici → <strong>Preventive</strong>. Il wording dello scenario è determinante.</dd>
+
+            <dt>4. Corrective = Detective?</dt>
+            <dd>No. Detective <em>rileva</em> (es. analizza i log del SIEM). Corrective <em>ripristina</em> (es. restore dal backup). Azioni distinte, eseguite in sequenza dopo un incidente.</dd>
+
+            <dt>5. Un controllo = un solo tipo?</dt>
+            <dd>No. Il badge di accesso è Physical Preventive (blocca chi non ha il badge) e Physical Detective (registra chi entra). Nelle domande "choose two", spesso le risposte corrette sono due tipi dello stesso controllo.</dd>
+
+            <dt>6. Segregation of Duties = Detective?</dt>
+            <dd>No. La separazione dei compiti impedisce che un singolo utente commetta una frode → <strong>Operational Preventive</strong>. Agisce prima del danno tramite un vincolo organizzativo, non lo rileva.</dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE — Lighting (illuminazione): Deterrent o Detective?</strong><br>
+            L'illuminazione perimetrale è <em>entrambi</em>: riduce l'anonimato e scoraggia
+            gli attaccanti (<strong>Deterrent</strong>), e migliora la visibilità per le
+            telecamere abilitando la registrazione (<strong>Detective</strong>). L'esame può
+            chiederti di selezionare entrambi in una domanda "choose two" con Physical controls.
+          </div>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 1.1</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>28 domande d'esame</strong> su categorie e tipi di controllo, con feedback
+              immediato e spiegazione in italiano per ogni risposta.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 1.1 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 1.1</h2>
+          <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>I due assi indipendenti dei controlli di sicurezza</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Categoria</strong> (natura): <em>Technical, Managerial, Operational, Physical</em>.<br><strong>Tipo</strong> (funzione): <em>Preventive, Deterrent, Detective, Corrective, Compensating, Directive</em>. Ogni controllo porta sempre un valore da entrambi gli assi.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Technical vs Operational Controls</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Technical</strong>: basato su hardware/software automatici (firewall, IDS, MFA).<br><strong>Operational</strong>: guidato da procedure quotidiane eseguite da persone (formazione anti-phishing, backup ordinario, change management).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Managerial vs Physical Controls</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Managerial</strong>: governance, policy e risk assessment (AUP, audit).<br><strong>Physical</strong>: protezione tangibile dell'ambiente (bollards, mantrap, recinzioni, CCTV, RFID badge).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Preventive vs Deterrent Controls</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Preventive</strong>: blocca fisicamente o logicamente l'azione prima che avvenga (serratura, firewall).<br><strong>Deterrent</strong>: scoraggia psicologicamente dal compiere l'azione senza bloccarla fisicamente (cartelli, CCTV visibili).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Detective vs Corrective Controls</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Detective</strong>: rileva e registra un incidente durante o dopo che è avvenuto (SIEM, sensori, FIM).<br><strong>Corrective</strong>: ripristina lo stato precedente per rimediare al danno arrecato (restore da backup, isolamento automatico host via EDR).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Compensating vs Directive Controls</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Compensating</strong>: rimedia provvisoriamente a un rischio quando il controllo principale è impraticabile (bastion host, VLAN di isolamento).<br><strong>Directive</strong>: sancisce regole e prescrizioni per plasmare il comportamento (AUP, policy interne, SOP).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Esempio multi-asse: CCTV</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La telecamera a circuito chiuso è classificata come:<br><strong>Physical</strong> (categoria), <strong>Deterrent</strong> (presenza visibile che scoraggia l'intruso), e <strong>Detective</strong> (registrazione del video per indagini successive).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Esempio multi-asse: EDR</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>L'Endpoint Detection &amp; Response (EDR) è classificato come:<br><strong>Technical</strong> (software/automation), <strong>Detective</strong> (analizza i comportamenti alla ricerca di anomalie), e <strong>Corrective</strong> (isola prontamente l'host contagiato).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="../index.html">← Indice generale</a>
+          <a href="obj1_2_fundamental_concepts.html" class="secondary">OBJ 1.2 — CIA, AAA, Zero Trust →</a>
+          <a href="obj2_5_mitigation_techniques.html" class="secondary">OBJ 2.5 — Mitigazione →</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 1.1 · 28 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>28 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 1.1</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct"   class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn"  class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* ── Dati quiz OBJ 1.1 (28 domande d'esame) ─────────────────── */
+  const Q = [
+    { id:'SCREEN_027', text:'Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network?', opts:[{id:'A',t:'Deterrent',c:false},{id:'B',t:'Corrective',c:false},{id:'C',t:'Compensating',c:false},{id:'D',t:'Preventive',c:true}], expl:'La segmentazione impedisce l\'accesso non autorizzato prima che avvenga → Preventive. Se il contesto specifica impossibilità di patching, la risposta diventa Compensating (SCREEN_314).' },
+    { id:'SCREEN_057', text:'What does the "A" in the CIA triad stand for?', opts:[{id:'A',t:'Address',c:false},{id:'B',t:'Availability',c:true},{id:'C',t:'Attack',c:false},{id:'D',t:'Accessibility',c:false}], expl:'CIA = Confidentiality · Integrity · Availability. La A garantisce che sistemi e dati siano accessibili quando necessario.' },
+    { id:'SCREEN_067', text:'Task: Which of the following are correct Mobile Device Security controls? (Select all that apply)', opts:[{id:'A',t:'GPS Tracking',c:true},{id:'B',t:'Remote wipe',c:true},{id:'C',t:'Device Encryption',c:true},{id:'D',t:'Strong Passwords',c:true}], expl:'Tutte e quattro sono controlli validi: GPS Tracking (Detective), Remote wipe (Corrective), Device Encryption (Preventive), Strong Passwords (Preventive).' },
+    { id:'SCREEN_190', text:'Which of the following tools can assist with detecting an employee who has accidentally emailed a file containing a customer\'s PII?', opts:[{id:'A',t:'SCAP',c:false},{id:'B',t:'NetFlow',c:false},{id:'C',t:'Antivirus',c:false},{id:'D',t:'DLP',c:true}], expl:'DLP (Data Loss Prevention) monitora e blocca la trasmissione non autorizzata di dati sensibili → Technical Detective + Preventive. SCAP = compliance scanning. NetFlow = analisi traffico.' },
+    { id:'SCREEN_211', text:'Security controls in a data center are being reviewed to ensure data is properly protected and that human life considerations are included. Which of the following best describes how the controls should be set up?', opts:[{id:'A',t:'Remote access points should fail closed.',c:false},{id:'B',t:'Logging controls should fail open.',c:false},{id:'C',t:'Safety controls should fail open.',c:true},{id:'D',t:'Logical security controls should fail closed.',c:false}], expl:'Controlli di sicurezza fisica per la vita umana devono "fail open": in emergenza le porte si sbloccano per l\'evacuazione. I controlli informatici: fail closed.' },
+    { id:'SCREEN_228', text:'An organization disabled unneeded services and placed a firewall in front of a business-critical legacy system. Which of the following best describes the actions taken by the organization?', opts:[{id:'A',t:'Exception',c:false},{id:'B',t:'Segmentation',c:false},{id:'C',t:'Risk transfer',c:false},{id:'D',t:'Compensating controls',c:true}], expl:'Il sistema è legacy (non modificabile direttamente). Le misure alternative al controllo primario → Compensating controls.' },
+    { id:'SCREEN_232', text:'A security administrator is deploying a DLP solution to prevent the exfiltration of sensitive customer data. Which of the following should the administrator do first?', opts:[{id:'A',t:'Block access to cloud storage websites.',c:false},{id:'B',t:'Create a rule to block outgoing email attachments.',c:false},{id:'C',t:'Apply classifications to the data.',c:true},{id:'D',t:'Remove all user permissions from shares on the file server.',c:false}], expl:'Senza classificazione il DLP non sa cosa proteggere. Primo passo obbligato: identificare e classificare i dati sensibili.' },
+    { id:'SCREEN_239', text:'Which of the following would be the best ways to ensure only authorized personnel can access a secure facility? (Choose two.)', opts:[{id:'A',t:'Fencing',c:false},{id:'B',t:'Video surveillance',c:false},{id:'C',t:'Badge access',c:true},{id:'D',t:'Access control vestibule',c:true},{id:'E',t:'Sign-in sheet',c:false},{id:'F',t:'Sensor',c:false}], expl:'Badge access e access control vestibule (mantrap) sono Physical Preventive: verificano l\'identità e controllano l\'accesso individuale.' },
+    { id:'SCREEN_248', text:'After a recent ransomware attack on a company\'s system, an administrator reviewed the log files. Which of the following control types did the administrator use?', opts:[{id:'A',t:'Compensating',c:false},{id:'B',t:'Detective',c:true},{id:'C',t:'Preventive',c:false},{id:'D',t:'Corrective',c:false}], expl:'Analizzare i log dopo un attacco rileva informazioni su un evento già avvenuto → Detective.' },
+    { id:'SCREEN_275', text:'Visitors to a secured facility are required to check in with a photo ID and enter the facility through an access control vestibule. Which of the following best describes this form of security control?', opts:[{id:'A',t:'Physical',c:true},{id:'B',t:'Managerial',c:false},{id:'C',t:'Technical',c:false},{id:'D',t:'Operational',c:false}], expl:'L\'access control vestibule è un oggetto fisico → categoria Physical. La domanda chiede la categoria, non il tipo.' },
+    { id:'SCREEN_277', text:'Which of the following is the best way to secure an on-site data center against intrusion from an insider?', opts:[{id:'A',t:'Bollards',c:false},{id:'B',t:'Access badge',c:true},{id:'C',t:'Motion sensor',c:false},{id:'D',t:'Video surveillance',c:false}], expl:'Bollards fermano veicoli. Motion sensor e video surveillance = Detective. L\'access badge verifica identità → Physical Preventive + Detective.' },
+    { id:'SCREEN_314', text:'Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network? [Context: cannot be patched]', opts:[{id:'A',t:'Deterrent',c:false},{id:'B',t:'Corrective',c:false},{id:'C',t:'Compensating',c:true},{id:'D',t:'Preventive',c:false}], expl:'Il sistema legacy non può ricevere patch: il controllo primario non è praticabile. La segmentazione è alternativa → Compensating. Stesso scenario di SCREEN_027 ma wording diverso.' },
+    { id:'SCREEN_323', text:'A systems administrator notices that one of the systems critical for processing customer transactions is running an end-of-life operating system. Which of the following techniques would increase enterprise security?', opts:[{id:'A',t:'Installing HIDS on the system',c:false},{id:'B',t:'Placing the system in an isolated VLAN',c:true},{id:'C',t:'Decommissioning the system',c:false},{id:'D',t:'Encrypting the system\'s hard drive',c:false}], expl:'Sistema end-of-life critico: non può essere dismesso. Isolarlo in VLAN riduce la superficie di attacco → Compensating control.' },
+    { id:'SCREEN_341', text:'To improve the security at a data center, a security administrator implements a CCTV system and posts several signs about the possibility of being filmed. Which of the following best describe these types of controls? (Choose two.)', opts:[{id:'A',t:'Preventive',c:false},{id:'B',t:'Deterrent',c:true},{id:'C',t:'Corrective',c:false},{id:'D',t:'Directive',c:false},{id:'E',t:'Compensating',c:false},{id:'F',t:'Detective',c:true}], expl:'I cartelli scoraggiano → Deterrent. Le registrazioni CCTV identificano chi ha agito → Detective.' },
+    { id:'SCREEN_366', text:'A network team segmented a critical, end-of-life server to a VLAN that can only be reached by specific devices but cannot be reached by the perimeter network. Which of the following best describe the controls the team implemented? (Choose two.)', opts:[{id:'A',t:'Managerial',c:false},{id:'B',t:'Physical',c:false},{id:'C',t:'Corrective',c:false},{id:'D',t:'Detective',c:false},{id:'E',t:'Compensating',c:true},{id:'F',t:'Technical',c:true},{id:'G',t:'Deterrent',c:false}], expl:'La VLAN è tecnologia di rete → Technical. Il server è end-of-life, il patching non è praticabile → Compensating.' },
+    { id:'SCREEN_383', text:'Which of the following is considered a preventive control?', opts:[{id:'A',t:'Configuration auditing',c:false},{id:'B',t:'Log correlation',c:false},{id:'C',t:'Incident alerts',c:false},{id:'D',t:'Segregation of duties',c:true}], expl:'Auditing, log correlation e alerts = Detective. La segregation of duties impedisce frodi → Operational Preventive.' },
+    { id:'SCREEN_410', text:'Which of the following physical controls can be used to both detect and deter? (Choose two.)', opts:[{id:'A',t:'Lighting',c:true},{id:'B',t:'Fencing',c:false},{id:'C',t:'Signage',c:false},{id:'D',t:'Sensor',c:true},{id:'E',t:'Bollard',c:false},{id:'F',t:'Lock',c:false}], expl:'Lighting: riduce anonimato (Deterrent) + migliora visibilità telecamere (Detective). Sensor: rileva movimento (Detective) + scoraggia (Deterrent).' },
+    { id:'SCREEN_438', text:'Which of the following control types is AUP an example of?', opts:[{id:'A',t:'Physical',c:false},{id:'B',t:'Managerial',c:true},{id:'C',t:'Technical',c:false},{id:'D',t:'Operational',c:false}], expl:'L\'AUP è un documento di governance → Managerial (categoria). Per tipo è Directive. Non è software né attività quotidiana.' },
+    { id:'SCREEN_466', text:'A company installed cameras and added signs to alert visitors that they are being recorded. Which of the following controls did the company implement? (Choose two.)', opts:[{id:'A',t:'Directive',c:false},{id:'B',t:'Deterrent',c:true},{id:'C',t:'Preventive',c:false},{id:'D',t:'Detective',c:true},{id:'E',t:'Corrective',c:false},{id:'F',t:'Technical',c:false}], expl:'I cartelli scoraggiano → Deterrent. Le telecamere registrano → Detective. La domanda chiede il tipo → Technical è la categoria, non il tipo.' },
+    { id:'SCREEN_476', text:'Which of the following is a preventive physical security control?', opts:[{id:'A',t:'Video surveillance system',c:false},{id:'B',t:'Bollards',c:true},{id:'C',t:'Alarm system',c:false},{id:'D',t:'Motion sensors',c:false}], expl:'Video surveillance = Deterrent + Detective. Alarm e motion sensors = Detective. I bollards bloccano fisicamente i veicoli → Physical Preventive.' },
+    { id:'SCREEN_511', text:'A malicious insider from the marketing team alters records and transfers company funds to a personal account. Which of the following methods would be the best way to secure company records in the future?', opts:[{id:'A',t:'Permission restrictions',c:true},{id:'B',t:'Hashing',c:false},{id:'C',t:'Input validation',c:false},{id:'D',t:'Access control list',c:false}], expl:'Le permission restrictions limitano chi può accedere e modificare i record → Preventive. Hashing verifica integrità ma non impedisce modifiche da chi è autorizzato.' },
+    { id:'SCREEN_543', text:'Which of the following is a compensating control for providing user access to a high-risk website?', opts:[{id:'A',t:'Enabling threat prevention features on the firewall',c:true},{id:'B',t:'Configuring a SIEM tool to capture all web traffic',c:false},{id:'C',t:'Setting firewall rules to allow traffic from any port to that destination',c:false},{id:'D',t:'Blocking that website on the endpoint protection software',c:false}], expl:'L\'utente deve accedere al sito (business need): bloccare non è praticabile. Abilitare threat prevention mitiga il rischio → Compensating. B (SIEM) è Detective.' },
+    { id:'SCREEN_554', text:'An organization needs to determine how many employees are accessing the building each day in order to configure the proper access controls. Which of the following control types best meets this requirement?', opts:[{id:'A',t:'Detective',c:true},{id:'B',t:'Preventive',c:false},{id:'C',t:'Corrective',c:false},{id:'D',t:'Directive',c:false}], expl:'L\'obiettivo è raccogliere dati (chi entra e quando) → Detective. Un badge system con log di accesso soddisfa il requisito.' },
+    { id:'SCREEN_606', text:'An alert references attacks associated with a zero-day exploit. An analyst places a bastion host in the network to reduce the risk of the exploit. Which of the following types of controls is the analyst implementing?', opts:[{id:'A',t:'Compensating',c:true},{id:'B',t:'Detective',c:false},{id:'C',t:'Operational',c:false},{id:'D',t:'Physical',c:false}], expl:'Per un zero-day non esiste ancora patch: il controllo primario non è disponibile. Il bastion host è alternativa temporanea → Compensating. C (Operational) è la categoria, non il tipo.' },
+    { id:'SCREEN_639', text:'Which of the following are the best security controls for controlling on-premises access? (Choose two.)', opts:[{id:'A',t:'Swipe card',c:true},{id:'B',t:'Picture ID',c:false},{id:'C',t:'Phone authentication application',c:false},{id:'D',t:'Biometric scanner',c:true},{id:'E',t:'Camera',c:false},{id:'F',t:'Memorable question',c:false}], expl:'Swipe card e biometric scanner sono Physical Preventive: verificano l\'identità in modo affidabile e automatico. Camera = Detective.' },
+    { id:'SCREEN_644', text:'To which of the following security categories does an EDR solution belong?', opts:[{id:'A',t:'Physical',c:false},{id:'B',t:'Operational',c:false},{id:'C',t:'Managerial',c:false},{id:'D',t:'Technical',c:true}], expl:'EDR è software installato sull\'endpoint che opera automaticamente → Technical. Per tipo è Detective (rileva) e Corrective (isola l\'host).' },
+    { id:'SCREEN_646', text:'An organization has a new regulatory requirement to implement corrective controls on a financial system. Which of the following is the most likely reason for the new requirement?', opts:[{id:'A',t:'To defend against insider threats altering banking details',c:false},{id:'B',t:'To ensure that errors are not passed to other systems',c:true},{id:'C',t:'To allow for business insurance to be purchased',c:false},{id:'D',t:'To prevent unauthorized changes to financial data',c:false}], expl:'I controlli correttivi minimizzano le conseguenze di errori già avvenuti. Evitare la propagazione degli errori = funzione tipica del Corrective. A e D sono scopi Preventive.' },
+    { id:'SCREEN_068', text:'Task: Which of the following are correct Server in Data Center Security controls? (Select all that apply)', opts:[{id:'A',t:'FM-200',c:true},{id:'B',t:'Biometrics',c:true},{id:'C',t:'Proximity Badges',c:true},{id:'D',t:'Mantrap',c:true}], expl:'FM-200 = Physical Corrective (spegne incendi). Biometrics + Proximity Badges + Mantrap = Physical Preventive (controllano l\'accesso fisico).' }
+  ];
+
+  /* ── Logica quiz ────────────────────────────────────────────── */
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  /* Initialize panel states — avoids inline style="display:none;" in HTML */
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  /* Hidden by default — inside .quiz-overlay which starts display:none via CSS */
+  document.getElementById('quiz-content').style.display = 'none';
+  document.getElementById('quiz-result').style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 1.1';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 10 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

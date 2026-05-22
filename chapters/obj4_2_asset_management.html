@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 4.2 — Gestione degli Asset: Hardware, Software e Dati · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 4 — Security Operations</span>
+  <span>OBJ 4.2 — Gestione degli Asset</span>
+</div>
+
+<header>
+  <h1>OBJ 4.2 — Implicazioni di Sicurezza nella Gestione degli Asset (Security Implications of Asset Management)</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Explain the security implications of proper hardware, software, and data asset management.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">4.2</span> <span class="weight-badge">D4 = 28%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> · <a href="obj1_2_fundamental_concepts.html">OBJ 1.2 — Concetti fondamentali</a></p>
+  <p><strong>Correlati:</strong> <span class="hint-tag">OBJ 4.1 — Tecniche di sicurezza sulle risorse di calcolo</span> · <span class="hint-tag">OBJ 4.3 — Vulnerability Management</span></p>
+</div>
+
+<div class="layout">
+
+  <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+  <nav class="toc-sticky" aria-label="Indice del capitolo">
+    <div class="toc-section">Ciclo di Vita</div>
+    <a href="#lifecycle">EOL vs EOSL</a>
+    <a href="#decommissioning">Decommissioning & Hardening</a>
+
+    <div class="toc-section">Tracciamento</div>
+    <a href="#tracking">Asset Tracking</a>
+    <a href="#offboarding">Offboarding Dipendenti</a>
+
+    <div class="toc-section">Modelli Mobile</div>
+    <a href="#mobile-deploy">BYOD vs COBO vs COPE</a>
+
+    <div class="toc-section">Automazione</div>
+    <a href="#automation">User Provisioning & IaC</a>
+
+    <div class="toc-section">Sanitizzazione</div>
+    <a href="#sanitization">Sanitizzazione fisica e dati</a>
+
+    <div class="toc-section">Verifica</div>
+    <a href="#quiz-section">Quiz interattivo (18 quiz)</a>
+    <a href="#flashcard">Flashcard di riepilogo</a>
+  </nav>
+
+  <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+  <main class="content" id="main">
+
+    <!-- ══ INTRO ════════════════════════════════════════════════════ -->
+    <section id="intro">
+      <h2>L'importanza cruciale della Gestione degli Asset</h2>
+      <p>
+        Non è possibile proteggere ciò di cui non si conosce l'esistenza. La <strong>Gestione degli Asset (Asset Management)</strong> rappresenta un pilastro fondamentale dell'intera architettura di sicurezza aziendale. Un inventario non aggiornato o la mancata classificazione degli asset compromette tutti gli altri sforzi difensivi di controllo degli accessi, vulnerabilità e monitoraggio delle minacce.
+      </p>
+      <p>
+        In questo capitolo esamineremo le implicazioni di sicurezza legate alla gestione dei tre tipi fondamentali di asset aziendali:
+      </p>
+      <ul>
+        <li><strong>Asset Hardware (Hardware Assets)</strong>: Server, workstation, router, switch, dispositivi IoT, dispositivi mobili.</li>
+        <li><strong>Asset Software (Software Assets)</strong>: Sistemi operativi, suite applicative corporative, strumenti middleware, database.</li>
+        <li><strong>Asset di Dati (Data Assets)</strong>: Archivi di file, database, dati proprietari protetti e registri delle transazioni.</li>
+      </ul>
+    </section>
+
+    <!-- ══ CICLO DI VITA: EOL vs EOSL ══════════════════════════════ -->
+    <section id="lifecycle">
+      <h2>Il Ciclo di Vita delle Risorse: EOL ed EOSL</h2>
+      <p>
+        Tutto l'hardware e il software industriale segue una curva temporale che si conclude inevitabilmente con la perdita di manutenzione dal produttore. Comprendere queste sigle è un requisito fondamentale per le domande del Security+:
+      </p>
+      <dl class="termlist">
+        <dt>Fine Vita commerciale / EOL (End of Life)</dt>
+        <dd>Indica il punto in cui un costruttore/vendor cessa la pubblicazione, la commercializzazione e la vendita sul mercato di uno specifico modello hardware o di una versione software <code>(SCREEN_262)</code>. Tipicamente viene ancora offerta manutenzione reattiva o supporto esteso a pagamento, ma non viene più promosso attivamente.</dd>
+        <dt>Fine del Supporto / EOSL (End of Service Life o End of Support)</dt>
+        <dd>Rappresenta il momento in cui l'OEM (Original Equipment Manufacturer) dismette definitivamente ogni tipo di supporto o assistenza per il prodotto <code>(SCREEN_004, SCREEN_038)</code>. Da questo punto in poi:
+          <ul>
+            <li>Non vengono più distribuiti pacchetti di aggiornamento o patch per nuove vulnerabilità ed exploit scoperti.</li>
+            <li>Non vi è assistenza remota ufficiale o supporto telefonico del vendor.</li>
+            <li>Il prodotto diventa un rischio di conformità colossale per la sicurezza globale dell'infrastruttura.</li>
+          </ul>
+        </dd>
+      </dl>
+
+      <div class="critical">
+        <strong>NODO CRITICO — Disponibilità delle Patch (Patch Availability)</strong><br>
+        L'implicazione di sicurezza primaria nell'utilizzare sistemi operativi o software giunti alla fine del supporto (EOSL/EOL) è la **Disponibilità delle Patch (Patch Availability)** <code>(SCREEN_258)</code>. Chi progetta l'architettura aziendale deve documentare questo rischio come primario: ogni vulnerabilità zero-day esposta pubblicamente rimarrà permanentemente non patchabile, lasciando il dispositivo costantemente indifeso.
+      </div>
+
+      <h3 id="decommissioning">Dismissione degli Asset Obsoleti (Decommissioning)</h3>
+      <p>
+        Per risolvere proattivamente le minacce associate ai dispositivi non più patchabili o non conformi, l'unica ed ottimale misura raccomandata all'amministrazione di rete è il **Decommissioning (Dismissione)** <code>(SCREEN_424)</code>. 
+      </p>
+      <div class="exam-tip">
+        <strong>EXAM TIP — Quando raccomandare il Decommissioning?</strong><br>
+        Un ingegnere della sicurezza deve raccomandare la dismissione all'amministrazione del network primariamente in due scenari ben definiti <code>(SCREEN_246)</code>:
+        <ul>
+          <li><strong>Mancanza di aggiornamenti</strong>: Il dispositivo hardware di rete è giunto ad un punto in cui non è più in grado di accogliere e ricevere aggiornamenti e patch ufficiali di sicurezza.</li>
+          <li><strong>Limiti crittografici</strong>: Il livello di cifratura software o hardware supportato dal dispositivo è nativamente limitato e obsoleto e non può soddisfare i requisiti minimi degli standard e policy della sicurezza corporativa attuale.</li>
+        </ul>
+      </div>
+      <p>
+        Per ridurre in modo rapido la superficie di attacco complessiva dei moderni data center, il rimedio essenziale per salvaguardare la rete da intrusi resta dunque l'aggiornamento e la sostituzione dei sistemi operativi fuori supporto (End-of-Support OS) <code>(SCREEN_722)</code>.
+      </p>
+    </section>
+
+    <!-- ══ ASSET TRACKING & OFFBOARDING ═══════════════════════════ -->
+    <section id="tracking">
+      <h2>Tracciamento degli Asset e Offboarding Aziendale</h2>
+      <p>
+        Il tracciamento fisico e sistematico delle risorse (Asset Tracking) garantisce il controllo logistico dell'hardware. Pratiche ordinarie includono l'applicazione di **Targhette e codici identificativi (Asset inventory stickers / serial numbers)** abbinandoli alle credenziali dello specifico ID dipendente <code>(SCREEN_011, SCREEN_161)</code>.
+      </p>
+      <p>
+        Questo meticoloso abbinamento tra hardware e dipendente implementa due benefici vitali:
+      </p>
+      <div class="example-box">
+        <strong>Vantaggi di Sicurezza del tracciamento incrociato:</strong><br>
+        <ol>
+          <li><strong>Notifica rapida post-incidente</strong>: Se un sensore d'allarme o un tool Endpoint Detection & Response (EDR) rileva un comportamento malevolo su una workstation, l'ammistrazione può risalire immediatamente al dipendente associato per notificare l'incidente, esigere il cambio della password o isolare la macchina corretta.</li>
+          <li><strong>Prevenzione delle perdite di dati all'Offboarding (Company data accounting)</strong>: Al momento in cui il dipendente si dimette o conclude la collaborazione (deprovisioning/offboarding), il catalogo elettronico dei codici stickers associati all'utente permette di rendersi conto di quali e quanti notebook, smartphone e hard disk USB esterni siano stati posseduti dal lavoratore. Questo garantisce il totale recupero e la bonifica ufficiale delle informazioni sensibili aziendali prima del distacco definitivo.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ══ STRATEGIE MOBILE: INVENTARIO & DEPLOYMENT ═══════════════ -->
+    <section id="mobile-deploy">
+      <h2>Modelli di Deployment Mobile (Mobile Policy Frameworks)</h2>
+      <p>
+        La scelta della policy sull'uso degli smartphone o dei tablet aziendali impatta pesantemente sulla visibilità logistica e la sicurezza dei dati:
+      </p>
+      <dl class="termlist">
+        <dt>BYOD (Bring Your Own Device)</dt>
+        <dd>Il dipendente usa il proprio apparato personale per connettersi alle risorse dell'ufficio. Consente costi hardware nulli all'azienda, ma espone a rischi massicci di infezioni malware e impedisce la corretta ispezione e controllo centralizzato della corporazione.</dd>
+        <dt>COBO (Corporate-Owned, Business-Only)</dt>
+        <dd>I telefoni o i tablet sono interamente acquistati e controllati dal reparto IT aziendale e l'uso è rigorosamente confinato alle sole mansioni d'ufficio (nessuna applicazione personale, social o file personali installabili) <code>(SCREEN_702)</code>. Rappresenta il modello più sicuro e controllabile in assoluto perché riduce al minimo l'attack surface e abilita un hardening profondo e preventivo.</dd>
+        <dt>COPE (Corporate-Owned, Personally Enabled)</dt>
+        <dd>Il terminale è aziendale, ma all'utente viene concesso un profilo o uno spazio applicativo isolato destinato ad usi personali non d'ufficio.</dd>
+        <dt>CYOD (Choose Your Own Device)</dt>
+        <dd>L'utente può scegliere lo smartphone preferito da una lista fissa e ristretta di modelli pre-approvati e preventivamente hardenizzati compilata dal reparto di sicurezza.</dd>
+      </dl>
+      
+      <div class="critical">
+        <strong>REQUISITI DI SCENARIO — Quando preferire COBO</strong><br>
+        Se lo scenario dell'esame richiede che le macchine debbano essere: (1) di proprietà aziendale (Company-owned), (2) configurabili con robusti standard di hardening, (3) con rischio di leak ridotto al minimo e (4) dotati di massima compatibilità e integrazione con le risorse IT interne, la soluzione da implementare è indiscutibilmente <strong>COBO</strong> <code>(SCREEN_702)</code>.
+      </div>
+    </section>
+
+    <!-- ══ UTILITY DI RETE E ATTACK SURFACE REDUCTION ══════════════ -->
+    <section id="network-hardening">
+      <h2>Riduzione della Superficie e Protezione delle Interfacce</h2>
+      <p>
+        Il controllo e il tracciamento dei servizi attivi si estendono agli apparati infrastrutturali come switch o router.
+        Per limitare la superficie di attacco applicando l'indurimento di rete (hardening) a seguito di un vulnerabilty scan,
+        è imperativo spegnere le funzionalità e le interfacce non necessarie per evitare exploit remoti.
+      </p>
+      <div class="example-box">
+        <strong>Hardening delle Amministrazioni — Disattivare Amministrazione Web (SCREEN_205)</strong><br>
+        Molti router gestiscono una console grafica web (interfaccia HTTP o HTTPS) che permette modifiche visuali amichevoli, ma che costituisce un punto critico aggredibile da intrusi. 
+        <br><br>
+        Una misura d'elezione per irrobustire (harden) l'infrastruttura router è **Disabilitare l'amministrazione web (Web-based administration)**, forzando gli ingegneri a utilizzare esclusivamente amministrazione testuale via console diretta (porta seriale fisica) o terminali crittografati sicuri come SSH per modifiche critiche.
+      </div>
+    </section>
+
+    <!-- ══ AUTOMAZIONE E PROVISIONING DI ACCOUNT E RISORSE ══════════ -->
+    <section id="automation">
+      <h2>Sistemi di Automazione: Provisoning, Orchestrazione e IaC</h2>
+      <p>
+        La manualità porta con sé il rischio derivante dall'errore umano. Se gli account utente o i server vengono erogati manualmente tramite lunghe procedure da amministrare di persona, è probabile che prima o poi vengano commessi errori che lasciano trapelare privilegi non conformi <code>(SCREEN_194)</code>.
+      </p>
+      <dl class="termlist">
+        <dt>Script di User Provisioning (User Provisioning Script)</dt>
+        <dd>L'uso di script automatizzati per la creazione degli account nuovi utenti normalizza l'uniformità dei gruppi di sicurezza, mappando con costanza matematica i permessi e precludendo la non-conformità indotta dall'inserimento di parametri manuali errati <code>(SCREEN_194)</code>.</dd>
+        <dt>Orchestrare i Flussi (Orchestration)</dt>
+        <dd>Mentre un semplice script compie modifiche elementari, l'<strong>Orchestrazione (Orchestration)</strong> coordina intere catene complesse di procedure, sistemi informatici e provisioning simultanei ad alta scala temporale senza l'errore dell'analista <code>(SCREEN_215)</code>.</dd>
+        <dt>Infrastruttura come Codice / IaC (Infrastructure as Code)</dt>
+        <dd>Dichiarare topologie, interfacce, firewall e infrastrutture cloud descrivendole in testi elettronici standard (come Terraform o Kubernetes config). Permette all'amministratore di sistema di implementare distribuzioni nei cloud provider in modo istantaneo, sicuro, replicabile ed indurito nativamente contro l'errore manuale dei singoli analisti di storage <code>(SCREEN_230)</code>.</dd>
+      </dl>
+    </section>
+
+    <!-- ══ DATA SANITIZATION AND DESTRUCTION ══════════════════════ -->
+    <section id="sanitization">
+      <h2>Sanitizzazione e Distruzione dei Dati (Data Sanitization)</h2>
+      <p>
+        I dati archiviati che non servono più o risiedono all'interno di hard drive dismessi di vecchie workstation mandati al riciclo in ditte esterne continuano a costituire un fattore di rischio. Se i dischi vengono buttati o rivenduti così come sono, i contenuti residui (Data Remanence) potrebbero essere facilmente estratti dagli estranei.
+      </p>
+      <dl class="termlist">
+        <dt>Sanitizzazione (Data Sanitization)</dt>
+        <dd>La bonifica controllata o sovrascrittura logica sicura dei file e dei dischi fissi per pulirli irrevocabilmente (wiping / zeroing / degaussing) affinché non residui alcuna informazione interpretabile o scindibile all'esterno <code>(SCREEN_177, SCREEN_657)</code>. Previene ed inibisce attivamente la capacità dei malintenzionati ed hacker di ottenere dati estratti dai dischi usati.</dd>
+        <dt>Certificato di Distruzione / Sanitizzazione (Certification)</dt>
+        <dd>Quando i supporti di storage classificati o protetti della corporazione vengono affidati ad uno smaltitore esterno specializzato per distruggere físicamente le memorie obsolete, l'azienda committente deve raccomandare e pretendere il rilascio di una formale **Certificazione di Distruzione (Certification / Certificate of Destruction)** firmata dal vendor per attestare legalmente la purificazione dei supporti storici nel pieno rispetto della legge <code>(SCREEN_075, SCREEN_254)</code>.</dd>
+      </dl>
+    </section>
+
+    <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+    <section id="quiz-section">
+      <h2>Test di verifica — OBJ 4.2</h2>
+      <div class="chapter-meta">
+        <p>
+          <strong>18 domande d'esame</strong> su ciclo di vita hardware, decommissioning, tracciamento, sanitizzazione e smaltimento sicuro dei dati, con feedback immediato e spiegazione in italiano per ogni risposta.
+        </p>
+        <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.2 →</button>
+      </div>
+    </section>
+
+    <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+    <section id="flashcard" class="card">
+      <h2>Flashcard rapide OBJ 4.2</h2>
+      <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame.</p>
+      <div class="flashcard-deck">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span>Cosa differenzia EOL da EOSL?</span>
+              <small>Clicca per girare</small>
+            </div>
+            <div class="flashcard-back">
+              <p><strong>EOL (End of Life)</strong>: Il prodotto non è più venduto né pubblicizzato, ma potrebbe ricevere del supporto. <br><strong>EOSL (End of Service Life)</strong>: Cessa completamente assistenza e aggiornamento software del produttore.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span>A cosa serve l'Asset Stickers (Targhettizzazione)?</span>
+              <small>Clicca per girare</small>
+            </div>
+            <div class="flashcard-back">
+              <p>Tracciare il possesso, contattare il proprietario corretto in caso di allarmi incidenti, e rendicontare (account for) la restituzione totale del materiale aziendale dei dipendenti deprovisionati.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span>Perché richiedere la Certificazione al vendor di distruzione hard disk?</span>
+              <small>Clicca per girare</small>
+            </div>
+            <div class="flashcard-back">
+              <p>Rappresenta la prova legale (audit trial compliance) dell'avvenuta purificazione e distruzione hardware irrevocabile per i dischi classificati dismessi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div></div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità di esercitazione</p>
+      <p class="quiz-setup-sub">Obiettivo 4.2 · 18 domande d'esame disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>Tutti i 18 quesiti d'esame originali</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>10 quesiti in ordine casuale</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 4.2</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Embedded validated questions for Objective 4.2
+  const Q = [
+    {
+      "id": "SCREEN_004",
+      "text": "A company owns a product which is no longer sold or supported by the manufacturer. Which of the following would best describe this product?",
+      "opts": [
+        { "id": "A", "t": "NDA", "c": false },
+        { "id": "B", "t": "BYOD", "c": false },
+        { "id": "C", "t": "APT", "c": false },
+        { "id": "D", "t": "EOSL", "c": true },
+        { "id": "E", "t": "SLA", "c": false }
+      ],
+      "expl": "Il termine EOSL (End of Service Life) descrive un prodotto (hardware o software) che il produttore non vende più e non supporta più in alcun modo, cessando la fornitura di patch di sicurezza."
+    },
+    {
+      "id": "SCREEN_011",
+      "text": "A company has begun labeling all laptops with asset inventory stickers and associating them with employee IDs. Which of the following security benefits do these actions provide? (Choose two.)",
+      "opts": [
+        { "id": "A", "t": "If a security incident occurs on the device, the correct employee can be notified.", "c": true },
+        { "id": "B", "t": "The security team will be able to send user awareness training to the appropriate device.", "c": false },
+        { "id": "C", "t": "Users can be mapped to their devices when configuring software MFA tokens.", "c": false },
+        { "id": "D", "t": "User-based firewall policies can be correctly targeted to the appropriate laptops.", "c": false },
+        { "id": "E", "t": "When conducting penetration testing, the security team will be able to target the desired laptops.", "c": false },
+        { "id": "F", "t": "Company data can be accounted for when the employee leaves the organization.", "c": true }
+      ],
+      "expl": "Taggare i dispositivi fisici e associarli alle credenziali utente serve a velocizzare le notifiche in caso di incidenti informatici (A) e garantisce la rendicontazione (accounting) formale dello smaltimento di dati e recupero dei laptop all'atto di deprovisioning dei dipendenti (F)."
+    },
+    {
+      "id": "SCREEN_038",
+      "text": "Which of the following statements about EOSL items is true?",
+      "opts": [
+        { "id": "A", "t": "An EOSL item is no longer supported by the OEM.", "c": true },
+        { "id": "B", "t": "An EOSL item has no maintenance options.", "c": false },
+        { "id": "C", "t": "An EOSL item uses older hardware but current software.", "c": false },
+        { "id": "D", "t": "An EOSL item is only sold to current customers.", "c": false }
+      ],
+      "expl": "Un articolo EOSL (End of Service Life) è giunto alla fine del ciclo di supporto da parte dell'OEM (Original Equipment Manufacturer) produttore originario, che non rilascerà alcuna patch aggiuntiva."
+    },
+    {
+      "id": "SCREEN_075",
+      "text": "A company is discarding a classified storage array and hires an outside vendor to complete the disposal. Which of the following should the company request from the vendor?",
+      "opts": [
+        { "id": "A", "t": "Certification", "c": true },
+        { "id": "B", "t": "Inventory list", "c": false },
+        { "id": "C", "t": "Classification", "c": false },
+        { "id": "D", "t": "Proof of ownership", "c": false }
+      ],
+      "expl": "Per i supporti di memorizzazione contenenti informazioni classificate, è opportuno pretendere dal fornitore esterno un formale Certificato di Distruzione (Certification) che attesti legalmente la sanitizzazione e la fine dei dati."
+    },
+    {
+      "id": "SCREEN_161",
+      "text": "A company has begun labeling all laptops with asset inventory stickers and associating them with employee IDs. Which of the following security benefits do these actions provide? (Choose two.)",
+      "opts": [
+        { "id": "A", "t": "If a security incident occurs on the device, the correct employee can be notified.", "c": true },
+        { "id": "B", "t": "The security team will be able to send user awareness training to the appropriate device.", "c": false },
+        { "id": "C", "t": "Users can be mapped to their devices when configuring software MFA tokens.", "c": false },
+        { "id": "D", "t": "User-based firewall policies can be correctly targeted to the appropriate laptops.", "c": false },
+        { "id": "E", "t": "When conducting penetration testing, the security team will be able to target the desired laptops.", "c": false },
+        { "id": "F", "t": "Company data can be accounted for when the employee leaves the organization.", "c": true }
+      ],
+      "expl": "La targhettizzazione degli asset e la mappatura con il dipendente consentono di rintracciare il proprietario della macchina post-breach e rendicontare il materiale e le informazioni della multinazionale quando l'impiegato finisce il rapporto di collaborazione."
+    },
+    {
+      "id": "SCREEN_177",
+      "text": "A company requires hard drives to be securely wiped before sending decommissioned systems to recycling. Which of the following best describes this policy?",
+      "opts": [
+        { "id": "A", "t": "Enumeration", "c": false },
+        { "id": "B", "t": "Sanitization", "c": true },
+        { "id": "C", "t": "Destruction", "c": false },
+        { "id": "D", "t": "Inventory", "c": false }
+      ],
+      "expl": "La sanitizzazione (Sanitization) è il processo metodico con cui si sovrascrivono o smagnetizzano i dischi per bonificare e cancellare permanentemente i dati dai drive fisici usati prima che vadano al riciclo o riutilizzo."
+    },
+    {
+      "id": "SCREEN_194",
+      "text": "The management team notices that new accounts that are set up manually do not always have correct access or permissions. Which of the following automation techniques should a systems administrator use to streamline account creation?",
+      "opts": [
+        { "id": "A", "t": "Guard rail script", "c": false },
+        { "id": "B", "t": "Ticketing workflow", "c": false },
+        { "id": "C", "t": "Escalation script", "c": false },
+        { "id": "D", "t": "User provisioning script", "c": true }
+      ],
+      "expl": "Uno script di provisioning utente automatizzato (User provisioning script) elimina lo scostamento causato dall'imprecisione dell'operatore manuale, applicando le policy corrette relative a permessi ed accessi."
+    },
+    {
+      "id": "SCREEN_205",
+      "text": "After a recent vulnerability scan, a security engineer needs to harden the routers within the corporate network. Which of the following is the most appropriate to disable?",
+      "opts": [
+        { "id": "A", "t": "Console access", "c": false },
+        { "id": "B", "t": "Routing protocols", "c": false },
+        { "id": "C", "t": "VLANs", "c": false },
+        { "id": "D", "t": "Web-based administration", "c": true }
+      ],
+      "expl": "Disattivare l'amministrazione in locale o remota da interfaccia grafica web (Web-based administration) è una misura fondamentale di hardening per mitigare attacchi web-centrici contro i router della rete aziendale."
+    },
+    {
+      "id": "SCREEN_215",
+      "text": "A systems administrator is creating a script that would save time and prevent human error when performing account creation for a large number of end users. Which of the following would be a good use case for this task?",
+      "opts": [
+        { "id": "A", "t": "Off-the-shelf software", "c": false },
+        { "id": "B", "t": "Orchestration", "c": true },
+        { "id": "C", "t": "Baseline", "c": false },
+        { "id": "D", "t": "Policy enforcement", "c": false }
+      ],
+      "expl": "L'orchestrazione (Orchestration) si occupa di sincronizzare e automatizzare una catena coordinata di azioni sequenziali e script volti alla distribuzione massiva di account e servizi riducendo a zero gli errori umani."
+    },
+    {
+      "id": "SCREEN_230",
+      "text": "Which of the following should a systems administrator use to ensure an easy deployment of resources within the cloud provider?",
+      "opts": [
+        { "id": "A", "t": "Software as a service", "c": false },
+        { "id": "B", "t": "Infrastructure as code", "c": true },
+        { "id": "C", "t": "Internet of Things", "c": false },
+        { "id": "D", "t": "Software-defined networking", "c": false }
+      ],
+      "expl": "L'Infrastruttura come Codice (IaC) consente di programmare e ripetere la configurazione infrastrutturale del cloud istantaneamente e senza discretizzazioni manuali."
+    },
+    {
+      "id": "SCREEN_246",
+      "text": "Which of the following are cases in which an engineer should recommend the decommissioning of a network device? (Choose two.)",
+      "opts": [
+        { "id": "A", "t": "The device has been moved from a production environment to a test environment.", "c": false },
+        { "id": "B", "t": "The device is configured to use cleartext passwords.", "c": false },
+        { "id": "C", "t": "The device is moved to an isolated segment on the enterprise network.", "c": false },
+        { "id": "D", "t": "The device is moved to a different location in the enterprise.", "c": false },
+        { "id": "E", "t": "The device's encryption level cannot meet organizational standards.", "c": true },
+        { "id": "F", "t": "The device is unable to receive authorized updates.", "c": true }
+      ],
+      "expl": "Un apparato di telecomunicazione va dismesso (decommissioned) quando i chip interni non tollerano più i livelli moderni di cifratura delle policy (E) o quando non può più accettare e applicare gli aggiornamenti patch del costruttore (F)."
+    },
+    {
+      "id": "SCREEN_254",
+      "text": "A company is discarding a classified storage array and hires an outside vendor to complete the disposal. Which of the following should the company request from the vendor?",
+      "opts": [
+        { "id": "A", "t": "Certification", "c": true },
+        { "id": "B", "t": "Inventory list", "c": false },
+        { "id": "C", "t": "Classification", "c": false },
+        { "id": "D", "t": "Proof of ownership", "c": false }
+      ],
+      "expl": "Un Certificato di Distruzione ufficiale (Certification) provvede ad attestare programmaticamente l'avvenuto smantellamento logico e fisico delle memorie."
+    },
+    {
+      "id": "SCREEN_258",
+      "text": "A small business uses kiosks on the sales floor to display product information for customers. A security team discovers the kiosks use end-of-life operating systems. Which of the following is the security team most likely to document as a security implication of the current architecture?",
+      "opts": [
+        { "id": "A", "t": "Patch availability", "c": true },
+        { "id": "B", "t": "Product software compatibility", "c": false },
+        { "id": "C", "t": "Ease of recovery", "c": false },
+        { "id": "D", "t": "Cost of replacement", "c": false }
+      ],
+      "expl": "La fine del supporto sui sistemi operativi compromette radicalmente la Disponibilità delle Patch (Patch Availability). Vulnerabilità scoperte in seguito ad essa persisteranno indefinitamente nell'ecosistema, facilitando l'esplorazione malevola."
+    },
+    {
+      "id": "SCREEN_262",
+      "text": "A legacy device is being decommissioned and is no longer receiving updates or patches. Which of the following describes this scenario?",
+      "opts": [
+        { "id": "A", "t": "End of business", "c": false },
+        { "id": "B", "t": "End of testing", "c": false },
+        { "id": "C", "t": "End of support", "c": false },
+        { "id": "D", "t": "End of life", "c": true }
+      ],
+      "expl": "L'End of Life (EOL) o l'End of Support (EOS/EOSL) indicano la cessazione del tracciamento e dello sviluppo commerciale e delle patch di manutenzione di un apparato."
+    },
+    {
+      "id": "SCREEN_424",
+      "text": "A security administrator notices numerous unused, non-compliant desktops are connected to the network. Which of the following actions would the administrator most likely recommend to the management team?",
+      "opts": [
+        { "id": "A", "t": "Monitoring", "c": false },
+        { "id": "B", "t": "Decommissioning", "c": true },
+        { "id": "C", "t": "Patching", "c": false },
+        { "id": "D", "t": "Isolating", "c": false }
+      ],
+      "expl": "Rinvenire in ufficio computer non tracciati scollegati da tempo ma connessi fisicamente costituisce un buco di sicurezza. L'amministrazione deve ordinarne la dismissione e formattazione formale (Decommissioning) per ridurre l'attack surface."
+    },
+    {
+      "id": "SCREEN_657",
+      "text": "Which of the following is prevented by proper data sanitization?",
+      "opts": [
+        { "id": "A", "t": "Hackers' ability to obtain data from used hard drives", "c": true },
+        { "id": "B", "t": "Devices reaching end-of-life and losing support", "c": false },
+        { "id": "C", "t": "Disclosure of sensitive data through incorrect classification", "c": false },
+        { "id": "D", "t": "Incorrect inventory data leading to a laptop shortage", "c": false }
+      ],
+      "expl": "La sanitizzazione (Sanitization) previene programmaticamente la possibilità che terze parti o attaccanti recuperino informazioni sensibili residue dai dischi magnetici in disuso o usati."
+    },
+    {
+      "id": "SCREEN_702",
+      "text": "A company is changing its mobile device policy. The company has the following requirements: Company-owned devices, Ability to harden the devices, Reduced security risk, Compatibility with company resources. Which of the following would best meet these requirements?",
+      "opts": [
+        { "id": "A", "t": "BYOD", "c": false },
+        { "id": "B", "t": "CYOD", "c": false },
+        { "id": "C", "t": "COPE", "c": false },
+        { "id": "D", "t": "COBO", "c": true }
+      ],
+      "expl": "Il modello COBO (Corporate-Owned, Business-Only) garantisce che i telefoni e i dispositivi hardware siano della società e operativi solo per scopi amministrativi e di business. Consente massimo controllo e indurimento hardware mitigando gli abusi d'uso personale."
+    },
+    {
+      "id": "SCREEN_722",
+      "text": "A security administrator needs to reduce the attack surface in the company's data centers. Which of the following should the security administrator do to complete this task?",
+      "opts": [
+        { "id": "A", "t": "Implement a honeynet.", "c": false },
+        { "id": "B", "t": "Define Group Policy on the servers.", "c": false },
+        { "id": "C", "t": "Configure the servers for high availability.", "c": false },
+        { "id": "D", "t": "Upgrade end-of-support operating systems.", "c": true }
+      ],
+      "expl": "Sostituire o aggiornare i vecchi sistemi operativi giunti a fine supporto (End-of-Support / EOSL) rimuove l'esposizione di falle note non patchate riducendo drasticamente l'attack surface attiva nei data center."
+    }
+  ];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 4.2';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 10 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+    optionsEl.innerHTML    = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className   = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

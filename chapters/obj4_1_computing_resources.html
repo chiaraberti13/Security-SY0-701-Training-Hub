@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 4.1 — Tecniche di sicurezza sulle risorse di calcolo · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index.html">Indice generale</a>
+  <span>Dominio 4 — Security Operations</span>
+  <span>OBJ 4.1 — Risorse di calcolo</span>
+</div>
+
+<header>
+  <h1>OBJ 4.1 — Tecniche di sicurezza sulle risorse di calcolo (Security Techniques for Computing Resources)</h1>
+</header>
+
+<div class="chapter-meta">
+  <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+  <p><strong>Obiettivo ufficiale:</strong> <em>Given a scenario, apply common security techniques to computing resources.</em></p>
+  <p><strong>Obiettivi coperti:</strong> <span class="objectives-tag">4.1</span> <span class="weight-badge">D4 = 28%</span></p>
+  <p><strong>Prerequisiti:</strong> <a href="obj2_5_mitigation.html">OBJ 2.5 — Mitigazioni ed Endpoint Hardening</a> · <a href="obj3_2_infrastructure.html">OBJ 3.2 — Infrastruttura enterprise sicura</a></p>
+  <p><strong>Correlati:</strong> <span class="hint-tag">OBJ 4.4 — Alerting e monitoraggio</span> · <span class="hint-tag">OBJ 4.5 — Configurare l'infrastruttura di sicurezza</span></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Baseline di sicurezza</div>
+  <a href="#secure-baselines">Fasi: Stabilire, Distribuire, Gestire</a>
+  <a href="#baseline-enforcement">Baseline Enforcement</a>
+
+  <div class="toc-section">Target di Hardening</div>
+  <a href="#hardening-server">Hardening dei Server</a>
+  <a href="#hardening-network">Dispositivi di Rete (SSH vs Telnet)</a>
+  <a href="#hardening-iot">Sistemi Embedded, IoT e RTOS</a>
+
+  <div class="toc-section">Dispositivi Wireless</div>
+  <a href="#wireless-installation">Site Survey e Heat Map</a>
+  <a href="#guest-captive-portal">Sistemi di Ospiti e Captive Portal</a>
+
+  <div class="toc-section">Soluzioni Mobile & MDM</div>
+  <a href="#mobile-management">MDM: Tracciamento e Controllo</a>
+  <a href="#deployment-models">BYOD vs COPE vs CYOD</a>
+
+  <div class="toc-section">Application Security</div>
+  <a href="#input-validation">Validazione dell'Input</a>
+  <a href="#code-review">Peer Review e Prevenzione Insider</a>
+  <a href="#code-analysis">Analisi Statica e Dinamica</a>
+  <a href="#obfuscation-signing">Obfuscation e Code Signing</a>
+
+  <div class="toc-section">Host Security & Endpoint</div>
+  <a href="#nac-protection">NAC e Superficie Wired</a>
+  <a href="#edr-lateral">EDR, Lateral Movement e Host Isolation</a>
+  <a href="#application-allowlist">Application Allow List</a>
+  <a href="#endpoint-management">Endpoint Management e Wiping</a>
+
+  <div class="toc-section">Verifica</div>
+  <a href="#quiz-section">Quiz interattivo (36 domande)</a>
+  <a href="#flashcard">Flashcard di riepilogo</a>
+</nav>
+
+<main class="content" id="main">
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>La messa in sicurezza quotidiana delle risorse aziendali</h2>
+  <p>
+    Il Dominio 4 riguarda la quotidianità operativa della cybersecurity. Questo obiettivo si concentra su
+    come <strong>proteggere concretamente le risorse di elaborazione e calcolo (computing resources)</strong> nell'impresa.
+    Ciò include workstation, server, dispositivi mobili, dispositivi di rete, sistemi IoT e le reti wireless su cui
+    tali sistemi comunicano. Copriremo inoltre le discipline applicative (come evitare l'iniezione di codice malevolo)
+    e i controlli lato host — come l'isolamento dei dispositivi compromessi e il monitoraggio degli endpoint.
+  </p>
+</section>
+
+<!-- ══ BASELINE DI SICUREZZA ═══════════════════════════════════ -->
+<section id="secure-baselines">
+  <h2>Baseline di sicurezza (Secure Baselines)</h2>
+  <p>
+    Una <strong>baseline di sicurezza (secure baseline)</strong> è una configurazione standardizzata minima che assicura che un
+    dispositivo o un sistema operativo soddisfi i requisiti minimi di sicurezza approvati dall'azienda. Rappresenta la fondamenta
+    necessaria per verificare la conformità e contenere i rischi.
+  </p>
+  <p>
+    Il ciclo di gestione delle baseline comprende tre fasi operative cruciali:
+  </p>
+  <dl class="termlist">
+    <dt>Stabilire (Establish)</dt>
+    <dd>Definire lo standard di sicurezza iniziale utilizzando linee guida interne e benchmark riconosciuti a livello internazionale, come i CIS Benchmarks (Center for Internet Security) o le DISA STIGs (Defense Information Systems Agency Security Technical Implementation Guides). Esempio: stabilire che tutte le workstation Windows devono avere BitLocker abilitato, porte USB disabilitate e la password di root disattivata.</dd>
+    <dt>Distribuire (Deploy)</dt>
+    <dd>Applicare lo standard di configurazione stabilito a tutti i dispositivi nuovi ed esistenti. Questa fase solitamente è automatizzata tramite l'uso di Group Policy Objects (GPO) in Active Directory, profili di configurazione di Mobile Device Management (MDM), o strumenti di Infrastructure as Code (IaC) e Configuration Management (come Ansible, Terraform o Chef) per garantire la scalabilità e ridurre gli errori di imposizione manuale.</dd>
+    <dt>Gestire / Mantenere (Maintain)</dt>
+    <dd>Monitorare costantemente i sistemi per individuare la deviazione della configurazione (configuration drift) e applicare patch aggiornate nel tempo. Il monitoraggio continuo rileva le modifiche non intenzionali o non autorizzate alla baseline stabilita.</dd>
+  </dl>
+
+  <h3 id="baseline-enforcement">Applicazione delle Baseline (Baseline Enforcement)</h3>
+  <p>
+    L'<strong>applicazione delle baseline (baseline enforcement)</strong> è il meccanismo con cui si verifica programmaticamente
+    e costantemente se i sistemi sono conformi alla configurazione standard e si interviene per bloccare o correggere le violazioni.
+  </p>
+  <div class="example-box">
+    <strong>Esempio operativo — Script di accesso utente (SCREEN_660)</strong><br>
+    Un amministratore di sistema implementa uno script personalizzato che viene eseguito automaticamente ad ogni accesso dei dipendenti. Lo script controlla la versione corrente del sistema operativo, verifica che tutte le patch critiche siano installate e che nei sistemi stiano girando solo le applicazioni concordate dall'azienda.
+    <br><br>
+    Questo tipo di controllo rappresenta l'esempio perfetto di <strong>Baseline Enforcement (Applicazione delle Baseline)</strong>. Lo script non implementa il provisioning delle risorse, né si limita a definire le regole di autenticazione ("guardrails" o "policy enumeration"), ma le <em>impone ed applica</em> attivamente al login del sistema.
+  </div>
+</section>
+
+<!-- ══ TARGET DI HARDENING ══════════════════════════════════════ -->
+<section id="hardening-targets">
+  <h2>Hardening dei diversi sistemi aziendali (Hardening Targets)</h2>
+  <p>
+    Ogni classe di risorsa informatica presenta la propria peculiare superficie d'attacco e richiede passaggi specifici di indurimento
+    (<em>hardening</em>) prima e dopo l'avvio operativo.
+  </p>
+
+  <h3 id="hardening-server">Hardening dei Server</h3>
+  <p>
+    Quando si immette un nuovo server in produzione, il tempismo e la priorità dei controlli sono fondamentali per evitare compromissioni repentine prima
+    ancora che il server inizi a lavorare.
+  </p>
+  <div class="exam-tip">
+    <strong>EXAM TIP — Primi passi per la sicurezza dei server</strong><br>
+    (1) <strong>Il primissimo passo (Before everything else)</strong>: Quando viene installato un nuovo server, prima ancora di disattivare servizi o configurare liste di accesso (ACL), l'attività prioritaria assoluta è <strong>Aggiornare il software alla versione corrente (Update the current version of the software)</strong> (SCREEN_728). Un sistema non patchato è vulnerabile fin dal momento in cui tocca la rete.<br>
+    (2) <strong>Prima di andare "Live"</strong>: Un amministratore deve preparare un server web prima che esso diventi pubblicamente accessibile. Le due azioni raccomandate ed essenziali sono <strong>Disabilitare gli account di default corporativi (Disable default accounts)</strong> e <strong>Rimuovere i servizi non necessari (Remove unnecessary services)</strong> (SCREEN_353).
+  </div>
+  <p>
+    Oltre al sistema operativo server, è fondamentale **mettere in sicurezza l'host virtuale (Harden the virtual host)** sul quale gira la macchina virtuale del server web (SCREEN_547) prima che questa diventi visibile su internet.
+  </p>
+
+  <h3 id="hardening-network">Dispositivi di Rete: Switch e Router</h3>
+  <p>
+    Anche l'infrastruttura di routing e switching deve essere oggetto di hardening per impedire agli attaccanti interni od esterni di deviare o catturare il traffico di transito.
+  </p>
+  <dl class="termlist">
+    <dt>Sostituzione dei protocolli in chiaro (Telnet → SSH)</dt>
+    <dd>L'hardening fondamentale per i dispositivi di rete è la cifratura delle sessioni amministrative. SSH (Secure Shell - porta TCP 22) deve essere utilizzato al posto di Telnet (porta TCP 23) (SCREEN_588). Telnet espone le credenziali di root e le configurazioni in chiaro sul cavo di rete, offrendo terreno facile a sniffers locali.</dd>
+    <dt>Disattivazione di porte e servizi inutilizzati</dt>
+    <dd>Le porte fisiche dello switch non collegate devono essere administratively disabilitate e messe in una VLAN priva di connettività, e i protocolli di discovery non necessari (come CDP o LLDP) spenti se non strettamente indispensabili.</dd>
+  </dl>
+
+  <h3 id="hardening-iot">Sistemi Embedded, IoT e RTOS</h3>
+  <p>
+    Molti ecosistemi moderni usano dispositivi che non possiedono le medesime interfacce d'amministrazione o le capacità computazionali di un server standard, ma rappresentano comunque enormi criticità di sicurezza:
+  </p>
+  <ul>
+    <li><strong>Sistemi Embedded (Sistemi integrati):</strong> Spesso soffrono di indisponibilità di patch nel lungo periodo. Richiedono schermatura di rete, disabilitazione delle porte di diagnostica (come i pin JTAG o porte seriali ad uso interno) e cambio tassativo delle credenziali di fabbrica.</li>
+    <li><strong>Sistemi SCADA / ICS (Industrial Control Systems):</strong> Sovraintendono reti manifatturiere o d'utilità nazionale (acqua, elettricità). Devono essere isolati drasticamente mediante **Air-Gap (Isolamento Fisico)** o forti politiche di segmentazione logica dalla rete aziendale generica.</li>
+    <li><strong>RTOS (Real-Time Operating Systems):</strong> Sistemi operativi deterministici in tempo reale dedicati a scopi medici o dell'aviazione. Richiedono rigido isolamento del traffico e minimizzazione assoluta delle app eseguibili.</li>
+    <li><strong>Dispositivi IoT (Internet of Things):</strong> Sensori, caldaie, o fotocamere di sicurezza. Vediamo come installarli in sicurezza.</li>
+  </ul>
+  <div class="example-box">
+    <strong>Scenario d'esame — Installazione di telecamere di sicurezza IP (SCREEN_284)</strong><br>
+    Un tecnico sta installando una nuova fotocamera di sicurezza IP (dispositivo IoT). Qual è l'attività da condurre preliminarmente o parallelamente al fine di assicurare l'hardware?
+    <br><br>
+    Risposta: <strong>Eseguire un rilievo/rilievi sul campo (Conduct a site survey)</strong>. Il site survey assicura che il posizionamento fisico e radio della fotocamera e degli access point copra l'area corretta senza esporre porte fisiche a manomissioni libere e assicura che il segnale non filtri all'esterno del perimetro protetto (leakage).
+  </div>
+</section>
+
+<!-- ══ DISPOSITIVI WIRELESS ═════════════════════════════════════ -->
+<section id="wireless-security">
+  <h2>Installazione e sicurezza dei dispositivi Wireless</h2>
+  <p>
+    La rete wireless estende lo spettro radio oltre le pareti fisiche dell'ufficio, rendendo indispensabili metodologie di pianificazione
+    e autenticazione specifiche.
+  </p>
+
+  <h3 id="wireless-installation">Site Survey e Heat Map</h3>
+  <dl class="termlist">
+    <dt>Rilievo RF sul campo (Site Surveys)</dt>
+    <dd>Consente di pianificare la disposizione fisica degli Access Point analizzando ostacoli fisici (muri in cemento, metalli) e interferenze, prima della messa in funzione.</dd>
+    <dt>Mappe termiche radio (Heat Maps)</dt>
+    <dd>Rappresentazioni grafiche dell'intensità del segnale Wi-Fi nell'edificio. Permettono agli amministratori di regolare le potenze di trasmissione degli AP in modo da limitare la dispersione radio ("leakage") nei parcheggi esterni o strade limitrofe, dove gli attaccanti potrebbero tentare attacchi offline.</dd>
+  </dl>
+
+  <h3 id="guest-captive-portal">Sistemi di Ospiti e Captive Portal</h3>
+  <p>
+    Nelle reti aperte destinate ai visitatori o clienti, non è possibile imporre l'autenticazione centralizzata aziendale. Per ovviare a ciò si usa un portale catturante.
+  </p>
+  <dl class="termlist">
+    <dt>Portale Captivo (Captive Portal)</dt>
+    <dd>Una pagina web a cui l'utente viene reindirizzato forzatamente quando tenta di navigare su internet per la prima volta. Richiede un'interazione prima di garantire l'accesso.</dd>
+  </dl>
+  <div class="example-box">
+    <strong>Scenari pratici di Captive Portal</strong><br>
+    <ul>
+      <li><strong>Caffetteria (SCREEN_379)</strong>: Se il proprietario di un bar desidera limitare l'accesso alla rete Wi-Fi esclusivamente ai clienti paganti richiedendo un codice dallo scontrino, la soluzione ideale è implementare un <strong>Captive Portal</strong> che verifichi il numero della ricevuta.</li>
+      <li><strong>Ospiti aziendali (SCREEN_408)</strong>: Se la squadra legale di un'impresa è preoccupata dalle responsabilità legali derivanti dalle azioni di visitatori esterni, la soluzione ottimale è configurare un **Guest Captive Portal** che obblighi i visitatori ad accettare formalmente i Termini e le Condizioni d'uso prima di concedere l'accesso a Internet.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══ SOLUZIONI MOBILE & MDM ═══════════════════════════════════ -->
+<section id="mobile-solutions">
+  <h2>Soluzioni e modelli per i dispositivi dei dipendenti</h2>
+  <p>
+    I dispositivi mobili contengono grandi quantità di dati aziendali e accedono sistematicamente alla intranet. Per tenerli sotto controllo, si adotta una suite dedicata di monitoraggio e gestione.
+  </p>
+
+  <h3 id="mobile-management">MDM: Tracciamento, Forzatura e Sicurezza</h3>
+  <p>
+    Un sistema di <strong>gestione dei dispositivi mobili (Mobile Device Management - MDM)</strong> consente il controllo completo dei telefoni e dei tablet dell'azienda. Esso permette di:
+  </p>
+  <ul>
+    <li>Mettere in sicurezza i dispositivi in caso di smarrimento forzandone l'inizializzazione e cancellando i dati (<strong>Remote Wipe</strong>) (SCREEN_367, SCREEN_501).</li>
+    <li>Garantire che sui dispositivi personali dei dipendenti (BYOD) possano essere installate esclusivamente applicazioni approvate dall'ufficio (SCREEN_605).</li>
+    <li>Gestire in modo massivo i tablet aziendali distribuendo funzionalità e applicazioni mancanti che bloccano la produttività (SCREEN_604).</li>
+  </ul>
+
+  <h3 id="deployment-models">Modelli di distribuzione mobile (Deployment Models)</h3>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr>
+        <th>Modello di dispiegamento</th>
+        <th>Spiegazione ed Uso</th>
+        <th>Politiche d'esame da definire</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label">BYOD (Bring Your Own Device)</td>
+        <td>I lavoratori utilizzano i propri telefoni personali per scopi professionali. Massima flessibilità ma difficile bilanciamento privacy/sicurezza.</td>
+        <td>Richiede containerizzazione tramite MDM per separare dati aziendali da dati privati.</td>
+      </tr>
+      <tr>
+        <td class="label">COPE (Corporate-Owned, Personally Enabled)</td>
+        <td>I dispositivi sono di proprietà dell'azienda, ma i lavoratori sono autorizzati ad utilizzarli anche per questioni personali.</td>
+        <td>La policy COPE deve obbligatoriamente includere controlli critici d'esame: <strong>Cancellazione remota (Remote wipe)</strong> e <strong>Cifratura dei dati (Data encryption)</strong> (SCREEN_544).</td>
+      </tr>
+      <tr>
+        <td class="label">CYOD (Choose Your Own Device)</td>
+        <td>L'azienda acquista l'hardware, ma consente ai lavoratori di selezionare il modello preferito all'interno di una lista approvata.</td>
+        <td>Facilita la gestione dei profili MDM standardizzati.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Jailbreaking vs Side-loading (SCREEN_346)</strong><br>
+    <ul>
+      <li><strong>Jailbreaking (Sblocco):</strong> La rimozione forzata dei limiti imposti dal produttore sul sistema operativo del dispositivo (es. root su Android o Jailbreak su iOS). Permette all'utente di accedere al codice core e installare <em>unauthorized software</em> o custom tweaks abilitando nuove feature non previste di fabbrica.</li>
+      <li><strong>Side-loading (Caricamento laterale):</strong> Il semplice atto di installare pacchetti applicativi (.apk o .ipa) bypassando il market store ufficiale, senza richiedere necessariamente lo sblocco del root del firmware.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══ WIRELESS SECURITY SETTINGS ═══════════════════════════════ -->
+<section id="wireless-security-settings">
+  <h2>Impostazioni e protocolli di sicurezza Wireless</h2>
+  <dl class="termlist">
+    <dt>Wi-Fi Protected Access 3 (WPA3)</dt>
+    <dd>Lo standard crittografico moderno per Wi-Fi. Sostituisce la chiave precondivisa vulnerabile (PSK) di WPA2 con il protocollo <strong>SAE (Simultaneous Authentication of Equals)</strong>. SAE offre protezione robusta contro attacchi offline di brute-force sulle password "leggere", fornendo quella che viene denominata <em>Forward Secrecy</em>.</dd>
+    <dt>RADIUS (Remote Authentication Dial-In User Service) & Autenticazione AAA</dt>
+    <dd>Consente l'autenticazione individuale e centralizzata. Invece di condividere la stessa password Wi-Fi tra 500 dipendenti, ogni dipendente inserisce le credenziali aziendali del dominio. Lo switch/AP inoltra la richiesta al server RADIUS (AAA) che convalida l'accesso tramite protocolli come 802.1X.</dd>
+  </dl>
+</section>
+
+<!-- ══ SICUREZZA APPLICATIVA ════════════════════════════════════ -->
+<section id="application-security">
+  <h2>Sicurezza delle Applicazioni (Application Security)</h2>
+  <p>
+    Un codice non indurito espone le organizzazioni ad attacchi devastanti finiti poi nei log e sfruttabili per rubare credenziali o dati sensibili.
+  </p>
+
+  <h3 id="input-validation">Validazione dell'Input (Input Validation)</h3>
+  <p>
+    La <strong>validazione dell'input (input validation)</strong> o <strong>sanificazione dell'input (input sanitization)</strong> è il controllo prioritario assoluto per prevenire attacchi di tipo Injection (come SQLi) e Cross-Site Scripting (XSS).
+  </p>
+  <div class="example-box">
+    <strong>Esempi d'Esame — Tecniche di validazione</strong><br>
+    <ul>
+      <li><strong>Espressioni Regolari (SCREEN_078, SCREEN_191)</strong>: Un'organizzazione aggiorna la policy di sviluppo imponendo l'uso di Regular Expression nel codice sorgente per estirpare simboli nocivi come <code>$, |, ;, &, `, ?</code> provenienti dai form Web dell'app. Questa configurazione rappresenta una tecnica eccitante di <strong>Input Validation</strong> (Validazione dell'Input).</li>
+      <li><strong>Evitare Cross-Site Scripting (SCREEN_084, SCREEN_342)</strong>: Un field di un form è aperto a payload pericolosi come <code>&lt;script&gt;alert("Warning!");&lt;/script&gt;</code>. L'analista consiglia di implementare <strong>Input Sanitization / Validation</strong> per ripulire l'input.</li>
+      <li><strong>Protezione Log4j ed User-Agent (SCREEN_483)</strong>: Un analista osserva la riga di log: <br>
+      <code>149.32.228.10 - - [28/Jan/2023:16:32:45] "GET / HTTP/1.0" User-Agent: ${/bin/sh/ id} 200 397</code><br>
+      L'attacco (Injection / Remote Code Execution via log injection o exploit Apache) viene mitigato in assoluto applicando <strong>Input Sanitization</strong> sullo User-Agent.</li>
+    </ul>
+  </div>
+
+  <h3 id="code-review">Peer Review e Prevenzione degli Insider (Peer Review and Approval)</h3>
+  <div class="exam-tip">
+    <strong>EXAM TIP — Blocco degli Insider infiltrati</strong><br>
+    "Which of the following practices would be best to prevent an insider from introducing malicious code into a company's development process?" (SCREEN_082, SCREEN_236)<br>
+    → <strong>Peer review and approval (Revisione e approvazione tra pari)</strong>.
+    <br><br>
+    Nessun sistema di scansione vulnerabilità automatico o test QA garantisce che un programmatore interno malevolo non inserisca intenzionalmente una backdoor astuta e "pulita" nel sorgente. Solo una meticolosa revisione manuale guidata da un secondo programmatore indipendente (Peer Review) seguita da autorizzazione formale scherma questo rischio.
+  </div>
+
+  <h3 id="code-analysis">Analisi del codice: Silente vs Runtime</h3>
+  <dl class="termlist">
+    <dt>Analisi Statica del codice (Static Code Analysis / SAST)</dt>
+    <dd>Analisi del codice sorgente condotta "a freddo" senza eseguire il programma. Ideale per cercare vulnerabilità strutturali, credenziali hardcoded o firme note di file malevoli (Static analysis) (SCREEN_622).</dd>
+    <dt>Analisi Dinamica del codice (Dynamic Analysis / DAST)</dt>
+    <dd>Verifica e test di sicurezza eseguiti <strong>mentre l'applicazione è in esecuzione (at runtime)</strong> (SCREEN_619). Permette di valutare le risposte reali dell'app a sollecitazioni fittizie e carichi di traffico.</dd>
+  </dl>
+
+  <h3 id="obfuscation-signing">Obfuscation e Code Signing</h3>
+  <dl class="termlist">
+    <dt>Offuscamento del codice (Code Obfuscation)</dt>
+    <dd>La tecnica preferita per ridurre drasticamente la probabilità che il software proprietario esportato o ceduto ai clienti venga decompilato o retroingegnerizzato (Reverse engineering), proteggendo la proprietà intellettuale (SCREEN_369).</dd>
+    <dt>Firma digitale del codice (Code Signing)</dt>
+    <dd>Garantisce l'integrità e l'autenticità del codice d'installazione. L'utente ricevente sa con certezza che l'eseguibile proviene dal fornitore dichiarato e che non è stato alterato da terze parti.</dd>
+  </dl>
+</section>
+
+<!-- ══ HOST SECURITY & ENDPOINT ═════════════════════════════════ -->
+<section id="host-security">
+  <h2>Sicurezza degli Host e degli Endpoint (Host Security & Controls)</h2>
+  <p>
+    Una volta immessi sulla rete, gli host richiedono protezioni individuali capaci di operare anche qualora il perimetro esterno crolli.
+  </p>
+
+  <h3 id="nac-protection">Controllo degli Accessi di Rete (NAC) e Superfici Fisiche</h3>
+  <p>
+    Il <strong>Network Access Control - NAC (Controllo degli accessi di rete)</strong> convalida l'identità, lo stato delle patch e i sistemi antivirus di qualsiasi dispositivo che tenti di accoppiarsi alla rete prima di accordare un IP.
+  </p>
+  <div class="exam-tip">
+    <strong>EXAM TIP — Proteggere la superficie cablata (Wired Port)</strong><br>
+    (1) "After a security incident, a system administrator asks the company to buy a NAC platform. Which attack surface is trying to protect?" (SCREEN_495) <br>
+    → <strong>Wired (Cablata)</strong>. Il NAC impedisce collegamenti abusivi sui cavi ethernet aziendali.<br>
+    (2) "A penetration tester finds an unused Ethernet port during an on-site test. Upon plugging a device, the tester is assigned an IP address allowing enumeration. Which solution should an administrator implement?" (SCREEN_563)<br>
+    → <strong>Port Security</strong> (o 802.1X). La port security spegne la porta switch se rileva un indirizzo MAC non registrato o forza la richiesta di profili di sicurezza individuali.
+  </div>
+
+  <h3 id="edr-lateral">EDR, Lateral Movement e Isolamento</h3>
+  <dl class="termlist">
+    <dt>Host Isolation (Isolamento dell'host / host-based isolation)</dt>
+    <dd>Il meccanismo in assoluto più sicuro per garantire che una risorsa infetta diventi totalmente impermeabile ed inaccessibile ad ogni altra entità connessa alla rete aziendale (SCREEN_681).</dd>
+    <dt>Host-based Firewall (Firewall lato host)</dt>
+    <dd>Fornisce la protezione più fine contro flussi e comunicazioni insicure inviate da e verso la singola workstation o server (SCREEN_499).</dd>
+    <dt>Endpoint Detection and Response (EDR)</dt>
+    <dd>Piattaforma avanzata che monitora in real-time i comportamenti malevoli su dischi, processi e registri. È la risposta per bloccare l'esecuzione laterale di ransomware e virus tra nodi della stessa rete (SCREEN_308).</dd>
+  </dl>
+  <div class="example-box">
+    <strong>Mitigare i click sui Phishing Link (SCREEN_192)</strong><br>
+    Un test aziendale di Phishing mostra tassi di errore inaccettabili da parte degli utenti, i quali cliccano con alta frequenza su link pericolosi. Al fine di circoscrivere ed abbattere l'impatto distruttivo in tempo reale di questi click, l'analista deve **configurare le politiche EDR lato endpoint** per impedire l'esecuzione automatica di codici e software scaricati a seguito del click.
+  </div>
+
+  <h3 id="application-allowlist">Application Allow List (Lista di programmi autorizzati)</h3>
+  <p>
+    I sistemi antivirus tradizionali cercano firme note (database delle minacce). Se la minaccia è ignota (Zero-Day o ransomware mai catalogato), essi falliscono.
+  </p>
+  <dl class="termlist">
+    <dt>Application Allow List (Lista di programmi autorizzati)</dt>
+    <dd>Filosofia di sicurezza "Zero-Trust" in cui l'host blocca programmaticamente l'avvio di qualsiasi programma, script o eseguibile ad eccezione di quelli esplicitamente registrati e approvati in lista. Rappresenta la difesa d'oro per impedire l'esecuzione accidentale di malware da parte del personale (SCREEN_237) e bloccare programmi sconosciuti (SCREEN_180).</dd>
+  </dl>
+
+  <h3 id="endpoint-management">Gestione Endpoints, IaC e Wiping dei Laptop dismessi</h3>
+  <p>
+    Per governare parchi computer formati da migliaia di nodi, si scelgono software centralizzati di Endpoint Management.
+  </p>
+  <dl class="termlist">
+    <dt>Endpoint Management Software (Software di gestione degli endpoint)</dt>
+    <dd>Fornisce una singola console centralizzata atta a verificare l'insorgenza di modifiche non autorizzate del parco server e delle workstation aziendali, offrendo monitoraggio costante del software caricato (SCREEN_225).</dd>
+    <dt>Controllo di Versione (Version Control)</dt>
+    <dd>Quando i server sono configurati tramite modelli software di Infrastructure as Code (IaC), lo strumento più adatto per tracciare e tenere storicizzate le modifiche al codice di build è un applicativo di **Version Control (Controllo di Versione - es. Git)** (SCREEN_654).</dd>
+    <dt>Bonifica (Wiping) dei Laptop pensionati</dt>
+    <dd>Per impedire il furto di dati dei clienti conservati all'interno di hard disk appartenenti a laptop dismessi (pensionati/decommissionati), il metodo più efficiente per costi e scalabilità che azzera i rischi è procedere al **Wiping (Sovrascrittura sicura dei dati del disco)** (SCREEN_567) rispetto alla più costosa frammentazione o distruzione fisica del bene aziendale riutilizzabile.</dd>
+  </dl>
+</section>
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 4.1</h2>
+  <div class="chapter-meta">
+    <p><strong>36 domande reali d'esame</strong> su baseline, hardening, security applicativa, wireless, MDM ed endpoint protection, strutturate con feedback e spiegazione tecnica approfondita.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.1 →</button>
+  </div>
+</section>
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 4.1</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Server Hardening: Primo Step</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Il primissimo controllo di indurimento logico consiste sempre nell'<strong>Aggiornare il software alla versione corrente</strong> (Update software to current version).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>COPE Cellphone Security</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>La policy descrive dispositivi aziendali destinati anche all'uso privato. Richiede imperativamente meccanismi di <strong>remote wipe</strong> e <strong>cifratura completa del disco</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Input Validation / Sanitization</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Filtrare via RegEx codici speciali ($, &, ;, etc) per prevenire iniezioni malevole di comandi (es: exploit Log4j) o iniezioni di script non sicuri sul server.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Peer Review & Approval</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Revisione incrociata programmata per bloccare l'eventuale minaccia interna (insider threat/programmer malevolo) prima che un codice vulnerabile o backdoor entri in produzione.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Static vs Dynamic Analysis</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Static Analysis</strong>: scansione a codice spento interrogando firme e pattern noti.<br><strong>Dynamic Analysis (DAST)</strong>: monitora in tempo reale l'applicazione at runtime.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Application Allow List vs Block List</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Allow List</strong>: approccio protettivo massimo che inibisce preventivamente l'esecuzione di qualsiasi programma sconosciuto o non censito nei cataloghi autorizzativi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="obj3_4_resilience.html">← OBJ 3.4 — Resilienza e recovery</a>
+  <span class="secondary text-muted">OBJ 4.2 — Gestione asset (Prossimamente) →</span>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 4.1 · 36 domande d'esame disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>36 domande in ordine casuale</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 domande casuali</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 4.1</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var Q=[
+  {
+    "id": "SCREEN_054",
+    "text": "An application developer is using guardrails when creating a new web app. Which of the following would best describe this technique?",
+    "opts": [
+      { "id": "A", "t": "Require multiple factors during authentication", "c": false },
+      { "id": "B", "t": "Show detailed information on startup splash screen", "c": false },
+      { "id": "C", "t": "Log debug information during use", "c": false },
+      { "id": "D", "t": "Automate input and output validation", "c": true }
+    ],
+    "expl": "I guardrail nello sviluppo software modernizzano la sicurezza automatizzando i controlli sistematici, inclusa la validazione logica dell'input dei form e dell'output emesso, riducendo l'insorgenza di bug o iniezioni malevole."
+  },
+  {
+    "id": "SCREEN_078",
+    "text": "An organization recently updated its security policy to include the following statement: Regular expressions are included in source code to remove special characters such as $, |, ;, &, `, and ? from variables set by forms in a web application. Which of the following best explains the security technique the organization adopted by making this addition to the policy?",
+    "opts": [
+      { "id": "A", "t": "Identify embedded keys", "c": false },
+      { "id": "B", "t": "Code debugging", "c": false },
+      { "id": "C", "t": "Input validation", "c": true },
+      { "id": "D", "t": "Static code analysis", "c": false }
+    ],
+    "expl": "Filtrare caratteri di controllo speciali provenienti dai form utilizzando Regular Expression è un'implementazione classica di validazione dell'input (Input Validation) per impedire iniezioni e cross-site scripting."
+  },
+  {
+    "id": "SCREEN_082",
+    "text": "Which of the following practices would be best to prevent an insider from introducing malicious code into a company's development process?",
+    "opts": [
+      { "id": "A", "t": "Code scanning for vulnerabilities", "c": false },
+      { "id": "B", "t": "Open-source component usage", "c": false },
+      { "id": "C", "t": "Quality assurance testing", "c": false },
+      { "id": "D", "t": "Peer review and approval", "c": true }
+    ],
+    "expl": "La peer review (verifica concettuale ed approvazione del codice da parte di colleghi) è la difesa più forte per evitare che uno sviluppatore interno compromesso (Insider Threat) introduca intenzionalmente backdoor impercettibili ad un antivirus o scanner automatico."
+  },
+  {
+    "id": "SCREEN_084",
+    "text": "A security team is reviewing the findings in a report that was delivered after a third party performed a penetration test. One of the findings indicated that a web application form field is vulnerable to cross-site scripting. Which of the following application security techniques should the security analyst recommend the developer implement to prevent this vulnerability?",
+    "opts": [
+      { "id": "A", "t": "Secure cookies", "c": false },
+      { "id": "B", "t": "Version control", "c": false },
+      { "id": "C", "t": "Input validation", "c": true },
+      { "id": "D", "t": "Code signing", "c": false }
+    ],
+    "expl": "Per rimediare al Cross-Site Scripting (XSS) rilevato in un form, la tecnica corretta ed essenziale è applicare la sanificazione o validazione dell'input (Input Validation), ripulendo o codificando i caratteri speciali HTML immessi dall'utente."
+  },
+  {
+    "id": "SCREEN_180",
+    "text": "Which of the following would be the best way to block unknown programs from executing?",
+    "opts": [
+      { "id": "A", "t": "Access control list", "c": false },
+      { "id": "B", "t": "Application allow list", "c": true },
+      { "id": "C", "t": "Host-based firewall", "c": false },
+      { "id": "D", "t": "DLP solution", "c": false }
+    ],
+    "expl": "Una lista dei consentiti applicativa (Application Allow List) blocca l'esecuzione di qualunque programma o software ignoto o non espressamente approvato preventiva e programmaticamente."
+  },
+  {
+    "id": "SCREEN_192",
+    "text": "A security analyst and the management team are reviewing the organizational performance of a recent phishing campaign. The user click-through rate exceeded the acceptable risk threshold, and the management team wants to reduce the impact when a user clicks on a link in a phishing message. Which of the following should the analyst do?",
+    "opts": [
+      { "id": "A", "t": "Place posters around the office to raise awareness of common phishing activities.", "c": false },
+      { "id": "B", "t": "Implement email security filters to prevent phishing emails from being delivered.", "c": false },
+      { "id": "C", "t": "Update the EDR policies to block automatic execution of downloaded programs.", "c": true },
+      { "id": "D", "t": "Create additional training for users to recognize the signs of phishing attempts.", "c": false }
+    ],
+    "expl": "Per ridurre l'impatto qualora l'utente clicchi su un link truffaldino, la risposta tecnica consiste nell'aggiornare le policy dell'EDR lato host per fermare e bloccare l'esecuzione o il caricamento di file eseguibili e programmi scaricati automaticamente dal browser o dalla mail."
+  },
+  {
+    "id": "SCREEN_203",
+    "text": "HOTSPOT - Select the appropriate attack and remediation from each drop-down list to label the corresponding attack with its remediation.",
+    "opts": [
+      { "id": "A", "t": "SYN packets from multiple sources (Web server): Botnet - Enable DDoS protection", "c": true },
+      { "id": "B", "t": "Remote commands execution (User): RAT - Disable remote access services", "c": true },
+      { "id": "C", "t": "SQL database compromise with well-known credentials (Database server): Worm - Patch vulnerable systems", "c": true },
+      { "id": "D", "t": "Hardware monitors user input (Executive): Keylogger - Implement 2FA using push notification", "c": true },
+      { "id": "E", "t": "Hidden access in internally developed application (Application): Backdoor - Conduct a code review", "c": true }
+    ],
+    "expl": "Questo riassume i binomi di attacco e mitigazione: i pacchetti SYN si mitigano con protezioni DDoS; comandi remoti RAT disabilitando accessi remoti non protetti; worm patchando software; keylogger imponendo autenticazioni a due fattori basate su push e non catturabili da tastiera; backdoor effettuando un meticoloso code review."
+  },
+  {
+    "id": "SCREEN_225",
+    "text": "Which of the following actions could a security engineer take to ensure workstations and servers are properly monitored for unauthorized changes and software?",
+    "opts": [
+      { "id": "A", "t": "Configure all systems to log scheduled tasks.", "c": false },
+      { "id": "B", "t": "Collect and monitor all traffic exiting the network.", "c": false },
+      { "id": "C", "t": "Block traffic based on known malicious signatures.", "c": false },
+      { "id": "D", "t": "Install endpoint management software on all systems", "c": true }
+    ],
+    "expl": "La soluzione centralizzata per accertarsi che workstation e server siano controllati per rilevare variazioni software o attività non consentite consiste nell'installare agenti di Endpoint Management Software."
+  },
+  {
+    "id": "SCREEN_237",
+    "text": "Which of the following can best protect against an employee inadvertently installing malware on a company system?",
+    "opts": [
+      { "id": "A", "t": "Host-based firewall", "c": false },
+      { "id": "B", "t": "System isolation", "c": false },
+      { "id": "C", "t": "Least privilege", "c": false },
+      { "id": "D", "t": "Application allow list", "c": true }
+    ],
+    "expl": "L'Application Allow List (Lista di programmi autorizzati) impedisce il caricamento all'utente o a script terzi di installare malware accidentalmente sul computer, bloccando preventivamente tutto il non esplicitamente censito."
+  },
+  {
+    "id": "SCREEN_284",
+    "text": "A technician is deploying a new security camera. Which of the following should the technician do?",
+    "opts": [
+      { "id": "A", "t": "Configure the correct VLAN.", "c": false },
+      { "id": "B", "t": "Perform a vulnerability scan.", "c": false },
+      { "id": "C", "t": "Disable unnecessary ports.", "c": false },
+      { "id": "D", "t": "Conduct a site survey.", "c": true }
+    ],
+    "expl": "Per l'installazione di una telecamera si esegue preliminarmente un site survey sul campo per ottimizzare coperture d'antenna, prevenire bypass visivi ed ostacoli fisici."
+  },
+  {
+    "id": "SCREEN_308",
+    "text": "Which of the following is used to protect a computer from viruses, malware, and Trojans being installed and moving laterally across the network?",
+    "opts": [
+      { "id": "A", "t": "IDS", "c": false },
+      { "id": "B", "t": "ACL", "c": false },
+      { "id": "C", "t": "EDR", "c": true },
+      { "id": "D", "t": "NAC", "c": false }
+    ],
+    "expl": "L'EDR (Endpoint Detection and Response) monitora processi sospetti, bloccando attivamente l'installazione e l'espansione laterale (lateral movement) di virus, trojan e ransomware sulle altre macchine."
+  },
+  {
+    "id": "SCREEN_342",
+    "text": "Which of the following examples would be best mitigated by input sanitization?",
+    "opts": [
+      { "id": "A", "t": "&lt;script&gt;alert(\"Warning!\");&lt;/script&gt;", "c": true },
+      { "id": "B", "t": "nmap - 10.11.1.130", "c": false },
+      { "id": "C", "t": "Email message: \"Click this link to get your free gift card.\"", "c": false },
+      { "id": "D", "t": "Browser message: \"Your connection is not private.\"", "c": false }
+    ],
+    "expl": "La stringa &lt;script&gt;alert(...) rappresenta il classico frame inject d'attacco XSS. Lo si contrasta attivamente ripulendo (sanificandole) le stringhe in input."
+  },
+  {
+    "id": "SCREEN_346",
+    "text": "A user would like to install software and features that are not available with a smartphone's default software. Which of the following would allow the user to install unauthorized software and enable new features?",
+    "opts": [
+      { "id": "A", "t": "SQLi", "c": false },
+      { "id": "B", "t": "Cross-site scripting", "c": false },
+      { "id": "C", "t": "Jailbreaking", "c": true },
+      { "id": "D", "t": "Side loading", "c": false }
+    ],
+    "expl": "Il Jailbreaking rimuove le restrizioni di root del firmware imposte dalla fabbrica, permettendo modifiche profonde e installazioni di software non approvati dai merchant store ufficiali."
+  },
+  {
+    "id": "SCREEN_353",
+    "text": "An administrator needs to perform server hardening before deployment. Which of the following steps should the administrator take? (Choose two.)",
+    "opts": [
+      { "id": "A", "t": "Disable default accounts.", "c": true },
+      { "id": "B", "t": "Add the server to the asset inventory.", "c": false },
+      { "id": "C", "t": "Remove unnecessary services.", "c": true },
+      { "id": "D", "t": "Document default passwords.", "c": false },
+      { "id": "E", "t": "Send server logs to the SIEM.", "c": false },
+      { "id": "F", "t": "Join the server to the corporate domain.", "c": false }
+    ],
+    "expl": "Il nucleo iniziale di indurimento server prima della messa in linea esige di eliminare account standard noti (default accounts) e spegnere servizi di diagnostica o non necessari."
+  },
+  {
+    "id": "SCREEN_367",
+    "text": "A threat actor was able to use a username and password to log in to a stolen company mobile device. Which of the following provides the best solution to increase mobile data security on all employees' company mobile devices?",
+    "opts": [
+      { "id": "A", "t": "Application management", "c": false },
+      { "id": "B", "t": "Full disk encryption", "c": false },
+      { "id": "C", "t": "Remote wipe", "c": true },
+      { "id": "D", "t": "Containerization", "c": false }
+    ],
+    "expl": "Se un attaccante ha in mano le credenziali e il cellulare aziendale fisico, il sistema primario per tutelare i dati d'ufficio e resettare il device a distanza è ordinare un Remote Wipe."
+  },
+  {
+    "id": "SCREEN_369",
+    "text": "A software development team asked a security administrator to recommend techniques that should be used to reduce the chances of the software being reverse engineered. Which of the following should the security administrator recommend?",
+    "opts": [
+      { "id": "A", "t": "Digitally signing the software", "c": false },
+      { "id": "B", "t": "Performing code obfuscation", "c": true },
+      { "id": "C", "t": "Limiting the use of third-party libraries", "c": false },
+      { "id": "D", "t": "Using compile flags", "c": false }
+    ],
+    "expl": "L'offuscamento (Obfuscation) rende difficile leggere ed interpretare il sorgente disassemblato del software, stroncando sul nascere i costi di reverse engineering del prodotto venduto."
+  },
+  {
+    "id": "SCREEN_379",
+    "text": "A coffee shop owner wants to restrict internet access to only paying customers by prompting them for a receipt number. Which of the following is the best method to use given this requirement?",
+    "opts": [
+      { "id": "A", "t": "WPA3", "c": false },
+      { "id": "B", "t": "Captive portal", "c": true },
+      { "id": "C", "t": "PSK", "c": false },
+      { "id": "D", "t": "IEEE 802.1X", "c": false }
+    ],
+    "expl": "Il Captive Portal cattura le prime transazioni del browser mostrando un form web per digitare credenziali o un scontrino (receipt number) prima di erogare la rete Wi-Fi."
+  },
+  {
+    "id": "SCREEN_408",
+    "text": "A newly implemented wireless network is designed so that visitors can connect to the wireless network for business activities. The legal department is concerned that visitors might connect to the network and perform illicit activities. Which of the following should the security team implement to address this concern?",
+    "opts": [
+      { "id": "A", "t": "Configure a RADIUS server to manage device authentication.", "c": false },
+      { "id": "B", "t": "Use 802.1X on all devices connecting to wireless.", "c": false },
+      { "id": "C", "t": "Add a guest captive portal requiring visitors to accept terms and conditions.", "c": true },
+      { "id": "D", "t": "Allow for new devices to be connected via WPS.", "c": false }
+    ],
+    "expl": "Obbligare i visitatori ad assumersi le responsabilità legali accettando termini e condizioni descrive l'adozione di un guest captive portal all'allaccio."
+  },
+  {
+    "id": "SCREEN_483",
+    "text": "A security analyst is reviewing logs and discovers the following: 149.32.228.10 - - [28/Jan/2023:16:32:45] “GET / HTTP/1.0” User-Agent: ${/bin/sh/ id} 200 397. Which of the following should be used to best mitigate this type of attack?",
+    "opts": [
+      { "id": "A", "t": "Input sanitization", "c": true },
+      { "id": "B", "t": "Secure cookies", "c": false },
+      { "id": "C", "t": "Static code analysis", "c": false },
+      { "id": "D", "t": "Sandboxing", "c": false }
+    ],
+    "expl": "La stringa ${/bin/sh/ id} passata in un header HTTP come lo User-Agent rappresenta un tentativo d'iniezione codice (Log4j / Remote Shell exploit). La sanificazione dell'input (Input Sanitization) ripulisce queste stringhe speciali d'esecuzione prima di elaborarle."
+  },
+  {
+    "id": "SCREEN_495",
+    "text": "After a security incident, a systems administrator asks the company to buy a NAC platform. Which of the following attack surfaces is the systems administrator trying to protect?",
+    "opts": [
+      { "id": "A", "t": "Bluetooth", "c": false },
+      { "id": "B", "t": "Wired", "c": true },
+      { "id": "C", "t": "NFC", "c": false },
+      { "id": "D", "t": "SCADA", "c": false }
+    ],
+    "expl": "Il NAC impedisce attacchi abusivi operanti sulle porte fisiche cablate (Wired interface) disattivandone i link di rete in caso di anomalie di conformità dispositivo."
+  },
+  {
+    "id": "SCREEN_497",
+    "text": "An organization issued new laptops to all employees and wants to provide web filtering both in and out of the office without configuring additional access to the network. Which of the following types of web filtering should a systems administrator configure?",
+    "opts": [
+      { "id": "A", "t": "Agent-based", "c": true },
+      { "id": "B", "t": "Centralized proxy", "c": false },
+      { "id": "C", "t": "URL scanning", "c": false },
+      { "id": "D", "t": "Content categorization", "c": false }
+    ],
+    "expl": "Un filtro web basato su agenti (Agent-based Web Filtering) risiede direttamente sul laptop, monitorando e controllando la navigazione anche quando i lavoratori si trovano fuori ufficio senza connettersi a proxy di backend dedicati."
+  },
+  {
+    "id": "SCREEN_499",
+    "text": "Which of the following provides the best protection against unwanted or insecure communications to and from a device?",
+    "opts": [
+      { "id": "A", "t": "System hardening", "c": false },
+      { "id": "B", "t": "Host-based firewall", "c": true },
+      { "id": "C", "t": "Intrusion detection system", "c": false },
+      { "id": "D", "t": "Anti-malware software", "c": false }
+    ],
+    "expl": "Un firewall residente sul host (Host-based Firewall) vigila, limita e assevera ogni flusso o traffico non gradito in transito bidirezionale da e verso la risorsa."
+  },
+  {
+    "id": "SCREEN_501",
+    "text": "An employee who was working remotely lost a mobile device containing company data. Which of the following provides the best solution to prevent future data loss?",
+    "opts": [
+      { "id": "A", "t": "MDM", "c": true },
+      { "id": "B", "t": "DLP", "c": false },
+      { "id": "C", "t": "FDE", "c": false },
+      { "id": "D", "t": "EDR", "c": false }
+    ],
+    "expl": "Un software MDM gestisce globalmente i telefoni aziendali, offrendo comandi rapidi di geolocalizzazione, blocco e cifratura dati, preservando future violazioni da smarrimenti."
+  },
+  {
+    "id": "SCREEN_503",
+    "text": "A company plans to secure its systems by preventing users from sending sensitive data over corporate email and restricting access to potentially harmful websites. Which of the following features should the company set up? (Choose two.)",
+    "opts": [
+      { "id": "A", "t": "DLP software", "c": true },
+      { "id": "B", "t": "DNS filtering", "c": true },
+      { "id": "C", "t": "File integrity monitoring", "c": false },
+      { "id": "D", "t": "Stateful firewall", "c": false },
+      { "id": "E", "t": "Guardrails", "c": false },
+      { "id": "F", "t": "Antivirus signatures", "c": false }
+    ],
+    "expl": "Il software DLP (Data Loss Prevention) arresta l'invio via email di dati sensibili all'esterno, mentre il filtro DNS (DNS Filtering) inibisce all'utente l'accesso iniziale a domini web classificati come pericolosi."
+  },
+  {
+    "id": "SCREEN_544",
+    "text": "An organization is implementing a COPE mobile device management policy. Which of the following should the organization include in the COPE policy? (Choose two.)",
+    "opts": [
+      { "id": "A", "t": "Remote wiping of the device", "c": true },
+      { "id": "B", "t": "Data encryption", "c": true },
+      { "id": "C", "t": "Requiring passwords with eight characters", "c": false },
+      { "id": "D", "t": "Data usage caps", "c": false },
+      { "id": "E", "t": "Employee data ownership", "c": false },
+      { "id": "F", "t": "Personal application store access", "c": false }
+    ],
+    "expl": "Poiché i cellulari in regime COPE sono proprietà aziendale erogata con permessi d'uso ludici, la policy deve sancire ed abilitare la cifratura locale dei dati (Data encryption) e la cancellazione gestita da remoto (Remote wiping)."
+  },
+  {
+    "id": "SCREEN_547",
+    "text": "Which of the following should a security team do first before a new web server goes live?",
+    "opts": [
+      { "id": "A", "t": "Harden the virtual host.", "c": true },
+      { "id": "B", "t": "Create WAF rules.", "c": false },
+      { "id": "C", "t": "Enable network intrusion detection.", "c": false },
+      { "id": "D", "t": "Apply patch management.", "c": false }
+    ],
+    "expl": "Mettere in sicurezza e applicare l'hardening sull'host virtuale (Harden the virtual host) su cui risiede il server web rappresenta l'azione primaria di difesa fondamentale prima della pubblicazione online."
+  },
+  {
+    "id": "SCREEN_567",
+    "text": "A company is concerned about theft of client data from decommissioned laptops. Which of the following is the most cost-effective method to decrease this risk?",
+    "opts": [
+      { "id": "A", "t": "Wiping", "c": true },
+      { "id": "B", "t": "Recycling", "c": false },
+      { "id": "C", "t": "Shredding", "c": false },
+      { "id": "D", "t": "Deletion", "c": false }
+    ],
+    "expl": "La sovrascrittura sicura (Wiping / Sanitization) svuota e disinfetta magneticamente o elettronicamente il disco in modo ripetibile e ad alta efficienza di costi, permettendo il riuso del notebook."
+  },
+  {
+    "id": "SCREEN_588",
+    "text": "A network engineer is increasing the overall security of network devices and needs to harden the devices. Which of the following will best accomplish this task?",
+    "opts": [
+      { "id": "A", "t": "Configuring centralized logging", "c": false },
+      { "id": "B", "t": "Generating local administrator accounts", "c": false },
+      { "id": "C", "t": "Replacing Telnet with SSH", "c": true },
+      { "id": "D", "t": "Enabling HTTP administration", "c": false }
+    ],
+    "expl": "L'indurimento protocollare consiste nel rimpiazzare comunicazioni vulnerabili in chiaro (Telnet, HTTP) con canali ad alta cifratura simmetrica/asimmetrica come SSH (porta 22)."
+  },
+  {
+    "id": "SCREEN_604",
+    "text": "The management team reports that employees are missing features on company-provided tablets, which is causing productivity issues. The management team directs the IT team to resolve the issue within 48 hours. Which of the following would be the best solution for the IT team to leverage in this scenario?",
+    "opts": [
+      { "id": "A", "t": "EDR", "c": false },
+      { "id": "B", "t": "COPE", "c": false },
+      { "id": "C", "t": "MDM", "c": true },
+      { "id": "D", "t": "FDE", "c": false }
+    ],
+    "expl": "Un server MDM permette di installare ed abilitare globalmente le applicazioni, feature e widget carenti sui tablet distribuiti dall'ufficio in pochi instanti."
+  },
+  {
+    "id": "SCREEN_605",
+    "text": "A company is implementing a policy to allow employees to use their personal equipment for work. However, the company wants to ensure that only company-approved applications can be installed. Which of the following addresses this concern?",
+    "opts": [
+      { "id": "A", "t": "MDM", "c": true },
+      { "id": "B", "t": "Containerization", "c": false },
+      { "id": "C", "t": "DLP", "c": false },
+      { "id": "D", "t": "FIM", "c": false }
+    ],
+    "expl": "L'MDM permette di imporre un set di applicazioni consentite per l'ufficio ed arrestare il caricamento di programmi illegittimi sul dispositivo nel canale adoperato per scopi professionali."
+  },
+  {
+    "id": "SCREEN_619",
+    "text": "Which of the following types of identification methods can be performed on a deployed application during runtime?",
+    "opts": [
+      { "id": "A", "t": "Dynamic analysis", "c": true },
+      { "id": "B", "t": "Code review", "c": false },
+      { "id": "C", "t": "Package monitoring", "c": false },
+      { "id": "D", "t": "Bug bounty", "c": false }
+    ],
+    "expl": "L'analisi dinamica (Dynamic analysis) monitora i comportamenti dell'applicazione, le eccezioni scatenate e i buffer caricati in modo reattivo mentre l'applicativo è in esecuzione (at runtime)."
+  },
+  {
+    "id": "SCREEN_622",
+    "text": "A security engineer needs to quickly identify a signature from a known malicious file. Which of the following analysis methods would the security engineer most likely use?",
+    "opts": [
+      { "id": "A", "t": "Static", "c": true },
+      { "id": "B", "t": "Sandbox", "c": false },
+      { "id": "C", "t": "Network traffic", "c": false },
+      { "id": "D", "t": "Package monitoring", "c": false }
+    ],
+    "expl": "Confrontare ed intercettare l'MD5 o la firma crittografica strutturata di un file infetto, senza caricarlo o eseguirlo, definisce l'analisi statica (Static analysis)."
+  },
+  {
+    "id": "SCREEN_654",
+    "text": "A company wants to track modifications to the code that is used to build new virtual servers. Which of the following will the company most likely deploy?",
+    "opts": [
+      { "id": "A", "t": "Change management ticketing system", "c": false },
+      { "id": "B", "t": "Behavioral analyzer", "c": false },
+      { "id": "C", "t": "Collaboration platform", "c": false },
+      { "id": "D", "t": "Version control tool", "c": true }
+    ],
+    "expl": "I template di Infrastructure as Code (IaC) impiegati per erogare host virtuali sono file testuali; lo strumento d'elezione per mapparne e tracciarne le modifiche è un tool di controllo di versione (Version control tool)."
+  },
+  {
+    "id": "SCREEN_660",
+    "text": "A systems administrator creates a script that validates OS version, patch levels, and installed applications when users log in. Which of the following examples best describes the purpose of this script?",
+    "opts": [
+      { "id": "A", "t": "Resource scaling", "c": false },
+      { "id": "B", "t": "Policy enumeration", "c": false },
+      { "id": "C", "t": "Baseline enforcement", "c": true },
+      { "id": "D", "t": "Guard rails implementation", "c": false }
+    ],
+    "expl": "Uno script che compara la compliancy software e OS al login costituisce l'applicazione attiva e l'imposizione dello standard (Baseline enforcement)."
+  },
+  {
+    "id": "SCREEN_681",
+    "text": "Which of the following should be used to ensure a device is inaccessible to a network-connected resource?",
+    "opts": [
+      { "id": "A", "t": "Disablement of unused services", "c": false },
+      { "id": "B", "t": "Web application firewall", "c": false },
+      { "id": "C", "t": "Host isolation", "c": true },
+      { "id": "D", "t": "Network-based IDS", "c": false }
+    ],
+    "expl": "Per arrestare d'urto la propagazione e l'interazione del computer infettato bloccandone l'accesso a qualsiasi target della LAN, si opera l'isolamento della macchina (Host isolation)."
+  },
+  {
+    "id": "SCREEN_728",
+    "text": "Which of the following is the first step to secure a newly deployed server?",
+    "opts": [
+      { "id": "A", "t": "Close unnecessary service ports.", "c": false },
+      { "id": "B", "t": "Update the current version of the software.", "c": true },
+      { "id": "C", "t": "Add the device to the ACL.", "c": false },
+      { "id": "D", "t": "Upgrade the OS version.", "c": false }
+    ],
+    "expl": "Aggiornare il software alla versione corrente patchata e disinfettata (Update current version of software) definisce la prima priorità operativa quando una macchina viene esposta in rete."
+  }
+];
+
+var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
+contentEl.style.display='none';resultEl.style.display='none';
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 4.1';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
+function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
+function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
+function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
+document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
+document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
+document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
+nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
+})();
+</script>
+</body>
+</html>

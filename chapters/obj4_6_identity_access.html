@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 4.6 — Implementare e Gestire Identity and Access Management (IAM) · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.6 — Gestione Identità e Accessi (IAM)</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.6 — Implementare e Gestire l'Identity and Access Management (IAM)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Given a scenario, implement and maintain identity and access management.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">4.6</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisiti:</strong>
+        <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
+        <a href="obj1_2_fundamental_concepts.html">OBJ 1.2 — Concetti fondamentali</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Credenziali & MFA</div>
+        <a href="#mfa_factors">Fattori ed Attributi MFA</a>
+        <a href="#password_policies">Politiche delle Password & Passwordless</a>
+
+        <div class="toc-section">IdP & Federazione</div>
+        <a href="#sso_federation">Directory Services, IdP, SSO & Federazione</a>
+        <a href="#auth_protocols">Protocolli: SAML, OAuth, OIDC</a>
+
+        <div class="toc-section">Controlli d'Accesso</div>
+        <a href="#access_models">Modelli d'Accesso: RBAC, ABAC, DAC, MAC</a>
+        <a href="#time_access">Restrizioni Temporali & Geolocation</a>
+
+        <div class="toc-section">Strumenti & Hardening</div>
+        <a href="#pam_gpo">PAM (Privileged Access) & GPO (Active Directory)</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (38 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — UNIVERSI MFA & FATTORI ════════════════ -->
+        <section id="mfa_factors">
+          <h2>Credenziali d'Autenticazione e Protocolli Multi-Fattore (MFA)</h2>
+          <p>
+            L'autenticazione è il processo di <strong>convalida e verifica delle credenziali</strong> presentate da un utente al fine di accertare che corrisponda effettivamente all'identità digitale dichiarata <code>(SCREEN_046)</code>. Per sventare accessi illeciti derivanti da furti di credenziali, si implementa obbligatoriamente l'<strong>autenticazione a più fattori (Multifactor Authentication - MFA)</strong> <code>(SCREEN_118, SCREEN_421, SCREEN_695)</code>.
+          </p>
+
+          <h3>I 3 Fattori di Autenticazione Tradizionali</h3>
+          <p>
+            Perché un sistema si possa considerare rigorosamente MFA, i requisiti presentati dall'utente devono provenire da <strong>almeno due categorie indipendenti</strong> di fattori <code>(SCREEN_268, SCREEN_370)</code>:
+          </p>
+          <dl class="termlist">
+            <dt>Something You Know — Qualcosa che conosci</dt>
+            <dd>Si basa sulla conoscenza esclusiva di informazioni astratte archiviate nella mente del soggetto. Esempi chiave: <strong>Password</strong>, <strong>PIN personali</strong> <code>(SCREEN_055, SCREEN_056)</code>, domande di sicurezza di backup.</dd>
+            
+            <dt>Something You Have — Qualcosa che possiedi</dt>
+            <dd>Elementi materiali o elettronici detenuti fisicamente dall'impiegato. Esempi chiave: <strong>Smart card</strong>, <strong>Hardware token</strong> (chiavette crittografiche come YubiKey), <strong>Software token</strong> (applicazioni su smartphone), chiavi di sicurezza o dispositivi registrati e associati all'account (Trusted Devices) <code>(SCREEN_055, SCREEN_056, SCREEN_360, SCREEN_370)</code>.</dd>
+            
+            <dt>Something You Are — Qualcosa che sei (Biometria)</dt>
+            <dd>Parametri biologici e tratti fisiologici statici intrinsechi dell'individuo. Esempi chiave: Scansione dell'iride, <strong>Retina scan</strong>, riscontro della fisionomia facciale (facial recognition) e <strong>Fingerprint scan</strong> (impronta digitale) <code>(SCREEN_055, SCREEN_056, SCREEN_599, SCREEN_695)</code>.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio Dinamico d'Esame — Scenario MFA VPN <code>(SCREEN_268)</code>:</strong><br>
+            Per proteggere una rete VPN ad alto rischio aziendale combinando tutti e tre i fattori fondamentali senza violare l'indipendenza strutturale, il manager deve prescrivere contemporaneamente una <strong>Password</strong> (conoscenza), un <strong>Token fisico o OTP</strong> (possesso), e un'<strong>Impronta digitale (Thumbprint)</strong> (essere).
+          </div>
+
+          <h3>Attributi Avanzati di Contesto</h3>
+          <p>
+            Oltre ai fattori classici, i moderni motori IAM valutano attributi situazionali per decidere se bloccare un login o richiedere prove addizionali:
+          </p>
+          <ul>
+            <li><strong>Somewhere You Are (IP Geolocation)</strong>: Rileva la posizione fisica del terminale a livello geografico. Consente di mitigare e inibire accessi illeciti originati da regioni ad alto rischio cyber o fuori sede ordinaria <code>(SCREEN_708)</code>.</li>
+            <li><strong>Something You Do (Dinamiche del comportamento)</strong>: Include la cadenza di battitura sulla tastiera, la velocità di spostamento del mouse o i pattern tipici d'uso dell'applicazione.</li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 2 — PASSWORD POLICIES & ACCESSI PASSWORDLESS ════ -->
+        <section id="password_policies">
+          <h2>Politiche di Sicurezza delle Password & Passwordless</h2>
+          <p>
+            In seguito a violazioni e account takeover dovuti a credenziali banali o facilmente indovinabili degli amministratori o degli utenti, un analista di sicurezza interviene riformando la <strong>politica di autenticazione</strong> aziendale <code>(SCREEN_030, SCREEN_671)</code>.
+          </p>
+
+          <div class="critical">
+            <strong>Parametri Cardine della Password Policy:</strong>
+            <ul>
+              <li><strong>Lunghezza (Length)</strong>: È l'elemento critico assoluto per resistere alle scansioni automatiche. Incrementare il requisito minimo di lunghezza a 14 o più caratteri garantisce l'entropia ideale <code>(SCREEN_030, SCREEN_671)</code>.</li>
+              <li><strong>Complessità (Complexity)</strong>: Forza l'adozione collettiva di una miscela casuale di lettere maiuscole, minuscole, cifre numeriche e <strong>caratteri speciali</strong> (@, #, $, %, ecc.) <code>(SCREEN_030, SCREEN_266, SCREEN_671)</code>.</li>
+              <li><strong>Storia delle Password (History)</strong>: Impedisce ai colleghi di riutilizzare all'infinito la stessa password costringendo il sistema a memorizzare le vecchie credenziali vietate.</li>
+              <li><strong>Età Massima (Maximum password age)</strong>: Impone la scadenza programmata dell'account (es: 90 giorni) per inibire l'uso di chiavi sottratte di nascosto.</li>
+            </ul>
+          </div>
+
+          <h3>L'evoluzione verso il Passwordless</h3>
+          <p>
+            Per escludere alla radice i vettori di phishing legati all'impiego delle parole chiave ordinarie, l'architettura aziendale evolve verso meccanismi passwordless. Per utenti remoti e multinazionali aventi la necessità di navigare in assenza perpetua di rete cellulare stabile, l'uso di <strong>Time-based One-Time Passcode (TOTP - Token basati sul tempo)</strong> e applicazioni mobili rappresenta il gold standard di indipendenza hardware e continuità lavorativa offline <code>(SCREEN_426)</code>.
+          </p>
+          <p>
+            Altresì, l'impiego del riconoscimento facciale integrato combinato con <strong>passcode monouso autogenerati in-app</strong> <code>(SCREEN_599)</code> soddisfa i migliori standard odierni di sblocco rapido senza acquisti addizionali o hardware licenziatario proprietario.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 3 — SSO & FEDERAZIONE ═════════════════════════ -->
+        <section id="sso_federation">
+          <h2>Servizi Directory, IdP, Single Sign-On (SSO) & Federazione</h2>
+          <p>
+            Man mano che le ditte espandono i propri operati impiegando moltitudini di applicazioni Web SaaS slegate tra loro, il proliferare di database di account e credenziali separate espone la rete a notevoli criticità.
+          </p>
+
+          <h3>Selezionare l'Identity Provider (IdP) come Primo Passo</h3>
+          <p class="focused-concept">
+            <strong>Punto d'Esame IAM — SaaS Consolidation <code>(SCREEN_024)</code>:</strong><br>
+            Se un'azienda desidera consolidare e abbassare il numero di credenziali destinate ai propri interni adottando un pilastro Single Sign-On (SSO), il <strong>primo passo logico</strong> consiste nel <strong>selezionare e configurare l'Identity Provider (IdP)</strong> centralizzato della ditta. L'IdP fungerà da autoritativo centrale preposto a validare e custodire le identità digitali, propagando le autorizzazioni alle singole applicazioni esterne (Service Providers - SP).
+          </p>
+
+          <h3>La Federazione delle Identità</h3>
+          <p>
+            La <strong>Federazione (Federation)</strong> consente ad un utente aziendale di autenticarsi in modo sicuro sul server d'identità interno della propria ditta e, grazie a relazioni di fiducia predefinite (Trust Relationships), accedere immediatamente alle risorse informatiche esterne di partner e partner cloud esterni senza reinserire alcuna password <code>(SCREEN_266)</code>.
+          </p>
+          <p>
+            I protocolli industriali standard di riferimento per regolare lo scambio sicuro e firmato digitalmente di queste identità federate includono <strong>SAML</strong>, <strong>OAuth</strong> e <strong>OIDC</strong>.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 4 — SAML VS OAUTH VS OIDC ════════════════════ -->
+        <section id="auth_protocols">
+          <h2>Differenze Chiave tra Protocolli d'Autenticazione d'Esame</h2>
+          <p>
+            Saper discriminare quando utilizzare uno standard rispetto a un altro è oggetto di innumerevoli scenari pratici CompTIA:
+          </p>
+
+          <table class="standard-table">
+            <thead>
+              <tr>
+                <th>Protocollo</th>
+                <th>Focus Principale</th>
+                <th>Standard dei Messaggi</th>
+                <th>Scenari Tipici d'Esame</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>SAML</strong> (Security Assertion Markup Language)</td>
+                <td>Autenticazione & SSO Aziendale</td>
+                <td>XML-based Assertions</td>
+                <td>Federazione SSO con applicazioni web SaaS cloud esterne (es: portali finanziari o contabili partner) <code>(SCREEN_363)</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>OAuth 2.0</strong> (Open Authorization)</td>
+                <td>Autorizzazione API (Access Tokens)</td>
+                <td>JSON / Bearer Tokens</td>
+                <td>Focus specifico sull'autorizzazione dell'applicazione client per agire sul cloud al posto dell'utente, senza gestire l'autenticazione delle credenziali <code>(SCREEN_489)</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>OIDC</strong> (OpenID Connect)</td>
+                <td>Autenticazione Utente su Web</td>
+                <td>JSON Web Tokens (JWT)</td>
+                <td>Strato d'autenticazione web moderno e responsive montato direttamente al di sopra dei token autorizzativi di OAuth 2.0.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="critical">
+            <strong>RADIUS per Infrastrutture Cisco/VPN <code>(SCREEN_355, SCREEN_666)</code>:</strong><br>
+            A differenza dei protocolli per l'ambiente web e SaaS descritti sopra, la connessione fisica della forza lavoro da remoto tramite VPN e client router richiede l'espletamento di flussi di sicurezza interni di tipo <strong>AAA (Authentication, Authorization, Accounting)</strong>. Lo standard di riferimento in questo ambito è la configurazione di un server <strong>RADIUS</strong> integrato con tunnel VPN <strong>IPSec</strong>.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 5 — MODELLI DI CONTROLLO D'ACCESSO ════════════ -->
+        <section id="access_models">
+          <h2>Modelli di Controllo d'Accesso (Access Control Models)</h2>
+          <p>
+            Definiscono il formalismo matematico e logico adottato dal sistema operativo o dall'applicazione per concedere o rifiutare le autorizzazioni:
+          </p>
+          <dl class="termlist">
+            <dt>Role-Based Access Control / RBAC (Accesso basato sui Ruoli)</dt>
+            <dd>I permessi vengono rigidamente associati a gruppi o ruoli di lavoro (es: Gruppo Ingegneria, Gruppo HR), anziché a singoli utenti. Quando un dipendente cambia mansione o reparto (engineer move), è sufficiente aggiornare la sua associazione di gruppo per allineare all'istante i suoi privilegi d'accesso <code>(SCREEN_265, SCREEN_278)</code>.</dd>
+            
+            <dt>Attribute-Based Access Control / ABAC (Accesso basato sugli Attributi)</dt>
+            <dd>Offre la massima flessibilità granulare. Valuta molteplici attributi contestuali simultaneamente (es: dipartimento dell'utente, indirizzo IP, tipo di connessione, ora del giorno, stato di integrità del sistema).</dd>
+            
+            <dt>Discretionary Access Control / DAC (Accesso Discrezionale)</dt>
+            <dd>Il proprietario della risorsa (Owner) detiene il potere discrezionale di stabilire chi può leggere o modificare i propri dati. I permessi risiedono sul file system sotto forma di <strong>ACL (Access Control Lists)</strong> <code>(SCREEN_072, SCREEN_252)</code>.</dd>
+            
+            <dt>Mandatory Access Control / MAC (Accesso Mandatorio)</dt>
+            <dd>Configurazione ultrasicura di isolamento militare. Il sistema operativo associa in modo inderogabile <strong>Etichette di sicurezza (Labels)</strong> alle risorse e livelli d'accesso (Clearance) agli utenti. L'utente non può alterare o propagare i permessi in alcun modo.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 6 — CONTROLLO TEMPORALE & GEOLOCATION ════════ -->
+        <section id="time_access">
+          <h2>Filtri basati sul Tempo e sulla Geolocalizzazione</h2>
+          <p>
+            Molti incidenti occorrono in orari notturni a seguito del dirottamento di credenziali. La mitigazione consiste nel limitare la finestra operativa dei profili degli utenti ordinari o esterni in base a criteri oggettivi:
+          </p>
+
+          <h3>Restrizioni Temporali d'Accesso (Time-Of-Day Restrictions)</h3>
+          <p class="focused-concept">
+            <strong>Applicazione d'Esame — Contract Employees Lockout <code>(SCREEN_069, SCREEN_634, SCREEN_709)</code>:</strong><br>
+            Per impedire categoricamente che un consulente esterno o un dipendente acceda ai sistemi aziendali o esporti file al di fuori del proprio orario di lavoro (es: dal lunedì al venerdì, dalle 9:00 alle 17:00), l'amministratore configura ed invia sui sistemi una specifica <strong>Group Policy (GPO) recante "Restrizioni sull'orario di accesso" (time-of-day login restrictions)</strong>.
+          </p>
+
+          <h3>Accesso Condizionale (Conditional Access)</h3>
+          <p>
+            I moderni sistemi azionano politiche condizionali intelligenti: una connessione proveniente dalla rete locale aziendale viene ammessa con sola password, mentre una connessione da rete esterna, o proveniente da paesi insoliti riscontrati via <strong>IP Geolocation</strong>, fa scattare l'interdizione perimetrale immediata o l'obbligo di convalida MFA supplementare <code>(SCREEN_421, SCREEN_708)</code>.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 7 — PAM & GPO HARDENING ═════════════════════ -->
+        <section id="pam_gpo">
+          <h2>Strumenti e Tecnologie IAM: PAM e Group Policy Objects (GPO)</h2>
+          <p>
+            Nelle grandi infrastrutture enterprise di rete Active Directory, la centralizzazione del controllo è vitale per prevenire minacce trasversali:
+          </p>
+
+          <h3>Privileged Access Management (PAM)</h3>
+          <p>
+            Il <strong>PAM (Privileged Access Management)</strong> è una suite software avanzata preposta a presidiare, controllare, ruotare e registrare l'accesso ai soli <strong>account amministrativi ed elevate credenziali (Privileged Accounts)</strong> <code>(SCREEN_532, SCREEN_607)</code>.
+          </p>
+          <div class="critical">
+            <strong>Prevenzione dei pass-the-hash con soluzioni PAM <code>(SCREEN_607)</code>:</strong><br>
+            Gli hacker mirano ad acquisire gli hash delle password amministrative memorizzati localmente ed effettuare spostamenti laterali (Pivoting) per prender possesso della ditta. L'implementazione di un motore PAM sopprime l'impiego di account locali non censiti, introduce permessi "Just-In-Time" (esauriti dopo la sessione singola), isola le sessioni dei sistemisti e ruota continuamente le chiavi d'accesso impedendo l'abuso degli hash residui.
+          </div>
+
+          <h3>Centralizzazione tramite Group Policy Objects (GPO)</h3>
+          <p>
+            Nel sistema Microsoft Active Directory, una <strong>Group Policy (GPO)</strong> consente l'amministrazione centralizzata, uniforme e automatica delle impostazioni di sicurezza dell'OS su migliaia di macchine <code>(SCREEN_281)</code>.
+          </p>
+          <div class="example-box">
+            <strong>Mitigazione Rapida - Disabilitare SMBv1 via GPO <code>(SCREEN_704)</code>:</strong><br>
+            Le vulnerabilità del protocollo SMB di vecchia generazione (come SMBv1) espongono l'intera ditta a micidiali invasioni ransomware orizzontali. L'intervento sistemico più efficiente consiste nell'utilizzare un'unica <strong>GPO centralizzata</strong> per disabilitare istantaneamente il protocollo obsoleto su tutti i server della ditta.
+          </div>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.6</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>38 domande d'esame</strong> su MFA, criteri di sicurezza, IdP, SAML, OAuth, modelli d'accesso e Privileged Access, con feedback immediato e spiegazione strutturata in italiano.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.6 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.6</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Principale differenza tra SAML ed OAuth 2.0?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>SAML</strong> è un protocollo basato su XML focalizzato sull'autenticazione accoppiato all'SSO per applicazioni aziendali e partner.<br><strong>OAuth 2.0</strong> si focalizza sui token JSON Bearer ed è finalizzato all'autorizzazione delle applicazioni (API).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale scenario richiede specificamente PAM?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La protezione degli account con elevati privilegi (es: backup d'emergenza o credenziali d'amministratore di dominio) per prevenire movimenti laterali (Pass-the-Hash) e mantenere tracciamento e audit delle sessioni sistemistiche.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Come si blocca l'accesso dei consulenti ad orari insoliti?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Implementando una Group Policy (GPO) specifica per gli account interessati e abilitando restrizioni di accesso granulari sul dominio (<strong>time-of-day log-in restrictions</strong>).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità di esercitazione</p>
+      <p class="quiz-setup-sub">Obiettivo 4.6 · 38 domande d'esame disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>Set completo di tutti i 38 quesiti originali</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 quesiti selezionati casualmente</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato finale OBJ 4.6</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Completo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPT DATI & LOGICA QUIZ ═══════════════════════════════ -->
+<script>
+(function() {
+  const Q = [
+  {
+    "id": "SCREEN_019",
+    "text": "Which of the following best describes the principle of least privilege?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Granting users full access to all resources",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Restricting users' access rights to the minimum necessary to perform their jobs",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Allowing users to access resources only during business hours",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Providing users with temporary access permissions",
+        "c": false
+      }
+    ],
+    "expl": "Il principio del minimo privilegio (least privilege) stabilisce che a un utente debbano essere assegnati solo i diritti di accesso minimi necessari per svolgere le proprie mansioni lavorative, riducendo l'esposizione o il danno in caso di compromissione."
+  },
+  {
+    "id": "SCREEN_024",
+    "text": "An organization is adopting cloud services at a rapid pace and now has multiple SaaS applications in use. Each application has a separate log-in, so the security team wants to reduce the number of credentials each employee must maintain. Which of the following is the first step the security team should take?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Enable SAML.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Create OAuth tokens.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Use password vaulting.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Select an IdP.",
+        "c": true
+      }
+    ],
+    "expl": "Quando un'organizzazione implementa molti servizi SaaS diversi e desidera ridurre le credenziali, il primo passo fondamentale è identificare una fonte d'identità centralizzata, ovvero selezionare un Identity Provider (IdP) che farà da base per l'autenticazione federata."
+  },
+  {
+    "id": "SCREEN_030",
+    "text": "Easy-to-guess passwords led to an account compromise. The current password policy requires at least 12 alphanumeric characters, one uppercase character, one lowercase character, a password history of two passwords, a minimum password age of one day, and a maximum password age of 90 days. Which of the following would reduce the risk of this incident from happening again? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Increasing the minimum password length to 14 characters.",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Upgrading the password hashing algorithm from MD5 to SHA-512.",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Increasing the maximum password age to 120 days.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Reducing the minimum password length to ten characters.",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "Reducing the minimum password age to zero days.",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "Including a requirement for at least one special character.",
+        "c": true
+      }
+    ],
+    "expl": "Per contrastare password facilmente indovinabili, aumentare la lunghezza minima a 14 caratteri e richiedere obbligatoriamente almeno un carattere speciale incrementa enormemente l'entropia della password, riducendo drasticamente il rischio di attacchi di forza bruta."
+  },
+  {
+    "id": "SCREEN_046",
+    "text": "Which of the following processes is concerned with validating credentials?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Auditing",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Accountability",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Authentication",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Authorization",
+        "c": false
+      }
+    ],
+    "expl": "Il processo che si occupa di convalidare le credenziali presentate da un soggetto per confermarne l'identità dichiarata è l'Autenticazione (Authentication)."
+  },
+  {
+    "id": "SCREEN_055",
+    "text": "Select the appropriate authentication type for the following items: retina scan, smart card, hardware token, password, PIN number, and fingerprint scan.",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Retina scan = Something you are",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Smart card = Something you have",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Hardware token = Something you have",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Password = Something you know",
+        "c": true
+      },
+      {
+        "id": "E",
+        "t": "PIN number = Something you know",
+        "c": true
+      },
+      {
+        "id": "F",
+        "t": "Fingerprint scan = Something you are",
+        "c": true
+      }
+    ],
+    "expl": "I fattori di autenticazione si dividono in categorie: biometria (something you are) come retina e impronte; possesso (something you have) come smart card e token fisici; conoscenza (something you know) come password e PIN."
+  },
+  {
+    "id": "SCREEN_069",
+    "text": "A security engineer at a large company needs to enhance IAM in order to ensure that employees can only access corporate systems during their shifts. Which of the following access controls should the security engineer implement?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Biometric authentication",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Least privilege",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Role-based",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Time-of-day restrictions",
+        "c": true
+      }
+    ],
+    "expl": "Per limitare l'accesso dei dipendenti ai soli orari in cui sono effettivamente di turno (shifts), la misura ideale è implementare restrizioni basate sull'orario (time-of-day restrictions)."
+  },
+  {
+    "id": "SCREEN_072",
+    "text": "Which of the following allows a systems administrator to tune permissions for a file?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Patching",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Access control list",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Configuration enforcement",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Least privilege",
+        "c": false
+      }
+    ],
+    "expl": "Le liste di controllo degli accessi (ACL) consentono all'amministratore di sistema di definire e tarare in modo accurato e granulare i permessi di lettura, scrittura o esecuzione sui singoli file o cartelle."
+  },
+  {
+    "id": "SCREEN_090",
+    "text": "A security administrator is configuring fileshares. The administrator removed the default permissions and added permissions for only users who will need to access the fileshares as part of their job duties. Which of the following best describes why the administrator performed these actions?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Encryption standard compliance",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Data replication requirements",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Least privilege",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Access control monitoring",
+        "c": false
+      }
+    ],
+    "expl": "Rimuovere i permessi predefiniti di condivisione ad ampio raggio e aggiungere esclusivamente gli specifici dipendenti che ne hanno bisogno per le proprie attività lavorative è la corretta applicazione del principio del minimo privilegio."
+  },
+  {
+    "id": "SCREEN_118",
+    "text": "An administrator notices that several users are logging in from suspicious IP addresses. After speaking with the users, the administrator determines that the employees were not logging in from those IP addresses and resets the affected users' passwords. Which of the following should the administrator implement to prevent this type of attack from succeeding in the future?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Multifactor authentication",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Permissions assignment",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Access management",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Password complexity",
+        "c": false
+      }
+    ],
+    "expl": "L'autenticazione a più fattori (MFA) impedisce l'accesso abusivo anche se le password vengono compromesse, in quanto l'attaccante che tenta il login da un IP sospetto non potrà superare il fattore di convalida aggiuntivo (ad esempio un codice su un dispositivo mobile fisicamente posseduto dall'utente)."
+  },
+  {
+    "id": "SCREEN_154",
+    "text": "An IT manager informs the entire help desk staff that only the IT manager and the help desk lead will have access to the administrator console of the help desk software. Which of the following security techniques is the IT manager setting up?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Hardening",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Employee monitoring",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Configuration enforcement",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Least privilege",
+        "c": true
+      }
+    ],
+    "expl": "Limitare l'accesso ai soli soggetti responsabili (IT manager e lead) risponde perfettamente al principio del minimo privilegio lavorativo, restringendo l'accesso amministrativo superfluo ad altri soggetti del reparto."
+  },
+  {
+    "id": "SCREEN_245",
+    "text": "Which of the following security concepts is the best reason for permissions on a human resources fileshare to follow the principle of least privilege?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Integrity",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Availability",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Confidentiality",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Non-repudiation",
+        "c": false
+      }
+    ],
+    "expl": "Le cartelle delle Risorse Umane contengono informazioni personali altamente sensibili (stipendi, valutazioni, dati sanitari). Applicare il minimo privilegio garantisce in primo luogo la Riservatezza (Confidentiality) di tali dati di fronte ad accessi non autorizzati."
+  },
+  {
+    "id": "SCREEN_252",
+    "text": "After an audit, an administrator discovers all users have access to confidential data on a file server. Which of the following should the administrator use to restrict access to the data quickly?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Group Policy",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Content filtering",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Data loss prevention",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Access control lists",
+        "c": true
+      }
+    ],
+    "expl": "In seguito a un controllo di audit, se si rileva che tutti gli utenti hanno accesso a dati sensibili sul file server, l'impiego delle ACL (Access Control Lists) è il metodo più rapido e mirato per revocare gli accessi generali e applicare i permessi corretti."
+  },
+  {
+    "id": "SCREEN_265",
+    "text": "A systems administrator wants to prevent users from being able to access data based on their responsibilities. The administrator also wants to apply the required access structure via a simplified format. Which of the following should the administrator apply to the site recovery resource group?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "RBAC",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "ACL",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SAML",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "GPO",
+        "c": false
+      }
+    ],
+    "expl": "La strutturazione degli accessi in base alle mansioni aziendali (responsibilities) per un intero resource group in modo snello e centralizzato descrive il controllo d'accesso governato dai ruoli (RBAC - Role-Based Access Control)."
+  },
+  {
+    "id": "SCREEN_266",
+    "text": "During the onboarding process, an employee needs to create a password for an intranet account. The password must include ten characters, numbers, and letters, and two special characters. Once the password is created, the company will grant the employee access to other company-owned websites based on the intranet profile. Which of the following access management concepts is the company most likely using to safeguard intranet accounts and grant access to multiple sites based on a user's intranet account? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Federation",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Identity proofing",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Password complexity",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Default password changes",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "Password manager",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "Open authentication",
+        "c": false
+      }
+    ],
+    "expl": "La richiesta di requisiti rigidi (lunghezza, numeri, caratteri speciali) implementa la complessità della password (password complexity), mentre l'uso delle credenziali intranet per accedere a molteplici siti esterni di terze parti si chiama federazione delle identità (Federation)."
+  },
+  {
+    "id": "SCREEN_268",
+    "text": "A network manager wants to protect the company's VPN by implementing multifactor authentication that uses: Something you know - Something you have - Something you are - Which of the following would accomplish the manager's goal?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Domain name, PKI, GeoIP lookup",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "VPN IP address, company ID, facial structure",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Password, authentication token, thumbprint",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Company URL, TLS certificate, home address",
+        "c": false
+      }
+    ],
+    "expl": "Per configurare un'autenticazione a tre fattori (qualcosa che conosci, che hai, che sei), lo schema perfetto impiega una password (conoscenza), un token o chiavetta di sicurezza (possesso) e l'impronta digitale o thumbprint (biometria/essere)."
+  },
+  {
+    "id": "SCREEN_276",
+    "text": "The local administrator account for a company's VPN appliance was unexpectedly used to log in to the remote management interface. Which of the following would have most likely prevented this from happening?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Using least privilege",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Changing the default password",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Assigning individual user IDs",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Reviewing logs more frequently",
+        "c": false
+      }
+    ],
+    "expl": "Se un attaccante accede improvvisamente all'interfaccia di gestione usando l'account amministrativo predefinito dell'appliance VPN, significa che la password originale di fabbrica non era mai stata cambiata. Modificare la password di default è una misura primaria indispensabile."
+  },
+  {
+    "id": "SCREEN_278",
+    "text": "An engineer moved to another team and is unable to access the new team's shared folders while still being able to access the shared folders from the former team. After opening a ticket, the engineer discovers that the account was never moved to the new group. Which of the following access controls is most likely causing the lack of access?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Role-based",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Discretionary",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Time of day",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Least privilege",
+        "c": false
+      }
+    ],
+    "expl": "Poiché gli accessi sono governati dal gruppo o ruolo di appartenenza del dipendente, il mancato aggiornamento del gruppo ha mantenuto i vecchi privilegi e bloccato i nuovi. Questo descrive l'assegnazione degli accessi basata sul ruolo (RBAC)."
+  },
+  {
+    "id": "SCREEN_281",
+    "text": "A systems administrator is changing the password policy within an enterprise environment and wants this update implemented on all systems as quickly as possible. Which of the following operating system security measures will the administrator most likely use?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Deploying PowerShell scripts",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Pushing GPO update",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Enabling PAP",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Updating EDR profiles",
+        "c": false
+      }
+    ],
+    "expl": "Nelle reti Active Directory Windows, implementare o aggiornare le password policy in modo immediato e uniforme su tutti i server e client aziendali richiede l'invio e l'aggiornamento forzato delle policy di gruppo (GPO - Group Policy Objects)."
+  },
+  {
+    "id": "SCREEN_355",
+    "text": "Which of the following security concepts is accomplished with the installation of a RADIUS server?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "CIA",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "AAA",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "ACL",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "PEM",
+        "c": false
+      }
+    ],
+    "expl": "L'installazione e configurazione di un server RADIUS (Remote Authentication Dial-In User Service) fornisce e centralizza i servizi di AAA (Authentication, Authorization, Accounting) per l'accesso remoto e Wi-Fi aziendale."
+  },
+  {
+    "id": "SCREEN_360",
+    "text": "A company is reviewing options to enforce user logins after several account takeovers. The following conditions must be met as part of the solution: Allow employees to work remotely or from assigned offices around the world. Provide a seamless login experience. Limit the amount of equipment required. Which of the following best meets these conditions?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Trusted devices",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Geotagging",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Smart cards",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Time-based logins",
+        "c": false
+      }
+    ],
+    "expl": "Ricorrere a dispositivi registrati e attendibili (trusted devices) associati all'utente consente di verificare la sicurezza del terminale e autorizzare il login remoto senza imporre l'acquisto di smart card fisiche o di hardware token addizionali."
+  },
+  {
+    "id": "SCREEN_363",
+    "text": "An organization completed a project to deploy SSO across all business applications last year. Recently, the finance department selected a new cloud-based accounting software vendor. Which of the following should most likely be configured during the new software deployment?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "RADIUS",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "SAML",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "EAP",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "OpenID",
+        "c": false
+      }
+    ],
+    "expl": "SAML (Security Assertion Markup Language) è lo standard di federazione industriale basato su XML ampiamente impiegato per integrare l'autenticazione a firma singola (SSO) tra applicazioni aziendali e partner SaaS cloud esterni (come software finanziari cloud)."
+  },
+  {
+    "id": "SCREEN_370",
+    "text": "Which of the following is a possible factor for MFA?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Something you exhibit",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Something you have",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Somewhere you are",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Someone you know",
+        "c": false
+      }
+    ],
+    "expl": "L'autenticazione a più fattori richiede elementi appartenenti a categorie indipendenti. 'Something you have' (qualcosa che possiedi, come un token o uno smartphone) costituisce un valido fattore di sicurezza."
+  },
+  {
+    "id": "SCREEN_421",
+    "text": "A security analyst at an organization observed several user logins from outside the organization's network. The analyst determined that these logins were not performed by individuals within the organization. Which of the following recommendations would reduce the likelihood of future attacks? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Disciplinary actions for users",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Conditional access policies",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "More regular account audits",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Implementation of additional authentication factors",
+        "c": true
+      },
+      {
+        "id": "E",
+        "t": "Enforcement of content filtering policies",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "A review of user account permissions",
+        "c": false
+      }
+    ],
+    "expl": "Le policy di accesso condizionale (conditional access) consentono di valutare il contesto (es: indirizzi IP remoti anomali) ed esigere fattori di autenticazione supplementari (MFA step-up) per sventare tentativi di furto d'identità esterni."
+  },
+  {
+    "id": "SCREEN_426",
+    "text": "An organization wants to improve the company's security authentication method for remote employees. Given the following requirements: Must work across SaaS and internal network applications; must be device manufacturer agnostic; must have offline capabilities. Which of the following would be the most appropriate authentication method?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Username and password",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Biometrics",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SMS verification",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Time-based tokens",
+        "c": true
+      }
+    ],
+    "expl": "I token generati basati sul tempo (TOTP, salvabili su app come Google Authenticator o in chiavi hardware) funzionano offline (non richiedono segnale cellulare o SMS), sono indipendenti dal produttore del telefono e sono supportati ovunque."
+  },
+  {
+    "id": "SCREEN_489",
+    "text": "An organization has recently decided to implement SSO. The requirements are to leverage access tokens and focus on application authorization rather than user authentication. Which of the following solutions would the engineering team most likely configure?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "LDAP",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Federation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SAML",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "OAuth",
+        "c": true
+      }
+    ],
+    "expl": "OAuth 2.0 è il protocollo industriale incentrato sul rilascio di token di accesso (access tokens) per autorizzare le applicazioni client a consultare le API o le risorse per conto dell'utente, senza incentrarsi direttamente sull'autenticazione stessa."
+  },
+  {
+    "id": "SCREEN_532",
+    "text": "A group of developers has a shared backup account to access the source code repository. Which of the following is best way to secure the backup account if there is an SSO failure?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "RAS",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "EAP",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SAML",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "PAM",
+        "c": true
+      }
+    ],
+    "expl": "Per proteggere e governare gli account d'emergenza (un 'break glass' o backup account con elevati privilegi) in caso di interruzione del sistema SSO centrale, si implementa una soluzione PAM (Privileged Access Management) che traccia, ruota e custodisce l'accesso a tali credenziali fisiche."
+  },
+  {
+    "id": "SCREEN_599",
+    "text": "A company wants to add an MFA solution for all employees who access the corporate network remotely. Log-in requirements include something you know, are, and have. The company wants a solution that does not require purchasing third-party applications or specialized hardware. Which of the following MFA solutions would best meet the company's requirements?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Smart card with PIN and password",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Security questions and a one-time passcode sent via email",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Voice and fingerprint verification with an SMS one-time passcode",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Mobile application-generated, one-time passcode with facial recognition",
+        "c": true
+      }
+    ],
+    "expl": "La generazione di un codice monouso (OTP) mediante un'applicazione mobile abbinata al riconoscimento facciale integrato nello smartphone non richiede l'acquisto di hardware separato ed esaurisce tutti i criteri richiesti: qualcosa che sai (PIN d'accesso), possiedi (smartphone), e sei (biometria)."
+  },
+  {
+    "id": "SCREEN_607",
+    "text": "A penetration test has demonstrated that domain administrator accounts were vulnerable to pass-the-hash attacks. Which of the following would have been the best strategy to prevent the threat actor from using domain administrator accounts?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Audit each domain administrator account weekly for password compliance.",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Implement a privileged access management solution.",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Create IDS policies to monitor domain controller access.",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Use Group Policy to enforce password expiration.",
+        "c": false
+      }
+    ],
+    "expl": "Gli attacchi 'pass-the-hash' sfruttano sessioni amministrative attive o credenziali hash memorizzate nei sistemi locali. L'adozione di un sistema PAM (Privileged Access Management) isola queste credenziali, ruota gli hash ad ogni uso e limita drasticamente la persistenza dei privilegi amministrativi."
+  },
+  {
+    "id": "SCREEN_614",
+    "text": "An administrator wants to automate an account permissions update for a large number of accounts. Which of the following would best accomplish this task?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Security groups",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Federation",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "User provisioning",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Vertical scaling",
+        "c": false
+      }
+    ],
+    "expl": "Il processo automatico di creazione, manutenzione, aggiornamento e rimozione dei diritti d'accesso e degli account dei dipendenti basato sulla loro anagrafica aziendale prende il nome di User Provisioning (provisioning utenti)."
+  },
+  {
+    "id": "SCREEN_634",
+    "text": "A company wants to ensure employees are allowed to copy files from a virtual desktop during the workday but are restricted during non-working hours. Which of the following security measures should the company set up?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Digital rights management",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Role-based access control",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Time-based access control",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Network access control",
+        "c": false
+      }
+    ],
+    "expl": "Consentire un'azione (copia di file) esclusivamente in corrispondenza del ciclo lavorativo ordinario diurno e inibirla nelle ore notturne corrisponde all'istituzione di un controllo d'accesso temporale (Time-based access control)."
+  },
+  {
+    "id": "SCREEN_666",
+    "text": "A company evaluates several options that would allow employees to have remote access to the network. The security team wants to ensure the solution includes AAA to comply with internal security policies. Which of the following should the security team recommend?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "IPSec with RADIUS",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "RDP connection with LDAPS",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Web proxy for all remote traffic",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Jump server with 802.1X",
+        "c": false
+      }
+    ],
+    "expl": "Per garantire la cifratura degli accessi stradali da remoto dei lavoratori (VPN IPSec) unita alle piene garanzie di identificazione, autorizzazione e tracciamento (AAA), l'accoppiata migliore ricorre alla mutua integrazione di IPSec con un server RADIUS."
+  },
+  {
+    "id": "SCREEN_671",
+    "text": "A security analyst needs to improve the company's authentication policy following a password audit. Which of the following should be included in the policy? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Length",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Complexity",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Least privilege",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Something you have",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "Security keys",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "Biometrics",
+        "c": false
+      }
+    ],
+    "expl": "A seguito di una verifica di vulnerabilità legata a password deboli, l'aggiornamento della politica di autenticazione deve imporre requisiti matematici restrittivi sulla lunghezza minima della password (length) e sulla complessità dei caratteri ammessi (complexity)."
+  },
+  {
+    "id": "SCREEN_695",
+    "text": "A new corporate policy requires all staff to use multifactor authentication to access company resources. Which of the following can be utilized to set up this form of identity and access management? (Choose two.)",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Authentication tokens",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Least privilege",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Biometrics",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "LDAP",
+        "c": false
+      },
+      {
+        "id": "E",
+        "t": "Password vaulting",
+        "c": false
+      },
+      {
+        "id": "F",
+        "t": "SAML",
+        "c": false
+      }
+    ],
+    "expl": "Per strutturare un'infrastruttura di autenticazione a più fattori (MFA) conforme alle policy di sicurezza, l'amministratore ricorre a token di autenticazione software/hardware (qualcosa che hai) e alla biometria come impronte o iride (qualcosa che sei)."
+  },
+  {
+    "id": "SCREEN_704",
+    "text": "A penetration test identifies that an SMBv1 is enabled on multiple servers across an organization. The organization wants to remediate this vulnerability in the most efficient way possible. Which of the following should the organization use for this purpose?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "GPO",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "ACL",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "SFTP",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "DLP",
+        "c": false
+      }
+    ],
+    "expl": "La presenza di SMBv1 (un protocollo legacy e intrinsecamente vulnerabile a ransomware e worm) deve essere disabilitata globalmente e con la massima rapidità ed efficienza su tutte le macchine del dominio AD. Lo strumento ideale è una Group Policy Object (GPO) centralizata."
+  },
+  {
+    "id": "SCREEN_708",
+    "text": "Which of the following can be used to mitigate attacks from high-risk regions?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Obfuscation",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Data sovereignty",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "IP geolocation",
+        "c": true
+      },
+      {
+        "id": "D",
+        "t": "Encryption",
+        "c": false
+      }
+    ],
+    "expl": "Configurare filtri e regole in base alle coordinate geografiche di provenienza dell'utente (IP Geolocation) permette di riscontrare accessi fuori standard ed applicare un diniego perimetrale verso le connessioni istituite da determinati paesi ad alto rischio o insoliti."
+  },
+  {
+    "id": "SCREEN_709",
+    "text": "A program manager wants to ensure contract employees can only access the company's computers Monday through Friday from 9 a m. to 5 p.m. Which of the following would best enforce this access control?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Creating a GPO for all contract employees and setting time-of-day log-in restrictions",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Creating a discretionary access policy and setting rule-based access for contract employees",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Implementing an OAuth server and then setting least privilege for contract employees",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Implementing SAML with federation to the contract employees' authentication server",
+        "c": false
+      }
+    ],
+    "expl": "Per vincolare l'operatività dei collaboratori esterni ai soli giorni feriali (lunedì-venerdì) e orari d'ufficio (9-17), l'amministratore di sistema AD applica una GPO specifica contenente precise politiche di blocco temporale (time-of-day log-in restrictions) sui loro account di dominio."
+  },
+  {
+    "id": "SCREEN_714",
+    "text": "A security analyst is examining a penetration test report and notices that the tester pivoted to critical internal systems with the same local user ID and password. Which of the following would help prevent this in the future?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Implement centralized authentication with proper password policies",
+        "c": true
+      },
+      {
+        "id": "B",
+        "t": "Add password complexity rules and increase password history limits",
+        "c": false
+      },
+      {
+        "id": "C",
+        "t": "Connect the systems to an external authentication server",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Limit the ability of user accounts to change passwords",
+        "c": false
+      }
+    ],
+    "expl": "La propagazione laterale di un attaccante su molteplici macchine dovuta ad account locali sparsi aventi la medesima password si neutralizza centralizzando l'autenticazione tramite un Directory Service (come Active Directory) e implementando robuste politiche centralizzate."
+  },
+  {
+    "id": "SCREEN_730",
+    "text": "Which of the following should be used to ensure a user has the permissions needed to effectively do an assigned job role?",
+    "opts": [
+      {
+        "id": "A",
+        "t": "Changing default passwords",
+        "c": false
+      },
+      {
+        "id": "B",
+        "t": "Implementing least privilege",
+        "c": true
+      },
+      {
+        "id": "C",
+        "t": "Enforcing baseline configurations",
+        "c": false
+      },
+      {
+        "id": "D",
+        "t": "Applying network segmentation",
+        "c": false
+      }
+    ],
+    "expl": "Per sincerarsi che un lavoratore detenga esclusivamente le credenziali e i permessi adatti ed essenziali a soddisfare il proprio ruolo aziendale, si applica in modo metodico e strutturato lo standard del minimo privilegio (least privilege)."
+  }
+];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 4.6';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 15 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+  function render() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled       = true;
+    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
+    quiz.locked            = false;
+    optionsEl.innerHTML    = '';
+    shuffle(q.opts).forEach(o => {
+      const btn = document.createElement('button');
+      btn.className   = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      btn.addEventListener('click', () => pick(o.id, q));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(oid, q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    const chosen = q.opts.find(o => o.id === oid);
+    if (chosen && chosen.c) quiz.score++;
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
+      btn.disabled = true;
+      if (o.c)                          btn.classList.add('correct');
+      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+    });
+    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+    nextBtn.disabled = false;
+  }
+
+  function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+  nextBtn.addEventListener('click', () => {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>
