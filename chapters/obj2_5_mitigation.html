@@ -112,12 +112,12 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Segmentation per legacy IoT: la risposta rapida</strong><br>
     "Network access vulnerability found in legacy IoT devices. Best mitigation quickly?"
-    → <strong>Segmentation</strong> (SCREEN_251). Non il patching (non disponibile per
+    → <strong>Segmentation</strong>. Non il patching (non disponibile per
     dispositivi EOL), non la sostituzione (non rapida), non l'assicurazione (non tecnica).
     La segmentazione isola i dispositivi vulnerabili limitando il danno potenziale senza
     richiedere modifiche ai dispositivi stessi.<br>
     "Best way to handle a critical business application on a legacy server?" →
-    <strong>Segmentation</strong> (SCREEN_269): non si può dismettere (è critica),
+    <strong>Segmentation</strong>: non si può dismettere (è critica),
     non si può facilmente hardenire (è legacy), l'isolamento è più drastico del necessario.
     La segmentazione mantiene la funzionalità limitando l'esposizione.
   </div>
@@ -315,7 +315,7 @@
     <dt>Infrastructure as Code (IaC)</dt>
     <dd>Le configurazioni vengono definite come codice (Terraform, Ansible, CloudFormation). Ogni deployment è deterministico: stesso codice = stessa configurazione. Previene la deriva e permette il rollback immediato.</dd>
     <dt>Secure baselines</dt>
-    <dd>Configurazioni di sicurezza minime predefinite per ogni tipo di sistema. L'ordine corretto è: <strong>establish → deploy → maintain</strong> (SCREEN_663). Prima si definisce la baseline sicura, poi la si implementa, poi la si mantiene nel tempo tramite monitoring e enforcement.</dd>
+    <dd>Configurazioni di sicurezza minime predefinite per ogni tipo di sistema. L'ordine corretto è: <strong>establish → deploy → maintain</strong>. Prima si definisce la baseline sicura, poi la si implementa, poi la si mantiene nel tempo tramite monitoring e enforcement.</dd>
   </dl>
 
   <h3 id="mitre">MITRE ATT&amp;CK Framework</h3>
@@ -332,7 +332,7 @@
     ai comportamenti reali degli avversari, identificare gap di copertura, e prioritizzare
     i controlli più efficaci contro le minacce più rilevanti per il loro settore.
     Un security administrator che consulta MITRE ATT&amp;CK per indirizzare le proprie
-    azioni di hardening usa la conoscenza empirica degli attacchi reali (SCREEN_391).
+    azioni di hardening usa la conoscenza empirica degli attacchi reali.
   </p>
 </section>
 
@@ -449,7 +449,7 @@
   <p>
     Una <strong>secure baseline</strong> è un insieme di configurazioni di sicurezza
     minime e approvate per un tipo specifico di sistema. L'ordine corretto di implementazione
-    è: <strong>Establish → Deploy → Maintain</strong> (SCREEN_663):
+    è: <strong>Establish → Deploy → Maintain</strong>:
   </p>
   <dl class="termlist">
     <dt>1. Establish (Stabilire)</dt>
@@ -471,7 +471,7 @@
   </p>
 
   <div class="example-box">
-    <strong>Esempio pratico — WAF vs NGFW per buffer overflow su web app (SCREEN_006)</strong><br>
+    <strong>Esempio pratico — WAF vs NGFW per buffer overflow su web app</strong><br>
     Un server web è stato compromesso tramite buffer overflow in un parametro HTTP.
     La risposta corretta è il <strong>WAF</strong>, non il NGFW. Perché: il NGFW vede
     una richiesta HTTP legittima verso la porta 443 — non c'è niente da bloccare a
@@ -484,8 +484,7 @@
     <strong>EXAM TIP — WAF: il difensore delle applicazioni web</strong><br>
     Qualsiasi scenario che parla di attacchi a un'applicazione web — SQLi, XSS, buffer
     overflow su web form, JavaScript injection — e chiede la mitigazione migliore →
-    <strong>WAF</strong> (SCREEN_006, SCREEN_117, SCREEN_122, SCREEN_125, SCREEN_134,
-    SCREEN_529). Il NGFW protegge a livello di rete (porta, IP, protocollo), non capisce
+    <strong>WAF</strong>. Il NGFW protegge a livello di rete (porta, IP, protocollo), non capisce
     il payload HTTP. TLS cifra il traffico ma non filtra il contenuto malevolo.
     SD-WAN è per la gestione WAN, non per la sicurezza applicativa.
   </div>
@@ -668,7 +667,7 @@
 (function(){
 var Q=[
 {id:'SCREEN_006',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'WAF',c:true},{id:'B',t:'NGFW',c:false},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Un WAF (Web Application Firewall) opera a livello 7 e ispeziona il contenuto delle richieste HTTP. Può rilevare e bloccare parametri con caratteristiche anomale (lunghezza eccessiva, caratteri non attesi) tipici di un buffer overflow su applicazione web. Il NGFW vede solo traffico HTTPS legittimo verso la porta 443 e non ispeziona il payload applicativo. TLS cifra ma non filtra il contenuto malevolo.'},
-{id:'SCREEN_117',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Variante di SCREEN_006. Il WAF è la risposta corretta per attacchi alle applicazioni web. Analizza il payload HTTP a livello applicativo (L7) rilevando pattern di attacco come buffer overflow, SQLi e XSS. Il NGFW lavora a livello di rete e non capisce la semantica delle richieste HTTP.'},
+{id:'SCREEN_117',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Il WAF è la risposta corretta per attacchi alle applicazioni web. Analizza il payload HTTP a livello applicativo (L7) rilevando pattern di attacco come buffer overflow, SQLi e XSS. Il NGFW lavora a livello di rete e non capisce la semantica delle richieste HTTP.'},
 {id:'SCREEN_122',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Stessa domanda, stessa risposta: WAF per attacchi alle web application. La ripetizione nell\'esame indica l\'importanza di questo concetto. Memorizza: web application attack → WAF, non NGFW.'},
 {id:'SCREEN_125',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Quarta occorrenza dello stesso scenario. Il WAF è la risposta universale per attacchi alle applicazioni web esposti su internet. TLS protegge la confidenzialità in transito ma non filtra contenuti malevoli.'},
 {id:'SCREEN_134',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Quinta occorrenza. CompTIA vuole assicurarsi che tu conosca WAF vs NGFW. WAF = web application layer 7. NGFW = network layer 3-4. Per attacchi a web app la risposta è sempre WAF.'},
@@ -685,8 +684,94 @@ contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.5';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
 function startQuiz(mode){var n=mode==='quick'?8:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
-function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
-function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+  function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
 function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
 function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
 document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
@@ -694,7 +779,15 @@ document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
 document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
-nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
 overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();

@@ -746,7 +746,7 @@
 (function () {
   /* ── Dati quiz OBJ 1.1 (28 domande d'esame) ─────────────────── */
   const Q = [
-    { id:'SCREEN_027', text:'Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network?', opts:[{id:'A',t:'Deterrent',c:false},{id:'B',t:'Corrective',c:false},{id:'C',t:'Compensating',c:false},{id:'D',t:'Preventive',c:true}], expl:'La segmentazione impedisce l\'accesso non autorizzato prima che avvenga → Preventive. Se il contesto specifica impossibilità di patching, la risposta diventa Compensating (SCREEN_314).' },
+    { id:'SCREEN_027', text:'Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network?', opts:[{id:'A',t:'Deterrent',c:false},{id:'B',t:'Corrective',c:false},{id:'C',t:'Compensating',c:false},{id:'D',t:'Preventive',c:true}], expl:'La segmentazione impedisce l\'accesso non autorizzato prima che avvenga → Preventive. Se il contesto specifica impossibilità di patching, la risposta diventa Compensating.' },
     { id:'SCREEN_057', text:'What does the "A" in the CIA triad stand for?', opts:[{id:'A',t:'Address',c:false},{id:'B',t:'Availability',c:true},{id:'C',t:'Attack',c:false},{id:'D',t:'Accessibility',c:false}], expl:'CIA = Confidentiality · Integrity · Availability. La A garantisce che sistemi e dati siano accessibili quando necessario.' },
     { id:'SCREEN_067', text:'Task: Which of the following are correct Mobile Device Security controls? (Select all that apply)', opts:[{id:'A',t:'GPS Tracking',c:true},{id:'B',t:'Remote wipe',c:true},{id:'C',t:'Device Encryption',c:true},{id:'D',t:'Strong Passwords',c:true}], expl:'Tutte e quattro sono controlli validi: GPS Tracking (Detective), Remote wipe (Corrective), Device Encryption (Preventive), Strong Passwords (Preventive).' },
     { id:'SCREEN_190', text:'Which of the following tools can assist with detecting an employee who has accidentally emailed a file containing a customer\'s PII?', opts:[{id:'A',t:'SCAP',c:false},{id:'B',t:'NetFlow',c:false},{id:'C',t:'Antivirus',c:false},{id:'D',t:'DLP',c:true}], expl:'DLP (Data Loss Prevention) monitora e blocca la trasmissione non autorizzata di dati sensibili → Technical Detective + Preventive. SCAP = compliance scanning. NetFlow = analisi traffico.' },
@@ -757,7 +757,7 @@
     { id:'SCREEN_248', text:'After a recent ransomware attack on a company\'s system, an administrator reviewed the log files. Which of the following control types did the administrator use?', opts:[{id:'A',t:'Compensating',c:false},{id:'B',t:'Detective',c:true},{id:'C',t:'Preventive',c:false},{id:'D',t:'Corrective',c:false}], expl:'Analizzare i log dopo un attacco rileva informazioni su un evento già avvenuto → Detective.' },
     { id:'SCREEN_275', text:'Visitors to a secured facility are required to check in with a photo ID and enter the facility through an access control vestibule. Which of the following best describes this form of security control?', opts:[{id:'A',t:'Physical',c:true},{id:'B',t:'Managerial',c:false},{id:'C',t:'Technical',c:false},{id:'D',t:'Operational',c:false}], expl:'L\'access control vestibule è un oggetto fisico → categoria Physical. La domanda chiede la categoria, non il tipo.' },
     { id:'SCREEN_277', text:'Which of the following is the best way to secure an on-site data center against intrusion from an insider?', opts:[{id:'A',t:'Bollards',c:false},{id:'B',t:'Access badge',c:true},{id:'C',t:'Motion sensor',c:false},{id:'D',t:'Video surveillance',c:false}], expl:'Bollards fermano veicoli. Motion sensor e video surveillance = Detective. L\'access badge verifica identità → Physical Preventive + Detective.' },
-    { id:'SCREEN_314', text:'Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network? [Context: cannot be patched]', opts:[{id:'A',t:'Deterrent',c:false},{id:'B',t:'Corrective',c:false},{id:'C',t:'Compensating',c:true},{id:'D',t:'Preventive',c:false}], expl:'Il sistema legacy non può ricevere patch: il controllo primario non è praticabile. La segmentazione è alternativa → Compensating. Stesso scenario di SCREEN_027 ma wording diverso.' },
+    { id:'SCREEN_314', text:'Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network? [Context: cannot be patched]', opts:[{id:'A',t:'Deterrent',c:false},{id:'B',t:'Corrective',c:false},{id:'C',t:'Compensating',c:true},{id:'D',t:'Preventive',c:false}], expl:'Il sistema legacy non può ricevere patch: il controllo primario non è praticabile. La segmentazione è alternativa → Compensating. Stesso scenario di  ma wording diverso.' },
     { id:'SCREEN_323', text:'A systems administrator notices that one of the systems critical for processing customer transactions is running an end-of-life operating system. Which of the following techniques would increase enterprise security?', opts:[{id:'A',t:'Installing HIDS on the system',c:false},{id:'B',t:'Placing the system in an isolated VLAN',c:true},{id:'C',t:'Decommissioning the system',c:false},{id:'D',t:'Encrypting the system\'s hard drive',c:false}], expl:'Sistema end-of-life critico: non può essere dismesso. Isolarlo in VLAN riduce la superficie di attacco → Compensating control.' },
     { id:'SCREEN_341', text:'To improve the security at a data center, a security administrator implements a CCTV system and posts several signs about the possibility of being filmed. Which of the following best describe these types of controls? (Choose two.)', opts:[{id:'A',t:'Preventive',c:false},{id:'B',t:'Deterrent',c:true},{id:'C',t:'Corrective',c:false},{id:'D',t:'Directive',c:false},{id:'E',t:'Compensating',c:false},{id:'F',t:'Detective',c:true}], expl:'I cartelli scoraggiano → Deterrent. Le registrazioni CCTV identificano chi ha agito → Detective.' },
     { id:'SCREEN_366', text:'A network team segmented a critical, end-of-life server to a VLAN that can only be reached by specific devices but cannot be reached by the perimeter network. Which of the following best describe the controls the team implemented? (Choose two.)', opts:[{id:'A',t:'Managerial',c:false},{id:'B',t:'Physical',c:false},{id:'C',t:'Corrective',c:false},{id:'D',t:'Detective',c:false},{id:'E',t:'Compensating',c:true},{id:'F',t:'Technical',c:true},{id:'G',t:'Deterrent',c:false}], expl:'La VLAN è tecnologia di rete → Technical. Il server è end-of-life, il patching non è praticabile → Compensating.' },
@@ -816,44 +816,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
 
     optionsEl.innerHTML = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
       btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
       btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -881,10 +932,14 @@
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
 
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
 
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });

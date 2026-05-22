@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 5.5 — Tipi e Scopi di Audit e Valutazioni · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 5 — Governance, Program Management and Oversight</span>
+      <span>OBJ 5.5 — Audits and Assessments</span>
+    </div>
+
+    <header>
+      <h1>OBJ 5.5 — Tipologie e Scopi di Audit, Verifiche e Valutazioni di Sicurezza</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 5 — Governance, Program Management and Oversight · Peso esame: 20%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain types and purposes of audits and assessments.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">5.5</span>
+        <span class="weight-badge">D5 = 20%</span>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Attestation</div>
+        <a href="#attestation">Assicurazioni e Attestazioni</a>
+
+        <div class="toc-section">Internal Audits</div>
+        <a href="#internal">Audit Interni e Autovalutazioni</a>
+
+        <div class="toc-section">External Audits</div>
+        <a href="#external">Audit Esterni e Richieste Regolatorie</a>
+
+        <div class="toc-section">Penetration Testing</div>
+        <a href="#pentest">Penetration Testing e Team</a>
+        <a href="#environments_recon">Ambienti e Ricognizione</a>
+
+        <div class="toc-section">Data Sovereignty</div>
+        <a href="#sovereignty">Sovranità dei Dati Multinazionale</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (21 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — ATTESTATION ═══════════════════════════════ -->
+        <section id="attestation">
+          <h2>Attestazione ed Asseverazione (Attestation)</h2>
+          <p>
+            Nel settore della sicurezza informatica, quando un'organizzazione ha la necessità di dimostrare a terzi (tipicamente clienti o partner commerciali) che i suoi controlli protettivi sono operativi e sani, il metodo più trasparente ed efficiente risiede nel fornire una <strong>Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.
+          </p>
+
+          <dl class="termlist">
+            <dt>Attestazione di Conformità (Attestation of Compliance - AoC)</dt>
+            <dd>
+              Documentazione formale firmata da un revisore accreditato che assevera ufficialmente quali obiettivi (objectives) o requisiti di un determinato framework (es: PCI DSS) sono pienamente soddisfatti dai servizi o dalle infrastrutture di un fornitore. <br>
+              <strong>Scenario d'esame:</strong> Un CIO richiede a un fornitore esterno la prova formale delle conformità dei suoi servizi rispetto a un set normativo di 21 obiettivi strutturali. Il vendor produce un report validato e una lettera di asseverazione firmata che attesta la copertura esatta di 17 dei 21 obiettivi. Questa documentazione è classificata precisamente come un <strong>AoC (Attestation of Compliance)</strong>.
+            </dd>
+
+            <dt>Rapporto di Controllo dei Servizi Organizzativi (SOC 2 Type II)</dt>
+            <dd>
+              Un report indipendente emesso da un ente di verifica terzo che certifica l'efficacia operativa dei controlli interni (basati sui Trust Services Criteria: sicurezza, riservatezza, integrità, disponibilità, privacy) <strong>lungo un arco temporale di rilevamento stabilito (solitamente semestrale, pari a 6 mesi)</strong>. Al contrario, un report di <em>Type I</em> attesta l'idoneità del disegno dei controlli in un unico istante temporale specifico (punto nel tempo), rendendo il <strong>SOC 2 Type II</strong> l'unico standard in grado di provare l'efficacia storica continuativa.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 2 — INTERNAL AUDITS ═══════════════════════════ -->
+        <section id="internal">
+          <h2>Audit Interni e Autovalutazioni (Internal Audits & Self-Assessments)</h2>
+          <p>
+            Gli audit e le verifiche che si svolgono entro i confini perimetrali dell'organizzazione sono finalizzati a verificare in modo continuativo e strutturato la postura difensiva dell'azienda.
+          </p>
+
+          <dl class="termlist">
+            <dt>Audit Interno (Internal Audit)</dt>
+            <dd>
+              Verifiche sistemiche condotte da dipendenti dell'azienda (appartenenti a una specifica divisione o ad un team di audit interno formalmente indipendente) per conto della dirigenza. <br>
+              Tale processo viene impiegato dal CISO per svolgere due attività cruciali:
+              <ul>
+                <li>Condurre frequenti e dettagliati riesami di contromisure fisiche e logiche per tracciare rigorosamente gli obiettivi aziendali di conformità.</li>
+                <li>Valutare e comprendere formalmente in che misura le politiche di sicurezza (security policies) interne aziendali corrispondano ed aderiscano ai severi standard normativi imposti da enti regolatori esterni prima di sottoporsi a ispezioni formali esterne.</li>
+              </ul>
+            </dd>
+
+            <dt>Comitato d'Audit (Audit Committee)</dt>
+            <dd>
+              Sottogruppo indipendente del Consiglio di Amministrazione (Board of Directors) avente la responsabilità di vigilare sui processi operativi e finanziari di audit, garantendo che i controllori e riscontri emersi dai report vengano indirizzati tempestivamente.
+            </dd>
+
+            <dt>Autovalutazioni (Self-Assessments)</dt>
+            <dd>
+              Valutazioni ed esami interni di minor formalità, condotti autonomamente dalle singole Business Unit (BU) o dai proprietari dei server (Asset Owners) per individuare lacune o prepararsi a verifiche ufficiali.
+            </dd>
+          </dl>
+
+          <div class="critical">
+            <strong>RILEVAMENTI D'AUDIT E INFRAZIONI INTERNE</strong><br>
+            Nel settore d'esame, la distinzione tra inadempimento rilevato internamente ed esternamente è netta:
+            <ul>
+              <li>Se un'organizzazione (come ad esempio un grande istituto bancario) fallisce un'ispezione interna di controllo (Internal PCI DSS Compliance Assessment), l'outcome o conseguenza diretta di tale fallimento d'esercizio consta puramente nel rilascio di <strong>Rilievi d'Audit Interni (Audit findings)</strong> nel registro di remediation dell'Internal Auditor.</li>
+              <li>Al contrario, qualora la non-conformità con i regolamenti locali o federali sulla privacy dei dati personali avvenga a livello di ispezione esterna o di autorità pubblica, la conseguenza immediata ed indiscutibile che il CISO presenterà al CdA (boarding) per richiedere budget compensativo è la comminazione di <strong>Sanzioni Pecuniarie (Fines)</strong>.</li>
+            </ul>
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 3 — EXTERNAL AUDITS ═══════════════════════════ -->
+        <section id="external">
+          <h2>Audit Esterni e Ispezioni (External Audits)</h2>
+          <p>
+            Gli audit esterni hanno rilevanza formale legale e sono eseguiti in modo imparziale da soggetti terzi rispetto alla catena gerarchica aziendale.
+          </p>
+
+          <dl class="termlist">
+            <dt>Contesto Regolatorio (Regulatory Audit)</dt>
+            <dd>
+              Un audit forzato e guidato da obblighi di legge o di settore. <br>
+              In ambiti ad altissima criticità (es: sanità o <strong>ambienti bancari/finanziari</strong>), lo svolgimento continuativo di attività di audit completo non è facoltativo o dettato da riorganizzazioni interne, bensì rappresenta un esplicito e imprescindibile <strong>Requisito Regolatorio (Regulatory requirement)</strong> per conservare la licenza bancaria o commerciale d'esercizio.
+            </dd>
+
+            <dt>Esami Formali e Ispezioni (Examinations)</dt>
+            <dd>
+              Ispezioni a sorpresa o programmate condotte da funzionari governativi di agenzie nazionali di vigilanza per certificare la corretta applicazione delle tutele d'ordine pubblico.
+            </dd>
+
+            <dt>Audit Indipendente di Terze Parti (Independent third-party audit)</dt>
+            <dd>
+              Processo analitico oggettivo, condotto da enti di certificazione accreditati, il cui esito si traduce in asseverazioni standardizzate internazionalmente (es: certificazioni ISO 27001 o certificati SOC).
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 4 — PENETRATION TESTING ═══════════════════════ -->
+        <section id="pentest">
+          <h2>Test di Penetrazione e Team di Sicurezza (Penetration Testing)</h2>
+          <p>
+            Al fine di testare in modo proattivo ed empirico la robustezza dei sistemi d'arma digitali si ricorre ad attacchi simulati controllati, comunemente noti come <em>Penetration Test (Penetration Testing)</em>.
+          </p>
+
+          <div class="exam-tip">
+            <strong>LE REGOLE DI INGAGGIO (RULES OF ENGAGEMENT - ROE)</strong><br>
+            Le <strong>Rules of Engagement (RoE)</strong> costituiscono l'accordo contrattuale formale che definisce capillarmente i confini, i perimetri, gli orari, le modalità, gli indirizzi IP autorizzati e i limiti legali che i penetration tester esterni ed interni <strong>devono rigorosamente seguire e rispettare durante lo svolgimento del test di penetrazione</strong>, sventando danni collaterali accidentali ai sistemi e garantendo il rispetto del diritto all'uso.
+          </div>
+
+          <p>La CompTIA categorizza le specializzazioni offensive e difensive dei test simulati sotto la metafora cooperativa dei "Color Teams":</p>
+
+          <dl class="termlist">
+            <dt>Squadra Offensiva (Red Team)</dt>
+            <dd>
+              Il team incaricato di condurre <strong>valutazioni di sicurezza offensive (offensive security assessment)</strong> simulando tecniche, tattiche e procedure (TTP) degli attaccanti reali. Ne sono tipiche attività i tentativi di penetrazione esterni, le infezioni di malware simulati e l'applicazione di tecniche di ingegneria sociale (social engineering) ed attacchi combinati.
+            </dd>
+
+            <dt>Squadra Difensiva (Blue Team)</dt>
+            <dd>
+              Il personale di sicurezza interno dell'organizzazione (es: Security Operations Center - SOC) preposto a monitorare costantemente le allerte, analizzare il traffico di rete ed arrestare attivamente gli assalti simulati condotti dal Red Team.
+            </dd>
+
+            <dt>Squadra Integrata (Purple Team)</dt>
+            <dd>
+              Un team o un approccio operativo che <strong>combina in modo coordinato, trasparente e sincrono sia tecniche offensive sia tecniche difensive</strong>. L'obiettivo primario del Purple Team non risiede nella "vittoria" di una fazione sull'altra, bensì nella massima condivisione dei riscontri tattici del Red Team con il Blue Team in tempo reale per tarare le regole del SIEM ed ottimizzare la postura protettiva del sistema.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>TEST DI SICUREZZA FISICA (PHYSICAL TESTING)</strong><br>
+            Le ispezioni offensive del Red Team o di consulenti esterni non si limitano via rete o tramite attacchi informatici (cyber). Un attacco in cui un tester simula una minaccia fisica o <strong>tenta di infiltrarsi materialmente entro aree aziendali sorvegliate o uffici privati abusando di badge d'accesso non autorizzati (access credentials/badge tailgating)</strong> rientra rigorosamente nella famiglia delle <strong>valutazioni fisiche (Physical Testing / Physical Assessments)</strong>.
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 5 — AMBIENTI E RICOGNIZIONE ═══════════════════ -->
+        <section id="environments_recon">
+          <h2>Ambienti di Test e Fasi di Ricognizione</h2>
+          <p>
+            I test di penetrazione variano considerevolmente in base all'entità di dettagli preventivi rilasciati al valutatore sul bersaglio operativo e alle tipologie di raccolta informazioni:
+          </p>
+
+          <h3>Quantità di Informazioni Condivise (Target Awareness):</h3>
+          <dl class="termlist">
+            <dt>Ambiente Noto (Known Environment)</dt>
+            <dd>
+              Tradizionalmente noto come <em>White Box Testing</em>. I tester dispongono della mappatura completa delle reti, del codice sorgente delle applicazioni e degli schemi interni dei database. Permette un'analisi rapida e approfondita degli scostamenti logici.
+            </dd>
+
+            <dt>Ambiente Parzialmente Noto (Partially Known Environment)</dt>
+            <dd>
+              Tradizionalmente noto come <em>Gray Box Testing</em>. Venendo incontro alle esigenze d’esame, si configura quando viene commissionata una verifica fornendo ai tester <strong>informazioni parziali d'appoggio sull'asset bersaglio, ad esempio localizzando un device specifico e trasmettendo esclusivamente informazioni di base relative a quest'ultimo</strong> prima delle operazioni.
+            </dd>
+
+            <dt>Ambiente Non Noto (Unknown Environment)</dt>
+            <dd>
+              Tradizionalmente noto come <em>Black Box Testing</em>. I tester iniziano le attività operando al buio completo, simulando con esattezza un attaccante opportunista esterno che deve farsi strada partendo da zero visibilità.
+            </dd>
+          </dl>
+
+          <h3>Tecniche di Ricognizione dei Bersagli (Reconnaissance Techniques):</h3>
+          <dl class="termlist">
+            <dt>Ricognizione Passiva (Passive Reconnaissance)</dt>
+            <dd>
+              La catalogazione dettagliata di informazioni senza effettuare alcun tipo di contatto diretto con i server della vittima, garantendo un'operatività silente. Nel caso in cui si voglia <strong>studiare un target con il massimo livello di segretezza possibile sventando sistemi di rilevamento e firewall d'allarme, si ricorre alla Ricognizione Passiva</strong> (es: interrogando Registri DNS storici, eseguendo ricerche OSINT, o leggendo i server Whois pubblici).
+            </dd>
+
+            <dt>Ricognizione Attiva (Active Reconnaissance)</dt>
+            <dd>
+              L'invio effettivo di traffico o sonda verso i server per mappare le reti. Un penetration tester che avvia le attività di valutazione <strong>eseguendo scansioni dinamiche di porte e scansioni di servizi (port and service scans/Nmap query)</strong> sta conducendo Ricognizione Attiva poiché genera pacchetti interattivi visibili nei log del sistema di destinazione.
+            </dd>
+          </dl>
+
+          <div class="exam-tip">
+            <strong>I PROGRAMMI BUG BOUNTY (BUG BOUNTY PROGRAMS)</strong><br>
+            Molte grandi aziende per integrarsi nel panorama della sicurezza offensiva creano i <strong>Bug Bounty Programs</strong>. Si tratta di iniziative aperte e accessibili al pubblico in cui <strong>le aziende ingaggiano e retribuiscono economicamente esperti esterni sani (white hat hackers) affinché rintraccino bug o vulnerabilità inedite</strong> nel proprio parco software, garantendo una segnalazione responsabile (responsible disclosure).
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 6 — DATA SOVEREIGNTY ══════════════════════════ -->
+        <section id="sovereignty">
+          <h2>La Sovranità dei Dati nell'Era Cloud (Data Sovereignty)</h2>
+          <p>
+            Un asse fondamentale del dominio legislativo e di governance internazionale concerne il concetto di cittadinanza intrinseca del dato ospitato su infrastrutture elastiche in cloud orizzontale.
+          </p>
+
+          <dl class="termlist">
+            <dt>Sovranità del Dato (Data Sovereignty)</dt>
+            <dd>
+              La dottrina giuridica in base alla quale le informazioni digitali sono interamente soggette alle leggi, ai regolamenti nazionali ed alla tutela legale del Paese in cui i dati risiedono fisicamente, ma ancor meglio definisce anche <strong>lo scenario in cui i medesimi dati archiviati al di fuori della nazione di origine continuano a sottostare perennemente agli adempimenti legali propri del Paese originario</strong>. <br>
+              In ottica d'esame, la sovranità dei dati determina quali regolamenti d'efficacia globali debbano governare i log, i flussi personali e gli archivi aziendali dei consumatori indipendentemente dal confine geopolitico in cui sorge il datacenter primario.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 5.5</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>21 domande d’esame ufficiali</strong> estratte e catalogate con cura sull'Obiettivo 5.5 (Tipi e Scopi di Audit e Valutazioni) in lingua inglese, con feedback istantaneo e spiegazione chiarificatrice in italiano per ciascun quesito.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 5.5 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 5.5</h2>
+          <p>Utilizza queste schede dinamiche per memorizzare la terminologia bilingue ufficiale ed i contratti d'esame del Domain 5.5 (Clicca sulla scheda per girarla).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Rules of Engagement (RoE)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Accordo contrattuale formale vincolante che norma orari, indirizzi IP, perimetro d'azione e limiti che il penetration tester esterno deve seguire tassativamente durante lo svolgimento del test.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Active Reconnaissance</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Mappatura della rete bersaglio che prevede l'invio proattivo di pacchetti IP (es. port scanning con Nmap), risultando visibile nei firewall e log protettivi della vittima.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Data Sovereignty</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La dottrina per cui le informazioni, pur risiedendo all'estero, sottostanno perennemente alle prerogative di riservatezza e leggi del Paese d'origine del dato, indipendentemente dalla geografia del server.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Purple Team Purpose</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Modello cooperativo coordinato che unisce gli specialisti d'attacco (Red) e di difesa (Blue) in scambi continui di informazioni per massimizzare la taratura del SIEM e dei controlli operativi.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SOC 2 Type II vs Type I</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>SOC 2 Type I = Idoneità teorica dei controlli in un istante temporale prefissato. SOC 2 Type II = Prova oggettiva dell'efficacia operativa dei controlli nell'arco di un intervallo temporale (es: 6 mesi).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Internal Assessment Failure</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Il fallimento di un'analisi di conformità interna (anche su standard PCI DSS) ha come esito principale la creazione di Rilievi d'Audit Interni (Audit Findings), sventando sanzioni monetarie che sono esclusive delle ispezioni esterne/regolatorie.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="../index.html">← Indice generale</a>
+          <a href="obj5_4_security_compliance.html" class="secondary">← OBJ 5.4 — Security Compliance</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 5.5 · 21 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>21 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 5.5</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct"   class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn"  class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* ── Dati quiz OBJ 5.5 (21 domande d'esame) ─────────────────── */
+  const Q = [
+    {
+      id: "SCREEN_009",
+      text: "A penetration tester begins an engagement by performing port and service scans against the client environment according to the rules of engagement. Which of the following reconnaissance types is the tester performing?",
+      opts: [
+        { id: "A", t: "Active", c: true },
+        { id: "B", t: "Passive", c: false },
+        { id: "C", t: "Defensive", c: false },
+        { id: "D", t: "Offensive", c: false }
+      ],
+      expl: "La scansione proattiva di porte ed IP prevede l'invio diretto di pacchetti verso i sistemi bersaglio e l'interazione diretta, configurandosi come Ricognizione Attiva (Active reconnaissance)."
+    },
+    {
+      id: "SCREEN_014",
+      text: "Which of the following is the most likely outcome if a large bank fails an internal PCI DSS compliance assessment?",
+      opts: [
+        { id: "A", t: "Fines", c: false },
+        { id: "B", t: "Sanctions", c: false },
+        { id: "C", t: "Reputation damage", c: false },
+        { id: "D", t: "Audit findings", c: true }
+      ],
+      expl: "Trattandosi di uno scrutinio o valutazione esclusivamente Interna all'azienda, il fallimento non comporta sanzioni pubbliche immediate ma genera Rilievi d'Audit (Audit findings) destinati alla divisione interna per la corretta mitigazione d'esercizio."
+    },
+    {
+      id: "SCREEN_036",
+      text: "If you are trying to collect information about a company in the stealthiest manner possible without being discovered, you might use which of the following?",
+      opts: [
+        { id: "A", t: "Passive reconnaissance", c: true },
+        { id: "B", t: "Active reconnaissance", c: false },
+        { id: "C", t: "Port scanning", c: false },
+        { id: "D", t: "Penetrating testing", c: false }
+      ],
+      expl: "Per raccogliere informazioni con la massima segretezza ed in maniera interamente silente si sfrutta la Ricognizione Passiva (Passive reconnaissance) attingendo da fonti OSINT e query DNS terze senza mai interrogare direttamente l'infrastruttura bersaglio."
+    },
+    {
+      id: "SCREEN_059",
+      text: "Which of the following statements about bug bounty programs are true?",
+      opts: [
+        { id: "A", t: "Discovered bugs are worth very little and reputable companies never host them.", c: false },
+        { id: "B", t: "They are private closed audits kept secure by internal developers only.", c: false },
+        { id: "C", t: "They are usually open to the public, and companies pay researchers to find vulnerabilities.", c: true },
+        { id: "D", t: "They are malicious programs set up to distribute rootkits onto researchers' laptops.", c: false }
+      ],
+      expl: "I programmi di Bug Bounty sono iniziative accessibili pubblicamente in cui le imprese corrispondono premi in denaro ad esperti etici esterni in cambio dell'identificazione e segnalazione previdenziale responsabile di bug o falle."
+    },
+    {
+      id: "SCREEN_139",
+      text: "Which of the following provides the details about the terms of a test with a third-party penetration tester?",
+      opts: [
+        { id: "A", t: "Rules of engagement", c: true },
+        { id: "B", t: "Supply chain analysis", c: false },
+        { id: "C", t: "Right to audit clause", c: false },
+        { id: "D", t: "Due diligence", c: false }
+      ],
+      expl: "Il contratto operativo che descrive nei minimi dettagli le modalità, orari di operatività, ambiti IP di test esclusi e confini di ingaggio tra azienda e tester è governato dalle Regole di Ingaggio (Rules of engagement)."
+    },
+    {
+      id: "SCREEN_140",
+      text: "A penetration tester begins an engagement by performing port and service scans against the client environment according to the rules of engagement. Which of the following reconnaissance types is the tester performing?",
+      opts: [
+        { id: "A", t: "Active", c: true },
+        { id: "B", t: "Passive", c: false },
+        { id: "C", t: "Defensive", c: false },
+        { id: "D", t: "Offensive", c: false }
+      ],
+      expl: "Eseguire scansioni di porte dinamiche equivale ad interagire con i canali e socket di rete del bersaglio, rientrando a tutti gli effetti nella categoria di Ricognizione Attiva (Active)."
+    },
+    {
+      id: "SCREEN_171",
+      text: "Which of the following is the most likely outcome if a large bank fails an internal PCI DSS compliance assessment?",
+      opts: [
+        { id: "A", t: "Fines", c: false },
+        { id: "B", t: "Audit findings", c: true },
+        { id: "C", t: "Sanctions", c: false },
+        { id: "D", t: "Reputation damage", c: false }
+      ],
+      expl: "Trattandosi di una ispezione ad esclusivo resoconto interno, l'outcome logico consta nella catalogazione di risultati e schede d'azione detti Rilievi d'Audit (Audit findings)."
+    },
+    {
+      id: "SCREEN_181",
+      text: "A company hired a consultant to perform an offensive security assessment covering penetration testing and social engineering. Which of the following teams will conduct this assessment activity?",
+      opts: [
+        { id: "A", t: "White", c: false },
+        { id: "B", t: "Purple", c: false },
+        { id: "C", t: "Blue", c: false },
+        { id: "D", t: "Red", c: true }
+      ],
+      expl: "Il team specificamente preposto a condurre l'attività offensiva di social engineering, simulazione malware ed esplorazione delle falle esterne è la Squadra Rossa (Red Team)."
+    },
+    {
+      id: "SCREEN_244",
+      text: "Which of the following is the best reason to complete an audit in a banking environment?",
+      opts: [
+        { id: "A", t: "Regulatory requirement", c: true },
+        { id: "B", t: "Organizational change", c: false },
+        { id: "C", t: "Self-assessment requirement", c: false },
+        { id: "D", t: "Service-level requirement", c: false }
+      ],
+      expl: "Negli ambienti finanziari e negli istituti bancari nazionali ed esteri, lo svolgimento metodico degli audit protettivi interni ed esterni è una necessità inderogabile dettata da Requisiti Regolatori obbligatori per legge (Regulatory requirement)."
+    },
+    {
+      id: "SCREEN_257",
+      text: "Which of the following teams combines both offensive and defensive testing techniques to protect an organization's critical systems?",
+      opts: [
+        { id: "A", t: "Red", c: false },
+        { id: "B", t: "Blue", c: false },
+        { id: "C", t: "Purple", c: true },
+        { id: "D", t: "Yellow", c: false }
+      ],
+      expl: "La Squadra Viola (Purple Team) è un modello integrato che unisce le competenze e riscontri delle azioni offensive e delle tattiche difensive in tempo reale per tarare le allerte SIEM."
+    },
+    {
+      id: "SCREEN_288",
+      text: "During a penetration test, a vendor attempts to enter an unauthorized area using an access badge. Which of the following types of tests does this represent?",
+      opts: [
+        { id: "A", t: "Defensive", c: false },
+        { id: "B", t: "Passive", c: false },
+        { id: "C", t: "Offensive", c: false },
+        { id: "D", t: "Physical", c: true }
+      ],
+      expl: "I tentativi di superamento fisico di barriere, varchi e locali ad accesso ristretto mediante utilizzo non autorizzato di credenziali o badge rappresenta un test di tipo Fisico (Physical test)."
+    },
+    {
+      id: "SCREEN_324",
+      text: "The Chief Information Security Officer (CISO) at a large company would like to gain an understanding of how the company's security policies compare to the requirements imposed by external regulators. Which of the following should the CISO use?",
+      opts: [
+        { id: "A", t: "Penetration test", c: false },
+        { id: "B", t: "Internal audit", c: true },
+        { id: "C", t: "Attestation", c: false },
+        { id: "D", t: "External examination", c: false }
+      ],
+      expl: "Un Audit Interno (Internal audit) permette ai manager di esaminare accuratamente le proprie policy rispetto alle aspettative dei regolatori prima che vengano eseguite verifiche formali da enti esterni."
+    },
+    {
+      id: "SCREEN_332",
+      text: "The Chief Information Officer (CISO) has determined the company is non-compliant with local data privacy regulations. The CISO needs to justify the budget request for more resources. Which of the following should the CISO present to the board as the direct consequence of non-compliance?",
+      opts: [
+        { id: "A", t: "Fines", c: true },
+        { id: "B", t: "Reputational damage", c: false },
+        { id: "C", t: "Sanctions", c: false },
+        { id: "D", t: "Contractual implications", c: false }
+      ],
+      expl: "La violazione e inadempienza verso reati o disposizioni governative esterne di privacy porta come sanzione definita immediata d'ispezione la comminazione di Pesanti Multe Amministrative (Fines), che possono essere usate come saggia motivazione di budget strategico presso il Board."
+    },
+    {
+      id: "SCREEN_354",
+      text: "A Chief Information Security Officer would like to conduct frequent, detailed reviews of systems and procedures to track compliance objectives. Which of the following will be the best method to achieve this objective?",
+      opts: [
+        { id: "A", t: "Third-party attestation", c: false },
+        { id: "B", t: "Penetration testing", c: false },
+        { id: "C", t: "Internal auditing", c: true },
+        { id: "D", t: "Vulnerability scans", c: false }
+      ],
+      expl: "La conduzione metodica, frequente e approfondita di riesami sulle policy, sistemistica di rete e procedure operative aziendali per tenere traccia delle conformità interne risiede nella metodica dell'Audit Interno (Internal auditing)."
+    },
+    {
+      id: "SCREEN_381",
+      text: "A hosting provider needs to prove that its security controls have been in place over the last six months and have sufficiently protected customer data. Which of the following would provide the best proof that the hosting provider has met the requirements?",
+      opts: [
+        { id: "A", t: "NIST CSF", c: false },
+        { id: "B", t: "SOC 2 Type 2 report", c: true },
+        { id: "C", t: "CIS Top 20 compliance reports", c: false },
+        { id: "D", t: "Vulnerability report", c: false }
+      ],
+      expl: "Per asseverare la reale efficacia allineata a protezione dei controlli protettivi dei dati lungo una finestra temporale estesa (es: 6 mesi) viene impiegato e richiesto un report SOC 2 modello Type II."
+    },
+    {
+      id: "SCREEN_480",
+      text: "Several customers want an organization to verify its security controls are operating effectively and have requested an independent opinion. Which of the following is the most efficient way to address these requests?",
+      opts: [
+        { id: "A", t: "Hire a vendor to perform a penetration test", c: false },
+        { id: "B", t: "Perform an annual self-assessment.", c: false },
+        { id: "C", t: "Allow each client the right to audit", c: false },
+        { id: "D", t: "Provide a third-party attestation report", c: true }
+      ],
+      expl: "Disporre di un unico report di Attestazione di Terza Parte (come un report SOC 2 Type II) è il metodo più scalabile ed efficiente per soddisfare contemporaneamente le richieste di controllo di molteplici clienti, evitando che ciascuno debba condurre un proprio audit individuale."
+    },
+    {
+      id: "SCREEN_514",
+      text: "Which of the following best describes the concept of information being stored outside of its country of origin while still being subject to the laws and requirements of the country of origin?",
+      opts: [
+        { id: "A", t: "Data sovereignty", c: true },
+        { id: "B", t: "Geolocation", c: false },
+        { id: "C", t: "Intellectual property", c: false },
+        { id: "D", t: "Geographic restrictions", c: false }
+      ],
+      expl: "La dottrina secondo la quale le informazioni memorizzate all'estero continuano a sottostare alle disposizioni del Paese legale di cittadinanza del dato o d'origine risiede nel concetto di Sovranità dei Dati (Data sovereignty)."
+    },
+    {
+      id: "SCREEN_528",
+      text: "Which of the following explains how to determine the global regulations that data is subject to regardless of the country where the data is stored?",
+      opts: [
+        { id: "A", t: "Geographic dispersion", c: false },
+        { id: "B", t: "Data sovereignty", c: true },
+        { id: "C", t: "Geographic restrictions", c: false },
+        { id: "D", t: "Data segmentation", c: false }
+      ],
+      expl: "La Sovranità dei Dati (Data sovereignty) descrive e disciplina l'attribuzione della competenza normativa ed i requisiti transnazionali applicati a prescindere dal server fisico multinazionale in cui il dato risiede d'appoggio."
+    },
+    {
+      id: "SCREEN_535",
+      text: "Which of the following describes the procedures a penetration tester must follow while conducting a test?",
+      opts: [
+        { id: "A", t: "Rules of engagement", c: true },
+        { id: "B", t: "Rules of acceptance", c: false },
+        { id: "C", t: "Rules of understanding", c: false },
+        { id: "D", t: "Rules of execution", c: false }
+      ],
+      expl: "Le Regole di Ingaggio (Rules of engagement) dettano e definiscono formalmente e legalmente le precise procedure operative e comportamentali che il tester è tenuto ad applicare ed osservare."
+    },
+    {
+      id: "SCREEN_546",
+      text: "An organization wants a third-party vendor to do a penetration test that targets a specific device. The organization has provided basic information about the device. Which of the following best describes this kind of penetration test?",
+      opts: [
+        { id: "A", t: "Partially known environment", c: true },
+        { id: "B", t: "Unknown environment", c: false },
+        { id: "C", t: "Integrated", c: false },
+        { id: "D", t: "Known environment", c: false }
+      ],
+      expl: "Fornire ai valutatori del test soltanto dettagli limitati e basilari (es: modello, un IP o informazioni basilari preliminari di rete) configura il test in Ambiente Parzialmente Noto (Partially known environment, o Gray Box)."
+    },
+    {
+      id: "SCREEN_602",
+      text: "The Chief Information Officer (CIO) asked a vendor to provide documentation detailing the specific objectives within the compliance framework that the vendor's services meet. The vendor provided a report and a signed letter stating that the services meet 17 of the 21 objectives. Which of the following did the vendor provide to the CIO?",
+      opts: [
+        { id: "A", t: "Penetration test results", c: false },
+        { id: "B", t: "Self-assessment findings", c: false },
+        { id: "C", t: "Attestation of compliance", c: true },
+        { id: "D", t: "Third-party audit report", c: false }
+      ],
+      expl: "La fornitura di un report corredato da un atto d'asseverazione scritto firmato in cui si dettaglia formale rispondenza ad una serie esatta di obiettivi definiti entro un framework strutturale (compliance framework) è detta Attestazione di Conformità (Attestation of compliance)."
+    }
+  ];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 5.5';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    let pool = Q.slice();
+    if (mode === 'quick') {
+      pool = shuffle(pool).slice(0, 10);
+    } else {
+      pool = shuffle(pool);
+    }
+
+    quiz = {
+      pool: pool,
+      idx: 0,
+      score: 0,
+      locked: false
+    };
+
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    render();
+  }
+
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
+function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

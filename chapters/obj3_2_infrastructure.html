@@ -94,7 +94,7 @@
     <dt>Internet (Zona non fidata)</dt>
     <dd>Traffico non controllato. Nessun accesso diretto alle risorse interne. Tutto il traffico deve attraversare almeno un firewall.</dd>
     <dt>DMZ (Demilitarized Zone)</dt>
-    <dd>Zona tampone tra internet e rete interna. Ospita servizi pubblici (web, mail, DNS). Protetta da firewall su entrambi i lati. Anche se un server DMZ viene compromesso, l'attaccante non accede direttamente alla rete interna (SCREEN_020).</dd>
+    <dd>Zona tampone tra internet e rete interna. Ospita servizi pubblici (web, mail, DNS). Protetta da firewall su entrambi i lati. Anche se un server DMZ viene compromesso, l'attaccante non accede direttamente alla rete interna.</dd>
     <dt>Rete interna (Zona fidata)</dt>
     <dd>Workstation, server interni, database. Accesso da DMZ/internet regolato da policy esplicite.</dd>
     <dt>Shared services zone</dt>
@@ -104,7 +104,7 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Scopo primario della DMZ</strong><br>
     "Primary purpose of implementing a DMZ?" → <strong>Isolare e aggiungere un layer
-    di sicurezza tra rete interna ed esterna</strong> (SCREEN_020). Non per migliorare
+    di sicurezza tra rete interna ed esterna</strong>. Non per migliorare
     le performance, non per il backup sicuro.
   </div>
 
@@ -125,7 +125,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio — IPS inline per bloccare pacchetti malevoli (SCREEN_596)</strong><br>
+    <strong>Esempio — IPS inline per bloccare pacchetti malevoli</strong><br>
     Un team vuole proteggere la rete da pacchetti malevoli esterni. Serve un
     <strong>IPS inline</strong>: deve essere nel percorso del traffico per poterlo
     bloccare prima che raggiunga la rete interna. Un IDS passivo rileva ma non blocca.
@@ -147,11 +147,11 @@
 
   <div class="exam-tip">
     <strong>EXAM TIP — Jump server: cinque scenari</strong><br>
-    (1) "Admin workstations cannot access DB segment directly" → <strong>Jump server</strong> (SCREEN_116, 121, 133).<br>
-    (2) "Layer of security preventing unauthorized access to internal resources" → <strong>Jump server</strong> (SCREEN_145).<br>
-    (3) "Minimize admin traffic through security boundary" → <strong>Bastion host</strong> (SCREEN_148).<br>
-    (4) "RDP exposed, secure setup" → <strong>VPN + jump server inside firewall</strong> (SCREEN_209).<br>
-    (5) "Servers segmented, reachable only from authorized internal systems" → <strong>Internal jump server</strong> (SCREEN_706).
+    (1) "Admin workstations cannot access DB segment directly" → <strong>Jump server</strong> (, 121, 133).<br>
+    (2) "Layer of security preventing unauthorized access to internal resources" → <strong>Jump server</strong>.<br>
+    (3) "Minimize admin traffic through security boundary" → <strong>Bastion host</strong>.<br>
+    (4) "RDP exposed, secure setup" → <strong>VPN + jump server inside firewall</strong>.<br>
+    (5) "Servers segmented, reachable only from authorized internal systems" → <strong>Internal jump server</strong>.
   </div>
 
   <h3 id="proxy">Proxy server</h3>
@@ -174,12 +174,11 @@
 
   <h3 id="load-balancer">Load balancer</h3>
   <p>
-    Distribuisce il traffico tra più server backend per performance e HA
-    (SCREEN_061, SCREEN_094, SCREEN_631). Funzionalità chiave:
+    Distribuisce il traffico tra più server backend per performance e HA. Funzionalità chiave:
   </p>
   <dl class="termlist">
     <dt>Affinity scheduling (Sticky session)</dt>
-    <dd>Stesso utente sempre allo stesso server durante la sessione (SCREEN_043). Critico per app stateful: senza affinity, ogni richiesta va a un server diverso che non ha la sessione dell'utente.</dd>
+    <dd>Stesso utente sempre allo stesso server durante la sessione. Critico per app stateful: senza affinity, ogni richiesta va a un server diverso che non ha la sessione dell'utente.</dd>
     <dt>Health checks</dt>
     <dd>Monitora i server backend. Se uno cade, ridistribuisce automaticamente il traffico tra i rimanenti.</dd>
     <dt>SSL offloading (TLS termination)</dt>
@@ -198,8 +197,7 @@
     non autorizzati colleghino dispositivi non approvati alla rete.
   </p>
   <p>
-    <strong>MAC filtering</strong>: la porta accetta solo MAC address pre-approvati
-    (SCREEN_597). Forma più semplice di port security. Agirabile con MAC spoofing
+    <strong>MAC filtering</strong>: la porta accetta solo MAC address pre-approvati. Forma più semplice di port security. Agirabile con MAC spoofing
     (cambiare il MAC del proprio dispositivo), quindi non è robusta contro attaccanti
     determinati. La soluzione più robusta è 802.1X.
   </p>
@@ -210,7 +208,7 @@
     approvati. Semplice ma aggirabile con MAC spoofing.<br>
     <strong>802.1X:</strong> autenticazione crittograficamente forte (certificati,
     credenziali) prima dell'accesso alla rete. Non aggirabile con MAC spoofing.
-    "Visitor plugs into lobby jack" → port security o 802.1X (SCREEN_290).
+    "Visitor plugs into lobby jack" → port security o 802.1X.
   </div>
 
   <h3 id="8021x">802.1X e EAP</h3>
@@ -231,7 +229,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio — Wi-Fi heat map: i primi passi (SCREEN_676)</strong><br>
+    <strong>Esempio — Wi-Fi heat map: i primi passi</strong><br>
     Per sviluppare una heat map Wi-Fi: (1) <strong>ottenere/creare la pianta dell'ufficio</strong>
     (base cartografica per mappare i dati) e (2) <strong>girare metodicamente nell'ufficio
     misurando la potenza del segnale</strong> (raccolta dati sul campo). Non si inizia
@@ -277,7 +275,7 @@
   <h3 id="vpn">VPN e Remote access</h3>
   <p>
     Una <strong>VPN</strong> crea un tunnel cifrato su internet per connettere
-    dispositivi remoti alla rete aziendale (SCREEN_653). Tipi principali:
+    dispositivi remoti alla rete aziendale. Tipi principali:
   </p>
   <dl class="termlist">
     <dt>Client-to-site (Remote access VPN)</dt>
@@ -290,11 +288,10 @@
 
   <div class="exam-tip">
     <strong>EXAM TIP — VPN + Jump server per accesso sicuro</strong><br>
-    "RDP esposto su internet" → <strong>VPN + jump server inside firewall</strong>
-    (SCREEN_209). La VPN cifra il canale; il jump server è il punto di accesso
+    "RDP esposto su internet" → <strong>VPN + jump server inside firewall</strong>. La VPN cifra il canale; il jump server è il punto di accesso
     controllato. Non cambiare solo la porta RDP (security through obscurity).<br>
     "Accesso remoto sicuro minimizzando l'esposizione della rete interna" →
-    <strong>VPN</strong> (SCREEN_653).
+    <strong>VPN</strong>.
   </div>
 
   <h3 id="tunneling">TLS vs IPSec</h3>
@@ -302,33 +299,33 @@
     <dt>TLS (Transport Layer Security)</dt>
     <dd>L5-L6. Protegge singole connessioni applicative (HTTPS, SMTP/TLS). Semplice da configurare. Non protegge l'intero stack IP.</dd>
     <dt>IPSec (Internet Protocol Security)</dt>
-    <dd>L3. Protegge l'intero payload IP, incluse le informazioni di routing. Modalità Tunnel: cifra il pacchetto IP completo con nuovo header. Per VPN site-to-site con tutto il traffico cifrato (SCREEN_299).</dd>
+    <dd>L3. Protegge l'intero payload IP, incluse le informazioni di routing. Modalità Tunnel: cifra il pacchetto IP completo con nuovo header. Per VPN site-to-site con tutto il traffico cifrato.</dd>
   </dl>
 
   <div class="exam-tip">
     <strong>EXAM TIP — IPSec per traffico inter-rete</strong><br>
     "Third party access between two networks, encryption on ALL traffic traversing" →
-    <strong>IPSec</strong> (SCREEN_299). EAP è per autenticazione. SD-WAN ottimizza
+    <strong>IPSec</strong>. EAP è per autenticazione. SD-WAN ottimizza
     il routing. TLS protegge singole connessioni, non tutto il traffico IP.
   </div>
 
   <h3 id="protocols">Protocolli sicuri vs non sicuri</h3>
   <dl class="termlist">
     <dt>Non sicuri (trasmettono in chiaro)</dt>
-    <dd>Telnet (23), FTP (21), HTTP (80), SNMP v1/v2 — trasmettono credenziali e dati senza cifratura (SCREEN_037).</dd>
+    <dd>Telnet (23), FTP (21), HTTP (80), SNMP v1/v2 — trasmettono credenziali e dati senza cifratura.</dd>
     <dt>Sostituzioni sicure</dt>
-    <dd>SSH ← Telnet: autenticazione con chiavi asimmetriche + connessione cifrata (SCREEN_040, SCREEN_397). SFTP/FTPS ← FTP. HTTPS ← HTTP. SNMPv3 ← SNMPv1/v2.</dd>
+    <dd>SSH ← Telnet: autenticazione con chiavi asimmetriche + connessione cifrata. SFTP/FTPS ← FTP. HTTPS ← HTTP. SNMPv3 ← SNMPv1/v2.</dd>
   </dl>
 
   <div class="exam-tip">
-    <strong>EXAM TIP — SSH: i due motivi vs Telnet (SCREEN_040)</strong><br>
+    <strong>EXAM TIP — SSH: i due motivi vs Telnet</strong><br>
     "Perché passare a SSH?" → <strong>(A) chiavi asimmetriche per autenticazione
     + (D) connessione cifrata</strong>. Non perché permette comandi superuser
     (anche Telnet li permette). Non perché non richiede pre-shared key (SSH le usa).
   </div>
 
   <div class="pitfall">
-    <strong>ATTENZIONE — VoIP: i protocolli (SCREEN_403)</strong><br>
+    <strong>ATTENZIONE — VoIP: i protocolli</strong><br>
     RTP, SIP, H.323, SRTP sono tutti protocolli <strong>VoIP</strong>. Regole firewall
     per questi protocolli → supporto VoIP. Non confondere con RTOS, SoC, o HVAC.
   </div>
@@ -336,7 +333,7 @@
   <h3 id="zero-trust-net">Zero Trust per la rete enterprise</h3>
   <p>
     "Secure zone + company-wide access control policy + reduce scope of threats"
-    = <strong>Zero Trust</strong> (SCREEN_220). Nessuna zona implicitamente fidata,
+    = <strong>Zero Trust</strong>. Nessuna zona implicitamente fidata,
     ogni accesso verificato, policy applicata consistentemente. Non è AAA (solo
     autenticazione), non è CIA (principi dei dati).
   </p>
@@ -488,7 +485,7 @@ var Q=[
 {id:'SCREEN_076',text:'Which of the following would be the best way to handle a critical business application that is running on a legacy server?',opts:[{id:'A',t:'Segmentation',c:true},{id:'B',t:'Isolation',c:false},{id:'C',t:'Hardening',c:false},{id:'D',t:'Decommissioning',c:false}],expl:'Un\'applicazione critica su server legacy: non può essere dismessa né facilmente hardenita. La segmentazione la mantiene operativa isolandola in un segmento con accesso controllato. L\'isolamento totale impedirebbe l\'accesso agli utenti legittimi.'},
 {id:'SCREEN_094',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Con più server virtuali, il load balancer è il passo successivo: distribuisce il traffico, garantisce HA con failover automatico, permette scalabilità orizzontale.'},
 {id:'SCREEN_116',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Il jump server è il punto di accesso intermedio per amministrare sistemi in zone protette: il DBA si connette al jump server, poi da lì ai DB server. RADIUS è per AAA. HSM gestisce chiavi crittografiche.'},
-{id:'SCREEN_121',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Variante di SCREEN_116. Jump server = punto di accesso controllato per zone di rete separate e protette.'},
+{id:'SCREEN_121',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Jump server = punto di accesso controllato per zone di rete separate e protette.'},
 {id:'SCREEN_133',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Terza occorrenza. CompTIA enfatizza: accesso amministrativo a zona separata → jump server.'},
 {id:'SCREEN_145',text:'An engineer needs to find a solution that creates an added layer of security by preventing unauthorized access to internal company resources. Which of the following would be the best solution?',opts:[{id:'A',t:'RDP server',c:false},{id:'B',t:'Jump server',c:true},{id:'C',t:'Proxy server',c:false},{id:'D',t:'Hypervisor',c:false}],expl:'Il jump server crea un layer aggiuntivo di sicurezza: centralizza l\'accesso, applica autenticazione forte, registra tutte le sessioni. Un RDP server esposto è un rischio.'},
 {id:'SCREEN_148',text:'A company needs to provide administrative access to internal resources while minimizing the traffic allowed through the security boundary. Which of the following methods is most secure?',opts:[{id:'A',t:'Implementing a bastion host',c:true},{id:'B',t:'Deploying a perimeter network',c:false},{id:'C',t:'Installing a WAF',c:false},{id:'D',t:'Utilizing single sign-on',c:false}],expl:'Un bastion host minimizza il traffico attraverso il security boundary: solo le connessioni al bastion sono consentite, poi il bastion accede internamente. Non servono regole per ogni admin verso ogni server.'},
@@ -503,7 +500,7 @@ var Q=[
 {id:'SCREEN_555',text:'An organization wants a secure solution for remote users handling sensitive PHI. Users need to access an internally developed corporate application. Which of the following best meet the requirements? (Choose two.)',opts:[{id:'A',t:'Local administrative password',c:false},{id:'B',t:'Perimeter network',c:false},{id:'C',t:'Jump server',c:true},{id:'D',t:'WAF',c:false},{id:'E',t:'MFA',c:true},{id:'F',t:'VPN',c:true}],expl:'Per accesso remoto sicuro a dati PHI sensibili: VPN (canale cifrato) + MFA (autenticazione forte) + jump server (accesso controllato all\'applicazione interna). WAF protegge le app web dagli attacchi, non gestisce l\'accesso remoto.'},
 {id:'SCREEN_596',text:'A security team is in the process of hardening the network against externally crafted malicious packets. Which of the following is the most secure method to protect the internal network?',opts:[{id:'A',t:'Anti-malware solutions',c:false},{id:'B',t:'Host-based firewalls',c:false},{id:'C',t:'Intrusion prevention systems',c:true},{id:'D',t:'Network access control',c:false},{id:'E',t:'Network allow list',c:false}],expl:'Un IPS inline blocca pacchetti malevoli a livello di rete prima che raggiungano qualsiasi host. Anti-malware agisce sull\'endpoint dopo l\'arrivo. Host-based firewall protegge il singolo host. NAC controlla l\'autenticazione alla rete, non il contenuto dei pacchetti.'},
 {id:'SCREEN_597',text:'Which of the following is the best way to prevent an unauthorized user from plugging a laptop into an employee\'s phone network port and then using tools to scan for database servers?',opts:[{id:'A',t:'MAC filtering',c:true},{id:'B',t:'Segmentation',c:false},{id:'C',t:'Certification',c:false},{id:'D',t:'Isolation',c:false}],expl:'Il MAC filtering blocca la connessione di dispositivi con MAC non pre-approvati sulla porta switch. La segmentazione limiterebbe cosa l\'utente potrebbe fare dopo la connessione, ma non impedirebbe la connessione stessa.'},
-{id:'SCREEN_631',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Variante di SCREEN_094. Con più server virtuali, il load balancer distribuisce il traffico, garantisce HA e permette scalabilità orizzontale.'},
+{id:'SCREEN_631',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Con più server virtuali, il load balancer distribuisce il traffico, garantisce HA e permette scalabilità orizzontale.'},
 {id:'SCREEN_642',text:'An administrator is creating a secure method for a contractor to access a test environment. Which of the following would provide the contractor with the best access?',opts:[{id:'A',t:'Application server',c:false},{id:'B',t:'Jump server',c:true},{id:'C',t:'RDP server',c:false},{id:'D',t:'Proxy server',c:false}],expl:'Il jump server fornisce accesso controllato e auditato all\'ambiente di test per i contractor: autenticazione forte, sessioni registrate, senza esporre direttamente i server dell\'ambiente.'},
 {id:'SCREEN_653',text:'Which of the following is the best way to provide secure, remote access for employees while minimizing the exposure of a company\'s internal network?',opts:[{id:'A',t:'VPN',c:true},{id:'B',t:'LDAP',c:false},{id:'C',t:'FTP',c:false},{id:'D',t:'RADIUS',c:false}],expl:'Una VPN cifra tutto il traffico tra il dispositivo remoto e la rete aziendale minimizzando l\'esposizione. LDAP è per la directory. FTP è non sicuro. RADIUS è per autenticazione, non per l\'accesso remoto diretto.'},
 {id:'SCREEN_676',text:'Which of the following are the first steps an analyst should perform when developing a heat map? (Choose two.)',opts:[{id:'A',t:'Methodically walk around the office noting Wi-Fi signal strength.',c:true},{id:'B',t:'Log in to each access point and check the settings.',c:false},{id:'C',t:'Create or obtain a layout of the office.',c:true},{id:'D',t:'Measure cable lengths between access points.',c:false},{id:'E',t:'Review access logs to determine the most active devices.',c:false},{id:'F',t:'Remove possible impediments to radio transmissions.',c:false}],expl:'Per una heat map Wi-Fi: (C) ottenere/creare la pianta dell\'ufficio (base cartografica) e (A) girare l\'ufficio misurando la potenza del segnale (raccolta dati). Non si inizia dagli AP né si misurano i cavi.'},
@@ -515,8 +512,94 @@ contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 3.2';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
-function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
-function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+  function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
 function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
 function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
 document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
@@ -524,7 +607,15 @@ document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
 document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
-nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
 overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();

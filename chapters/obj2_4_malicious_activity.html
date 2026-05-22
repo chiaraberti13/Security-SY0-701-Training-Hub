@@ -108,7 +108,7 @@
   </p>
   <dl class="termlist">
     <dt>Indicatori tipici</dt>
-    <dd>File con estensione modificata in modo non riconosciuto (SCREEN_303: <code>.ryk</code>). Nota di riscatto (ransom note) sul desktop o in ogni cartella cifrata. CPU e I/O disco elevati durante la fase di cifratura. Accesso massiccio e sequenziale ai file in breve tempo. Comunicazione outbound verso indirizzi sospetti (C2 per la chiave).</dd>
+    <dd>File con estensione modificata in modo non riconosciuto (: <code>.ryk</code>). Nota di riscatto (ransom note) sul desktop o in ogni cartella cifrata. CPU e I/O disco elevati durante la fase di cifratura. Accesso massiccio e sequenziale ai file in breve tempo. Comunicazione outbound verso indirizzi sospetti (C2 per la chiave).</dd>
     <dt>Ransomware-as-a-Service (RaaS)</dt>
     <dd>Il modello operativo del crimine organizzato: il gruppo sviluppa il ransomware e lo affitta ad affiliati che si occupano della distribuzione, dividendo il riscatto. Ha democratizzato gli attacchi ransomware aumentandone il volume.</dd>
     <dt>Double extortion</dt>
@@ -118,7 +118,7 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Ransomware: l'estensione è la chiave</strong><br>
     "All user workstations and servers are displaying a message associated with files
-    containing extension .ryk" → <strong>Ransomware</strong> (SCREEN_303).
+    containing extension .ryk" → <strong>Ransomware</strong>.
     L'estensione anomala + messaggio di riscatto = indicatori diagnostici del ransomware.
     Non è un virus (che non cifra necessariamente), non è spyware (che non blocca i file).
   </div>
@@ -134,7 +134,7 @@
   <p>
     Il Trojan <em>non si replica autonomamente</em> (si distingue dal worm per questo)
     e non infetta altri file (si distingue dal virus). Richiede che l'utente lo installi
-    deliberatamente, sfruttando l'inganno. Lo scenario SCREEN_372 (software scaricato
+    deliberatamente, sfruttando l'inganno. Lo scenario  (software scaricato
     da forum online che genera traffico outbound su porta non comune) descrive un Trojan
     con <strong>backdoor</strong> integrata.
   </p>
@@ -150,7 +150,7 @@
   </p>
   <dl class="termlist">
     <dt>Indicatori tipici</dt>
-    <dd>Traffico di rete elevato e anomalo su porte di servizi specifici (SCREEN_713: TCP 445 = SMB, tipico di worm come WannaCry). Latenza di rete elevata. Sistemi che tentano di connettersi a molti altri host in sequenza. Nessun intervento utente rilevato prima dell'infezione.</dd>
+    <dd>Traffico di rete elevato e anomalo su porte di servizi specifici (: TCP 445 = SMB, tipico di worm come WannaCry). Latenza di rete elevata. Sistemi che tentano di connettersi a molti altri host in sequenza. Nessun intervento utente rilevato prima dell'infezione.</dd>
     <dt>Vettori tipici</dt>
     <dd>Vulnerabilità nei servizi di rete esposti (SMB, RDP, SSH). Una volta entrato in un sistema, il worm scansiona automaticamente altri host raggiungibili e ripete il processo.</dd>
   </dl>
@@ -159,7 +159,7 @@
     <strong>ATTENZIONE — Worm vs Virus vs Trojan</strong><br>
     <strong>Worm:</strong> si propaga autonomamente, nessun intervento umano, sfrutta
     vulnerabilità di rete. Indicatore: alto traffico di rete, molti sistemi infettati
-    simultaneamente (SCREEN_003, SCREEN_713).<br>
+    simultaneamente.<br>
     <strong>Virus:</strong> si replica infettando altri file, richiede esecuzione del
     file infetto da parte dell'utente.<br>
     <strong>Trojan:</strong> si maschera da software legittimo, richiede installazione
@@ -168,18 +168,10 @@
 
   <h3 id="spyware-key">Spyware e Keylogger</h3>
   <p>
-    Lo <strong>spyware</strong> è malware che raccoglie informazioni sull'utente e le
-    trasmette a terzi senza consenso: cronologia di navigazione, abitudini d'uso,
-    credenziali, dati personali. È spesso installato insieme ad altro software
-    (bundling) o tramite siti web compromessi. Difficile da rilevare perché opera
-    silenziosamente in background.
+    Lo <strong>spyware</strong> è malware che raccoglie informazioni sull'utente e le trasmette a terzi senza consenso: cronologia di navigazione, abitudini d'uso, credenziali e dati personali. È spesso installato insieme ad altro software (bundling) o tramite siti web compromessi. Opera silenziosamente in background.
   </p>
   <p>
-    Il <strong>keylogger</strong> è un tipo specializzato di spyware che registra ogni
-    tasto premuto dall'utente, catturando credenziali, messaggi privati, numeri di carta
-    di credito e qualsiasi altra informazione digitata. Può essere software (processo
-    che intercetta gli eventi tastiera) o hardware (dispositivo fisico tra tastiera
-    e PC).
+    Il <strong>keylogger</strong> è un tipo specializzato di spyware che registra ogni tasto premuto dall'utente, catturando credenziali, messaggi privati, numeri di carta di credito e qualsiasi altra informazione digitata. Può essere software (processo che intercetta gli eventi tastiera) o hardware (dispositivo fisico tra tastiera e PC).
   </p>
   <dl class="termlist">
     <dt>Indicatori keylogger software</dt>
@@ -188,20 +180,24 @@
     <dd>Dispositivo fisico tra il connettore della tastiera e la porta USB/PS2 del PC. Rilevabile solo con ispezione fisica del cablaggio.</dd>
   </dl>
 
-  <h3 id="altri-malware">Virus · Bloatware · Rootkit</h3>
+  <h3 id="altri-malware">Virus · Bloatware · Rootkit · Beaconing</h3>
   <dl class="termlist">
     <dt>Virus</dt>
     <dd>Malware che si replica infettando altri file eseguibili. Richiede che l'utente esegua il file infetto per attivarsi e propagarsi. Non si diffonde autonomamente sulla rete (a differenza del worm). Indicatore: hash di file eseguibili cambiato senza patch applicate.</dd>
     <dt>Bloatware</dt>
     <dd>Software indesiderato pre-installato dai produttori (tipicamente su PC nuovi) o installato come bundle. Non sempre malevolo, ma consuma risorse, riduce le prestazioni e può introdurre vulnerabilità. L'indicatore è la presenza di applicazioni non richieste che si avviano automaticamente.</dd>
     <dt>Rootkit</dt>
-    <dd>Malware progettato per nascondere la sua presenza e quella di altri malware al sistema operativo e ai tool di sicurezza. Modifica le API di sistema per restituire risultati alterati: se cerchi il processo malevolo, il rootkit lo nasconde dall'elenco dei processi. Indicatore classico: hash di file di sistema cambiato senza patch recenti (SCREEN_012, SCREEN_164: cmd.exe con hash modificato = rootkit). Può essere introdotto tramite side loading (SCREEN_690).</dd>
+    <dd>Malware progettato per nascondere la sua presenza e quella di altri malware al sistema operativo e ai tool di sicurezza. Modifica le API di sistema per restituire risultati alterati: se cerchi il processo malevolo, il rootkit lo nasconde dall'elenco dei processi. Indicatore classico: hash di file di sistema cambiato senza patch recenti (, : cmd.exe con hash modificato = rootkit). Può essere introdotto tramite side loading.</dd>
+    <dt>Fileless Malware (Malware senza file)</dt>
+    <dd>Un malware avanzato che non salva file eseguibili tradizionali sul disco rigido (hard drive), eludendo le scansioni degli antivirus tradizionali basati su firme. Opera iniettando il proprio codice malevolo direttamente nello spazio di memoria RAM di processi legittimi del sistema operativo (es. <code>PowerShell</code>, <code>WMI</code> o <code>cmd.exe</code>). Sfrutta strumenti integrati di amministrazione per svolgere le sue attività (Living-off-the-Land).</dd>
+    <dt>Beaconing (Comunicazione a Beacon)</dt>
+    <dd>Il comportamento tipico di un malware installato che, ad intervalli regolari o randomizzati, effettua connessioni outbound (pings) verso il proprio server di <strong>Command and Control (C2)</strong> esterno dell'attaccante. Serve a segnalare che l'host è online ed infettato, ed a ricevere ed eseguire nuovi ordini o inviare dati catturati. La telemetria di rede evidenzia pattern costanti di traffico intermittente a intervalli fissi (es: ogni 10 secondi esatti) verso un medesimo IP non aziendale.</dd>
   </dl>
 
   <div class="exam-tip">
     <strong>EXAM TIP — Rootkit: il file integrity monitoring è il rilevatore</strong><br>
     Scenario: "FIM alert: hash di cmd.exe cambiato. Nessuna patch applicata negli ultimi
-    2 mesi" → <strong>Rootkit</strong> (SCREEN_012, SCREEN_164). Il rootkit modifica
+    2 mesi" → <strong>Rootkit</strong>. Il rootkit modifica
     file di sistema critici. Senza patch che giustifichino la modifica, la causa è
     malware. Non è una collision crittografica (estremamente improbabile su file reali),
     non è una snapshot (non modifica il file).
@@ -218,7 +214,7 @@
   </p>
 
   <div class="example-box">
-    <strong>Esempio pratico — Logic bomb da insider (OBJ 2.3 · SCREEN_440 + OBJ 2.4 · SCREEN_109)</strong><br>
+    <strong>Esempio pratico — Logic bomb da insider (OBJ 2.3 ·  + OBJ 2.4 · )</strong><br>
     Il codice: <code>IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END</code>
     inserito nello script di backup da un DBA in uscita è una logic bomb classica:
     condizione = data specifica; payload = eliminazione del database.
@@ -253,14 +249,14 @@
   <p>
     L'indicatore caratteristico è il log di accesso fisico che mostra lo stesso badge
     usato in più luoghi in un intervallo di tempo impossibile (<em>impossible travel</em>)
-    o in rapida sequenza sullo stesso varco (SCREEN_662: multiple entries from the same
+    o in rapida sequenza sullo stesso varco (: multiple entries from the same
     employee ID badge within a two-minute period).
   </p>
 
   <div class="exam-tip">
     <strong>EXAM TIP — RFID cloning: l'indicatore è la duplicazione temporale</strong><br>
     "Multiple entries from an employee's ID badge within a two-minute period" →
-    <strong>RFID cloning</strong> (SCREEN_662). Non è tailgating (che è una persona
+    <strong>RFID cloning</strong>. Non è tailgating (che è una persona
     che segue fisicamente un'altra senza usare il badge). Non è shoulder surfing
     (che riguarda l'osservazione di informazioni visualizzate). La rapidità degli
     accessi sullo stesso badge indica che è stato clonato e usato da un'altra persona.
@@ -293,7 +289,7 @@
   </p>
 
   <div class="example-box">
-    <strong>Esempio — Lettura di log DDoS (SCREEN_304)</strong><br>
+    <strong>Esempio — Lettura di log DDoS</strong><br>
     Log firewall: molti IP sorgente diversi, tutti inviando pacchetti SYN alla stessa
     destinazione (100.50.20.7:443) nello stesso secondo. Questo pattern — molti SYN senza
     ACK di risposta — è un <strong>SYN flood DDoS</strong>. Il server esaurisce le risorse
@@ -303,15 +299,14 @@
   <dl class="termlist">
     <dt>Amplified DDoS (Amplificato)</dt>
     <dd>L'attaccante invia piccole richieste a server intermedi (DNS, NTP, SSDP) con IP sorgente falsificato (quello della vittima). I server rispondono con risposte molto più grandi alla vittima. L'amplificazione può essere 50x–100x: 1 GB di traffico inviato dall'attaccante diventa 50–100 GB ricevuti dalla vittima.</dd>
-    <dt>Reflected DDoS (Riflesso)</dt>
-    <dd>L'attaccante usa server legittimi come "riflettori" inviando richieste con IP sorgente della vittima. I server rispondono alla vittima (non all'attaccante). La tecnica usa la <strong>spoofing</strong> dell'IP sorgente. Il DNS reflected DoS (SCREEN_264) usa il DNS come riflettore: piccola query DNS → grande risposta DNS verso la vittima.</dd>
+    <dt>Reflected / Reflection DDoS (Riflesso / Reflection Attack)</dt>
+    <dd>L'attaccante usa server legittimi come "riflettori" inviando richieste con IP sorgente della vittima. I server rispondono alla vittima (non all'attaccante). Questa tecnica (Reflection) usa lo <strong>spoofing</strong> dell'IP sorgente. Il DNS reflected DoS usa il DNS come riflettore: piccola query DNS → grande risposta DNS verso la vittima.</dd>
   </dl>
 
   <div class="exam-tip">
     <strong>EXAM TIP — DDoS reflected: l'indicatore DNS</strong><br>
     "DNS server: CPU/memoria minimi, ma interfaccia di rete inondata di traffico in ingresso.
-    Solo poche query DNS inviate da questo server" → <strong>Reflected DoS</strong>
-    (SCREEN_264). Il server DNS non sta generando il traffico: lo sta <em>ricevendo</em>
+    Solo poche query DNS inviate da questo server" → <strong>Reflected DoS</strong>. Il server DNS non sta generando il traffico: lo sta <em>ricevendo</em>
     come riflettore. L'attaccante ha spoofato l'IP del DNS server e inviato richieste a
     molti server che ora rispondono tutti al DNS server (vittima).
   </div>
@@ -326,12 +321,12 @@
   </p>
   <p>
     L'indicatore caratteristico è la modifica non autorizzata dei record DNS
-    (SCREEN_565: i record A e CNAME che puntano da 192.168.1.1 a 233.123.123.23 —
+    (: i record A e CNAME che puntano da 192.168.1.1 a 233.123.123.23 —
     un IP non appartenente all'azienda). La difesa è DNSSEC
     (DNS Security Extensions).
   </p>
   <p>
-    Il <strong>DNS tunneling</strong> (SCREEN_218) usa le query DNS come canale
+    Il <strong>DNS tunneling</strong> usa le query DNS come canale
     nascosto per esfiltrare dati: l'attaccante codifica i dati rubati nei sottodomain
     delle query DNS (es. <code>dati.base64encoded.attacker.com</code>). Il traffico DNS
     è spesso permesso anche dai firewall più restrittivi, rendendolo un canale di
@@ -358,9 +353,9 @@
     transita attraverso l'attaccante.
   </p>
   <p>
-    Lo scenario SCREEN_584 (attaccante che intercetta e riusa le credenziali di login
+    Lo scenario  (attaccante che intercetta e riusa le credenziali di login
     per accedere a informazioni finanziarie) descrive un on-path attack con credential
-    replay. Il <strong>pass-the-hash</strong> (SCREEN_418) è una variante: invece delle
+    replay. Il <strong>pass-the-hash</strong> è una variante: invece delle
     credenziali in chiaro, l'attaccante ruba e riusa l'hash NTLM dell'autenticazione.
   </p>
 
@@ -373,7 +368,7 @@
     silver ticket), e il replay di token di sessione o cookie.
   </p>
   <p>
-    Il comando <code>mimikatz sekurlsa::pth /ntlm:B4B9B02E...</code> (SCREEN_418) è
+    Il comando <code>mimikatz sekurlsa::pth /ntlm:B4B9B02E...</code> è
     il tool più famoso per il pass-the-hash: estrae gli hash NTLM dalla memoria LSASS
     di Windows e li usa per aprire nuove sessioni autenticate senza conoscere la password.
   </p>
@@ -381,7 +376,7 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Pass-the-hash: riconosci mimikatz</strong><br>
     Se vedi <code>mimikatz</code> o <code>sekurlsa::pth</code> o <code>/ntlm:</code>
-    in un comando → <strong>pass-the-hash attack</strong> (SCREEN_418).
+    in un comando → <strong>pass-the-hash attack</strong>.
     Mimikatz è lo strumento standard per il dump degli hash NTLM e il loro riuso.
     Non è social engineering, non è fileless malware.
   </div>
@@ -399,12 +394,11 @@
     SQL injection (dati SQL → database), command injection (comandi OS → shell),
     LDAP injection (query LDAP → directory service), XML/XPath injection.
     Il denominatore comune è la mancanza di <em>input validation</em>.
-    La mitigazione universale è sempre l'<strong>input validation</strong>
-    (SCREEN_727).
+    La mitigazione universale è sempre l'<strong>input validation</strong>.
   </p>
 
   <div class="example-box">
-    <strong>Esempio — Data exfiltration via DNS tunneling (SCREEN_400)</strong><br>
+    <strong>Esempio — Data exfiltration via DNS tunneling</strong><br>
     Il PCAP mostra traffico da 10.5.1.1 verso 52.165.16.154 usando encapsulation IPv6
     in IPv4 (proto 41) su una porta non standard (13788). Dati sensibili vengono
     esfiltrati incapsulando IPv6 dentro IPv4 per nascondere il traffico malevolo in
@@ -424,7 +418,7 @@
   <dl class="termlist">
     <dt>Tecniche comuni</dt>
     <dd>Sfruttamento di SUID/SGID bit su Unix, token impersonation su Windows, Kerberoasting (richiesta di ticket TGS per account con SPN e offline cracking dell'hash), DLL hijacking, unquoted service paths.</dd>
-    <dt>Valid accounts (SCREEN_516)</dt>
+    <dt>Valid accounts</dt>
     <dd>L'attaccante usa credenziali rubate o create appositamente per accedere a sistemi con privilegi elevati. È una tecnica MITRE ATT&CK: sfrutta account legittime invece di vulnerabilità tecniche, rendendo l'attività difficile da distinguere da quella normale.</dd>
   </dl>
 
@@ -477,7 +471,7 @@
   </p>
 
   <div class="example-box">
-    <strong>Esempio — Lettura dei log di password spraying (SCREEN_010, SCREEN_143)</strong><br>
+    <strong>Esempio — Lettura dei log di password spraying</strong><br>
     Log: login fallito per administrator, jsmith, guest, cpolk, fmartin — tutti con
     la stessa password "Spring2023", negli stessi secondi. Pattern diagnostico del
     password spraying: <em>password uguale, username diversi, timestamp ravvicinati</em>.
@@ -487,9 +481,11 @@
 
   <dl class="termlist">
     <dt>Brute-force (informatico)</dt>
-    <dd>Testa tutte le combinazioni possibili di password su un singolo account finché non trova quella corretta. Molto lento, scatena facilmente i lockout. Indicatore: molti tentativi falliti consecutivi sullo stesso account (SCREEN_198: password authentication succeeded ma MFA failed ripetutamente = tentativo di brute-force sul MFA).</dd>
+    <dd>Testa tutte le combinazioni possibili di password su un singolo account finché non trova quella corretta. Molto lento, scatena facilmente i lockout. Indicatore: molti tentativi falliti consecutivi sullo stesso account (: password authentication succeeded ma MFA failed ripetutamente = tentativo di brute-force sul MFA).</dd>
+    <dt>Credential Stuffing (Riempimento di credenziali)</dt>
+    <dd>Un attacco altamente automatizzato in cui gli hacker pasturano script automatici con imponenti database di combinazioni <strong>username/password compromesse da precedenti violazioni (leaked)</strong> su altri siti web. L'attacco tenta di autenticarsi su centinaia di noti servizi online alternativi (es: e-commerce, banche, social network) speculando sull'abitudine diffusa degli utenti di **riutilizzare le medesime credenziali di accesso** su canali diversi. Non è brute force, poiché le coppie testate non sono casuali né generate al volo, ma derivano da credenziali reali violate altrove.</dd>
     <dt>Differenza operativa chiave</dt>
-    <dd>Spraying: 1 password × N account → evita lockout. Brute-force: N password × 1 account → causa lockout. Il pattern nei log è diagnostico e immediato.</dd>
+    <dd>Spraying: 1 password × N account → evita lockout. Brute-force: N password × 1 account → causa lockout. Credential Stuffing: Coppie note (User/Password) × N account in modo mirato.</dd>
   </dl>
 
   <h3 id="pass-hash">Pass-the-hash</h3>
@@ -536,7 +532,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio pratico — Data exfiltration via VPN (SCREEN_586)</strong><br>
+    <strong>Esempio pratico — Data exfiltration via VPN</strong><br>
     I log VPN mostrano che un utente si connette durante la notte (orari non lavorativi =
     out-of-cycle logging) e trasferisce dati verso un IP sospetto (resource consumption
     anomala + blocked content potenziale). La combinazione di orario anomalo + destinazione
@@ -688,8 +684,8 @@ var Q=[
 {id:'SCREEN_012',text:'A systems administrator receives the following alert from a file integrity monitoring tool: The hash of the cmd.exe file has changed. The systems administrator checks the OS logs and notices that no patches were applied in the last two months. Which of the following most likely occurred?',opts:[{id:'A',t:'The end user changed the file permissions.',c:false},{id:'B',t:'A cryptographic collision was detected.',c:false},{id:'C',t:'A snapshot of the file system was taken.',c:false},{id:'D',t:'A rootkit was deployed.',c:true}],expl:'cmd.exe è un file di sistema critico. L\'hash è cambiato senza patch recenti che lo giustifichino. Un rootkit modifica file di sistema critici per nascondersi o per persistere. Una collisione crittografica reale è estremamente improbabile. Una snapshot non modifica il file, ne crea una copia.'},
 {id:'SCREEN_039',text:'Which technique is employed when executing a distributed denial-of-service (DDoS) attack?',opts:[{id:'A',t:'Spoofing',c:true},{id:'B',t:'Spraying',c:false},{id:'C',t:'SQL injection',c:false},{id:'D',t:'Hashing',c:false}],expl:'Il DDoS utilizza lo spoofing dell\'IP sorgente: l\'attaccante falsifica gli IP di origine per nascondere la fonte reale dell\'attacco e per il reflected DDoS (dove i server intermediari rispondono all\'IP spoofato della vittima, amplificando il traffico verso di essa).'},
 {id:'SCREEN_109',text:'Which of the following is generally a script planted by a disgruntled employee or other malicious actor that is set to execute at a certain time?',opts:[{id:'A',t:'Trojan horse',c:false},{id:'B',t:'Logic bomb',c:true},{id:'C',t:'Adware',c:false},{id:'D',t:'Virus',c:false}],expl:'Una logic bomb è codice dormiente che si attiva a una condizione specifica (tipicamente una data/ora). È tipicamente piantata da insider malevoli (dipendenti scontenti). Il Trojan si maschera da software legittimo ma non è necessariamente time-triggered. Il virus si replica infettando altri file.'},
-{id:'SCREEN_143',text:'A security analyst is reviewing the following logs: [10:00:00 AM] Login rejected - username administrator - password Spring2023; [10:00:01 AM] Login rejected - username jsmith - password Spring2023; [10:00:01 AM] Login rejected - username guest - password Spring2023; [10:00:02 AM] Login rejected - username cpolk - password Spring2023; [10:00:03 AM] Login rejected - username fmartin - password Spring2023. Which of the following attacks is most likely occurring?',opts:[{id:'A',t:'Password spraying',c:true},{id:'B',t:'Account forgery',c:false},{id:'C',t:'Pass-the-hash',c:false},{id:'D',t:'Brute-force',c:false}],expl:'Variante di SCREEN_010. Il pattern è identico: stessa password su molti account diversi in rapida successione. Password spraying. Il brute-force prova molte password sullo stesso account.'},
-{id:'SCREEN_164',text:'A systems administrator receives the following alert from a file integrity monitoring tool: The hash of the cmd.exe file has changed. The systems administrator checks the OS logs and notices that no patches were applied in the last two months. Which of the following most likely occurred?',opts:[{id:'A',t:'The end user changed the file permissions.',c:false},{id:'B',t:'A cryptographic collision was detected.',c:false},{id:'C',t:'A snapshot of the file system was taken.',c:false},{id:'D',t:'A rootkit was deployed.',c:true}],expl:'Variante di SCREEN_012. Hash di file di sistema cambiato senza patch recenti = rootkit. Il rootkit modifica i file critici del sistema operativo per nascondersi e persistere.'},
+{id:'SCREEN_143',text:'A security analyst is reviewing the following logs: [10:00:00 AM] Login rejected - username administrator - password Spring2023; [10:00:01 AM] Login rejected - username jsmith - password Spring2023; [10:00:01 AM] Login rejected - username guest - password Spring2023; [10:00:02 AM] Login rejected - username cpolk - password Spring2023; [10:00:03 AM] Login rejected - username fmartin - password Spring2023. Which of the following attacks is most likely occurring?',opts:[{id:'A',t:'Password spraying',c:true},{id:'B',t:'Account forgery',c:false},{id:'C',t:'Pass-the-hash',c:false},{id:'D',t:'Brute-force',c:false}],expl:'Il pattern è identico: stessa password su molti account diversi in rapida successione. Password spraying. Il brute-force prova molte password sullo stesso account.'},
+{id:'SCREEN_164',text:'A systems administrator receives the following alert from a file integrity monitoring tool: The hash of the cmd.exe file has changed. The systems administrator checks the OS logs and notices that no patches were applied in the last two months. Which of the following most likely occurred?',opts:[{id:'A',t:'The end user changed the file permissions.',c:false},{id:'B',t:'A cryptographic collision was detected.',c:false},{id:'C',t:'A snapshot of the file system was taken.',c:false},{id:'D',t:'A rootkit was deployed.',c:true}],expl:'Hash di file di sistema cambiato senza patch recenti = rootkit. Il rootkit modifica i file critici del sistema operativo per nascondersi e persistere.'},
 {id:'SCREEN_198',text:'A security analyst reviews domain activity logs and notices the following: UserID jsmith, password authentication: succeeded, MFA: failed (invalid code) repeated multiple times. Which of the following is the best explanation for what the security analyst has discovered?',opts:[{id:'A',t:'The user jsmith\'s account has been locked out.',c:false},{id:'B',t:'A keylogger is installed on jsmith\'s workstation.',c:false},{id:'C',t:'An attacker is attempting to brute force jsmith\'s account.',c:true},{id:'D',t:'Ransomware has been deployed in the domain.',c:false}],expl:'La password è corretta (autenticazione password: succeeded) ma il codice MFA fallisce ripetutamente. L\'attaccante ha rubato la password ma non ha accesso al secondo fattore e tenta di indovinarlo (brute-force sul MFA). Il keylogger avrebbe catturato anche il MFA se fosse state TOTP digitato.'},
 {id:'SCREEN_218',text:'A security analyst receives alerts about an internal system sending a large amount of unusual DNS queries to systems on the internet over short periods of time during non-business hours. Which of the following is most likely occurring?',opts:[{id:'A',t:'A worm is propagating across the network.',c:false},{id:'B',t:'Data is being exfiltrated.',c:true},{id:'C',t:'A logic bomb is deleting data.',c:false},{id:'D',t:'Ransomware is encrypting files.',c:false}],expl:'Volume elevato di query DNS non usuali verso internet durante orari non lavorativi è il pattern del DNS tunneling: i dati vengono codificati nei sottodomini delle query DNS per esfiltrare informazioni attraverso un canale (DNS) che i firewall di solito non bloccano.'},
 {id:'SCREEN_264',text:'A company\'s end users are reporting that they are unable to reach external websites. After reviewing the performance data for the DNS servers, the analyst discovers that the CPU, disk, and memory usage are minimal, but the network interface is flooded with inbound traffic. Network logs show only a small number of DNS queries sent to this server. Which of the following best describes what the security analyst is seeing?',opts:[{id:'A',t:'Concurrent session usage',c:false},{id:'B',t:'Secure DNS cryptographic downgrade',c:false},{id:'C',t:'On-path resource consumption',c:false},{id:'D',t:'Reflected denial of service',c:true}],expl:'Il server DNS ha CPU/memoria minimi (non sta elaborando molto) ma la rete è inondata di traffico in ingresso e ha inviato poche query. Questo è un reflected DoS: l\'attaccante ha spoofato l\'IP del DNS come sorgente di richieste, e molti server internet ora inviano risposte a questo DNS (che non le ha richieste).'},
@@ -715,8 +711,94 @@ contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.4';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
 function startQuiz(mode){var n=mode==='quick'?12:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
-function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
-function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+  function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
 function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
 function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
 document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
@@ -724,7 +806,15 @@ document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
 document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
-nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
 overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();

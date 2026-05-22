@@ -68,14 +68,14 @@
         <section id="soar_concept">
           <h2>Security Orchestration, Automation, and Response (SOAR)</h2>
           <p>
-            Nei Security Operations Center (SOC) enterprise, l'enorme volume di avvisi giornalieri impedisce un'efficace gestione manuale. La risposta a questa sfida risiede nell'implementazione di piattaforme <strong>SOAR (Security Orchestration, Automation, and Response)</strong> <code>(SCREEN_601)</code>.
+            Nei Security Operations Center (SOC) enterprise, l'enorme volume di avvisi giornalieri impedisce un'efficace gestione manuale. La risposta a questa sfida risiede nell'implementazione di piattaforme <strong>SOAR (Security Orchestration, Automation, and Response)</strong>.
           </p>
           <p>
-            Il SOAR funge da collettore centrale in grado di intercettare gli alert emessi dal SIEM o dai sistemi EDR/firewall, ed eseguire flussi di risposta automatizzati senza che un operatore debba compiere decine di passaggi manuali nel terminale <code>(SCREEN_601)</code>.
+            Il SOAR funge da collettore centrale in grado di intercettare gli alert emessi dal SIEM o dai sistemi EDR/firewall, ed eseguire flussi di risposta automatizzati senza che un operatore debba compiere decine di passaggi manuali nel terminale.
           </p>
 
           <div class="focused-concept">
-            <strong>Il Fornitore di Efficienza — Workforce Multiplier <code>(SCREEN_491)</code>:</strong><br>
+            <strong>Il Fornitore di Efficienza — Workforce Multiplier:</strong><br>
             La primaria utilità derivante dall'inclusione di processi di automazione e orchestrazione all'interno dei motori di sicurezza SOC risiede nella sua funzione di <strong>workforce multiplier (moltiplicatore della forza lavoro)</strong>. Questo consente ai pochissimi analisti umani del SOC di sovrintendere a migliaia di incidenti simultanei con tempi di reazione sub-secondo, delegando i flussi ripetitivi e di routine ai motori automatizzati.
           </div>
         </section>
@@ -87,7 +87,7 @@
             I SIEM tradizionali (legacy) si limitavano a raccogliere, aggregare, correlare storicamente e archiviare passivamente i registri di sistema per scopi di auditing o compliance fiscale. 
           </p>
           <p>
-            I <strong>SIEM di Nuova Generazione (Next-Gen SIEM)</strong> superano questa limitazione integrando in un'unica interfaccia l'analisi del comportamento degli utenti (UBA) e apposite funzionalità di <strong>risposta automatica all'incidente (Automated response actions)</strong> <code>(SCREEN_340)</code>. Tali reazioni possono includere l'isolamento istantaneo in quarantena di una macchina compromessa segnalata dall'EDR, o la revoca automatica di una sessione utente anomala.
+            I <strong>SIEM di Nuova Generazione (Next-Gen SIEM)</strong> superano questa limitazione integrando in un'unica interfaccia l'analisi del comportamento degli utenti (UBA) e apposite funzionalità di <strong>risposta automatica all'incidente (Automated response actions)</strong>. Tali reazioni possono includere l'isolamento istantaneo in quarantena di una macchina compromessa segnalata dall'EDR, o la revoca automatica di una sessione utente anomala.
           </p>
         </section>
 
@@ -99,7 +99,7 @@
           </p>
           <dl class="termlist">
             <dt>Playbook (Guida Strategica al Contenimento)</dt>
-            <dd>È una guida o matrice procedurale di alto livello che delinea l'intera logica di gestione dell'incidente <code>(SCREEN_336)</code>. Ad esempio, indica chi deve essere notificato legalmente, quando isolare un server critico, quali autorizzazioni sono indispensabili e come allertare il PR Manager in presenza di data breach. I SOC adoperano i <strong>playbook</strong> per guidare e standardizzare la reazione coordinata del team.</dd>
+            <dd>È una guida o matrice procedurale di alto livello che delinea l'intera logica di gestione dell'incidente. Ad esempio, indica chi deve essere notificato legalmente, quando isolare un server critico, quali autorizzazioni sono indispensabili e come allertare il PR Manager in presenza di data breach. I SOC adoperano i <strong>playbook</strong> per guidare e standardizzare la reazione coordinata del team.</dd>
             
             <dt>Runbook (Procedura Tecnica Esecutiva)</dt>
             <dd>Contiene la sequenza restrittiva e granulare di comandi tecnici o script esatti adoperati per eseguire materialmente una determinata porzione di automazione (es: stringhe PowerShell o configurazioni router da lanciare per bloccare una porta IP).</dd>
@@ -115,7 +115,7 @@
 
           <h3>Il Processo del Tuning (Sintonizzazione delle Assunzioni)</h3>
           <p>
-            Quando un analista del SOC rileva che determinati comportamenti anomali (es: un software gestionale interno che interpella porte non standard) sono in realtà da considerarsi sani e operativi per il ciclo lavorativo corrente, compie un'attività di <strong>Tuning (Tuning delle Regole)</strong> <code>(SCREEN_089)</code>. Il tuning modifica i filtri d'allarme per ignorare formalmente tale attività d'ora in avanti.
+            Quando un analista del SOC rileva che determinati comportamenti anomali (es: un software gestionale interno che interpella porte non standard) sono in realtà da considerarsi sani e operativi per il ciclo lavorativo corrente, compie un'attività di <strong>Tuning (Tuning delle Regole)</strong>. Il tuning modifica i filtri d'allarme per ignorare formalmente tale attività d'ora in avanti.
           </p>
 
           <h3>L'Importanza dei Registri Software specifici (Application Logs)</h3>
@@ -123,7 +123,7 @@
             Molti degli incidenti più dannosi avvengono non sulla infrastruttura di rete o a livello di firewall, bensì per via di transazioni logiche di backend. 
           </p>
           <div class="critical">
-            <strong>Esempio Chiave — Audit della Frode Contabile <code>(SCREEN_455)</code>:</strong><br>
+            <strong>Esempio Chiave — Audit della Frode Contabile:</strong><br>
             Se un utente usa illegittimamente il software di fatturazione interna della ditta per emettere clandestinamente check e pagamenti fraudolenti, i tecnici che indagano non troveranno evidenza di questa infrazione nei log dei firewall, delle porte IDS o dello scanner di vulnerabilità di sistema. L'amministratore dovrà procedere analizzando con massima cura i <strong>log applicativi (Application logs)</strong> del gestionale per tracciare la cronologia esatta delle transazioni abusive.
           </div>
         </section>
@@ -135,7 +135,7 @@
             Al termine di un attacco accertato o di un penetration test in cui un cybercriminale è penetrato nel perimetro AD usando certificati fittizi abilmente contraffatti a causa di una debolezza della Certification Authority, è necessario avviare il ripristino sicuro (Cleanup Phase).
           </p>
           <p class="focused-concept">
-            <strong>Cleanup Task — Patching the CA <code>(SCREEN_405)</code>:</strong><br>
+            <strong>Cleanup Task — Patching the CA:</strong><br>
             Fintanto che la debolezza del codice o della configurazione della Certification Authority rimane aperta sul server, l'attaccante potrà ritornare forgiando nuove identità. Per questo motivo, il principale e immediato remediation task da compiere durante la fase di cleanup consiste nel <strong>patchare il server CA (Patching the CA)</strong> per sradicare la vulnerabilità all'origine, prima di attuare modifiche accessorie come il reintegro delle password.
           </p>
         </section>
@@ -148,7 +148,7 @@
           </p>
           <dl class="termlist">
             <dt>Simultaneous Authentication of Equals (SAE)</dt>
-            <dd>SAE è l'algoritmo di scambio di chiavi impiegato in WPA3 Personal per sostituire il vulnerabile protocollo basato su PSK d'era WPA2. Funge da <strong>scambio di chiavi basato su password (password-based key exchange)</strong> progettato per resistere intrinsecamente ad attacchi a dizionario o intercettazioni offline <code>(SCREEN_044)</code>. SAE garantisce la generazione di solidi segreti di crittografia condivisi escludendo lo scambio in chiaro dell'handshake.</dd>
+            <dd>SAE è l'algoritmo di scambio di chiavi impiegato in WPA3 Personal per sostituire il vulnerabile protocollo basato su PSK d'era WPA2. Funge da <strong>scambio di chiavi basato su password (password-based key exchange)</strong> progettato per resistere intrinsecamente ad attacchi a dizionario o intercettazioni offline. SAE garantisce la generazione di solidi segreti di crittografia condivisi escludendo lo scambio in chiaro dell'handshake.</dd>
           </dl>
         </section>
 
@@ -505,43 +505,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -567,10 +619,14 @@
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {

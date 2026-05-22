@@ -99,6 +99,8 @@
     <dd>La registrazione strategica di nomi a dominio palesemente storpiati per errori di battitura manuale da parte delle vittime (es: <code>www.c0mpany.com</code> al posto di <code>www.company.com</code>) per caricarvi malware o sottrarre credenziali.</dd>
     <dt>Watering-hole attack</dt>
     <dd>Infezione indiretta che consiste nel compromettere un sito web esterno di settore comunemente frequentato e reputato fido dalla nicchia di dipendenti dell'azienda target.</dd>
+    <dt>Pharming</dt>
+    <dd>Un attacco sofisticato diretto a re-indirizzare automaticamente il traffico web degli utenti da un sito web legittimo a un duplicato maligno, anche se l'utente digita correttamente l'URL originale nel browser. Si realizza primariamente tramite <strong>DNS cache poisoning (avvelenamento DNS)</strong> sui server ricorsivi o modificando abusivamente il file locale delle corrispondenze host (<strong>hosts file modification</strong>) sul PC della vittima. A differenza del phishing tradizionale, non richiede al dipendente di commettere l'errore di fare clic su un link e-mail falso.</dd>
   </dl>
 </section>
 
@@ -563,7 +565,7 @@ var Q = [
         "c": false
       }
     ],
-    "expl": "Identico a SCREEN_119. La minaccia viaggia via SMS (Smishing) e l'attaccante si spaccia per un'entità legittima aziendale interna (Impersonation)."
+    "expl": "La minaccia viaggia via SMS (Smishing) e l'attaccante si spaccia per un'entità legittima aziendale interna (Impersonation)."
   },
   {
     "id": "SCREEN_129",
@@ -590,7 +592,7 @@ var Q = [
         "c": true
       }
     ],
-    "expl": "Variante di SCREEN_112. Una mail fittizia che induce l'utente a inserire credenziali su un sito falso è un classico attacco di phishing con credential harvesting."
+    "expl": "Una mail fittizia che induce l'utente a inserire credenziali su un sito falso è un classico attacco di phishing con credential harvesting."
   },
   {
     "id": "SCREEN_132",
@@ -1253,7 +1255,7 @@ var Q = [
         "c": false
       }
     ],
-    "expl": "Identico a SCREEN_073. Registrare varianti con semplici refusi di scrittura di indirizzi famosi è denominato Typosquatting."
+    "expl": "Registrare varianti con semplici refusi di scrittura di indirizzi famosi è denominato Typosquatting."
   },
   {
     "id": "SCREEN_627",
@@ -1280,7 +1282,7 @@ var Q = [
         "c": false
       }
     ],
-    "expl": "Variante di SCREEN_073. Il typosquatting costituisce un'efficace esca passiva d'ingegneria sociale legata ad errori di digitazione."
+    "expl": "Il typosquatting costituisce un'efficace esca passiva d'ingegneria sociale legata ad errori di digitazione."
   },
   {
     "id": "SCREEN_632",
@@ -1307,7 +1309,7 @@ var Q = [
         "c": false
       }
     ],
-    "expl": "Identico a SCREEN_070. Portali duplicati inviati per truffare le credenziali descrivono attività di phishing (di credential harvesting)."
+    "expl": "Portali duplicati inviati per truffare le credenziali descrivono attività di phishing (di credential harvesting)."
   },
   {
     "id": "SCREEN_668",
@@ -1476,95 +1478,135 @@ var Q = [
 var quiz=null,overlay=document.getElementById('quiz-overlay'),setupEl=document.getElementById('quiz-setup'),contentEl=document.getElementById('quiz-content'),resultEl=document.getElementById('quiz-result'),counterEl=document.getElementById('quiz-counter'),progressEl=document.getElementById('quiz-progress-fill'),questionEl=document.getElementById('quiz-question-text'),optionsEl=document.getElementById('quiz-options'),explanEl=document.getElementById('quiz-explanation'),nextBtn=document.getElementById('quiz-next-btn');
 contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.2';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
+function startQuiz(mode){var n=mode==='quick'?10:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
 
-document.getElementById('quiz-open-btn').addEventListener('click', function(){
-  setupEl.style.display='block';
-  contentEl.style.display='none';
-  resultEl.style.display='none';
-  overlay.classList.add('active');
-});
-
-document.querySelectorAll('#quiz-close-btn, #quiz-done-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    overlay.classList.remove('active');
-  });
-});
-
-document.querySelectorAll('.quiz-mode-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    var m = this.dataset.mode;
-    var list = (m === 'quick') ? shuffle(Q).slice(0, 10) : shuffle(Q);
-    startQuiz(list);
-  });
-});
-
-function startQuiz(list){
-  quiz = { list: list, index: 0, score: 0 };
-  setupEl.style.display = 'none';
-  contentEl.style.display = 'block';
-  showQuestion();
-}
-
-function showQuestion(){
-  var curr = quiz.list[quiz.index];
-  counterEl.textContent = 'Domanda ' + (quiz.index + 1) + ' di ' + quiz.list.length;
-  progressEl.style.width = ((quiz.index / quiz.list.length) * 100) + '%';
-  questionEl.textContent = curr.text;
-  optionsEl.innerHTML = '';
+function render() {
+  var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+  counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+  progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+  questionEl.textContent = q.text;
   explanEl.style.display = 'none';
-  explanEl.textContent = '';
   nextBtn.disabled = true;
-  nextBtn.textContent = (quiz.index === quiz.list.length - 1) ? 'Vedi risultati' : 'Avanti →';
+  quiz.locked = false;
+  quiz.selections = [];
 
-  curr.opts.forEach(function(opt){
+  var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+  if (correctCount === 0) correctCount = 1;
+  quiz.requiredSelections = correctCount;
+
+  if (quiz.requiredSelections > 1) {
+    nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+  } else {
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+  }
+
+  optionsEl.innerHTML = '';
+  shuffle(q.opts).forEach(function(o){
     var btn = document.createElement('button');
-    btn.className = 'quiz-opt-btn';
-    btn.textContent = opt.id + ') ' + opt.t;
+    btn.className = 'quiz-option';
+    btn.dataset.oid = o.id;
+    btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+    
     btn.addEventListener('click', function(){
-      if (nextBtn.disabled === false) return; // già risposto
-      var correctOpt = curr.opts.find(function(o){ return o.c; });
-      if (opt.c) {
-        btn.classList.add('correct');
-        quiz.score++;
-      } else {
-        btn.classList.add('wrong');
-        // evidenzia corretta
-        Array.prototype.forEach.call(optionsEl.children, function(child){
-          if (child.textContent.startsWith(correctOpt.id + ')')) {
-            child.classList.add('correct');
+      if (quiz.locked) return;
+      
+      if (quiz.requiredSelections > 1) {
+        var index = quiz.selections.indexOf(o.id);
+        if (index > -1) {
+          quiz.selections.splice(index, 1);
+          btn.classList.remove('selected');
+        } else {
+          if (quiz.selections.length < quiz.requiredSelections) {
+            quiz.selections.push(o.id);
+            btn.classList.add('selected');
           }
-        });
+        }
+        nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+        nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+      } else {
+        quiz.selections = [o.id];
+        pick(q);
       }
-      explanEl.textContent = curr.expl;
-      explanEl.style.display = 'block';
-      nextBtn.disabled = false;
     });
     optionsEl.appendChild(btn);
   });
 }
 
-nextBtn.addEventListener('click', function(){
-  quiz.index++;
-  if (quiz.index < quiz.list.length) {
-    showQuestion();
-  } else {
-    showResults();
-  }
-});
+function pick(q) {
+  if (quiz.locked) return;
+  quiz.locked = true;
 
-function showResults(){
-  contentEl.style.display = 'none';
-  resultEl.style.display = 'block';
-  counterEl.textContent = 'Quiz Completato';
-  progressEl.style.width = '100%';
-  document.getElementById('result-score').textContent = 'Punteggio: ' + quiz.score + ' / ' + quiz.list.length;
-  var pct = Math.round((quiz.score / quiz.list.length) * 100);
-  document.getElementById('result-pct').textContent = pct + '% - ' + (pct >= 70 ? 'Superato!' : 'Riprova per migliorare');
+  var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+  var allCorrectSelected = correctOpts.every(function(id){
+    return quiz.selections.indexOf(id) > -1;
+  });
+
+  if (allCorrectSelected) {
+    quiz.score++;
+  }
+
+  optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+    var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+    btn.disabled = true;
+    var isCorrect = o.c;
+    var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+    } else if (isSelected) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  if (q.expl) {
+    explanEl.textContent = q.expl;
+    explanEl.style.display = 'block';
+  }
+  
+  var n = quiz.pool.length;
+  nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+  nextBtn.disabled = false;
 }
 
-document.getElementById('quiz-retry-btn').addEventListener('click', function(){
-  resultEl.style.display = 'none';
-  setupEl.style.display = 'block';
+function showResult() {
+  var n = quiz.pool.length, pct = Math.round((quiz.score / n) * 100);
+  contentEl.style.display = 'none';
+  resultEl.style.display = 'block';
+  counterEl.textContent = 'Risultato finale';
+  progressEl.style.width = '100%';
+  document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+  var pEl = document.getElementById('result-pct');
+  pEl.textContent = pct + '%';
+  pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+}
+
+function closeQuiz() {
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  quiz = null;
+}
+
+document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+document.querySelectorAll('#quiz-close-btn, #quiz-done-btn').forEach(function(btn){
+  btn.addEventListener('click', closeQuiz);
+});
+document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+document.querySelectorAll('.quiz-mode-btn').forEach(function(b){
+  b.addEventListener('click', function(){ startQuiz(b.dataset.mode); });
+});
+nextBtn.addEventListener('click', function(){
+  if (quiz.requiredSelections > 1 && !quiz.locked) {
+    pick(quiz.pool[quiz.idx]);
+  } else {
+    quiz.idx++;
+    if (quiz.idx < quiz.pool.length) render();
+    else showResult();
+  }
+});
+overlay.addEventListener('click', function(e){ if (e.target === overlay) closeQuiz(); });
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
 });
 
 })();

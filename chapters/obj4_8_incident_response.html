@@ -69,16 +69,16 @@
         <section id="ir_lifecycle">
           <h2>Fasi del Ciclo di Vita dell'Incident Response (NIST / CompTIA)</h2>
           <p>
-            L'Incident Response (IR) è un insieme coordinato di attività, politiche e strumenti volto ad identificare, contenere e rimediare alle minacce di sicurezza. Un'organizzazione struttura la risposta secondo il modello standardizzato <strong>NIST SP 800-61</strong> <code>(SCREEN_612)</code>.
+            L'Incident Response (IR) è un insieme coordinato di attività, politiche e strumenti volto ad identificare, contenere e rimediare alle minacce di sicurezza. Un'organizzazione struttura la risposta secondo il modello standardizzato <strong>NIST SP 800-61</strong>.
           </p>
 
           <div class="critical">
             <strong>Fasi Sequenziali d'Esame:</strong>
             <ol>
-              <li><strong>Preparation (Preparazione)</strong>: Si stabiliscono preventivamente ruoli, responsabilità strutturate del personale, si redigono i playbook e si addestrano le persone <code>(SCREEN_204)</code>.</li>
-              <li><strong>Detection and Analysis (Rilevamento e Analisi)</strong>: È la prima fase attiva volta a scoprire anomalie e confermare che l'evento costituisca formalmente una violazione attiva <code>(SCREEN_541)</code>.</li>
-              <li><strong>Containment, Eradication, and Recovery (Contenimento, Eradicazione e Ripristino)</strong>: Sotto-fasi preposte prima a contenere il raggio d'azione del virus, poi a disinfettare i sistemi e infine a riportarli online <code>(SCREEN_053, SCREEN_738)</code>.</li>
-              <li><strong>Post-Incident Activity (Attività Post-Incidente / Lessons Learned)</strong>: Analisi conclusiva per documentare l'accaduto e implementare difese strutturali aggiuntive <code>(SCREEN_025, SCREEN_347, SCREEN_474)</code>.</li>
+              <li><strong>Preparation (Preparazione)</strong>: Si stabiliscono preventivamente ruoli, responsabilità strutturate del personale, si redigono i playbook e si addestrano le persone.</li>
+              <li><strong>Detection and Analysis (Rilevamento e Analisi)</strong>: È la prima fase attiva volta a scoprire anomalie e confermare che l'evento costituisca formalmente una violazione attiva.</li>
+              <li><strong>Containment, Eradication, and Recovery (Contenimento, Eradicazione e Ripristino)</strong>: Sotto-fasi preposte prima a contenere il raggio d'azione del virus, poi a disinfettare i sistemi e infine a riportarli online.</li>
+              <li><strong>Post-Incident Activity (Attività Post-Incidente / Lessons Learned)</strong>: Analisi conclusiva per documentare l'accaduto e implementare difese strutturali aggiuntive.</li>
             </ol>
           </div>
         </section>
@@ -91,7 +91,7 @@
           </p>
           <ul>
             <li>
-              <strong>Contenimento (Containment)</strong>: Colloca al primo posto l'obiettivo di <strong>limitare la propagazione del danno</strong> e minimizzare l'interruzione complessiva delle attività <code>(SCREEN_738)</code>. Un'azione tipo consiste nell'usare il SIEM o l'EDR per disconnettere o isolare un server compromesso dalla rete <code>(SCREEN_053)</code>.
+              <strong>Contenimento (Containment)</strong>: Colloca al primo posto l'obiettivo di <strong>limitare la propagazione del danno</strong> e minimizzare l'interruzione complessiva delle attività. Un'azione tipo consiste nell'usare il SIEM o l'EDR per disconnettere o isolare un server compromesso dalla rete.
             </li>
             <li>
               <strong>Eradicazione (Eradication)</strong>: Subentra in seguito all'isolamento. Consiste nel neutralizzare integralmente il malware all'origine, rimuovendo le minacce e i file cloni residui.
@@ -99,7 +99,7 @@
           </ul>
 
           <div class="example-box">
-            <strong>Analisi di Scenario — Macchina Isolata ma non sanata <code>(SCREEN_053)</code>:</strong><br>
+            <strong>Analisi di Scenario — Macchina Isolata ma non sanata:</strong><br>
             Se il team del SOC individua un endpoint compromesso e il software SIEM riesce a disconnetterlo dall'ambiente di rete principale, ma i tecnici non hanno ancora eliminato i file maligni da quel computer, il team ha completato esclusivamente la fase di <strong>Contenimento (Containment)</strong>.
           </div>
         </section>
@@ -111,10 +111,10 @@
             Al termine delle fasi di sanificazione ed espulsione degli aggressori, il team si riunisce per le attività conclusive di rendicontazione:
           </p>
           <dl class="termlist">
-            <dt>Generazione di Report Formali <code>(SCREEN_025, SCREEN_347)</code></dt>
+            <dt>Generazione di Report Formali</dt>
             <dd>Determinati audit o normative richiedono la formalizzazione e sottomissione di relazioni scritte (Incident reports). Tali report ufficiali descrivono l'intera sequenza temporale del breach e vengono scritti e generati solo durante la fase finale di <strong>Lessons learned</strong>.</dd>
             
-            <dt>Ricerca delle cause di fondo (Root Cause Analysis - RCA) <code>(SCREEN_170, SCREEN_474)</code></dt>
+            <dt>Ricerca delle cause di fondo (Root Cause Analysis - RCA)</dt>
             <dd>Identifica sistematicamente la falla primaria che ha concesso l'accaduto. Ricercare la root cause ha il fine ultimo di <strong>prevenire futuri incidenti aventi la medesima origine</strong>, correggendo la vulnerabilità alla radice.</dd>
           </dl>
         </section>
@@ -127,15 +127,15 @@
           </p>
 
           <div class="focused-concept">
-            <strong>Tabletop Exercises (Esercitazioni da Tavolo) <code>(SCREEN_249, SCREEN_337, SCREEN_525, SCREEN_616)</code>:</strong><br>
+            <strong>Tabletop Exercises (Esercitazioni da Tavolo):</strong><br>
             Una Tabletop Exercise è una simulazione formale, verbale e discussiva in cui i rappresentanti dei dipartimenti chiave d'azienda (dirigenti, legali, tecnici, pubbliche relazioni) si riuniscono verbalmente per esaminare uno scenario d'attacco ipotetico.
             <br><br>
             <strong>Caratteristiche e Obiettivi Fondamentali:</strong>
             <ul>
-              <li><strong>Obiettivo di fondo</strong>: Familiarizzare compiutamente i partecipanti con il piano di risposta all'incidente e i rispettivi ruoli <code>(SCREEN_525)</code>.</li>
-              <li><strong>Metodologia</strong>: Si svolge a parole in modo pianificato (es: intorno a un tavolo in riunione ufficiale), confrontando e coordinando le reazioni all'attacco <code>(SCREEN_337)</code>.</li>
-              <li><strong>Riconfigurazione dei Piani</strong>: Serve all'organizzazione cyber per scovare discrepanze o buchi procedurali e provvedere prontamente ad <strong>aggiornare l'Incident Response Plan (IRP)</strong> <code>(SCREEN_683)</code>.</li>
-              <li><strong>Timing ideale</strong>: Costituisce il passaggio logico immediatamente successivo all'introduzione di nuovi playbook o dopo la revisione critica della documentazione aziendale di sicurezza <code>(SCREEN_471)</code>.</li>
+              <li><strong>Obiettivo di fondo</strong>: Familiarizzare compiutamente i partecipanti con il piano di risposta all'incidente e i rispettivi ruoli.</li>
+              <li><strong>Metodologia</strong>: Si svolge a parole in modo pianificato (es: intorno a un tavolo in riunione ufficiale), confrontando e coordinando le reazioni all'attacco.</li>
+              <li><strong>Riconfigurazione dei Piani</strong>: Serve all'organizzazione cyber per scovare discrepanze o buchi procedurali e provvedere prontamente ad <strong>aggiornare l'Incident Response Plan (IRP)</strong>.</li>
+              <li><strong>Timing ideale</strong>: Costituisce il passaggio logico immediatamente successivo all'introduzione di nuovi playbook o dopo la revisione critica della documentazione aziendale di sicurezza.</li>
             </ul>
           </div>
         </section>
@@ -147,10 +147,10 @@
             Molti dei cybercriminali odierni permangono all'interno della rete bersaglio per mesi senza emettere segnali eclatanti. I tradizionali allarmi basati su firme fisse o SIEM non configurati per le ultime tendenze restano silenti. 
           </p>
           <p>
-            In questo scenario, l'analista di sicurezza adotta e mette in atto il <strong>Threat Hunting (Caccia alle minacce)</strong> <code>(SCREEN_150)</code>.
+            In questo scenario, l'analista di sicurezza adotta e mette in atto il <strong>Threat Hunting (Caccia alle minacce)</strong>.
           </p>
           <p>
-            A differenza della risposta reattiva subordinata a un allarme del SIEM, il Threat Hunting è una <strong>ricerca proattiva e sistematica</strong> avviata per identificare comportamenti ostili, anomalie silenti o tattiche cyber emergenti non ancora coperte dalle notifiche automatiche esistenti <code>(SCREEN_150)</code>.
+            A differenza della risposta reattiva subordinata a un allarme del SIEM, il Threat Hunting è una <strong>ricerca proattiva e sistematica</strong> avviata per identificare comportamenti ostili, anomalie silenti o tattiche cyber emergenti non ancora coperte dalle notifiche automatiche esistenti.
           </p>
         </section>
 
@@ -162,16 +162,16 @@
           </p>
 
           <dl class="termlist">
-            <dt>Chain of Custody (Catena di Custodia) <code>(SCREEN_083, SCREEN_213)</code></dt>
-            <dd>È il protocollo ufficiale deputato a documentare l'intera storia di vita delle prove digitali dal momento in cui vengono estratte fino alla presentazione in tribunale, annotando l'ora, il responsabile della presa di possesso e il luogo di custodia. La compilazione meticolosa della catena di custodia è indispensabile affinché le evidenze vengano reputate <strong>correttamente e validamente maneggiate</strong> <code>(SCREEN_083, SCREEN_213)</code>.</dd>
+            <dt>Chain of Custody (Catena di Custodia)</dt>
+            <dd>È il protocollo ufficiale deputato a documentare l'intera storia di vita delle prove digitali dal momento in cui vengono estratte fino alla presentazione in tribunale, annotando l'ora, il responsabile della presa di possesso e il luogo di custodia. La compilazione meticolosa della catena di custodia è indispensabile affinché le evidenze vengano reputate <strong>correttamente e validamente maneggiate</strong>.</dd>
             
-            <dt>Data Preservation (Preservazione del Dato) <code>(SCREEN_533)</code></dt>
+            <dt>Data Preservation (Preservazione del Dato)</dt>
             <dd>È una prassi cardine volta ad <strong>assicurare l'integrità formale della prova crittografica</strong> prima e dopo l'acquisizione (ad esempio l'esecuzione di una copia bit-a-bit protetta da hash immodificabile per evitare la corruzione dei metadati fisici sui dischi fissi).</dd>
           </dl>
 
           <div class="example-box font-mono text-sm">
-            <strong>Esempio Dinamico d'Esame — Password in Chiarofila <code>(SCREEN_664)</code>:</strong><br>
-            Nel momento in cui un analista del SOC si avvede (tramite sessioni remote o registri) che un utente ha trascritto sul proprio computer un file in cui figurano in chiaro gli account email personali completi delle rispettive password, la prima azione da fare per isolare l'esposizione è consigliare all'utente di <strong>cambiare subito le password</strong> <code>(SCREEN_664)</code>.
+            <strong>Esempio Dinamico d'Esame — Password in Chiarofila:</strong><br>
+            Nel momento in cui un analista del SOC si avvede (tramite sessioni remote o registri) che un utente ha trascritto sul proprio computer un file in cui figurano in chiaro gli account email personali completi delle rispettive password, la prima azione da fare per isolare l'esposizione è consigliare all'utente di <strong>cambiare subito le password</strong>.
           </div>
         </section>
 
@@ -182,7 +182,7 @@
             Nelle moderne metodiche software DevSecOps, la collaborazione tra chi scrive codice e chi lo attacca e difende ha un ruolo trainante:
           </p>
           <dl class="termlist">
-            <dt>Yellow Team (I Costruttori) <code>(SCREEN_613)</code></dt>
+            <dt>Yellow Team (I Costruttori)</dt>
             <dd>Lo <strong>Yellow Team</strong> incarna il ruolo degli sviluppatori software, dei progettisti dell'architettura e degli ingegneri applicativi. Opera e coopera con l'apporto sia offensivo (Red Team) sia protettivo (Blue Team) al fine di recepire logiche d'attacco ed erigere software e applicazioni intrinsecamente robusti e privi di falle fin dall'inizio della fase di sviluppo.</dd>
           </dl>
         </section>
@@ -210,7 +210,7 @@
                   <small>Clicca per girare</small>
                 </div>
                 <div class="flashcard-back">
-                  <p>La ricerca proattiva e manuale di minacce cyber striscianti e silenti che abbiano raggirato i consueti sensori di rilevazione automatica o per cui non esistono specifiche regole del SIEM <code>(SCREEN_150)</code>.</p>
+                  <p>La ricerca proattiva e manuale di minacce cyber striscianti e silenti che abbiano raggirato i consueti sensori di rilevazione automatica o per cui non esistono specifiche regole del SIEM.</p>
                 </div>
               </div>
             </div>
@@ -222,7 +222,7 @@
                   <small>Clicca per girare</small>
                 </div>
                 <div class="flashcard-back">
-                  <p>In corrispondenza della fase finale di <strong>Lessons learned</strong> (Lezioni apprese) <code>(SCREEN_025, SCREEN_347)</code>.</p>
+                  <p>In corrispondenza della fase finale di <strong>Lessons learned</strong> (Lezioni apprese).</p>
                 </div>
               </div>
             </div>
@@ -234,7 +234,7 @@
                   <small>Clicca per girare</small>
                 </div>
                 <div class="flashcard-back">
-                  <p>La rigorosa conformità alla <strong>Catena di Custodia</strong> (Chain of custody), volta a documentare cronologicamente ogni singola custodia o manipolazione del reperto <code>(SCREEN_083, SCREEN_213)</code>.</p>
+                  <p>La rigorosa conformità alla <strong>Catena di Custodia</strong> (Chain of custody), volta a documentare cronologicamente ogni singola custodia o manipolazione del reperto.</p>
                 </div>
               </div>
             </div>
@@ -946,43 +946,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -1008,10 +1060,14 @@
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {

@@ -444,7 +444,9 @@
             <dt>Adaptive Identity (Identità adattiva)</dt>
             <dd>Il sistema valuta continuamente il contesto dell'identità: chi è l'utente, da dove si connette, con quale dispositivo, in che orario, con quale postura di sicurezza del dispositivo. Un utente che si connette dall'ufficio alle 9:00 con il PC aziendale riceve accesso pieno; lo stesso utente che si connette alle 3:00 di notte da un Paese straniero riceve accesso limitato o step-up authentication. L'identità non è statica: si "adatta" al contesto.</dd>
             <dt>Threat Scope Reduction (Riduzione della superficie di attacco)</dt>
-            <dd>Principio per cui ogni componente del sistema dovrebbe avere accesso solo alle risorse strettamente necessarie per la sua funzione (least privilege, microsegmentazione). Riduce l'impatto potenziale di una compromissione: anche se un componente viene compromesso, l'attaccante non può muoversi lateralmente attraverso l'intera rete.</dd>
+            <dd>Principio per cui ogni componente del sistema dovrebbe avere accesso solo alle risorse strettamente necessarie per la sua funzione (least privilege). Riduce l'impatto potenziale di una compromissione: anche se un componente viene compromesso, l'attaccante non può muoversi lateralmente attraverso l'intera rete.</dd>
+            <dt>Microsegmentazione (Microsegmentation)</dt>
+            <dd>Una tecnica chiave per implementare Zero Trust a livello di rete. Consiste nel dividere l'infrastruttura di rete in piccoli segmenti logici isolati tra loro (fino al livello di singolo host o applicazione), applicando regole di filtraggio granulari e rigorose sul traffico orizzontale (East-West traffic) per arrestare sul nascere la propagazione o i movimenti laterali degli attaccanti in caso di breccia informatica.</dd>
             <dt>Policy-Driven Access Control (Controllo accessi guidato da policy)</dt>
             <dd>Tutti i diritti di accesso sono definiti da policy esplicite, centralizzate e verificabili — non da regole implicite o da fiducia basata sulla posizione di rete. Le policy sono dinamiche: possono cambiare in base al contesto senza richiedere intervento manuale per ogni singola richiesta.</dd>
           </dl>
@@ -813,7 +815,7 @@
     { id:'SCREEN_095', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'Il login verifica l\'identità (Authentication). Ciò che avviene dopo — decidere cosa l\'utente può fare — è Authorization. Le due fasi sono sequenziali e distinte.' },
     { id:'SCREEN_108', text:'You have been tasked with conducting a security assessment of hosts on an IP subnet. When configuring the vulnerability scan, you enter valid credentials. A colleague suggests the scan results are useless since the credentials were known. Which IT security concept validates the scan results?', opts:[{id:'A',t:'Zero trust',c:true},{id:'B',t:'Principle of least privilege',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Zero-day',c:false}], expl:'Zero Trust assume che ogni sistema debba essere verificato e testato, anche dall\'interno. Usare credenziali valide per una scansione autenticata è coerente con il paradigma: "verificare sempre", indipendentemente dalla posizione o dall\'identità.' },
     { id:'SCREEN_114', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'SSO (Single Sign-On) permette di usare un\'unica autenticazione (le credenziali di dominio) per accedere a più applicazioni SaaS. MFA aumenta la sicurezza dell\'accesso ma non riduce il numero di credenziali. LEAP e PEAP sono protocolli EAP per reti Wi-Fi.' },
-    { id:'SCREEN_131', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'Stessa domanda di SCREEN_114. SSO federated (es. SAML con Active Directory) è esattamente il pattern descritto: le credenziali di dominio vengono usate come identity provider per i SaaS applicativi.' },
+    { id:'SCREEN_131', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'Stessa domanda di . SSO federated (es. SAML con Active Directory) è esattamente il pattern descritto: le credenziali di dominio vengono usate come identity provider per i SaaS applicativi.' },
     { id:'SCREEN_144', text:'An analyst is evaluating the implementation of Zero Trust principles within the data plane. Which of the following would be most relevant for the analyst to evaluate?', opts:[{id:'A',t:'Secured zones',c:false},{id:'B',t:'Subject role',c:true},{id:'C',t:'Adaptive identity',c:false},{id:'D',t:'Threat scope reduction',c:false}], expl:'Il Data Plane include Subject/System, Policy Enforcement Point e il concetto di Implicit Trust Zones. "Subject role" si riferisce al componente Subject nel Data Plane. Adaptive identity e Threat scope reduction appartengono al Control Plane.' },
     { id:'SCREEN_280', text:'A network administrator is working on a project to deploy a load balancer in the company\'s cloud environment. Which of the following fundamental security requirements does this project fulfill?', opts:[{id:'A',t:'Privacy',c:false},{id:'B',t:'Integrity',c:false},{id:'C',t:'Confidentiality',c:false},{id:'D',t:'Availability',c:true}], expl:'Un load balancer distribuisce il traffico su più server, eliminando il single point of failure. Questo protegge la Availability: i servizi rimangono accessibili anche se un server cade. Non cifra dati (non Confidentiality) né verifica l\'integrità.' },
     { id:'SCREEN_309', text:'Client files can only be accessed by employees who need to know the information and have specified roles in the company. Which of the following best describes this security concept?', opts:[{id:'A',t:'Availability',c:false},{id:'B',t:'Confidentiality',c:true},{id:'C',t:'Integrity',c:false},{id:'D',t:'Non-repudiation',c:false}], expl:'"Need to know" + "ruoli specifici" = accesso limitato alle sole persone autorizzate → Confidentiality. Il principio need-to-know è una delle implementazioni classiche della riservatezza.' },
@@ -824,7 +826,7 @@
     { id:'SCREEN_524', text:'Which of the following would most likely be deployed to obtain and analyze attacker activity and techniques?', opts:[{id:'A',t:'Firewall',c:false},{id:'B',t:'IDS',c:false},{id:'C',t:'Honeypot',c:true},{id:'D',t:'Layer 3 switch',c:false}], expl:'Un honeypot è progettato esattamente per questo: attirare gli attaccanti, registrare ogni loro azione e fornire intelligence sulle tecniche usate. IDS rileva le intrusioni ma non le "studia" in un ambiente controllato.' },
     { id:'SCREEN_587', text:'A company discovers suspicious transactions that were entered into the company\'s database and attached to a user account that was created as a trap for malicious activity. Which of the following is the user account an example of?', opts:[{id:'A',t:'Honeytoken',c:true},{id:'B',t:'Honeynet',c:false},{id:'C',t:'Honeypot',c:false},{id:'D',t:'Honeyfile',c:false}], expl:'Un account utente creato appositamente come trappola (esca) in un database → Honeytoken. Honeypot = sistema/server fittizio. Honeyfile = file esca. Honeynet = rete di honeypot. La chiave è "account creato come trap" → trappola a livello di credenziale/record.' },
     { id:'SCREEN_609', text:'A security administrator is implementing encryption on all hard drives in an organization. Which of the following security concepts is the administrator applying?', opts:[{id:'A',t:'Integrity',c:false},{id:'B',t:'Authentication',c:false},{id:'C',t:'Zero Trust',c:false},{id:'D',t:'Confidentiality',c:true}], expl:'La cifratura del disco (full-disk encryption) protegge i dati at rest garantendo che solo chi ha la chiave possa leggerli → Confidentiality. Non verifica l\'identità (non Authentication) né impedisce la modifica in modo verificabile (non Integrity).' },
-    { id:'SCREEN_630', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'Variante di SCREEN_095. "Granting access after logging in" = la fase post-autenticazione in cui si decidono i permessi → Authorization. Il login stesso è Authentication.' },
+    { id:'SCREEN_630', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'"Granting access after logging in" = la fase post-autenticazione in cui si decidono i permessi → Authorization. Il login stesso è Authentication.' },
     { id:'SCREEN_686', text:'An organization designs an inbound firewall with a fail-open configuration while implementing a website. Which of the following would the organization consider to be the highest priority?', opts:[{id:'A',t:'Confidentiality',c:false},{id:'B',t:'Non-repudiation',c:false},{id:'C',t:'Availability',c:true},{id:'D',t:'Integrity',c:false}], expl:'Fail-open significa che in caso di guasto il firewall consente tutto il traffico, privilegiando la continuità del servizio sulla sicurezza. La priorità dichiarata è la Availability: il sito deve essere raggiungibile anche se il firewall ha un problema.' }
   ];
 
@@ -866,44 +868,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
 
     optionsEl.innerHTML = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
       btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
       btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -931,10 +984,14 @@
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
 
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
 
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });

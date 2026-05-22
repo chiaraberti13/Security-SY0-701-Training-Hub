@@ -123,7 +123,7 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Nation-state: le parole chiave dello scenario</strong><br>
     "Large financial resources", "attack critical systems in other countries", "long-term
-    espionage", "government-sponsored" → <strong>Nation-state</strong> (SCREEN_158).
+    espionage", "government-sponsored" → <strong>Nation-state</strong>.
     Se lo scenario menziona un foreign government che ingaggia qualcuno per attaccare
     infrastrutture critiche estere → possibile risposta <strong>Organized crime</strong>
     se il focus è sul "hired" (mercenari), ma Nation-state se il focus è sul "government".
@@ -143,7 +143,7 @@
     La loro motivazione è tipicamente la notorietà, il divertimento, il senso di sfida
     o il desiderio di impressionare la propria community. Non sono solitamente motivati
     da profitto finanziario strutturato né da obiettivi politici sofisticati.
-    Un attacco tipico: defacement di un sito web di un artista famoso (SCREEN_539)
+    Un attacco tipico: defacement di un sito web di un artista famoso
     — un obiettivo visibile e di alto profilo ma non strategicamente rilevante.
   </p>
 
@@ -190,7 +190,7 @@
   </p>
   <dl class="termlist">
     <dt>Insider malevolo (Malicious insider)</dt>
-    <dd>Agisce intenzionalmente per danneggiare l'organizzazione: esfiltrazione di dati verso concorrenti, sabotaggio, furto di proprietà intellettuale. Motivazione: vendetta, guadagno finanziario, spionaggio su commissione. Esempio: un DBA licenziato che installa una time bomb nel database (SCREEN_440).</dd>
+    <dd>Agisce intenzionalmente per danneggiare l'organizzazione: esfiltrazione di dati verso concorrenti, sabotaggio, furto di proprietà intellettuale. Motivazione: vendetta, guadagno finanziario, spionaggio su commissione. Esempio: un DBA licenziato che installa una time bomb nel database.</dd>
     <dt>Insider negligente (Negligent insider)</dt>
     <dd>Non agisce con malizia ma causa danni attraverso comportamenti scorretti: aprire allegati phishing, usare password deboli, inviare dati sensibili per email a destinatari sbagliati, lasciare workstation sbloccate. Causa statisticamente più incidenti degli insider malevoli.</dd>
     <dt>Insider compromesso (Compromised insider)</dt>
@@ -198,7 +198,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio pratico — Time bomb da insider (SCREEN_440)</strong><br>
+    <strong>Esempio pratico — Time bomb da insider</strong><br>
     Il database di un e-commerce va offline il 30 gennaio 2023. L'analista trova nel codice
     di backup: <code>IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END</code>
     — una time bomb programmata. Il primo passo dell'analista: <strong>verificare i DBA
@@ -210,10 +210,10 @@
   <div class="pitfall">
     <strong>ATTENZIONE — Insider threat vs External attacker</strong><br>
     La chiave è l'<em>accesso legittimo preesistente</em>. Un dipendente che copia dati
-    su un dispositivo personale (SCREEN_187) → <strong>Insider threat</strong>.
+    su un dispositivo personale → <strong>Insider threat</strong>.
     Un utente esterno che ottiene accesso tramite phishing → External attacker
     (compromised insider solo se usa le credenziali di qualcun altro).
-    L'ARP poisoning fatto da qualcuno sulla rete interna scolastica (SCREEN_691)
+    L'ARP poisoning fatto da qualcuno sulla rete interna scolastica
     → <strong>Insider threat</strong>: ha accesso fisico alla rete.
   </div>
 
@@ -245,8 +245,7 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Organized crime: le parole chiave</strong><br>
     "Motivated by profit", "ransomware", "ransomware-as-a-service", "financial gain",
-    "hired by foreign government" (come mercenari) → <strong>Organized crime</strong>
-    (SCREEN_015, SCREEN_235, SCREEN_444). Nota: anche "hired by foreign government"
+    "hired by foreign government" (come mercenari) → <strong>Organized crime</strong>. Nota: anche "hired by foreign government"
     può puntare a organized crime se il focus è sulla natura mercenaria, non statale.
   </div>
 
@@ -261,7 +260,7 @@
   </p>
 
   <div class="example-box">
-    <strong>Esempio pratico — Shadow IT in azienda (SCREEN_086)</strong><br>
+    <strong>Esempio pratico — Shadow IT in azienda</strong><br>
     Un reparto non usa la VPN aziendale quando accede ai servizi aziendali da remoto.
     Usano invece connessioni dirette su reti non sicure. Non stanno attaccando l'azienda:
     stanno semplicemente aggirando i controlli di sicurezza perché li trovano scomodi.
@@ -386,7 +385,7 @@
     è: (1) ottenere accesso a informazioni sensibili (dati personali, foto, email riservate,
     segreti aziendali), (2) contattare la vittima minacciando di pubblicarle, (3) richiedere
     un pagamento per non farlo. Il ransomware è una forma automatizzata di blackmail su scala.
-    Lo scenario SCREEN_569 (busta con foto e richiesta di denaro) descrive blackmail
+    Lo scenario  (busta con foto e richiesta di denaro) descrive blackmail
     classico, non organized crime né espionage.
   </p>
 
@@ -406,7 +405,7 @@
     degli <strong>hacktivist</strong>. L'attacco è un atto di protesta digitale: si colpisce
     un'organizzazione non per un vantaggio personale ma per inviare un messaggio ideologico,
     attirare l'attenzione su una causa, o punire un'entità considerata moralmente responsabile
-    di qualcosa. La domanda SCREEN_726 è diretta: "motive di un hacktivist" →
+    di qualcosa. La domanda  è diretta: "motive di un hacktivist" →
     <strong>philosophical beliefs</strong>.
   </p>
 
@@ -638,11 +637,11 @@ var Q=[
 {id:'SCREEN_015',text:'Which of the following threat actors is the most likely to be motivated by profit?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Shadow IT',c:false}],expl:'Il crimine organizzato (organized crime) è motivato principalmente dal profitto finanziario. Opera come un\'azienda criminale professionale: ransomware, frodi, furto di credenziali. L\'hacktivist è motivato da convinzioni politiche; l\'insider threat da vendetta o opportunismo; lo Shadow IT non è un attore ostile.'},
 {id:'SCREEN_086',text:'A department is not using the company VPN when accessing various company-related services and systems. Which of the following scenarios describes this activity?',opts:[{id:'A',t:'Espionage',c:false},{id:'B',t:'Data exfiltration',c:false},{id:'C',t:'Nation-state attack',c:false},{id:'D',t:'Shadow IT',c:true}],expl:'Lo Shadow IT descrive l\'uso di tecnologie o pratiche non approvate dall\'IT aziendale senza intenti malevoli. Non usare la VPN aziendale è un esempio classico: il reparto non sta attaccando, sta semplicemente aggirando inconsapevolmente i controlli di sicurezza.'},
 {id:'SCREEN_110',text:'Which of the following threat actors is the most likely to be hired by a foreign government to attack critical systems located in other countries?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Whistleblower',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Unskilled attacker',c:false}],expl:'Il crimine organizzato può essere ingaggiato come mercenario da governi stranieri per attaccare infrastrutture critiche. Non sono "nation-state" perché non sono agenti governativi diretti, ma gruppi criminali pagati. Il focus è sulla natura mercenaria ("hired") piuttosto che sull\'identità statale.'},
-{id:'SCREEN_127',text:'Which of the following threat actors is the most likely to be hired by a foreign government to attack critical systems located in other countries?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Whistleblower',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Unskilled attacker',c:false}],expl:'Variante di SCREEN_110. Il crimine organizzato agisce come mercenario: ha le capacità tecniche e la struttura organizzativa per attacchi sofisticati, e opera per chiunque paghi. Il whistleblower espone illeciti, non attacca sistemi.'},
+{id:'SCREEN_127',text:'Which of the following threat actors is the most likely to be hired by a foreign government to attack critical systems located in other countries?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Whistleblower',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Unskilled attacker',c:false}],expl:'Il crimine organizzato agisce come mercenario: ha le capacità tecniche e la struttura organizzativa per attacchi sofisticati, e opera per chiunque paghi. Il whistleblower espone illeciti, non attacca sistemi.'},
 {id:'SCREEN_158',text:'Which of the following threat actors is the most likely to use large financial resources to attack critical systems located in other countries?',opts:[{id:'A',t:'Insider',c:false},{id:'B',t:'Unskilled attacker',c:false},{id:'C',t:'Nation-state',c:true},{id:'D',t:'Hacktivist',c:false}],expl:'Le "large financial resources" per attaccare infrastrutture critiche di altri paesi è la firma dei nation-state actor: hanno budget governativo praticamente illimitato e obiettivi strategici nazionali. Organized crime ha risorse significative ma non "large" in senso governativo, e non attacca infrastrutture critiche per obiettivi strategici.'},
 {id:'SCREEN_187',text:'An administrator was notified that a user logged in remotely after hours and copied large amounts of data to a personal device. Which of the following best describes the user\'s activity?',opts:[{id:'A',t:'Penetration testing',c:false},{id:'B',t:'Phishing campaign',c:false},{id:'C',t:'External audit',c:false},{id:'D',t:'Insider threat',c:true}],expl:'Un utente con credenziali legittime che accede dopo l\'orario lavorativo e copia dati su un dispositivo personale → Insider threat. Ha accesso autorizzato ai sistemi (non è un attaccante esterno) ma lo usa per scopi non autorizzati. Non è penetration testing (non autorizzato), né audit (non documentato).'},
 {id:'SCREEN_235',text:'A Chief Information Security Officer (CISO) wants to explicitly raise awareness about the increase of ransomware-as-a-service in a report to the management team. Which of the following best describes the threat actor in the CISO\'s report?',opts:[{id:'A',t:'Insider threat',c:false},{id:'B',t:'Hacktivist',c:false},{id:'C',t:'Nation-state',c:false},{id:'D',t:'Organized crime',c:true}],expl:'Il Ransomware-as-a-Service (RaaS) è il modello di business del crimine organizzato: sviluppano il ransomware, lo "affittano" agli affiliati e dividono i profitti. È una struttura professionale motivata dal guadagno finanziario, caratteristica dell\'organized crime.'},
-{id:'SCREEN_286',text:'Which of the following threat actors is the most likely to be motivated by profit?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Shadow IT',c:false}],expl:'Variante di SCREEN_015. Il profitto finanziario è la motivazione primaria e caratterizzante dell\'organized crime. Shadow IT non è un attore ostile. Hacktivist è motivato da ideologia. Insider threat può essere motivato da vendetta o denaro, ma non è la risposta primaria per "motivated by profit".'},
+{id:'SCREEN_286',text:'Which of the following threat actors is the most likely to be motivated by profit?',opts:[{id:'A',t:'Hacktivist',c:false},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Organized crime',c:true},{id:'D',t:'Shadow IT',c:false}],expl:'Il profitto finanziario è la motivazione primaria e caratterizzante dell\'organized crime. Shadow IT non è un attore ostile. Hacktivist è motivato da ideologia. Insider threat può essere motivato da vendetta o denaro, ma non è la risposta primaria per "motivated by profit".'},
 {id:'SCREEN_440',text:'A company\'s online shopping website became unusable shortly after midnight on January 30, 2023. When a security analyst reviewed the database server, the analyst noticed the following code used for backing up data: IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END. Which of the following should the analyst do next?',opts:[{id:'A',t:'Check for recently terminated DBAs.',c:true},{id:'B',t:'Review WAF logs for evidence of command injection.',c:false},{id:'C',t:'Scan the database server for malware.',c:false},{id:'D',t:'Search the web server for ransomware notes.',c:false}],expl:'Il codice è una time bomb deliberata inserita nel processo di backup. Non è malware (non c\'è payload malevolo da scansionare), non è SQL injection (non viene dal traffico web), non è ransomware. È sabotaggio da insider: un DBA con accesso privilegiato ha inserito il codice malevolo. Prima azione: verificare i DBA recentemente licenziati.'},
 {id:'SCREEN_444',text:'Which of the following threat actors is the most likely to seek financial gain through the use of ransomware attacks?',opts:[{id:'A',t:'Organized crime',c:true},{id:'B',t:'Insider threat',c:false},{id:'C',t:'Nation-state',c:false},{id:'D',t:'Hacktivists',c:false}],expl:'Gli attacchi ransomware per guadagno finanziario sono la firma dell\'organized crime. I nation-state usano il ransomware più raramente e per scopi disruptivi, non principalmente finanziari. Gli hacktivist usano DDoS e defacement, non ransomware per profitto.'},
 {id:'SCREEN_539',text:'Which of the following threat actors would most likely deface the website of a high-profile music group?',opts:[{id:'A',t:'Unskilled attacker',c:true},{id:'B',t:'Organized crime',c:false},{id:'C',t:'Nation-state',c:false},{id:'D',t:'Insider threat',c:false}],expl:'Il defacement di un sito di un gruppo musicale famoso è un bersaglio ad alta visibilità ma senza valore strategico o finanziario. È tipico dell\'unskilled attacker (script kiddie) che vuole notorietà, dimostrare le proprie capacità, o semplicemente causare disruption senza obiettivi sofisticati.'},
@@ -657,8 +656,94 @@ contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.1';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
 function startQuiz(mode){var n=mode==='quick'?10:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
-function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
-function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+  function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
 function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
 function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
 document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
@@ -666,7 +751,15 @@ document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
 document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
-nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
 overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();

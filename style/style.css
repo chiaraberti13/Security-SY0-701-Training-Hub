@@ -839,6 +839,7 @@ ul.flashcard li strong { color: var(--navy); }
   line-height: 1.5;
 }
 .quiz-option:hover:not(:disabled) { border-color: var(--teal); background: var(--tip-bg); }
+.quiz-option.selected { border-color: var(--teal); background: #f0fdfa; font-weight: 500; }
 .quiz-option.correct { border-color: #16a34a; background: #dcfce7; color: #14532d; }
 .quiz-option.wrong   { border-color: #dc2626; background: #fee2e2; color: #7f1d1d; }
 .quiz-opt-letter {

@@ -81,9 +81,9 @@
       </p>
       <dl class="termlist">
         <dt>Fine Vita commerciale / EOL (End of Life)</dt>
-        <dd>Indica il punto in cui un costruttore/vendor cessa la pubblicazione, la commercializzazione e la vendita sul mercato di uno specifico modello hardware o di una versione software <code>(SCREEN_262)</code>. Tipicamente viene ancora offerta manutenzione reattiva o supporto esteso a pagamento, ma non viene più promosso attivamente.</dd>
+        <dd>Indica il punto in cui un costruttore/vendor cessa la pubblicazione, la commercializzazione e la vendita sul mercato di uno specifico modello hardware o di una versione software. Tipicamente viene ancora offerta manutenzione reattiva o supporto esteso a pagamento, ma non viene più promosso attivamente.</dd>
         <dt>Fine del Supporto / EOSL (End of Service Life o End of Support)</dt>
-        <dd>Rappresenta il momento in cui l'OEM (Original Equipment Manufacturer) dismette definitivamente ogni tipo di supporto o assistenza per il prodotto <code>(SCREEN_004, SCREEN_038)</code>. Da questo punto in poi:
+        <dd>Rappresenta il momento in cui l'OEM (Original Equipment Manufacturer) dismette definitivamente ogni tipo di supporto o assistenza per il prodotto. Da questo punto in poi:
           <ul>
             <li>Non vengono più distribuiti pacchetti di aggiornamento o patch per nuove vulnerabilità ed exploit scoperti.</li>
             <li>Non vi è assistenza remota ufficiale o supporto telefonico del vendor.</li>
@@ -94,23 +94,23 @@
 
       <div class="critical">
         <strong>NODO CRITICO — Disponibilità delle Patch (Patch Availability)</strong><br>
-        L'implicazione di sicurezza primaria nell'utilizzare sistemi operativi o software giunti alla fine del supporto (EOSL/EOL) è la **Disponibilità delle Patch (Patch Availability)** <code>(SCREEN_258)</code>. Chi progetta l'architettura aziendale deve documentare questo rischio come primario: ogni vulnerabilità zero-day esposta pubblicamente rimarrà permanentemente non patchabile, lasciando il dispositivo costantemente indifeso.
+        L'implicazione di sicurezza primaria nell'utilizzare sistemi operativi o software giunti alla fine del supporto (EOSL/EOL) è la **Disponibilità delle Patch (Patch Availability)**. Chi progetta l'architettura aziendale deve documentare questo rischio come primario: ogni vulnerabilità zero-day esposta pubblicamente rimarrà permanentemente non patchabile, lasciando il dispositivo costantemente indifeso.
       </div>
 
       <h3 id="decommissioning">Dismissione degli Asset Obsoleti (Decommissioning)</h3>
       <p>
-        Per risolvere proattivamente le minacce associate ai dispositivi non più patchabili o non conformi, l'unica ed ottimale misura raccomandata all'amministrazione di rete è il **Decommissioning (Dismissione)** <code>(SCREEN_424)</code>. 
+        Per risolvere proattivamente le minacce associate ai dispositivi non più patchabili o non conformi, l'unica ed ottimale misura raccomandata all'amministrazione di rete è il **Decommissioning (Dismissione)**. 
       </p>
       <div class="exam-tip">
         <strong>EXAM TIP — Quando raccomandare il Decommissioning?</strong><br>
-        Un ingegnere della sicurezza deve raccomandare la dismissione all'amministrazione del network primariamente in due scenari ben definiti <code>(SCREEN_246)</code>:
+        Un ingegnere della sicurezza deve raccomandare la dismissione all'amministrazione del network primariamente in due scenari ben definiti:
         <ul>
           <li><strong>Mancanza di aggiornamenti</strong>: Il dispositivo hardware di rete è giunto ad un punto in cui non è più in grado di accogliere e ricevere aggiornamenti e patch ufficiali di sicurezza.</li>
           <li><strong>Limiti crittografici</strong>: Il livello di cifratura software o hardware supportato dal dispositivo è nativamente limitato e obsoleto e non può soddisfare i requisiti minimi degli standard e policy della sicurezza corporativa attuale.</li>
         </ul>
       </div>
       <p>
-        Per ridurre in modo rapido la superficie di attacco complessiva dei moderni data center, il rimedio essenziale per salvaguardare la rete da intrusi resta dunque l'aggiornamento e la sostituzione dei sistemi operativi fuori supporto (End-of-Support OS) <code>(SCREEN_722)</code>.
+        Per ridurre in modo rapido la superficie di attacco complessiva dei moderni data center, il rimedio essenziale per salvaguardare la rete da intrusi resta dunque l'aggiornamento e la sostituzione dei sistemi operativi fuori supporto (End-of-Support OS).
       </p>
     </section>
 
@@ -118,7 +118,7 @@
     <section id="tracking">
       <h2>Tracciamento degli Asset e Offboarding Aziendale</h2>
       <p>
-        Il tracciamento fisico e sistematico delle risorse (Asset Tracking) garantisce il controllo logistico dell'hardware. Pratiche ordinarie includono l'applicazione di **Targhette e codici identificativi (Asset inventory stickers / serial numbers)** abbinandoli alle credenziali dello specifico ID dipendente <code>(SCREEN_011, SCREEN_161)</code>.
+        Il tracciamento fisico e sistematico delle risorse (Asset Tracking) garantisce il controllo logistico dell'hardware. Pratiche ordinarie includono l'applicazione di **Targhette e codici identificativi (Asset inventory stickers / serial numbers)** abbinandoli alle credenziali dello specifico ID dipendente.
       </p>
       <p>
         Questo meticoloso abbinamento tra hardware e dipendente implementa due benefici vitali:
@@ -130,6 +130,19 @@
           <li><strong>Prevenzione delle perdite di dati all'Offboarding (Company data accounting)</strong>: Al momento in cui il dipendente si dimette o conclude la collaborazione (deprovisioning/offboarding), il catalogo elettronico dei codici stickers associati all'utente permette di rendersi conto di quali e quanti notebook, smartphone e hard disk USB esterni siano stati posseduti dal lavoratore. Questo garantisce il totale recupero e la bonifica ufficiale delle informazioni sensibili aziendali prima del distacco definitivo.</li>
         </ol>
       </div>
+
+      <h3 id="software-inventory">Software Inventory (Inventario Software)</h3>
+      <p>
+        Mentre l'asset tracking si concentra generalmente sull'hardware fisico, il <strong>Software Inventory (Inventario Software)</strong> è il catalogo completo, centralizzato e costantemente aggiornato di tutti gli asset logici: sistemi operativi, applicazioni commerciali, software open source, librerie di sviluppo, versioni di firmware, licenze d'uso e configurazioni attive all'interno della rete aziendale.
+      </p>
+      <dl class="termlist">
+        <dt>Rilevamento della Shadow IT</dt>
+        <dd>Permette di identificare istantaneamente installazioni di programmi non autorizzati o non approvati dal dipartimento IT (come software di file sharing torrent, VPN personali, o strumenti di sviluppo a rischio).</dd>
+        <dt>Vulnerability Mapping (Mappatura delle vulnerabilità)</dt>
+        <dd>Incrociando l'inventario del software con i feed pubblici di minaccia (CVE), il team di sicurezza può mappare immediatamente quali workstation o server ospitano versioni vulnerabili o non patchate di un applicativo (es. una versione deprecata di Java o Apache).</dd>
+        <dt>Audit di conformità e licenze</dt>
+        <dd>Garantisce che l'azienda sia in regola con i contratti di licenza d'uso ed evita l'esecuzione di software non approvato o potenzialmente dannoso.</dd>
+      </dl>
     </section>
 
     <!-- ══ STRATEGIE MOBILE: INVENTARIO & DEPLOYMENT ═══════════════ -->
@@ -142,7 +155,7 @@
         <dt>BYOD (Bring Your Own Device)</dt>
         <dd>Il dipendente usa il proprio apparato personale per connettersi alle risorse dell'ufficio. Consente costi hardware nulli all'azienda, ma espone a rischi massicci di infezioni malware e impedisce la corretta ispezione e controllo centralizzato della corporazione.</dd>
         <dt>COBO (Corporate-Owned, Business-Only)</dt>
-        <dd>I telefoni o i tablet sono interamente acquistati e controllati dal reparto IT aziendale e l'uso è rigorosamente confinato alle sole mansioni d'ufficio (nessuna applicazione personale, social o file personali installabili) <code>(SCREEN_702)</code>. Rappresenta il modello più sicuro e controllabile in assoluto perché riduce al minimo l'attack surface e abilita un hardening profondo e preventivo.</dd>
+        <dd>I telefoni o i tablet sono interamente acquistati e controllati dal reparto IT aziendale e l'uso è rigorosamente confinato alle sole mansioni d'ufficio (nessuna applicazione personale, social o file personali installabili). Rappresenta il modello più sicuro e controllabile in assoluto perché riduce al minimo l'attack surface e abilita un hardening profondo e preventivo.</dd>
         <dt>COPE (Corporate-Owned, Personally Enabled)</dt>
         <dd>Il terminale è aziendale, ma all'utente viene concesso un profilo o uno spazio applicativo isolato destinato ad usi personali non d'ufficio.</dd>
         <dt>CYOD (Choose Your Own Device)</dt>
@@ -151,7 +164,7 @@
       
       <div class="critical">
         <strong>REQUISITI DI SCENARIO — Quando preferire COBO</strong><br>
-        Se lo scenario dell'esame richiede che le macchine debbano essere: (1) di proprietà aziendale (Company-owned), (2) configurabili con robusti standard di hardening, (3) con rischio di leak ridotto al minimo e (4) dotati di massima compatibilità e integrazione con le risorse IT interne, la soluzione da implementare è indiscutibilmente <strong>COBO</strong> <code>(SCREEN_702)</code>.
+        Se lo scenario dell'esame richiede che le macchine debbano essere: (1) di proprietà aziendale (Company-owned), (2) configurabili con robusti standard di hardening, (3) con rischio di leak ridotto al minimo e (4) dotati di massima compatibilità e integrazione con le risorse IT interne, la soluzione da implementare è indiscutibilmente <strong>COBO</strong>.
       </div>
     </section>
 
@@ -164,7 +177,7 @@
         è imperativo spegnere le funzionalità e le interfacce non necessarie per evitare exploit remoti.
       </p>
       <div class="example-box">
-        <strong>Hardening delle Amministrazioni — Disattivare Amministrazione Web (SCREEN_205)</strong><br>
+        <strong>Hardening delle Amministrazioni — Disattivare Amministrazione Web</strong><br>
         Molti router gestiscono una console grafica web (interfaccia HTTP o HTTPS) che permette modifiche visuali amichevoli, ma che costituisce un punto critico aggredibile da intrusi. 
         <br><br>
         Una misura d'elezione per irrobustire (harden) l'infrastruttura router è **Disabilitare l'amministrazione web (Web-based administration)**, forzando gli ingegneri a utilizzare esclusivamente amministrazione testuale via console diretta (porta seriale fisica) o terminali crittografati sicuri come SSH per modifiche critiche.
@@ -175,15 +188,15 @@
     <section id="automation">
       <h2>Sistemi di Automazione: Provisoning, Orchestrazione e IaC</h2>
       <p>
-        La manualità porta con sé il rischio derivante dall'errore umano. Se gli account utente o i server vengono erogati manualmente tramite lunghe procedure da amministrare di persona, è probabile che prima o poi vengano commessi errori che lasciano trapelare privilegi non conformi <code>(SCREEN_194)</code>.
+        La manualità porta con sé il rischio derivante dall'errore umano. Se gli account utente o i server vengono erogati manualmente tramite lunghe procedure da amministrare di persona, è probabile che prima o poi vengano commessi errori che lasciano trapelare privilegi non conformi.
       </p>
       <dl class="termlist">
         <dt>Script di User Provisioning (User Provisioning Script)</dt>
-        <dd>L'uso di script automatizzati per la creazione degli account nuovi utenti normalizza l'uniformità dei gruppi di sicurezza, mappando con costanza matematica i permessi e precludendo la non-conformità indotta dall'inserimento di parametri manuali errati <code>(SCREEN_194)</code>.</dd>
+        <dd>L'uso di script automatizzati per la creazione degli account nuovi utenti normalizza l'uniformità dei gruppi di sicurezza, mappando con costanza matematica i permessi e precludendo la non-conformità indotta dall'inserimento di parametri manuali errati.</dd>
         <dt>Orchestrare i Flussi (Orchestration)</dt>
-        <dd>Mentre un semplice script compie modifiche elementari, l'<strong>Orchestrazione (Orchestration)</strong> coordina intere catene complesse di procedure, sistemi informatici e provisioning simultanei ad alta scala temporale senza l'errore dell'analista <code>(SCREEN_215)</code>.</dd>
+        <dd>Mentre un semplice script compie modifiche elementari, l'<strong>Orchestrazione (Orchestration)</strong> coordina intere catene complesse di procedure, sistemi informatici e provisioning simultanei ad alta scala temporale senza l'errore dell'analista.</dd>
         <dt>Infrastruttura come Codice / IaC (Infrastructure as Code)</dt>
-        <dd>Dichiarare topologie, interfacce, firewall e infrastrutture cloud descrivendole in testi elettronici standard (come Terraform o Kubernetes config). Permette all'amministratore di sistema di implementare distribuzioni nei cloud provider in modo istantaneo, sicuro, replicabile ed indurito nativamente contro l'errore manuale dei singoli analisti di storage <code>(SCREEN_230)</code>.</dd>
+        <dd>Dichiarare topologie, interfacce, firewall e infrastrutture cloud descrivendole in testi elettronici standard (come Terraform o Kubernetes config). Permette all'amministratore di sistema di implementare distribuzioni nei cloud provider in modo istantaneo, sicuro, replicabile ed indurito nativamente contro l'errore manuale dei singoli analisti di storage.</dd>
       </dl>
     </section>
 
@@ -195,9 +208,9 @@
       </p>
       <dl class="termlist">
         <dt>Sanitizzazione (Data Sanitization)</dt>
-        <dd>La bonifica controllata o sovrascrittura logica sicura dei file e dei dischi fissi per pulirli irrevocabilmente (wiping / zeroing / degaussing) affinché non residui alcuna informazione interpretabile o scindibile all'esterno <code>(SCREEN_177, SCREEN_657)</code>. Previene ed inibisce attivamente la capacità dei malintenzionati ed hacker di ottenere dati estratti dai dischi usati.</dd>
+        <dd>La bonifica controllata o sovrascrittura logica sicura dei file e dei dischi fissi per pulirli irrevocabilmente (wiping / zeroing / degaussing) affinché non residui alcuna informazione interpretabile o scindibile all'esterno. Previene ed inibisce attivamente la capacità dei malintenzionati ed hacker di ottenere dati estratti dai dischi usati.</dd>
         <dt>Certificato di Distruzione / Sanitizzazione (Certification)</dt>
-        <dd>Quando i supporti di storage classificati o protetti della corporazione vengono affidati ad uno smaltitore esterno specializzato per distruggere físicamente le memorie obsolete, l'azienda committente deve raccomandare e pretendere il rilascio di una formale **Certificazione di Distruzione (Certification / Certificate of Destruction)** firmata dal vendor per attestare legalmente la purificazione dei supporti storici nel pieno rispetto della legge <code>(SCREEN_075, SCREEN_254)</code>.</dd>
+        <dd>Quando i supporti di storage classificati o protetti della corporazione vengono affidati ad uno smaltitore esterno specializzato per distruggere físicamente le memorie obsolete, l'azienda committente deve raccomandare e pretendere il rilascio di una formale **Certificazione di Distruzione (Certification / Certificate of Destruction)** firmata dal vendor per attestare legalmente la purificazione dei supporti storici nel pieno rispetto della legge.</dd>
       </dl>
     </section>
 
@@ -543,43 +556,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -605,10 +670,14 @@
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {

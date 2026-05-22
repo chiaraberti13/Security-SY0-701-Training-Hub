@@ -105,7 +105,7 @@
     e costantemente se i sistemi sono conformi alla configurazione standard e si interviene per bloccare o correggere le violazioni.
   </p>
   <div class="example-box">
-    <strong>Esempio operativo — Script di accesso utente (SCREEN_660)</strong><br>
+    <strong>Esempio operativo — Script di accesso utente</strong><br>
     Un amministratore di sistema implementa uno script personalizzato che viene eseguito automaticamente ad ogni accesso dei dipendenti. Lo script controlla la versione corrente del sistema operativo, verifica che tutte le patch critiche siano installate e che nei sistemi stiano girando solo le applicazioni concordate dall'azienda.
     <br><br>
     Questo tipo di controllo rappresenta l'esempio perfetto di <strong>Baseline Enforcement (Applicazione delle Baseline)</strong>. Lo script non implementa il provisioning delle risorse, né si limita a definire le regole di autenticazione ("guardrails" o "policy enumeration"), ma le <em>impone ed applica</em> attivamente al login del sistema.
@@ -127,11 +127,11 @@
   </p>
   <div class="exam-tip">
     <strong>EXAM TIP — Primi passi per la sicurezza dei server</strong><br>
-    (1) <strong>Il primissimo passo (Before everything else)</strong>: Quando viene installato un nuovo server, prima ancora di disattivare servizi o configurare liste di accesso (ACL), l'attività prioritaria assoluta è <strong>Aggiornare il software alla versione corrente (Update the current version of the software)</strong> (SCREEN_728). Un sistema non patchato è vulnerabile fin dal momento in cui tocca la rete.<br>
-    (2) <strong>Prima di andare "Live"</strong>: Un amministratore deve preparare un server web prima che esso diventi pubblicamente accessibile. Le due azioni raccomandate ed essenziali sono <strong>Disabilitare gli account di default corporativi (Disable default accounts)</strong> e <strong>Rimuovere i servizi non necessari (Remove unnecessary services)</strong> (SCREEN_353).
+    (1) <strong>Il primissimo passo (Before everything else)</strong>: Quando viene installato un nuovo server, prima ancora di disattivare servizi o configurare liste di accesso (ACL), l'attività prioritaria assoluta è <strong>Aggiornare il software alla versione corrente (Update the current version of the software)</strong>. Un sistema non patchato è vulnerabile fin dal momento in cui tocca la rete.<br>
+    (2) <strong>Prima di andare "Live"</strong>: Un amministratore deve preparare un server web prima che esso diventi pubblicamente accessibile. Le due azioni raccomandate ed essenziali sono <strong>Disabilitare gli account di default corporativi (Disable default accounts)</strong> e <strong>Rimuovere i servizi non necessari (Remove unnecessary services)</strong>.
   </div>
   <p>
-    Oltre al sistema operativo server, è fondamentale **mettere in sicurezza l'host virtuale (Harden the virtual host)** sul quale gira la macchina virtuale del server web (SCREEN_547) prima che questa diventi visibile su internet.
+    Oltre al sistema operativo server, è fondamentale **mettere in sicurezza l'host virtuale (Harden the virtual host)** sul quale gira la macchina virtuale del server web prima che questa diventi visibile su internet.
   </p>
 
   <h3 id="hardening-network">Dispositivi di Rete: Switch e Router</h3>
@@ -140,7 +140,7 @@
   </p>
   <dl class="termlist">
     <dt>Sostituzione dei protocolli in chiaro (Telnet → SSH)</dt>
-    <dd>L'hardening fondamentale per i dispositivi di rete è la cifratura delle sessioni amministrative. SSH (Secure Shell - porta TCP 22) deve essere utilizzato al posto di Telnet (porta TCP 23) (SCREEN_588). Telnet espone le credenziali di root e le configurazioni in chiaro sul cavo di rete, offrendo terreno facile a sniffers locali.</dd>
+    <dd>L'hardening fondamentale per i dispositivi di rete è la cifratura delle sessioni amministrative. SSH (Secure Shell - porta TCP 22) deve essere utilizzato al posto di Telnet (porta TCP 23). Telnet espone le credenziali di root e le configurazioni in chiaro sul cavo di rete, offrendo terreno facile a sniffers locali.</dd>
     <dt>Disattivazione di porte e servizi inutilizzati</dt>
     <dd>Le porte fisiche dello switch non collegate devono essere administratively disabilitate e messe in una VLAN priva di connettività, e i protocolli di discovery non necessari (come CDP o LLDP) spenti se non strettamente indispensabili.</dd>
   </dl>
@@ -156,7 +156,7 @@
     <li><strong>Dispositivi IoT (Internet of Things):</strong> Sensori, caldaie, o fotocamere di sicurezza. Vediamo come installarli in sicurezza.</li>
   </ul>
   <div class="example-box">
-    <strong>Scenario d'esame — Installazione di telecamere di sicurezza IP (SCREEN_284)</strong><br>
+    <strong>Scenario d'esame — Installazione di telecamere di sicurezza IP</strong><br>
     Un tecnico sta installando una nuova fotocamera di sicurezza IP (dispositivo IoT). Qual è l'attività da condurre preliminarmente o parallelamente al fine di assicurare l'hardware?
     <br><br>
     Risposta: <strong>Eseguire un rilievo/rilievi sul campo (Conduct a site survey)</strong>. Il site survey assicura che il posizionamento fisico e radio della fotocamera e degli access point copra l'area corretta senza esporre porte fisiche a manomissioni libere e assicura che il segnale non filtri all'esterno del perimetro protetto (leakage).
@@ -190,8 +190,8 @@
   <div class="example-box">
     <strong>Scenari pratici di Captive Portal</strong><br>
     <ul>
-      <li><strong>Caffetteria (SCREEN_379)</strong>: Se il proprietario di un bar desidera limitare l'accesso alla rete Wi-Fi esclusivamente ai clienti paganti richiedendo un codice dallo scontrino, la soluzione ideale è implementare un <strong>Captive Portal</strong> che verifichi il numero della ricevuta.</li>
-      <li><strong>Ospiti aziendali (SCREEN_408)</strong>: Se la squadra legale di un'impresa è preoccupata dalle responsabilità legali derivanti dalle azioni di visitatori esterni, la soluzione ottimale è configurare un **Guest Captive Portal** che obblighi i visitatori ad accettare formalmente i Termini e le Condizioni d'uso prima di concedere l'accesso a Internet.</li>
+      <li><strong>Caffetteria</strong>: Se il proprietario di un bar desidera limitare l'accesso alla rete Wi-Fi esclusivamente ai clienti paganti richiedendo un codice dallo scontrino, la soluzione ideale è implementare un <strong>Captive Portal</strong> che verifichi il numero della ricevuta.</li>
+      <li><strong>Ospiti aziendali</strong>: Se la squadra legale di un'impresa è preoccupata dalle responsabilità legali derivanti dalle azioni di visitatori esterni, la soluzione ottimale è configurare un **Guest Captive Portal** che obblighi i visitatori ad accettare formalmente i Termini e le Condizioni d'uso prima di concedere l'accesso a Internet.</li>
     </ul>
   </div>
 </section>
@@ -208,9 +208,9 @@
     Un sistema di <strong>gestione dei dispositivi mobili (Mobile Device Management - MDM)</strong> consente il controllo completo dei telefoni e dei tablet dell'azienda. Esso permette di:
   </p>
   <ul>
-    <li>Mettere in sicurezza i dispositivi in caso di smarrimento forzandone l'inizializzazione e cancellando i dati (<strong>Remote Wipe</strong>) (SCREEN_367, SCREEN_501).</li>
-    <li>Garantire che sui dispositivi personali dei dipendenti (BYOD) possano essere installate esclusivamente applicazioni approvate dall'ufficio (SCREEN_605).</li>
-    <li>Gestire in modo massivo i tablet aziendali distribuendo funzionalità e applicazioni mancanti che bloccano la produttività (SCREEN_604).</li>
+    <li>Mettere in sicurezza i dispositivi in caso di smarrimento forzandone l'inizializzazione e cancellando i dati (<strong>Remote Wipe</strong>).</li>
+    <li>Garantire che sui dispositivi personali dei dipendenti (BYOD) possano essere installate esclusivamente applicazioni approvate dall'ufficio.</li>
+    <li>Gestire in modo massivo i tablet aziendali distribuendo funzionalità e applicazioni mancanti che bloccano la produttività.</li>
   </ul>
 
   <h3 id="deployment-models">Modelli di distribuzione mobile (Deployment Models)</h3>
@@ -232,7 +232,7 @@
       <tr>
         <td class="label">COPE (Corporate-Owned, Personally Enabled)</td>
         <td>I dispositivi sono di proprietà dell'azienda, ma i lavoratori sono autorizzati ad utilizzarli anche per questioni personali.</td>
-        <td>La policy COPE deve obbligatoriamente includere controlli critici d'esame: <strong>Cancellazione remota (Remote wipe)</strong> e <strong>Cifratura dei dati (Data encryption)</strong> (SCREEN_544).</td>
+        <td>La policy COPE deve obbligatoriamente includere controlli critici d'esame: <strong>Cancellazione remota (Remote wipe)</strong> e <strong>Cifratura dei dati (Data encryption)</strong>.</td>
       </tr>
       <tr>
         <td class="label">CYOD (Choose Your Own Device)</td>
@@ -244,7 +244,7 @@
   </div>
 
   <div class="pitfall">
-    <strong>ATTENZIONE — Jailbreaking vs Side-loading (SCREEN_346)</strong><br>
+    <strong>ATTENZIONE — Jailbreaking vs Side-loading</strong><br>
     <ul>
       <li><strong>Jailbreaking (Sblocco):</strong> La rimozione forzata dei limiti imposti dal produttore sul sistema operativo del dispositivo (es. root su Android o Jailbreak su iOS). Permette all'utente di accedere al codice core e installare <em>unauthorized software</em> o custom tweaks abilitando nuove feature non previste di fabbrica.</li>
       <li><strong>Side-loading (Caricamento laterale):</strong> Il semplice atto di installare pacchetti applicativi (.apk o .ipa) bypassando il market store ufficiale, senza richiedere necessariamente lo sblocco del root del firmware.</li>
@@ -277,9 +277,9 @@
   <div class="example-box">
     <strong>Esempi d'Esame — Tecniche di validazione</strong><br>
     <ul>
-      <li><strong>Espressioni Regolari (SCREEN_078, SCREEN_191)</strong>: Un'organizzazione aggiorna la policy di sviluppo imponendo l'uso di Regular Expression nel codice sorgente per estirpare simboli nocivi come <code>$, |, ;, &, `, ?</code> provenienti dai form Web dell'app. Questa configurazione rappresenta una tecnica eccitante di <strong>Input Validation</strong> (Validazione dell'Input).</li>
-      <li><strong>Evitare Cross-Site Scripting (SCREEN_084, SCREEN_342)</strong>: Un field di un form è aperto a payload pericolosi come <code>&lt;script&gt;alert("Warning!");&lt;/script&gt;</code>. L'analista consiglia di implementare <strong>Input Sanitization / Validation</strong> per ripulire l'input.</li>
-      <li><strong>Protezione Log4j ed User-Agent (SCREEN_483)</strong>: Un analista osserva la riga di log: <br>
+      <li><strong>Espressioni Regolari</strong>: Un'organizzazione aggiorna la policy di sviluppo imponendo l'uso di Regular Expression nel codice sorgente per estirpare simboli nocivi come <code>$, |, ;, &, `, ?</code> provenienti dai form Web dell'app. Questa configurazione rappresenta una tecnica eccitante di <strong>Input Validation</strong> (Validazione dell'Input).</li>
+      <li><strong>Evitare Cross-Site Scripting</strong>: Un field di un form è aperto a payload pericolosi come <code>&lt;script&gt;alert("Warning!");&lt;/script&gt;</code>. L'analista consiglia di implementare <strong>Input Sanitization / Validation</strong> per ripulire l'input.</li>
+      <li><strong>Protezione Log4j ed User-Agent</strong>: Un analista osserva la riga di log: <br>
       <code>149.32.228.10 - - [28/Jan/2023:16:32:45] "GET / HTTP/1.0" User-Agent: ${/bin/sh/ id} 200 397</code><br>
       L'attacco (Injection / Remote Code Execution via log injection o exploit Apache) viene mitigato in assoluto applicando <strong>Input Sanitization</strong> sullo User-Agent.</li>
     </ul>
@@ -288,7 +288,7 @@
   <h3 id="code-review">Peer Review e Prevenzione degli Insider (Peer Review and Approval)</h3>
   <div class="exam-tip">
     <strong>EXAM TIP — Blocco degli Insider infiltrati</strong><br>
-    "Which of the following practices would be best to prevent an insider from introducing malicious code into a company's development process?" (SCREEN_082, SCREEN_236)<br>
+    "Which of the following practices would be best to prevent an insider from introducing malicious code into a company's development process?"<br>
     → <strong>Peer review and approval (Revisione e approvazione tra pari)</strong>.
     <br><br>
     Nessun sistema di scansione vulnerabilità automatico o test QA garantisce che un programmatore interno malevolo non inserisca intenzionalmente una backdoor astuta e "pulita" nel sorgente. Solo una meticolosa revisione manuale guidata da un secondo programmatore indipendente (Peer Review) seguita da autorizzazione formale scherma questo rischio.
@@ -297,15 +297,15 @@
   <h3 id="code-analysis">Analisi del codice: Silente vs Runtime</h3>
   <dl class="termlist">
     <dt>Analisi Statica del codice (Static Code Analysis / SAST)</dt>
-    <dd>Analisi del codice sorgente condotta "a freddo" senza eseguire il programma. Ideale per cercare vulnerabilità strutturali, credenziali hardcoded o firme note di file malevoli (Static analysis) (SCREEN_622).</dd>
+    <dd>Analisi del codice sorgente condotta "a freddo" senza eseguire il programma. Ideale per cercare vulnerabilità strutturali, credenziali hardcoded o firme note di file malevoli (Static analysis).</dd>
     <dt>Analisi Dinamica del codice (Dynamic Analysis / DAST)</dt>
-    <dd>Verifica e test di sicurezza eseguiti <strong>mentre l'applicazione è in esecuzione (at runtime)</strong> (SCREEN_619). Permette di valutare le risposte reali dell'app a sollecitazioni fittizie e carichi di traffico.</dd>
+    <dd>Verifica e test di sicurezza eseguiti <strong>mentre l'applicazione è in esecuzione (at runtime)</strong>. Permette di valutare le risposte reali dell'app a sollecitazioni fittizie e carichi di traffico.</dd>
   </dl>
 
   <h3 id="obfuscation-signing">Obfuscation e Code Signing</h3>
   <dl class="termlist">
     <dt>Offuscamento del codice (Code Obfuscation)</dt>
-    <dd>La tecnica preferita per ridurre drasticamente la probabilità che il software proprietario esportato o ceduto ai clienti venga decompilato o retroingegnerizzato (Reverse engineering), proteggendo la proprietà intellettuale (SCREEN_369).</dd>
+    <dd>La tecnica preferita per ridurre drasticamente la probabilità che il software proprietario esportato o ceduto ai clienti venga decompilato o retroingegnerizzato (Reverse engineering), proteggendo la proprietà intellettuale.</dd>
     <dt>Firma digitale del codice (Code Signing)</dt>
     <dd>Garantisce l'integrità e l'autenticità del codice d'installazione. L'utente ricevente sa con certezza che l'eseguibile proviene dal fornitore dichiarato e che non è stato alterato da terze parti.</dd>
   </dl>
@@ -324,23 +324,23 @@
   </p>
   <div class="exam-tip">
     <strong>EXAM TIP — Proteggere la superficie cablata (Wired Port)</strong><br>
-    (1) "After a security incident, a system administrator asks the company to buy a NAC platform. Which attack surface is trying to protect?" (SCREEN_495) <br>
+    (1) "After a security incident, a system administrator asks the company to buy a NAC platform. Which attack surface is trying to protect?" <br>
     → <strong>Wired (Cablata)</strong>. Il NAC impedisce collegamenti abusivi sui cavi ethernet aziendali.<br>
-    (2) "A penetration tester finds an unused Ethernet port during an on-site test. Upon plugging a device, the tester is assigned an IP address allowing enumeration. Which solution should an administrator implement?" (SCREEN_563)<br>
+    (2) "A penetration tester finds an unused Ethernet port during an on-site test. Upon plugging a device, the tester is assigned an IP address allowing enumeration. Which solution should an administrator implement?"<br>
     → <strong>Port Security</strong> (o 802.1X). La port security spegne la porta switch se rileva un indirizzo MAC non registrato o forza la richiesta di profili di sicurezza individuali.
   </div>
 
   <h3 id="edr-lateral">EDR, Lateral Movement e Isolamento</h3>
   <dl class="termlist">
     <dt>Host Isolation (Isolamento dell'host / host-based isolation)</dt>
-    <dd>Il meccanismo in assoluto più sicuro per garantire che una risorsa infetta diventi totalmente impermeabile ed inaccessibile ad ogni altra entità connessa alla rete aziendale (SCREEN_681).</dd>
+    <dd>Il meccanismo in assoluto più sicuro per garantire che una risorsa infetta diventi totalmente impermeabile ed inaccessibile ad ogni altra entità connessa alla rete aziendale.</dd>
     <dt>Host-based Firewall (Firewall lato host)</dt>
-    <dd>Fornisce la protezione più fine contro flussi e comunicazioni insicure inviate da e verso la singola workstation o server (SCREEN_499).</dd>
+    <dd>Fornisce la protezione più fine contro flussi e comunicazioni insicure inviate da e verso la singola workstation o server.</dd>
     <dt>Endpoint Detection and Response (EDR)</dt>
-    <dd>Piattaforma avanzata che monitora in real-time i comportamenti malevoli su dischi, processi e registri. È la risposta per bloccare l'esecuzione laterale di ransomware e virus tra nodi della stessa rete (SCREEN_308).</dd>
+    <dd>Piattaforma avanzata che monitora in real-time i comportamenti malevoli su dischi, processi e registri. È la risposta per bloccare l'esecuzione laterale di ransomware e virus tra nodi della stessa rete.</dd>
   </dl>
   <div class="example-box">
-    <strong>Mitigare i click sui Phishing Link (SCREEN_192)</strong><br>
+    <strong>Mitigare i click sui Phishing Link</strong><br>
     Un test aziendale di Phishing mostra tassi di errore inaccettabili da parte degli utenti, i quali cliccano con alta frequenza su link pericolosi. Al fine di circoscrivere ed abbattere l'impatto distruttivo in tempo reale di questi click, l'analista deve **configurare le politiche EDR lato endpoint** per impedire l'esecuzione automatica di codici e software scaricati a seguito del click.
   </div>
 
@@ -350,7 +350,7 @@
   </p>
   <dl class="termlist">
     <dt>Application Allow List (Lista di programmi autorizzati)</dt>
-    <dd>Filosofia di sicurezza "Zero-Trust" in cui l'host blocca programmaticamente l'avvio di qualsiasi programma, script o eseguibile ad eccezione di quelli esplicitamente registrati e approvati in lista. Rappresenta la difesa d'oro per impedire l'esecuzione accidentale di malware da parte del personale (SCREEN_237) e bloccare programmi sconosciuti (SCREEN_180).</dd>
+    <dd>Filosofia di sicurezza "Zero-Trust" in cui l'host blocca programmaticamente l'avvio di qualsiasi programma, script o eseguibile ad eccezione di quelli esplicitamente registrati e approvati in lista. Rappresenta la difesa d'oro per impedire l'esecuzione accidentale di malware da parte del personale e bloccare programmi sconosciuti.</dd>
   </dl>
 
   <h3 id="endpoint-management">Gestione Endpoints, IaC e Wiping dei Laptop dismessi</h3>
@@ -359,11 +359,11 @@
   </p>
   <dl class="termlist">
     <dt>Endpoint Management Software (Software di gestione degli endpoint)</dt>
-    <dd>Fornisce una singola console centralizzata atta a verificare l'insorgenza di modifiche non autorizzate del parco server e delle workstation aziendali, offrendo monitoraggio costante del software caricato (SCREEN_225).</dd>
+    <dd>Fornisce una singola console centralizzata atta a verificare l'insorgenza di modifiche non autorizzate del parco server e delle workstation aziendali, offrendo monitoraggio costante del software caricato.</dd>
     <dt>Controllo di Versione (Version Control)</dt>
-    <dd>Quando i server sono configurati tramite modelli software di Infrastructure as Code (IaC), lo strumento più adatto per tracciare e tenere storicizzate le modifiche al codice di build è un applicativo di **Version Control (Controllo di Versione - es. Git)** (SCREEN_654).</dd>
+    <dd>Quando i server sono configurati tramite modelli software di Infrastructure as Code (IaC), lo strumento più adatto per tracciare e tenere storicizzate le modifiche al codice di build è un applicativo di **Version Control (Controllo di Versione - es. Git)**.</dd>
     <dt>Bonifica (Wiping) dei Laptop pensionati</dt>
-    <dd>Per impedire il furto di dati dei clienti conservati all'interno di hard disk appartenenti a laptop dismessi (pensionati/decommissionati), il metodo più efficiente per costi e scalabilità che azzera i rischi è procedere al **Wiping (Sovrascrittura sicura dei dati del disco)** (SCREEN_567) rispetto alla più costosa frammentazione o distruzione fisica del bene aziendale riutilizzabile.</dd>
+    <dd>Per impedire il furto di dati dei clienti conservati all'interno di hard disk appartenenti a laptop dismessi (pensionati/decommissionati), il metodo più efficiente per costi e scalabilità che azzera i rischi è procedere al **Wiping (Sovrascrittura sicura dei dati del disco)** rispetto alla più costosa frammentazione o distruzione fisica del bene aziendale riutilizzabile.</dd>
   </dl>
 </section>
 
@@ -896,6 +896,28 @@ var Q=[
     "expl": "Per arrestare d'urto la propagazione e l'interazione del computer infettato bloccandone l'accesso a qualsiasi target della LAN, si opera l'isolamento della macchina (Host isolation)."
   },
   {
+    "id": "SCREEN_191",
+    "text": "An organization recently updated its security policy to include the following statement: Regular expressions are included in source code to remove special characters such as $, |, :, &, `, and ? from variables set by forms in a web application. Which of the following best explains the security technique the organization adopted by making this addition to the policy?",
+    "opts": [
+      { "id": "A", "t": "Identify embedded keys", "c": false },
+      { "id": "B", "t": "Code debugging", "c": false },
+      { "id": "C", "t": "Input validation", "c": true },
+      { "id": "D", "t": "Static code analysis", "c": false }
+    ],
+    "expl": "Filtrare caratteri speciali provenienti dai form web tramite Regular Expression rientra nella pratica di Input Validation per prevenire iniezioni o codice malevolo."
+  },
+  {
+    "id": "SCREEN_236",
+    "text": "Which of the following practices would be best to prevent an insider from introducing malicious code into a company's development process?",
+    "opts": [
+      { "id": "A", "t": "Code scanning for vulnerabilities", "c": false },
+      { "id": "B", "t": "Open-source component usage", "c": false },
+      { "id": "C", "t": "Quality assurance testing", "c": false },
+      { "id": "D", "t": "Peer review and approval", "c": true }
+    ],
+    "expl": "La revisione tra pari e approvazione (Peer review and approval) è lo strumento d'elezione per scongiurare che un insider malevolo introduca codice compromesso."
+  },
+  {
     "id": "SCREEN_728",
     "text": "Which of the following is the first step to secure a newly deployed server?",
     "opts": [
@@ -913,8 +935,94 @@ contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 4.1';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
-function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
-function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+  function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
 function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
 function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
 document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
@@ -922,7 +1030,15 @@ document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
 document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
-nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
 overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();

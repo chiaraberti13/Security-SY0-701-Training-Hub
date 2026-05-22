@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SY0-701 — Checklist</title>
+<style>
+  :root {
+    --navy:   #1C2B4A;
+    --blue:   #2563EB;
+    --lblue:  #EFF6FF;
+    --teal:   #0D9488;
+    --lteal:  #F0FDFA;
+    --amber:  #B45309;
+    --lamber: #FFFBEB;
+    --red:    #B91C1C;
+    --lred:   #FEF2F2;
+    --grey:   #374151;
+    --dgrey:  #6B7280;
+    --lgrey:  #F9FAFB;
+    --mgrey:  #E5E7EB;
+    --white:  #ffffff;
+    --done-bg: #F0FDF4;
+    --done-line: #16A34A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: #F1F5F9;
+    color: var(--grey);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--navy);
+    padding: 28px 32px 22px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  header h1 span {
+    color: #60A5FA;
+    font-size: 0.8em;
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+    letter-spacing: 0;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+    max-width: 420px;
+    min-width: 200px;
+  }
+
+  .progress-bar-outer {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,.15);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-bar-inner {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 99px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  .progress-pct {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: .85rem;
+    color: #94A3B8;
+    min-width: 42px;
+    text-align: right;
+  }
+
+  .btn-reset {
+    background: none;
+    border: 1px solid rgba(255,255,255,.2);
+    color: #94A3B8;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: .78rem;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .btn-reset:hover { border-color: rgba(255,255,255,.5); color: #fff; }
+
+  /* ── Container ── */
+  main { max-width: 860px; margin: 0 auto; padding: 28px 20px 0; }
+
+  /* ── Day card ── */
+  .day-card {
+    background: var(--white);
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .day-card:hover { box-shadow: 0 3px 14px rgba(0,0,0,.09); }
+
+  /* Day header */
+  .day-header {
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .day-badge {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--blue);
+    width: 58px;
+    min-width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    padding: 14px 0;
+  }
+
+  .day-title-wrap {
+    flex: 1;
+    padding: 12px 16px;
+  }
+
+  .day-title {
+    font-size: .95rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .day-sub {
+    font-size: .78rem;
+    color: #93C5FD;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .day-meta {
+    font-size: .72rem;
+    color: #64748B;
+    padding: 8px 16px 8px 0;
+    text-align: right;
+    min-width: 90px;
+    line-height: 1.6;
+  }
+
+  .day-meta .quiz-count {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    color: var(--teal);
+    font-size: .8rem;
+    font-weight: 600;
+  }
+
+  .collapse-icon {
+    color: #475569;
+    padding: 0 14px 0 6px;
+    font-size: 1.1rem;
+    transition: transform .25s;
+    align-self: center;
+  }
+  .day-header.collapsed .collapse-icon { transform: rotate(-90deg); }
+
+  /* Day body */
+  .day-body { padding: 0; }
+  .day-body.hidden { display: none; }
+
+  /* Section label */
+  .section-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    margin: 0;
+  }
+  .section-label.studio   { background: var(--lblue);  color: var(--navy); border-top: 1px solid #DBEAFE; }
+  .section-label.pratica  { background: var(--lteal);  color: var(--teal); border-top: 1px solid #CCFBF1; }
+  .section-label.focus    { background: var(--lamber); color: var(--amber); border-top: 1px solid #FEF3C7; }
+  .section-label.consolid { background: var(--lgrey);  color: var(--navy); border-top: 1px solid var(--mgrey); }
+
+  /* Checklist */
+  .checklist { padding: 6px 16px 10px; list-style: none; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #F8FAFC;
+    transition: background .15s;
+    border-radius: 4px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { background: #F8FAFC; padding-left: 4px; padding-right: 4px; margin: 0 -4px; }
+
+  .checklist li.sub {
+    padding-left: 24px;
+    opacity: .88;
+  }
+
+  .checklist li.done .item-text {
+    text-decoration: line-through;
+    color: #9CA3AF;
+  }
+  .checklist li.done {
+    background: var(--done-bg) !important;
+  }
+
+  /* Custom checkbox */
+  .cb-box {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    border: 2px solid var(--mgrey);
+    border-radius: 4px;
+    margin-top: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .cb-box:hover { border-color: var(--blue); }
+  .cb-box.checked {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+  .cb-box.checked::after {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 9px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(42deg) translate(-1px, -1px);
+  }
+
+  .item-text {
+    font-size: .84rem;
+    line-height: 1.5;
+    color: var(--grey);
+    cursor: pointer;
+    flex: 1;
+  }
+  .item-text.sub-text {
+    font-size: .80rem;
+    color: var(--dgrey);
+  }
+
+  /* Day completion badge */
+  .day-done-badge {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: .68rem;
+    background: var(--teal);
+    color: #fff;
+    border-radius: 99px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .day-done-badge.visible { opacity: 1; }
+
+  /* Focus text */
+  .focus-text {
+    font-size: .82rem;
+    font-style: italic;
+    color: var(--amber);
+    padding: 8px 16px 12px;
+    line-height: 1.6;
+  }
+
+  /* Objectives table */
+  .obj-table-wrap { padding: 4px 16px 12px; overflow-x: auto; }
+  .obj-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+  }
+  .obj-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .obj-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--mgrey);
+    color: var(--grey);
+  }
+  .obj-table tr:nth-child(even) td { background: var(--lgrey); }
+  .obj-table .obj-code { font-family: ui-monospace, 'SF Mono', monospace; color: var(--blue); font-weight: 600; }
+  .obj-table .quiz-n   { font-family: ui-monospace, 'SF Mono', monospace; text-align: center; }
+  .obj-table .quiz-n.high { color: var(--red); font-weight: 700; }
+  .obj-table .domain-label { font-weight: 700; color: var(--navy); }
+  .obj-table .weight { color: var(--dgrey); text-align: center; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 18px 0 12px;
+    border-bottom: 2px solid var(--mgrey);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: .82rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    border: none;
+    background: none;
+    color: var(--dgrey);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .tab-btn:hover { background: var(--lgrey); color: var(--navy); }
+  .tab-btn.active { background: var(--navy); color: #fff; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Note priority */
+  .priority-note {
+    background: var(--lred);
+    border-left: 3px solid var(--red);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: .82rem;
+    color: var(--red);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .priority-note b { font-weight: 700; }
+
+  /* Sync status */
+  .sync-status {
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: .72rem;
+    color: #64748B;
+    white-space: nowrap;
+    transition: color .3s;
+  }
+  .sync-status.syncing { color: #FBBF24; }
+  .sync-status.saved   { color: #34D399; }
+  .sync-status.error   { color: #F87171; }
+
+  /* Config banner */
+  .config-banner {
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: .85rem;
+    color: #92400E;
+    line-height: 1.7;
+  }
+  .config-banner code {
+    background: #FEF3C7;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-size: .82rem;
+  }
+  .config-banner a { color: var(--blue); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SY0-701 <span>18 maggio · 5 giugno 2026</span></h1>
+  <div class="progress-wrap">
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+  <button class="btn-reset" onclick="resetAll()">Azzera tutto</button>
+  <div id="syncStatus" class="sync-status">⬤ --</div>
+</header>
+
+<main>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('piano', this)">Piano giornaliero</button>
+    <button class="tab-btn" onclick="showTab('obiettivi', this)">Mappa obiettivi</button>
+  </div>
+
+  <!-- ══ TAB: PIANO ══ -->
+  <div id="tab-piano" class="tab-content active">
+
+    <!-- Giorno 1 -->
+    <div class="day-card" id="card-1">
+      <div class="day-header" onclick="toggleDay(1)">
+        <div class="day-badge">1</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Lunedì 18/05 · CH1 <span class="day-done-badge" id="done-1">✓ Completato</span></div>
+          <div class="day-sub">Dominio 1 parte 1: Fondamenti e Governance</div>
+        </div>
+        <div class="day-meta">1.1 · 1.2 · 1.3<br><span class="quiz-count">53 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-1">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Categorie e tipi di controllo: preventivo / detective / correttivo × tecnico / manageriale / operativo — matrice categoria × tipo</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">CIA triad (Confidentiality, Integrity, Availability), non-repudiation, AAA (Authentication, Authorization, Accounting)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Gap analysis, Zero Trust model (never trust, always verify; microsegmentation; identity-centric)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Change management: approval board, testing, rollback plan, documentazione e version control</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Gerarchia documentale: policy → standard → procedure → guideline (esempi pratici per ciascun livello)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Introduzione governance (5.1): ruoli CISO/board, security committee, framework (NIST CSF, ISO 27001)</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 1.1 — tutti i 27 scenari</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 1.2 — tutti i 14 scenari</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 1.3 — tutti i 12 scenari</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Aprire il log cumulativo errori e annotare: obiettivo · risposta data · perché era sbagliata</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Saper scegliere categoria + tipo di controllo corretto dato un requisito; riconoscere Zero Trust vs modello perimetrale; non confondere policy con procedura.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 2 -->
+    <div class="day-card" id="card-2">
+      <div class="day-header" onclick="toggleDay(2)">
+        <div class="day-badge">2</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Martedì 19/05 · CH7 <span class="day-done-badge" id="done-2">✓ Completato</span></div>
+          <div class="day-sub">Dominio 1 parte 2: Crittografia e PKI</div>
+        </div>
+        <div class="day-meta">1.4<br><span class="quiz-count">43 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-2">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Crittografia simmetrica (AES-128/256, 3DES) vs asimmetrica (RSA, ECC, Diffie-Hellman): caratteristiche, performance, casi d'uso</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Hashing: MD5 e SHA-1 (deprecated/broken), SHA-256, SHA-3 — uso per integrità, non per confidenzialità</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Salting e key stretching: bcrypt, PBKDF2, Argon2 — protezione contro rainbow table e brute force</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Firme digitali: private key firma → public key verifica; non-repudiation; cifratura ibrida (simmetrica + asimmetrica)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">PKI: Root CA → Intermediate CA → certificato end-entity; RA; CSR; chain of trust; certificate pinning</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Revoca: CRL (Certificate Revocation List) vs OCSP (Online Certificate Status Protocol) — differenze operative</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Key escrow, key rotation, forward secrecy (Perfect Forward Secrecy), TLS handshake ad alto livello</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Regola: integrità → hash · confidenzialità → cifratura · autenticità + non-repudiation → firma digitale</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 1.4 — tutti i 43 scenari in sessione unica a tempo (target: &lt;60 min)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Revisione immediata degli errori con motivazione</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Tabella personale: algoritmo → scopo → forza → note deprecazione</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Selezionare l'algoritmo corretto dato il requisito; non confondere CA con RA; scegliere CRL vs OCSP in base al contesto; capire quando si usa ECC vs RSA.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 3 -->
+    <div class="day-card" id="card-3">
+      <div class="day-header" onclick="toggleDay(3)">
+        <div class="day-badge">3</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Mercoledì 20/05 · CH2 + CH4 <span class="day-done-badge" id="done-3">✓ Completato</span></div>
+          <div class="day-sub">Dominio 2 parte 1: Threat Landscape e Social Engineering</div>
+        </div>
+        <div class="day-meta">2.1 · 2.2<br><span class="quiz-count">46 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-3">
+        <div class="section-label studio">Studio — CH2 Threat Landscape</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Threat actors: nation-state, insider (intenzionale vs accidentale), hacktivist, criminal organizzato, script kiddie, competitor — attributi (sophistication, resources, intent)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Motivazioni: financial, espionage, ideological, disruption, revenge, war, competition</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Vettori d'attacco non-umani: email/message-based, image/file-based, USB/removable media, software vulnerabile, open service ports, default credentials, supply chain</span></li>
+        </ul>
+        <div class="section-label studio">Studio — CH4 Social Engineering e Password Attacks</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Vettori umani (obj 2.2): phishing, spear phishing (target specifico), whaling (C-level), vishing (voce), smishing (SMS), pharming (DNS redirect)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Impersonation, pretexting, watering hole, typosquatting, brand impersonation, BEC (Business Email Compromise)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Misinformation vs disinformation; principi psicologici: authority, urgency, scarcity, social proof, familiarity, intimidation</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Password attacks (obj 2.4 parziale): brute force, dictionary, password spraying, credential stuffing, rainbow table</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 2.1 (12) + Quiz 2.2 (34) = 46 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Mappa mentale: tipo attacco → vettore → prima contromisura</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Distinguere spear phishing da whaling; credential stuffing da password spraying; identificare il threat actor dal profilo descritto; riconoscere il principio psicologico usato in un attacco.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 4 -->
+    <div class="day-card" id="card-4">
+      <div class="day-header" onclick="toggleDay(4)">
+        <div class="day-badge">4</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Giovedì 21/05 · CH3 <span class="day-done-badge" id="done-4">✓ Completato</span></div>
+          <div class="day-sub">Dominio 2 parte 2: Vulnerabilità, Indicatori e Mitigazioni</div>
+        </div>
+        <div class="day-meta">2.3 · 2.4 · 2.5<br><span class="quiz-count">63 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-4">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Tipi di vulnerabilità (2.3): zero-day, misconfiguration, weak/default credentials, unpatched software, legacy/unsupported systems, supply chain compromise, memory injection</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Malware families e indicatori (2.4): ransomware (file encryption, ransom note), trojan (backdoor, C2), worm (auto-replica, network saturation), rootkit (kernel-level stealth), spyware/keylogger (data exfiltration), fileless malware (in-memory, no disk artifact), botnet (C2 beacon)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Altri indicatori: C2 traffic, unusual outbound ports, DNS anomalies, lateral movement (pass-the-hash, pass-the-ticket), privilege escalation, unexpected scheduled tasks, log tampering</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Mitigazioni enterprise (2.5): network segmentation, patch management, EDR/XDR, allow/deny listing, quarantine, encryption at rest, honeypot/honeynet, deception technology</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 2.3 (34) + 2.4 (23) + 2.5 (6) = 63 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Tabella: malware → indicatore caratteristico → mitigazione primaria</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Aggiornare log errori cumulativo</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Riconoscere il tipo di malware dall'indicatore descritto; scegliere la mitigazione proporzionata; differenziare rootkit da fileless malware per comportamento.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 5 -->
+    <div class="day-card" id="card-5">
+      <div class="day-header" onclick="toggleDay(5)">
+        <div class="day-badge">5</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Venerdì 22/05 · CH5 + CH6 <span class="day-done-badge" id="done-5">✓ Completato</span></div>
+          <div class="day-sub">Vulnerability Management e Application Security</div>
+        </div>
+        <div class="day-meta">4.3 · 4.1 · 2.3<br><span class="quiz-count">38 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-5">
+        <div class="section-label studio">Studio — CH5 Vulnerability Management (obj 4.3)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Lifecycle: identify → assess → prioritize → remediate → validate — responsabilità per fase</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Scan types: credentialed vs non-credentialed, active vs passive, agent-based vs agentless — differenze nei risultati</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">CVSS v3 base score: Attack Vector, Attack Complexity, Privileges Required, User Interaction, Scope, C/I/A impact — lettura pratica</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">CVE, NVD, vendor advisories come fonti; prioritizzazione risk-based vs CVSS-only</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">False positive vs false negative: implicazioni operative per ciascuno</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Penetration testing fasi: planning/scoping, recon (OSINT), exploitation, post-exploitation, reporting; autorizzazione scritta obbligatoria</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Bug bounty e responsible disclosure; system/process audit vs pen test vs vulnerability scan</span></li>
+        </ul>
+        <div class="section-label studio">Studio — CH6 Application Security (obj 4.1 + 2.3)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Secure SDLC: design → code → test → deploy → monitor — security by design vs bolt-on</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">OWASP Top 10 essenziali: SQL injection, broken authentication, IDOR, XSS (stored/reflected), SSRF, security misconfiguration, insecure deserialization</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Difese applicative: input validation, output encoding, parameterized queries, WAF</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">SAST (Static Application Security Testing) vs DAST (Dynamic) — quando usare ciascuno</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Code signing, software composition analysis (SCA), dependency scanning</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 4.3 (38) — sessione timed con revisione errori</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Esercizio: dato un CVSS score, calcolare priorità di remediation</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Differenza tra scan credentialed e non; leggere un CVSS e tradurlo in priorità; distinguere SAST da DAST; identificare la vulnerabilità OWASP dal codice o dal caso descritto.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 6 -->
+    <div class="day-card" id="card-6">
+      <div class="day-header" onclick="toggleDay(6)">
+        <div class="day-badge">6</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Lunedì 25/05 · CH18 + CH9 <span class="day-done-badge" id="done-6">✓ Completato</span></div>
+          <div class="day-sub">Dominio 3 parte 1: Data Protection e Resilienza</div>
+        </div>
+        <div class="day-meta">3.3 · 3.4<br><span class="quiz-count">59 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-6">
+        <div class="section-label studio">Studio — CH18 Data Protection (obj 3.3)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Classificazioni dati: public, internal, confidential, restricted/secret/top secret — chi decide e chi è responsabile</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Stati dei dati: at rest (cifratura disco/volume) · in transit (TLS, VPN, IPsec) · in use (trusted execution environment, memory encryption)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Tecniche di protezione: encryption, tokenization (sostituzione con token non sensibile), masking, anonymization (irreversibile), pseudonymization (reversibile con chiave)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">DLP (Data Loss Prevention): endpoint DLP, network DLP, cloud DLP — scenari di applicazione</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Data sovereignty e geolocation restrictions; retention policy e legal hold; secure disposal (shredding fisico, degaussing, crypto-erase per SSD)</span></li>
+        </ul>
+        <div class="section-label studio">Studio — CH9 Resilienza e Recovery (obj 3.4)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Alta disponibilità: clustering attivo/attivo vs attivo/passivo, load balancing, NIC teaming, RAID (livelli 1/5/6/10), power redundancy</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Siti DR: hot site (fully operational, highest cost) · warm site (partial infra) · cold site (space only) · cloud-based (on-demand)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Metriche: RTO (tempo per ripristinare), RPO (massima perdita dati), MTTR (tempo medio riparazione), MTBF (tempo medio tra guasti)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Backup: full / incremental (solo modifiche dall'ultimo backup) / differential (modifiche dall'ultimo full) — confronto RPO/costo</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Platform diversity, multi-cloud resilience; test dei piani: tabletop exercise, simulation, parallel test, full interruption test</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 3.3 (30) + Quiz 3.4 (29) = 59 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Flashcard: RTO / RPO / MTTR / MTBF con definizione precisa + esempio</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Scegliere la tecnica di protezione dati corretta per stato del dato; calcolare l'impatto di RPO in uno scenario DR; distinguere tokenization da masking da anonymization; sito DR corretto in base a budget e RTO.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 7 -->
+    <div class="day-card" id="card-7">
+      <div class="day-header" onclick="toggleDay(7)">
+        <div class="day-badge">7</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Martedì 26/05 · CH10 <span class="day-done-badge" id="done-7">✓ Completato</span></div>
+          <div class="day-sub">Dominio 3 parte 2: Cloud e Virtualizzazione</div>
+        </div>
+        <div class="day-meta">3.1 (cloud)<br><span class="quiz-count">33 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-7">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Shared responsibility matrix — IaaS: cliente gestisce OS, middleware, app, dati; PaaS: cliente gestisce app e dati; SaaS: cliente gestisce solo dati e accessi</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Deployment models: public (multi-tenant), private (single-tenant), hybrid, community cloud — casi d'uso e rischi per ciascuno</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Containerization (Docker/Kubernetes): isolamento namespace, image security, pod network policy, secrets management</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Microservices: API gateway security, service mesh, dependency risk, single point of failure ridotto</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Serverless computing: attack surface ridotta, IAM per funzione (least privilege), cold start, third-party libraries risk</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Infrastructure as Code (IaC): template scanning, drift detection, immutable infrastructure, version control per configurazioni</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Virtualizzazione: hypervisor Type 1 (bare-metal) vs Type 2 (hosted); VM escape; snapshot security; VM sprawl</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 3.1 (33) — focus cloud scenarios</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Matrice shared responsibility compilata per IaaS/PaaS/SaaS (chi è responsabile di cosa)</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Applicare la shared responsibility matrix a scenari concreti; identificare rischi specifici di container; IaC drift detection.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 8 -->
+    <div class="day-card" id="card-8">
+      <div class="day-header" onclick="toggleDay(8)">
+        <div class="day-badge">8</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Mercoledì 27/05 · CH12 <span class="day-done-badge" id="done-8">✓ Completato</span></div>
+          <div class="day-sub">Dominio 3+4: Network Architecture e Enterprise Security</div>
+        </div>
+        <div class="day-meta">3.1 · 3.2 · 4.5<br><span class="quiz-count">58 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-8">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Modelli architetturali (3.1 rete): on-premises vs cloud vs hybrid; edge computing e fog computing; SCADA/ICS — air-gap e zone industriali</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Segmentazione di rete: VLAN (isolamento L2), DMZ (zona demilitarizzata), screened subnet, microsegmentazione (east-west traffic), air-gap</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Principi enterprise (3.2): Zero Trust (verify explicitly, use least privilege, assume breach), implicit deny, NAC, jump server/bastion host</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Enterprise capabilities (4.5): firewall (stateful vs NGFW), IDS vs IPS, proxy/reverse proxy, VPN site-to-site vs remote access (split tunnel vs full tunnel)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">IPsec: AH (integrità, no encryption) vs ESP (integrità + encryption); tunnel mode vs transport mode</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">SD-WAN security; DNS security (DNSSEC, DNS sinkhole); email security (SPF, DKIM, DMARC)</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 3.2 (26) + Quiz 4.5 (32) = 58 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Schema traffico: Internet → firewall → DMZ → IPS → LAN interna con controlli per ciascun punto</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">IDS vs IPS (inline vs out-of-band); tunnel vs transport mode IPsec; scegliere il controllo architetturale corretto per il requisito dato; Zero Trust vs perimeter model.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 9 -->
+    <div class="day-card" id="card-9">
+      <div class="day-header" onclick="toggleDay(9)">
+        <div class="day-badge">9</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Giovedì 28/05 · CH8 <span class="day-done-badge" id="done-9">✓ Completato</span></div>
+          <div class="day-sub">Dominio 4: Identity e Access Management</div>
+        </div>
+        <div class="day-meta">4.6<br><span class="quiz-count">38 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-9">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Identity lifecycle: joiner (provisioning) / mover (modifica ruolo) / leaver (deprovisioning immediato) — account review periodico</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Identity proofing e attestation; orphaned accounts e account dormanti — rischi</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Authentication factors: something you know / have / are + location + behavior; MFA pitfalls: SIM swap, MFA fatigue/prompt bombing, MITM su OTP</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Modelli autorizzazione: RBAC (permessi per ruolo) · ABAC (permessi per attributo contestuale) · MAC (sistema-driven, ambienti gov.) · DAC (owner-driven)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Least privilege e separation of duties; need-to-know; privileged access review</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Federation e SSO: SAML 2.0 (XML-based, IdP/SP, autenticazione enterprise) · OAuth2 (delegazione accesso, autorizzazione) · OIDC (strato autenticazione su OAuth2)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">PAM/PIM: privileged account management, just-in-time (JIT) access, session recording, credential vault</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Password policy: length > complexity; password manager; passphrase</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Conditional access e Zero Trust identity-centric: device compliance, risk score, location</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 4.6 (38) — sessione timed, revisione immediata errori</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Tabella comparativa: SAML vs OAuth2 vs OIDC — scopo / attori / flusso / token</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Distinguere SAML da OAuth2 da OIDC per scopo (non solo nome); scegliere RBAC vs ABAC vs MAC per scenario; MFA pitfalls; JIT access.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 10 -->
+    <div class="day-card" id="card-10">
+      <div class="day-header" onclick="toggleDay(10)">
+        <div class="day-badge">10</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Venerdì 29/05 · CH11 + CH13 <span class="day-done-badge" id="done-10">✓ Completato</span></div>
+          <div class="day-sub">Dominio 4: Endpoint, Asset Management e Wireless/Mobile</div>
+        </div>
+        <div class="day-meta">4.1 · 4.2<br><span class="quiz-count">52 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-10">
+        <div class="section-label studio">Studio — CH11 Endpoint e Asset Management</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Secure baseline: CIS Benchmarks, DISA STIG — establish (definire), deploy (distribuire), maintain (monitorare drift)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Hardening workstation/server: disabilitare servizi non necessari, rimuovere credenziali default, host-based firewall, EDR agent, patch automatico</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Hardening embedded/RTOS: firmware aggiornato, interfacce debug disabilitate · ICS/SCADA: air-gap o zona separata · IoT: segmentazione, cambio credenziali, disable Telnet</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">MDM/UEM: enrollment, policy enforcement (PIN, encryption, app allowlist), remote wipe; modelli: BYOD / COPE / CYOD / corporate-only</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Asset management (4.2): inventario hardware + software, classificazione, ownership, lifecycle (acquisition → deployment → maintenance → disposal); EOL e EOSL tracking</span></li>
+        </ul>
+        <div class="section-label studio">Studio — CH13 Wireless e Mobile</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Standard wireless: WPA2-Personal (PSK) vs WPA2-Enterprise (802.1X + RADIUS) vs WPA3 (SAE, Forward Secrecy)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">WPS vulnerabilità (PIN brute force) — disabilitare sempre; Evil twin e rogue AP; captive portal risks; deauth attacks (DoS wireless)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Bluetooth: bluejacking (invio messaggi), bluesnarfing (accesso dati), bluebugging (controllo remoto); NFC attacks (eavesdropping, relay)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Site survey e heat mapping per coverage e interference analysis</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 4.1 (36) + Quiz 4.2 (16) = 52 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Tabella: tipo dispositivo → rischio principale → hardening specifico → controllo di rete</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">WPA2-Enterprise vs WPA2-Personal (RADIUS vs PSK); BYOD policy con MDM; bluejacking vs bluesnarfing; COPE vs BYOD responsabilità.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 11 -->
+    <div class="day-card" id="card-11">
+      <div class="day-header" onclick="toggleDay(11)">
+        <div class="day-badge">11</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Lunedì 01/06 · CH14 <span class="day-done-badge" id="done-11">✓ Completato</span></div>
+          <div class="day-sub">Dominio 4: Incident Response, Monitoring e Automazione</div>
+        </div>
+        <div class="day-meta">4.4 · 4.7 · 4.8 · 4.9<br><span class="quiz-count">65 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-11">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">IR lifecycle NIST SP 800-61: Preparation → Detection/Analysis → Containment → Eradication → Recovery → Post-Incident Activity — azioni specifiche per fase</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Containment: short-term (isolare host) vs long-term (rebuild); eradication (rimozione causa root) vs recovery (ripristino servizi) — ordine obbligatorio</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Playbook vs runbook; escalation path: SOC analyst → SOC lead → CISO → management → legal/HR/PR</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">SIEM: log aggregation, correlation rules, alert triage, baseline vs anomaly detection, tuning per ridurre falsi positivi</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">SOAR: automazione playbook, integrazione ticketing (ServiceNow, Jira), vantaggi (velocità) vs rischi (automazione errata)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Monitoring tools: NetFlow/IPFIX (traffic analysis), syslog (log centralization), FIM (file integrity monitoring), EDR telemetry</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Data sources investigativi (4.9): SIEM alert logs, packet captures (Wireshark/tcpdump), memory dumps, disk images, DNS query logs, NetFlow, email headers</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Automazione e orchestrazione (4.7): API integration, scripted response, benefits of automation for IR velocity</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 4.4 (18) + 4.7 (7) + 4.8 (21) + 4.9 (19) = 65 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Esercizio timeline: dato un incidente descritto, ordinare le fasi IR e identificare la prima azione per ogni fase</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Prima azione in Detection vs Containment vs Eradication; non saltare fasi; SIEM vs SOAR (monitoring vs automazione); data source corretto per tipo di investigazione.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 12 -->
+    <div class="day-card" id="card-12">
+      <div class="day-header" onclick="toggleDay(12)">
+        <div class="day-badge">12</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Martedì 02/06 · CH15 + CH16 <span class="day-done-badge" id="done-12">✓ Completato</span></div>
+          <div class="day-sub">Digital Forensics e Governance/Compliance</div>
+        </div>
+        <div class="day-meta">4.8 · 4.9 · 5.1 · 5.3 · 5.4 · 5.5<br><span class="quiz-count">85 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-12">
+        <div class="section-label studio">Studio — CH15 Digital Forensics (obj 4.8 + 4.9)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Legal hold: preservazione immediata delle evidenze; chain of custody: documentazione di chi accede e quando</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Ordine di volatilità (RFC 3227): RAM e registri CPU → swap/pagefile → running processes → network connections → disk → logs → archivi remoti</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Acquisizione: disk imaging (dd, FTK Imager) con hash MD5/SHA-256 pre e post; write blocker fisico o software; live vs dead forensics</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Analisi: timeline analysis, file carving (recupero file cancellati), steganography detection, log correlation, memory forensics (Volatility)</span></li>
+        </ul>
+        <div class="section-label studio">Studio — CH16 Governance e Compliance (obj 5.1 + 5.3 + 5.4 + 5.5)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Governance (5.1): policy hierarchy, ruoli (board, CISO, data owner, data custodian, data steward), NIST CSF e ISO 27001</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Third-party risk (5.3): vendor due diligence, SLA e SLO, right-to-audit clause, supply chain risk (SBOM — software bill of materials)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Compliance (5.4): HIPAA (healthcare), PCI-DSS (cardholder data), GDPR (personal data EU), SOX (financial reporting) — conseguenze del non-rispetto</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Audit e assessment (5.5): internal vs external audit vs third-party assessment; gap assessment vs compliance audit vs pen test — scopi diversi</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 5.1 (28) + 5.3 (20) + 5.4 (18) + 5.5 (19) = 85 domande (distribuire in 2–3 sessioni con pausa)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Aggiornare log errori cumulativo per dominio 5</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Ordine di volatilità in forensics; right-to-audit in contratti terze parti; distinguere HIPAA da PCI-DSS da GDPR per ambito; gap assessment vs compliance audit vs pen test.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 13 -->
+    <div class="day-card" id="card-13">
+      <div class="day-header" onclick="toggleDay(13)">
+        <div class="day-badge">13</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Mercoledì 03/06 · CH17 <span class="day-done-badge" id="done-13">✓ Completato</span></div>
+          <div class="day-sub">Dominio 5: Risk Management e Security Awareness</div>
+        </div>
+        <div class="day-meta">5.2 · 5.6<br><span class="quiz-count">39 quiz</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-13">
+        <div class="section-label studio">Studio</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Risk management framework: identify → assess → analyze (qualitative vs quantitative) → treat → monitor</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Risk treatment: Avoid (eliminare l'attività) · Transfer (assicurazione/contratto) · Mitigate (implementare controlli) · Accept (documentare, risk appetite)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Calcolo quantitativo: AV × EF = SLE → SLE × ARO = ALE — confrontare ALE con costo del controllo</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Qualitative risk: matrice probabilità × impatto (High/Medium/Low); risk register con risk owner e piano di trattamento</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Risk appetite vs risk tolerance; residual risk vs inherent risk</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">BIA (Business Impact Analysis): identificare asset critici, determinare RTO/RPO, valutare impatto finanziario/operativo/reputazionale</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Security awareness (5.6): phishing simulations, training modulare per ruolo, metriche efficacia, insider threat awareness</span></li>
+        </ul>
+        <div class="section-label pratica">Pratica</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 5.2 (24) + 5.6 (15) = 39 domande</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Esercizio calcolo: dato AV, EF, ARO → calcolare SLE e ALE → confrontare con costo del controllo → decisione</span></li>
+        </ul>
+        <div class="section-label focus">Focus esame</div>
+        <div class="focus-text">Calcolo ALE; scegliere il risk treatment corretto per scenario; distinguere risk appetite da tolerance; BIA come prerequisito del DR plan.</div>
+      </div>
+    </div>
+
+    <!-- Giorno 14 -->
+    <div class="day-card" id="card-14">
+      <div class="day-header" onclick="toggleDay(14)">
+        <div class="day-badge">14</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Giovedì 04/06 · Consolidamento <span class="day-done-badge" id="done-14">✓ Completato</span></div>
+          <div class="day-sub">Revisione errori · Flash review · Mini-simulazione · Tabelle critiche</div>
+        </div>
+        <div class="day-meta">—<br><span class="quiz-count">30 quiz misti</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-14">
+        <div class="section-label consolid">Struttura della giornata</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Aprire il log cumulativo errori: classificare tutti gli errori per dominio e obiettivo</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Identificare i top 3 obiettivi con più errori → ripasso mirato: rilettura sezione capitolo + flashcard</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Flash review sintetico per dominio: 5 punti chiave irrinunciabili per ciascuno dei 5 domini</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Mini simulazione mista a tempo: 30 domande mixed (focus su obiettivi deboli identificati)</span></li>
+        </ul>
+        <div class="section-label consolid">Tabelle critiche da ripassare</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Algoritmi crittografici: AES / RSA / ECC / SHA-2 / bcrypt</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Ordine di volatilità forensics</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Fasi IR (NIST) con prima azione per fase</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Metriche resilienza: RTO / RPO / MTTR / MTBF</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Modelli di accesso: RBAC / ABAC / MAC / DAC</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Calcolo ALE: formula e interpretazione</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Shared responsibility matrix IaaS/PaaS/SaaS</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Compliance framework: HIPAA / PCI-DSS / GDPR / SOX — ambito</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Giorno 15 -->
+    <div class="day-card" id="card-15">
+      <div class="day-header" onclick="toggleDay(15)">
+        <div class="day-badge">15</div>
+        <div class="day-title-wrap">
+          <div class="day-title">Venerdì 05/06 · Simulazione finale <span class="day-done-badge" id="done-15">✓ Completato</span></div>
+          <div class="day-sub">90 domande · 90 minuti · Debrief strutturato · Strategia esame</div>
+        </div>
+        <div class="day-meta">—<br><span class="quiz-count">90 domande</span></div>
+        <div class="collapse-icon">▾</div>
+      </div>
+      <div class="day-body" id="body-15">
+        <div class="section-label consolid">Mattina (prima della simulazione)</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Lettura rapida lista punti deboli residui (max 30 minuti)</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Nessuna nuova lettura — solo consolidamento</span></li>
+        </ul>
+        <div class="section-label consolid">Simulazione</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Simulazione completa timed: 90 domande in 90 minuti, no interruzioni, modalità esame reale</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Strategia PBQ: aprire i PBQ all'inizio per stimare difficoltà, completarli se veloci, flaggarli e tornare se complessi</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Flag e revisione: flaggare domande incerte, completare tutte, revisione finale solo delle flaggate</span></li>
+        </ul>
+        <div class="section-label consolid">Debrief strutturato</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Errori per dominio: calcolare % errori per ciascuno dei 5 domini</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Causa dell'errore: mancata conoscenza / distrazione / trappola / concetto confuso</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Confronto con pesi ufficiali: se D4 (28%) mostra >30% errori → priorità nelle ultime ore</span></li>
+        </ul>
+        <div class="section-label consolid">Piano pre-esame</div>
+        <ul class="checklist">
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Gestione tempo: ~1 minuto per domanda — non bloccarsi su una singola domanda</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Strategia PBQ: leggere tutti i PBQ nei primi 5 minuti, stimare peso e complessità</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Ordine risposta: domande normali → PBQ → revisione flaggate</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Se due risposte sembrano corrette: scegliere la più conservativa, difensiva, o che applica least privilege</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- end tab-piano -->
+
+  <!-- ══ TAB: OBIETTIVI ══ -->
+  <div id="tab-obiettivi" class="tab-content">
+    <div class="priority-note">
+      <b>Obiettivi ad alta densità di quiz</b> (priorità in caso di errori):
+      1.4 (43) · 4.3 (38) · 4.6 (38) · 2.2 (34) · 2.3 (34) · 4.5 (32) · 3.3 (30) · 3.4 (29)
+    </div>
+    <div class="obj-table-wrap">
+      <table class="obj-table">
+        <thead>
+          <tr><th>Dominio</th><th>Peso</th><th>Obj</th><th>Titolo ufficiale</th><th>Cap.</th><th>Quiz</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="domain-label">D1 — General Security Concepts</td><td class="weight">12%</td><td class="obj-code">1.1</td><td>Security controls</td><td>CH1</td><td class="quiz-n">27</td></tr>
+          <tr><td></td><td></td><td class="obj-code">1.2</td><td>Fundamental security concepts</td><td>CH1</td><td class="quiz-n">14</td></tr>
+          <tr><td></td><td></td><td class="obj-code">1.3</td><td>Change management implications</td><td>CH1</td><td class="quiz-n">12</td></tr>
+          <tr><td></td><td></td><td class="obj-code">1.4</td><td>Cryptographic solutions</td><td>CH7</td><td class="quiz-n high">43</td></tr>
+          <tr><td class="domain-label">D2 — Threats, Vulnerabilities &amp; Mitigations</td><td class="weight">22%</td><td class="obj-code">2.1</td><td>Threat actors e motivazioni</td><td>CH2</td><td class="quiz-n">12</td></tr>
+          <tr><td></td><td></td><td class="obj-code">2.2</td><td>Threat vectors e attack surfaces</td><td>CH2, CH4</td><td class="quiz-n high">34</td></tr>
+          <tr><td></td><td></td><td class="obj-code">2.3</td><td>Tipi di vulnerabilità</td><td>CH3, CH6</td><td class="quiz-n high">34</td></tr>
+          <tr><td></td><td></td><td class="obj-code">2.4</td><td>Indicatori di attività malevola</td><td>CH3, CH4</td><td class="quiz-n">23</td></tr>
+          <tr><td></td><td></td><td class="obj-code">2.5</td><td>Tecniche di mitigazione enterprise</td><td>CH3</td><td class="quiz-n">6</td></tr>
+          <tr><td class="domain-label">D3 — Security Architecture</td><td class="weight">18%</td><td class="obj-code">3.1</td><td>Modelli architetturali (cloud + rete)</td><td>CH10, CH12</td><td class="quiz-n">33</td></tr>
+          <tr><td></td><td></td><td class="obj-code">3.2</td><td>Principi di sicurezza enterprise</td><td>CH12</td><td class="quiz-n">26</td></tr>
+          <tr><td></td><td></td><td class="obj-code">3.3</td><td>Protezione dei dati</td><td>CH18</td><td class="quiz-n high">30</td></tr>
+          <tr><td></td><td></td><td class="obj-code">3.4</td><td>Resilienza e recovery</td><td>CH9</td><td class="quiz-n high">29</td></tr>
+          <tr><td class="domain-label">D4 — Security Operations</td><td class="weight">28%</td><td class="obj-code">4.1</td><td>Tecniche sicurezza sulle risorse</td><td>CH6, CH11, CH13</td><td class="quiz-n">36</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.2</td><td>Asset management</td><td>CH11</td><td class="quiz-n">16</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.3</td><td>Vulnerability management</td><td>CH5</td><td class="quiz-n high">38</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.4</td><td>Security alerting e monitoring</td><td>CH14</td><td class="quiz-n">18</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.5</td><td>Enterprise capabilities enhancement</td><td>CH12</td><td class="quiz-n high">32</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.6</td><td>Identity and access management</td><td>CH8</td><td class="quiz-n high">38</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.7</td><td>Automazione e orchestrazione</td><td>CH14</td><td class="quiz-n">7</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.8</td><td>Incident response</td><td>CH14, CH15</td><td class="quiz-n">21</td></tr>
+          <tr><td></td><td></td><td class="obj-code">4.9</td><td>Data sources per investigazione</td><td>CH14, CH15</td><td class="quiz-n">19</td></tr>
+          <tr><td class="domain-label">D5 — Security Program Management</td><td class="weight">20%</td><td class="obj-code">5.1</td><td>Security governance</td><td>CH1, CH16</td><td class="quiz-n">28</td></tr>
+          <tr><td></td><td></td><td class="obj-code">5.2</td><td>Risk management</td><td>CH17</td><td class="quiz-n">24</td></tr>
+          <tr><td></td><td></td><td class="obj-code">5.3</td><td>Third-party risk assessment</td><td>CH16</td><td class="quiz-n">20</td></tr>
+          <tr><td></td><td></td><td class="obj-code">5.4</td><td>Security compliance</td><td>CH16</td><td class="quiz-n">18</td></tr>
+          <tr><td></td><td></td><td class="obj-code">5.5</td><td>Audit e assessment</td><td>CH16</td><td class="quiz-n">19</td></tr>
+          <tr><td></td><td></td><td class="obj-code">5.6</td><td>Security awareness</td><td>CH17</td><td class="quiz-n">15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ══════════════════════════════════════════════════════
+  //  CONFIGURAZIONE JSONBIN — inserisci i tuoi dati qui
+  // ══════════════════════════════════════════════════════
+  const JSONBIN_API_KEY = '$2a$10$w/qcxB8K7gA3xfj52Rvs7emAvIUwOMkrSBWl.gfUXFywrERRjyrbO';   // es. $2a$10$...
+  const JSONBIN_BIN_ID  = '6a0c72916877513b2799e0ad';        // es. 6650f3a...
+  // ══════════════════════════════════════════════════════
+
+  const STORAGE_KEY = 'sy0701_checks';
+  const API_BASE    = 'https://api.jsonbin.io/v3/b';
+  const configured  = () => !JSONBIN_API_KEY.startsWith('INCOLLA') && !JSONBIN_BIN_ID.startsWith('INCOLLA');
+
+  let saveTimer = null;   // debounce — salva 1 secondo dopo l'ultimo click
+
+  // ── Sync status indicator ──────────────────────────────
+  function setStatus(state, text) {
+    const el = document.getElementById('syncStatus');
+    el.className = 'sync-status ' + state;
+    el.textContent = '⬤ ' + text;
+  }
+
+  // ── Ricava lo stato corrente dalla pagina ──────────────
+  function getState() {
+    const boxes = document.querySelectorAll('.cb-box');
+    const state = {};
+    boxes.forEach((box, i) => { state[i] = box.classList.contains('checked'); });
+    return state;
+  }
+
+  // ── Applica uno stato (oggetto {indice: bool}) ─────────
+  function applyState(state) {
+    const boxes = document.querySelectorAll('.cb-box');
+    boxes.forEach((box, i) => {
+      const checked = !!state[i];
+      box.classList.toggle('checked', checked);
+      box.closest('li').classList.toggle('done', checked);
+    });
+  }
+
+  // ── Salva su localStorage (fallback offline) ───────────
+  function saveLocal(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
+
+  function loadLocal() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { return {}; }
+  }
+
+  // ── Salva su JSONbin ───────────────────────────────────
+  async function saveRemote(state) {
+    if (!configured()) return;
+    setStatus('syncing', 'salvataggio…');
+    try {
+      const res = await fetch(`${API_BASE}/${JSONBIN_BIN_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_API_KEY,
+          'X-Bin-Versioning': 'false'   // sovrascrive sempre, non accumula versioni
+        },
+        body: JSON.stringify(state)
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      setStatus('saved', 'salvato ✓');
+      setTimeout(() => setStatus('saved', 'sync attivo'), 2000);
+    } catch(e) {
+      setStatus('error', 'errore sync');
+      console.error('JSONbin save error:', e);
+    }
+  }
+
+  // ── Carica da JSONbin ──────────────────────────────────
+  async function loadRemote() {
+    if (!configured()) {
+      setStatus('error', 'non configurato');
+      showConfigBanner();
+      return null;
+    }
+    setStatus('syncing', 'caricamento…');
+    try {
+      const res = await fetch(`${API_BASE}/${JSONBIN_BIN_ID}/latest`, {
+        headers: { 'X-Master-Key': JSONBIN_API_KEY }
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      setStatus('saved', 'sync attivo');
+      return data.record || {};
+    } catch(e) {
+      setStatus('error', 'offline — dati locali');
+      console.error('JSONbin load error:', e);
+      return null;
+    }
+  }
+
+  // ── Banner di istruzioni se non configurato ────────────
+  function showConfigBanner() {
+    if (document.getElementById('configBanner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'configBanner';
+    banner.className = 'config-banner';
+    banner.innerHTML = `
+      <b>⚙️ Setup richiesto</b> — per il salvataggio su cloud:<br>
+      1. Vai su <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> → crea account gratuito<br>
+      2. Dashboard → API Keys → copia la <b>Secret Key</b><br>
+      3. Crea un nuovo Bin (pulsante <b>+ New Bin</b>) con contenuto <code>{}</code> → copia l'<b>ID</b> dalla URL<br>
+      4. Apri questo file HTML in un editor e incolla i valori nelle prime 2 righe dello script:<br>
+      &nbsp;&nbsp;<code>JSONBIN_API_KEY</code> e <code>JSONBIN_BIN_ID</code>
+    `;
+    const main = document.querySelector('main');
+    main.insertBefore(banner, main.firstChild);
+  }
+
+  // ── Salvataggio con debounce (evita troppe chiamate API) ──
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      const state = getState();
+      saveLocal(state);
+      await saveRemote(state);
+    }, 800);
+  }
+
+  // ── Reset completo ─────────────────────────────────────
+  async function resetAll() {
+    if (!confirm('Sei sicuro di voler azzerare tutti i check?')) return;
+    const empty = {};
+    applyState(empty);
+    saveLocal(empty);
+    await saveRemote(empty);
+    updateProgress();
+    updateAllDayBadges();
+  }
+
+  // ── Toggle singolo checkbox ────────────────────────────
+  function toggle(box) {
+    box.classList.toggle('checked');
+    box.closest('li').classList.toggle('done');
+    scheduleSave();
+    updateProgress();
+    const card = box.closest('.day-card');
+    if (card) updateDayBadge(card);
+  }
+
+  // ── Barra di avanzamento ───────────────────────────────
+  function updateProgress() {
+    const all     = document.querySelectorAll('.cb-box').length;
+    const checked = document.querySelectorAll('.cb-box.checked').length;
+    const pct     = all ? Math.round(checked / all * 100) : 0;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  // ── Badge giorno completato ────────────────────────────
+  function updateDayBadge(card) {
+    const id    = card.id.replace('card-', '');
+    const all   = card.querySelectorAll('.cb-box').length;
+    const done  = card.querySelectorAll('.cb-box.checked').length;
+    const badge = document.getElementById('done-' + id);
+    if (badge) badge.classList.toggle('visible', all > 0 && done === all);
+  }
+
+  function updateAllDayBadges() {
+    document.querySelectorAll('.day-card').forEach(updateDayBadge);
+  }
+
+  // ── Collapse/expand ────────────────────────────────────
+  function toggleDay(num) {
+    const body   = document.getElementById('body-' + num);
+    const header = body.previousElementSibling;
+    const isOpen = !body.classList.contains('hidden');
+    body.classList.toggle('hidden', isOpen);
+    header.classList.toggle('collapsed', isOpen);
+  }
+
+  // ── Tab ────────────────────────────────────────────────
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── Init ───────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Click sul testo = toggle checkbox
+    document.querySelectorAll('.item-text').forEach(span => {
+      span.addEventListener('click', () => {
+        const box = span.previousElementSibling;
+        if (box && box.classList.contains('cb-box')) toggle(box);
+      });
+    });
+
+    // Prima carica i dati locali (risposta immediata)
+    const local = loadLocal();
+    if (Object.keys(local).length) {
+      applyState(local);
+      updateProgress();
+      updateAllDayBadges();
+    }
+
+    // Poi carica da remoto (sovrascrive se più aggiornato)
+    const remote = await loadRemote();
+    if (remote !== null) {
+      applyState(remote);
+      saveLocal(remote);      // aggiorna anche il locale
+      updateProgress();
+      updateAllDayBadges();
+    }
+  });
+</script>
+</body>
+</html>

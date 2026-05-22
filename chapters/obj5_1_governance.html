@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 5.1 — Strumenti della Governance Organizzativa · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 5 — Governance, Program Management and Oversight</span>
+      <span>OBJ 5.1 — Security Governance</span>
+    </div>
+
+    <header>
+      <h1>OBJ 5.1 — Riassumere gli Elementi di una Governance della Sicurezza Efficace</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 5 — Governance, Program Management and Oversight · Peso esame: 20%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Summarize elements of effective security governance.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">5.1</span>
+        <span class="weight-badge">D5 = 20%</span>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Strumenti di Governance</div>
+        <a href="#gov_docs">Politiche, Standard, Linee Guida e SOP</a>
+        <a href="#aup_expectations">Politica d'Utilizzo Accettabile (AUP)</a>
+        <a href="#nda_conflict">Accordi di Riservatezza & Conflitti d'Interesse</a>
+        <a href="#personnel_security">Sicurezza del Personale (HR Security)</a>
+
+        <div class="toc-section">Ruoli dei Dati & Responsabilità</div>
+        <a href="#data_roles">Proprietari, Custodi e Titolari (Roles)</a>
+        <a href="#dev_peer_review">Secure SDLC e Peer Review</a>
+
+        <div class="toc-section">Continuità & Gestione Risorse</div>
+        <a href="#risk_continuity">Continuità ed Eliminazione di SPOF Umani</a>
+        <a href="#retention_sanitization">Ritenzione dei Dati e Sanitizzazione (Wipe)</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (29 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — POLITICHE, STANDARD E PROCEDURE ═════════ -->
+        <section id="gov_docs">
+          <h2>La Piramide Documentale della Governance: Politiche, Standard, Linee Guida e Procedure</h2>
+          <p>
+            Al fine di coordinare, normare e dirigere efficacemente ogni attività di sicurezza aziendale, l'organizzazione deve edificare una colonna documentale solida e gerarchica. Lo scopo della governance non è tecnico, bensì strategico e orientato all'allineamento tra obiettivi di business, requisiti legali e mitigazione del rischio complessivo.
+          </p>
+
+          <div class="critical">
+            <strong>Da dove si comincia un'ispezione?</strong><br>
+            Quando un <strong>Auditor Interno (Internal Auditor)</strong> compie l'ispezione o la verifica formale dell'efficacia del programma di gestione del rischio (Risk Management Program) di un'impresa, egli deve necessariamente **analizzare in via preliminare le Politiche e le Procedure (Policies and procedures)** della ditta. Solo dopo aver asseverato la congrua stesura di queste fondamenta formali l'auditor procederà ad ispezionare registri operativi, baselines, firewall o tabelle transazionali.
+          </div>
+
+          <dl class="termlist">
+            <dt>Politica (Policy)</dt>
+            <dd>
+              Rappresenta il documento direttivo di massimo livello. Stabilisce la visione strategica, l'intento e gli obiettivi definiti formalmente dalla direzione d'impresa. Ne sono un esempio la politica generale di sicurezza o la politica di ritenzione dati.
+            </dd>
+
+            <dt>Procedura / Procedura Operativa Standard (Procedure / Standard Operating Procedure — SOP)</dt>
+            <dd>
+              È un documento tecnico-operativo a grana finissima che descrive **passo-passo, in modo dettagliato ed esente da fraintendimenti logici**, come portare a termine un compito tecnico specifico di protezione o engineering.
+              <br><br>
+              <strong>Applicazione delle SOP sulle Baseline:</strong> Un amministratore di sistema del reparto IT ricorre puntualmente a una **Standard Operating Procedure (SOP)** per garantire la conformità ad una baseline di sicurezza (Secure baseline) preconfigurata durante la delicata esecuzione degli aggiornamenti periodici delle patch software (Patch update).
+            </dd>
+
+            <dt>Standard</dt>
+            <dd>
+              Requisiti o schemi mandatori e misurabili che impongono l'uso di piattaforme, tecnologie o cifrari hardware/software uniformi all'interno dell'ecosistema aziendale (es. "Tutti i laptop aziendali devono impiegare BitLocker con AES-256").
+            </dd>
+
+            <dt>Linee Guida (Guidelines)</dt>
+            <dd>
+              Insieme di suggerimenti flessibili e non obbligatori che indicano buone abitudini o best practices nell'adempimento di determinati contesti sensibili alle variazioni d'uso.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 2 — POLITICA D'UTILIZZO ACCETTABILE (AUP) ════ -->
+        <section id="aup_expectations">
+          <h2>Politica di Utilizzo Accettabile (AUP — Acceptable Use Policy)</h2>
+          <p>
+            L'<strong>Acceptable Use Policy (AUP)</strong> rappresenta il caposaldo contrattuale della condotta dei collaboratori. Ciascun operatore, impiegato o appaltatore è obbligato a prenderne visione e sottoscriverla materialmente nelle fasi iniziali dell'assunzione (Onboarding).
+          </p>
+
+          <div class="focused-concept">
+            <strong>Un pilastro di integrità ed etica d'impresa:</strong><br>
+            L'AUP è la risorsa fondamentale per **stabilire e comunicare le aspettative generali inerenti all'integrità e alla condotta etica corretta** all'interno dell'organizzazione.
+            <br><br>
+            Essa disciplina:
+            <ul>
+              <li>Le responsabilità nell'utilizzo generale dei computer, del software e dei dispositivi mobili aziendali.</li>
+              <li>I limiti netti alle attività consentite (es. divieto di accedere ad applicativi sconosciuti, compiere sniffing o minare criptovalute).</li>
+              <li>Le sanzioni legali-disciplinari derivanti dalla violazione delle regole: se un neo-dipendente esplora siti internet non autorizzati o nocivi per la ditta, sta violando direttamente l'<strong>AUP</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="example-box">
+            <strong>Classificazione del Controllo AUP:</strong><br>
+            Dal punto di vista dell'architettura e della tassonomia dei controlli di sicurezza, l'AUP riveste un duplice fondamentale ruolo:
+            <ol>
+              <li><strong>Controllo Gestionale (Managerial)</strong>: È codificata e sorvegliata a livello dirigenziale tramite regolamenti, audit, onboarding e procedure di revisione legale delle mansioni.</li>
+              <li><strong>Controllo Preventivo (Preventive)</strong>: Avverte, istruisce e inibisce formalmente il personale circa comportamenti proibiti *prima* che l'abuso si concretizzi, dissuadendo dall'uso improprio delle risorse tecnologiche della ditta.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 3 — ACCORDI DI RISERVATEZZA E CONFLITTI ══════ -->
+        <section id="nda_conflict">
+          <h2>Accordi di non Divulgazione (NDA) e Conflitti d'Interesse</h2>
+          <p>
+            La protezione delle informazioni proprietarie e la salvaguardia dell'integrità nelle transazioni esterne richiede rigidi strumenti giuridico-organizzativi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Accordo di non Divulgazione (NDA — Non-Disclosure Agreement)</dt>
+            <dd>
+              È il documento formale vincolante impiegato per **impedire o limitare discussioni esterne (Limit external discussions)** ed escludere l'esposizione di informazioni confidenziali e segreti commerciali ad outsidiers.
+              <br><br>
+              Inoltre, prescrive solide **restrizioni per specifiche attività degli impiegati quando lasciano o si dimettono dall'impresa (Leaving the company)**, con precise penali legali e processabilità civile-penale in caso di violazione a posteriori delle scoperte coperte da privativa aziendale.
+            </dd>
+
+            <dt>Politica sui Conflitti d'Interesse (Conflict of Interest Policy)</dt>
+            <dd>
+              Istituisce la condotta asseverata per scongiurare preferenze, corruzione, influenze sregolate o nepotismo nelle decisioni d'acquisto aziendali.
+              <br><br>
+              <em>Esempio pratico d'esame:</em> Se una ditta in procinto di avviare un cruciale lancio di prodotto provvede ad assumere ed affidare una ricca commessa a un'agenzia pubblicitaria esterna di proprietà di un **parente stretto (Close relative) del CEO**, la ditta sta apertamente violando la propria <strong>Conflict of interest policy</strong>.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 4 — SICUREZZA DEL PERSONALE (HR SECURITY) ════ -->
+        <section id="personnel_security">
+          <h2>Gestione e Politiche della Sicurezza del Personale (HR Security)</h2>
+          <p>
+            Gran parte degli incidenti informatici sorge da comportamenti errati, negligenza o dolo del personale interno (insider threat). Una robusta governance aziendale deve definire rigide politiche per normare il ciclo di vita lavorativo del dipendente (Joiner, Mover, Leaver) e mitigare i rischi d'ufficio.
+          </p>
+
+          <dl class="termlist">
+            <dt>Onboarding e Offboarding Checklist</dt>
+            <dd>
+              Definiscono l'ensemble di passaggi formali obbligatori per l'ingresso e l'uscita dei dipendenti:
+              <ul>
+                <li><strong>Onboarding (Joiner/Mover):</strong> Comprende l'esecuzione di controlli dei precedenti (background checks), l'assegnazione iniziale dei privilegi in base al principio dei minimi privilegi (least privilege), l'addestramento obbligatorio sulla sicurezza e la firma formale di AUP e NDA.</li>
+                <li><strong>Offboarding (Leaver):</strong> Costituisce una delle fasi più critiche sotto il profilo di sicurezza. Essa impone la **disattivazione immediata di tutte le credenziali e degli account d'accesso** (per prevenire accessi ostili ad ex-dipendenti), la restituzione tassativa di tutti i beni aziendali (dispositivi mobili, laptop, badge di sicurezza fisici), e lo svolgimento di un colloquio di uscita (exit interview) in cui si ribadiscono i vincoli legali permanenti dell'NDA sottoscritto.</li>
+              </ul>
+            </dd>
+
+            <dt>Ferie Obbligatorie (Mandatory Vacations) e Rotazione dei Ruoli (Job Rotation)</dt>
+            <dd>
+              Queste due politiche amministrative svolgono un ruolo difensivo e investigativo fondamentale:
+              <ul>
+                <li><strong>Rotazione dei Ruoli (Job Rotation):</strong> Consiste nel ruotare sistematicamente i dipendenti tra diverse mansioni. Oltre a ridurre lo SPOF umano e la noia professionale, impedisce che un singolo operatore detenga l'esclusivo controllo e occultamento di un processo sensibile sul lungo termine.</li>
+                <li><strong>Ferie Obbligatorie (Mandatory Vacations):</strong> Impongono al dipendente di assentarsi ininterrottamente dall'ufficio per un tempo prolungato (es. una o due settimane consecutive). Durante questo periodo, un altro operatore assume temporaneamente il controllo delle sue mansioni: questo metodo è utilissimo per **smascherare attività fraudolente, collusioni o sabotaggi continuativi** che richiederebbero la presenza fisica costante del malintenzionato per rimanere nascosti.</li>
+              </ul>
+            </dd>
+
+            <dt>Politica della Scrivania Ordinata (Clean Desk Policy)</dt>
+            <dd>
+              Prescrive che i dipendenti lascino le proprie postazioni di lavoro del tutto sgombre quando si allontanano, assicurando che tutti i documenti cartacei confidenziali, i supporti d'archiviazione rimovibili (chiavette USB, dischi esterni) ed eventuali **post-it contenenti credenziali d'accesso o password** siano riposti sotto chiave o distrutti in sminuzzatori di documenti, riducendo il rischio di spionaggio o furto da parte di visitatori estranei.
+            </dd>
+
+            <dt>Principi di Accesso: Privilegio Minimo (Least Privilege) e Separazione dei Compiti (Separation of Duties)</dt>
+            <dd>
+              <ul>
+                <li><strong>Least Privilege:</strong> Garantisce che gli utenti e gli amministratori dispongano unicamente delle autorizzazioni minime necessarie ad assolvere i compiti lavorativi assegnati.</li>
+                <li><strong>Separation of Duties (SoD):</strong> Divide un'azione critica o transazione sensibile in più passaggi da assegnare a persone distinte (es. chi inserisce un pagamento non può essere chi lo approva o lo esegue), prevenendo frodi perpetrate da un unico soggetto autorevole.</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 5 — RUOLI SUL TRATTAMENTO DEI DATI ═══════════ -->
+        <section id="data_roles">
+          <h2>Ruoli d'Identità dei Dati, Responsabilità e Governance dei Sistemi</h2>
+          <p>
+            Dividere i compiti operativi e di sicurezza previene la concentrazione di privilegi in singole figure, asseverando la separazione dei compiti (Separation of duties).
+          </p>
+
+          <div class="critical">
+            <strong>Il segreto di una governance efficace:</strong><br>
+            Il fattore cardine per stabilire un impianto di governance della sicurezza solido ed efficace consiste nell'**assegnare formalmente ruoli e precise responsabilità alle figure chiave dei dati: Proprietari (Owners), Titolari o Controllori (Controllers) e Custodi (Custodians)**. Privi di questa allocazione formalizzata, gli elementi tecnici falliscono sistematicamente per carenza di adempimenti.
+          </div>
+
+          <dl class="termlist">
+            <dt>Proprietario dei Dati (Data Owner)</dt>
+            <dd>
+              Figura apicale di business preposta a **individuare i rischi associati e a definire i livelli corretti di accesso** alla risorsa informativa. Stabilisce i criteri di riservatezza, classifica i contenuti e sanziona l'autorizzazione all'accesso logico dei dipendenti.
+            </dd>
+
+            <dt>Custode dei Dati (Data Custodian)</dt>
+            <dd>
+              Figura tecnica (es. SysAdmin, Database Administrator o addetto alla sicurezza fisica) preposta ad applicare e attuare materialmente le tutele tecnologiche, i sistemi di cifratura, i backup ed a garantire che gli **standard di conservazione dei dati (data retention standards)** definiti dall'Owner siano fedelmente realizzati a livello applicativo sul perimetro aziendale.
+            </dd>
+
+            <dt>Titolare del Trattamento (Data Controller)</dt>
+            <dd>
+              L'entità giuridica d'impresa che stabilisce in autonomia le finalità ed i severi metodi di trattamento e conservazione logica dei dati personali dei consumatori (es. conformemente ai requisiti europei del GDPR).
+            </dd>
+
+            <dt>Responsabile del Trattamento (Data Processor)</dt>
+            <dd>
+              La ditta fornitrice terza che tratta i suddetti dati materiali strettamente per conto e sotto le espresse indicazioni stabilite dal Data Controller iniziale.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 6 — SECURE SDLC E PEER REVIEW ════════════════ -->
+        <section id="dev_peer_review">
+          <h2>Ciclo di Sviluppo Sicuro e Politiche CISO dello Sviluppo Software</h2>
+          <p>
+            Quando la governance aziendale tocca la produzione di asset proprietari (software e framework), il Responsabile di Sicurezza deve erigere un impianto normativo di sviluppo volto a inibire difetti logici prima del rilascio.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Integrazione della Peer Review:</strong><br>
+            Un CISO incaricato di sviluppare le politiche di sicurezza legate alla metodologia di stesura e stoccaggio del codice applicativo interno (Software development methodology) provvederà ad integrare mandatoriamente nel registro organizzativo i requisiti di **Peer Review (Revisione Paritaria)**.
+            <br><br>
+            Nessun blocco di codice sorgente può transitare verso la produzione o l'integrazione di CI/CD senza che sia stato validato indipendentemente a livello logico da un ingegnere esperto d'egual rango. Questo approccio riduce drasticamente l'incidenza di vulnerabilità sistemetiche, bug critici e possibili backdoor sgradite.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 7 — BUSINESS CONTINUITY E SPOF UMANI ═════════ -->
+        <section id="risk_continuity">
+          <h2>Continuità Operativa, Prevenzione degli SPOF Umani e Log Review</h2>
+          <p>
+            I documenti di governance non devono tralasciare la reazione coordinata dinanzi ad imprevisti che minaccino l'operabilità stessa dell'impresa o la stabilità delle competenze interne del Security Operations Center.
+          </p>
+
+          <dl class="termlist">
+            <dt>Piano di Continuità Operativa (BCP — Business Continuity Plan)</dt>
+            <dd>
+              Rappresenta l'impianto strategico documentale che definisce espressamente **come l'organizzazione potrà mantenere attive le operazioni di business a fronte di un incidente globale o di una catastrofe sistemica**. Al contrario del DRP (Disaster Recovery Plan) focalizzato esclusivamente sul ripristino tecnico dei server IT, il BCP sorveglia ed inquadra i flussi fisici, logistici, commerciali ed organizzativi generali.
+            </dd>
+
+            <dt>Prevenzione di Cecità Operativa e SPOF Umano</dt>
+            <dd>
+              Se un analista di sicurezza progetta o codifica uno script proprietario d'automazione teso ad efficientare e velocizzare compiti ripetitivi nel SOC, è fondamentale che l'amministratore pretenda la **condivisione e comprensione logica del funzionamento dello script** con gli altri membri del team. Ciò evita la materializzazione di un pericoloso **Punto di Singolo Cedimento (Single Point of Failure - SPOF) a livello umano** se l'analista originale si ammala o rassegna bruscamente le dimissioni dall'impresa.
+            </dd>
+
+            <dt>Controlli Investigativi Coordinati (Detective Controls)</dt>
+            <dd>
+              La pianificazione organizzativa che dispone la messa in opera di un sistema operativo **SIEM integrato all'ispezione cadenzata dei log su base settimanale da parte di un analista dedicato (Weekly log review)** funge da formale <strong>Controllo Investigativo/Rilevativo (Detective control)</strong>. Non impedisce attacchi sul perimetro (non è preventivo), ma garantisce l'individuazione e l'alerting di violazioni o intrusioni silenti operanti in rete.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 8 — RITENZIONE E SANITIZZAZIONE ══════════════ -->
+        <section id="retention_sanitization">
+          <h2>Gestione dei Dati: Ritenzione, Smaltimento e Sanitizzazione Repurposing</h2>
+          <p>
+            Il volume di dati accumulato rappresenta sia un valore di business sia un immenso costo e pericolo legale se violato da attori ostili.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Triplice scopo di una corretta Retention Policy:</strong><br>
+            Al fine di asseverare solide norme di compliance senza appesantire inutilmente gli storage aziendali, si redige una rigorosa <strong>Retention Policy</strong>.
+            <br><br>
+            Essa è preposta specificamente a:
+            <ul>
+              <li>**Soddisfare le conformità legali** sull'archiviazione storica obbligatoria dei dati commerciali dei consumatori per gli esatti archi temporali regolamentati.</li>
+              <li>Consolidare il principio del **minimo record possibile (fewest records possible)** per minimizzare responsabilità legali e costi operativi di gestione storage.</li>
+              <li>Imporre la **distruzione controllata, automatica e non modificabile dei file obsoleti** giunti alla predefinita scadenza di ciclo di vita.</li>
+              <li><em>Ritenzione di Backup Distrutti:</em> Anche nel caso in cui un'impresa decida di affidarsi a licenziatari terzi accreditati per lo sminuzzamento fisico (shredding) o riciclo del proprio hardware scollegato, è obbligo normativo-legale del settore mantenere copie conformate di **backup dei dati dai sistemi distrutti** conformemente alla retention programmata.</li>
+            </ul>
+          </div>
+
+          <dl class="termlist">
+            <dt>Strumenti di Sovrascrittura (Wipe Tool)</dt>
+            <dd>
+              Rappresenta il software certificato impiegato per **sanitizzare radicalmente i dati inclusi su dischi rigidi magnetici (hard drives) permettendone l'immediato e sicuro riutilizzo aziendale (Repurposing)**.
+              <br><br>
+              A differenza dello sminuzzamento fisico (shredding), dell'incenerimento (incineration), o della smagnetizzazione ad altissima densità (degaussing) - i quali rendono l'hardware inutilizzabile e irreversibilmente distrutto -, il <strong>Wipe</strong> riscrive l'intero supporto con serie concatenate di bit random o zeri logici ad alta densità per passaggi multipli, asseverando la soppressione totale del dato pur lasciando intatto l'apparato hardware per il riscatto economico nel ciclo di fabbrica.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 9 — CONSAPEVOLEZZA E TRASFERIMENTI ═══════════ -->
+        <section id="awareness_updates">
+          <h2>Sensibilizzazione degli Utenti, Segnalazioni e Modifiche dei Processi</h2>
+          <p>
+            Il fattore umano permane il principale target della minaccia cyber. La sensibilizzazione e lo snellimento dei canali di allarme determinano la celerità di risposta del SOC.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Struttura di un Security Awareness Program:</strong><br>
+            Un efficace piano informativo deve inculcare nei collaboratori il dovere civico dell'informazione. L'elemento d'azione primario da implementare e pretendere in tali iter formativi è riscontrabile nell'insegnare **come segnalare prontamente tentativi di phishing o insolite attività perimetrali anomale (Reporting suspicious activities)**.
+            <br><br>
+            Ad esempio, a valle del completamento di un training, l'utente segnala correttamente un sospetto squillo telefonico in cui un supposto CFO intimava il rilascio immediato degli estremi di carta di credito aziendale per saldare un'insolvenza fittizia, riconoscendo all'istante il tipico schema d'attacco psicologico noto come <strong>Ingegneria Sociale (Social engineering)</strong>.
+            <br><br>
+            Qualora un dipendente continui a vagare verso indirizzi infetti e l'IT riscontri un'impennata di pagine d'allerta bloccate dal Web Filter a seguito dell'interazione con domini contraffatti (Spoofed websites), l'amministratore dovrà rimediare istantaneamente programmando **Campagne di Security Awareness Training** per sanare i divari d'educazione perimetrale logica.
+          </div>
+
+          <div class="example-box">
+            <strong>Rettifica e Aggiornamento dei Processi (Process Updates):</strong><br>
+            A fronte di perdite monetarie reali cagionate da una truffa di tipo Business Email Compromise (BEC) in cui un impiegato finanziario ha incautamente devoluto bonifici aziendali a un portafoglio truffaldino d'un aggressore a valle di e-mail alterate d'istruzioni d'instradamento bancario, l'azienda previene tali pericoli etici per il futuro provvedendo ad **apportare aggiornamenti formali e dual-control ai processi dei pagamenti bancari (Updating processes for wire transfers)**. Questo inserisce l'obbligatorietà di validazioni fuori banda (es. canali telefonici approvati o firme digitali centralizzate) eliminando l'errore umano sul tragitto.
+          </div>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 5.1</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>29 domande reali memorizzate</strong> focalizzate su AUP, NDA, ruoli (Owner, Custodian), ritenzione, BCP, sanitizzazione con Wipe ed ispezioni d'onboarding aziendali.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz "Security Governance" →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 5.1</h2>
+          <p>Metti alla prova la tua capacità di associazione logica degli elementi.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale tipo di controllo rappresenta contrattualmente l'AUP?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Un controllo **Gestionale (Managerial)** a livello organizzativo e **Preventivo (Preventive)** in termini di architettura funzionale, preposto a comunicare l'etica di condotta ed evitare incidenti sul perimetro.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è l'apporto chiave di una corretta Retention Policy?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Ridurre le moli di informazioni preservate al minimo indispensabile (fewest records possible) per soddisfare vincoli legali di conformità, imponendo poi l'autodistruzione dei dati.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è la differenza d'azione tra Data Owner e Data Custodian?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>L'<strong>Owner</strong> classifica il dato e ne determina i rischi associati e i permessi d'accesso, mentre il <strong>Custodian</strong> (gestore tecnico) attua operativamente sistemi di cifratura, controlli logici e standard di backup prescritti dal proprietario.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità di esercitazione</p>
+      <p class="quiz-setup-sub">Obiettivo 5.1 · 29 domande reali disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all"><strong>Tutte le domande</strong><span>Set completo di tutti i 29 quesiti dell'archivio d'esame</span></button>
+        <button class="quiz-mode-btn" data-mode="quick"><strong>Sessione rapida</strong><span>15 domande selezionate casualmente</span></button>
+      </div>
+    </div>
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato finale OBJ 5.1</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn" class="quiz-btn primary">Completo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPT DATI & LOGICA QUIZ ═══════════════════════════════ -->
+<script>
+(function() {
+  const Q = [
+  {
+    "id": "SCREEN_022",
+    "text": "Which of the following control types is AUP an example of?",
+    "opts": [
+      { "id": "A", "t": "Physical", "c": false },
+      { "id": "B", "t": "Managerial", "c": true },
+      { "id": "C", "t": "Operational", "c": false },
+      { "id": "D", "t": "Technical", "c": false }
+    ],
+    "expl": "La politica di utilizzo accettabile (AUP) definisce regole comportamentali redatte dalla dirigenza aziendale per normare la condotta del dipendente, configurandosi quindi come un controllo Gestionale (Managerial Control)."
+  },
+  {
+    "id": "SCREEN_029",
+    "text": "A company needs to keep the fewest records possible, meet compliance needs, and ensure destruction of records that are no longer needed. Which of the following best describes the policy that meets these requirements?",
+    "opts": [
+      { "id": "A", "t": "Standards policy", "c": false },
+      { "id": "B", "t": "Disposal policy", "c": false },
+      { "id": "C", "t": "Retention policy", "c": true },
+      { "id": "D", "t": "Non-disclosure policy", "c": false }
+    ],
+    "expl": "La politica di ritenzione (Retention Policy) impone che i dati vengano trattenuti esclusivamente per il periodo minimo necessario per motivi regolamentari ed operativi (fewest records possible), sancendo poi la loro distruzione programmata per limitare oneri e rischi legali."
+  },
+  {
+    "id": "SCREEN_098",
+    "text": "How can an organization build a culture of compliance among its employees?",
+    "opts": [
+      { "id": "A", "t": "Ensuring that system configurations implement zero trust", "c": false },
+      { "id": "B", "t": "Mandating that standard operating procedures must be stored in central locations", "c": false },
+      { "id": "C", "t": "Performing physical checks and audits during work hours", "c": false },
+      { "id": "D", "t": "Teaching employees procedures to use technology safely and effectively", "c": true }
+    ],
+    "expl": "Formare il personale, educandolo alle metodologie interne atte a fruire e padroneggiare costruttivamente le tecnologie aziendali in totale sicurezza, è l'accorgimento ottimale per radicare un'operosa cultura della conformità."
+  },
+  {
+    "id": "SCREEN_153",
+    "text": "Which of the following security control types does an acceptable use policy best represent?",
+    "opts": [
+      { "id": "A", "t": "Administrative", "c": false },
+      { "id": "B", "t": "Detective", "c": false },
+      { "id": "C", "t": "Corrective", "c": false },
+      { "id": "D", "t": "Preventive", "c": true }
+    ],
+    "expl": "Functionalmente, firmare e comprendere l'AUP avverte e inibisce i dipendenti da comportamenti illeciti sul perimetro aziendale. Per tale motivo, agisce come potente controllo Preventivo (Preventive Control)."
+  },
+  {
+    "id": "SCREEN_195",
+    "text": "A company is planning to set up a SIEM system and assign an analyst to review the logs on a weekly basis. Which of the following types of controls is the company setting up?",
+    "opts": [
+      { "id": "A", "t": "Corrective", "c": false },
+      { "id": "B", "t": "Preventive", "c": false },
+      { "id": "C", "t": "Detective", "c": true },
+      { "id": "D", "t": "Administrative", "c": false }
+    ],
+    "expl": "Strutturare centralizzazioni SIEM abbinandole all'analisi periodica manuale dei log da parte di un operatore SOC costituisce un classico controllo Investigativo/di Rilevamento (Detective Control), preposto ad identificare abusi e compromissioni già avviate sul perimetro."
+  },
+  {
+    "id": "SCREEN_202",
+    "text": "Which of the following is the most likely to be included as an element of communication in a security awareness program?",
+    "opts": [
+      { "id": "A", "t": "Reporting phishing attempts or other suspicious activities", "c": true },
+      { "id": "B", "t": "Documenting standard operating procedures for the incident handlers", "c": false },
+      { "id": "C", "t": "Drafting a non-disclosure agreement for the marketing department", "c": false },
+      { "id": "D", "t": "Providing feedback on the change management process", "c": false }
+    ],
+    "expl": "Comunicare come, quando e a chi palesare prontamente esche di phishing, messaggi ingannevoli ed interazioni losche rappresenta lo snodo primario di notifica in ogni campagna efficace di Security Awareness."
+  },
+  {
+    "id": "SCREEN_214",
+    "text": "An accounting clerk sent money to an attacker's bank account after receiving fraudulent instructions to use a new account. Which of the following would most likely prevent this activity in the future?",
+    "opts": [
+      { "id": "A", "t": "Standardizing computer base configurations", "c": false },
+      { "id": "B", "t": "Implementing continuous delivery and integration processes", "c": false },
+      { "id": "C", "t": "Implementing security information and event management", "c": false },
+      { "id": "D", "t": "Updating processes for sending wire transfers", "c": true }
+    ],
+    "expl": "I blocchi contro le truffe finanziarie (BEC) di natura psicologica richiedono di mitigare l'arbitrarietà umana, riorganizzando ed aggiornando i flussi approvativi e i processi legati all'inoltro di bonifici (wire transfers), quali la doppia firma."
+  },
+  {
+    "id": "SCREEN_231",
+    "text": "After a security awareness training session, a user called the IT help desk and reported a suspicious call. The suspicious caller stated that the Chief Financial Officer wanted credit card information in order to close an invoice. Which of the following topics did the user recognize from the training?",
+    "opts": [
+      { "id": "A", "t": "Onboarding", "c": false },
+      { "id": "B", "t": "Acceptable use policy", "c": false },
+      { "id": "C", "t": "Social engineering", "c": true },
+      { "id": "D", "t": "Non-disclosure agreement", "c": false }
+    ],
+    "expl": "Le manipolazioni tese ad estorcere credenziali, account finanziari o token fingendo l'autorità di C-Levels (es. CFO) tramite squilli telefonici fasulli ricalcano appieno le tattiche subdole dell'Ingegneria Sociale (Social Engineering)."
+  },
+  {
+    "id": "SCREEN_233",
+    "text": "An administrator assists the legal and compliance team with ensuring information about customer transactions is archived for the proper time period. Which of the following data policies is the administrator carrying out?",
+    "opts": [
+      { "id": "A", "t": "Security", "c": false },
+      { "id": "B", "t": "Retention", "c": true },
+      { "id": "C", "t": "Sharing", "c": false },
+      { "id": "D", "t": "Classification", "c": false }
+    ],
+    "expl": "Garantire l'archiviazione blindata e ordinaria delle transazioni commerciali d'utenza per precise finestre temporali stabilite dalla legge discende direttamente dall'applicazione degli standard di Ritenzione (Data Retention)."
+  },
+  {
+    "id": "SCREEN_318",
+    "text": "An IT manager is putting together a documented plan describing how the organization will keep operating in the event of a global incident. Which of the following plans is the IT manager creating?",
+    "opts": [
+      { "id": "A", "t": "Business continuity", "c": true },
+      { "id": "B", "t": "Disaster recovery", "c": false },
+      { "id": "C", "t": "Incident response", "c": false },
+      { "id": "D", "t": "Communication", "c": false }
+    ],
+    "expl": "Il Business Continuity Plan (BCP) è lo strumento programmatico atto a pianificare strategie ad alto livello per permettere ad uffici e produzioni aziendali di continuare ad erogare funzioni vitali durante gravi incidenti globali."
+  },
+  {
+    "id": "SCREEN_351",
+    "text": "A security analyst developed a script to automate a trivial and repeatable task. Which of the following best describes the benefits of ensuring other team members understand how the script works?",
+    "opts": [
+      { "id": "A", "t": "To avoid automated task errors", "c": false },
+      { "id": "B", "t": "To ensure security of the automated script", "c": false },
+      { "id": "C", "t": "To enforce continuous deployment of secure systems", "c": false },
+      { "id": "D", "t": "To prevent a single point of failure", "c": true }
+    ],
+    "expl": "La documentazione e condivisione d'uso degli script automatizzati d'officina con gli altri sbarra la nascita di pericolosi Single Point of Failure (SPOF) a sfondo umano ed operativo all'interno del reparto di sicurezza."
+  },
+  {
+    "id": "SCREEN_358",
+    "text": "An administrator at a small business notices an increase in support calls from employees who receive a blocked page message after trying to navigate to a spoofed website. Which of the following should the administrator do?",
+    "opts": [
+      { "id": "A", "t": "Update the organization's acceptable use policy.", "c": false },
+      { "id": "B", "t": "Change the email filtering settings to block high-reputation domains.", "c": false },
+      { "id": "C", "t": "Implement security awareness training.", "c": true },
+      { "id": "D", "t": "Ensure standard operating procedures are Centralized.", "c": false }
+    ],
+    "expl": "Se un elevato volume di impiegati incappa in segnali di blocco navigazione cliccando su collegamenti malevoli o ingannevoli (spoofed), l'ingaggio di un percorso formativo (Security Awareness Training) è imperativo per istruirli."
+  },
+  {
+    "id": "SCREEN_387",
+    "text": "A company needs to keep the fewest records possible, meet compliance needs, and ensure destruction of records that are no longer needed. Which of the following best describes the policy that meets these requirements?",
+    "opts": [
+      { "id": "A", "t": "Standards policy", "c": false },
+      { "id": "B", "t": "Disposal policy", "c": false },
+      { "id": "C", "t": "Retention policy", "c": true },
+      { "id": "D", "t": "Non-disclosure policy", "c": false }
+    ],
+    "expl": "Come asseverato precedentemente, l'iter di conservazione programmata orientato al minimo storico archiviato (fewest records possible) e al contempo conforme alle leggi va sotto lo statuto di Retention Policy."
+  },
+  {
+    "id": "SCREEN_409",
+    "text": "Which of the following data roles is responsible for identifying risks and appropriate access to data?",
+    "opts": [
+      { "id": "A", "t": "Owner", "c": true },
+      { "id": "B", "t": "Controller", "c": false },
+      { "id": "C", "t": "Custodian", "c": false },
+      { "id": "D", "t": "Processor", "c": false }
+    ],
+    "expl": "È responsabilità preminente ed esclusiva del Data Owner (Proprietario) analizzare e catalogare i rischi d'accesso del patrimonio informativo aziendale definendo a chi debba essere concessa l'autorizzazione d'uso."
+  },
+  {
+    "id": "SCREEN_433",
+    "text": "Which of the following agreement types is used to limit external discussions?",
+    "opts": [
+      { "id": "A", "t": "SLA", "c": false },
+      { "id": "B", "t": "NDA", "c": true },
+      { "id": "C", "t": "MOU", "c": false },
+      { "id": "D", "t": "BPA", "c": false }
+    ],
+    "expl": "Il Non-Disclosure Agreement (NDA) è lo strumento contrattuale e di governance preposto espressamente a blindare le comunicazioni riservate al di fuori del perimetro societario ed impedire la fuga di segreti commerciali."
+  },
+  {
+    "id": "SCREEN_449",
+    "text": "Which of the following should an internal auditor check for first when conducting an audit of the organization’s risk management program?",
+    "opts": [
+      { "id": "A", "t": "Policies and procedures", "c": true },
+      { "id": "B", "t": "Standards and baselines", "c": false },
+      { "id": "C", "t": "Risk assessments and matrices", "c": false },
+      { "id": "D", "t": "Firewalls and access control lists", "c": false }
+    ],
+    "expl": "Nessun auditor interno può certificare i dettagli tecnici senza prima rintracciare i pilastri generali di indirizzo: per tale ragione, un'ispezione della gestione del rischio comincia sempre analizzando le Politiche e le Procedure."
+  },
+  {
+    "id": "SCREEN_502",
+    "text": "An IT administrator needs to ensure data retention standards are implemented on an enterprise application. Which of the following describes the administrator’s role?",
+    "opts": [
+      { "id": "A", "t": "Owner", "c": false },
+      { "id": "B", "t": "Custodian", "c": true },
+      { "id": "C", "t": "Controller", "c": false },
+      { "id": "D", "t": "Processor", "c": false }
+    ],
+    "expl": "L'amministratore che traduce in pratica sistemistica le regole di data encryption, retention e backup decise dal business opera specificamente nel ruolo tecnico di Data Custodian (Custode del dato)."
+  },
+  {
+    "id": "SCREEN_527",
+    "text": "Which of the following organizational documents is most often used to establish and communicate expectations associated with integrity and ethical behavior within an organization?",
+    "opts": [
+      { "id": "A", "t": "AUP", "c": true },
+      { "id": "B", "t": "SLA", "c": false },
+      { "id": "C", "t": "MOU", "c": false },
+      { "id": "D", "t": "NDA", "c": false }
+    ],
+    "expl": "La Politica di Utilizzo Accettabile (AUP) stabilisce formalmente i limiti dell'uso morale della connettività aziendale, ergendosi a principale diffusore di etica ed integrità per gli asseverati interni."
+  },
+  {
+    "id": "SCREEN_537",
+    "text": "A legal department must maintain a backup from all devices that have been shredded and recycled by a third party. Which of the following best describes this requirement?",
+    "opts": [
+      { "id": "A", "t": "Data retention", "c": true },
+      { "id": "B", "t": "Legal hold", "c": false },
+      { "id": "C", "t": "Chain of custody", "c": false },
+      { "id": "D", "t": "Data classification", "c": false }
+    ],
+    "expl": "La pretesa legale di mantenere persistenti copie mirror e archivi backup derivati da storage magnetici distrutti (shredded) o avviati a riciclo da terzi rientra a tutti gli effetti nell'alveo normativo della Data Retention."
+  },
+  {
+    "id": "SCREEN_548",
+    "text": "Which of the following techniques can be used to sanitize the data contained on a hard drive while allowing for the hard drive to be repurposed?",
+    "opts": [
+      { "id": "A", "t": "Degaussing", "c": false },
+      { "id": "B", "t": "Incineration", "c": false },
+      { "id": "C", "t": "Shredding", "c": false },
+      { "id": "D", "t": "Wipe tool", "c": true }
+    ],
+    "expl": "Uno strumento di riscrittura integrale o sovrascrittura logica a passaggi sequenziali (Wipe tool) permette di eliminare permanentemente le informazioni da un HDD lasciando intatta e riutilizzabile la circuiteria fisica per il reimpiego aziendale (repurposing)."
+  },
+  {
+    "id": "SCREEN_571",
+    "text": "Which of the following would a security administrator use to comply with a secure baseline during a patch update?",
+    "opts": [
+      { "id": "A", "t": "Standards", "c": false },
+      { "id": "B", "t": "Policies", "c": false },
+      { "id": "C", "t": "Standard operating procedure", "c": true },
+      { "id": "D", "t": "Non-disclosure agreement", "c": false }
+    ],
+    "expl": "Conformarsi metodicamente a parametri preconfigurati (baseline) durante le installazioni delle patch di sicurezza viene garantito mediante l'esecuzione scrupolosa di una Standard Operating Procedure (SOP), che indica ogni iter esecutivo passo per passo."
+  },
+  {
+    "id": "SCREEN_585",
+    "text": "A new employee accessed an unauthorized website. An investigation found that the employee violated the company's rules. Which of the following did the employee violate?",
+    "opts": [
+      { "id": "A", "t": "SLA", "c": false },
+      { "id": "B", "t": "AUP", "c": true },
+      { "id": "C", "t": "NDA", "c": false },
+      { "id": "D", "t": "MOU", "c": false }
+    ],
+    "expl": "Accedere liberamente ad indirizzi o portali internet contrari al decoro od alle normative protettive della ditta viola direttamente l'Acceptable Use Policy (AUP) vistata ed apprivata dall'impiegato."
+  },
+  {
+    "id": "SCREEN_635",
+    "text": "Employees sign an agreement that restricts specific activities when leaving the company. Violating the agreement can result in legal consequences. Which of the following agreements does this best describe?",
+    "opts": [
+      { "id": "A", "t": "SLA", "c": false },
+      { "id": "B", "t": "BPA", "c": false },
+      { "id": "C", "t": "NDA", "c": true },
+      { "id": "D", "t": "AUP", "c": false }
+    ],
+    "expl": "Prescrivere divieti divulgativi o particolari stringenti patti di riservatezza quando si conclude il proprio cammino d'impiego societario (lasciando l'organico) è un caposaldo presidiato da accordi di tipo NDA."
+  },
+  {
+    "id": "SCREEN_650",
+    "text": "A Chief Information Security Officer (CISO) has developed information security policies that relate to the software development methodology. Which of the following would the CISO most likely include in the organization's documentation?",
+    "opts": [
+      { "id": "A", "t": "Peer review requirements", "c": true },
+      { "id": "B", "t": "Escalation path for software deployment updates", "c": false },
+      { "id": "C", "t": "Procedures for hotfix deployments", "c": false },
+      { "id": "D", "t": "Patching windows schedules for development frameworks", "c": false }
+    ],
+    "expl": "Nel plasmare le regole generali dello stoccaggio ed ingegnerizzazione logica del software d'impresa, il CISO vi immette i passaggi obbligatori di Peer Review (revisione critica incrociata del codice) per asseverarne la sicurezza."
+  },
+  {
+    "id": "SCREEN_651",
+    "text": "An organization is developing a security program that conveys the responsibilities associated with the general operation of systems and software within the organization. Which of the following documents would most likely communicate these expectations?",
+    "opts": [
+      { "id": "A", "t": "Non-disclosure agreement", "c": false },
+      { "id": "B", "t": "Memorandum of understanding", "c": false },
+      { "id": "C", "t": "Acceptable use policy", "c": true },
+      { "id": "D", "t": "Business partnership agreement", "c": false }
+    ],
+    "expl": "I canali e i limiti operativi con cui le utenze interne interagiscono quotidianamente con i software ed i circuiti di calcolo societari (general operations) trovano sede comunicativa nell'AUP."
+  },
+  {
+    "id": "SCREEN_655",
+    "text": "Which of the following documents details how to accomplish a technical security task?",
+    "opts": [
+      { "id": "A", "t": "Policy", "c": false },
+      { "id": "B", "t": "Guideline", "c": false },
+      { "id": "C", "t": "Standard", "c": false },
+      { "id": "D", "t": "Procedure", "c": true }
+    ],
+    "expl": "Il documento teso a sviscerare materialmente a livello passo-passo l'adempimento e il compimento di una determinata mansione di difesa è classificato come Procedura."
+  },
+  {
+    "id": "SCREEN_685",
+    "text": "For an upcoming product launch, a company hires a marketing agency whose owner is a close relative of the Chief Executive Officer. Which of the following did the company violate?",
+    "opts": [
+      { "id": "A", "t": "General security policy", "c": false },
+      { "id": "B", "t": "Insider threat policy", "c": false },
+      { "id": "C", "t": "Whistleblowing policy", "c": false },
+      { "id": "D", "t": "Conflict of interest policy", "c": true }
+    ],
+    "expl": "Appaltare campagne remunerative ad aziende controllate da parenti prossimi dei C-Levels (quali il coniuge o un consanguineo del CEO) contrasta direttamente con le norme di governance interna basate sulla Conflict of Interest Policy."
+  },
+  {
+    "id": "SCREEN_688",
+    "text": "Which of the following is the most important element when defining effective security governance?",
+    "opts": [
+      { "id": "A", "t": "Deploying next-generation security systems to mitigate risk", "c": false },
+      { "id": "B", "t": "Performing physical security audits on an annual basis", "c": false },
+      { "id": "C", "t": "Assigning roles and responsibilities for owners, controllers, and custodians", "c": true },
+      { "id": "D", "t": "Developing standard operating procedures for the technical team", "c": false }
+    ],
+    "expl": "Anche ponendo in atto i migliori firewall o audit fisici, l'impianto organizzativo della sicurezza collassa se non vengono preventivamente scolpiti ed attribuiti i compiti, i ruoli e le connesse risultanze a carichi d' Owners, Controllers e Custodians."
+  },
+  {
+    "id": "SCREEN_721",
+    "text": "A company wants to prevent proprietary and confidential company information from being shared to outsiders.",
+    "opts": [
+      { "id": "A", "t": "AUP", "c": false },
+      { "id": "B", "t": "SLA", "c": false },
+      { "id": "C", "t": "MOU", "c": false },
+      { "id": "D", "t": "NDA", "c": true }
+    ],
+    "expl": "Il Non-Disclosure Agreement (NDA, accordo di non divulgazione) è l'attestato formale legale apposto a prevenzione della fuoriuscita di nozioni di privativa industriale o di dati sensibili di sviluppo a figure esterne slegate dall'impresa."
+  }
+];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 5.1';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    const pool = shuffle(Q).slice(0, mode === 'quick' ? 15 : Q.length);
+    quiz = { pool, idx: 0, score: 0, locked: false };
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display  = 'none';
+    render();
+  }
+
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
+function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

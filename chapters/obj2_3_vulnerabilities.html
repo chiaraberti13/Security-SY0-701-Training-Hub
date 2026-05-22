@@ -82,7 +82,7 @@
     mancata validazione dell'input, gestione scorretta della memoria. Sono le più diffuse
     e le più sfruttate dagli attaccanti perché il software è ovunque e il codice sicuro
     è difficile da scrivere. OWASP (Open Web Application Security Project) è la risorsa
-    di riferimento per le tecniche di exploitation applicativo più comuni (SCREEN_419).
+    di riferimento per le tecniche di exploitation applicativo più comuni.
   </p>
 
   <h3 id="mem-injection">Memory injection (Iniezione di memoria)</h3>
@@ -92,8 +92,7 @@
     già in esecuzione. Il codice malevolo viene eseguito nel contesto del processo legittimo,
     il che permette di bypassare i controlli di sicurezza del sistema operativo che si
     basano sull'identità del processo. Poiché il malware non esiste come file su disco
-    ma solo in memoria, può eludere molti antivirus tradizionali basati su firma di file
-    (SCREEN_510).
+    ma solo in memoria, può eludere molti antivirus tradizionali basati su firma di file.
   </p>
   <dl class="termlist">
     <dt>Process injection</dt>
@@ -105,7 +104,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio pratico — Memory injection su RTOS (SCREEN_538)</strong><br>
+    <strong>Esempio pratico — Memory injection su RTOS</strong><br>
     Un Real-Time Operating System (RTOS) è un sistema operativo utilizzato in dispositivi
     embedded (PLC industriali, dispositivi medici, sistemi di controllo). Un attaccante
     che vuole compromettere un RTOS non può installare malware tradizionale — non c'è
@@ -122,7 +121,7 @@
     (<em>bounds checking</em>), un attaccante può deliberatamente fornire un input
     troppo grande per sovrascrivere: l'indirizzo di ritorno di una funzione
     (puntando a codice malevolo), variabili critiche del programma, o registri del
-    processore con indirizzi malevoli (SCREEN_270).
+    processore con indirizzi malevoli.
   </p>
   <p>
     È una delle vulnerabilità più antiche e ancora diffuse, specialmente in codice C/C++
@@ -133,11 +132,10 @@
   <div class="pitfall">
     <strong>ATTENZIONE — Buffer overflow vs Memory injection</strong><br>
     <strong>Buffer overflow:</strong> il programma riceve dati di dimensione inaspettata
-    che sovrascrivono memoria adiacente → l'attacco sfrutta l'assenza di bounds checking
-    (SCREEN_005, SCREEN_270).<br>
+    che sovrascrivono memoria adiacente → l'attacco sfrutta l'assenza di bounds checking.<br>
     <strong>Memory injection:</strong> codice malevolo viene copiato nello spazio di
     memoria allocato di un processo già in esecuzione → il processo esiste già,
-    l'attaccante vi "inietta" il codice dall'esterno (SCREEN_608).<br>
+    l'attaccante vi "inietta" il codice dall'esterno.<br>
     Il buffer overflow può essere il <em>vettore</em> attraverso cui si realizza
     una memory injection.
   </div>
@@ -159,7 +157,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio pratico — Race condition in un database (SCREEN_531)</strong><br>
+    <strong>Esempio pratico — Race condition in un database</strong><br>
     Durante un aggiornamento SQL del database, viene creato un campo temporaneo per la
     transazione. Un attaccante sfrutta la finestra temporale tra la creazione del campo
     (TOC) e il suo utilizzo (TOU) per sostituire il valore del campo con uno malevolo
@@ -174,8 +172,7 @@
     software apparentemente legittimo che contiene o introduce codice malevolo. Può
     avvenire a diversi livelli: un attaccante che compromette l'infrastruttura di update
     di un vendor (supply chain attack), un aggiornamento distribuito da un vendor
-    compromesso, o un aggiornamento falso che imita quello del vendor reale
-    (SCREEN_531). È distinto dal supply chain attack nel senso che riguarda
+    compromesso, o un aggiornamento falso che imita quello del vendor reale. È distinto dal supply chain attack nel senso che riguarda
     specificamente il meccanismo di aggiornamento, non l'intera catena di fornitura.
   </p>
 </section>
@@ -210,13 +207,12 @@
 
   <div class="exam-tip">
     <strong>EXAM TIP — SQLi: le parole chiave dello scenario</strong><br>
-    "Input field to run commands that view or manipulate data" → <strong>SQL injection</strong>
-    (SCREEN_159). "Unexpected characters to gain unauthorized access to underlying systems"
-    → <strong>SQL injection</strong> (SCREEN_549). "Database misconfigurations" +
-    exploitation → <strong>SQL injection</strong> (SCREEN_221).
+    "Input field to run commands that view or manipulate data" → <strong>SQL injection</strong>. "Unexpected characters to gain unauthorized access to underlying systems"
+    → <strong>SQL injection</strong>. "Database misconfigurations" +
+    exploitation → <strong>SQL injection</strong>.
     L'applicazione web che permette l'upload di immagini con un processo che genera
     traffico outbound verso IP a bassa reputazione → web shell deploiata via vulnerabilità
-    di upload, non direttamente SQLi (SCREEN_429).
+    di upload, non direttamente SQLi.
   </div>
 
   <h3 id="xss">Cross-site scripting (XSS)</h3>
@@ -244,9 +240,9 @@
     le query SQL per leggere/modificare i dati nel DB.<br>
     <strong>XSS</strong>: bersaglio = browser del client → l'attaccante inietta
     script che vengono eseguiti nel browser degli utenti.<br>
-    Nello scenario SCREEN_496 vedi <code>&lt;script&gt;function(send_info)&lt;/script&gt;</code>
+    Nello scenario  vedi <code>&lt;script&gt;function(send_info)&lt;/script&gt;</code>
     nei log → è <strong>XSS</strong>, non SQLi: è JavaScript iniettato, non comandi SQL.
-    Mitigazione XSS: <strong>input validation</strong> (SCREEN_167).
+    Mitigazione XSS: <strong>input validation</strong>.
   </div>
 
   <h3 id="dir-traversal">Directory traversal (Path traversal)</h3>
@@ -258,7 +254,7 @@
     parametri di input, l'attaccante può leggere file sensibili del sistema operativo.
   </p>
   <p>
-    Il pattern classico in SCREEN_545 è: <code>GET ../../../../etc/passwd</code> —
+    Il pattern classico è: <code>GET ../../../../etc/passwd</code> —
     quattro livelli su dalla web root per raggiungere <code>/etc/passwd</code>,
     il file delle password di sistema Unix/Linux. Ogni <code>../</code> sale di un
     livello nella gerarchia del filesystem.
@@ -305,11 +301,11 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Firmware = Hardware-specific vulnerability</strong><br>
     "Which of the following is a hardware-specific vulnerability?" → <strong>Firmware
-    version</strong> (SCREEN_174). Buffer overflow, SQL injection e XSS sono
+    version</strong>. Buffer overflow, SQL injection e XSS sono
     vulnerabilità software/applicative, non hardware-specific. Il firmware è
     strettamente legato all'hardware su cui gira.
     "Vendor sends security bulletin recommending a BIOS update" → vulnerabilità di tipo
-    <strong>Firmware</strong> (SCREEN_223).
+    <strong>Firmware</strong>.
   </div>
 
   <h3 id="eol-legacy">End-of-life (EOL) / Legacy</h3>
@@ -318,8 +314,7 @@
     quando il vendor non rilascia più patch di sicurezza, aggiornamenti o supporto tecnico.
     Il rischio critico non è la mancanza di nuove funzionalità, ma la <strong>mancanza
     di aggiornamenti di sicurezza</strong>: le vulnerabilità scoperte dopo la data EOL
-    non vengono mai corrette, lasciando il sistema permanentemente esposto
-    (SCREEN_395, SCREEN_413).
+    non vengono mai corrette, lasciando il sistema permanentemente esposto.
   </p>
   <p>
     I sistemi <strong>legacy</strong> sono sistemi obsoleti ancora in uso perché il
@@ -332,8 +327,7 @@
   <div class="pitfall">
     <strong>ATTENZIONE — EOL: il rischio principale non è tecnico</strong><br>
     Quando un'applicazione raggiunge EOL, il rischio critico è la
-    <strong>mancanza di aggiornamenti di sicurezza (lack of security updates)</strong>
-    (SCREEN_413) — non la mancanza di nuove funzionalità, non la mancanza di supporto
+    <strong>mancanza di aggiornamenti di sicurezza (lack of security updates)</strong> — non la mancanza di nuove funzionalità, non la mancanza di supporto
     tecnico (quella è una conseguenza), e non la mancanza di accesso al codice sorgente.
     Il vendor smette di patchare: qualsiasi vulnerabilità scoperta d'ora in poi rimane
     aperta per sempre.
@@ -352,7 +346,7 @@
     macchina virtuale (guest) riesce a "uscire" dal suo ambiente isolato e ad accedere
     all'<strong>hypervisor</strong> — il software che gestisce tutte le VM sul
     host fisico. Una volta sull'hypervisor, l'attaccante può accedere e compromettere
-    tutte le altre VM sullo stesso host fisico (SCREEN_574).
+    tutte le altre VM sullo stesso host fisico.
   </p>
   <p>
     Il VM escape è raro ma catastrofico: sfrutta vulnerabilità nell'hypervisor stesso
@@ -393,16 +387,16 @@
     <dt>Hardware provider (Fornitore hardware)</dt>
     <dd>Componenti hardware (chip, schede di rete, router) vengono compromessi durante la produzione o la distribuzione. Il malware è nel firmware o nell'hardware stesso, invisibile al software di sicurezza tradizionale.</dd>
     <dt>Service provider (Fornitore di servizi)</dt>
-    <dd>Un Managed Service Provider (MSP) o un SaaS provider che gestisce sistemi per molti clienti diventa un bersaglio ad alto valore: compromettere l'MSP significa accedere a tutti i suoi clienti simultaneamente (SCREEN_219).</dd>
+    <dd>Un Managed Service Provider (MSP) o un SaaS provider che gestisce sistemi per molti clienti diventa un bersaglio ad alto valore: compromettere l'MSP significa accedere a tutti i suoi clienti simultaneamente.</dd>
     <dt>SBOM (Software Bill of Materials)</dt>
-    <dd>Un inventario completo di tutti i componenti, librerie e dipendenze incluse in un prodotto software. Permette di identificare rapidamente quali dipendenze sono vulnerabili e quali prodotti ne sono affetti (SCREEN_093).</dd>
+    <dd>Un inventario completo di tutti i componenti, librerie e dipendenze incluse in un prodotto software. Permette di identificare rapidamente quali dipendenze sono vulnerabili e quali prodotti ne sono affetti.</dd>
   </dl>
 
   <div class="exam-tip">
     <strong>EXAM TIP — Supply chain: lo scenario "malicious update" distribuito</strong><br>
     "Un malicious update è stato distribuito a una piattaforma software comune,
     disabilitando servizi in molte organizzazioni" → <strong>Supply chain</strong>
-    vulnerability (SCREEN_428). Non è un DDoS (non è un attacco di rete), non è
+    vulnerability. Non è un DDoS (non è un attacco di rete), non è
     un insider threat (è un aggiornamento distribuito), non è un rogue employee.
     È un supply chain attack perché il vettore è il sistema di distribuzione del software.
   </div>
@@ -414,7 +408,7 @@
     <strong>credential leakage nei code repository</strong>: gli sviluppatori
     commettono accidentalmente credenziali cloud (API key, access token, password di
     database) in repository Git pubblici o privati. Chiunque acceda al repository
-    può usare quelle credenziali per accedere alle risorse cloud (SCREEN_388).
+    può usare quelle credenziali per accedere alle risorse cloud.
   </p>
   <dl class="termlist">
     <dt>Misconfigured storage buckets</dt>
@@ -441,11 +435,11 @@
   </p>
   <dl class="termlist">
     <dt>Algoritmi deprecati</dt>
-    <dd>MD5 e SHA-1 per l'hashing: vulnerabili a collision attack. RC4 per la cifratura simmetrica: vulnerabile a attacchi statistici. DES con chiave a 56 bit: forzabile con brute-force moderno in ore. L'uso di questi algoritmi introduce vulnerabilità crittografiche (SCREEN_720).</dd>
+    <dd>MD5 e SHA-1 per l'hashing: vulnerabili a collision attack. RC4 per la cifratura simmetrica: vulnerabile a attacchi statistici. DES con chiave a 56 bit: forzabile con brute-force moderno in ore. L'uso di questi algoritmi introduce vulnerabilità crittografiche.</dd>
     <dt>Chiavi deboli o corte</dt>
     <dd>RSA a 512 o 1024 bit è considerato insicuro. Chiavi simmetriche a 56 o 64 bit sono forzabili. La lunghezza della chiave è direttamente correlata alla sicurezza: chiavi più corte = vulnerabilità crittografiche.</dd>
     <dt>Password cracking via weak crypto</dt>
-    <dd>Se le password sono hashate con algoritmi deboli (MD5, SHA-1 non salted), un attaccante con le hash può usare rainbow table o GPU per trovare le password originali rapidamente (SCREEN_475).</dd>
+    <dd>Se le password sono hashate con algoritmi deboli (MD5, SHA-1 non salted), un attaccante con le hash può usare rainbow table o GPU per trovare le password originali rapidamente.</dd>
   </dl>
 
   <h3 id="misconfig">Misconfiguration (Errata configurazione)</h3>
@@ -466,7 +460,7 @@
   </dl>
 
   <div class="example-box">
-    <strong>Esempio pratico — Environmental variables come misconfiguration (SCREEN_665)</strong><br>
+    <strong>Esempio pratico — Environmental variables come misconfiguration</strong><br>
     Le variabili d'ambiente (environment variables) sono configurazioni che modificano
     il comportamento di applicazioni e sistemi. Possono contenere: stringhe di connessione
     al database, API key, flag di debug, configurazioni di sicurezza. Se una variabile
@@ -490,8 +484,7 @@
     produttore (App Store per iOS, Google Play per Android). L'app store ufficiale
     esegue controlli di sicurezza sulle app (revisione del codice, scansione malware,
     verifica della firma). Le app installate via side loading bypassano questi controlli,
-    aumentando significativamente il rischio di installare malware o app non attendibili
-    (SCREEN_618, SCREEN_142).
+    aumentando significativamente il rischio di installare malware o app non attendibili.
   </p>
 
   <h3 id="jailbreaking">Jailbreaking / Rooting</h3>
@@ -505,7 +498,7 @@
     <dt>Bypass dei controlli di sicurezza</dt>
     <dd>Il jailbreaking rimuove o disabilita il sandboxing, il secure boot, e altri controlli di sicurezza del sistema operativo. Le app malevole possono accedere a risorse di sistema normalmente inaccessibili.</dd>
     <dt>Rischio BYOD (Bring Your Own Device)</dt>
-    <dd>In un programma BYOD, se un dipendente usa un dispositivo jailbroken per accedere alle risorse aziendali, tutti i dati aziendali sul dispositivo sono potenzialmente esposti (SCREEN_200). La policy BYOD deve proibire esplicitamente il jailbreaking (SCREEN_238).</dd>
+    <dd>In un programma BYOD, se un dipendente usa un dispositivo jailbroken per accedere alle risorse aziendali, tutti i dati aziendali sul dispositivo sono potenzialmente esposti. La policy BYOD deve proibire esplicitamente il jailbreaking.</dd>
     <dt>MDM bypass</dt>
     <dd>I dispositivi jailbroken spesso bypassano le soluzioni di Mobile Device Management (MDM), rendendo impossibile per l'IT aziendale applicare policy di sicurezza e gestire il dispositivo.</dd>
   </dl>
@@ -515,10 +508,10 @@
     <strong>Side loading:</strong> installazione di app da fonti non ufficiali, senza
     modificare il sistema operativo. Il device rimane "normale", ma l'app non è stata
     controllata. → "unauthorized installation through means other than the official
-    app store" (SCREEN_618).<br>
+    app store".<br>
     <strong>Jailbreaking:</strong> modifica del sistema operativo per rimuovere le
     restrizioni del produttore, ottenendo accesso root. → "modifying the operating
-    system on mobile devices" (SCREEN_238).
+    system on mobile devices".
   </div>
 </section>
 
@@ -539,7 +532,7 @@
     libreria usata da decine di migliaia di applicazioni (come Log4j nel 2021) può
     avere una zero-day che espone simultaneamente tutte le applicazioni che la
     includono — e le organizzazioni che dipendono da librerie open source non
-    controllano il codice di quelle librerie (SCREEN_645).
+    controllano il codice di quelle librerie.
   </p>
   <p>
     I nation-state actor e il crimine organizzato più sofisticato investono significativamente
@@ -552,7 +545,7 @@
   <div class="exam-tip">
     <strong>EXAM TIP — Zero-day in sistemi con dipendenze open source</strong><br>
     "Un'azienda usa librerie open-source. Quale tipo di vulnerabilità sarebbe più
-    difficile da rimediare?" → <strong>Zero-day</strong> (SCREEN_645). Le librerie
+    difficile da rimediare?" → <strong>Zero-day</strong>. Le librerie
     open source non sono sotto il controllo dell'organizzazione: non possono patchare
     da sole, devono aspettare il maintainer della libreria. Per buffer overflow, SQLi
     e XSS nel codice proprio, l'organizzazione può agire direttamente.
@@ -739,8 +732,94 @@ contentEl.style.display='none';resultEl.style.display='none';
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
 function openQuiz(){setupEl.style.display='block';contentEl.style.display='none';resultEl.style.display='none';counterEl.textContent='OBJ 2.3';progressEl.style.width='0%';overlay.classList.add('active');document.body.style.overflow='hidden';}
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
-function render(){var q=quiz.pool[quiz.idx],n=quiz.pool.length;counterEl.textContent='Domanda '+(quiz.idx+1)+' / '+n;progressEl.style.width=((quiz.idx/n)*100)+'%';questionEl.textContent=q.text;explanEl.style.display='none';nextBtn.disabled=true;nextBtn.textContent=quiz.idx<n-1?'Avanti →':'Vedi risultato';quiz.locked=false;optionsEl.innerHTML='';shuffle(q.opts).forEach(function(o){var btn=document.createElement('button');btn.className='quiz-option';btn.dataset.oid=o.id;btn.innerHTML='<span class="quiz-opt-letter">'+o.id+'</span><span>'+o.t+'</span>';btn.addEventListener('click',function(){pick(o.id,q);});optionsEl.appendChild(btn);});}
-function pick(oid,q){if(quiz.locked)return;quiz.locked=true;var chosen=q.opts.filter(function(o){return o.id===oid;})[0];if(chosen&&chosen.c)quiz.score++;optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){var o=q.opts.filter(function(x){return x.id===btn.dataset.oid;})[0]||{};btn.disabled=true;if(o.c)btn.classList.add('correct');else if(btn.dataset.oid===oid)btn.classList.add('wrong');});if(q.expl){explanEl.textContent=q.expl;explanEl.style.display='block';}nextBtn.disabled=false;}
+  function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
 function showResult(){var n=quiz.pool.length,pct=Math.round((quiz.score/n)*100);contentEl.style.display='none';resultEl.style.display='block';counterEl.textContent='Risultato finale';progressEl.style.width='100%';document.getElementById('result-score').textContent=quiz.score+' / '+n;var pEl=document.getElementById('result-pct');pEl.textContent=pct+'%';pEl.className='quiz-result-pct '+(pct>=80?'pass':pct>=60?'warn':'fail');}
 function closeQuiz(){overlay.classList.remove('active');document.body.style.overflow='';quiz=null;}
 document.getElementById('quiz-open-btn').addEventListener('click',openQuiz);
@@ -748,7 +827,15 @@ document.getElementById('quiz-close-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-done-btn').addEventListener('click',closeQuiz);
 document.getElementById('quiz-retry-btn').addEventListener('click',openQuiz);
 document.querySelectorAll('.quiz-mode-btn').forEach(function(b){b.addEventListener('click',function(){startQuiz(b.dataset.mode);});});
-nextBtn.addEventListener('click',function(){quiz.idx++;if(quiz.idx<quiz.pool.length)render();else showResult();});
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
 overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();

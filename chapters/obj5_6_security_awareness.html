@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 5.6 — Pratiche di Consapevolezza della Sicurezza · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 5 — Governance, Program Management and Oversight</span>
+      <span>OBJ 5.6 — Security Awareness Practices</span>
+    </div>
+
+    <header>
+      <h1>OBJ 5.6 — Implementazione delle Pratiche di Consapevolezza della Sicurezza (Security Awareness)</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 5 — Governance, Program Management and Oversight · Peso esame: 20%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Given a scenario, implement security awareness practices.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">5.6</span>
+        <span class="weight-badge">D5 = 20%</span>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Phishing & Smishing</div>
+        <a href="#phishing_campaigns">Campagne e Riconoscimento</a>
+        <a href="#smishing_section">Smishing e Truffe CEO</a>
+
+        <div class="toc-section">Anomalous Behavior</div>
+        <a href="#anomalous_behavior">Comportamenti Anomali</a>
+        <a href="#vendor_compromise">Compromissione dei Fornitori</a>
+
+        <div class="toc-section">User Guidance & Policies</div>
+        <a href="#user_guidance">Manuali, Policy e Password</a>
+        <a href="#situational_awareness">Consapevolezza Situazionale</a>
+        <a href="#insider_threats">Minaccia Interna e DLP</a>
+
+        <div class="toc-section">Training Curriculum</div>
+        <a href="#curriculum_planning">Pianificazione del Programma</a>
+        <a href="#data_subject">Soggetti Interessati (Data Subject)</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (15 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — PHISHING & SMISHING ═══════════════════════ -->
+        <section id="phishing_campaigns">
+          <h2>Campagne e Riconoscimento del Phishing (Phishing Awareness)</h2>
+          <p>
+            Il fattore umano rappresenta storicamente l'anello debole della catena difensiva di qualsiasi organizzazione. Per questo motivo, le <strong>Pratiche di Consapevolezza della Sicurezza (Security Awareness Practices)</strong> mirano a plasmare la cultura della sicurezza aziendale affinché ogni utente funga da vero e proprio "firewall umano".
+          </p>
+
+          <dl class="termlist">
+            <dt>Campagna di Phishing Simulato (Phishing Campaign)</dt>
+            <dd>
+              Una simulazione controllata coordinata dal team di sicurezza in cui vengono inviate email fittizie con esche tipiche del phishing reale per testare sul campo la prontezza dei dipendenti. <br>
+              <strong>Esempio operativo:</strong> Se un analista posiziona poster informativi nell'edificio e assegna corsi di formazione teorici online, il passo logico successivo per verificare l'effettivo assorbimento pratico è il lancio di una <strong>Campagna di Phishing Simulato (Phishing Campaign)</strong>.
+            </dd>
+
+            <dt>Riconoscimento del Phishing (Recognizing Phishing)</dt>
+            <dd>
+              La capacità di rilevare indicatori di frode (es. mittente sospetto, link anomalo, urgenza ingiustificata). Consideriamo due scenari concreti:
+              <ul>
+                <li>Se un dipendente cade vittima di ingegneria sociale inviando un link dannoso ad un amministratore di sistema e convincendolo a resettare la password del server di posta, l'applicazione dei principi di <strong>Riconoscimento del Phishing (Recognizing phishing)</strong> avrebbe interrotto l'attacco identificando la natura malevola del link d'accesso.</li>
+                <li>Se un test interno rivela che l'<strong>80% dei dipendenti svela inconsapevolmente le proprie credenziali SSO</strong> inserendole in un finto portale esterno di "verifica password" creato ad hoc dal reparto IT, l'unica soluzione strategica di lungo termine consiste nell'introdurre una campagna di formazione focalizzata sul <strong>Riconoscimento dei tentativi di phishing (Recognize phishing attempts)</strong> per far comprendere che i portali legittimi non richiedono credenziali Single Sign-On in ambienti non verificati.</li>
+              </ul>
+            </dd>
+
+            <dt>Gestione dei Falsi Positivi (Phishing False Positives)</dt>
+            <dd>
+              Un aumento vertiginoso della sensibilità della sicurezza può spingere gli utenti a segnalare via ticket all'Help Desk mail del tutto lecite identificandole erroneamente come malevole. Per <strong>ridurre la mole di falsi positivi (false-positive phishing reports)</strong> inviati al supporto tecnico, l'azienda non deve limitarsi a fare più campagne di simulazione generiche, ma deve <strong>migliorare capillarmente il contenuto e gli indicatori trattati nel corso di formazione (Improving security awareness training)</strong> affinché gli utenti apprendano la differenza formale tra spam o mail di routine ed effettive e-mail di phishing con intestazioni contraffatte.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ── SMISHING & TRUFFE CEO ────────────────────────────────── -->
+        <section id="smishing_section">
+          <h2>Smishing e Truffa del CEO (CEO Fraud)</h2>
+          <p>
+            Gli attacchi basati su canali di messaggistica telefonica aggirano i server di posta e i filtri di spam tradizionali dell'azienda, rendendo il destinatario l'unico baluardo difensivo.
+          </p>
+
+          <div class="critical">
+            <strong>LA TRUFFA DELLE CARTE REGALO (GIFT CARD CEO SCAM)</strong><br>
+            Uno degli scenari più ricorrenti d'esame riguarda le tentativi di <strong>Truffa del CEO basato sul canale SMS (Smishing)</strong>.<br>
+            Diversi dipendenti ricevono messaggi di testo sul proprio dispositivo in cui l'attaccante impersona l'Amministratore Delegato asserendo di trovarsi in aeroporto senza accesso alla posta, chiedendo l'acquisto d'urgenza di <em>Gift Card per premiazioni aziendali</em> e l'invio via email dei relativi codici seriali.<br><br>
+            A fronte di questo attacco, le <strong>due risposte migliori (Choose two)</strong> in assoluto per consolidare la postura sono:
+            <ol>
+              <li><strong>Inviare tempestivamente una notifica di avviso via email (Issue a general email warning to the company)</strong> per bloccare eventuali vittime correnti in tempo reale.</li>
+              <li><strong>Introdurre un esercizio mirato di simulazione Smishing (Add a smishing exercise to annual company training)</strong> nel piano di addestramento annuale ricorrente, fornendo agli utenti le chiavi per disinnescare esche telefoniche e messaggi fraudolenti fuori banda.</li>
+            </ol>
+          </div>
+
+          <p>La CompTIA richiede inoltre il ferreo riconoscimento di altre storiche metodologie di Ingegneria Sociale legali alle comunicazioni aziendali ed alla sicurezza fisica degli uffici:</p>
+
+          <dl class="termlist">
+            <dt>Vishing (Voice Phishing / Phishing Vocale)</dt>
+            <dd>
+              Rappresenta il phishing condotto tramite canali ed interazioni vocali telefoniche. L'attore ostile chiama un dipendente d'impresa simulando d'essere un addetto dell'Help Desk tecnico o un funzionario di banca per estorcere password d'SST, codici di multifattore (MFA) o autorizzare bonifici d'urgenza. Spesso le campagne moderne di <b>Vishing</b> si arricchiscono di software per l'alterazione di voce o audio deepfake basati su campionamento intelligente per simulare timbriche dei dirigenti apicali d'affari.
+            </dd>
+
+            <dt>Tailgating e Piggybacking (Accodamento Fisico)</dt>
+            <dd>
+              Minaccia d'ingegneria sociale sul perimetro fisico degli uffici. Si concretizza quando un soggetto privo di badge o autorizzazione segue da vicino e varca le barriere fisiche d'ingresso (tornelli, porte tagliafuoco, varchi con badge) immediatamente alle spalle di un dipendente regolarmente autorizzato prima che il battente si richiuda del tutto. L'addestramento aziendale deve sensibilizzare gli utenti a pretendere il "badge click" ad ogni singolo varco per inibire intrusioni latenti d'ufficio.
+            </dd>
+
+            <dt>Shoulder Surfing (Spionaggio Visivo)</dt>
+            <dd>
+              Consiste nel guardare di nascosto o lateralmente lo schermo, la tastiera o i tastierini d'ingresso di un dipendente legittimo mentre digita credenziali, PIN, o legge dati sensibili riservati. Si mitiga educando all'uso di pellicole oscuranti per la privacy sui display dei laptop o schermando con la mano libera la digitazione di segreti fisici.
+            </dd>
+
+            <dt>Spam e Spim</dt>
+            <dd>
+              <ul>
+                <li><strong>Spam:</strong> L'invio massivo e indiscriminato di e-mail non richieste ad utenti privati per scopi commerciali invasivi o per veicolare collegamenti ipertestuali nocivi.</li>
+                <li><strong>Spim:</strong> La versione di spam trasmessa attraverso servizi di messaggistica istantanea (es. chat aziendali d'ufficio, Skype, WhatsApp).</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 2 — ANOMALOUS BEHAVIOR ════════════════════════ -->
+        <section id="anomalous_behavior">
+          <h2>Riconoscimento dei Comportamenti Anomali</h2>
+          <p>
+            Al personale aziendale deve essere trasmessa la competenza per identificare riscontri insoliti non solo nella posta, ma anche nelle normali abitudini d'interazione con tecnologie e colleghi.
+          </p>
+
+          <dl class="termlist">
+            <dt>Comportamenti Rischiosi (Risky Behavior)</dt>
+            <dd>
+              L'adozione di scorciatoie da parte dell'organico che violano deliberatamente le policy aziendali (es: disattivare l'antivirus per compilare codice più velocemente, utilizzare dispositivi di archiviazione USB non autorizzati per spostare bozze).
+            </dd>
+
+            <dt>Comportamenti Inaspettati (Unexpected Behavior)</dt>
+            <dd>
+              Anomalie di sistema o procedurali che si palesano improvvisamente. Ad esempio, richieste insolite di modifica coordinate bancarie da parte di partner storici o mail formali scritte in toni atipici o lingue differenti.
+            </dd>
+
+            <dt>Azioni Non Intenzionali (Unintentional Malware Actions)</dt>
+            <dd>
+              Moltissimi attacchi si concretizzano senza alcuna intenzione malevola del dipendente. L'introduzione e il caricamento accidentale di malware in azienda tramite clic su link infetti embedded in email richiede di addestrare i dipendenti non solo su formati di file ma sul concetto complessivo di <strong>Ingegneria Sociale (Social engineering training)</strong>, rendendoli guardinghi contro i sotterfugi usati dagli hacker per carpirne le azioni.
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ── VENDOR COMPROMISE ────────────────────────────────────── -->
+        <section id="vendor_compromise">
+          <h2>Compromissione dei Fornitori (Vendor Compromise)</h2>
+          <p>
+            Gli attacchi alla catena di fornitura (Supply Chain) possono sfruttare account e-mail legittimi e compromessi appartenenti a fornitori, partner o provider esterni per ingannare i dipendenti interni.
+          </p>
+
+          <div class="exam-tip">
+            <strong>ALLERTA RICHIESTE INASPETTATE</strong><br>
+            Qualora un fornitore di fiducia subisca una compromissione delle credenziali della propria casella e-mail (Vendor Account Compromise), l'attaccante utilizzerà quell'account reale per veicolare fatture modificate o richiedere bonifici bancari verso propri conti d'esibizione. <br>
+            Per mitigare questa sofisticata minaccia, l'addestramento aziendale di sicurezza <strong>deve insegnare agli operatori ad essere estremamente vigili rispetto a richieste inattese o anomale originate da indirizzi email formali noti e familiari (Be alert to unexpected requests from familiar email addresses)</strong>, implementando rigorosi controlli fuori banda (es. telefonata di controllo diretta) prima di movimentare fondi finanziari.
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 3 — USER GUIDANCE & POLICIES ══════════════════ -->
+        <section id="user_guidance">
+          <h2>Manuali, Politiche e Gestione delle Password</h2>
+          <p>
+            L'approccio logico e sistematico per incrementare la sicurezza e la consapevolezza comincia sempre dai fondamenti formali dell'azienda.
+          </p>
+
+          <dl class="termlist">
+            <dt>Politiche e Manuali dei Dipendenti (Policy/Handbooks)</dt>
+            <dd>
+              Prima di poter lanciare campagne di phishing aggressive o distribuire software di tracciamento dei comportamenti rischiosi ad personam, l'azione in assoluto primaria che un Security Manager deve intraprendere all'inizio del suo mandato per sventare incidenti di violazione credenziali è <strong>aggiornare capillarmente le politiche aziendali di sicurezza ed i manuali dei dipendenti (Update policies and handbooks to ensure all employees are informed of the new procedures)</strong>. Solo formalizzando e notificando i doveri e i protocolli ufficiali delle nuove procedure, l'azienda definisce una chiara base legale ed operativa su cui strutturare la compliance dell'organico.
+            </dd>
+
+            <dt>Gestione delle Password (Password Management)</dt>
+            <dd>
+              Fornire istruzioni sul corretto utilizzo di password complesse, sul divieto assoluto di riutilizzo delle credenziali di lavoro su siti non aziendali, e guidare gli utenti all'adozione di Password Manager aziendali cifrati e metodi di autenticazione a più fattori (MFA).
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ── SITUATIONAL AWARENESS ────────────────────────────────── -->
+        <section id="situational_awareness">
+          <h2>Consapevolezza Situazionale e Ambientale (Situational Awareness)</h2>
+          <p>
+            La sicurezza informatica non si limita allo schermo del computer, ma si estende alla protezione dell'ambiente fisico e all'osservazione delle dinamiche circostanti.
+          </p>
+
+          <div class="exam-tip">
+            <strong>TRANSIZIONE OPERATIVA E CONSAPEVOLEZZA FISICA</strong><br>
+            Quando un'azienda pianifica la transizione lavorativa dei propri dipendenti da un ambiente di lavoro interamente remoto (Remote Work) ad un modello in ufficio (In-office), le minacce fisiche cambiano radicalmente. <br><br>
+            Al fine di rafforzare la sicurezza degli uffici, la scelta migliore è <strong>modificare sistematicamente il contenuto della formazione ricorrente sulla sicurezza (Modify the content of recurring training)</strong> per trattare argomenti di <strong>Consapevolezza Situazionale (Situational awareness)</strong>, quali:
+            <ul>
+              <li>L'obbligo tassativo di **mostrare visibilmente i propri badge di sicurezza aziendali** al collo all'interno dei locali dell'edificio.</li>
+              <li>Il blocco attivo dei tentativi di **Tailgating (o Piggybacking)**, ovvero l'abitudine rischiosa di assecondare l'ingresso di sconosciuti privi di badge attraverso i varchi controllati d'accesso.</li>
+              <li>La politica dello schermo protetto (Lock-screen shortcut) quando ci si allontana dalla scrivania e dei supporti USB non autorizzati.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ── INSIDER THREATS ──────────────────────────────────────── -->
+        <section id="insider_threats">
+          <h2>Minaccia Interna e Sistemi DLP (Insider Threat & DLP)</h2>
+          <p>
+            La minaccia interna fa riferimento ad azioni dannose perpetrate da utenti accreditati (dipendenti, contractor, vendor) che possiedono percorsi di accesso legittimi all'infrastruttura di rete.
+          </p>
+
+          <dl class="termlist">
+            <dt>La Minaccia Interna (Insider Threat)</dt>
+            <dd>
+              Risulta particolarmente subdola ed ha tassi di riuscita spaventosi nel rubare segreti aziendali, codice sorgente e database brevettati. Le aziende che custodiscono gelosamente proprietà intellettuale (Intellectual Property - IP) di elevato valore commerciale devono <strong>assolutamente inserire percorsi didattici relativi al rilevamento delle minacce interne (Insider threat detection)</strong> nel proprio programma di sicurezza complessivo per intercettare preventivamente condotte sleali dei colleghi.
+            </dd>
+
+            <dt>Prevenzione della Perdita dei Dati (Data Loss Prevention - DLP)</dt>
+            <dd>
+              Un insieme coordinato di tecnologie e regole progettato per scansionare i flussi informativi. Nell'ambito delle minacce interne, il sistema DLP si configura come la difesa d'eccellenza per una ragione precisa: <strong>previene e interdice materialmente il trasferimento non autorizzato o l'esportazione furtiva di dati altamente sensibili verso destinazioni esterne (Prevention of sensitive data being transferred in an unauthorized manner)</strong>, blocca il caricamento di file riservati su cloud personali o l'inserimento di chiavette USB non censite.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 4 — CURRICULUM PLANNING ═══════════════════════ -->
+        <section id="curriculum_planning">
+          <h2>Pianificazione del Curriculum e Ruoli del Dato</h2>
+          <p>
+            Un programma di addestramento sulla sicurezza efficace richiede un'attenta programmazione che consideri sia la frequenza didattica, sia le specifiche tipologie di minaccia del proprio settore commerciale.
+          </p>
+
+          <dl class="termlist">
+            <dt>Formulazione del Curriculum Formativo (Curriculum formulation)</dt>
+            <dd>
+              Quando si progetta e si struttura il piano formativo di un'organizzazione sulla sicurezza, i due fattori in assoluto più critici e importanti da valutare e indirizzare per garantire il successo didattico sono:
+              <ol>
+                <li><strong>I vettori di minaccia specifici attivi nel settore industriale in cui l'azienda risiede storicamente (Threat vectors based on the industry)</strong> (es: attacchi POS nel commercio al dettaglio o furto di cartelle cliniche nel panorama sanitario).</li>
+                <li><strong>La cadenza strutturale e la durata temporale pianificata per ciascun evento e modulo di formazione (Cadence and duration of training events)</strong>, garantendo che le sessioni siano digeribili, frequenti e non ridondanti per non causare "fatigue" o saturazione cognitiva negli utenti aziendali.</li>
+              </ol>
+            </dd>
+          </dl>
+
+          <!-- ── DATA SUBJECT ────────────────────────────────────────── -->
+          <h3 id="data_subject">Il Ruolo del Cliente nell'Ecosistema: Data Subject</h3>
+          <p>
+            Comprendere le dinamiche e definire accuratamente chi sono i soggetti che popolano i database personali aziendali è parte stessa dell'addestramento formale alla governance del dato.
+          </p>
+
+          <div class="exam-tip">
+            <strong>LE ANAGRAFICHE DEI CLIENTI</strong><br>
+            Nello scenario d'esame in cui il dipartimento di marketing colleziona, modifica ed archivia dati riservati dei consumatori e l'infrastruttura IT si limita a gestirne la crittografia (Custodian), il **cliente reale proprietario di quei dati personali** riveste e rappresenta ufficialmente l'importante ruolo privacy di <strong>Interessato / Soggetto dei Dati (Data Subject)</strong>.
+          </div>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 5.6</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>15 domande d’esame ufficiali</strong> estratte e catalogate con cura sull'Obiettivo 5.6 (Pratiche di consapevolezza della sicurezza) in lingua inglese, con feedback istantaneo e spiegazione chiarificatrice in italiano per ciascun quesito.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 5.6 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 5.6</h2>
+          <p>Utilizza queste schede dinamiche per memorizzare la terminologia bilingue ufficiale ed i contratti d'esame del Domain 5.6 (Clicca sulla scheda per girarla).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>DLP Purpose (Insider)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La prevenzione della perdita dei dati (DLP) arresta le minacce interne precludendo materialmente l'invio o il trasferimento non autorizzato di dati sensibili fuori dai confini protetti aziendali.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Smishing Remediation</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>In caso di attacchi Smishing (tramite SMS) finti-CEO, le contromisure ottimali sono: (1) l'invio immediato di un avviso email informativo a tutta la ditta, e (2) l'aggiunta di moduli di smishing nel curriculum formativo annuale.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Situational Awareness</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La consapevolezza situazionale nello studio fisico affronta i rischi dell'ambiente di lavoro in ufficio, richiamando l'attenzione sull'obbligo dei badge, sul tailgating e sul lock-screen delle postazioni sensibili.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Training Curriculum Keys</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>I cardini programmatici per pianificare un curriculum di consapevolezza della sicurezza sono: (1) i vettori di minaccia tipici dello specifico settore aziendale e (2) la cadenza e durata temporale delle sessioni.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>First Step for Awareness</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>L'aggiornamento e la formale notificazione di policy e handbook (manuali dipendenti) rappresenta sempre il primissimo passo strutturale che un Security Manager compie per tracciare un aumento della consapevolezza aziendale.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Data Subject (GDPR)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Rappresenta il ruolo della persona fisica cui si riferiscono i dati anagrafici e riservati archiviati e movimentati nei software del database (es: il cliente consumatore primario).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="../index.html">← Indice generale</a>
+          <a href="obj5_5_audits_assessments.html" class="secondary">← OBJ 5.5 — Audits and Assessments</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 5.6 · 15 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>15 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 5.6</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct"   class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn"  class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* ── Dati quiz OBJ 5.6 (15 domande d'esame) ─────────────────── */
+  const Q = [
+    {
+      id: "SCREEN_045",
+      text: "You are asked to prepare a brief to senior management about insider threats. You detail the use of data loss prevention (DLP) as a major factor in identifying and protecting against insider threats. What is the primary reason DLP can protect against these threats?",
+      opts: [
+        { id: "A", t: "Avoiding data leakage through malware.", c: false },
+        { id: "B", t: "Prevention of access to confidential data by unauthorized personnel.", c: false },
+        { id: "C", t: "Prevention of critical data not being backup up properly.", c: false },
+        { id: "D", t: "Prevention of sensitive data being transferred in an unauthorized manner.", c: true }
+      ],
+      expl: "La tecnologia di Prevenzione della Perdita del Dato (DLP) agisce controllando e supervisionando proattivamente lo scambio organizzativo, impedendo alle minacce interne di esportare o trasferire furtivamente file, brevetti e segreti commerciali fuori dall'azienda."
+    },
+    {
+      id: "SCREEN_137",
+      text: "Several employees received a fraudulent text message from someone claiming to be the Chief Executive Officer (CEO). The message stated: \"I'm in an airport right now with no access to email. I need you to buy gift cards for employee recognition awards. Please send the gift cards to following email address.\" Which of the following pairing describes the best responses to this situation?",
+      opts: [
+        { id: "A", t: "Cancel current employee recognition gift cards and have the CEO change phone numbers.", c: false },
+        { id: "B", t: "Add a smishing exercise to annual company training and issue a general email warning to the company.", c: true },
+        { id: "C", t: "Conduct a forensic investigation on the CEO's phone and implement mobile device management.", c: false },
+        { id: "D", t: "Implement mobile device management and change the company mail server password.", c: false }
+      ],
+      expl: "La risposta ottimale di fronte a truffe Smishing basate sull'impersonificazione del CEO consta nell'allertare prontamente l'organico tramite comunicato email e di inserire test del medesimo vettore all'interno dei corsi periodici di addestramento."
+    },
+    {
+      id: "SCREEN_162",
+      text: "A technician wants to improve the situational and environmental awareness of existing users as they transition from remote to in-office work. Which of the following is the best option?",
+      opts: [
+        { id: "A", t: "Send out periodic security reminders.", c: false },
+        { id: "B", t: "Update the content of new hire documentation.", c: false },
+        { id: "C", t: "Modify the content of recurring training.", c: true },
+        { id: "D", t: "Implement a phishing campaign.", c: false }
+      ],
+      expl: "Il rientro del personale negli uffici introduce minacce fisiche (come tailgating o incustodia dei badge) assenti durante lo Smart Working. Il sistema ottimale risiede nel modificare il materiale del percorso formativo ricorrente per integrare logiche di protezione fisica della postazione."
+    },
+    {
+      id: "SCREEN_216",
+      text: "A company's marketing department collects, modifies, and stores sensitive customer data. The infrastructure team is responsible for securing the data while in transit and at rest. Which of the following data roles describes the customer?",
+      opts: [
+        { id: "A", t: "Processor", c: false },
+        { id: "B", t: "Custodian", c: false },
+        { id: "C", t: "Subject", c: true },
+        { id: "D", t: "Owner", c: false }
+      ],
+      expl: "La persona fisica cliente o utente alla quale fanno capo e appartengono i dati personali raccolti ed elaborati per fini industriali si definisce privacy-wise Interessato o Soggetto dei Dati (Data Subject)."
+    },
+    {
+      id: "SCREEN_279",
+      text: "Which of the following pairings represents the factors that are the most important to address when formulating a training curriculum plan for a security awareness program?",
+      opts: [
+        { id: "A", t: "Channels of communications with customers and retraining criteria for failed phishing simulations.", c: false },
+        { id: "B", t: "Secure software development training for all personnel and reporting mechanisms for ethics violations.", c: false },
+        { id: "C", t: "Threat vectors based on the organization's industry and the cadence/duration of training events.", c: true },
+        { id: "D", t: "Retraining requirements for individuals who fail simulations and channels for customer communication.", c: false }
+      ],
+      expl: "Progettare un piano didattico mirato impone di analizzare i vettori d'attacco propri del specifico settore merceologico di appartenenza e di stabilire tempi e frequenza equilibrati (cadence/duration) per scongiurare l'usura informativa."
+    },
+    {
+      id: "SCREEN_427",
+      text: "A security officer is implementing a security awareness program and has placed security-themed posters around the building and assigned online user training. Which of the following will the security officer most likely implement next?",
+      opts: [
+        { id: "A", t: "Password policy", c: false },
+        { id: "B", t: "Access badges", c: false },
+        { id: "C", t: "Phishing campaign", c: true },
+        { id: "D", t: "Risk assessment", c: false }
+      ],
+      expl: "Dopo l'educazione informativa (poster energetici e lezioni online) viene lanciata una campagna di phishing fittizia/simulata per comprovare de facto il tasso di confidenza degli impiegati."
+    },
+    {
+      id: "SCREEN_460",
+      text: "An organization maintains intellectual property that it wants to protect. Which of the following concepts would be most beneficial to add to the company’s security awareness training program?",
+      opts: [
+        { id: "A", t: "Insider threat detection", c: true },
+        { id: "B", t: "Simulated threats", c: false },
+        { id: "C", t: "Phishing awareness", c: false },
+        { id: "D", t: "Business continuity planning", c: false }
+      ],
+      expl: "La proprietà intellettuale brevettata è sotto perenne minaccia di esfiltrazione furtiva da parte di contractor o dipendenti autorizzati infedeli (insiders). L'addestramento dei colleghi a riconoscere segni e comportamenti prodromici è fondamentale per sventare il furto."
+    },
+    {
+      id: "SCREEN_485",
+      text: "An employee emailed a new systems administrator a malicious web link and convinced the administrator to change the email server’s password. The employee used this access to remove the mailboxes of key personnel. Which of the following security awareness concepts would help prevent this threat in the future?",
+      opts: [
+        { id: "A", t: "Recognizing phishing", c: true },
+        { id: "B", t: "Providing situational awareness training", c: false },
+        { id: "C", t: "Using password management", c: false },
+        { id: "D", t: "Reviewing email policies", c: false }
+      ],
+      expl: "Il veicolo d'insidia scatenante è stato l'invio e il click su un link dannoso (esca fraudolenta), mitigabile soltanto con formati volti al riconoscimento del phishing (recognizing phishing)."
+    },
+    {
+      id: "SCREEN_649",
+      text: "A security report shows that during a two-week test period, 80% of employees unwittingly disclosed their SSO credentials when accessing an external website. The organization purposely created the website to simulate a cost-free password complexity test. Which of the following would best help reduce the number of visits to similar websites in the future?",
+      opts: [
+        { id: "A", t: "Block all outbound traffic from the intranet.", c: false },
+        { id: "B", t: "Introduce a campaign to recognize phishing attempts.", c: true },
+        { id: "C", t: "Restrict internet access for the employees who disclosed credentials.", c: false },
+        { id: "D", t: "Implement a deny list of websites.", c: false }
+      ],
+      expl: "Fornire le proprie credenziali d'accesso a piattaforme esterne per finti test di robustezza è un imprevisto gravissimo. Solo una solida formazione metodica sul riconoscimento dei vettori di phishing (phishing awareness) insegna agli impiegati a trattenersi dall'inserire credenziali in siti estranei."
+    },
+    {
+      id: "SCREEN_679",
+      text: "After a series of account compromises and credential misuse, a company hires a security manager to develop a security program. Which of the following steps should the security manager take first to increase security awareness?",
+      opts: [
+        { id: "A", t: "Evaluate tools that identify risky behavior and distribute reports on the findings.", c: false },
+        { id: "B", t: "Send quarterly newsletters that explain the importance of password management.", c: false },
+        { id: "C", t: "Develop phishing campaigns and notify the management team of any successes.", c: false },
+        { id: "D", t: "Update policies and handbooks to ensure all employees are informed of the new procedures.", c: true }
+      ],
+      expl: "In assenza di basi scritte, non è possibile pretendere compliance. L'aggiornamento dei manuali dei dipendenti e delle politiche di comportamento (Policies and handbooks) costituisce la pietra d'angolo preliminare obbligatoria."
+    },
+    {
+      id: "SCREEN_694",
+      text: "While updating the security awareness training, a security analyst wants to address issues created if vendors' email accounts are compromised. Which of the following recommendations should the security analyst include in the training?",
+      opts: [
+        { id: "A", t: "Refrain from clicking on images included in emails from new vendors.", c: false },
+        { id: "B", t: "Delete emails from unknown service provider partners.", c: false },
+        { id: "C", t: "Require that invoices be sent as attachments.", c: false },
+        { id: "D", t: "Be alert to unexpected requests from familiar email addresses.", c: true }
+      ],
+      expl: "Quando l'account di un fornitore noto viene violato, l'attaccante userà un canale apparentemente lecito e fidato. L'addestramento corretto impone di dubitare istantaneamente di disposizioni di sblocco fondi o richieste atipiche giunte anche da indirizzi familiari."
+    },
+    {
+      id: "SCREEN_697",
+      text: "The number of tickets the help desk has been receiving has increased recently due to numerous false-positive phishing reports. Which of the following would be best to help to reduce the false positives?",
+      opts: [
+        { id: "A", t: "Performing more phishing simulation campaigns.", c: false },
+        { id: "B", t: "Improving security awareness training.", c: true },
+        { id: "C", t: "Hiring more help desk staff.", c: false },
+        { id: "D", t: "Implementing an incident reporting web page.", c: false }
+      ],
+      expl: "Troppi falsi positivi indicano che gli utenti non sanno discernere lo spam o le newsletter regolari da attacchi reali. Affinare la formazione di sicurezza (improving security awareness training) insegnando i veri marcatori ed header tecnici riduce drasticamente l'insorgenza di falsi allarme."
+    },
+    {
+      id: "SCREEN_699",
+      text: "A security report shows that during a two-week test period, 80% of employees unwittingly disclosed their SSO credentials when accessing an external website. Which of the following is the most effective approach to protect the organization in the future?",
+      opts: [
+        { id: "A", t: "Block all outbound traffic from the intranet.", c: false },
+        { id: "B", t: "Introduce a campaign to recognize phishing attempts.", c: true },
+        { id: "C", t: "Restrict internet access for the employees who disclosed credentials.", c: false },
+        { id: "D", t: "Implement a deny list of websites.", c: false }
+      ],
+      expl: "Simile a quanto visto in precedenza, l'unica barriera sostenibile quando i dipendenti svelano le proprie credenziali SSO è l'attivazione didattica del Riconoscimento del Phishing."
+    },
+    {
+      id: "SCREEN_703",
+      text: "A company is concerned about employees unintentionally introducing malware into the network. The company identified fifty employees who clicked on a link embedded in an email sent by the internal IT department. Which of the following should the company implement to best improve its security posture?",
+      opts: [
+        { id: "A", t: "Social engineering training", c: true },
+        { id: "B", t: "SPF configuration", c: false },
+        { id: "C", t: "Simulated phishing campaign", c: false },
+        { id: "D", t: "Insider threat awareness", c: false }
+      ],
+      expl: "Poiché il rischio risiede nel superamento involontario di tutele basato su ingannevoli messaggi o link embedded simulati dall'IT, la contromisura raccomandata risiede nell'avviare un addestramento complessivo sulle logiche dell'Ingegneria Sociale (Social engineering training)."
+    },
+    {
+      id: "SCREEN_725",
+      text: "The physical security team at a company receives reports that employees are not displaying their badges. The team also observes employees tailgating at controlled entrances. Which of the following topics will the security team most likely emphasize in upcoming security training?",
+      opts: [
+        { id: "A", t: "Social engineering", c: false },
+        { id: "B", t: "Situational awareness", c: true },
+        { id: "C", t: "Phishing", c: false },
+        { id: "D", t: "Acceptable use policy", c: false }
+      ],
+      expl: "Comportamenti fisici fallaci come l'accettare passaggi fisici (tailgating) o non mostrare i badge di sicurezza rientrano direttamente sotto il cappello e la categoria di Consapevolezza Situazionale (Situational awareness) ed ambientale."
+    }
+  ];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 5.6';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    let pool = Q.slice();
+    if (mode === 'quick') {
+      pool = shuffle(pool).slice(0, 10);
+    } else {
+      pool = shuffle(pool);
+    }
+
+    quiz = {
+      pool: pool,
+      idx: 0,
+      score: 0,
+      locked: false
+    };
+
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    render();
+  }
+
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
+function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

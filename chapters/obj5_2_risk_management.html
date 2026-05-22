@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 5.2 — Processo di Gestione del Rischio · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 5 — Governance, Program Management and Oversight</span>
+      <span>OBJ 5.2 — Risk Management Process</span>
+    </div>
+
+    <header>
+      <h1>OBJ 5.2 — Elementi del Processo di Gestione del Rischio</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 5 — Governance, Program Management and Oversight · Peso esame: 20%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain elements of the risk management process.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">5.2</span>
+        <span class="weight-badge">D5 = 20%</span>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Ciclo del Rischio</div>
+        <a href="#risk_id_cycle">Identificazione e Assessment temporale</a>
+        <a href="#risk_elements">Componenti ed Elementi d'Impatto</a>
+
+        <div class="toc-section">Analisi Quantitativa e Qualitativa</div>
+        <a href="#quant_qual_analysis">Analisi Qualitativa vs. Quantitativa</a>
+        <a href="#formulas">Le Formule Cardinali (SLE, ALE, ARO)</a>
+
+        <div class="toc-section">Governance, Appetito e Tolleranza</div>
+        <a href="#register">Registro dei Rischi (Risk Register)</a>
+        <a href="#appetite_tolerance">Appetito e Tolleranza al Rischio</a>
+
+        <div class="toc-section">Strategie di Trattamento</div>
+        <a href="#treatment_strategies">Le 4 Strategie: Mitigare, Trasferire, Evitare, Accettare</a>
+        <a href="#compensating">Rischio Residuo e Controlli Compensativi</a>
+
+        <div class="toc-section">BIA e Metriche di Rilancio</div>
+        <a href="#bia">Analisi d'Impatto (BIA) e Metriche (RTO, RPO, MTTR)</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (25 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — IDENTIFICAZIONE E ASSESSMENT ════════════ -->
+        <section id="risk_id_cycle">
+          <h2>Identificazione del Rischio e Frequenza del Risk Assessment</h2>
+          <p>
+            Il rischio di sicurezza informatica non si previene né si riduce sperando passivamente che nulla accada; esso esige un approccio formale e iterativo. Il primo tassello fondamentale è rappresentato dalla fase di <strong>Identificazione del Rischio (Risk Identification)</strong>.
+          </p>
+
+          <div class="critical">
+            <strong>Che cos'è l'Identificazione del Rischio?</strong><br>
+            La fase di <strong>Identificazione del Rischio (Risk Identification)</strong> vede i responsabili di sicurezza impegnati nello stabilire lo <strong>Scopo (Scope)</strong> del lavoro e a catalogare tutte le minacce ed i rischi potenziali che potrebbero compromettere un progetto o un patrimonio aziendale, ancor prima che quest'ultimo venga attuato o implementato. Durante la valutazione di un nuovo software da introdurre in azienda, ad esempio, l'attività iniziale principale consiste nel mappare e valutare attentamente le <strong>Vulnerabilità del Software (Software Vulnerabilities)</strong>.
+          </div>
+
+          <h3>La cadenza del Risk Assessment</h3>
+          <p>
+            Una volta identificate le minacce, esse devono essere valutate e analizzate tramite attività di <strong>Valutazione del Rischio (Risk Assessment)</strong>. Sotto il profilo temporale e organizzativo, i risk assessment possono assumere quattro configurazioni:
+          </p>
+
+          <dl class="termlist">
+            <dt>Ricorrente (Recurring Assessment)</dt>
+            <dd>
+              Viene condotto a intervalli regolari e formali stabiliti da politiche di conformità interne o da normative legislative (es: la necessità aziendale di eseguire un <strong>audit o una valutazione del rischio con cadenza annuale / on an annual basis</strong>).
+            </dd>
+
+            <dt>Ad hoc Assessment</dt>
+            <dd>
+              Eseguito spontaneamente in risposta a eventi eccezionali, come la divulgazione improvvisa di una vulnerabilità critica di tipo zero-day o un drastico cambio della topologia di rete aziendale.
+            </dd>
+
+            <dt>Una tantum (One-time Assessment)</dt>
+            <dd>
+              Valutazione singola limitata a un progetto mirato ad hoc, come la sicurezza fisica prima del trasferimento dei server in una nuova sede fisica o la perizia di pre-acquisizione finanziaria di un'altra ditta (due diligence).
+            </dd>
+
+            <dt>Continuo (Continuous Assessment)</dt>
+            <dd>
+              Raffigura un monitoraggio perpetuo e proattivo in tempo reale con dashboard automatizzate che ricalcolano costantemente il profilo d'esposizione dell'impresa.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 2 — ELEMENTI E COMPONENTI DEL RISCHIO ══════ -->
+        <section id="risk_elements">
+          <h2>La Relazione tra gli Elementi del Rischio</h2>
+          <p>
+            Per l'esame CompTIA è cruciale memorizzare la formula semantica fondamentale che unisce le dinamiche della minaccia, dell'asset informatico e del rischio di sicurezza.
+          </p>
+
+          <div class="exam-tip">
+            <strong>EQUAZIONE ELEMENTARE DEL RISCHIO</strong><br>
+            La tesi cardine recita: <strong>"Threats exploit vulnerabilities" (Le Minacce sfruttano le Vulnerabilità)</strong>.<br>
+            <ul>
+              <li>Una <strong>Vulnerabilità (Vulnerability)</strong> è una debolezza o un difetto del sistema (es. una porta aperta non autorizzata, software obsoleto).</li>
+              <li>Una <strong>Minaccia (Threat)</strong> è l'agente o l'evento capace di fare breccia (es. un pirata informatico, un malware).</li>
+              <li>Un <strong>Rischio (Risk)</strong> è il prodotto matematico dell'intersezione tra la debolezza e l'agente, quantificato sotto forma di impatto e probabilità.</li>
+            </ul>
+            Un'attività specifica chiamata **Threat Assessment (Valutazione delle Minacce)** è interamente focalizzata a individuare e investigare gli eventi o gli attori criminali che potrebbero materialmente sfruttare le degenze e le vulnerabilità dell'azienda.
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 3 — ANALISI QUALITATIVA VS QUANTITATIVA ════ -->
+        <section id="quant_qual_analysis">
+          <h2>Analisi del Rischio: Qualitativa (Qualitative) vs. Quantitativa (Quantitative)</h2>
+          <p>
+            Dopo aver catalogato i vettori avversi, è necessario quantificarne i potenziali danni tramite due macro-famiglie metodologiche di analisi:
+          </p>
+
+          <dl class="termlist">
+            <dt>Analisi Qualitativa (Qualitative Analysis)</dt>
+            <dd>
+              È basata su pareri professionali soggettivi, scenari teorici, percezioni ed esperienze storiche della dirigenza. Valuta il rischio attraverso metriche descrittive ordinarie (es: <em>Alto, Medio, Basso</em> o scale da 1 a 5) intersecando la <strong>Probabilità / Plausibilità (Probability / Likelihood)</strong> d'insorgenza e l'<strong>Impatto (Impact)</strong> dell'evento negativo.
+            </dd>
+
+            <dt>Analisi Quantitativa (Quantitative Analysis)</dt>
+            <dd>
+              Si fonda su dati numerici discreti e valori monetari oggettivi. Sotto le rigide linee guida di questa analisi, l'organizzazione può misurare matematicamente variabili reali come il <strong>Fattore di Esposizione (Exposure Factor — EF)</strong>, che misura la frazione percentuale di deterioramento o perdita che una minaccia è in grado di infliggere su un bene aziendale specifico.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 4 — LE FORMULE CARDINALI ════════════════════ -->
+        <section id="formulas">
+          <h2>Le Formule dell'Analisi Quantitativa</h2>
+          <p>
+            All'esame non vi sarà richiesto solo di definire queste etichette d'esame, ma dovrete essere pronti a riconoscere e impiegare le formule matematiche d'analisi finanziaria del rischio:
+          </p>
+
+          <div class="note">
+            <h3>1. Valore del Bene (Asset Value — AV)</h3>
+            <p>Il valore economico totale stimato dell'asset informatico o informativo tutelato (es. AV = €100.000 per un server e dabase centralizzato).</p>
+
+            <h3>2. Fattore di Esposizione (Exposure Factor — EF)</h3>
+            <p>La percentuale di perdita inflitta su un asset a seguito di un singolo incidente grave di cyber-violazione (es. EF = 30%, equivalente a un danno da perdita di dati e fermo energetico su quel server pari al 30% del suo valore totale).</p>
+
+            <h3>3. Aspettativa di Perdita Singola (Single Loss Expectancy — SLE)</h3>
+            <p>
+              Quantifica il danno finanziario totale patito dall'organizzazione <strong>in un singolo attacco o evento negativo</strong>. La sua equazione è:
+              <br>
+              <span class="math"><strong>SLE = Asset Value (AV) × Exposure Factor (EF)</strong></span>
+              <br>
+              Se un'interruzione d'esercizio paralizza il server da €100.000 con un'esposizione (EF) del 30%, l'impatto per singolo cyber-incidente (SLE) equivarrà a €30.000.
+            </p>
+
+            <h3>4. Tasso Annuo di Accadimento (Annualized Rate of Occurrence — ARO)</h3>
+            <p>Esprime la stima probabilistica sul numero di volte in cui tale specifica minaccia si concretizzerà nell'arco di singolo anno d'esercizio (es. ARO = 0.5 per un attacco stimato una volta ogni due anni; ARO = 2 per due attacchi a cadenza annuale).</p>
+
+            <h3>5. Aspettativa di Perdita Annualizzata (Annualized Loss Expectancy — ALE)</h3>
+            <p>
+              È il costo proiettato su base annua legato a una determinata debolezza. La formula cardine è:
+              <br>
+              <span class="math"><strong>ALE = Single Loss Expectancy (SLE) × Annualized Rate of Occurrence (ARO)</strong></span>
+            </p>
+          </div>
+
+          <div class="exam-tip">
+            <strong>EXAM TIP — Perché l'ALE è insostituibile per investire?</strong><br>
+            All'esame vi verrà chiesto quale metrica sia cruciale per condurre un'analisi costi-benefici (Cost-Benefit Analysis) prima di acquistare una polizza o rimediare a una minaccia. L'<strong>ALE (Annualized Loss Expectancy)</strong> è lo strumento sovrano per decidere se il <strong>costo di trasferimento o mitigazione del rischio a lungo termine è inferiore o superiore all'impatto complessivo del rischio stesso</strong>. Se un'assicurazione cyber costa €10.000 all'anno per coprire un rischio avente ALE pari a €4.000, il trasferimento finanziario risulterebbe svantaggioso. Se l'ALE fosse di €50.000, l'investimento di €10.000 sarebbe eccellente.
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 5 — REGISTRO DEI RISCHI ═════════════════════ -->
+        <section id="register">
+          <h2>Il Registro dei Rischi (Risk Register)</h2>
+          <p>
+            Ogni processo formale necessita di uno scrigno documentale per mantenere aggiornato lo stato di salute dell'impresa. Lo strumento principe in questo campo è il <strong>Registro dei Rischi (Risk Register)</strong>.
+          </p>
+
+          <div class="critical">
+            <strong>Che cos'è e cosa si documenta nel Risk Register?</strong><br>
+            Il <strong>Registro dei Rischi (Risk Register)</strong> è il documento formale utilizzato nei programmi di Information Security per:
+            <ol>
+              <li>Identificare e descrivere accuratamente ciascun rischio censito.</li>
+              <li>Mantenere la memoria storica di <strong>vulnerabilità persistenti insolute</strong> assieme alle relative <strong>raccomandazioni o rimedi formulati</strong> dagli esperti.</li>
+              <li>Documentare in modo inequivocabile i <strong>Proprietari del Rischio (Risk Owners)</strong> responsabili delle singole mitigazioni, e le <strong>Soglie di Rischio (Risk Thresholds)</strong> d'allerta.</li>
+            </ol>
+          </div>
+
+          <dl class="termlist">
+            <dt>Indicatori Chiave di Rischio (Key Risk Indicators — KRIs)</dt>
+            <dd>
+              Metriche quantitative e tempestive utilizzate dall'impresa come sistema di sentinella precoce (early warning system). Segnalano variazioni significative del livello di esposizione al rischio aziendale facilitando reazioni immediate.
+            </dd>
+
+            <dt>Proprietario del Rischio (Risk Owner)</dt>
+            <dd>
+              La persona fisica (es: un direttore di dipartimento o responsabile C-Level) formalmente assegnata e legalmente responsabile dello stato d'avanzamento, del monitoraggio e dell'andamento di un determinato rischio.
+            </dd>
+
+            <dt>Soglia di Rischio (Risk Threshold)</dt>
+            <dd>
+              La linea di demarcazione o confine numerico concordato oltre il quale un livello di rischio non è più scusato o accettato dall'organizzazione, forzando l'intervento o l'escalation obbligatoria.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 6 — APPETITO E TOLLERANZA ═══════════════════ -->
+        <section id="appetite_tolerance">
+          <h2>Appetito (Risk Appetite) e Tolleranza (Risk Tolerance)</h2>
+          <p>
+            Sebbene a volte scambiati come sinonimi commerciali, descrivono due approcci logici distinti:
+          </p>
+
+          <dl class="termlist">
+            <dt>Appetito al Rischio (Risk Appetite)</dt>
+            <dd>
+              Indica la predisposizione e la quantità complessiva di rischio che un'organizzazione dichiara deliberatamente di voler assumere ed accettare pur di raggiungere i propri obiettivi di business e creare profitto.
+            </dd>
+
+            <dt>Tolleranza al Rischio (Risk Tolerance)</dt>
+            <dd>
+              La deviazione o fluttuazione massima accettabile rispetto agli obiettivi prefissati e all'appetito teorico definito.
+            </dd>
+          </dl>
+
+          <h3>Profili di Appetito al Rischio d'Esame</h3>
+          <p>
+            CompTIA classifica e contrappone tre principali attitudini d'impresa verso il rischio:
+          </p>
+
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Profilo</th>
+                  <th>Descrizione Operativa</th>
+                  <th>Esempio Scenario Esame</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="label" style="color: #7C3AED;">Espansivo (Expansionary)</td>
+                  <td>Disponibilità a tollerare disagi o perdite pur di perseguire una rapida crescita, forte innovazione o massimizzare la competitività sul mercato sul lungo termine.</td>
+                  <td>
+                    Un'impresa sceglie deliberatamente di <strong>estendere l'accesso ai sistemi informatici per personale contrattista ed esterno (contractors) allo scopo di abbattere e ridurre drasticamente i costi operativi</strong>, sapendo di accrescere il rischio interno.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0D9488;">Conservativo (Conservative)</td>
+                  <td>Estrema prudenza, avversione al rischio e orientamento focalizzato interamente sulla massima protezione attiva degli asset. Si preferiscono controlli pervasivi ad ogni spinta evolutiva incerta.</td>
+                  <td>Un istituto bancario o dipartimento di difesa che impone restrizioni totali, vietando qualunque strumento BYOD o integrazione cloud per scongiurare violazioni.</td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #4B5563;">Neutrale (Neutral)</td>
+                  <td>Approccio pragmatico e bilanciato. L'azienda valuta attentamente ogni iniziativa soppesando minuziosamente rischi e benefici tramite calcoli di ROI e ALE realistici.</td>
+                  <td>Integrazione controllata di nuove piattaforme di messaggistica ma rigorosamente vincolata ad opportuni passaggi di analisi rischi e audit conformità.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 7 — STRATEGIE DI TRATTAMENTO ════════════════ -->
+        <section id="treatment_strategies">
+          <h2>Le 4 Strategie del Trattamento del Rischio (Risk Treatment)</h2>
+          <p>
+            Identificato il problema e misuratane l'ALE, la dirigenza aziendale deve prendere una decisione d'azione e optare per una fra le quattro strategie codificate di gestione:
+          </p>
+
+          <dl class="termlist">
+            <dt>1. Mitigazione (Mitigate)</dt>
+            <dd>
+              Consiste nel ridurre la probabilità d'insorgenza o l'entità del danno per mezzo dell'implementazione mirata di contromisure fisiche, organizzative o tecniche.<br>
+              <strong>Azioni continue:</strong> In presenza di minacce permanenti, una valida mitigazione per un <strong>rischio continuo (continuous risk)</strong> è l'installazione proattiva di un gateway e-mail di sicurezza (Email gateway) deputato a bloccare costantemente e continuativamente i tentativi di phishing in transito. Se un'applicazione legacy critica soffre di debolezze note ma dei controlli preventivi aggiuntivi e praticabili non sono stati ancora attuati, mitigare rappresenta l'iniziativa che l'impresa ha il dovere etico-professionale di adottare per prima.
+            </dd>
+
+            <dt>2. Trasferimento (Transfer)</dt>
+            <dd>
+              Consiste nell'esternalizzare l'impatto economico o lo sforzo gestionale associato a un rischio verso un soggetto terzo delegato. L'esempio classico ed onnipresente d'esame è **l'acquisto di un'assicurazione cyber (Cyber Insurance)** per ammortizzare i risarcimenti finanziari legati a violazioni presenti nel paniere aziendale o la delega delle transazioni a un fornitore esterno (SaaS).
+            </dd>
+
+            <dt>3. Evitamento (Avoid)</dt>
+            <dd>
+              Significa ripudiare la minaccia decidendo di **eliminare del tutto la causa che la innesca**, cessando l'attività che genera l'esposizione.
+              <br><br>
+              <strong>Esempio Scenario:</strong> Una società commerciale constata un volume insostenibile di insidie informatiche e frodi afferenti a un determinato raggruppamento settoriale del mercato. Pur di non accettare tale incognita finanziaria, l'impresa delibera di <strong>abbandonare categoricamente quel segmento commerciale di mercato, reindirizzando l'intero paniere di servizi su mercati differenti</strong>.
+            </dd>
+
+            <dt>4. Accettazione (Accept)</dt>
+            <dd>
+              Significa riconoscere formalmente la minaccia e i suoi possibili risvolti economici e decidere consapevolmente di non intraprendere alcuna azione correttiva o riduzione, spesso perché l'impatto stimato è minimo o perché le contromisure avrebbero costi ingenti sproporzionati (l'ALE è troppo bassa). Esistono due modalità formali d'inquadramento:
+              <ul>
+                <li><strong>Eccezione (Exception):</strong> Una delega scritta, formalmente approvata e strettamente limitata nel tempo, per bypassare temporaneamente un requisito di sicurezza aziendale a causa di forti costrizioni tecnologiche o operative.</li>
+                <li><strong>Esenzione (Exemption):</strong> Una dispensa formale e permanente concessa a specifici compartimenti aziendali da un determinato obbligo di policy, solitamente supportata da solidi requisiti legali ed asseverata formalmente dal comitato esecutivo.</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 8 — RISCHIO RESIDUO E COMPENSATIVO ═════════ -->
+        <section id="compensating">
+          <h2>Rischio Residuo, Rischio Inerente e Controlli Compensativi</h2>
+          <p>
+            Prima di archiviare i rischi, gli amministratori computano la differenza tra l'esposizione grezza iniziale e quella che sopravvive all'armatura di controlli introdotta.
+          </p>
+
+          <dl class="termlist">
+            <dt>Rischio Inerente (Inherent Risk)</dt>
+            <dd>
+              Il livello naturale di esposizione al rischio in cui giace una determinata attività aziendale **allo stato grezzo, prima dell'applicazione di alcuna barriera protettiva** o contromisura di mitigazione.
+            </dd>
+
+            <dt>Rischio Residuo (Residual Risk)</dt>
+            <dd>
+              La frazione di rischio che **rimane persistente e attiva anche dopo che tutte le mitigazioni, le politiche difensive ed i controlli pertinenti della sicurezza sono stati accuratamente strutturati ed applicati**.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>ATTENZIONE AL RIGORE PRATICO — Controlli Compensativi nei Sistemi Legacy</strong><br>
+            Quando i sistemi informatici sono obsoleti (Legacy) o proprietari e per motivi di business critici non possono essere dismessi o patchati direttamente dai produttori, non è più fattibile applicare il controllo di sicurezza ideale (il patching). In questo frangente, si ricorre a un **Controllo Compensativo (Compensating Control)**.<br><br>
+            <strong>Il Caso Linux Legacy:</strong> Un amministratore che desideri proteggere una vecchia macchina operativa Linux di produzione impiega un **firewall installato direttamente sull'host (host-based firewall) programmato per acconsentire alle connessioni esclusivamente da pochissimi indirizzi IP interni protetti**. Questa schermata di backup, pur non risolvendo la vulnerabilità intrinseca del sistema (che rimane legacy), mitiga l'esposizione e costituisce un perfetto esempio di controllo compensativo.
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 9 — BIA E METRICHE DI RIPRISTINO ════════════ -->
+        <section id="bia">
+          <h2>Analisi dell'Impatto sul Business (BIA) e Metriche di Rilancio</h2>
+          <p>
+            Nell'alveo della Business Continuity, l'<strong>Analisi dell'Impatto sul Business (Business Impact Analysis — BIA)</strong> è volta a mappare gli effetti finanziari ed operativi causati dall'interruzione del lavoro aziendale dovuto a eventi imprevisti.
+          </p>
+
+          <div class="critical">
+            <strong>Che cosa include nativamente la BIA?</strong><br>
+            Nelle attività della BIA rientra nativamente lo sforzo prioritario di <strong>stimare accuratamente i tempi necessari al risanamento ed al ripristino di ciascun apparato IT (estimating the recovery time of systems)</strong>. Durante un'esercitazione teorica al tavolo (Tabletop exercise), qualora il team ravvisi potenziali pericoli di fallimento di generatori energetici di soccorso nel cruciale passaggio di commutazione da rete a emergenza (failover), l'analisi d'impatto **BIA** risulterà senz'altro la disciplina eletta per valutarne le reali catastrofi finanziarie d'impresa.
+          </div>
+
+          <h3>Metriche di Ripristino di Sicurezza</h3>
+          <p>
+            CompTIA esige la padronanza matematica assoluta di quattro sigle chiave di misurazione della continuità d'impresa:
+          </p>
+
+          <dl class="termlist">
+            <dt>Obiettivo del Tempo di Ripristino (Recovery Time Objective — RTO)</dt>
+            <dd>
+              Rappresenta la durata temporale massima tollerata all'interno della quale un sistema informatico paralizzato da una catastrofe o blocco dev'essere **completamente ristabilito e riportato operativo** al fine di ridurre al minimo i danni economici. (Risponde alla domanda: <em>"Entro quante ore o giorni dobbiamo tornare online?"</em>).
+            </dd>
+
+            <dt>Obiettivo del Punto di Ripristino (Recovery Point Objective — RPO)</dt>
+            <dd>
+              Rappresenta la quantità di dati (espressa in unità di tempo, es. ore, giorni o minuti) che rischiano di andare irreparabilmente persi a causa di un arresto forzato, misurata a partire dall'ultimo backup agibile. (Risponde alla domanda: <em>"Quante ore di transazioni inserite possiamo tollerare di perdere?"</em>).
+            </dd>
+
+            <dt>Tempo Medio di Riparazione (Mean Time to Repair — MTTR)</dt>
+            <dd>
+              La misura temporale media richiesta tecnicamente ai manutentori per **identificare, isolare, riparare e risolvere un guasto su un componente hardware o un server** rimettendolo in sesto.
+            </dd>
+
+            <dt>Tempo Medio tra i Guasti (Mean Time Between Failures — MTBF)</dt>
+            <dd>
+              La proiezione statistica del tempo di sano funzionamento atteso tra due blocchi distruttivi successivi per apparecchiature riparabili.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 5.2</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>25 domande d’esame ufficiali</strong> estratte e catalogate con cura sull'Obiettivo 5.2 (Processo di Gestione del Rischio) in lingua inglese, con feedback istantaneo e spiegazione chiarificatrice in italiano per ciascun quesito.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 5.2 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 5.2</h2>
+          <p>Utilizza queste schede dinamiche per memorizzare la terminologia bilingue ufficiale ed i concetti più insidiosi dell'esame del Domain 5.2 (Clicca sulla scheda per girarla).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Inherent Risk vs Residual Risk</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Rischio Inerente (Inherent)</strong>: rischio grezzo iniziale senza alcun controllo applicato.<br><strong>Rischio Residuo (Residual)</strong>: il rischio che persiste attivamente persistente anche dopo l'applicazione di difese e controlli.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SLE vs ALE (Formule)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>SLE</strong> = AV × EF (Costo del singolo impatto).<br><strong>ALE</strong> = SLE × ARO (Costo annuo stimato proiettato). L'ALE si usa nelle Analisi Costi-Benefici d'esame.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>RTO vs RPO</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>RTO (Recovery Time Objective)</strong>: il tempo massimo tollerato per ripristinare i sistemi online.<br><strong>RPO (Recovery Point Objective)</strong>: la massima quantità tollerabile di perdita dati misurabile in tempo dei backup.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Risk Appetite vs Risk Tolerance</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>Appetito (Appetite)</strong>: l'attitudine e quantità di rischio che l'azienda desidera assumere programmaticamente per fare business.<br><strong>Tolleranza (Tolerance)</strong>: lo scostamento temporaneo o deviazione massima concessa rispetto a quella soglia di appetito.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Expansionary Risk Appetite</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Attitudine caratterizzata dalla disponibilità ad accettare rischi generosi pur di tagliare i costi o supportare un'evoluzione dinamica e innovazioni (es. estendere l'accesso ai sistemi informativi aziendali a contractors esterni).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Esempio di Controllo Compensativo</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>L'uso di un <strong>host-based firewall</strong> per limitare severamente l'accesso e l'invio pacchetti su una macchina <strong>Linux Legacy</strong> critica impossibile da disattivare o patchare direttamente.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="../index.html">← Indice generale</a>
+          <a href="obj5_1_governance.html" class="secondary">← OBJ 5.1 — Security Governance</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 5.2 · 25 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>25 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 5.2</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct"   class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn"  class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* ── Dati quiz OBJ 5.2 (25 domande d'esame) ─────────────────── */
+  const Q = [
+    {
+      id: 'SCREEN_041',
+      text: 'You are part of a penetration testing red team that will attempt to discover and exploit IT service vulnerabilities. Due to the sensitive nature of data on the network to be pen tested, the red team has been asked to sign a legal document. Which document is this?',
+      opts: [
+        { id: 'A', t: 'Memorandum of agreement', c: false },
+        { id: 'B', t: 'Non-disclosure agreement', c: true },
+        { id: 'C', t: 'Security attestation', c: false },
+        { id: 'D', t: 'Service-level agreement', c: false }
+      ],
+      expl: 'Per tutelare la natura altamente riservata delle informazioni sensibili riscontrate dalla red team durante un test intrusivo di penetrazione, si richiede la sottoscrizione formale di un accordo di non divulgazione / Non-disclosure agreement (NDA).'
+    },
+    {
+      id: 'SCREEN_063',
+      text: 'Which of the following statements best describes the relationship between the elements of risk?',
+      opts: [
+        { id: 'A', t: 'Threats exploit vulnerabilities', c: true },
+        { id: 'B', t: 'Threat actors create vulnerabilities in assets', c: false },
+        { id: 'C', t: 'Threats cause impact to vulnerabilities', c: false },
+        { id: 'D', t: 'Threat actors initiate vulnerabilities', c: false }
+      ],
+      expl: 'La definizione cardinale di rischio sancisce che gli attori o gli agenti di minaccia sfruttano le vulnerabilità o i difetti del sistema (Threats exploit vulnerabilities) per incidere negativamente sui beni aziendali.'
+    },
+    {
+      id: 'SCREEN_064',
+      text: 'Which type of assessment looks at events that could exploit vulnerabilities?',
+      opts: [
+        { id: 'A', t: 'Penetration test', c: false },
+        { id: 'B', t: 'Threat assessment', c: true },
+        { id: 'C', t: 'Risk assessment', c: false },
+        { id: 'D', t: 'Vulnerability assessment', c: false }
+      ],
+      expl: 'Un Threat Assessment (Valutazione delle minacce) si concentra specificamente sull\'identificazione e sulla ricostruzione di eventi avversi o soggetti esterni in grado di approfittare attivamente di debolezze intrinseche.'
+    },
+    {
+      id: 'SCREEN_097',
+      text: 'Which of the following steps in the risk management process involves establishing the scope and potential risks involved with a project?',
+      opts: [
+        { id: 'A', t: 'Risk monitoring and review', c: false },
+        { id: 'B', t: 'Risk treatment', c: false },
+        { id: 'C', t: 'Risk assessment', c: false },
+        { id: 'D', t: 'Risk identification', c: true }
+      ],
+      expl: 'Consiste nell\'Identificazione del Rischio (Risk Identification) l\'attività preliminare volta a definire lo scopo (scope) di un\'analisi e circoscrivere preventivamente tutti i potenziali pericoli associati.'
+    },
+    {
+      id: 'SCREEN_151',
+      text: 'A company purchased cyber insurance to address items listed on the risk register. Which of the following strategies does this represent?',
+      opts: [
+        { id: 'A', t: 'Accept', c: false },
+        { id: 'B', t: 'Transfer', c: true },
+        { id: 'C', t: 'Mitigate', c: false },
+        { id: 'D', t: 'Avoid', c: false }
+      ],
+      expl: 'La stipula di una polizza assicurativa cyber (Cyber Insurance) costituisce la rappresentazione proverbiale del Trasferimento del Rischio (Risk Transference), in quanto l\'impatto finanziario viene convogliato su un ente assicuratore esterno.'
+    },
+    {
+      id: 'SCREEN_155',
+      text: 'Which of the following is the most likely to be used to document risks, responsible parties, and thresholds?',
+      opts: [
+        { id: 'A', t: 'Risk tolerance', c: false },
+        { id: 'B', t: 'Risk transfer', c: false },
+        { id: 'C', t: 'Risk register', c: true },
+        { id: 'D', t: 'Risk analysis', c: false }
+      ],
+      expl: 'Il Registro dei Rischi (Risk Register) è il compendio principale progettato appositamente per listare i singoli pericoli mappati, gli assegnatati responsabili (Risk Owners) e le relative soglie di scatto difensivo.'
+    },
+    {
+      id: 'SCREEN_193',
+      text: 'Which of the following has been implemented when a host-based firewall on a legacy Linux system allows connections from only specific internal IP addresses?',
+      opts: [
+        { id: 'A', t: 'Compensating control', c: true },
+        { id: 'B', t: 'Network segmentation', c: false },
+        { id: 'C', t: 'Transfer of risk', c: false },
+        { id: 'D', t: 'SNMP traps', c: false }
+      ],
+      expl: 'Dato che la vecchiaia tecnologica del sistema Linux (Legacy) previene l\'applicazione di patch ideali all\'origine, la configurazione restrittiva di regole di filtraggio host-based rappresenta una barriera provvisoria definita Controllo Compensativo (Compensating Control).'
+    },
+    {
+      id: 'SCREEN_247',
+      text: 'A company is required to perform a risk assessment on an annual basis. Which of the following types of risk assessments does this requirement describe?',
+      opts: [
+        { id: 'A', t: 'Continuous', c: false },
+        { id: 'B', t: 'Ad hoc', c: false },
+        { id: 'C', t: 'Recurring', c: true },
+        { id: 'D', t: 'One time', c: false }
+      ],
+      expl: 'Un adempimento imposto periodicamente scadenziato su base fissa (come un esame rischi annuale obbligatorio) delinea per definizione un processo di tipo Ricorrente (Recurring).'
+    },
+    {
+      id: 'SCREEN_274',
+      text: 'Which of the following risk management strategies should an enterprise adopt first if a legacy application is critical to business operations and there are preventative controls that are not yet implemented?',
+      opts: [
+        { id: 'A', t: 'Mitigate', c: true },
+        { id: 'B', t: 'Accept', c: false },
+        { id: 'C', t: 'Transfer', c: false },
+        { id: 'D', t: 'Avoid', c: false }
+      ],
+      expl: 'Se un software obsoleto vitale soffre di rischi e sono note barriere di tutele preventive non ancora abilitate, il dovere primo dell\'organizzazione è l\'applicazione di tali tutele per Mitigare il rischio (Mitigate).'
+    },
+    {
+      id: 'SCREEN_282',
+      text: 'Which of the following would be most useful in determining whether the long-term cost to transfer a risk is less than the impact of the risk?',
+      opts: [
+        { id: 'A', t: 'ARO', c: false },
+        { id: 'B', t: 'RTO', c: false },
+        { id: 'C', t: 'RPO', c: false },
+        { id: 'D', t: 'ALE', c: true },
+        { id: 'E', t: 'SLE', c: false }
+      ],
+      expl: 'L\'ALE (Annualized Loss Expectancy) computa il danno annuo stimato proiettato. È l\'indicatore più efficace nelle analisi costi-benefici finanziarie per decidere se i costi correnti di una polizza assicurativa sono vantaggiosi o meno rispetto alla perdita attesa.'
+    },
+    {
+      id: 'SCREEN_305',
+      text: 'An organization would like to calculate the time needed to resolve a hardware issue with a server. Which of the following risk management processes describes this example?',
+      opts: [
+        { id: 'A', t: 'Recovery point objective', c: false },
+        { id: 'B', t: 'Mean time between failures', c: false },
+        { id: 'C', t: 'Recovery time objective', c: false },
+        { id: 'D', t: 'Mean time to repair', c: true }
+      ],
+      expl: 'La definizione tecnica di MTTR (Mean Time to Repair / Tempo medio di riparazione) specifica esattamente l\'intervallo temporaneo richiesto per risolvere anomalie hardware o software e ripristinare il corretto funzionamento di un componente.'
+    },
+    {
+      id: 'SCREEN_368',
+      text: 'Which of the following best describes the risk present after controls and mitigating factors have been applied?',
+      opts: [
+        { id: 'A', t: 'Residual', c: true },
+        { id: 'B', t: 'Avoided', c: false },
+        { id: 'C', t: 'Inherent', c: false },
+        { id: 'D', t: 'Operational', c: false }
+      ],
+      expl: 'Il Rischio Residuo (Residual Risk) è la frazione di minaccia ed esposizione economica che permane attiva nell\'ambiente anche a seguito dell\'introduzione tempestiva di tutele d\'allarme e mitigazioni.'
+    },
+    {
+      id: 'SCREEN_457',
+      text: 'Which of the following tasks is typically included in the BIA process?',
+      opts: [
+        { id: 'A', t: 'Estimating the recovery time of systems', c: true },
+        { id: 'B', t: 'Identifying the communication strategy', c: false },
+        { id: 'C', t: 'Evaluating the risk management plan', c: false },
+        { id: 'D', t: 'Establishing the backup and recovery procedures', c: false },
+        { id: 'E', t: 'Developing the incident response plan', c: false }
+      ],
+      expl: 'Strisciare una mappa dettagliata che stimi con rigore i tempi operativi di tolleranza ed escussione necessari per rimettere in marcia gli apparati IT (estimating the recovery time) rappresenta l\'essenza delle attività di BIA.'
+    },
+    {
+      id: 'SCREEN_556',
+      text: 'A security officer is implementing a security awareness program and is placing security-themed posters around the building and is assigning online user training. Which of the following would the security officer most likely implement?',
+      opts: [
+        { id: 'A', t: 'Password policy', c: false },
+        { id: 'B', t: 'Access badges', c: false },
+        { id: 'C', t: 'Phishing campaign', c: true },
+        { id: 'D', t: 'Risk assessment', c: false }
+      ],
+      expl: 'Nell\'ambito di un programma strutturato di sensibilizzazione dell\'utente, una risorsa straordinaria per addestrare sul campo all\'identificazione di truffe digitali e phishing è il lancio controllato di una campagna di Phishing simulata (Phishing campaign).'
+    },
+    {
+      id: 'SCREEN_559',
+      text: 'An employee clicks a malicious link in an email that appears to be from the company\'s Chief Executive Officer. The employee\'s computer is infected with ransomware that encrypts the company\'s files. Which of the following is the most effective way for the company to prevent similar incidents in the future?',
+      opts: [
+        { id: 'A', t: 'Security awareness training', c: true },
+        { id: 'B', t: 'Database encryption', c: false },
+        { id: 'C', t: 'Segmentation', c: false },
+        { id: 'D', t: 'Reporting suspicious emails', c: false }
+      ],
+      expl: 'Gli attacchi di ingegneria sociale (social engineering) perpetrati simulando l\'identità del CEO (CEO Fraud) fanno leva sulla sottomissione psicologica o disattenzione dell\'utente. Il rimedio principe risiede nell\'addestramento continuo dell\'organico mediante corsi di Security Awareness Training.'
+    },
+    {
+      id: 'SCREEN_578',
+      text: 'Due to a cyberattack, a company\'s IT systems were not operational for an extended period of time. The company wants to measure how quickly the systems must be restored in order to minimize business disruption. Which of the following would the company most likely use?',
+      opts: [
+        { id: 'A', t: 'Recovery point objective', c: false },
+        { id: 'B', t: 'Risk appetite', c: false },
+        { id: 'C', t: 'Risk tolerance', c: false },
+        { id: 'D', t: 'Recovery time objective', c: true },
+        { id: 'E', t: 'Mean time between failure', c: false }
+      ],
+      expl: 'L\'RTO (Recovery Time Objective / Obiettivo del tempo di ripristino) calcola e risponde esattamente al quesito logico di quanta celerità sia necessaria per risuscitare macchine e applicativi prima del default o danni irrimediabili d\'impresa.'
+    },
+    {
+      id: 'SCREEN_580',
+      text: 'Which of the following should a security team use to document persistent vulnerabilities with related recommendations?',
+      opts: [
+        { id: 'A', t: 'Audit report', c: false },
+        { id: 'B', t: 'Risk register', c: true },
+        { id: 'C', t: 'Compliance report', c: false },
+        { id: 'D', t: 'Penetration test', c: false }
+      ],
+      expl: 'Le debolezze scoperte che non trovano immediata risoluzione devono essere messe in archivio e monitorate indicando tutele temporanee e raccomandazioni all\'interno del Registro dei Rischi (Risk Register).'
+    },
+    {
+      id: 'SCREEN_583',
+      text: 'A company is performing a risk assessment on new software the company plans to use. Which of the following should the company assess during this process?',
+      opts: [
+        { id: 'A', t: 'Software vulnerabilities', c: true },
+        { id: 'B', t: 'Cost-benefit analysis', c: false },
+        { id: 'C', t: 'Ongoing monitoring strategies', c: false },
+        { id: 'D', t: 'Network infrastructure compatibility', c: false }
+      ],
+      expl: 'Mentre si effettua un esame preventivo della sicurezza di un applicativo di prevista adozione, l\'ingegnere di sicurezza indaga soprattutto le vulnerabilità del software stesso (Software vulnerabilities) per comprendere quale superficie d\'esposizione introduce.'
+    },
+    {
+      id: 'SCREEN_625',
+      text: 'Which of the following steps in the risk management process involves establishing the scope and potential risks involved with a project?',
+      opts: [
+        { id: 'A', t: 'Risk assessment', c: false },
+        { id: 'B', t: 'Risk identification', c: true },
+        { id: 'C', t: 'Risk treatment', c: false },
+        { id: 'D', t: 'Risk monitoring and review', c: false }
+      ],
+      expl: 'L\'inquadramento degli scopi e l\'acquisizione delle potenziali criticità relative a una nuova iniziativa rispecchiano la fase iniziale di Identificazione del Rischio (Risk Identification).'
+    },
+    {
+      id: 'SCREEN_640',
+      text: 'A company is considering an expansion of access controls for an application that contractors and internal employees use to reduce costs. Which of the following risk elements should the implementation team understand before granting access to the application?',
+      opts: [
+        { id: 'A', t: 'Threshold', c: false },
+        { id: 'B', t: 'Appetite', c: true },
+        { id: 'C', t: 'Avoidance', c: false },
+        { id: 'D', t: 'Register', c: false }
+      ],
+      expl: 'Prima di estendere e spalancare accessi sensibili a soggetti di terze parti o contrattisti per finalità di risparmio, la commissione deve comprendere appieno il livello di Appetito al Rischio (Risk Appetite) definito dalla Governance aziendale, per capire se si rientra nei confini accettati.'
+    },
+    {
+      id: 'SCREEN_656',
+      text: 'While conducting a business continuity tabletop exercise, the security team becomes concerned by potential impact if a generator was to develop a fault during failover. Which of the following is the team most likely to consider in regard to risk management activities?',
+      opts: [
+        { id: 'A', t: 'RPO', c: false },
+        { id: 'B', t: 'ARO', c: false },
+        { id: 'C', t: 'BIA', c: true },
+        { id: 'D', t: 'MTTR', c: false }
+      ],
+      expl: 'Valutare il potenziale impatto disastroso e fallimentare derivante dalla rottura energetica o mancata alimentazione di riserva rientra nelle tipiche e peculiari analisi d\'Impatto sul Business (BIA / Business Impact Analysis).'
+    },
+    {
+      id: 'SCREEN_670',
+      text: 'A company is aware of a given security risk related to a specific market segment. The business chooses not to accept responsibility and target their services to a different market segment. Which of the following describes this risk management strategy?',
+      opts: [
+        { id: 'A', t: 'Exemption', c: false },
+        { id: 'B', t: 'Exception', c: false },
+        { id: 'C', t: 'Avoid', c: true },
+        { id: 'D', t: 'Transfer', c: false }
+      ],
+      expl: 'La dismissione e l\'abbandono deliberato di un intero mercato vulnerabile pur di non doversi sobbarcare oneri e insidie di sicurezza costituisce una pura strategia di Evitamento del Rischio (Risk Avoidance).'
+    },
+    {
+      id: 'SCREEN_672',
+      text: 'Which of the following is an example of a treatment strategy for a continuous risk?',
+      opts: [
+        { id: 'A', t: 'Email gateway to block phishing attempts', c: true },
+        { id: 'B', t: 'Background checks for new employees', c: false },
+        { id: 'C', t: 'Dual control requirements for wire transfers', c: false },
+        { id: 'D', t: 'Branch protection as part of the CI/CD pipeline', c: false }
+      ],
+      expl: 'Un rischio continuo, come la minaccia perenne di phishing che investe quotidianamente le caselle e-mail dell\'organico, si mitiga proattivamente installando un mail gateway che compia un filtraggio in tempo reale continuativo.'
+    },
+    {
+      id: 'SCREEN_711',
+      text: 'Which of the following analysis methods allows an organization to measure the exposure factor associated with organizational assets?',
+      opts: [
+        { id: 'A', t: 'Heuristic', c: false },
+        { id: 'B', t: 'Quantitative', c: true },
+        { id: 'C', t: 'User-driven', c: false },
+        { id: 'D', t: 'Trend-based', c: false }
+      ],
+      expl: 'Il calcolo matematico deterministico di indici economici oggettivi come il Fattore di Esposizione (EF) è una prerogativa di esclusiva attribuzione dell\'analisi di tipo Quantitativo (Quantitative Risk Analysis).'
+    },
+    {
+      id: 'SCREEN_734',
+      text: 'Which of the following is used to calculate the impact to an organization per cybersecurity incident?',
+      opts: [
+        { id: 'A', t: 'SLE', c: true },
+        { id: 'B', t: 'ALE', c: false },
+        { id: 'C', t: 'ARO', c: false },
+        { id: 'D', t: 'SLA', c: false }
+      ],
+      expl: 'L\'indicatore SLE (Single Loss Expectancy) misura esattamente il controvalore pecuniario stimato e patito dall\'organizzazione a causa di un singolo cyber-attacco riuscito.'
+    }
+  ];
+
+  /* ── Logica quiz ────────────────────────────────────────────── */
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  /* Hidden by default */
+  document.getElementById('quiz-content').style.display = 'none';
+  document.getElementById('quiz-result').style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'Configura Quiz';
+    progressEl.style.width  = '0%';
+  }
+
+  function startQuiz(mode) {
+    let pool = Q.slice();
+    if (mode === 'quick') {
+      pool = shuffle(pool).slice(0, 10);
+    } else {
+      pool = shuffle(pool);
+    }
+
+    quiz = {
+      pool: pool,
+      idx: 0,
+      score: 0,
+      locked: false
+    };
+
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    render();
+  }
+
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
+function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ 5.3 — Gestione del Rischio di Terze Parti · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index.html">Indice generale</a>
+      <span>Dominio 5 — Governance, Program Management and Oversight</span>
+      <span>OBJ 5.3 — Third-Party Risk Management</span>
+    </div>
+
+    <header>
+      <h1>OBJ 5.3 — Processi Associati con la Valutazione e Gestione del Rischio delle Terze Parti</h1>
+    </header>
+
+    <div class="chapter-meta">
+      <p>CompTIA Security+ SY0-701 · Dominio 5 — Governance, Program Management and Oversight · Peso esame: 20%</p>
+      <p>
+        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <em>Explain the processes associated with third-party risk assessment and management.</em>
+      </p>
+      <p>
+        <strong>Obiettivi coperti:</strong>
+        <span class="objectives-tag">5.3</span>
+        <span class="weight-badge">D5 = 20%</span>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Vendor Assessment</div>
+        <a href="#vendor_assessment">Valutazione delle Terze Parti</a>
+        <a href="#supply_chain">Sicurezza della Catena di Fornitura</a>
+
+        <div class="toc-section">Vendor Selection</div>
+        <a href="#vendor_selection">Criteri di Selezione e Investigazione</a>
+
+        <div class="toc-section">Agreement Types</div>
+        <a href="#agreement_types">I 7 Contratti e Accordi Chiave</a>
+        <a href="#sla_focus">SLA: Metriche e Response Time</a>
+
+        <div class="toc-section">Vendor Monitoring</div>
+        <a href="#monitoring">Monitoraggio e Regole di Ingaggio</a>
+
+        <div class="toc-section">Verifica & Quiz</div>
+        <a href="#quiz-section">Quiz interattivo (21 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — VENDOR ASSESSMENT ══════════════════════ -->
+        <section id="vendor_assessment">
+          <h2>La Valutazione del Rischio dei Fornitori (Vendor Assessment)</h2>
+          <p>
+            Nel panorama informatico moderno, le organizzazioni non sono entità isolate: utilizzano costantemente servizi in cloud (SaaS/IaaS), integrano software di sviluppatori indipendenti e delegano porzioni della propria operatività a partner industriali esterni. Questo amplia enormemente la superficie d'attacco. La <strong>Valutazione dei Fornitori (Vendor Assessment)</strong> è la disciplina deputata a indagare proattivamente la postura di sicurezza delle terze parti.
+          </p>
+
+          <div class="critical">
+            <strong>Come acquisire fiducia e conformità senza sforzi insostenibili?</strong><br>
+            Condurre audit diretti e ispezioni invasive presso ciascuno dei propri fornitori risulterebbe estremamente laborioso e proibitivo sotto l’aspetto economico. L’approccio in assoluto più veloce ed efficiente dal punto di vista dei costi consiste nel richiedere e collezionare un <strong>Rapporto di Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.<br><br>
+            Tali documenti (quali le certificazioni ISO/IEC 27001, le perizie formali o le attestazioni SOC) rappresentano evidenze redatte da organismi di certificazione esterni ed indipendenti accreditati, offrendo una prova inconfutabile dei controlli di rete e della postura informatica adottata dallo sviluppatore o partner.
+          </div>
+
+          <p>La CompTIA indica cinque canali preferenziali per la corretta valutazione del rischio tecnologico introdotto dalle relazioni esterne:</p>
+
+          <dl class="termlist">
+            <dt>Test di Penetrazione (Penetration Testing)</dt>
+            <dd>
+              Esecuzione controllata ed autorizzata di attacchi simulati sull'infrastruttura informatica esposta del fornitore, per scoprirne eventuali punti ciechi logici o sistemici prima della stipula dei patti d'integrazione.
+            </dd>
+
+            <dt>Clausola del Diritto di Audit (Right-to-Audit Clause)</dt>
+            <dd>
+              Una clausola legale vincolante, inserita esplicitamente nel contratto di fornitura, che attribuisce <strong>all'azienda cliente il diritto insindacabile di ispezionare visivamente o documentalmente</strong> i sistemi informatici, i processi lavorativi e i controlli fisici o logici eseguiti dal venditore per certificarne l’aderenza agli impegni pattuiti.
+            </dd>
+
+            <dt>Evidenza di Audit Interni (Evidence of Internal Audits)</dt>
+            <dd>
+              La formalizzazione e condivisione di documentazione riservata comprovante lo svolgimento regolare di verifiche periodiche intraprese dagli auditor interni del fornitore stesso.
+            </dd>
+
+            <dt>Valutazioni Indipendenti (Independent Assessments)</dt>
+            <dd>
+              Utilizzate quando un potenziale business partner di sviluppo software (es. nel settore medico/ospedaliero) richiede garanzie concrete del rispetto delle normative sulla privacy. In questo frangente si fornisce una <strong>Attestazione di Sicurezza (Security Attestation)</strong> di terzi indipendenti che provi formalmente la conformità aziendale con i regolamenti di settore (come HIPAA per la privacy sanitaria).
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 2 — CATENA DI FORNITURA / SUPPLY CHAIN ════ -->
+        <section id="supply_chain">
+          <h2>La Sicurezza della Catena di Fornitura (Supply Chain Security)</h2>
+          <p>
+            Un'organizzazione può disporre di firewall invalicabili e difese centrali impenetrabili, ma rimane esposta se i dispositivi hardware o i software utilizzati nascondono difetti nativi o alterazioni malevole introdotte durante il loro transito produttivo.
+          </p>
+
+          <div class="exam-tip">
+            <strong>IL RISCHIO DI HARDWARE CONTRAFFATTO</strong><br>
+            Il pericolo di incorrere ed integrare inconsapevolmente dell'<strong>Hardware Contraffatto (Counterfeit Hardware)</strong> — ad esempio schede di rete modificate o chip provvisti di micro-backdoor inserite durante l'assemblaggio di fabbrica — si combatte efficacemente per mezzo di una <strong>Analisi Approfondita della Catena di Fornitura (Thorough Supply Chain Analysis)</strong>. <br><br>
+            Per facilitare questa mappatura totale e raccogliere visibilità sui passaggi logistici di terzi, i team impiegano speciali suite di catalogazione denominate <strong>Strumenti di Illuminazione (Illumination Tools)</strong>, capaci di scandagliare le interrelazioni geolocalizzate, le dipendenze software latenti e l’affidabilità finanziaria di tutti i sub-fornitori profondi a livello industriale.
+          </div>
+
+          <dl class="termlist">
+            <dt>Distinta Base del Software (SBOM — Software Bill of Materials)</dt>
+            <dd>
+              È un inventario formale, strutturato e nidificato (solitamente redatto in formati machine-readable come CycloneDX o SPDX) che elenca dettagliatamente **ogni singolo componente, libreria open-source d'esterno, dipendenza o modulo integrati nel codice o applicativo di terze parti** in uso all'azienda. 
+              <br><br>
+              In ottemperanza alla sicurezza dell'ecosistema, avere una SBOM sempre aggiornata permette al team di sicurezza di verificare immediatamente, in pochissimi secondi, se una nuova vulnerabilità critica zero-day divulgata a livello pubblico (es. Log4j o vulnerabilità su specifiche versioni di OpenSSL) affetti l'infrastruttura d'impresa semplicemente interrogando l'inventario SBOM, escludendo laboriosi scans manuali delle macchine o analisi forensi del codice.
+            </dd>
+
+            <dt>Interconnection Security Agreement (ISA)</dt>
+            <dd>
+              Rappresenta un accordo tecnologico ed organizzativo vincolante, essenziale per disciplinare le interconnessioni di dati. Un <strong>ISA</strong> documenta accuratamente i **requisiti di sicurezza tecnici, fisici e logici necessari per connettere in via diretta due o più sistemi informatici indipendenti** appartenenti ad organizzazioni diverse (es. il network interno della ditta e i server di reportistica di un partner logistico locale). 
+              <br><br>
+              Nello specifico, l'ISA descrive minuziosamente i protocolli di comunicazione autorizzati sul tragitto, i cifrari impiegati per crittografare la linea, i requisiti di autenticazione e controllo d'accesso, i tempi d'uptime, i processi di monitoraggio congiunto ed i flussi operativi di scollegamento o de-commissionamento immediato dei link in caso di intrusione rilevata.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 3 — VENDOR SELECTION ══════════════════════ -->
+        <section id="vendor_selection">
+          <h2>Criteri di Rilevazione e Selezione dei Fornitori (Vendor Selection)</h2>
+          <p>
+            Prima di accordare fiducia o integrare flussi di lavoro, l'azienda deve eseguire attività di triage formale incentrate su due capisaldi operativi:
+          </p>
+
+          <dl class="termlist">
+            <dt>Dovuta Diligenza (Due Diligence)</dt>
+            <dd>
+              Raffigura lo sforzo proattivo di indagine e investigazione rigorosa intrapreso dalla ditta prima di formalizzare un accordo commerciale. L'esempio proverbiale d'esame vede l'analista di sicurezza impegnato a <strong>esaminare e valutare un’applicazione cloud SaaS (ad esempio per l'ufficio risorse umane) richiedendo formali rapporti di attestazione SOC 2 (Sytem and Organization Controls Type II) del fornitore</strong>. Questo passaggio permette di validare le reali protezioni relative a sicurezza, confidenzialità e disponibilità del dato affidato.
+            </dd>
+
+            <dt>Conflitto di Interessi (Conflict of Interest)</dt>
+            <dd>
+              Investigazione tesa ad accertare che soggetti decisionali dell'azienda o del fornitore non abbiano interessi personali, o ruoli finanziari latenti in diretta frizione con l'obiettività professionale ed etica richiesta dalla partnership d'impresa.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 4 — AGREEMENT TYPES ═════════════════════════ -->
+        <section id="agreement_types">
+          <h2>I 7 Contratti e Accordi Chiave del Rischio di Terze Parti</h2>
+          <p>
+            I patti di collaborazione, i doveri operativi e i limiti di riservatezza tra clienti e società partners devono trovare un ancoraggio legale in contratti ed intese ben strutturati:
+          </p>
+
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Accordo d'Esame</th>
+                  <th>Descrizione Tecnica CompTIA</th>
+                  <th>Dettaglio Operativo / Esempio Core</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="label" style="color: #0F766E;">SLA</td>
+                  <td><strong>Accordo sul Livello di Servizio</strong> (Service-Level Agreement)</td>
+                  <td>
+                    Documento quantitativo rigido che stabilisce i requisiti operativi, come le tolleranze di <strong>Uptime (disponibilità) dei sistemi (es: 99.99%)</strong> e le <strong>finestre temporali massime per la risposta del fornitore ai ticket d'incidente (Response Time)</strong>.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0B1F3A;">MSA</td>
+                  <td><strong>Accordo Quadro di Servizio</strong> (Master Service Agreement)</td>
+                  <td>
+                    Accordo macroscopico destinato a <strong>semplificare i processi di business ricorrenti e pluriennali, fissando i termini e condizioni legali generali valevoli per ogni rapporto</strong>. Consente di rinegoziare tali termini generali a intervalli lunghi (es. ogni tre anni), velocizzando l'operatività ordinaria.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0B1F3A;">SOW / WO</td>
+                  <td><strong>Dichiarazione di Lavoro / Ordine di Lavoro</strong> (Statement of Work / Work Order)</td>
+                  <td>
+                    La descrizione analitica ed operativa del singolo incarico mirato concordato tra le ditte. Identifica in modo dettagliato <strong>il progetto specifico, i relativi costi totali, i requisiti di completamento ed i tempi precisi stimati</strong>, inclusa la specifica del <strong>carico del monte ore previsto per il pen-test o per lo sviluppo coordinato</strong>.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0B1F3A;">NDA</td>
+                  <td><strong>Accordo di Riservatezza / Non Divulgazione</strong> (Non-Disclosure Agreement)</td>
+                  <td>
+                    Patto legale costrittivo firmato per <strong>impedire tassativamente l'esposizione o divulgazione illegittima di dati protetti o formule proprietarie a terzi</strong>. La sua omissione causa immediate denunce ed incidenti quando ad auditor esterni o dipendenti in uscita viene consentito l'accesso non presidiato a segreti d'azienda.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0D9488;">MOU</td>
+                  <td><strong>Protocollo d'Intesa</strong> (Memorandum of Understanding)</td>
+                  <td>
+                    Dichiarazione d'intenti formale non vincolante a livello legale, siglata all'inizio delle relazioni per allineare gli obiettivi comuni e i propositi operativi generali prima dei contratti definitivi.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0D9488;">MOA</td>
+                  <td><strong>Memorando di Accordo</strong> (Memorandum of Agreement)</td>
+                  <td>
+                    Un legame pre-contrattuale più strutturato e vincolante rispetto al MOU, che circoscrive azioni concordate e responsabilità condivise in attesa dei contratti quadro.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #4B5563;">BPA</td>
+                  <td><strong>Accordo tra Partner Commerciali</strong> (Business Partners Agreement)</td>
+                  <td>
+                    Accordo aziendale formale che regolamenta profitti eccezionali, oneri contabili operativi, governance decisionale ed eventuali tutele legali interne relative alla costituzione ed esercizio di una joint venture o s.r.l.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 5 — SLA IN-DEPTH ═════════════════════════════ -->
+        <section id="sla_focus">
+          <h2>Approfondimento didattico: Le Metriche Cardinali degli SLA</h2>
+          <p>
+            Per l'esame non è sufficiente riconoscere l'acronimo SLA, ma è fondamentale comprendere l'applicazione reale delle sue metriche operative d'ingaggio:
+          </p>
+
+          <dl class="termlist">
+            <dt>Garanzia di Disponibilità (Uptime Guarantee)</dt>
+            <dd>
+              Espressa in valore percentuale (es. 99%, 99.9% o la classica "regola dei quattro nove" di importo pari a <strong>99.99%</strong>). Misura l’arco di funzionamento ininterrotto concesso ad ogni software cloud o infrastruttura ospitata.
+            </dd>
+
+            <dt>Tempo di Risposta all'Incidente (Incident Response Time)</dt>
+            <dd>
+              Il lasso temporale esatto e contrattualizzato concesso ai tecnici del service provider per prendere in carico e notificare un’interruzione d'esercizio o difetto ravvisato, calcolato sulla base dei livelli di priorità dell'incidente (da severo a minore).
+            </dd>
+
+            <dt>Penali Contrattuali (Penalty Credits)</dt>
+            <dd>
+              Meccanismo di sanzione finanziaria che obbliga l'IT provider a risarcire parzialmente l'acquirente (attraverso crediti di servizio o rimborsi spesa diretti) qualora le metriche pattuite di uptime o response window vengano disattese.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 6 — MONITORAGGIO E ROE ══════════════════════ -->
+        <section id="monitoring">
+          <h2>Il Monitoraggio Continuo e le Regole d'Ingaggio</h2>
+          <p>
+            L'approvazione formale iniziale non protegge l'azienda da cambiamenti futuri della postura informatica del fornitore:
+          </p>
+
+          <dl class="termlist">
+            <dt>Monitoraggio del Fornitore (Vendor Monitoring)</dt>
+            <dd>
+              Pratica integrativa di vigilanza perpetua sul comportamento informatico ed organizzativo delle terze parti. Si avvale di indici esterni di punteggio di credito cyber (cybersecurity credit ratings), scanner automatici delle porte dell'infrastruttura ed audit di compliance trimestrali.
+            </dd>
+
+            <dt>Questionari di Valutazione (Security Questionnaires)</dt>
+            <dd>
+              Moduli standardizzati (es. basati su framework CAIQ o SIG) inviati periodicamente al fornitore per interrogarlo sulla strutturazione dei propri controlli d'accesso, conformità legislative ed eventuale adozione del principio di minimo privilegio.
+            </dd>
+
+            <dt>Regole di Ingaggio (Rules of Engagement — RoE)</dt>
+            <dd>
+              Documento formale che prescrive e definisce in modo granitico i confini, gli orari ammessi di test, gli indirizzi IP esenti da attacchi e le metodologie distruttive vietate prima che un team di specialisti inizi l'analisi penetrativa (Penetration Test) della rete.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>COMPORTAMENTO NEI CASI DI COMPROMISSIONE DATI DI TERZE PARTI</strong><br>
+            Cosa fare se un database gestito da una terza parte subisce un attacco o le informazioni d'impresa finiscono in vendita nel mercato sommerso?<br>
+            <ul>
+              <li><strong>Notifica delle Parti Impattate:</strong> Non appena accertata la proprietà del dato compromesso esposto in bacheca nel Dark Web, la priorità assoluta risiede nella <strong>notifica tempestiva immediata a tutti i soggetti coinvolti e colpiti dalla violazione (Notify the applicable parties)</strong>, per consentire loro l’adozione tempestiva di misure preventive individuali.</li>
+              <li><strong>Esempio SQL Injection:</strong> In caso di intrusioni legate a log di tentativi SQL Injection tesi all'inserimento di account estranei (es: <code>INSERT INTO users VALUES('temp','pass123')</code>), l'analista avvia l'attività di contenimento <strong>controllando istantaneamente se tali record sono comparsi nella tabella users</strong> del database per misurare l'avvenuta violazione.</li>
+            </ul>
+          </div>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 5.3</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>21 domande d’esame ufficiali</strong> estratte e catalogate con cura sull'Obiettivo 5.3 (Gestione del Rischio di Terze Parti) in lingua inglese, con feedback istantaneo e spiegazione chiarificatrice in italiano per ciascun quesito.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 5.3 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 5.3</h2>
+          <p>Utilizza queste schede dinamiche per memorizzare la terminologia bilingue ufficiale ed i contratti d'esame del Domain 5.3 (Clicca sulla scheda per girarla).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Right-to-audit clause</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Clausola vincolante che conferisce legalmente al cliente acquirente il diritto formale di esaminare i registri e ispezionare sul posto i controlli informatici del fornitore esterno.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SLA (Service-Level Agreement)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Accordo quantitativo metrico teso a normare <strong>Uptime minimi (es. 99.99%)</strong> e massime finestre di tolleranza di reazione / risposta ai ticket d'incidente (Response Time).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>MSA (Master Service Agreement)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Accordo quadro stabilito ad ampio raggio (re-visitato es. ogni tre anni) che fissa i patti legali ed economici ricorrenti generali, accelerando i successivi singoli passaggi operativi (Work Orders).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SOW (Statement of Work)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Descrizione di lavoro atomica focalizzata su una singola fornitura/progetto. Specifica rigidamente i <strong>costi previsti, la tempistica concordata e le stime sul monte ore di impegno erogativo</strong>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SaaS Due Diligence (SOC 2)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Attività d'indagine preliminare intrapresa prima dell'acquisto (es: valutare un SaaS per l'ufficio HR richiedendo i report d'esame formali SOC 2 del produttore).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Counterfeit Hardware Countermeasure</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La barriera fondamentale contro i circuiti contraffatti è l'esercizio regolare di una **thorough supply chain analysis** (analisi approfondita della catena di fornitura), supportata da **illumination tools**.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="../index.html">← Indice generale</a>
+          <a href="obj5_2_risk_management.html" class="secondary">← OBJ 5.2 — Risk Management Process</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ QUIZ MODAL ════════════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal">
+    <div class="quiz-modal-header">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <div id="quiz-setup" class="quiz-setup">
+      <p class="quiz-setup-title">Scegli la modalità</p>
+      <p class="quiz-setup-sub">Obiettivo 5.3 · 21 domande disponibili</p>
+      <div class="quiz-setup-options">
+        <button class="quiz-mode-btn" data-mode="all">
+          <strong>Tutte le domande</strong>
+          <span>21 domande in ordine casuale</span>
+        </button>
+        <button class="quiz-mode-btn" data-mode="quick">
+          <strong>Sessione rapida</strong>
+          <span>10 domande selezionate casualmente</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="quiz-content">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
+      <div class="quiz-footer">
+        <button id="quiz-next-btn" class="quiz-btn primary" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="quiz-result-label">Risultato OBJ 5.3</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct"   class="quiz-result-pct"></div>
+      <div class="quiz-result-actions">
+        <button id="quiz-retry-btn" class="quiz-btn">Riprova</button>
+        <button id="quiz-done-btn"  class="quiz-btn primary">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* ── Dati quiz OBJ 5.3 (21 domande d'esame) ─────────────────── */
+  const Q = [
+    {
+      id: 'SCREEN_042',
+      text: 'Which of the following concepts should be the most important consideration when determining how to budget properly for security controls?',
+      opts: [
+        { id: 'A', t: 'Threat of natural disasters', c: false },
+        { id: 'B', t: 'Qualitative costs', c: false },
+        { id: 'C', t: 'Risk likelihood and impact', c: true },
+        { id: 'D', t: 'Asset identification'Index, c: false }
+      ],
+      expl: 'La probabilità e l\'impatto del rischio (Risk likelihood and impact) consentono di stabilire in modo logico e strutturato come allocare le risorse finanziarie aziendali per i controlli di sicurezza, sventando danni catastrofici probabili.'
+    },
+    {
+      id: 'SCREEN_085',
+      text: 'A client asked a security company to provide a document outlining the project, the cost, and the completion time frame. Which of the following documents should the company provide to the client?',
+      opts: [
+        { id: 'A', t: 'MSA', c: false },
+        { id: 'B', t: 'SLA', c: false },
+        { id: 'C', t: 'BPA', c: false },
+        { id: 'D', t: 'SOW', c: true }
+      ],
+      expl: 'Il SOW (Statement of Work) specifica rigidamente l\'architettura d\'ingaggio del singolo progetto erogativo, dettagliando i costi finali e le date scadenziate di consegna delle attività concordate.'
+    },
+    {
+      id: 'SCREEN_104',
+      text: 'Your company is in the midst of negotiating a business partnership with an organization specializing in secure software development for the medical industry. The partner organization has requested proof that your organization is compliant with HIPAA data privacy standards. What type of documentation should you provide to the partner organization?',
+      opts: [
+        { id: 'A', t: 'Service-level agreement', c: false },
+        { id: 'B', t: 'Memorandum of understanding', c: false },
+        { id: 'C', t: 'Memorandum of agreement', c: false },
+        { id: 'D', t: 'Security attestation', c: true }
+      ],
+      expl: 'Fornire una Security Attestation (Attestazione formale di sicurezza indipendente) offre una prova di asseverazione oggettiva circa il rispetto stringente delle regolamentazioni HIPAA di settore.'
+    },
+    {
+      id: 'SCREEN_138',
+      text: 'A company is required to use certified hardware when building networks. Which of the following best addresses the risks associated with procuring counterfeit hardware?',
+      opts: [
+        { id: 'A', t: 'A thorough analysis of the supply chain', c: true },
+        { id: 'B', t: 'A legally enforceable corporate acquisition policy', c: false },
+        { id: 'C', t: 'A right to audit clause in vendor contracts and SOWs', c: false },
+        { id: 'D', t: 'An in-depth penetration test of all suppliers and vendors' , c: false }
+      ],
+      expl: 'La proliferazione di schede o circuiti spuri (Counterfeit Hardware) si dissipa e gestisce tramite un\'analisi approfondita e tracciabile della filiera distributiva (Thorough supply chain analysis).'
+    },
+    {
+      id: 'SCREEN_166',
+      text: 'A client asked a security company to provide a document outlining the project, the cost, and the completion time frame. Which of the following documents should the company provide to the client?',
+      opts: [
+        { id: 'A', t: 'MSA', c: false },
+        { id: 'B', t: 'SLA', c: false },
+        { id: 'C', t: 'BPA', c: false },
+        { id: 'D', t: 'SOW', c: true }
+      ],
+      expl: 'Il SOW circoscrive le attività puntuali, le relative quote economiche richieste ed il percorso temporale pattuito in un singolo perimetro operativo.'
+    },
+    {
+      id: 'SCREEN_186',
+      text: 'A security practitioner completes a vulnerability assessment on a company’s network and finds several vulnerabilities, which the operations team remediates. Which of the following should be done next?',
+      opts: [
+        { id: 'A', t: 'Conduct an audit.', c: false },
+        { id: 'B', t: 'Initiate a penetration test.', c: false },
+        { id: 'C', t: 'Rescan the network.', c: true },
+        { id: 'D', t: 'Submit a report.', c: false }
+      ],
+      expl: 'Immediatamente dopo il completamento delle attività di pulizia o patch (remediation) delle degenze precedentemente rilevate, si esegue una scansione confermativa (Rescan) per validare formalmente la risoluzione.'
+    },
+    {
+      id: 'SCREEN_201',
+      text: 'A company decided to reduce the cost of its annual cyber insurance policy by removing the coverage for ransomware attacks. Which of the following analysis elements did the company most likely use in making this decision?',
+      opts: [
+        { id: 'A', t: 'MTTR', c: false },
+        { id: 'B', t: 'RTO', c: false },
+        { id: 'C', t: 'ARO', c: true },
+        { id: 'D', t: 'MTBF' }
+      ],
+      expl: 'Misurando la percentuale storica o futura di accadimento periodico annuo (ARO) di un ransomware sul proprio paniere d\'esercizio, l\'impresa valuterà se convenga dismettere la polizza assorbendo internamente i costi di ripristino per massimizzare il budget.'
+    },
+    {
+      id: 'SCREEN_217',
+      text: 'Which of the following describes the maximum allowance of accepted risk?',
+      opts: [
+        { id: 'A', t: 'Risk indicator', c: false },
+        { id: 'B', t: 'Risk level', c: false },
+        { id: 'C', t: 'Risk score', c: false },
+        { id: 'D', t: 'Risk threshold', c: true }
+      ],
+      expl: 'Il tetto quantitativo tollerato oltre il quale un danno non è reputato scusabile prende il nome di Soglia del Rischio (Risk threshold), forzando l\'attivazione di sanzioni o modifiche immediate.'
+    },
+    {
+      id: 'SCREEN_234',
+      text: 'A company is working with a vendor to perform a penetration test. Which of the following includes an estimate about the number of hours required to complete the engagement?',
+      opts: [
+        { id: 'A', t: 'SOW', c: true },
+        { id: 'B', t: 'BPA', c: false },
+        { id: 'C', t: 'SLA', c: false },
+        { id: 'D', t: 'NDA', c: false }
+      ],
+      expl: 'La definizione del Statement of Work (SOW) comprende e dichiara esplicitamente le risorse e la stima del monte ore (estimate of hours) complessivo finalizzato alla finalizzazione dell\'ingaggio del pen-test.'
+    },
+    {
+      id: 'SCREEN_253',
+      text: 'A client demands at least 99.99% uptime from a service provider\'s hosted security services. Which of the following documents includes the information the service provider should return to the client?',
+      opts: [
+        { id: 'A', t: 'MOA', c: false },
+        { id: 'B', t: 'SOW', c: false },
+        { id: 'C', t: 'MOU', c: false },
+        { id: 'D', t: 'SLA', c: true }
+      ],
+      expl: 'Tutti i vincoli percentuali rigidi sull\'operatività continuativa del software (come la clausola del 99.99% di disponibilità/uptime) albergano nativamente nell\'accordo SLA contrattualizzato.'
+    },
+    {
+      id: 'SCREEN_312',
+      text: 'Which of the following describes the understanding between a company and a client about what will be provided and the accepted time needed to provide the company with the resources?',
+      opts: [
+        { id: 'A', t: 'SLA', c: true },
+        { id: 'B', t: 'MOU', c: false },
+        { id: 'C', t: 'MOA', c: false },
+        { id: 'D', t: 'BPA', c: false }
+      ],
+      expl: 'Lo SLA descrive in modo speculare i tempi tecnici per la messa a disposizione dei nodi distributivi, gli incident response time e gli asset erogati.'
+    },
+    {
+      id: 'SCREEN_339',
+      text: 'Which of the following agreement types defines the time frame in which a vendor needs to respond?',
+      opts: [
+        { id: 'A', t: 'SOW', c: false },
+        { id: 'B', t: 'SLA', c: true },
+        { id: 'C', t: 'MOA', c: false },
+        { id: 'D', t: 'MOU', c: false }
+      ],
+      expl: 'Il limite massimo entro il quale i tecnici esterni del fornitore sono chiamati a reagire a seguito di anomalie viene schedulato sotto la metrica di Response Time nell\'accordo di tipo SLA.'
+    },
+    {
+      id: 'SCREEN_430',
+      text: 'An organization requests a third-party full-spectrum analysis of its supply chain. Which of the following would the analysis team use to meet this requirement?',
+      opts: [
+        { id: 'A', t: 'Vulnerability scanner', c: false },
+        { id: 'B', t: 'Penetration test', c: false },
+        { id: 'C', t: 'SCAP', c: false },
+        { id: 'D', t: 'Illumination tool', c: true }
+      ],
+      expl: 'Gli Illumination Tools sono speciali suite destinate a mappare formalmente l\'intero ecosistema globale della catena di fornitura esplorando geolocalizzazioni o debolezze occulte di terzi.'
+    },
+    {
+      id: 'SCREEN_434',
+      text: 'A security analyst is evaluating a SaaS application that the human resources department would like to implement. The analyst requests a SOC 2 report from the SaaS vendor. Which of the following processes is the analyst most likely conducting?',
+      opts: [
+        { id: 'A', t: 'Internal audit', c: false },
+        { id: 'B', t: 'Penetration testing', c: false },
+        { id: 'C', t: 'Attestation', c: false },
+        { id: 'D', t: 'Due diligence', c: true }
+      ],
+      expl: 'L\'attività scrupolosa di verifica preventiva dei requisiti protettivi e l\'ispezione del report SOC 2 d\'un applicativo SaaS prima del suo allineamento operativo rispecchiano fedelmente il principio di Dovuta Diligenza (Due diligence).'
+    },
+    {
+      id: 'SCREEN_552',
+      text: 'A company discovered its data was advertised for sale on the dark web. During the initial investigation, the company determined the data was proprietary data. Which of the following is the next step the company should take?',
+      opts: [
+        { id: 'A', t: 'Identify the attacker’s entry methods.', c: false },
+        { id: 'B', t: 'Report the breach to the local authorities.', c: false },
+        { id: 'C', t: 'Notify the applicable parties of the breach.', c: true },
+        { id: 'D', t: 'Implement vulnerability scanning of the company\'s systems.' }
+      ],
+      expl: 'Venuti a conoscenza dell\'esposizione delle informazioni nel Dark Web, la mitigazione reattiva primaria consta nell\'allarmare e notificare celermente tutti i soggetti legalmente o materialmente impattati (Notify the applicable parties) per agevolare contromisure.'
+    },
+    {
+      id: 'SCREEN_577',
+      text: 'While investigating a possible incident, a security analyst discovers the following log entry:\n67.118.34.157 - - [28/Jul/2022:10:26:59 -0300] "GET /query.php?q=wireless%20headphones / HTTP/1.0" 200 12737\n132.18.222.103 - - [28/Jul/2022:10:27:10 -0300] "GET /query.php?q=123\';INSERT INTO users VALUES(\'temp\',\'pass123\');# / HTTP/1.0" 200 935\nWhich of the following should the analyst do first?',
+      opts: [
+        { id: 'A', t: 'Implement a WAF.', c: false },
+        { id: 'B', t: 'Disable the query.php script.', c: false },
+        { id: 'C', t: 'Block brute-force attempts on temporary users.', c: false },
+        { id: 'D', t: 'Check the users table for new accounts.', c: true }
+      ],
+      expl: 'Considerato che la querystring evidenzia l\'inserimento a database di un utente fasullo tramite una SQL Injection con codice di risposta 200 (Successo), l\'analista deve verificare istantaneamente se l\'attaccante ha registrato abusivamente tale record esplorando la tabella users (Check the users table).'
+    },
+    {
+      id: 'SCREEN_590',
+      text: 'A company filed a complaint with its IT service provider after the company discovered the service provider\'s external audit team had access to some of the company\'s confidential information. Which of the following is the most likely reason the company filed the complaint?',
+      opts: [
+        { id: 'A', t: 'The MOU had basic clauses from a template.', c: false },
+        { id: 'B', t: 'A SOW had not been agreed to by the client.', c: false },
+        { id: 'C', t: 'A WO had not been mutually approved.', c: false },
+        { id: 'D', t: 'A required NDA had not been signed.', c: true }
+      ],
+      expl: 'Per tutelare dati riservati dall\'esposizione indebita verso i tecnici o consulenti esterni del provider, è esatto dovere esigere la firma preventiva dell\'accordo di riservatezza (NDA). In sua mancanza, l\'accesso configura un grave incidente contrattuale.'
+    },
+    {
+      id: 'SCREEN_615',
+      text: 'Which of the following is the fastest and most cost-effective way to confirm a third-party supplier\'s compliance with security obligations?',
+      opts: [
+        { id: 'A', t: 'Attestation report', c: true },
+        { id: 'B', t: 'Third-party audit', c: false },
+        { id: 'C', t: 'Vulnerability assessment', c: false },
+        { id: 'D', t: 'Penetration testing', c: false }
+      ],
+      expl: 'Ottenere o consultare rapporti formali di conformità e perizia terze (Attestation report) costituisce lo strumento reattivo più rapido e conveniente per accertare il virtuosismo dei controlli senza avviare costosi audit proprietari.'
+    },
+    {
+      id: 'SCREEN_623',
+      text: 'Which of the following should a company use to provide proof of external network security testing?',
+      opts: [
+        { id: 'A', t: 'Business impact analysis', c: false },
+        { id: 'B', t: 'Supply chain analysis', c: false },
+        { id: 'C', t: 'Vulnerability assessment', c: false },
+        { id: 'D', t: 'Third-party attestation', c: true }
+      ],
+      expl: 'La Third-party attestation fornisce un documento neutrale ed ufficiale che formalizza l\'adeguato superamento e lo svolgimento regolare di rigorosi test di sicurezza della rete.'
+    },
+    {
+      id: 'SCREEN_693',
+      text: 'A company has yearly engagements with a service provider. The general terms and conditions are the same for all engagements. The company wants to simplify the process and revisit the general terms every three years. Which of the following documents would provide the best way to set the general terms?',
+      opts: [
+        { id: 'A', t: 'MSA', c: true },
+        { id: 'B', t: 'NDA', c: false },
+        { id: 'C', t: 'MOU', c: false },
+        { id: 'D', t: 'SLA', c: false }
+      ],
+      expl: 'Il Master Service Agreement (MSA) accorpa legalmente tutte le clausole ed i termini contrattuali pregressi valevoli per ingaggi pluriennali successivi, demandando i singoli ordini rapidi a semplici Work Orders.'
+    },
+    {
+      id: 'SCREEN_733',
+      text: 'Which of the following should an organization use to ensure that it can review the controls and performance of a service provider or vendor?',
+      opts: [
+        { id: 'A', t: 'Service-level agreement', c: false },
+        { id: 'B', t: 'Memorandum of agreement', c: false },
+        { id: 'C', t: 'Right-to-audit clause', c: true },
+        { id: 'D', t: 'Supply chain analysis', c: false }
+      ],
+      expl: 'La clausola del diritto di audit (Right-to-audit clause) attribuisce legalmente e contrattualmente al compratore il potere formale di penetrare ed esaminare l\'adottamento reale delle contromisure di sicurezza presso il venditore.'
+    }
+  ];
+
+  let quiz = null;
+
+  const overlay    = document.getElementById('quiz-overlay');
+  const setupEl    = document.getElementById('quiz-setup');
+  const contentEl  = document.getElementById('quiz-content');
+  const resultEl   = document.getElementById('quiz-result');
+  const counterEl  = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl  = document.getElementById('quiz-options');
+  const explanEl   = document.getElementById('quiz-explanation');
+  const nextBtn    = document.getElementById('quiz-next-btn');
+
+  contentEl.style.display = 'none';
+  resultEl.style.display  = 'none';
+
+  function shuffle(a) { return a.slice().sort(() => Math.random() - 0.5); }
+
+  function openQuiz() {
+    setupEl.style.display   = 'block';
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'none';
+    counterEl.textContent   = 'OBJ 5.3';
+    progressEl.style.width  = '0%';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function startQuiz(mode) {
+    let pool = Q.slice();
+    if (mode === 'quick') {
+      pool = shuffle(pool).slice(0, 10);
+    } else {
+      pool = shuffle(pool);
+    }
+
+    quiz = {
+      pool: pool,
+      idx: 0,
+      score: 0,
+      locked: false
+    };
+
+    setupEl.style.display   = 'none';
+    contentEl.style.display = 'block';
+    render();
+  }
+
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function pick(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+
+function showResult() {
+    const n   = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display  = 'block';
+    counterEl.textContent   = 'Risultato finale';
+    progressEl.style.width  = '100%';
+    document.getElementById('result-score').textContent = quiz.score + ' / ' + n;
+    const pEl = document.getElementById('result-pct');
+    pEl.textContent = pct + '%';
+    pEl.className = 'quiz-result-pct ' + (pct >= 80 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+  }
+
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    quiz = null;
+  }
+
+  document.getElementById('quiz-open-btn').addEventListener('click', openQuiz);
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-done-btn').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-retry-btn').addEventListener('click', openQuiz);
+  document.querySelectorAll('.quiz-mode-btn').forEach(b =>
+    b.addEventListener('click', () => startQuiz(b.dataset.mode))
+  );
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+})();
+</script>
+
+</body>
+</html>

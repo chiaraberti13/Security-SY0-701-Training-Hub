@@ -75,19 +75,19 @@
           </p>
 
           <div class="critical">
-            <strong>Analisi di Scenario — Log dell'Endpoint Cancellati <code>(SCREEN_016, SCREEN_028, SCREEN_126, SCREEN_287, SCREEN_317)</code>:</strong><br>
+            <strong>Analisi di Scenario — Log dell'Endpoint Cancellati:</strong><br>
             Se l'attaccante riesce a penetrare su una workstation Windows e provvede sistematicamente a **cancellare i registri degli eventi locali** (OS logs o endpoint alerts) per nascondere le prove del malware C2, l'analista del SOC deve consultare i log del <strong>Firewall</strong> e della <strong>Rete (Network logs)</strong>.
             <br><br>
             Queste sorgenti centralizzate consentono di:
             <ul>
-              <li>Identificare la destinazione esterna (indirizzi IP o domini) del traffico C2 originato dal dispositivo compromesso <code>(SCREEN_522)</code>.</li>
-              <li>Estrarre gli indirizzi IP sorgente di chi sta conducendo scansioni di porte esterne (Port scan) contro il perimetro aziendale <code>(SCREEN_712)</code>.</li>
-              <li>Rilevare il momento esatto in cui è sul perimetro l'exploit iniziale di un dispositivo IoT integrato <code>(SCREEN_661)</code>.</li>
+              <li>Identificare la destinazione esterna (indirizzi IP o domini) del traffico C2 originato dal dispositivo compromesso.</li>
+              <li>Estrarre gli indirizzi IP sorgente di chi sta conducendo scansioni di porte esterne (Port scan) contro il perimetro aziendale.</li>
+              <li>Rilevare il momento esatto in cui è sul perimetro l'exploit iniziale di un dispositivo IoT integrato.</li>
             </ul>
           </div>
 
           <div class="example-box">
-            <strong>Individuazione di Esfiltrazioni Massive <code>(SCREEN_534)</code>:</strong><br>
+            <strong>Individuazione di Esfiltrazioni Massive:</strong><br>
             Se l'azienda soffre una massiccia esfiltrazione di dati pari ad esempio a 30 GB, l'approccio più celere ed efficace per scoprire da quale server interno la fuga sia partita e quale server esterno la stia ricevendo consiste nell'**analizzare i log dei Firewall e della Rete** alla ricerca di picchi (data spikes) di traffico in uscita diretti all'esterno della infrastruttura aziendale.
           </div>
         </section>
@@ -99,7 +99,7 @@
             Le connessioni remote e i profili di accesso remoto (VPN) offrono un'infinità di record utilizzabili negli accertamenti. Uno dei segnali di abuso o furto credenziali più critici è legato alla logistica geografica.
           </p>
           <div class="focused-concept">
-            <strong>Log VPN e Impossible Travel <code>(SCREEN_737)</code>:</strong><br>
+            <strong>Log VPN e Impossible Travel:</strong><br>
             Se l'analisi di un alert per connessione VPN sospetta rileva due autenticazioni andate a buon fine con lo stesso account in un lasso di tempo ridotto (es. alle 09:43 da Chicago, USA e un'ora dopo da Roma, Italia), siamo dinanzi a un indicatore di comportamento malevolo noto come <strong>Impossible travel (Viaggio impossibile)</strong>. 
             <br><br>
             Ciò prova che una terza parte possiede sgradevolmente le chiavi o credenziali di sessione legittime dell'utente, obbligando la procedura tecnica a congelare l'account e imporne il reset immediato.
@@ -113,7 +113,7 @@
             Le applicazioni web sono tutelate a livello di istruzioni applicative da firewall di livello 7 (Web Application Firewall - WAF). Supponiamo che l'analista si imbatta in codice anomalo depositato all'interno di routine di amministrazione o di backup:
           </p>
           <div class="example-box">
-            <strong>Analisi del codice di backup malevolo <code>(SCREEN_023)</code>:</strong><br>
+            <strong>Analisi del codice di backup malevolo:</strong><br>
             Nell'analizzare un database andato offline allo scoccare di una specifica data, l'analista constata l'istruzione:<br>
             <code class="font-mono text-xs block py-1 my-1 bg-[var(--card-edge)] px-2 rounded">IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END.</code>
             <br>
@@ -128,10 +128,10 @@
             Il volume di log generato quotidianamente da router, switch, endpoint, server e applicazioni è ingestibile senza uno strumento preposto a raggrupparli strutturalmente.
           </p>
           <dl class="termlist">
-            <dt>SIEM (Security Information and Event Management) <code>(SCREEN_049)</code></dt>
+            <dt>SIEM (Security Information and Event Management)</dt>
             <dd>È la combinazione hardware e software in grado di **classificare ed analizzare dati legati e slegati provenienti da numerose fonti**, consentendo correla-analitiche, normalizzazione delle anomalie e configurazione centralizzata degli allarmi.</dd>
             
-            <dt>False Positive (Falso Positivo) <code>(SCREEN_333)</code></dt>
+            <dt>False Positive (Falso Positivo)</dt>
             <dd>Costituisce una segnalazione di minaccia generata dal SIEM o dai sistemi di intrusion prevention a fronte di un comportamento in realtà legittimo. Gli allarmi catalogati come falsi positivi rappresentano l'elemento con la **maggior probabilità di essere ignorato o trascurato dagli specialisti nel tempo** (alert fatigue).</dd>
           </dl>
         </section>
@@ -144,10 +144,10 @@
           </p>
           <ul>
             <li>
-              <strong>Sistemi Agentless (Senza agente) <code>(SCREEN_058)</code></strong>: Ideale per ridisporre una scansione e query centralizzata on-demand senza gravare di software permanente le workstation degli impiegati. Riducono notevolmente il carico di Configuration Management pur offrendo visibilità di sicurezza discreta su richiesta.
+              <strong>Sistemi Agentless (Senza agente)</strong>: Ideale per ridisporre una scansione e query centralizzata on-demand senza gravare di software permanente le workstation degli impiegati. Riducono notevolmente il carico di Configuration Management pur offrendo visibilità di sicurezza discreta su richiesta.
             </li>
             <li>
-              <strong>Endpoint Logs (Log dell'Host) <code>(SCREEN_149)</code></strong>: Se il SIEM riporta traffico internet anomalo generato da un terminale e l'analista desidera verificare quale specifico eseguibile (Process Name, MD5 Hash, PID) l'abbia innescato, la sorgente d'elezione sono appunto i <strong>Log di Endpoint</strong>, in quanto l'IPS o i log di rete generici catturano l'IP e la porta ma non i dettagli del binario locale dell'OS.
+              <strong>Endpoint Logs (Log dell'Host)</strong>: Se il SIEM riporta traffico internet anomalo generato da un terminale e l'analista desidera verificare quale specifico eseguibile (Process Name, MD5 Hash, PID) l'abbia innescato, la sorgente d'elezione sono appunto i <strong>Log di Endpoint</strong>, in quanto l'IPS o i log di rete generici catturano l'IP e la porta ma non i dettagli del binario locale dell'OS.
             </li>
           </ul>
         </section>
@@ -159,7 +159,7 @@
             Il linguaggio impiegato con specialisti SOC differisce da quello adatto agli organi direttivi.
           </p>
           <dl class="termlist">
-            <dt>Dashboard (Cruscotti visuali) <code>(SCREEN_163)</code></dt>
+            <dt>Dashboard (Cruscotti visuali)</dt>
             <dd>Strumento principale che l'amministratore di sistema deve impiegare per **presentare trimestralmente al Board of Directors** i dati salienti sull'andamento globale degli incidenti e lo stato complessivo di cybersecurity. Evita metadati tecnici ostici per la dirigenza favorendo metriche e trend grafici di fatturato d'impatto.</dd>
           </dl>
         </section>
@@ -169,19 +169,34 @@
           <h2>Event ID Windows, Metadati e Fasi Forensi</h2>
           
           <div class="focused-concept">
-            <strong>Analisi dell'Event ID 4625 <code>(SCREEN_207, SCREEN_481)</code>:</strong><br>
+            <strong>Analisi dell'Event ID 4625:</strong><br>
             Nella revisione dei log di sicurezza di un server Microsoft Windows, l'insorgenza ripetuta dello storico <strong>Event ID 4625 (Logon Failure)</strong> in una sequenza rapida indica tentativi sistematici falliti di autenticazione, riconducibili a un attacco di tipo <strong>Forza Bruta (Brute-force)</strong>. Ispezionare i <strong>User activity logs</strong> è primario per svelare l'azione abusiva d'accesso a profili d'amministrazione.
           </div>
 
           <dl class="termlist">
-            <dt>Metadata (Metadati) <code>(SCREEN_256, SCREEN_375)</code></dt>
+            <dt>Metadata (Metadati)</dt>
             <dd>Contengono attributi incorporati nei file (come foto o video) che riportano data di scatto-creazione, coordinate geografiche GPS, autore e macchina d'origine. Estrarre i metadati è il metodo d'elezione per ricavare tali informazioni senza alterare il reperto.</dd>
             
-            <dt>Forensic Acquisition (Acquisizione) <code>(SCREEN_647, SCREEN_680)</code></dt>
-            <dd>È la sottofase delle investigazioni forensi regolamentate volta all'ottenimento vero e proprio dell'immagine conforme (Bit-stream image) dai dischi rigidi o dai supporti fisici.</dd>
+            <dt>Forensic Acquisition (Acquisizione Forense)</dt>
+            <dd>È la sottofase delle investigazioni forensi regolamentate volta all'ottenimento vero e proprio dell'immagine conforme (Bit-stream image) dai dischi rigidi o dai supporti fisici. Consente l'analisi offline dettagliata preservando il sistema originale.</dd>
 
-            <dt>RAM Volatility (Volatilità della RAM) <code>(SCREEN_380)</code></dt>
+            <dt>Write Blocker (Inibitore di Scrittura)</dt>
+            <dd>Un dispositivo hardware o un driver software specializzato che <strong>impedisce tassativamente qualsiasi tentativo di scrittura o modifica accidentale</strong> della memoria di memorizzazione originale (es: hard disk del computer target) durante il processo di acquisizione forense. Garantisce l'integrità giuridica assoluta del reperto originario.</dd>
+
+            <dt>Disk Image (Immagine del Disco)</dt>
+            <dd>Una copia bit-a-bit (bit-stream image) esatta e fedele di un intero supporto fisico di archiviazione (come HDD, SSD o pen-drive USB). Include non solo i file visibili logici, ma anche la tabella delle partizioni, i file di sistema nascosti, lo spazio non allocato (unallocated space) e lo <em>slack space</em> dove potrebbero celarsi frammenti di dati precedentemente cancellati dall'attaccante.</dd>
+
+            <dt>RAM Volatility (Volatilità della RAM)</dt>
             <dd>Il principio forense <strong>Order of Volatility (Ordine di volatilità)</strong> definisce la memoria fisica **RAM** come il reperto a più elevata volatilità chimico-elettronica (seguita da file temporanei, registri ed infine memorie SSD/HDD). I contenuti della RAM vanno perciò raccolti e conservati accuratamente per primi durante l'intervento a caldo.</dd>
+
+            <dt>Memory Dump (Dump della Memoria)</dt>
+            <dd>La procedura d'estrazione e copia speculare del contenuto volatile memorizzato all'interno della memoria RAM fisica di un computer attivo in un file su disco (es: tramite utility come FTK Imager o WinPmem). Consente di ispezionare credenziali in chiaro, chiavi crittografiche attive, processi in esecuzione ed eventuali malware operanti in modalità fileless.</dd>
+
+            <dt>Live Forensics (Analisi a Caldo)</dt>
+            <dd>La conduzione di indagini informatiche direttamente su un **sistema operativo attivo e ancora acceso**, raccogliendo informazioni estremamente sensibili e volatili (come connessioni di rete TCP/UDP aperte, file aperti in tempo reale, chiavi d'accesso decifrate e dati RAM) che andrebbero irrimediabilmente perdute in caso di spegnimento fisico della valvola d'alimentazione.</dd>
+
+            <dt>Dead Forensics (Analisi a Freddo)</dt>
+            <dd>La conduzione di indagini informatiche su un **sistema spento (powered off)**, asportandone fisicamente i supporti di memorizzazione e procedendo all'imaging offline per mezzo di un write blocker. Questa tecnica è esente da rischi derivanti dall'attivazione di frammenti di codice malevolo o distruttivo ed assicura la totale stabilità degli indici logici del disco fisso.</dd>
           </dl>
         </section>
 
@@ -208,7 +223,7 @@
                   <small>Clicca per girare</small>
                 </div>
                 <div class="flashcard-back">
-                  <p>Nei log del <strong>Firewall</strong> centralizzato o dei flussi di rete, in quanto elementi residenti al di fuori del controllo diretto della workstation violata <code>(SCREEN_028)</code>.</p>
+                  <p>Nei log del <strong>Firewall</strong> centralizzato o dei flussi di rete, in quanto elementi residenti al di fuori del controllo diretto della workstation violata.</p>
                 </div>
               </div>
             </div>
@@ -220,7 +235,7 @@
                   <small>Clicca per girare</small>
                 </div>
                 <div class="flashcard-back">
-                  <p>L'<strong>Event ID 4625</strong>, indicante un tentativo fallito di autenticazione ripetuto nel registro eventi Windows <code>(SCREEN_207)</code>.</p>
+                  <p>L'<strong>Event ID 4625</strong>, indicante un tentativo fallito di autenticazione ripetuto nel registro eventi Windows.</p>
                 </div>
               </div>
             </div>
@@ -232,7 +247,7 @@
                   <small>Clicca per girare</small>
                 </div>
                 <div class="flashcard-back">
-                  <p>La **RAM** (Random Access Memory), che perde tutti i dati archiviati quando l'alimentazione del sistema viene interrotta <code>(SCREEN_380)</code>.</p>
+                  <p>La **RAM** (Random Access Memory), che perde tutti i dati archiviati quando l'alimentazione del sistema viene interrotta.</p>
                 </div>
               </div>
             </div>
@@ -964,43 +979,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -1026,10 +1093,14 @@
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {

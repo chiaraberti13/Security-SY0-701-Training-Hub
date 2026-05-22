@@ -80,7 +80,7 @@
           </p>
           <p class="focused-concept">
             <strong>Sintassi ACL d'Esame — Inbound Block:</strong><br>
-            Per bloccare univocamente l'host malevolo verso l'intera ditta, la regola corretta ricorre a una subnet mask di host (/32) per la sorgente e una maschera jolly o totale per la destinazione <code>(SCREEN_147)</code>:
+            Per bloccare univocamente l'host malevolo verso l'intera ditta, la regola corretta ricorre a una subnet mask di host (/32) per la sorgente e una maschera jolly o totale per la destinazione:
             <br>
             <code>access-list inbound deny ip source 10.1.4.9/32 destination 0.0.0.0/0</code>
           </p>
@@ -90,7 +90,7 @@
             Nei progetti di consolidamento della sicurezza volti a proteggere apparecchiature obsolete o vulnerabili (Legacy devices), l'ingegnere isola la porzione di rete (es: la subnet <code>10.9.8.14/27</code>) ammettendo la connessione di unicamente due host fidati, l'Host A (<code>10.2.2.7</code>) e l'Host B (<code>10.3.9.9</code>), e sbarrando la strada a tutte le altre sorgenti.
           </p>
           <div class="example-box">
-            <strong>Regola ACL di Segmentazione Rigida <code>(SCREEN_446)</code>:</strong>
+            <strong>Regola ACL di Segmentazione Rigida:</strong>
             <pre>
 Permit 10.2.2.7/32 to 10.9.8.14/27
 Permit 10.3.9.9/32 to 10.9.8.14/27
@@ -111,7 +111,7 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             Per impedire che macchine compromesse contattino server DNS arbitrari e potenzialmente nocivi all'esterno della Intranet, un'organizzazione deve forzare tutto il traffico DNS in uscita a convergere verso un unico resolver autorizzato (es: l'indirizzo IP <code>10.50.10.25</code>).
           </p>
           <p class="focused-concept">
-            <strong>Sintassi ACL d'Esame — DNS Outbound Limit <code>(SCREEN_113, SCREEN_130)</code>:</strong><br>
+            <strong>Sintassi ACL d'Esame — DNS Outbound Limit:</strong><br>
             <code>Access list outbound permit 10.50.10.25/32 0.0.0.0/0 port 53</code><br>
             <code>Access list outbound deny 0.0.0.0/0 0.0.0.0/0 port 53</code>
             <br><br>
@@ -120,15 +120,15 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
 
           <h3 id="tunneling_detection">Rilevamento del Protocol Tunneling</h3>
           <p>
-            Nel corso di investigazioni da parte del CIRT (Computer Incident Response Team), si scopre occasionalmente che impiegati infedeli o attaccanti esportano documenti riservati celandoli dentro sessioni **HTTP veicolate in modo surrettizio sulla porta 53** (usata comunemente per query DNS testuali minime) <code>(SCREEN_298)</code>.
+            Nel corso di investigazioni da parte del CIRT (Computer Incident Response Team), si scopre occasionalmente che impiegati infedeli o attaccanti esportano documenti riservati celandoli dentro sessioni **HTTP veicolate in modo surrettizio sulla porta 53** (usata comunemente per query DNS testuali minime).
           </p>
           <p>
-            Un comune firewall a pacchetti o un filtro web ordinario non esaminerebbe questo transito poiché si limita a verificare la porta d'uscita 53 convalidandola. Lo strumento di sicurezza capace di evidenziare e intercettare questa frode è un <strong>Next-Generation Firewall (NGFW) dotato di Ispezione Applicativa (Application Inspection)</strong> <code>(SCREEN_298, SCREEN_669)</code>. L'ispezione analizza il payload nel dettaglio, scoprendo che la grammatica scambiata è HTTP e bloccando l'azione ostile.
+            Un comune firewall a pacchetti o un filtro web ordinario non esaminerebbe questo transito poiché si limita a verificare la porta d'uscita 53 convalidandola. Lo strumento di sicurezza capace di evidenziare e intercettare questa frode è un <strong>Next-Generation Firewall (NGFW) dotato di Ispezione Applicativa (Application Inspection)</strong>. L'ispezione analizza il payload nel dettaglio, scoprendo che la grammatica scambiata è HTTP e bloccando l'azione ostile.
           </p>
 
           <h3>Il Ruolo Strategico del DNS Sinkhole</h3>
           <p>
-            Il <strong>DNS Sinkhole (Incanalamento DNS controllato)</strong> è una tecnica fantastica utilizzata per interrompere le infezioni da virus che cercano di connettersi ai domini del server di comando e controllo (C2 - Command & Control) della botnet <code>(SCREEN_374)</code>.
+            Il <strong>DNS Sinkhole (Incanalamento DNS controllato)</strong> è una tecnica fantastica utilizzata per interrompere le infezioni da virus che cercano di connettersi ai domini del server di comando e controllo (C2 - Command & Control) della botnet.
           </p>
           <div class="example-box">
             <strong>Funzionamento di un DNS Sinkhole:</strong><br>
@@ -152,23 +152,23 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             Dinanzi a una pioggia improvvisa di e-mail fraudolente recanti subject differenti e dirette a innumerevoli caselle postali, ciascuna arricchita da un collegamento accorciato tramite <strong>URL Shortener (Accorciatore di URL)</strong> che reindirizza a indirizzi morti o temporanei, qual è la contromisura immediata del SOC?
           </p>
           <div class="critical">
-            <strong>DIPEFESA TATTICA — URL Shorteners <code>(SCREEN_032, SCREEN_385)</code>:</strong><br>
+            <strong>DIPEFESA TATTICA — URL Shorteners:</strong><br>
             Anziché prodigarsi nella vana rincorsa manuale di ciascun soggetto mail (le subject cambiano continuamente) o dei singoli domini finali (che vengono generati e rimossi dinamicamente dall'hacker), l'esperto interviene sul perimetro web della ditta <strong>bloccando l'intero dominio del servizio accorciatore di URL (URL shortener domain) all'interno del Web Proxy aziendale</strong>.
           </div>
 
           <h3>Blocco dei Siti Web in Chiaro (Plaintext HTTP URL Filtration)</h3>
           <p>
-            Per far rispettare le policy corporative costringendo gli utenti a navigare unicamente su siti crittografati sicuri (HTTPS port 443), l'analista imposta il web content filter per rigettare i siti interamente privi di cifratura SSL/TLS. La stringa mirata da cercare e contrassegnare con una regola di diniego (deny search string) è la dicitura <code>http://</code> <code>(SCREEN_146)</code>.
+            Per far rispettare le policy corporative costringendo gli utenti a navigare unicamente su siti crittografati sicuri (HTTPS port 443), l'analista imposta il web content filter per rigettare i siti interamente privi di cifratura SSL/TLS. La stringa mirata da cercare e contrassegnare con una regola di diniego (deny search string) è la dicitura <code>http://</code>.
           </p>
 
           <h3>Classificazione per Categoria (Content Categorization)</h3>
           <p>
-            Se in una ditta si nota che gli impiegati si espongono sistematicamente all'infezione visitando URL malevoli in grado di aggirare le restrizioni perimetrali in vigore, la prima verifica strategica richiede il controllo meticoloso della <strong>Classificazione dei Contenuti (Content Categorization)</strong> del proxy <code>(SCREEN_736)</code>. Un errato ordinamento logico delle directory ammette bypass involontari. Altresì, se un portale utile (es: una nuova vetrina retail) fosse inibito erroneamente poiché catalogato come gioco d'azzardo (gambling), la correzione consiste nell'aggiornare la categoria corretta del filtro <code>(SCREEN_295)</code>.
+            Se in una ditta si nota che gli impiegati si espongono sistematicamente all'infezione visitando URL malevoli in grado di aggirare le restrizioni perimetrali in vigore, la prima verifica strategica richiede il controllo meticoloso della <strong>Classificazione dei Contenuti (Content Categorization)</strong> del proxy. Un errato ordinamento logico delle directory ammette bypass involontari. Altresì, se un portale utile (es: una nuova vetrina retail) fosse inibito erroneamente poiché catalogato come gioco d'azzardo (gambling), la correzione consiste nell'aggiornare la categoria corretta del filtro.
           </p>
 
           <h3>Ispezione delle Email in Linea (Inline Email Scanning)</h3>
           <p>
-            Per tutelare la ditta ostacolando alla radice l'arrivo di allegati e malware tossici via posta elettronica, l'architettura sicura prescrive di <strong>Scansionare in linea il traffico email (Scan email traffic inline)</strong> prima del riversamento nella mailbox dell'impiegato <code>(SCREEN_540)</code>.
+            Per tutelare la ditta ostacolando alla radice l'arrivo di allegati e malware tossici via posta elettronica, l'architettura sicura prescrive di <strong>Scansionare in linea il traffico email (Scan email traffic inline)</strong> prima del riversamento nella mailbox dell'impiegato.
           </p>
         </section>
 
@@ -182,13 +182,13 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             <dt>Intrusion Detection System / IDS (Passive Mode)</dt>
             <dd>Agisce tramite una porta di specchiamento del traffico (SPAN/TAP). Escogita allerte e traccia record forensi degli incidenti ma <strong>non modifica in alcun modo i flussi circostanti</strong>, risultando inabile a prevenire l'intrusione in tempo reale.</dd>
             <dt>Intrusion Prevention System / IPS (Active Mode)</dt>
-            <dd>Si colloca fisicamente in linea (in-line) all'interno del transito dei cavi di rete. Questo gli permette di agire in **Modalità Attiva (Active Mode)** per sopprimere all'istante l'attività basata su firme d'attacco nocive tagliando le sessioni abusive prima che colpiscano la rete aziendale <code>(SCREEN_018, SCREEN_306)</code>.</dd>
+            <dd>Si colloca fisicamente in linea (in-line) all'interno del transito dei cavi di rete. Questo gli permette di agire in **Modalità Attiva (Active Mode)** per sopprimere all'istante l'attività basata su firme d'attacco nocive tagliando le sessioni abusive prima che colpiscano la rete aziendale.</dd>
           </dl>
 
           <h3>Classificazione NIDS: Firme vs Anomalie</h3>
           <ul>
-            <li><strong>Rilevamento basato su Firme (Signature-based)</strong>: Ideale per minacce note e stringhe immutate. Quando un analista vede che l'IDS non intercetta un attacco anomalo emergente, deve integrare il sistema caricando nuove specifiche <strong>Firme (Signatures)</strong> d'attacco <code>(SCREEN_643)</code>.</li>
-            <li><strong>Rilevamento delle anomalie di rete (Anomaly-based NIDS)</strong>: Si avvale di motori di intelligenza artificiale, modellazione statistica ed evoluti pattern di data mining per stabilire la baseline aziendale e intercettare comportamenti anomali di rete mai visti prima <code>(SCREEN_091)</code>.</li>
+            <li><strong>Rilevamento basato su Firme (Signature-based)</strong>: Ideale per minacce note e stringhe immutate. Quando un analista vede che l'IDS non intercetta un attacco anomalo emergente, deve integrare il sistema caricando nuove specifiche <strong>Firme (Signatures)</strong> d'attacco.</li>
+            <li><strong>Rilevamento delle anomalie di rete (Anomaly-based NIDS)</strong>: Si avvale di motori di intelligenza artificiale, modellazione statistica ed evoluti pattern di data mining per stabilire la baseline aziendale e intercettare comportamenti anomali di rete mai visti prima.</li>
           </ul>
         </section>
 
@@ -201,7 +201,7 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
 
           <h3>Web Application Firewall (WAF)</h3>
           <p>
-            Qualora l'organizzazione decida di ospitare portali web accessibili dal pubblico su Internet (Client-Facing Web Portals) contenenti database o dati sensibili sul protocollo HTTP/HTTPS (Port 443), la misura perimetrale corretta è l'introduzione di un <strong>Web Application Firewall (WAF)</strong> <code>(SCREEN_436, SCREEN_581)</code>. Il WAF ispeziona accuratamente i pacchetti a livello 7 (Applicazione), disinnescando specificamente minacce complesse quali SQL Injection e Cross-Site Scripting (XSS).
+            Qualora l'organizzazione decida di ospitare portali web accessibili dal pubblico su Internet (Client-Facing Web Portals) contenenti database o dati sensibili sul protocollo HTTP/HTTPS (Port 443), la misura perimetrale corretta è l'introduzione di un <strong>Web Application Firewall (WAF)</strong>. Il WAF ispeziona accuratamente i pacchetti a livello 7 (Applicazione), disinnescando specificamente minacce complesse quali SQL Injection e Cross-Site Scripting (XSS).
           </p>
 
           <h3>Paragone: Host-based Firewall vs Network Firewall</h3>
@@ -209,18 +209,18 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             Qual è il vantaggio primario di un firewall installato localmente sull'host (host-based firewall) rispetto a un apparato di rete perimetrale?
           </p>
           <p class="focused-concept">
-            <strong>Risposta d'Esame — Host-Based Firewall Profit <code>(SCREEN_060)</code>:</strong><br>
+            <strong>Risposta d'Esame — Host-Based Firewall Profit:</strong><br>
             Il firewall host-based vanta una **conoscenza granulare delle funzioni e dei processi in corso sull'endpoint locale**, potendo così modellare in tempo reale le regole del traffico di rete e i canali per concordare precisamente con i programmi autorizzati.
           </p>
 
           <h3>Hardening Iniziale (Endpoint Hardening First Step)</h3>
           <p>
-            Al ricevimento di una nuova tranche di server presso il Network Operations Center (NOC), subito dopo aver steso l'installazione del sistema operativo d'origine (OS), il primo impiego logico verso la blindatura (Hardening) consiste nel <strong>Rifiutare l'accesso chiudendo tutte le porte inutilizzate e disabilitando i servizi obsoleti o non necessari</strong> <code>(SCREEN_103)</code>.
+            Al ricevimento di una nuova tranche di server presso il Network Operations Center (NOC), subito dopo aver steso l'installazione del sistema operativo d'origine (OS), il primo impiego logico verso la blindatura (Hardening) consiste nel <strong>Rifiutare l'accesso chiudendo tutte le porte inutilizzate e disabilitando i servizi obsoleti o non necessari</strong>.
           </p>
 
           <h3>Privileged Access Management (PAM)</h3>
           <p>
-            Se un'azienda recluta terzi o consulenti esterni provvisori deputati a eseguire operazioni di upgrade o diagnostica di sistema su sistemi informatici sensibili, l'amministratore distribuisce e li incanala tramite suite <strong>PAM (Privileged Access Management)</strong> <code>(SCREEN_407)</code>. Questo consente di monitorare, circoscrivere granularmente i poteri, e revocare automaticamente privilegi elevati al concludersi dell'incarico.
+            Se un'azienda recluta terzi o consulenti esterni provvisori deputati a eseguire operazioni di upgrade o diagnostica di sistema su sistemi informatici sensibili, l'amministratore distribuisce e li incanala tramite suite <strong>PAM (Privileged Access Management)</strong>. Questo consente di monitorare, circoscrivere granularmente i poteri, e revocare automaticamente privilegi elevati al concludersi dell'incarico.
           </p>
         </section>
 
@@ -233,14 +233,14 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
 
           <dl class="termlist">
             <dt>Honeypot (Sistema Civetta)</dt>
-            <dd>Una macchina virtuale o fisica non destinata alla produzione, dotata di falle intenzionali per distogliere l'Hacker dagli asset critici, raccogliendo preziose telemetrie d'aggressione in totale sicurezza <code>(SCREEN_183, SCREEN_361)</code>.</dd>
+            <dd>Una macchina virtuale o fisica non destinata alla produzione, dotata di falle intenzionali per distogliere l'Hacker dagli asset critici, raccogliendo preziose telemetrie d'aggressione in totale sicurezza.</dd>
             
             <dt>Honeyfile (File Esca)</dt>
             <dd>Un file fittizio appositamente collocato in una share di rete o directory sensibile, progettato per **identificare un insider malizioso attirandone l'attenzione**. 
             <br>
-            Ad esempio, creare un falso file di testo denominato <code>/docs/salaries</code> attirerebbe istantaneamente la bramosia di curiosità degli impiegati infedeli <code>(SCREEN_459)</code>. 
+            Ad esempio, creare un falso file di testo denominato <code>/docs/salaries</code> attirerebbe istantaneamente la bramosia di curiosità degli impiegati infedeli. 
             <br>
-            Altresì, salvare credenziali fittizie in un foglio di calcolo (spreadsheet) all'interno di una cartella poco accessibile, impostando allerte istantanee al SOC alla sua minima apertura, costituisce l'esatta esecuzione di un <strong>Honeyfile</strong> <code>(SCREEN_652)</code>.</dd>
+            Altresì, salvare credenziali fittizie in un foglio di calcolo (spreadsheet) all'interno di una cartella poco accessibile, impostando allerte istantanee al SOC alla sua minima apertura, costituisce l'esatta esecuzione di un <strong>Honeyfile</strong>.</dd>
             
             <dt>Honeytoken</dt>
             <dd>Una credenziale d'accesso, stringa o blocco database fittizio utilizzato per individuare la profilazione dei dati e il momento della fuga d'informazioni.</dd>
@@ -254,8 +254,8 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             Il transito e l'interconnessione geografica impongono l'utilizzo di canali schermati a livello IP:
           </p>
           <ul>
-            <li><strong>IPSec per Cloud e VPN</strong>: Per schermare comunicazioni sensibili all'interno di un private cloud della ditta <code>(SCREEN_448)</code> o blindare il transito verso l'esterno per dipendenti legati fittiziamente a client software in smart working (Remote Access VPN Agent), la suite d'elezione a livello di rete IP è rappresentata da <strong>IPSec</strong> <code>(SCREEN_478)</code>.</li>
-            <li><strong>Quarantena e Attestazione di Conformità (Compliance Attestation)</strong>: Disporre di una sottorete chiusa di quarantena per raccogliere dispositivi guest sconosciuti impone la conformità degli stessi prima della liberazione sui canali enterprise. Questo controllo è assicurato tramite processi di <strong>Compliance Attestation (Attestazione di Conformità)</strong> <code>(SCREEN_610)</code>.</li>
+            <li><strong>IPSec per Cloud e VPN</strong>: Per schermare comunicazioni sensibili all'interno di un private cloud della ditta o blindare il transito verso l'esterno per dipendenti legati fittiziamente a client software in smart working (Remote Access VPN Agent), la suite d'elezione a livello di rete IP è rappresentata da <strong>IPSec</strong>.</li>
+            <li><strong>Quarantena e Attestazione di Conformità (Compliance Attestation)</strong>: Disporre di una sottorete chiusa di quarantena per raccogliere dispositivi guest sconosciuti impone la conformità degli stessi prima della liberazione sui canali enterprise. Questo controllo è assicurato tramite processi di <strong>Compliance Attestation (Attestazione di Conformità)</strong>.</li>
           </ul>
         </section>
 
@@ -1366,43 +1366,95 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -1428,10 +1480,14 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {

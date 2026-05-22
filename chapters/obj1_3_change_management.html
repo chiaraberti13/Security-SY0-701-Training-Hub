@@ -148,7 +148,7 @@
             <strong>EXAM TIP — "Quale passo prima?"</strong><br>
             Scenario tipico: "Un tecnico deve applicare una patch ad alta priorità a un sistema
             di produzione. Qual è il primo passo?" → <strong>Creare una change control request</strong>
-            (opzione C nei test reali: SCREEN_013, SCREEN_169). Non applicare la patch, non
+            (opzione C nei test reali: , ). Non applicare la patch, non
             isolare il sistema, non spostarlo su un altro segmento. Il processo viene prima,
             anche per le emergenze.
           </div>
@@ -221,7 +221,7 @@
             <strong>Esempio pratico — Il costo di saltare i test</strong><br>
             Un tecnico aggiunge una regola "deny any" in fondo all'ACL di un firewall
             senza testare in staging. In produzione, la regola causa l'irraggiungibilità
-            di diversi server aziendali per tre ore durante l'orario lavorativo (SCREEN_175).
+            di diversi server aziendali per tre ore durante l'orario lavorativo.
             La causa? Le regole preesistenti non includevano esplicitamente i server interni
             come permessi, assumendo implicitamente che il "deny any" finale non li colpisse.
             Un test in staging avrebbe rivelato il problema in 10 minuti. Il costo del downtime
@@ -248,9 +248,8 @@
           <div class="exam-tip">
             <strong>EXAM TIP — Backout plan all'esame</strong><br>
             Due domande tipiche: (1) "Quale documento deve presentare un amministratore
-            per dimostrare che il sistema può essere ripristinato?" → <strong>Backout plan</strong>
-            (SCREEN_292). (2) "Qual è una caratteristica di un change management efficace?" →
-            "Avere un backout plan quando una patch fallisce" (SCREEN_017, SCREEN_297).
+            per dimostrare che il sistema può essere ripristinato?" → <strong>Backout plan</strong>. (2) "Qual è una caratteristica di un change management efficace?" →
+            "Avere un backout plan quando una patch fallisce".
             Il backout plan è la risposta corretta ogni volta che lo scenario chiede
             "cosa fare se la modifica va male".
           </div>
@@ -503,9 +502,9 @@
           <div class="exam-tip">
             <strong>EXAM TIP — Version control e SDLC</strong><br>
             Quando lo scenario descrive documenti o contratti che hanno subito multiple
-            revisioni e chiede come tracciarle → <strong>version control</strong> (SCREEN_356).
+            revisioni e chiede come tracciarle → <strong>version control</strong>.
             Quando lo scenario menziona il ciclo di vita del software e chiede cosa include
-            l'SDLC → <strong>branch protection requirements</strong> (SCREEN_437): le branch
+            l'SDLC → <strong>branch protection requirements</strong>: le branch
             protection rules sono un controllo tecnico che applica il change management
             direttamente nel processo di sviluppo software.
           </div>
@@ -707,7 +706,7 @@
         { id: 'C', t: 'Business continuity plan', c: false },
         { id: 'D', t: 'Change management procedure', c: true }
       ],
-      expl: 'Variante di SCREEN_088. Qualsiasi modifica alla configurazione di sicurezza — incluse le regole firewall — deve seguire la change management procedure per garantire approvazione, test, documentazione e possibilità di rollback.'
+      expl: 'Qualsiasi modifica alla configurazione di sicurezza — incluse le regole firewall — deve seguire la change management procedure per garantire approvazione, test, documentazione e possibilità di rollback.'
     },
     {
       id: 'SCREEN_169',
@@ -718,7 +717,7 @@
         { id: 'C', t: 'Create a change control request', c: true },
         { id: 'D', t: 'Apply the patch to the system', c: false }
       ],
-      expl: 'Variante di SCREEN_013. La sequenza corretta è: (1) change control request → (2) approvazione → (3) test in non-production → (4) implementazione in production con backout plan pronto. L\'urgenza non giustifica il bypass del processo.'
+      expl: 'La sequenza corretta è: (1) change control request → (2) approvazione → (3) test in non-production → (4) implementazione in production con backout plan pronto. L\'urgenza non giustifica il bypass del processo.'
     },
     {
       id: 'SCREEN_175',
@@ -762,7 +761,7 @@
         { id: 'C', t: 'Using a spreadsheet for tracking changes', c: false },
         { id: 'D', t: 'Using an automatic change control bypass for security updates', c: false }
       ],
-      expl: 'Variante di SCREEN_017. Il backout plan è il requisito fondamentale di qualsiasi change management efficace. Approvare dopo il deployment è tardivo e non preventivo. Il bypass automatico elimina la supervisione. Il foglio di calcolo non è un sistema di change management formale.'
+      expl: 'Il backout plan è il requisito fondamentale di qualsiasi change management efficace. Approvare dopo il deployment è tardivo e non preventivo. Il bypass automatico elimina la supervisione. Il foglio di calcolo non è un sistema di change management formale.'
     },
     {
       id: 'SCREEN_356',
@@ -869,43 +868,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -931,10 +982,14 @@
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {

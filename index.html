@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CompTIA Security+ SY0-701 — Guida interattiva</title>
   <link rel="stylesheet" href="style/style.css" />
+  <style>
+    /* Sincronizzazione con checklist cloud */
+    .sync-status {
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: .78rem;
+      color: #64748B;
+      white-space: nowrap;
+      transition: color .3s;
+    }
+    .sync-status.syncing { color: #D97706; }
+    .sync-status.saved   { color: #15803D; }
+    .sync-status.error   { color: #DC2626; }
+  </style>
 </head>
 <body>
 <a class="skip-link" href="#main">Salta al contenuto principale</a>
@@ -28,17 +41,20 @@
       <span id="prog-text">0 / 12 capitoli completati</span>
     </div>
     <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
-    <p class="progress-note">
-      I progressi vengono salvati nel browser (localStorage).
-      <button class="reset-btn" id="reset-btn">Azzera progressi</button>
+    <p class="progress-note" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+      <span>
+        I progressi vengono salvati nel browser.
+        <button class="reset-btn" id="reset-btn">Azzera progressi</button>
+      </span>
+      <span id="syncStatusIndex" class="sync-status">⬤ --</span>
     </p>
   </div>
 
   <main id="main">
 
     <!-- DOMINIO 1 -->
-    <div class="domain-block open" id="d1-block">
-      <button class="domain-toggle" aria-expanded="true" aria-controls="d1-body">
+    <div class="domain-block" id="d1-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d1-body">
         <div class="domain-color" style="background:#0B1F3A;"></div>
         <div class="domain-info">
           <strong>Dominio 1 — Concetti generali di sicurezza</strong>
@@ -457,7 +473,7 @@
         <div class="domain-color" style="background:#7C3AED;"></div>
         <div class="domain-info">
           <strong>Dominio 5 — Governance e supervisione</strong>
-          <small>Obiettivi 5.1 – 5.6 &nbsp;·&nbsp; In sviluppo</small>
+          <small>Obiettivi 5.1 – 5.6 &nbsp;·&nbsp; 6 capitoli disponibili</small>
           <div class="domain-prog"><div class="domain-prog-fill" data-domain="5"></div></div>
         </div>
         <div class="domain-badges">
@@ -466,7 +482,98 @@
         </div>
         <span class="domain-chevron">▸</span>
       </button>
-      <div class="domain-body" id="d5-body">        <p class="progress-note">Capitoli in sviluppo — disponibili nei prossimi aggiornamenti.</p>
+      <div class="domain-body" id="d5-body">
+        <div class="ch-cards">
+          <div class="ch-card" id="card-obj51">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.1 — Elementi della Governance (Security Governance)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj51" />
+                <span>Completato</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.1</span>
+            </div>
+            <a class="ch-card-link" href="chapters/obj5_1_governance.html">Apri capitolo</a>
+            <a class="ch-card-link" href="chapters/obj5_1_governance.html#quiz-section">Quiz · 29 domande</a>
+          </div>
+
+          <div class="ch-card" id="card-obj52">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.2 — Processo di Gestione del Rischio (Risk Management Process)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj52" />
+                <span>Completato</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.2</span>
+            </div>
+            <a class="ch-card-link" href="chapters/obj5_2_risk_management.html">Apri capitolo</a>
+            <a class="ch-card-link" href="chapters/obj5_2_risk_management.html#quiz-section">Quiz · 25 domande</a>
+          </div>
+
+          <div class="ch-card" id="card-obj53">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.3 — Gestione del Rischio delle Terze Parti (Third-Party Risk)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj53" />
+                <span>Completato</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.3</span>
+            </div>
+            <a class="ch-card-link" href="chapters/obj5_3_third_party.html">Apri capitolo</a>
+            <a class="ch-card-link" href="chapters/obj5_3_third_party.html#quiz-section">Quiz · 21 domande</a>
+          </div>
+
+          <div class="ch-card" id="card-obj54">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.4 — Elementi di Conformità della Sicurezza (Security Compliance)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj54" />
+                <span>Completato</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.4</span>
+            </div>
+            <a class="ch-card-link" href="chapters/obj5_4_security_compliance.html">Apri capitolo</a>
+            <a class="ch-card-link" href="chapters/obj5_4_security_compliance.html#quiz-section">Quiz · 19 domande</a>
+          </div>
+
+          <div class="ch-card" id="card-obj55">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.5 — Tipi e Scopi di Audit e Valutazioni (Audits & Assessments)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj55" />
+                <span>Completato</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.5</span>
+            </div>
+            <a class="ch-card-link" href="chapters/obj5_5_audits_assessments.html">Apri capitolo</a>
+            <a class="ch-card-link" href="chapters/obj5_5_audits_assessments.html#quiz-section">Quiz · 21 domande</a>
+          </div>
+
+          <div class="ch-card" id="card-obj56">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.6 — Pratiche di Consapevolezza della Sicurezza (Security Awareness)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj56" />
+                <span>Completato</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.6</span>
+            </div>
+            <a class="ch-card-link" href="chapters/obj5_6_security_awareness.html">Apri capitolo</a>
+            <a class="ch-card-link" href="chapters/obj5_6_security_awareness.html#quiz-section">Quiz · 15 domande</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -479,16 +586,45 @@
   'use strict';
 
   var STOR_KEY = 'sy0701_progress_v2';
+  var CHECK_STOR_KEY = 'sy0701_checks';
+  var apiBase = 'https://api.jsonbin.io/v3/b';
+  
+  var apiConfig = {
+    key: '',
+    binId: ''
+  };
+
+  var mapping = {};
+  var checklistState = {};
+  var saveTimer = null;
+
+  // Elemento di sincronizzazione
+  var syncEl = document.getElementById('syncStatusIndex');
+
+  function setSyncStatus(state, text) {
+    if (!syncEl) return;
+    syncEl.className = 'sync-status ' + state;
+    syncEl.textContent = '⬤ ' + text;
+  }
 
   function getCheckboxCount() {
     return document.querySelectorAll('.ch-card-check input[type="checkbox"]').length;
   }
 
-  function load() {
+  function loadProgress() {
     try { return JSON.parse(localStorage.getItem(STOR_KEY) || '{}'); } catch (e) { return {}; }
   }
-  function save(data) {
+  
+  function saveProgress(data) {
     try { localStorage.setItem(STOR_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  function loadChecksLocal() {
+    try { return JSON.parse(localStorage.getItem(CHECK_STOR_KEY) || '{}'); } catch (e) { return {}; }
+  }
+
+  function saveChecksLocal(data) {
+    try { localStorage.setItem(CHECK_STOR_KEY, JSON.stringify(data)); } catch (e) {}
   }
 
   var progFill = document.getElementById('prog-fill');
@@ -496,11 +632,11 @@
 
   function updateProgress() {
     var total = getCheckboxCount();
-    var data = load();
+    var data = loadProgress();
     var done = Object.keys(data).filter(function (k) { return data[k]; }).length;
     var pct  = total > 0 ? Math.round((done / total) * 100) : 0;
-    progFill.style.width = pct + '%';
-    progText.textContent = done + ' / ' + total + ' capitoli completati';
+    if (progFill) progFill.style.width = pct + '%';
+    if (progText) progText.textContent = done + ' / ' + total + ' capitoli completati';
     
     // Aggiorna la barra di progresso di ciascun dominio individualmente
     [1, 2, 3, 4, 5].forEach(function(dNum) {
@@ -516,39 +652,328 @@
 
   function markCard(card, done) {
     if (!card) return;
-    card.classList.toggle('done', done);  /* .ch-card.done è definito in style.css */
+    card.classList.toggle('done', done);
   }
 
+  // Estrae la configurazione da checklist.html e costruisce la mappatura
+  async function initSync() {
+    try {
+      setSyncStatus('syncing', 'caricamento checklist…');
+      var response = await fetch('/checklist.html');
+      if (!response.ok) throw new Error('Contatto fallito');
+      var text = await response.text();
+
+      // Estrae la configurazione JSONBin
+      var apiKeyMatch = text.match(/JSONBIN_API_KEY\s*=\s*['"]([^'"]+)['"]/);
+      var binIdMatch = text.match(/JSONBIN_BIN_ID\s*=\s*['"]([^'"]+)['"]/);
+      if (apiKeyMatch && binIdMatch) {
+        apiConfig.key = apiKeyMatch[1];
+        apiConfig.binId = binIdMatch[1];
+      }
+
+      // Parsea la mappatura
+      var doc = new DOMParser().parseFromString(text, 'text/html');
+      var boxes = doc.querySelectorAll('.cb-box');
+      
+      // Inizializza la mappatura per ogni obiettivo
+      var allObjs = [
+        'obj11','obj12','obj13','obj14',
+        'obj21','obj22','obj23','obj24','obj25',
+        'obj31','obj32','obj33','obj34',
+        'obj41','obj42','obj43','obj44','obj45','obj46','obj47','obj48','obj49',
+        'obj51','obj52','obj53','obj54','obj55','obj56'
+      ];
+      allObjs.forEach(function (o) { mapping[o] = []; });
+
+      boxes.forEach(function (box, index) {
+        var li = box.closest('li');
+        if (!li) return;
+        var textContent = li.textContent.trim();
+        var lcText = textContent.toLowerCase();
+
+        // 1. Match regex per codice obiettivo
+        var quizMatch = textContent.match(/Quiz\s+([1-5]\.[1-6])/i);
+        if (quizMatch) {
+          var oKey = 'obj' + quizMatch[1].replace('.', '');
+          if (mapping[oKey]) mapping[oKey].push(index);
+          return;
+        }
+
+        var objMatch = textContent.match(/(?:obj|obiettivo|governance|\()?\s*([1-5]\.[1-6])\b/i);
+        if (objMatch) {
+          var oKey = 'obj' + objMatch[1].replace('.', '');
+          if (mapping[oKey]) mapping[oKey].push(index);
+          return;
+        }
+
+        // 2. Parola chiave fallback per associare gli elementi di studio generali
+        if (lcText.includes("controllo:") || lcText.includes("correttivo") || lcText.includes("preventivo")) {
+          mapping['obj11'].push(index);
+        } else if (lcText.includes("cia triad") || lcText.includes("non-repudiation") || lcText.includes("zero trust model")) {
+          mapping['obj12'].push(index);
+        } else if (lcText.includes("change management") || lcText.includes("approval board")) {
+          mapping['obj13'].push(index);
+        } else if (lcText.includes("gerarchia documentale") || lcText.includes("policy → standard")) {
+          mapping['obj13'].push(index);
+        } else if (
+          lcText.includes("crittografia simmetrica") || lcText.includes("aes-128") || 
+          lcText.includes("hashing:") || lcText.includes("salting") || 
+          lcText.includes("firme digitali") || lcText.includes("pki:") || 
+          lcText.includes("revoca: crl") || lcText.includes("key escrow") || 
+          lcText.includes("tls handshake") || lcText.includes("algoritmo → scopo")
+        ) {
+          mapping['obj14'].push(index);
+        } else if (lcText.includes("threat actors") || lcText.includes("nation-state") || lcText.includes("motivazioni")) {
+          mapping['obj21'].push(index);
+        } else if (
+          lcText.includes("vettori d'attacco") || lcText.includes("vettori umani") || 
+          lcText.includes("phishing") || lcText.includes("impersonation") || 
+          lcText.includes("misinformation") || lcText.includes("mappa mentale:")
+        ) {
+          mapping['obj22'].push(index);
+        } else if (lcText.includes("password attacks") || lcText.includes("brute force") || lcText.includes("dictionary")) {
+          mapping['obj24'].push(index);
+        } else if (lcText.includes("zero-day") || lcText.includes("vulnerabilità (")) {
+          mapping['obj23'].push(index);
+        } else if (
+          lcText.includes("malware") || lcText.includes("ransomware") || 
+          lcText.includes("trojan") || lcText.includes("rootkit") || 
+          lcText.includes("c2 traffic") || lcText.includes("indicatore caratteristico")
+        ) {
+          mapping['obj24'].push(index);
+        } else if (lcText.includes("mitigazioni enterprise") || lcText.includes("network segmentation")) {
+          mapping['obj25'].push(index);
+        } else if (
+          lcText.includes("lifecycle: identify") || lcText.includes("scan types") || 
+          lcText.includes("cvss v3") || lcText.includes("false positive") || 
+          lcText.includes("penetration testing") || lcText.includes("bug bounty") ||
+          lcText.includes("cvss score")
+        ) {
+          mapping['obj43'].push(index);
+        } else if (
+          lcText.includes("secure sdlc") || lcText.includes("owasp") || 
+          lcText.includes("input validation") || lcText.includes("sast") || 
+          lcText.includes("code signing")
+        ) {
+          mapping['obj41'].push(index);
+        } else if (
+          lcText.includes("classificazioni dati") || lcText.includes("stati dei dati") || 
+          lcText.includes("tecniche di protezione") || lcText.includes("dlp") || 
+          lcText.includes("data sovereignty")
+        ) {
+          mapping['obj33'].push(index);
+        } else if (
+          lcText.includes("alta disponibilità") || lcText.includes("siti dr:") || 
+          lcText.includes("rto") || lcText.includes("backup:") || 
+          lcText.includes("platform diversity") || lcText.includes("rto / rpo")
+        ) {
+          mapping['obj34'].push(index);
+        } else if (
+          lcText.includes("shared responsibility") || lcText.includes("deployment models") || 
+          lcText.includes("containerization") || lcText.includes("microservices") || 
+          lcText.includes("serverless") || lcText.includes("infrastructure as code") || 
+          lcText.includes("virtualizzazione") || lcText.includes("responsabilità compilata")
+        ) {
+          mapping['obj31'].push(index);
+        } else if (
+          lcText.includes("modelli architetturali") || lcText.includes("vlan") || 
+          lcText.includes("schema traffico")
+        ) {
+          mapping['obj32'].push(index);
+        } else if (
+          lcText.includes("firewall") || lcText.includes("ipsec") || 
+          lcText.includes("sd-wan") || lcText.includes("proxy")
+        ) {
+          mapping['obj45'].push(index);
+        } else if (
+          lcText.includes("identity") || lcText.includes("authentication factors") || 
+          lcText.includes("modelli autorizzazione") || lcText.includes("least privilege") || 
+          lcText.includes("federation") || lcText.includes("pam/pim") || 
+          lcText.includes("password policy") || lcText.includes("conditional access") ||
+          lcText.includes("saml vs oauth2")
+        ) {
+          mapping['obj46'].push(index);
+        } else if (
+          lcText.includes("baseline") || lcText.includes("hardening") || 
+          lcText.includes("mdm") || lcText.includes("standard wireless") ||
+          lcText.includes("wps vulnerabilità") || lcText.includes("bluetooth") ||
+          lcText.includes("site survey") || lcText.includes("dispositivo → rischio")
+        ) {
+          mapping['obj41'].push(index);
+        } else if (lcText.includes("asset management") || lcText.includes("inventario")) {
+          mapping['obj42'].push(index);
+        } else if (
+          lcText.includes("ir lifecycle") || lcText.includes("containment") || 
+          lcText.includes("playbook") || lcText.includes("siem") || 
+          lcText.includes("soar") || lcText.includes("monitoring tools") || 
+          lcText.includes("data sources") || lcText.includes("automazione") ||
+          lcText.includes("timeline: dato un incidente")
+        ) {
+          mapping['obj44'].push(index);
+        } else if (
+          lcText.includes("forensics") || lcText.includes("volatilità") || 
+          lcText.includes("acquisizione:") || lcText.includes("analisi: timeline")
+        ) {
+          mapping['obj48'].push(index);
+        } else if (lcText.includes("due diligence") || lcText.includes("sla")) {
+          mapping['obj53'].push(index);
+        } else if (lcText.includes("hipaa") || lcText.includes("gdpr")) {
+          mapping['obj54'].push(index);
+        } else if (lcText.includes("audit e assessment")) {
+          mapping['obj55'].push(index);
+        } else if (
+          lcText.includes("risk management") || lcText.includes("risk treatment") || 
+          lcText.includes("calcolo quantitativo") || lcText.includes("qualitative risk") || 
+          lcText.includes("appetite") || lcText.includes("bia") || 
+          lcText.includes("scenari d'impatto") || lcText.includes("av, ef, aro")
+        ) {
+          mapping['obj52'].push(index);
+        } else if (lcText.includes("awareness") || lcText.includes("simulation")) {
+          mapping['obj56'].push(index);
+        }
+      });
+
+      // Carica i dati remoti
+      var hasRemote = apiConfig.key && apiConfig.binId && !apiConfig.key.includes('INCOLLA') && !apiConfig.binId.includes('INCOLLA');
+      var checks = loadChecksLocal();
+
+      if (hasRemote) {
+        setSyncStatus('syncing', 'caricamento…');
+        try {
+          var res = await fetch(apiBase + '/' + apiConfig.binId + '/latest', {
+            headers: { 'X-Master-Key': apiConfig.key }
+          });
+          if (res.ok) {
+            var resData = await res.json();
+            if (resData.record) {
+              checks = resData.record;
+              saveChecksLocal(checks);
+              setSyncStatus('saved', 'sync cloud attivo ✓');
+            }
+          } else {
+            setSyncStatus('error', 'offline — locale');
+          }
+        } catch (e) {
+          setSyncStatus('error', 'offline — locale');
+        }
+      } else {
+        setSyncStatus('error', 'no cloud sync');
+      }
+
+      checklistState = checks;
+
+      // Sincronizza i checkbox principali della pagina in base ai valori caricati
+      var progData = loadProgress();
+      allObjs.forEach(function (objKey) {
+        var indices = mapping[objKey] || [];
+        if (indices.length > 0) {
+          var allChecked = indices.every(function (idx) { return !!checklistState[idx]; });
+          progData[objKey] = allChecked;
+          
+          var cb = document.querySelector('input[data-ch="' + objKey + '"]');
+          if (cb) {
+            cb.checked = allChecked;
+            markCard(cb.closest('.ch-card'), allChecked);
+          }
+        } else {
+          var cb = document.querySelector('input[data-ch="' + objKey + '"]');
+          if (cb) {
+            cb.checked = !!progData[objKey];
+            markCard(cb.closest('.ch-card'), !!progData[objKey]);
+          }
+        }
+      });
+      saveProgress(progData);
+      updateProgress();
+
+    } catch (err) {
+      console.error('Inizializzazione sync fallita:', err);
+      setSyncStatus('error', 'fallito');
+      
+      // Fallback
+      var progData = loadProgress();
+      document.querySelectorAll('.ch-card-check input[type="checkbox"]').forEach(function (cb) {
+        var ch = cb.dataset.ch;
+        cb.checked = !!progData[ch];
+        markCard(cb.closest('.ch-card'), cb.checked);
+      });
+      updateProgress();
+    }
+  }
+
+  // Chiamata PUT debouncata verso JSONBin
+  function scheduleChecksSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async function () {
+      saveChecksLocal(checklistState);
+      var hasRemote = apiConfig.key && apiConfig.binId && !apiConfig.key.includes('INCOLLA') && !apiConfig.binId.includes('INCOLLA');
+      if (!hasRemote) return;
+
+      setSyncStatus('syncing', 'salvataggio…');
+      try {
+        var res = await fetch(apiBase + '/' + apiConfig.binId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': apiConfig.key,
+            'X-Bin-Versioning': 'false'
+          },
+          body: JSON.stringify(checklistState)
+        });
+        if (res.ok) {
+          setSyncStatus('saved', 'salvato ✓');
+          setTimeout(function () { setSyncStatus('saved', 'sync cloud attivo ✓'); }, 2000);
+        } else {
+          setSyncStatus('error', 'salvataggio fallito');
+        }
+      } catch (e) {
+        setSyncStatus('error', 'errore sync');
+      }
+    }, 800);
+  }
+
+  // Collega i click sui checkbox della pagina principale all'aggiornamento della checklist
   document.querySelectorAll('.ch-card-check input[type="checkbox"]').forEach(function (cb) {
-    var ch   = cb.dataset.ch;
-    var data = load();
-    cb.checked = !!data[ch];
-    markCard(cb.closest('.ch-card'), cb.checked);
+    var ch = cb.dataset.ch;
 
     cb.addEventListener('change', function () {
-      var d = load();
-      d[ch] = cb.checked;
-      save(d);
-      updateProgress();
+      var progData = loadProgress();
+      progData[ch] = cb.checked;
+      saveProgress(progData);
       markCard(cb.closest('.ch-card'), cb.checked);
+      updateProgress();
+
+      // Aggiorna tutti gli elementi corrispondenti nella checklist
+      var indices = mapping[ch] || [];
+      if (indices.length > 0) {
+        indices.forEach(function (idx) {
+          checklistState[idx] = cb.checked;
+        });
+        scheduleChecksSave();
+      }
     });
   });
 
   document.getElementById('reset-btn').addEventListener('click', function () {
-    if (!confirm('Azzerare tutti i progressi?')) return;
-    save({});
+    if (!confirm('Azzerare tutti i progressi e svuotare la checklist?')) return;
+    saveProgress({});
+    checklistState = {};
+    saveChecksLocal({});
+    
     document.querySelectorAll('.ch-card-check input').forEach(function (cb) {
       cb.checked = false;
       markCard(cb.closest('.ch-card'), false);
     });
+    
     updateProgress();
+    scheduleChecksSave();
   });
 
+  // Gestione menu accordion del dominio
   document.querySelectorAll('.domain-toggle').forEach(function (btn) {
     var block = btn.closest('.domain-block');
     var chev  = btn.querySelector('.domain-chevron');
 
-    /* Sincronizza il chevron con lo stato iniziale della classe CSS */
     if (block && block.classList.contains('open')) {
       btn.setAttribute('aria-expanded', 'true');
       if (chev) chev.textContent = '▾';
@@ -559,13 +984,15 @@
 
     btn.addEventListener('click', function () {
       if (!block) return;
-      var isOpen = block.classList.toggle('open');  /* toglie/mette .open sul .domain-block */
+      var isOpen = block.classList.toggle('open');
       btn.setAttribute('aria-expanded', String(isOpen));
       if (chev) chev.textContent = isOpen ? '▾' : '▸';
     });
   });
 
-  updateProgress();
+  // Avvio sincronizzazione
+  initSync();
+
 })();
 </script>
 

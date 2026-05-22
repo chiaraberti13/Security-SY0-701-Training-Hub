@@ -99,7 +99,13 @@
             <dt>MD5 (Message Digest 5)</dt>
             <dd>Produce un hash a 128 bit. Oggi obsoleto a causa di gravi collisioni crittografiche (attacchi in cui due input diversi producono lo stesso hash).</dd>
             <dt>SHA (Secure Hash Algorithm)</dt>
-            <dd>Standard moderno. SHA-2 (es. SHA-256) è diffusissimo e sicuro. SHA-3 rappresenta l'ultima serie standard approvata dal NIST.</dd>
+            <dd>Standard approvato dal NIST. Sotto-diviso in:
+              <ul>
+                <li><strong>SHA-1:</strong> Produce hash a 160-bit. Ad oggi <strong>deprecato e insicuro</strong> poiché vulnerabile a collisioni e attacchi strutturati (esattamente come MD5).</li>
+                <li><strong>SHA-2:</strong> Famiglia sicura e ampiamente utilizzata (comprensiva di SHA-256 e SHA-512).</li>
+                <li><strong>SHA-3:</strong> L'ultima serie di standard di hashing altamente paralleli e sicuri (basati sull'algoritmo Keccak).</li>
+              </ul>
+            </dd>
             <dt>HMAC (Keyed-Hash Message Authentication Code)</dt>
             <dd>Combina una funzione di hash con una chiave crittografica simmetrica. Fornisce contemporaneamente <strong>integrità dei dati</strong> e <strong>autenticazione dell'origine dei dati</strong>.</dd>
           </dl>
@@ -171,6 +177,8 @@
             <dd>Sfrutta le proprietà geometriche delle curve ellittiche. Offre gli stessi identici livelli di sicurezza di RSA ma usando chiavi estremamente più piccole (una chiave ECC a 256 bit offre una sicurezza analoga a una RSA a 3072 bit). È ideale per smartphone, smart card, firmware e dispositivi IoT a basse prestazioni energetiche.</dd>
             <dt>Diffie-Hellman (DH)</dt>
             <dd>Un metodo specifico asimmetrico per lo scambio di una chiave di sessione simmetrica. Non cifra i dati, ma consente a due attori remoti di inventare uno shared secret comune senza trasmetterlo sul cavo.</dd>
+            <dt>DSA (Digital Signature Algorithm)</dt>
+            <dd>Uno standard federale statunitense progettato specificamente ed esclusivamente per la generazione di firme digitali asimmetriche. A differenza di RSA ed ECC, il DSA standard non supporta la cifratura dati o lo scambio di chiavi, limitando le proprie operazioni alla firma e validazione dell'autenticità e non-repudiation.</dd>
           </dl>
         </section>
 
@@ -203,6 +211,10 @@
           <dl class="termlist">
             <dt>Certificate Authority (CA)</dt>
             <dd>L'organismo centrale terzo fidato responsabile di emettere e firmare digitalmente i certificati digitali X.509 per attestare che una determinata chiave pubblica appartiene ad un host o utente reale.</dd>
+            <dt>Root CA (Autorità di Radice)</dt>
+            <dd>La CA apicale al vertice assoluto della catena di fiducia (chain of trust). Possiede un certificato auto-firmato (Self-Signed) e la sua chiave privata è il segreto più protetto di tutta la PKI. Di norma, la Root CA viene mantenuta completamente <strong>offline</strong> per prevenire qualsiasi rischio di compromissione remota, lasciando l'operatività quotidiana alle CA intermedie.</dd>
+            <dt>Intermediate CA (Autorità Intermedia)</dt>
+            <dd>Una CA subordinata situata tra la Root CA e i certificati end-entity delle macchine. Riceve la delega di firma direttamente dalla Root CA (o da un'altra intermedia) e si occupa della firma ed emissione ordinaria dei certificati per server, client e utenti finali. Se una Intermediate CA viene compromessa, le altre rami della PKI possono essere salvate revocandone la sola firma della root, proteggendo la CA radice offline.</dd>
             <dt>Registration Authority (RA)</dt>
             <dd>Componente d'appoggio della CA che si occupa di validare l'identità materiale del soggetto richiedente prima di trasmettere la richiesta di certificazione alla CA.</dd>
             <dt>Certificate Signing Request (CSR)</dt>
@@ -1689,43 +1701,95 @@
     render();
   }
 
-  function render() {
-    const q = quiz.pool[quiz.idx];
-    const n = quiz.pool.length;
-    counterEl.textContent  = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    function render() {
+    var q = quiz.pool[quiz.idx], n = quiz.pool.length;
+    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled       = true;
-    nextBtn.textContent    = quiz.idx < n - 1 ? 'Avanti →' : 'Vedi risultato';
-    quiz.locked            = false;
-    optionsEl.innerHTML    = '';
-    shuffle(q.opts).forEach(o => {
-      const btn = document.createElement('button');
-      btn.className   = 'quiz-option';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+
+    var correctCount = q.opts.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+
+    optionsEl.innerHTML = '';
+    shuffle(q.opts).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML   = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
-      btn.addEventListener('click', () => pick(o.id, q));
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          pick(q);
+        }
+      });
       optionsEl.appendChild(btn);
     });
   }
 
-  function pick(oid, q) {
+  function pick(q) {
     if (quiz.locked) return;
     quiz.locked = true;
-    const chosen = q.opts.find(o => o.id === oid);
-    if (chosen && chosen.c) quiz.score++;
-    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
-      const o = q.opts.find(x => x.id === btn.dataset.oid) || {};
-      btn.disabled = true;
-      if (o.c)                          btn.classList.add('correct');
-      else if (btn.dataset.oid === oid) btn.classList.add('wrong');
+
+    var correctOpts = q.opts.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
     });
-    if (q.expl) { explanEl.textContent = q.expl; explanEl.style.display = 'block'; }
+
+    if (allCorrectSelected) {
+      quiz.score++;
+    }
+
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = q.opts.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    var n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
 
-  function showResult() {
+function showResult() {
     const n   = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -1751,10 +1815,14 @@
   document.querySelectorAll('.quiz-mode-btn').forEach(b =>
     b.addEventListener('click', () => startQuiz(b.dataset.mode))
   );
-  nextBtn.addEventListener('click', () => {
-    quiz.idx++;
-    if (quiz.idx < quiz.pool.length) render();
-    else showResult();
+    nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      pick(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) render();
+      else showResult();
+    }
   });
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {
