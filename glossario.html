@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — Glossario &amp; Acronimi</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <style>
+    /* Styling dedicati alla pagina Glossario */
+    .glossary-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+    .search-row {
+      display: flex;
+      gap: 12px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 12px 18px;
+      border: 1.5px solid var(--light-slate);
+      border-radius: 8px;
+      font-size: 1rem;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color 0.2s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+    
+    /* Category Filters */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-tab {
+      background: var(--white);
+      border: 1px solid var(--light-slate);
+      color: var(--slate);
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-tab:hover, .filter-tab.active {
+      background: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    /* Alphabet Filter */
+    .alpha-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 10px 0;
+      border-bottom: 1.5px solid var(--light-slate);
+      margin-bottom: 24px;
+    }
+    .alpha-btn {
+      background: none;
+      border: none;
+      color: var(--slate);
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .alpha-btn:hover, .alpha-btn.active {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .alpha-btn.disabled {
+      color: #94a3b8;
+      cursor: not-allowed;
+      font-weight: 400;
+    }
+
+    /* Glossary Term Grid */
+    .glossary-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .letter-section {
+      margin-bottom: 8px;
+    }
+    .letter-heading {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--navy);
+      border-bottom: 2px solid var(--teal);
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+    }
+    .term-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 768px) {
+      .term-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .term-card {
+      background: var(--white);
+      border: 1px solid var(--light-slate);
+      border-radius: 8px;
+      padding: 16px;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .term-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 4px 10px rgba(15, 118, 110, 0.05);
+      transform: translateY(-1px);
+    }
+    .term-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .term-acronym {
+      color: var(--teal);
+      font-family: ui-monospace, monospace;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .term-full-name {
+      font-size: 0.82rem;
+      color: var(--slate);
+      margin: 0 0 10px;
+      font-style: italic;
+    }
+    .term-def {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #334155;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .term-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--light-slate);
+    }
+    .term-category {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--slate);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--slate);
+      font-size: 1rem;
+      background: var(--white);
+      border: 1.5px dashed var(--light-slate);
+      border-radius: 8px;
+      display: none;
+    }
+
+    /* Fast quick link to source chapters */
+    .source-link {
+      font-size: 0.72rem;
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .source-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="index.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="index.html" class="global-nav-link">Home</a>
+    <a href="quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="glossario.html" class="global-nav-link active">Glossario</a>
+  </div>
+</nav>
+
+<div class="container">
+<div class="page">
+
+  <div class="ig-header">
+    <h1>Glossario &amp; Acronimi Fondamentali</h1>
+    <p>Il dizionario tecnico definitivo per l'esame CompTIA Security+ (SY0-701). Memorizza gli acronimi essenziali e i vocaboli chiave ordinati alfabeticamente.</p>
+  </div>
+
+  <div class="glossary-controls">
+    <!-- Search Bar -->
+    <div class="search-row">
+      <input type="text" id="glossary-search" class="search-input" placeholder="Cerca un acronimo o una definizione... (es. 'SIEM', 'cifratura', 'risk')" />
+    </div>
+    
+    <!-- Category Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-cat="all">Tutti i termini</button>
+      <button class="filter-tab" data-cat="general">Concetti Generali</button>
+      <button class="filter-tab" data-cat="crypto">Crittografia</button>
+      <button class="filter-tab" data-cat="net">Infrastruttura &amp; Rete</button>
+      <button class="filter-tab" data-cat="iam">Identità &amp; Accessi</button>
+      <button class="filter-tab" data-cat="ops">Operazioni &amp; IR</button>
+      <button class="filter-tab" data-cat="gov">Governance &amp; Rischio</button>
+    </div>
+  </div>
+
+  <!-- A-Z Alphabet Filter Links -->
+  <div class="alpha-filter" id="alpha-filter-bar">
+    <button class="alpha-btn active" data-letter="all">ALL</button>
+    <!-- Dynamic A-Z letters injected by JS to prevent dead letters -->
+  </div>
+
+  <!-- Glossary Container -->
+  <main id="glossary-content" class="glossary-sections">
+    <!-- Injected dynamically by JAVASCRIPT for absolute precise search, sorting and filtering capability -->
+  </main>
+  
+  <div id="no-glossary-results" class="no-results">
+    Nessun termine corrispondente trovato nel glossario. Prova ad inserire un'altra chiave di ricerca.
+  </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  // High fidelity database of all key CompTIA Security+ terminology
+  const database = [
+    // A
+    {
+      acronym: "AAA",
+      name: "Authentication, Authorization, Accounting",
+      def: "La triade dei servizi di controllo degli accessi. L'autenticazione verifica l'identità del richiedente; l'autorizzazione stabilisce quali privilegi concedergli; l'accounting tiene traccia cronologica delle azioni completate.",
+      category: "iam",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "ACL",
+      name: "Access Control List",
+      def: "Lista di regole memorizzata su router, switch o sistemi operativi che approva o respinge le richieste di traffico o di accesso a specifici oggetti e risorse in base a regole esplicite.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "AES",
+      name: "Advanced Encryption Standard",
+      def: "Algoritmo di cifratura simmetrica a blocchi standard del settore. Supporta chiavi a 128, 192 e 256 bit e rappresenta lo stato dell'arte per l'ispezione dei flussi privati e la protezione dei dati memorizzati.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "ALE",
+      name: "Annualized Loss Expectancy",
+      def: "Il costo monetario stimato che un'azienda rischia di perdere ogni anno a causa di uno specifico rischio. Calcolato moltiplicando il Single Loss Expectancy (SLE) per l'Annualized Rate of Occurrence (ARO): ALE = SLE * ARO.",
+      category: "gov",
+      source_name: "OBJ 5.2",
+      source_link: "chapters/obj5_2_risk_management.html"
+    },
+    {
+      acronym: "APT",
+      name: "Advanced Persistent Threat",
+      def: "Gruppo di hacker altamente specializzato e dotato di ingenti risorse (spesso finanziato da uno Stato-nazione) che conduce attacchi mirati e prolungati nel tempo contro obiettivi strategici senza farsi intercettare.",
+      category: "ops",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "ARO",
+      name: "Annualized Rate of Occurrence",
+      def: "La frequenza stimata con cui uno specifico scenario di minaccia o incidente di sicurezza si ripresenterà nell'arco di un singolo anno.",
+      category: "gov",
+      source_name: "OBJ 5.2",
+      source_link: "chapters/obj5_2_risk_management.html"
+    },
+    {
+      acronym: "AUP",
+      name: "Acceptable Use Policy",
+      def: "Direttiva direttiva/organizzativa che stabilisce formalmente le regole e i comportamenti obbligatori a cui i dipendenti devono attenersi quando fanno uso dei sistemi o della connessione di rete dell'azienda.",
+      category: "gov",
+      source_name: "OBJ 5.1",
+      source_link: "chapters/obj5_1_governance.html"
+    },
+    // B
+    {
+      acronym: "BCP",
+      name: "Business Continuity Plan",
+      def: "Piano strategico che definisce come l'azienda deve continuare ad operare durante e dopo un'interruzione di servizio o un disastro prima del ripristino definitivo.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "BIA",
+      name: "Business Impact Analysis",
+      def: "Studio metodologico che fa parte dei processi di continuità operativa per stabilire gli impatti economici e temporali causati dall'interruzione dei diversi processi critici d'azienda, permettendo di mapparne le priorità.",
+      category: "gov",
+      source_name: "OBJ 5.2",
+      source_link: "chapters/obj5_2_risk_management.html"
+    },
+    {
+      acronym: "Bollard",
+      name: "Dissuasore Stradale di Sicurezza",
+      def: "Controllo fisico preventivo duro (barriera tangibile). Colonnette spesse in cemento o acciaio piazzate per impedire che auto o veicoli commerciali carichi di minacce violino l'involucro dell'edificio aziendale.",
+      category: "general",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "BYOD",
+      name: "Bring Your Own Device",
+      def: "Corsi operativi di mobilità che consentono al personale dipendente di impiegare i propri terminali personali (cellulari, portatili) per intercettare i flussi informativi aziendali, introducendo alte sfide di controllo.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    // C
+    {
+      acronym: "CA",
+      name: "Certificate Authority",
+      def: "Ente terzo fiduciario e garante dell'infrastruttura PKI. Genera, firma ed emette i certificati digitali per convalidare l'autenticità e l'associazione delle chiavi pubbliche ai rispettivi possessori.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "CASB",
+      name: "Cloud Access Security Broker",
+      def: "Punto di controllo o gateway di sicurezza logica interposto tra i client locali e i servizi SaaS in cloud. Esegue l'enforcement delle policy aziendali di crittografia, prevenzione DLP e gestione credenziali.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "CIA Triad",
+      name: "Triade di Sicurezza (Confidentiality, Integrity, Availability)",
+      def: "Il modello di riferimento cardine della sicurezza delle informazioni. Riservatezza (evitare accessi non autorizzati), Integrità (interdire modifiche illegittime dei dati), e Disponibilità (consentire il servizio autorizzato).",
+      category: "general",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "COPE",
+      name: "Corporate Owned, Personally Enabled",
+      def: "Modello di gestione dei dispositivi mobili nel quale l'azienda fornisce il terminale e lo configura per uso business, lasciando al dipendente la facoltà di usarlo moderatamente per svaghi o funzioni personali.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "CRL",
+      name: "Certificate Revocation List",
+      def: "Lista pubblica emessa periodicamente dalle Certificate Authority contenente tutti i certificati digitali revocati o invalidati prima della loro naturale data di scadenza tecnica.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "CSIRT",
+      name: "Computer Security Incident Response Team",
+      def: "Il nucleo operativo specializzato di analisti di sicurezza deputato a gestire l'espletamento pratico e il coordinamento delle contromisure a fronte di un incidente informatico confermato.",
+      category: "ops",
+      source_name: "OBJ 4.8",
+      source_link: "chapters/obj4_8_incident_response.html"
+    },
+    {
+      acronym: "CVE",
+      name: "Common Vulnerabilities and Exposures",
+      def: "Indice pubblico internazionale e normalizzato che assegna un identificativo univoco (es. CVE-2026-XXXX) a ciascuna vulnerabilità di sicurezza informatica nota.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    {
+      acronym: "CVSS",
+      name: "Common Vulnerability Scoring System",
+      def: "Framework aperto di calcolo numerico progettato per misurare oggettivamente la gravità di una vulnerabilità informatica (da 0.0 a 10.0), agevolando le priorità di remediation dei bug.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    // D
+    {
+      acronym: "DAC",
+      name: "Discretionary Access Control",
+      def: "Modello di controllo degli accessi in cui il proprietario originario di un file o risorsa ha la totale discrezione di stabilire chi possa leggerlo o modificarlo assegnandone arbitrariamente i permessi logici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "DAST",
+      name: "Dynamic Application Security Testing",
+      def: "Metodologia di test applicativo eseguita 'a scatola nera' (black-box) mentre il programma è in esecuzione, simulando un vero attaccante esterno che bombarda gli endpoint attivi alla ricerca di bug (es. SQL Injection).",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "DDoS",
+      name: "Distributed Denial of Service",
+      def: "Attacco informatico di saturazione causato da migliaia di nodi compromessi (botnet) che inondano contemporaneamente una risorsa web di richieste inutili, rendendola irraggiungibile agli utenti reali.",
+      category: "ops",
+      source_name: "OBJ 4.8",
+      source_link: "chapters/obj4_8_incident_response.html"
+    },
+    {
+      acronym: "DES",
+      name: "Data Encryption Standard",
+      def: "Vecchio algoritmo di cifratura simmetrica a blocchi a 56-bit ormai ritenuto obsoleto e vulnerabile ad attacchi a forza bruta, sostituito interamente dall'AES.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "DLP",
+      name: "Data Loss Prevention",
+      def: "Contrasto alla fuoriuscita accidentale o malevola di dati aziendali sensibili (escelation PII o segreti industriali). Monitora i flussi di dati at rest, in transit e in use applicando policy automatiche di blocco.",
+      category: "net",
+      source_name: "OBJ 3.3",
+      source_link: "chapters/obj3_3_data_protection.html"
+    },
+    {
+      acronym: "DNSEC",
+      name: "Domain Name System Security Extensions",
+      def: "Evoluzione di sicurezza del DNS che appone firme crittografiche asimmetriche a monte dei record del server dei nomi, neutralizing tecniche di avvelenamento della cache (DNS cache poisoning).",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "DRP",
+      name: "Disaster Recovery Plan",
+      def: "L'insieme documentato di protocolli d'emergenza, ripartenze infrastrutturali e fogli d'istruzioni tecniche deputati a ricostruire i carichi tecnologici aziendali a valle di interruzioni cataclismatiche.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    // E
+    {
+      acronym: "EDR",
+      name: "Endpoint Detection and Response",
+      def: "Software di nuova generazione per endpoint che monitora continuamente i processi di sistema a livello di host. Rileva anomalie comportamentali (UEBA) e isola automaticamente l'host per attuare un controllo correttivo.",
+      category: "ops",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "EAP",
+      name: "Extensible Authentication Protocol",
+      def: "Framework di autenticazione wireless enterprise flessibile che consente il passaggio di svariati metodi di convalida sicura (MFA, smart cards, certificati digitali) prima di concedere l'accesso WPA3.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "ECC",
+      name: "Elliptic Curve Cryptography",
+      def: "Approccio alla crittografia asimmetrica che sfrutta le proprietà matematiche delle curve ellittiche. Garantisce lo stesso livello di sicurezza di RSA ma con chiavi molto più corte ed elaborazioni rapide.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    // F
+    {
+      acronym: "FIM",
+      name: "File Integrity Monitoring",
+      def: "Controllo detective tecnico che esegue costanti controlli hash sui file di configurazione essenziali o di sistema operativo per avvertire di cambiamenti o manomissioni improvvise non approvate.",
+      category: "ops",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "Fuzzing",
+      name: "Test di robustezza applicativo dinamico",
+      def: "Tecnica automatizzata che inietta enormi quantità di input casuali, malformati o imprevisti in un'applicazione per provocarne il crash ed evidenziare falle logiche.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "False Positive",
+      name: "Falso Positivo",
+      def: "Allarme o notifica di sicurezza generata erroneamente da un sistema di monitoraggio (IDS, Antivirus o DLP) a fronte di un'attività legittima e non dannosa.",
+      category: "ops",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
+    // G
+    {
+      acronym: "GDPR",
+      name: "General Data Protection Regulation",
+      def: "Regolamento europeo cardine a tutela della riservatezza e dell'adempimento normativo relativo a vita, anonimizzazione e diritti di sovranità informativa spettanti alle persone fisiche.",
+      category: "gov",
+      source_name: "OBJ 5.4",
+      source_link: "chapters/obj5_4_security_compliance.html"
+    },
+    {
+      acronym: "GPO",
+      name: "Group Policy Object",
+      def: "Meccanismo centralizzato del servizio Active Directory di Microsoft che consente agli amministratori di forzare configurazioni di sicurezza e restrizioni d'uso collettive su tutti gli host membri del dominio.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    // H
+    {
+      acronym: "HIDS / HIPS",
+      name: "Host Intrusion Detection / Prevention System",
+      def: "Sistemi di rilevamento e prevenzione installati localmente sugli endpoint. L'HIDS monitora passivamente l'integrità dei registri di un singolo host, l'HIPS intercetta e blocca azioni nocive di rete logiche.",
+      category: "ops",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "Honeypot",
+      name: "Sito Civetta / Esca fittizia",
+      def: "Server o risorsa fittizia creata ad-hoc e arricchita di finte vulnerabilità appetibili per indurre gli attaccanti a colpirla. Raccoglie telemetrie e indicatori sull'attacco in un ambiente interamente isolato.",
+      category: "ops",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "HSM",
+      name: "Hardware Security Module",
+      def: "Dispositivo hardware fisico (militarizzato internamente) dedicato a generare, memorizzare e proteggere in sicurezza le chiavi crittografiche più importanti a livello aziendale.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "HMAC",
+      name: "Hash-based Message Authentication Code",
+      def: "Codice di autenticazione del messaggio derivato combinando una funzione hash crittografica simmetrica con una chiave segreta condivisa per assicurare integrità e autenticità ed evitare falsificazioni.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    // I
+    {
+      acronym: "IaaS",
+      name: "Infrastructure as a Service",
+      def: "Modello cloud in cui il provider offre infrastruttura hardware grezza (macchine virtuali, spazio disco e reti). L'utente ha la massima responsabilità di controllo ed è interamente responsabile del sistema operativo.",
+      category: "net",
+      source_name: "OBJ 3.1",
+      source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
+      acronym: "IAM",
+      name: "Identity and Access Management",
+      def: "L'insieme orchestrato di controlli logici, policy e database preposti a definire le identità digitali degli utenti aziendali e a governarne i cicli di vita d'accesso (onboarding, provisioning).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "IDS",
+      name: "Intrusion Detection System",
+      def: "Controllo tecnico investigativo (detective). Analizza il traffico o l'host cercando pattern noti d'attacco ed emettendo notifiche in tempo reale senza bloccare direttamente i vettori logici.",
+      category: "net",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "IPS",
+      name: "Intrusion Prevention System",
+      def: "Evoluzione attiva dell'IDS (Controllo Tecnico Preventivo). Monitora in linea (in-line) i transiti di rete ed ha l'autonomia computazionale per drop o rigettare al volo i pacchetti pericolosi.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "IoC",
+      name: "Indicator of Compromise",
+      def: "Elenchi di prove digitali oggettive (come indirizzi IP malevoli confermati, chiavi di registro modificate o stringhe hash SHA-256) che indicano la presenza di un'avvenuta intrusione di rete.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "IPsec",
+      name: "Internet Protocol Security",
+      def: "Pacchetto di protocolli crittografici atti a originare tunnel virtuali (VPN) sicuri all'interno di canali pubblici IP, garantendo riservatezza, protezione anti-replay e tracciabilità dei dati.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    // L
+    {
+      acronym: "LDAP / LDAPS",
+      name: "Lightweight Directory Access Protocol (Secure)",
+      def: "Protocollo client-server usato per interrogare e gestire directory di identità aziendali centralizzate (Active Directory). La variante LDAPS introduce la sicurezza tramite TLS sulla porta standard 636.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Least Privilege",
+      name: "Minimo Privilegio",
+      def: "Principio cardine che impone di assegnare a ciascun dipendente aziendale o applicativo solo ed esclusivamente i privilegi logici indispensabili a compiere l'attività pattuita.",
+      category: "iam",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    // M
+    {
+      acronym: "MAC",
+      name: "Mandatory Access Control",
+      def: "Modello severo di controllo accessi (guidato dal sistema operativo) basato su etichette di riservatezza (Secret, Top Secret) e requisiti di abilitazione (clearance). L'utente non può modificare i permessi di un file.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Mantrap",
+      name: "Cabina Filtro d'Ingresso",
+      def: "Controllo fisico preventivo duro (Access Control Vestibule). Sistema a doppia porta interconnessa che impedisce fisicamente il passaggio di più di una persona autorizzata per volta, disinnescando il tailgating.",
+      category: "general",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "MDM",
+      name: "Mobile Device Management",
+      def: "Console centrale di controllo ed enforcement delle configurazioni di sicurezza sui dispositivi mobili aziendali (es. blocco fotocamera, pin obbligatorio, remote wipe in caso di furto).",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "MFA",
+      name: "Multi-Factor Authentication",
+      def: "Autenticazione avanzata che richiede due o più fattori di diversa natura per autorizzare l'accesso: qualcosa che sai (password), qualcosa che hai (smart card), qualcosa che sei (impronta digitale).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "MTBF",
+      name: "Mean Time Between Failures",
+      def: "La durata media attesa per garantire il regolare funzionamento senza guasti dell'hardware. Misura la resilienza complessiva degli elementi critici di data-center.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "MTTR",
+      name: "Mean Time to Repair",
+      def: "Il tempo medio necessario a rimediare materialmente a un blocco hardware e riparare l'infrastruttura difettosa ricollegandola in linea.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    // N
+    {
+      acronym: "NAC",
+      name: "Network Access Control",
+      def: "Soluzione logica centrale che controlla le credenziali e l'igiene cibernetica di qualsiasi host (antivirus abilitato, patch recenti) sul divano prima di spalancare le porte della VLAN aziendale.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "NDA",
+      name: "Non-Disclosure Agreement",
+      def: "Contratto formale di riservatezza e informativa legale (controllo direttivo aziendale / deterrent) che impone il vincolo del silenzio penale a tutela dei segreti industriali.",
+      category: "gov",
+      source_name: "OBJ 5.3",
+      source_link: "chapters/obj5_3_third_party.html"
+    },
+    {
+      acronym: "NetFlow",
+      name: "Metadato dei Flussi di Rete",
+      def: "Protocollo che estrae i parametri del traffico (IP, porta, durata, volume) senza fare deep-packet inspection. Utile per identificare attacchi avanzati e movimenti laterali sospetti.",
+      category: "ops",
+      source_name: "OBJ 4.9",
+      source_link: "chapters/obj4_9_data_sources.html"
+    },
+    {
+      acronym: "NGFW",
+      name: "Next-Generation Firewall",
+      def: "Apparato di filtraggio di rete evoluto in grado di operare deep packet inspection, comprendere le applicazioni di livello 7 e bloccare exploit d'attacco tramite IPS e sandbox integrate.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    // O
+    {
+      acronym: "OSINT",
+      name: "Open Source Intelligence",
+      def: "Intelligence derivante interamente dallo studio sistematico delle informazioni pubblicamente accessibili sui canali dei motori di ricerca, social e registri pubblici.",
+      category: "ops",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "OWASP",
+      name: "Open Web Application Security Project",
+      def: "Fondazione comunitaria internazionale nota per redigere la classifica 'OWASP Top 10', che riepiloga i bug e le vulnerabilità logiche più critiche delle applicazioni web attuali.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "OAuth",
+      name: "Open Authorization",
+      def: "Standard aperto basato su token di sessione per delegare autorizzazioni ad applicazioni partner esterne (es. Accedi con Google) senza rivelare la master password originaria dell'utente.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    // P
+    {
+      acronym: "PaaS",
+      name: "Platform as a Service",
+      def: "Modello cloud intermedio nel quale il provider si assume la completa gestione dell'universo infrastrutturale, database e motori di runtime (es. Node, Java), lasciando all'utente la sola gestione logica del codice.",
+      category: "net",
+      source_name: "OBJ 3.1",
+      source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
+      acronym: "PAM",
+      name: "Privileged Access Management",
+      def: "Insieme organizzato di tecnologie volte a delimitare e vigilare le utenze amministrative ad alto potenziale (es. root, global admin) raccordando la tracciabilità delle azioni commesse.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "PCI-DSS",
+      name: "Payment Card Industry Data Security Standard",
+      def: "Standard internazionale vincolante preposto a garantire la riservatezza e l'adozione di controlli di sicurezza logica a presidio di transazioni finanziarie operanti carte di debito o credito.",
+      category: "gov",
+      source_name: "OBJ 5.4",
+      source_link: "chapters/obj5_4_security_compliance.html"
+    },
+    {
+      acronym: "PII",
+      name: "Personally Identifiable Information",
+      def: "Informazione Personale Identificativa ovvero qualsiasi dato atto a risalire univocamente all'identità di una persona fisica (es. codice fiscale, impronta, codice sanitario).",
+      category: "net",
+      source_name: "OBJ 3.3",
+      source_link: "chapters/obj3_3_data_protection.html"
+    },
+    {
+      acronym: "PKI",
+      name: "Public Key Infrastructure",
+      def: "L'intera architettura formata da hardware, CA, chiavi, certificati, algoritmi e flussi di fiducia necessari a gestire la cifratura asimmetrica a livello aziendale.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "PFS",
+      name: "Perfect Forward Secrecy",
+      def: "Meccanismo crittografico in cui viene generata una chiave di sessione temporanea e unica per ciascuna connessione di rete, rendendo impossibile decifrare il traffico passato anche se la chiave privata del server venisse compromessa in futuro.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    // R
+    {
+      acronym: "RAID",
+      name: "Redundant Array of Independent Disks",
+      def: "Controllo tecnologico di resilienza hardware (disponibilità). Combina più dischi indipendenti per tollerare guasti meccanici improvvisi senza interruzioni di servizio né perdite informative.",
+      category: "net",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "RAT",
+      name: "Remote Access Trojan",
+      def: "Malware stealth progettato per aprire una backdoor persistente sui sistemi compromessi, concedendo all'attaccante la facoltà di comandare da remoto il dispositivo infetto.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "RBAC",
+      name: "Role-Based Access Control",
+      def: "Modello di controllo d'accesso in cui permessi e privilegi logici vengono legati formalmente a uno specifico ruolo aziendale prefissato (es. Risorse Umane, Marketing), snellendo il provisioning.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "RPO",
+      name: "Recovery Point Objective",
+      def: "La massima quantità di dati espressa in tempo (es. 4 ore) che un'azienda è disposta a perdere a seguito di un crash prima che si configuri un danno insostenibile.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "RTO",
+      name: "Recovery Time Objective",
+      def: "Il tempo totale massimo concesso dall'alta direzione per ripristinare il corretto funzionamento di un servizio aziendale bloccato a valle di un disastro.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    // S
+    {
+      acronym: "SaaS",
+      name: "Software as a Service",
+      def: "Modello cloud con la minima gestione d'uso da parte dell'utente. Il programma è accessibile via browser ed è interamente ospitato, manutenuto, configurato e protetto dal provider.",
+      category: "net",
+      source_name: "OBJ 3.1",
+      source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
+      acronym: "SAML",
+      name: "Security Assertion Markup Language",
+      def: "Standard crittografico aperto XML-based per implementare l'autenticazione federata SSO a livello enterprise tramite scambi protetti tra Identity Provider e Service Provider.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "SAST",
+      name: "Static Application Security Testing",
+      def: "Analisi di codice sorgente a scatola bianca (white-box) integrata nella catena di sviluppo. Intercetta vulnerabilità strutturali (es. buffer overflow) prima di compilare il programma.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "SDLC",
+      name: "Software Development Life Cycle",
+      def: "Il ciclo di vita di sviluppo del software, che quando condotto secondo standard sicuri (Secure SDLC) innesta verifiche ad ogni livello progettuale.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "SIEM",
+      name: "Security Information and Event Management",
+      def: "Piattaforma centrale che raccoglie, normalizza e correla log ed eventi multifase in tempo reale per evidenziare vettori di attacchi complessi invisibili isolatamente.",
+      category: "ops",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "SLA",
+      name: "Service Level Agreement",
+      def: "Contratto di servizio legale bilaterale che definisce gli standard millimetrici di performance, tempo di attività (uptime) e penali pattuite con un fornitore.",
+      category: "gov",
+      source_name: "OBJ 5.1",
+      source_link: "chapters/obj5_1_governance.html"
+    },
+    {
+      acronym: "SLE",
+      name: "Single Loss Expectancy",
+      def: "La singola perdita economica attesa dall'azienda ogni volta che un determinato scenario di rischio colpisce un asset critico (Calcolo: SLE = Asset Value * Exposure Factor).",
+      category: "gov",
+      source_name: "OBJ 5.2",
+      source_link: "chapters/obj5_2_risk_management.html"
+    },
+    {
+      acronym: "SOAR",
+      name: "Security Orchestration, Automation, and Response",
+      def: "Piattaforma evoluta che riceve allarmi dal SIEM ed esegue automaticamente flussi operativi di contenimento e indagine (playbook) senza attendere l'interazione umana.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "SOC",
+      name: "Security Operations Center",
+      def: "La centrale operativa di monitoraggio logistico e monitoraggio informatico 24/7 in cui risiedono gli analisti di triage preposti ad intercettare e gestire indicazioni d'attacco.",
+      category: "ops",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
+    {
+      acronym: "SSO",
+      name: "Single Sign-On",
+      def: "Protocollo federato d'accesso che consente all'utente finale di effettuare una sola autenticazione di sicurezza iniziale e vedersi sbloccare le autorizzazioni su tutti i servizi approvati.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    // T
+    {
+      acronym: "TLS",
+      name: "Transport Layer Security",
+      def: "La massima evoluzione dello standard SSL. Cifra asimmetricamente i flussi scambiati in linea (in-transit) a livello di trasporto garantendo integrità e antimanomissione.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "TPM",
+      name: "Trusted Platform Module",
+      def: "Chip crittografico montato fisicamente sulla scheda madre del computer. Fornisce funzioni di sicurezza basate su hardware, come la protezione delle chiavi di cifratura delle partizioni disco (es. BitLocker) e l'attestazione del corretto boot di sistema.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "TTP",
+      name: "Tactics, Techniques, and Procedures",
+      def: "Il quadro concettuale che descrive i comportamenti, i pattern logici, le abitudini e le metodologie ricorrenti tipiche degli attori di minacce informatiche conosciuti.",
+      category: "ops",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    // U
+    {
+      acronym: "UEBA",
+      name: "User and Entity Behavior Analytics",
+      def: "Piattaforma analitica basata su machine learning che modella la stima comportamentale della baseline d'utenza segnalando le anomalie immediate.",
+      category: "ops",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
+    {
+      acronym: "UTM",
+      name: "Unified Threat Management",
+      def: "Apparato di sicurezza multifunzionale centralizzato per piccole-medie imprese che racchiude in un singolo asset firewalling, ispezione gateway antivirus, filtro antispam e IDS/IPS.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    // V
+    {
+      acronym: "VLAN",
+      name: "Virtual Local Area Network",
+      def: "La segmentazione logica delle reti locali operata a livello di porte dello smart switch. Limita i domini di broadcast e rallenta drammaticamente movimenti d'attacco laterali.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "VPN",
+      name: "Virtual Private Network",
+      def: "Tunnel crittografato protetto creato su canali di rete estranei sbarrando la visibilità a hacker intermedi garantendo integrità e cifratura completa.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    // W
+    {
+      acronym: "WAF",
+      name: "Web Application Firewall",
+      def: "Controllo tecnico preventivo di livello 7 (applicazione). Ispeziona, filtra e decifra i transiti HTTP/S prima che questi investano le pagine del server di backend.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "WORM",
+      name: "Write Once, Read Many",
+      def: "Algoritmo logico o tecnologia fisica impiegata nei media di backup che impedisce in via assoluta il reinserimento o la riscrittura / manipolazione maligna multipla dei log.",
+      category: "ops",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "WPA3",
+      name: "Wi-Fi Protected Access 3",
+      def: "Protocollo di autenticazione wireless avanzato che sostituisce WPA2, offrendo una migliore robustezza di cifratura tramite l'accordo di autenticazione SAE (Simultaneous Authentication of Equals).",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    // X
+    {
+      acronym: "XSS",
+      name: "Cross-Site Scripting",
+      def: "Iniezione malevola di codice script interpretato direttamente nel browser di una vittima ignara a causa di una scorretta sanificazione applicativa web a monte.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    // Z
+    {
+      acronym: "Zero Trust",
+      name: "Architettura a Fiducia Zero",
+      def: "Visione e filosofia strutturale di cybersecurity riassumibile nel motto 'never trust, always verify'. Ciascun transito logico locale o remoto va esplicitamente autenticato ordinatamente.",
+      category: "general",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    }
+  ];
+
+  const glossaryContent = document.getElementById('glossary-content');
+  const searchInput = document.getElementById('glossary-search');
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const noResults = document.getElementById('no-glossary-results');
+  const alphaFilterBar = document.getElementById('alpha-filter-bar');
+
+  let currentCategory = 'all';
+  let currentLetter = 'all';
+  let searchQuery = '';
+
+  const catNames = {
+    all: "Tutti i termini",
+    general: "Concetti Generali",
+    crypto: "Crittografia",
+    net: "Infrastruttura & Rete",
+    iam: "Identità & Accessi",
+    ops: "Operazioni & IR",
+    gov: "Governance & Rischio"
+  };
+
+  // Render index dynamically to construct clean, non-dead alphabet controls
+  function updateAlphabetFilterUI(filteredData) {
+    const activeLetters = new Set();
+    filteredData.forEach(item => {
+      const firstLetter = item.acronym.charAt(0).toUpperCase();
+      activeLetters.add(firstLetter);
+    });
+
+    // Rebuild alphabet bar
+    alphaFilterBar.innerHTML = '';
+    
+    const allBtn = document.createElement('button');
+    allBtn.className = `alpha-btn ${currentLetter === 'all' ? 'active' : ''}`;
+    allBtn.textContent = 'ALL';
+    allBtn.addEventListener('click', () => {
+      currentLetter = 'all';
+      renderGlossary();
+    });
+    alphaFilterBar.appendChild(allBtn);
+
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    alphabet.forEach(letter => {
+      const btn = document.createElement('button');
+      const hasTerms = activeLetters.has(letter);
+      
+      btn.className = `alpha-btn ${currentLetter === letter ? 'active' : ''} ${!hasTerms ? 'disabled' : ''}`;
+      btn.textContent = letter;
+      
+      if (hasTerms) {
+        btn.addEventListener('click', () => {
+          currentLetter = letter;
+          renderGlossary();
+        });
+      } else {
+        btn.setAttribute('disabled', 'true');
+      }
+      alphaFilterBar.appendChild(btn);
+    });
+  }
+
+  function renderGlossary() {
+    // 1. First filter by category and search to see which letters are available
+    let processedData = database.filter(item => {
+      // Category Match
+      const matchesCategory = (currentCategory === 'all' || item.category === currentCategory);
+      
+      // Search Match
+      const searchTxt = (item.acronym + ' ' + item.name + ' ' + item.def).toLowerCase();
+      const matchesSearch = searchTxt.includes(searchQuery);
+
+      return matchesCategory && matchesSearch;
+    });
+
+    // Update Alphabet bar based on search/category matched data
+    updateAlphabetFilterUI(processedData);
+
+    // If letter filter is chosen, check if it's still available in processedData (if not reset to 'all')
+    if (currentLetter !== 'all') {
+      const hasAnyWithThisLetter = processedData.some(item => item.acronym.charAt(0).toUpperCase() === currentLetter);
+      if (!hasAnyWithThisLetter) {
+        currentLetter = 'all';
+        // Need to rebuild UI again to reflect the active states correctly
+        updateAlphabetFilterUI(processedData);
+      }
+    }
+
+    // Apply Letter Filter on processed Data
+    if (currentLetter !== 'all') {
+      processedData = processedData.filter(item => item.acronym.charAt(0).toUpperCase() === currentLetter);
+    }
+
+    // Sort by acronym
+    processedData.sort((a, b) => a.acronym.localeCompare(b.acronym));
+
+    // Clear and build the DOM
+    glossaryContent.innerHTML = '';
+
+    if (processedData.length === 0) {
+      noResults.style.display = 'block';
+      return;
+    }
+    noResults.style.display = 'none';
+
+    // Group by first letter
+    const groups = {};
+    processedData.forEach(item => {
+      const firstLetter = item.acronym.charAt(0).toUpperCase();
+      if (!groups[firstLetter]) {
+        groups[firstLetter] = [];
+      }
+      groups[firstLetter].push(item);
+    });
+
+    // Render grouped layout
+    const sortedLetters = Object.keys(groups).sort();
+    sortedLetters.forEach(letter => {
+      const section = document.createElement('section');
+      section.className = 'letter-section';
+      
+      const title = document.createElement('div');
+      title.className = 'letter-heading';
+      title.textContent = letter;
+      section.appendChild(title);
+
+      const grid = document.createElement('div');
+      grid.className = 'term-list';
+
+      groups[letter].forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'term-card';
+        card.setAttribute('data-category', item.category);
+
+        card.innerHTML = `
+          <div>
+            <div class="term-title">
+              <span class="term-acronym">${escapeHTML(item.acronym)}</span>
+            </div>
+            <div class="term-full-name">${escapeHTML(item.name)}</div>
+            <p class="term-def">${escapeHTML(item.def)}</p>
+          </div>
+          <div class="term-meta">
+            <span class="term-category" style="background-color: ${getCategoryColor(item.category)};">${escapeHTML(catNames[item.category])}</span>
+            <a href="${escapeHTML(item.source_link)}" class="source-link">Vedi ${escapeHTML(item.source_name)} →</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      section.appendChild(grid);
+      glossaryContent.appendChild(section);
+    });
+  }
+
+  function getCategoryColor(cat) {
+    switch(cat) {
+      case 'general': return 'var(--slate)';
+      case 'crypto': return 'var(--green)';
+      case 'net': return 'var(--teal)';
+      case 'iam': return 'var(--warn)';
+      case 'ops': return 'var(--critical)';
+      case 'gov': return 'var(--navy)';
+      default: return 'var(--slate)';
+    }
+  }
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>'"]/g, 
+      tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag)
+    );
+  }
+
+  // Set event listeners for searching
+  searchInput.addEventListener('input', function() {
+    searchQuery = searchInput.value.toLowerCase().trim();
+    renderGlossary();
+  });
+
+  // Set event listeners for Category filters
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      filterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCategory = tab.getAttribute('data-cat');
+      renderGlossary();
+    });
+  });
+
+  // Initial draw
+  renderGlossary();
+
+})();
+</script>
+</body>
+</html>

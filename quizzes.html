@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — Riepilogo Quiz</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <style>
+    /* Styling dedicati alla pagina quiz_overview */
+    .search-container {
+      margin: 24px 0 32px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .search-input {
+      flex: 1;
+      padding: 12px 18px;
+      border: 1.5px solid var(--light-slate);
+      border-radius: 8px;
+      font-size: 1rem;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color 0.2s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+    .quiz-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .quiz-card {
+      background: var(--white);
+      border: 1.5px solid var(--light-slate);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease-on-out;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .quiz-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.08);
+    }
+    .quiz-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .quiz-card-code {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--navy);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .quiz-card-num {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--teal);
+      background: var(--tip-bg);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .quiz-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 16px;
+      min-height: 44px;
+    }
+    .quiz-card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .quiz-action-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: all 0.15s ease-in-out;
+    }
+    .quiz-action-btn.primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+    .quiz-action-btn.primary:hover {
+      background: #0d635c;
+    }
+    .quiz-action-btn.secondary {
+      background: var(--bg);
+      color: var(--slate);
+      border: 1px solid var(--light-slate);
+    }
+    .quiz-action-btn.secondary:hover {
+      background: var(--light-slate);
+    }
+    
+    /* Stats banner */
+    .stats-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, #152E52 100%);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .stats-main {
+      flex: 1;
+      min-width: 250px;
+    }
+    .stats-main h2 {
+      margin: 0 0 6px;
+      color: var(--white);
+      border: none;
+      padding: 0;
+      font-size: 1.4rem;
+    }
+    .stats-main p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--light-slate);
+    }
+    .stats-numbers {
+      display: flex;
+      gap: 24px;
+    }
+    .stat-box {
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.75rem;
+      color: var(--light-slate);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    
+    /* Accordion in Quizzes list */
+    .domain-title-header {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--navy);
+      padding: 12px 18px;
+      border-radius: 8px 8px 0 0;
+      margin-top: 32px;
+    }
+    .domain-quiz-wrapper {
+      border: 1.5px solid var(--light-slate);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 20px;
+      background: #fafbfe;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--slate);
+      font-size: 1rem;
+      background: var(--white);
+      border: 1.5px dashed var(--light-slate);
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="index.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="index.html" class="global-nav-link">Home</a>
+    <a href="quizzes.html" class="global-nav-link active">Quiz</a>
+    <a href="glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<div class="container">
+<div class="page">
+
+  <div class="ig-header">
+    <h1>Supervisione Quiz per Obiettivi</h1>
+    <p>Testa la tua preparazione con i simulatori d'esame ufficiali organizzati secondo gli obiettivi di studio della certificazione CompTIA Security+ (SY0-701).</p>
+  </div>
+
+  <!-- Banner Riassuntivo delle Statistiche -->
+  <div class="stats-banner">
+    <div class="stats-main">
+      <h2>Database Totale Quiz</h2>
+      <p>Tutti i quesiti includono risposta multipla, correzione real-time e spiegazione analitica d'esame.</p>
+    </div>
+    <div class="stats-numbers">
+      <div class="stat-box">
+        <div class="stat-val">28</div>
+        <div class="stat-lbl">Sezioni</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">714</div>
+        <div class="stat-lbl">Quesiti</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">100%</div>
+        <div class="stat-lbl">Copertura</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra di Ricerca ed Elevata Usabilità -->
+  <div class="search-container">
+    <input type="text" id="quiz-filter-input" class="search-input" placeholder="Cerca quiz... (es. '4.3', 'Vulnerability', 'Firewall' o 'Governance')" />
+  </div>
+
+  <main id="quizzes-container">
+    
+    <!-- DOMINIO 1 -->
+    <div class="domain-group" data-domain="1">
+      <div class="domain-title-header" style="background: #0B1F3A;">
+        Dominio 1 — Concetti generali di sicurezza (D1)
+      </div>
+      <div class="domain-quiz-wrapper">
+        <div class="quiz-card-grid">
+          
+          <div class="quiz-card" data-search="1.1 controlli sicurezza security controls technical physical managerial operational preventive deterrent detective corrective compensating directive">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 1.1</span>
+              <span class="quiz-card-num">28 Domande</span>
+            </div>
+            <div class="quiz-card-title">Controlli di Sicurezza (Security Controls)</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj1_1_security_controls.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj1_1_security_controls.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="1.2 CIA triad AAA non-repudiation zero trust model concetti fondamentali">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 1.2</span>
+              <span class="quiz-card-num">16 Domande</span>
+            </div>
+            <div class="quiz-card-title">Concetti Fondamentali di Sicurezza (CIA, AAA, Zero Trust)</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj1_2_fundamental_concepts.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj1_2_fundamental_concepts.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="1.3 change management politiche gerarchia documentale policy standard procedure guidelines">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 1.3</span>
+              <span class="quiz-card-num">15 Domande</span>
+            </div>
+            <div class="quiz-card-title">Change Management e Politiche di Sicurezza</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj1_3_change_management.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj1_3_change_management.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="1.4 crittografia simmetrica asimmetrica hashing salting firme digitali pki key escrow tls handshake">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 1.4</span>
+              <span class="quiz-card-num">46 Domande</span>
+            </div>
+            <div class="quiz-card-title">Soluzioni e Algoritmi Crittografici</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj1_4_cryptography.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj1_4_cryptography.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 2 -->
+    <div class="domain-group" data-domain="2">
+      <div class="domain-title-header" style="background: #0F766E;">
+        Dominio 2 — Minacce, vulnerabilità e mitigazioni (D2)
+      </div>
+      <div class="domain-quiz-wrapper">
+        <div class="quiz-card-grid">
+
+          <div class="quiz-card" data-search="2.1 threat actors motivazioni nation-state organizzazione hacker insider">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 2.1</span>
+              <span class="quiz-card-num">15 Domande</span>
+            </div>
+            <div class="quiz-card-title">Attori delle Minacce e Motivazioni (Threat Actors)</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj2_1_threat_actors.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj2_1_threat_actors.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="2.2 minacce vettori attacco social engineering phishing smishing vishing spear phishing whaling impersonation shadow IT">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 2.2</span>
+              <span class="quiz-card-num">42 Domande</span>
+            </div>
+            <div class="quiz-card-title">Vettori di Attacco e Social Engineering</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj2_2_threat_vectors.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj2_2_threat_vectors.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="2.3 vulnerabilità zero-day cloud-specific buffer overflow race condition misconfiguration memory injection">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 2.3</span>
+              <span class="quiz-card-num">35 Domande</span>
+            </div>
+            <div class="quiz-card-title">Tipologie di Vulnerabilità di Sistema</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj2_3_vulnerabilities.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj2_3_vulnerabilities.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="2.4 indicatori attività malevola malware ransomware trojan rootkit spyware backdoors adware virus worm c2 command and control">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 2.4</span>
+              <span class="quiz-card-num">25 Domande</span>
+            </div>
+            <div class="quiz-card-title">Malware e Indicatori di Attività Malevola</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj2_4_malicious_activity.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj2_4_malicious_activity.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="2.5 tecniche mitigazione difesa segmentazione di rete privilege access hardening sandbox backup">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 2.5</span>
+              <span class="quiz-card-num">11 Domande</span>
+            </div>
+            <div class="quiz-card-title">Tecniche di Mitigazione delle Minacce</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj2_5_mitigation.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj2_5_mitigation.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 3 -->
+    <div class="domain-group" data-domain="3">
+      <div class="domain-title-header" style="background: #334155;">
+        Dominio 3 — Architettura di sicurezza (D3)
+      </div>
+      <div class="domain-quiz-wrapper">
+        <div class="quiz-card-grid">
+
+          <div class="quiz-card" data-search="3.1 modelli architetturali cloud shared responsibility deployment models saas paas iaas containerization microservices serverless iac virtualizzazione">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 3.1</span>
+              <span class="quiz-card-num">36 Domande</span>
+            </div>
+            <div class="quiz-card-title">Modelli Architetturali e Cloud Security</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj3_1_architecture.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj3_1_architecture.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="3.2 infrastruttura enterprise sicura vlan network segmentation firewall dmz wans sd-wan proxy load balancing port security">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 3.2</span>
+              <span class="quiz-card-num">29 Domande</span>
+            </div>
+            <div class="quiz-card-title">Infrastruttura Enterprise Sicura</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj3_2_infrastructure.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj3_2_infrastructure.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="3.3 proteggere dati dlp data loss prevention classificazione stati dei dati data sovereignty mascheramento tokenizzazione cifratura">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 3.3</span>
+              <span class="quiz-card-num">31 Domande</span>
+            </div>
+            <div class="quiz-card-title">Protezione dei Dati e Data Sovereignty</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj3_3_data_protection.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj3_3_data_protection.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="3.4 resilienza recovery continuità ripristino rto rpo backup siti caldi freddi tiepidi redundancy raid ups">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 3.4</span>
+              <span class="quiz-card-num">30 Domande</span>
+            </div>
+            <div class="quiz-card-title">Resilienza, Continuità e Disaster Recovery</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj3_4_resilience.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj3_4_resilience.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 4 -->
+    <div class="domain-group" data-domain="4">
+      <div class="domain-title-header" style="background: #1D4ED8;">
+        Dominio 4 — Operazioni di sicurezza (D4)
+      </div>
+      <div class="domain-quiz-wrapper">
+        <div class="quiz-card-grid">
+
+          <div class="quiz-card" data-search="4.1 risorse calcolo secure sdlc owasp input validation sast dast code signing baseline hardening mdm mobile wireless wps bluetooth site survey">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.1</span>
+              <span class="quiz-card-num">36 Domande</span>
+            </div>
+            <div class="quiz-card-title">Sicurezza delle Risorse di Calcolo e Sviluppo</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_1_computing_resources.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_1_computing_resources.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.2 gestione asset hardware software dati inventario classificazione lifecycle">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.2</span>
+              <span class="quiz-card-num">18 Domande</span>
+            </div>
+            <div class="quiz-card-title">Asset Management e Ciclo di Vita</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_2_asset_management.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_2_asset_management.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.3 gestione vulnerabilità vulnerability scan cvss v3 false positive bug bounty penetration testing credentialed non-credentialed active passive">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.3</span>
+              <span class="quiz-card-num">41 Domande</span>
+            </div>
+            <div class="quiz-card-title">Vulnerability Management e Penetration Test</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_3_vulnerability_management.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_3_vulnerability_management.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.4 allarmistica monitoraggio alerting monitoring siem logs agenti sensori dashboard incident lifecycle containment">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.4</span>
+              <span class="quiz-card-num">19 Domande</span>
+            </div>
+            <div class="quiz-card-title">Allarmistica, Monitoraggio e Logs</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_4_alerting_monitoring.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_4_alerting_monitoring.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.5 configurare capacità aziendali firewall ipsec sd-wan proxy url filtering ids ips wefilter">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.5</span>
+              <span class="quiz-card-num">35 Domande</span>
+            </div>
+            <div class="quiz-card-title">Configurazione delle Capacità di Sicurezza</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_5_incident_response.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_5_incident_response.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.6 gestione identità accessi iam authentication factors mfa sso saml oauth2 dacl rbac least privilege pam password policies">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.6</span>
+              <span class="quiz-card-num">38 Domande</span>
+            </div>
+            <div class="quiz-card-title">Identity & Access Management (IAM)</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_6_identity_access.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_6_identity_access.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.7 automazione orchestrazione soar api playbook runbook scripting guard rails">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.7</span>
+              <span class="quiz-card-num">8 Domande</span>
+            </div>
+            <div class="quiz-card-title">Automazione, Scripting e SOAR</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_7_automation_orchestration.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_7_automation_orchestration.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.8 incident response activities containment forensics volatilità catena custodia dd ddos spoofing">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.8</span>
+              <span class="quiz-card-num">23 Domande</span>
+            </div>
+            <div class="quiz-card-title">Attività e Gestione delle Risposte agli Incidenti</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_8_incident_response.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_8_incident_response.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="4.9 fonti dati investigazionepacket captures wireshark netflow dns logs firewall logs active directory">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 4.9</span>
+              <span class="quiz-card-num">23 Domande</span>
+            </div>
+            <div class="quiz-card-title">Fonti di Dati e Diagnostica Investigativa</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj4_9_data_sources.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj4_9_data_sources.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 5 -->
+    <div class="domain-group" data-domain="5">
+      <div class="domain-title-header" style="background: #7C3AED;">
+        Dominio 5 — Governance e supervisione (D5)
+      </div>
+      <div class="domain-quiz-wrapper">
+        <div class="quiz-card-grid">
+
+          <div class="quiz-card" data-search="5.1 governance policies standards procedures guidelines aup bcp drp sla dsa">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 5.1</span>
+              <span class="quiz-card-num">29 Domande</span>
+            </div>
+            <div class="quiz-card-title">Security Governance, Policy e Standard</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj5_1_governance.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj5_1_governance.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="5.2 gestione rischio risk management treatment avoidance transference mitigation acceptance sle ale aro appetite bia impatto">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 5.2</span>
+              <span class="quiz-card-num">25 Domande</span>
+            </div>
+            <div class="quiz-card-title">Processi di Gestione del Rischio (Risk Management)</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj5_2_risk_management.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj5_2_risk_management.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="5.3 rischio terze parti third-party risk sla nda msa onboarding offboarding vendor assessent">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 5.3</span>
+              <span class="quiz-card-num">21 Domande</span>
+            </div>
+            <div class="quiz-card-title">Gestione del Rischio delle Terze Parti</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj5_3_third_party.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj5_3_third_party.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="5.4 conformità compliance gdpr hipaa pci-dss sox coppa data privacy sovereignty">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 5.4</span>
+              <span class="quiz-card-num">19 Domande</span>
+            </div>
+            <div class="quiz-card-title">Conformità e Normative di Sicurezza (Compliance)</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj5_4_security_compliance.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj5_4_security_compliance.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="5.5 audit assessment soc 1 soc 2 right to audit interno esterno indipendenti">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 5.5</span>
+              <span class="quiz-card-num">21 Domande</span>
+            </div>
+            <div class="quiz-card-title">Tipi e Scopi di Audit e Valutazioni</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj5_5_audits_assessments.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj5_5_audits_assessments.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+          <div class="quiz-card" data-search="5.6 consapevolezza awareness training phishing simulations insider threat password management social engineering">
+            <div class="quiz-card-header">
+              <span class="quiz-card-code">OBJ 5.6</span>
+              <span class="quiz-card-num">15 Domande</span>
+            </div>
+            <div class="quiz-card-title">Security Awareness e Pratiche Comportamentali</div>
+            <div class="quiz-card-actions">
+              <a href="chapters/obj5_6_security_awareness.html#quiz-section" class="quiz-action-btn primary">Avvia Quiz d'Esame →</a>
+              <a href="chapters/obj5_6_security_awareness.html" class="quiz-action-btn secondary">Leggi Teoria Capitolo</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+  
+  <div id="no-results-msg" class="no-results">
+    Scrittura non corrispondente. Nessun quiz d'esame trovato con questi termini. Prova con un'altra ricerca.
+  </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  const filterInput = document.getElementById('quiz-filter-input');
+  const cards = document.querySelectorAll('.quiz-card');
+  const groups = document.querySelectorAll('.domain-group');
+  const noResults = document.getElementById('no-results-msg');
+
+  filterInput.addEventListener('input', function() {
+    const q = filterInput.value.toLowerCase().trim();
+    let globalMatchCount = 0;
+
+    groups.forEach(group => {
+      let groupHasMatch = false;
+      const groupCards = group.querySelectorAll('.quiz-card');
+
+      groupCards.forEach(card => {
+        const textToSearch = card.getAttribute('data-search') || '';
+        const cardTitle = card.querySelector('.quiz-card-title').textContent.toLowerCase();
+        
+        if (textToSearch.includes(q) || cardTitle.includes(q)) {
+          card.style.display = 'flex';
+          groupHasMatch = true;
+          globalMatchCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (groupHasMatch) {
+        group.style.display = 'block';
+      } else {
+        group.style.display = 'none';
+      }
+    });
+
+    if (globalMatchCount === 0 && q.length > 0) {
+      noResults.style.display = 'block';
+    } else {
+      noResults.style.display = 'none';
+    }
+  });
+})();
+</script>
+</body>
+</html>

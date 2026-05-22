@@ -969,3 +969,52 @@ ul.flashcard li strong { color: var(--navy); }
 .quiz-mode-btn:hover { border-color: var(--teal); background: var(--tip-bg); }
 .quiz-mode-btn strong { font-size: 0.92em; color: var(--navy); }
 .quiz-mode-btn span   { font-size: 0.82em; color: var(--slate); }
+
+/* ── Global Navigation ─────────────────────────────────────────── */
+.global-nav {
+  background: var(--navy);
+  color: var(--white);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--teal);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.global-nav-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.global-nav-links {
+  display: flex;
+  gap: 16px;
+}
+.global-nav-link {
+  color: var(--light-slate);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+.global-nav-link:hover, .global-nav-link.active {
+  color: var(--white);
+  background: rgba(255,255,255,0.15);
+}
+@media (max-width: 640px) {
+  .global-nav {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+}
+
