@@ -381,14 +381,6 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
-      acronym: "Administrator and User Accounts",
-      name: "Account Amministrativo e Account Utente",
-      def: "La separazione dei profili per implementare il minimo privilegio. Gli account utente (standard) eseguono compiti di routine con poteri minimi protetti da UAC; gli account amministratore detengono controllo completo sul sistema operativo e vanno utilizzati esclusivamente per attività configurative protette.",
-      category: "iam",
-      source_name: "OBJ 4.6",
-      source_link: "chapters/obj4_6_identity_access.html"
-    },
-    {
       acronym: "Active Reconnaissance",
       name: "Ricognizione Attiva",
       def: "Metodologia di scansione e mappatura di una rete bersaglio che prevede l'invio proattivo di pacchetti (es. port scanning con Nmap) per identificare porte aperte, host attivi e vulnerabilità, risultando visibile nei sistemi IDS/IPS e firewall del target.",
@@ -400,6 +392,14 @@
       acronym: "AD",
       name: "Active Directory",
       def: "Servizio di directory centralizzato sviluppato da Microsoft per reti di domini Windows. Consente la gestione centralizzata di utenti, computer, autorizzazioni globali, permessi e risorse informatiche.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Administrator and User Accounts",
+      name: "Account Amministrativo e Account Utente",
+      def: "La separazione dei profili per implementare il minimo privilegio. Gli account utente (standard) eseguono compiti di routine con poteri minimi protetti da UAC; gli account amministratore detengono controllo completo sul sistema operativo e vanno utilizzati esclusivamente per attività configurative protette.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -485,6 +485,14 @@
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
+      acronym: "Assessing the relevance and impact of patches",
+      name: "Valutazione della Rilevanza e dell'Impatto delle Patch",
+      def: "Fase propedeutica critica del patch management. Consiste nello stabilire se un aggiornamento di sicurezza rilasciato sia pertinente per l'infrastruttura d'impresa e collaudarne gli impatti operativi e di compatibilità per prevenire interruzioni impreviste dei servizi a seguito dell'installazione.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    {
       acronym: "Asset Inventory",
       name: "Inventario Sistematico degli Asset",
       def: "Registro aggiornato e formalizzato di tutti i componenti hardware e software presenti e autorizzati nella rete d'impresa, base insostituibile per qualunque audit di idoneità ed esercizio di patch management.",
@@ -525,17 +533,17 @@
       source_link: "chapters/obj5_1_governance.html"
     },
     {
-      acronym: "Authentication",
-      name: "Autenticazione",
-      def: "Il processo di convalida e verifica dell'identità digitale dichiarata da un utente o dispositivo, tipicamente tramite il superamento di una sfida o l'esibizione di credenziali (come password, token o impronte digitali).",
+      acronym: "Authenticating the user",
+      name: "Autenticazione dell'utente",
+      def: "Terzo passaggio nel flusso della transazione di federazione SSO. L'Identity Provider (IdP) sfida l'utente a dimostrare la sua identità reale richiedendo le sue credenziali personali, MFA o verifiche biometriche locali.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "Authenticating the user",
-      name: "Autenticazione dell'utente",
-      def: "Terzo passaggio nel flusso della transazione di federazione SSO. L'Identity Provider (IdP) sfida l'utente a dimostrare la sua identità reale richiedendo le sue credenziali personali, MFA o verifiche biometriche locali.",
+      acronym: "Authentication",
+      name: "Autenticazione",
+      def: "Il processo di convalida e verifica dell'identità digitale dichiarata da un utente o dispositivo, tipicamente tramite il superamento di una sfida o l'esibizione di credenziali (come password, token o impronte digitali).",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -789,12 +797,28 @@
       source_link: "chapters/obj1_1_security_controls.html"
     },
     {
+      acronym: "Conduct regular audits",
+      name: "Esecuzione di Audit Regolari",
+      def: "La prassi di condurre esami periodici e sistematici sull'infrastruttura, asset e procedure di sicurezza aziendali per rilevare tempestivamente vulnerabilità, deviazioni dalle baseline logiche ed eventuali non conformità alle policy.",
+      category: "gov",
+      source_name: "OBJ 5.5",
+      source_link: "chapters/obj5_5_audits_assessments.html"
+    },
+    {
       acronym: "Confidentiality",
       name: "Riservatezza (Confidentiality)",
       def: "Pilastro fondamentale della triade CIA inteso a garantire che i dati sensibili siano accessibili ed intellegibili unicamente ai soggetti, processi o sistemi debitamente autorizzati.",
       category: "general",
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Configuration Enforcement",
+      name: "Applicazione Rigorosa delle Configurazioni (Configuration Enforcement)",
+      def: "Processo e buone pratiche di controllo di sicurezza, spesso automatizzate, tese ad applicare, forzare e bloccare la conformità delle impostazioni hardware e software logiche aziendali rispetto a baseline di sicurezza concordate, mitigando le alterazioni non autorizzate.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
     },
     {
       acronym: "Container",
@@ -901,6 +925,14 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
+      acronym: "Data Compromise",
+      name: "Compromissione o Violazione dei Dati",
+      def: "La perdita accidentale, sottrazione indebita o alterazione non autorizzata di dati personali o sensibili d'impresa a seguito di un incidente o di un'intrusione logica di malintenzionati.",
+      category: "ops",
+      source_name: "OBJ 3.3",
+      source_link: "chapters/obj3_3_data_protection.html"
+    },
+    {
       acronym: "Data Masking",
       name: "Mascheramento dei Dati (Offuscamento)",
       def: "Tecnica logica che maschera preventivamente i record sensibili nei database d'impresa (es. oscurando cifre intermedie di carte di debito) per permettere consultazioni corrette salvaguardando il piano di compliance.",
@@ -917,6 +949,22 @@
       source_link: "chapters/obj4_8_incident_response.html"
     },
     {
+      acronym: "Decommissioning",
+      name: "Dismissione Sistematica degli Asset (Decommissioning)",
+      def: "Processo di rimozione sicuro dell'hardware o software obsoleto dall'ambiente aziendale. Garantisce che i dati siano cancellati o sanitizzati permanentemente e che le credenziali, trust logici e licenze attive vengano revocate per non lasciare falle orfane aperte.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Deploying patches in a timely manner",
+      name: "Installazione Tempestiva delle Patch",
+      def: "La tempestiva attuazione e rilascio logico delle patch di sicurezza nell'architettura d'impresa dopo il test di impatto. Riduce sensibilmente l'intervallo temporale tra la scoperta di una vulnerabilità e il suo effettivo rimedio fisico, sventando exploit dei pirati.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    {
       acronym: "Deprovisioning",
       name: "Deprovisioning (Disattivazione Account)",
       def: "L'attività sistematica all'interno del ciclo di vita IAM dedicata a rimuovere, revocare e disabilitare tempestivamente l'account utente, i relativi privilegi storici e i diritti d'azione al momento dell'offboarding (licenziamento, dimissioni o trasferimento del dipendente), impedendo la persistenza di pericolosi account orfani silenti.",
@@ -931,6 +979,22 @@
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "Device Hardening",
+      name: "Indurimento Fisico e Logico dei Dispositivi (Device Hardening)",
+      def: "Insieme di operazioni tecniche volte a ridurre la superficie d'attacco logico di computer, server o apparati. Comprende modifiche configurative come disabilitare servizi non necessari, chiudere le porte non utilizzate, rimuovere account legacy e forzare la complessità delle password.",
+      category: "ops",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "Device's Firmware",
+      name: "Firmware del Dispositivo",
+      def: "Il software nativo a basso livello embedded in modo permanente all'interno dei componenti hardware (es. BIOS/UEFI, schede di rete, firmware di router e stampanti). Costituisce una vulnerabilità hardware-specific qualora non regolarmente aggiornato, poiché detiene elevati privilegi operativi ed effettua l'avvio prima del sistema operativo.",
+      category: "net",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "DH",
@@ -1067,6 +1131,22 @@
       category: "ops",
       source_name: "OBJ 2.5",
       source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "End-of-life (EOL)",
+      name: "Fine del Ciclo di Vita Logico (End-of-Life)",
+      def: "Stato in cui un sistema hardware, software o un'applicazione non riceve più alcun supporto attivo o patch di sicurezza dal produttore originale. Qualora continuino ad essere mantenuti in linea per esigenze produttive critiche, creano severi rischi di exploit non mitigati.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Enforce good configuration management practices",
+      name: "Applicazione di Buone Pratiche di Gestione della Configurazione",
+      def: "Normative e buone pratiche dedite a documentare, autenticare, controllare e applicare costantemente la stabilità delle configurazioni hardware e software sui nodi dell'infrastruttura d'impresa, prevenendo variazioni e derive logore di sicurezza.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
     },
     {
       acronym: "Enhanced security",
@@ -1229,12 +1309,36 @@
       source_link: "chapters/obj2_1_threat_actors.html"
     },
     {
+      acronym: "Hardening",
+      name: "Indurimento della Sicurezza dei Sistemi (System Hardening)",
+      def: "Il processo di configurazione sicura e irrobustimento logico di host informatici, server e applicativi. Riduce sensibilmente e attivamente la superficie d'attacco disabilitando servizi superflui, reprimendo l'uso di credenziali e password di default, applicando patch e sbarrando porte TCP/UDP non utili.",
+      category: "ops",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "Hardware Misconfiguration",
+      name: "Errata Configurazione Hardware",
+      def: "Vulnerabilità causata da un setting non sicuro di apparati fisici reali o virtualizzati (es. interfacce di console lasciate aperte, abilitazione di porte non protette o utilizzo delle credenziali di root standard di fabbrica).",
+      category: "net",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Hardware Tokens",
       name: "Token Hardware di Sicurezza",
       def: "Dispositivi elettronici portatili fisici detenuti dall'utente (es. chiavi di sicurezza USB/NFC YubiKey o keychain con codice dinamico e-paper) preposti a firmare crittograficamente o inviare stringhe per superare la convalida di possesso.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Hardware Vulnerabilities",
+      name: "Vulnerabilità Hardware",
+      def: "Debolezza o limitazione fisica insita nella progettazione, fabbricazione o firmware di un componente fisico reale (es. falle energetiche, vulnerabilità del set di istruzioni dei processori come Meltdown/Spectre o impianti di silicio malevoli nella supply chain) non risolvibili esclusivamente con formattazione dell'OS.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Heuristic Scan",
@@ -1349,14 +1453,6 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "Implementation of least privilege",
-      name: "Attuazione del Minimo Privilegio",
-      def: "Le metodologie pratiche usate per assicurare che gli utenti non detengano privilegi eccessivi. Include controlli di separazione dei ruoli, utilizzo di account amministrativi protetti e separati da quelli d'uso quotidiano, revoca tempestiva dei permessi obsoleti (deprovisioning) e riesami d'accesso periodici.",
-      category: "iam",
-      source_name: "OBJ 4.6",
-      source_link: "chapters/obj4_6_identity_access.html"
-    },
-    {
       acronym: "IdP (Identity Provider)",
       name: "Fornitore di Identità / Identity Provider",
       def: "Un sistema o servizio di sicurezza centralizzato (come Okta, Azure AD, o Ping Identity) che archivia, gestisce e autentica le identità digitali degli utenti, trasmettendo asserzioni di autenticazione e attributi sicuri ad applicazioni terze partner (Service Provider) tramite protocolli standard come SAML o OIDC.",
@@ -1379,6 +1475,22 @@
       category: "gov",
       source_name: "OBJ 1.3",
       source_link: "chapters/obj1_3_change_management.html"
+    },
+    {
+      acronym: "Implement automated tools",
+      name: "Utilizzo di Strumenti Automatizzati di Gestione",
+      def: "L'adozione e integrazione sistematica di piattaforme e script intelligenti (es. vulnerability scanner automatici, sistemi centralizzati di patch distribution come WSUS) che alleviano gli sforzi manuali nello scoprire bug ed applicare tempestivamente patch di manutenzione sui nodi di rete.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    {
+      acronym: "Implementation of least privilege",
+      name: "Attuazione del Minimo Privilegio",
+      def: "Le metodologie pratiche usate per assicurare che gli utenti non detengano privilegi eccessivi. Include controlli di separazione dei ruoli, utilizzo di account amministrativi protetti e separati da quelli d'uso quotidiano, revoca tempestiva dei permessi obsoleti (deprovisioning) e riesami d'accesso periodici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Improved user experience",
@@ -1461,6 +1573,14 @@
       source_link: "chapters/obj3_1_architecture.html"
     },
     {
+      acronym: "IoT Devices",
+      name: "Dispositivi e Sensori Smart (IoT)",
+      def: "Componenti fisici intelligenti dotati di interfacce di rete e micro-firmware (RTOS). Caratterizzati da un'alta utilità ma da un ridotto spazio logico interno per agent EDR o meccanismi crittografici pesanti, richiedono l'applicazione sistematica della network segmentation.",
+      category: "net",
+      source_name: "OBJ 3.1",
+      source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
       acronym: "IP spoofing",
       name: "Spoofing di Indirizzo IP",
       def: "Tecnica dannosa di contraffazione di rete consistente nell'alterare fraudolentemente l'indirizzo IP del mittente nei pacchetti in transito, per aggirare blacklist o simulare l'identità di un host fidato.",
@@ -1499,6 +1619,14 @@
       category: "gov",
       source_name: "OBJ 5.4",
       source_link: "chapters/obj5_4_security_compliance.html"
+    },
+    {
+      acronym: "Isolation",
+      name: "Isolamento Completo (Isolation / Host-based Isolation)",
+      def: "Misura drastica di contenimento o mitigazione del rischio che prevede l'immediata separazione logica o sconnessione fisica totale di una macchina o risorsa compromessa dalla LAN d'impresa, bloccando preventivamente i movimenti laterali del malware senza decommissioning.",
+      category: "ops",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
     },
     {
       acronym: "Jamming",
@@ -1549,6 +1677,14 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "Laptops",
+      name: "Computer Portatili Aziendali (Laptops)",
+      def: "Dispositivi di calcolo mobili ubiqui usati da dipendenti d'ufficio e smartworker. Costituiscono una superficie d'attacco logico e fisico ad alto rischio, mitigata centralmente tramite intere policy FDE (Full Disk Encryption), personal firewall attivi ed accessi VPN forzati.",
+      category: "net",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
       acronym: "LDAP",
       name: "Lightweight Directory Access Protocol",
       def: "Protocollo industriale standard aperto client-server della porta 389 utilizzato per interrogare, modificare e gestire directory centralizzate a livello di rete locale (Active Directory).",
@@ -1581,6 +1717,14 @@
       source_link: "chapters/obj1_3_change_management.html"
     },
     {
+      acronym: "Legacy Systems",
+      name: "Sistemi Legacy Obsoleti",
+      def: "Infrastrutture server, sistemi operativi o apparati hardware vetusti che un'impresa sceglie razionalmente di continuare a mantenere attivi in produzione a supporto di applicazioni di business critiche non altrimenti convertibili, mitigati a barriera operando network segmentation logiche ed elenchi di controllo ACL estremi.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Limiting the number of login attempts",
       name: "Limitazione dei Tentativi d'Accesso",
       def: "L'adozione centrale di criteri di lockout account che disabilitano transitoriamente o stabilmente il profilo utente superato un numero prefissato di login falliti in sequenza (es: 5 fallimenti), soffocando gli attacchi brute-force automatici.",
@@ -1597,17 +1741,17 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "Login initiation",
-      name: "Inizializzazione della sessione (Login)",
-      def: "Il primo passaggio nel flusso della transazione di federazione SSO. L'utente tenta l'accesso a un'applicazione protetta (un Service Provider) che riconosce la necessità di una verifica federata avviando lo scambio di login.",
+      acronym: "Location-based Factor",
+      name: "Fattore basato sulla geografica / Posizione (MFA)",
+      def: "Parametro d'accesso che verifica il login sulla base delle coordinate GPS riscontrate o dell'indirizzo IP di emissione associato a una determinata sub-regione geografico-amministrativa (IP Geolocation).",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "Location-based Factor",
-      name: "Fattore basato sulla geografica / Posizione (MFA)",
-      def: "Parametro d'accesso che verifica il login sulla base delle coordinate GPS riscontrate o dell'indirizzo IP di emissione associato a una determinata sub-regione geografico-amministrativa (IP Geolocation).",
+      acronym: "Login initiation",
+      name: "Inizializzazione della sessione (Login)",
+      def: "Il primo passaggio nel flusso della transazione di federazione SSO. L'utente tenta l'accesso a un'applicazione protetta (un Service Provider) che riconosce la necessità di una verifica federata avviando lo scambio di login.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1669,17 +1813,17 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
-      acronym: "Microsoft Accounts",
-      name: "Account Microsoft",
-      def: "Profili utente personali centralizzati basati sul servizio cloud di Microsoft. Consentono di accedere ai dispositivi Windows e sincronizzare impostazioni, app e dati a livello globale, differenziandosi dagli account locali nativi e offrendo backup di sicurezza automatici.",
+      acronym: "MFA",
+      name: "Multi-Factor Authentication",
+      def: "Autenticazione avanzata che richiede due o più fattori di diversa natura per autorizzare l'accesso: qualcosa che sai (password), something you have (smart card), o something you are (biometria).",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "MFA",
-      name: "Multi-Factor Authentication",
-      def: "Autenticazione avanzata che richiede due o più fattori di diversa natura per autorizzare l'accesso: qualcosa che sai (password), something you have (smart card), o something you are (biometria).",
+      acronym: "Microsoft Accounts",
+      name: "Account Microsoft",
+      def: "Profili utente personali centralizzati basati sul servizio cloud di Microsoft. Consentono di accedere ai dispositivi Windows e sincronizzare impostazioni, app e dati a livello globale, differenziandosi dagli account locali nativi e offrendo backup di sicurezza automatici.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1699,6 +1843,14 @@
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Mobile Devices",
+      name: "Dispositivi Mobili (Mobile Devices)",
+      def: "Smartphones, tablets e altri apparati palmari computazionali. Trattandosi di asset ampiamente soggetti a smarrimento d'uso fisico, furti, e installazione di malware non controllati, devono sottostare a severe policy MDM, protezioni biometriche e containerizzazione sicura dei dati interni.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
       acronym: "MOU",
@@ -1763,6 +1915,14 @@
       category: "ops",
       source_name: "OBJ 4.9",
       source_link: "chapters/obj4_9_data_sources.html"
+    },
+    {
+      acronym: "Network Appliances",
+      name: "Apparati Dedicati di Rete (Network Appliances)",
+      def: "Componenti hardware o macchine virtuali specializzate preposte a compiere compiti di transito logico d'infrastruttura (es. bilanciatori di carico, proxy server, gateway WAF o firewall dedicati), che richiedono costanti aggiornamenti firmware per respingere bachi applicativi ed exploit critici.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
       acronym: "NGFW",
@@ -1901,14 +2061,6 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "Passwords",
-      name: "Password",
-      def: "La forma classica e più diffusa di credenziale d'autenticazione basata sulla conoscenza (qualcosa che sai). Richiedono politiche di controllo severe (lunghezza, complessità, non-riutilizzo ed età della password) per resistere ad attacchi brute-force, spray e phishing.",
-      category: "iam",
-      source_name: "OBJ 4.6",
-      source_link: "chapters/obj4_6_identity_access.html"
-    },
-    {
       acronym: "Password age",
       name: "Età delle Password",
       def: "Coppia di regole di validità d'accesso. L'Età Minima limita il cambio convulsivo immediato di password fatto per aggirare la cronologia storica; l'Età Massima pianifica le scadenze programmate collettive.",
@@ -1973,12 +2125,36 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Password Spraying",
+      name: "Attacco di Spruzzatura Password (Password Spraying)",
+      def: "Attacco elusivo teso a bypassare il lockout degli account: l'attaccante testa pochissime password deboli diffuse contro un'imponente molteplicità di profili utente diversi contemporaneamente, muovendosi lentamente.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Password Vaulting",
       name: "Archiviazione Password in Cassaforte",
       def: "L'atto di proteggere e conservare le credenziali cifrate all'interno di un 'vault' digitale protetto centralmente (nei Password Manager o sistemi PAM). Consente la rotazione periodica automatica, l'eliminazione di fogli in chiaro e la condivisione delegata controllata di credenziali critiche.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Passwords",
+      name: "Password",
+      def: "La forma classica e più diffusa di credenziale d'autenticazione basata sulla conoscenza (qualcosa che sai). Richiedono politiche di controllo severe (lunghezza, complessità, non-riutilizzo ed età della password) per resistere ad attacchi brute-force, spray e phishing.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Patching",
+      name: "Applicazione di Patch di Sicurezza (Patching)",
+      def: "Pratica di rimedio primaria (remediation) consistente nell'installare aggiornamenti ufficiali periodici correttivi sul firmware, SO o applicazioni d'impresa. Consente l'eliminazione del bug o della vulnerabilità nota senza intaccare in via logica l'integrità dei dati utente.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
     },
     {
       acronym: "PCI-DSS",
@@ -1997,20 +2173,20 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
-      acronym: "PFS",
-      name: "Perfect Forward Secrecy",
-      def: "Meccanismo crittografico in cui viene generata una chiave di sessione temporanea e unica per ciascuna connessione di rete, rendendo impossibile decifrare il traffico passato anche se la chiave privata del server venisse compromessa in futuro.",
-      category: "crypto",
-      source_name: "OBJ 1.4",
-      source_link: "chapters/obj1_4_cryptography.html"
-    },
-    {
       acronym: "Permission or Authorization Creep",
       name: "Accumulo di Autorizzazioni (Privilege Creep)",
       def: "La graduale acquisizione di autorizzazioni logiche e diritti eccessivi non necessari da parte di un utente nel corso della sua progressione di carriera o cambi di ruolo in una ditta, senza che i vecchi permessi obsoleti siano stati opportunamente revocati. Comporta violazione del minimo privilegio e si previene con riesami d'accesso periodici.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "PFS",
+      name: "Perfect Forward Secrecy",
+      def: "Meccanismo crittografico in cui viene generata una chiave di sessione temporanea e unica per ciascuna connessione di rete, rendendo impossibile decifrare il traffico passato anche se la chiave privata del server venisse compromessa in futuro.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
     },
     {
       acronym: "Pharming",
@@ -2093,17 +2269,25 @@
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
-      acronym: "Provisioning & Deprovisioning",
-      name: "Provisioning e Deprovisioning Utenti",
-      def: "Il ciclo di vita degli account IAM. Il provisioning gestisce la creazione e l'allocazione di risorse/privilegi all'onboarding; il deprovisioning revoca sistematicamente qualsiasi credenziale all'offboarding per impedire 'account silenti' residui.",
-      category: "iam",
-      source_name: "OBJ 4.6",
-      source_link: "chapters/obj4_6_identity_access.html"
+      acronym: "Provide training to the personnel",
+      name: "Erogazione di Formazione al Personale",
+      def: "Principio procedurale e amministrativo centrale per la compliance e il mitigamento degli errori. Consiste nel preparare, aggiornare e collaudare le facoltà cognitive e di sicurezza dei dipendenti aziendali contro pretesti, social engineering, configurazioni hardware scorrette ed errori procedurali nel trattamento dei dati aziendali.",
+      category: "gov",
+      source_name: "OBJ 5.6",
+      source_link: "chapters/obj5_6_security_awareness.html"
     },
     {
       acronym: "Provisioning",
       name: "Provisioning (Attivazione Account e Privilegi)",
       def: "L'attività sistematica all'interno del ciclo di vita IAM dedicata alla creazione, configurazione, allocazione e assegnazione iniziale di account utente, credenziali d'accesso, risorse di rete e specifici privilegi logici durante la fase di onboarding di un nuovo dipendente, per metterlo in condizione di lavorare secondo le policy aziendali.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Provisioning & Deprovisioning",
+      name: "Provisioning e Deprovisioning Utenti",
+      def: "Il ciclo di vita degli account IAM. Il provisioning gestisce la creazione e l'allocazione di risorse/privilegi all'onboarding; il deprovisioning revoca sistematicamente qualsiasi credenziale all'offboarding per impedire 'account silenti' residui.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -2165,6 +2349,22 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Regular updates",
+      name: "Aggiornamenti Periodici Regolari",
+      def: "Il rilascio coordinato continuo delle patch correttive del fornitore originale a presidio dei sistemi aziendali informativi. È un controllo operativo fundamental per estirpare vulnerabilità prima che diventino oggetto di incidenti ed exploitation attiva.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    {
+      acronym: "Regularly monitoring for updates",
+      name: "Monitoraggio Sistematico per Aggiornamenti",
+      def: "Pratica iniziale fondamentale del ciclo di remediation e patching d'impresa. Consiste nel controllare ed iscriversi proattivamente ai bollettini, avvisi di sicurezza (security bulletins) dei produttori di asset ed Identity Providers per intercettare all'istante bug e patch sfornate.",
+      category: "ops",
+      source_name: "OBJ 4.3",
+      source_link: "chapters/obj4_3_vulnerability_management.html"
+    },
+    {
       acronym: "Replay Attack",
       name: "Attacco di Replay (Ripetizione)",
       def: "Attacco di rete in cui un utente malintenzionato intercetta e registra di nascosto una credenziale o un hash rassicurante in transito, ri-trasmettendolo successivamente per autenticarsi abusivamente come l'utente originale.",
@@ -2203,6 +2403,14 @@
       category: "net",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "Routers",
+      name: "Router di Routing (Routers)",
+      def: "Dispositivi fisici o virtualizzati intelligenti di livello 3 che connettono reti distinte instradando i pacchetti binari logici sul canale d'instradamento migliore. Trattandosi di apparati di frontiera, necessitano di costanti hardening fisici e crittografia SSH nell'amministrazione.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
       acronym: "RPO",
@@ -2301,6 +2509,30 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Segmentation",
+      name: "Segmentazione Logica di Rete (Segmentation)",
+      def: "La limitazione della connettività dividendo l'infrastruttura di rete logica in zone distinte (zone demilitarizzate, VLAN controllate o micro-segmenti) protette da filtri logici e ACL, ideale per isolare sistemi legacy non patchabili permettendo comunque una connettività limitata e blindata.",
+      category: "net",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "Servers",
+      name: "Server Aziendali",
+      def: "Computer ad alte capacità prestazionali dedicati a dispensare risorse, file, database corporativi o servizi applicativi ai nodi client. Richiedono robusti standard di hardening (disattivare servizi inutilizzati, porte inesplorate e abilitare logging esaustivo) prima di venire esposti.",
+      category: "net",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Service Disruption",
+      name: "Disservizio e Interruzione Operativa (Service Disruption)",
+      def: "L'esito dannoso derivante dall'inattività (downtime), malfunzionamento o interruzione fisica e logica dei sistemi o servizi d'impresa. Spesso generato da attacchi di saturazione (DDoS) o guasti fisici non coperti da resilienza.",
+      category: "ops",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
       acronym: "Shadow IT",
       name: "Infrastruttura Informatica Ombra (Shadow IT)",
       def: "La proliferazione e l'uso di software, dispositivi personali, storage cloud gratuiti o servizi SaaS all'interno dell'ambiente aziendale senza la supervisione formale dell'amministratore, creando notevoli vulnerabilità logore e rischi GDPR.",
@@ -2397,14 +2629,6 @@
       source_link: "chapters/obj2_2_social_engineering.html"
     },
     {
-      acronym: "Password Spraying",
-      name: "Attacco di Spruzzatura Password (Password Spraying)",
-      def: "Attacco elusivo teso a bypassare il lockout degli account: l'attaccante testa pochissime password deboli diffuse contro un'imponente molteplicità di profili utente diversi contemporaneamente, muovendosi lentamente.",
-      category: "iam",
-      source_name: "OBJ 4.6",
-      source_link: "chapters/obj4_6_identity_access.html"
-    },
-    {
       acronym: "Spyware",
       name: "Malware Spia",
       def: "Software nocivo stealth installato di nascosto per intercettare, raccogliere e trasmettere di nascosto informazioni sulle azioni computazionali dell'host (es. cattura PIN, cattura schermo, keylogging) senza alcun consenso.",
@@ -2427,6 +2651,14 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Switches",
+      name: "Switch di Instradamento LAN (Switches)",
+      def: "Dispositivi hardware di livello 2 preposti a commutare e indirizzare materialmente i frame Ethernet all'interno di una rete LAN locale d'ufficio basandosi sull'indirizzo MAC locale. Richiedono hardening delle porte switch inutilizzate e MAC filtering per scongiurare intrusioni.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
       acronym: "Technical Control",
@@ -2507,6 +2739,30 @@
       category: "ops",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Unauthorized access",
+      name: "Accesso Non Autorizzato",
+      def: "L'atto materiale o logico mediante il quale un utente ostile riesce a forzare, aggirare o ingannare i controlli d'accesso logici IAM o fisici per entrare furtivamente all'interno di un sistema operativo, risorsa o ambiente riservato d'impresa.",
+      category: "general",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Unpatched System",
+      name: "Sistema Non Aggiornato (Unpatched System)",
+      def: "Riferimento a un sistema operativo, application o apparato di rete per il quale non sono state applicate le patch di sicurezza raccomandate e disponibili dal produttore originale, lasciandolo scoperto ed esposto ad attacchi automatici e cyber exploit noti.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Unsupported Systems",
+      name: "Sistemi non Supportati (Unsupported Systems)",
+      def: "Componenti tecnologiche (hardware, sistemi operativi o applicativi logici) orfani del supporto del venditore fiduciario. Privi di rilascio patch costanti e aggiornamenti d'architettura anche qualora vengano scoperti bachi macroscopici, creano enormi superfici d'attacco scoperti.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "User Account Control (UAC)",
@@ -2645,20 +2901,20 @@
       source_link: "chapters/obj1_1_security_controls.html"
     },
     {
+      acronym: "Workstations",
+      name: "Stazioni di Lavoro (Workstations)",
+      def: "Computer desktop o laptop ad alte prestazioni adibiti ad uso quotidiano da parte degli impiegati. Costituiscono formidabili trampolini di lancio per movimenti laterali dei malware se non rinvigoriti da corretto host-based firewall, privilegi standard (separati dagli amministrativi) ed UAC attivo.",
+      category: "net",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
       acronym: "WORM",
       name: "Write Once, Read Many",
       def: "Algoritmo logico o tecnologia fisica impiegata nei media di backup che impedisce in via assoluta il reinserimento o la riscrittura / manipolazione maligna multipla dei log.",
       category: "ops",
       source_name: "OBJ 3.4",
       source_link: "chapters/obj3_4_resilience.html"
-    },
-    {
-      acronym: "Worm",
-      name: "Malware Autoreplicante (Verme)",
-      def: "Malware auto-replicante autonomo che infetta la rete locale diffondendosi da un sistema all'altro sfruttando falle logiche o bug, senza la necessità per l'utente di eseguire alcun programma.",
-      category: "ops",
-      source_name: "OBJ 2.4",
-      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "WPA3",
@@ -2691,8 +2947,8 @@
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
-    },
-  ];
+    }
+    ];
 
   const glossaryContent = document.getElementById('glossary-content');
   const searchInput = document.getElementById('glossary-search');
