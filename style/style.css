@@ -226,6 +226,31 @@ td.label {
   margin: 2px;
 }
 
+.manual-ref-tag {
+  display: inline-block;
+  background: var(--light-slate);
+  color: var(--slate);
+  font-size: 0.76em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin: 2px;
+  border: 1px solid #cbd5e1;
+  font-weight: 500;
+}
+
+.manual-reference-line {
+  background: var(--crit-bg);
+  border-left: 4px solid var(--critical);
+  padding: 8px 12px;
+  border-radius: 0 4px 4px 0;
+  margin: 12px 0 16px 0;
+  font-size: 0.9em;
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .weight-badge {
   display: inline-block;
   background: var(--teal);

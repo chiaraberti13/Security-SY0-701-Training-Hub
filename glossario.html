@@ -332,7 +332,14 @@
   
   // High fidelity database of all key CompTIA Security+ terminology
   const database = [
-    // A
+    {
+      acronym: "2FA (Two-factor Authentication)",
+      name: "Autenticazione a due fattori",
+      def: "Sottoinsieme specialistico di MFA che esige tassativamente il superamento contestuale di due distinte e indipendenti categorie di credenziali (es: password + token di sicurezza fisico o impronta biologica) per concedere l'accesso.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
     {
       acronym: "AAA",
       name: "Authentication, Authorization, Accounting",
@@ -350,12 +357,36 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Access Control Models",
+      name: "Modelli di Controllo degli Accessi",
+      def: "Le impalcature logico-formali (es: RBAC basato sui ruoli, ABAC basato sugli attributi, DAC discrezionale basato su ACL, MAC mandatorio basato su etichette e clearance) usate per decidere ed imporre l'accesso degli utenti ai file.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Accounting",
+      name: "Tracciamento / Responsabilità",
+      def: "Il processo di registrazione ed auditing cronologico di tutte le azioni, accessi e transazioni avviate da un soggetto autenticato all'interno del sistema (audit logs), fondamentale per analisi forensi e per garantire il non-ripudio.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "ACL",
       name: "Access Control List",
       def: "Lista di regole memorizzata su router, switch o sistemi operativi che approva o respinge le richieste di traffico o di accesso a specifici oggetti e risorse in base a regole esplicite.",
       category: "net",
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "Active Reconnaissance",
+      name: "Ricognizione Attiva",
+      def: "Metodologia di scansione e mappatura di una rete bersaglio che prevede l'invio proattivo di pacchetti (es. port scanning con Nmap) per identificare porte aperte, host attivi e vulnerabilità, risultando visibile nei sistemi IDS/IPS e firewall del target.",
+      category: "ops",
+      source_name: "OBJ 5.5",
+      source_link: "chapters/obj5_5_audits_assessments.html"
     },
     {
       acronym: "AD",
@@ -366,12 +397,12 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "Active Reconnaissance",
-      name: "Ricognizione Attiva",
-      def: "Metodologia di scansione e mappatura di una rete bersaglio che prevede l'invio proattivo di pacchetti (es. port scanning con Nmap) per identificare porte aperte, host attivi e vulnerabilità, risultando visibile nei sistemi IDS/IPS e firewall del target.",
+      acronym: "Adware",
+      name: "Software Pubblicitario Indesiderato",
+      def: "Tipologia di malware o software potenzialmente indesiderato (PUP) incentrato sul bombardare lo schermo dell'utente con annunci promozionali, tracciandone di nascosto le abitudini di navigazione commerciale.",
       category: "ops",
-      source_name: "OBJ 5.5",
-      source_link: "chapters/obj5_5_audits_assessments.html"
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "AEAD",
@@ -388,14 +419,6 @@
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
-    },
-    {
-      acronym: "Adware",
-      name: "Software Pubblicitario Indesiderato",
-      def: "Tipologia di malware o software potenzialmente indesiderato (PUP) incentrato sul bombardare lo schermo dell'utente con annunci promozionali, tracciandone di nascosto le abitudini di navigazione commerciale.",
-      category: "ops",
-      source_name: "OBJ 2.4",
-      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Air Gap",
@@ -470,6 +493,14 @@
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
     {
+      acronym: "Attestation (Access Certification)",
+      name: "Attestazione / Revisione delle Autorizzazioni",
+      def: "La verifica formale periodica in cui amministratori, manager o data-owners esaminano i permessi attivi assegnati ad ogni profilo utente, accertando che siano legalmente e funzionalmente necessari, approvando o revocando gli account.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Audit Findings",
       name: "Rilievi d'Audit Interni",
       def: "Esiti e non-conformità formali identificati durante una valutazione interna o un audit di sicurezza aziendale; non comportano sanzioni pecuniarie immediate (esclusive delle sanzioni regolatorie) bensì l'inserimento in un piano di remediation.",
@@ -486,21 +517,36 @@
       source_link: "chapters/obj5_1_governance.html"
     },
     {
+      acronym: "Authentication",
+      name: "Autenticazione",
+      def: "Il processo di convalida e verifica dell'identità digitale dichiarata da un utente o dispositivo, tipicamente tramite il superamento di una sfida o l'esibizione di credenziali (come password, token o impronte digitali).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Authorization",
+      name: "Autorizzazione",
+      def: "La fase in cui vengono definiti i diritti d'azione, privilegi operativi e livelli d'accesso alle risorse che un utente o servizio, precedentemente autenticato, può esercitare sulla base dei criteri IAM definiti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Autofill",
+      name: "Compilazione Automatica Sicura",
+      def: "Inserimento automatico e fulmineo delle credenziali ad opera di un Password Manager, subordinato eccezionalmente e rigorosamente alla verifica DNS della ditta o pagina, sventando l'immissione su host civetta dei phisher.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Availability",
       name: "Disponibilità (Availability)",
       def: "Garante della triade CIA dedicato ad assicurare che sistemi, infrastrutture di rete e dati rimangano costantemente accessibili ed utilizzabili da parte degli utenti legittimati.",
       category: "general",
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"
-    },
-    // B
-    {
-      acronym: "BCP",
-      name: "Business Continuity Plan",
-      def: "Piano strategico che definisce come l'azienda deve continuare ad operare durante e dopo un'interruzione di servizio o un disastro prima del ripristino definitivo.",
-      category: "gov",
-      source_name: "OBJ 3.4",
-      source_link: "chapters/obj3_4_resilience.html"
     },
     {
       acronym: "Backout Plan",
@@ -511,12 +557,36 @@
       source_link: "chapters/obj1_3_change_management.html"
     },
     {
+      acronym: "BCP",
+      name: "Business Continuity Plan",
+      def: "Piano strategico che definisce come l'azienda deve continuare ad operare durante e dopo un'interruzione di servizio o un disastro prima del ripristino definitivo.",
+      category: "gov",
+      source_name: "OBJ 3.4",
+      source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "Behavior-based Factor",
+      name: "Fattore basato sul comportamento (MFA)",
+      def: "Fattore di autenticazione dinamico che analizza il comportamento operativo e i pattern di interazione dell'utente con il terminale, ad esempio le dinamiche di digitazione sulla tastiera o costanti d'uso del mouse.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "BIA",
       name: "Business Impact Analysis",
       def: "Studio metodologico che fa parte dei processi di continuità operativa per stabilire gli impatti economici e temporali causati dall'interruzione dei diversi processi critici d'azienda, permettendo di mapparne le priorità.",
       category: "gov",
       source_name: "OBJ 5.2",
       source_link: "chapters/obj5_2_risk_management.html"
+    },
+    {
+      acronym: "Biometric Authentication",
+      name: "Autenticazione Biometrica",
+      def: "Il riscontro e la validazione basati su tessere e tratti fisiologici statici intrinsechi del richiedente (analisi impronte digitali, conformità viso, scansione geometrica retina/iride/vascolare) per sbloccare i dispositivi in modo sicuro e rapido.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Black-box",
@@ -583,6 +653,14 @@
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
     {
+      acronym: "Brute Force Attacks",
+      name: "Attacchi a Forza Bruta",
+      def: "Attivazione ad alta frequenza computerizzata tesa ad elaborare esaustivamente tutte le possibili permutazioni matematiche di caratteri fino a sbloccare lo pseudo-hash o la password corretta.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Buffer Overflow",
       name: "Saturazione del Buffer",
       def: "Vulnerabilità software in cui un programma scrive più dati all'interno di un buffer di memoria rispetto a quelli effettivamente allocati, sovrascrivendo i blocchi adiacenti e provocando potenzialmente l'esecuzione di codice arbitrario.",
@@ -598,7 +676,6 @@
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
     },
-    // C
     {
       acronym: "CA",
       name: "Certificate Authority",
@@ -744,12 +821,12 @@
       source_link: "chapters/obj1_4_cryptography.html"
     },
     {
-      acronym: "CSRF",
-      name: "Cross-Site Request Forgery",
-      def: "Attacco informatico che costringe il browser web di un utente attualmente autenticato a trasmettere una richiesta HTTP non autorizzata e dannosa a un'applicazione web partner vulnerabile, compiendo azioni involontarie a nome dell'utente.",
-      category: "ops",
-      source_name: "OBJ 2.3",
-      source_link: "chapters/obj2_3_vulnerabilities.html"
+      acronym: "Cross-Platform Access",
+      name: "Sincronizzazione Multipiattaforma",
+      def: "La disponibilità coordinata e lo sblocco crittografato delle credenziali tra molteplici browser, estensioni, sistemi operativi e smartphone personali dell'utente per conciliare sicurezza e operatività sul campo.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "CSIRT",
@@ -758,6 +835,14 @@
       category: "ops",
       source_name: "OBJ 4.8",
       source_link: "chapters/obj4_8_incident_response.html"
+    },
+    {
+      acronym: "CSRF",
+      name: "Cross-Site Request Forgery",
+      def: "Attacco informatico che costringe il browser web di un utente attualmente autenticato a trasmettere una richiesta HTTP non autorizzata e dannosa a un'applicazione web partner vulnerabile, compiendo azioni involontarie a nome dell'utente.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "CVE",
@@ -775,7 +860,6 @@
       source_name: "OBJ 4.3",
       source_link: "chapters/obj4_3_vulnerability_management.html"
     },
-    // D
     {
       acronym: "DAC",
       name: "Discretionary Access Control",
@@ -831,6 +915,14 @@
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "Dictionary Attacks",
+      name: "Attacchi a Dizionario",
+      def: "Automazione di test di sblocco alimentata da un elenco mirato di parole comuni, sigle dialettali, frasi note e precedenti violazioni d'accesso estratte da leaks storici di rete.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "DiD",
@@ -920,7 +1012,6 @@
       source_name: "OBJ 3.4",
       source_link: "chapters/obj3_4_resilience.html"
     },
-    // E
     {
       acronym: "EAP",
       name: "Extensible Authentication Protocol",
@@ -977,7 +1068,14 @@
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
-    // F
+    {
+      acronym: "False Positive",
+      name: "Falso Positivo",
+      def: "Allarme o notifica di sicurezza generata erroneamente da un sistema di monitoraggio (IDS, Antivirus o DLP) a fronte di un'attività legittima e non dannosa.",
+      category: "ops",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
     {
       acronym: "FAR",
       name: "False Acceptance Rate (Errore Tipo II)",
@@ -987,12 +1085,12 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "False Positive",
-      name: "Falso Positivo",
-      def: "Allarme o notifica di sicurezza generata erroneamente da un sistema di monitoraggio (IDS, Antivirus o DLP) a fronte di un'attività legittima e non dannosa.",
-      category: "ops",
-      source_name: "OBJ 4.4",
-      source_link: "chapters/obj4_4_alerting_monitoring.html"
+      acronym: "Federation",
+      name: "Federazione delle Identità",
+      def: "Relazione di fiducia predefinita (Trust Relationship) che unisce sistemi informativi e reti di organizzazioni o partner cloud distinti, consentendo agli utenti di navigare in Single Sign-On (SSO) tra domini diversi con un unico set di credenziali centrali.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "FIDO2",
@@ -1034,7 +1132,6 @@
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
-    // G
     {
       acronym: "GAP",
       name: "Analisi di Scostamento (Gap Analysis)",
@@ -1075,7 +1172,6 @@
       source_name: "OBJ 5.5",
       source_link: "chapters/obj5_5_audits_assessments.html"
     },
-    // H
     {
       acronym: "Hacktivist",
       name: "Attivista Informatico (Hacktivista)",
@@ -1083,6 +1179,14 @@
       category: "ops",
       source_name: "OBJ 2.1",
       source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Hardware Tokens",
+      name: "Token Hardware di Sicurezza",
+      def: "Dispositivi elettronici portatili fisici detenuti dall'utente (es. chiavi di sicurezza USB/NFC YubiKey o keychain con codice dinamico e-paper) preposti a firmare crittograficamente o inviare stringhe per superare la convalida di possesso.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Heuristic Scan",
@@ -1148,7 +1252,14 @@
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
     },
-    // I
+    {
+      acronym: "Hybrid Attacks",
+      name: "Attacchi Ibridi alle Password",
+      def: "Algoritmo evoluto che arricchisce i dizionari di vocaboli standard applicandovi variazioni regolari programmative in corrispondenza del target (es: aggiunta di suffissi, numeri dell'anno di nascita o caratteri leet speak).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
     {
       acronym: "IaaS",
       name: "Infrastructure as a Service",
@@ -1174,6 +1285,22 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Identification",
+      name: "Identificazione",
+      def: "L'atto iniziale in cui un soggetto dichiara la propria identità univoca a un computer o a una rete (es: digitando un username o un indirizzo e-mail). Non fornisce alcuna prova formale di autenticità o possesso autentico.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Identity Proofing",
+      name: "Verifica dell'Identità d'Origine",
+      def: "Il controllo propedeutico e di validazione col quale una ditta o un IdP accerta l'identità nel mondo reale dell'interessato (es: richiedendo documenti fisici sigillati, passaporto, controlli sul credito) prima di registrare l'account.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "IDS",
       name: "Intrusion Detection System",
       def: "Controllo tecnico investigativo (detective). Analizza il traffico o l'host cercando pattern noti d'attacco ed emettendo notifiche in tempo reale senza bloccare direttamente i vettori logici.",
@@ -1188,6 +1315,30 @@
       category: "gov",
       source_name: "OBJ 1.3",
       source_link: "chapters/obj1_3_change_management.html"
+    },
+    {
+      acronym: "Increasing password complexity",
+      name: "Incentivazione delle Complessità Password",
+      def: "Misura difensiva che impone criteri combinati di set di caratteri diversi, impedendo l'uso di chiavi banali, massimizzando l'inefficacia d'uso di dizionari ed aumentando il tempo complessivo di calcolo per attacchi ibridi.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Increasing password length",
+      name: "Incentivazione di Lunghezza delle Credenziali",
+      def: "La difesa cardine contro la forza bruta: incrementare la dimensione minima delle credenziali a scale superiori a 14 caratteri innalza esponenzialmente lo sforzo computazionale di scanning richiesto.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Inherence-based Factor",
+      name: "Fattore basato sull'inerenza / Biometria (MFA)",
+      def: "Fattore di autenticazione imperniato su caratteristiche fisiche, biologiche o anatomiche uniche del soggetto richiedente, comprendente la scansione d'impronte, riconoscimento dell'iride, retina, impronta facciale o vascolare.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Insider Threat",
@@ -1206,12 +1357,12 @@
       source_link: "chapters/obj1_2_fundamental_concepts.html"
     },
     {
-      acronym: "IPS",
-      name: "Intrusion Prevention System",
-      def: "Evoluzione attiva dell'IDS (Controllo Tecnico Preventivo). Monitora in linea (in-line) i transiti di rete ed ha l'autonomia computazionale per drop o rigettare al volo i pacchetti pericolosi.",
-      category: "net",
-      source_name: "OBJ 3.2",
-      source_link: "chapters/obj3_2_infrastructure.html"
+      acronym: "Interoperability",
+      name: "Interoperabilità IAM",
+      def: "La capacità di sistemi e infrastrutture IAM distinti di raccordarsi, interpretare ed elaborare asserzioni o token d'accesso federati in modo uniforme, conseguita mediante l'implementazione di standard universali (es. SAML, OAuth, OIDC, SCIM).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "IoC",
@@ -1230,20 +1381,28 @@
       source_link: "chapters/obj3_1_architecture.html"
     },
     {
-      acronym: "IPsec",
-      name: "Internet Protocol Security",
-      def: "Pacchetto di protocolli crittografici atti a originare tunnel virtuali (VPN) sicuri all'interno di canali pubblici IP, garantendo riservatezza, protezione anti-replay e tracciabilità dei dati.",
-      category: "net",
-      source_name: "OBJ 3.2",
-      source_link: "chapters/obj3_2_infrastructure.html"
-    },
-    {
       acronym: "IP spoofing",
       name: "Spoofing di Indirizzo IP",
       def: "Tecnica dannosa di contraffazione di rete consistente nell'alterare fraudolentemente l'indirizzo IP del mittente nei pacchetti in transito, per aggirare blacklist o simulare l'identità di un host fidato.",
       category: "net",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "IPS",
+      name: "Intrusion Prevention System",
+      def: "Evoluzione attiva dell'IDS (Controllo Tecnico Preventivo). Monitora in linea (in-line) i transiti di rete ed ha l'autonomia computazionale per drop o rigettare al volo i pacchetti pericolosi.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "IPsec",
+      name: "Internet Protocol Security",
+      def: "Pacchetto di protocolli crittografici atti a originare tunnel virtuali (VPN) sicuri all'interno di canali pubblici IP, garantendo riservatezza, protezione anti-replay e tracciabilità dei dati.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
       acronym: "IR",
@@ -1261,7 +1420,6 @@
       source_name: "OBJ 5.4",
       source_link: "chapters/obj5_4_security_compliance.html"
     },
-    // J
     {
       acronym: "Jamming",
       name: "Disturbo dei Segnali Wireless (Jamming)",
@@ -1270,7 +1428,6 @@
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
-    // K
     {
       acronym: "KDC",
       name: "Key Distribution Center",
@@ -1287,7 +1444,14 @@
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
     },
-    // L
+    {
+      acronym: "Knowledge-based Factor",
+      name: "Fattore basato sulla conoscenza (MFA)",
+      def: "Fattore classico di autenticazione incentrato su elementi noti esclusivamente al cervello del richiedente, quali password composte, PIN associati, risposte a domande personali o sequenze visive.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
     {
       acronym: "L2TP",
       name: "Layer 2 Tunneling Protocol",
@@ -1321,6 +1485,22 @@
       source_link: "chapters/obj1_3_change_management.html"
     },
     {
+      acronym: "Limiting the number of login attempts",
+      name: "Limitazione dei Tentativi d'Accesso",
+      def: "L'adozione centrale di criteri di lockout account che disabilitano transitoriamente o stabilmente il profilo utente superato un numero prefissato di login falliti in sequenza (es: 5 fallimenti), soffocando gli attacchi brute-force automatici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Location-based Factor",
+      name: "Fattore basato sulla geografica / Posizione (MFA)",
+      def: "Parametro d'accesso che verifica il login sulla base delle coordinate GPS riscontrate o dell'indirizzo IP di emissione associato a una determinata sub-regione geografico-amministrativa (IP Geolocation).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Logon Script",
       name: "Script di Avvio Sessione",
       def: "Insieme di comandi automatizzati preimpostati dall'amministratore che rispondono all'ingresso di un utente nel dominio Windows per mappare dischi di rete, impostare stampanti ed applicare restrizioni locali.",
@@ -1328,11 +1508,18 @@
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
     },
-    // M
     {
       acronym: "MAC",
       name: "Mandatory Access Control",
       def: "Modello severo di controllo accessi (guidato dal sistema operativo) basato su etichette di riservatezza (Secret, Top Secret) e requisiti di abilitazione (clearance). L'utente non può modificare i permessi di un file.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Magic Links",
+      name: "Link Magici di Accesso",
+      def: "Token temporaneo inviato in e-mail pre-verificata che, una volta aperto, consente la convalida di possesso e l'autenticazione immediata del login, evitando completamente l'uso di parole chiave.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1433,7 +1620,6 @@
       source_name: "OBJ 3.4",
       source_link: "chapters/obj3_4_resilience.html"
     },
-    // N
     {
       acronym: "NAC",
       name: "Network Access Control",
@@ -1482,7 +1668,6 @@
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"
     },
-    // O
     {
       acronym: "OAuth",
       name: "Open Authorization",
@@ -1506,6 +1691,14 @@
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "One-Time Passwords",
+      name: "Password Monouso (OTP)",
+      def: "Codice alfanumerico dinamico di sicurezza valido esclusivamente per un singolo tentativo di accesso o una sessione rigorosamente limitata nel tempo (TOTP) o guidata da contatore (HOTP), impedendo attacchi di tipo replay.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Operational Control",
@@ -1578,6 +1771,78 @@
       category: "ops",
       source_name: "OBJ 5.5",
       source_link: "chapters/obj5_5_audits_assessments.html"
+    },
+    {
+      acronym: "Passkeys",
+      name: "Chiavi FIDO2 Passkey",
+      def: "Il modernissimo standard crittografico passwordless promosso da FIDO/W3C. Si basa su firme asimmetriche associate e custodite nell'hardware enclave dell'utente. Azzera strutturalmente i rischi di phishing non transitando mai alcuna password sul server.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password age",
+      name: "Età delle Password",
+      def: "Coppia di regole di validità d'accesso. L'Età Minima limita il cambio convulsivo immediato di password fatto per aggirare la cronologia storica; l'Età Massima pianifica le scadenze programmate collettive.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password Attacks",
+      name: "Attacchi alle Password",
+      def: "Tecniche cyber (quali brute force, dizionario, password spraying e attacchi ibridi) impiegate dagli hacker per bypassare i controlli d'accesso e appropriarsi delle credenziali segrete degli utenti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password complexity",
+      name: "Complessità delle Password",
+      def: "Regola che prescrive l'adozione eterogenea di caratteri (miscelando maiuscole, minuscole, cifre numeriche e caratteri speciali non-alfabetici) per rendere inefficaci gli attacchi eseguiti con dizionari banali.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password expiration",
+      name: "Scadenza delle Password",
+      def: "Configurazione di sicurezza che invalida automaticamente una parola chiave trascorsa una determinata finestra di calendario (es: 90 giorni), costringendo l'internazionale al rinnovo per minimizzare l'abuso silenzioso di credenziali sottratte.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password Generation",
+      name: "Generazione Automatica di Password",
+      def: "Funzione incorporata nei moderni gestori credenziali (password manager) atta a sfornare istantaneamente sequenze casuali di lettere e simboli ad altissima imprevedibilità adattate alle regole attive.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password length",
+      name: "Lunghezza delle Password",
+      def: "La contabilità complessiva dei singoli caratteri che compongono la parola d'ordine. È in assoluto il fattore primario per innalzare l'entropia crittografica complessiva e resistere a scansioni brute-force automatiche aziendali.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password reuse",
+      name: "Riutilizzo delle Password",
+      def: "La pessima abitudine degli utenti di reimpostare la medesima credenziale d'accesso su svariati profili distinti. Viene inibita a livello centrale tramite l'imposizione di una password history policy.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Password Security",
+      name: "Sicurezza delle Password",
+      def: "L'insieme di politiche, parametri di complessità (lunghezza, set di caratteri), strumenti (Vault crittografici) e buone prassi tese a irrobustire le credenziali di accesso tradizionali mitigandone il furto o la violazione.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "PCI-DSS",
@@ -1660,6 +1925,14 @@
       source_link: "chapters/obj3_1_architecture.html"
     },
     {
+      acronym: "Possession-based Factor",
+      name: "Fattore basato sul possesso (MFA)",
+      def: "Fattore di autenticazione materializzato su oggetti detenuti fisicamente o electronicamente dall'utente, come smart card, hardware token (YubiKey), software token, generatori di OTP mobili o dispositivi registrati fidati.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Pretexting",
       name: "Pretesto Informativo (Ingegneria Sociale)",
       def: "Tattica di social engineering in cui l'attaccante ordisce un pretesto accuratamente strutturato (es. fingersi un amministratore delegato, auditing esterno) per indurre la vittima a divulgare credenziali o validare l'accesso ai circuiti d'impresa.",
@@ -1676,6 +1949,14 @@
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
+      acronym: "Provisioning & Deprovisioning",
+      name: "Provisioning e Deprovisioning Utenti",
+      def: "Il ciclo di vita degli account IAM. Il provisioning gestisce la creazione e l'allocazione di risorse/privilegi all'onboarding; il deprovisioning revoca sistematicamente qualsiasi credenziale all'offboarding per impedire 'account silenti' residui.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Purple Team",
       name: "Collaborazione Coordinata d'Attacco e Difesa",
       def: "Unione strategica di cooperazione e coordinamento in cui Red Team (attaccanti) e Blue Team (difensori) condividono continuamente feedback per ottimizzare la rilevazione degli allarmi del SIEM e dei sistemi SOC.",
@@ -1683,7 +1964,6 @@
       source_name: "OBJ 5.5",
       source_link: "chapters/obj5_5_audits_assessments.html"
     },
-    // R
     {
       acronym: "RAID",
       name: "Redundant Array of Independent Disks",
@@ -1693,17 +1973,17 @@
       source_link: "chapters/obj3_4_resilience.html"
     },
     {
-      acronym: "RAT",
-      name: "Remote Access Trojan",
-      def: "Malware stealth progettato per aprire una backdoor persistente sui sistemi compromessi, conceding all'attaccante la facoltà di comandare da remoto il dispositivo infetto.",
+      acronym: "Ransomware",
+      name: "Malware per Riscatto",
+      def: "Malware altamente distruttivo che esporta o crittografa localmente i dati degli host e del server, richiedendo alla vittima il riscatto (solitamente in criptovaluta anonima) per cedere la rispettiva chiave correttiva o per non pubblicare i file rubati.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
-      acronym: "Ransomware",
-      name: "Malware per Riscatto",
-      def: "Malware altamente distruttivo che esporta o crittografa localmente i dati degli host e del server, richiedendo alla vittima il riscatto (solitamente in criptovaluta anonima) per cedere la rispettiva chiave correttiva o per non pubblicare i file rubati.",
+      acronym: "RAT",
+      name: "Remote Access Trojan",
+      def: "Malware stealth progettato per aprire una backdoor persistente sui sistemi compromessi, conceding all'attaccante la facoltà di comandare da remoto il dispositivo infetto.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -1764,7 +2044,6 @@
       source_name: "OBJ 3.4",
       source_link: "chapters/obj3_4_resilience.html"
     },
-    // S
     {
       acronym: "SaaS",
       name: "Software as a Service",
@@ -1774,20 +2053,20 @@
       source_link: "chapters/obj3_1_architecture.html"
     },
     {
-      acronym: "SAML",
-      name: "Security Assertion Markup Language",
-      def: "Standard crittografico aperto XML-based per implementare l'autenticazione federata SSO a livello enterprise tramite scambi protetti tra Identity Provider e Service Provider.",
-      category: "iam",
-      source_name: "OBJ 4.6",
-      source_link: "chapters/obj4_6_identity_access.html"
-    },
-    {
       acronym: "Salting",
       name: "Salatura delle Password",
       def: "Operazione crittografica che consiste nell'unire una stringa di dati casuali e unici (\"sale\") a ciascuna password prima di calcolarne il corrispondente hash sul database. Neutralizza la decodifica mediante Tabelle Rainbow precalcolate.",
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "SAML",
+      name: "Security Assertion Markup Language",
+      def: "Standard crittografico aperto XML-based per implementare l'autenticazione federata SSO a livello enterprise tramite scambi protetti tra Identity Provider e Service Provider.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "SASE",
@@ -1830,6 +2109,14 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "Secure Sharing",
+      name: "Condivisione Protetta delle Credenziali",
+      def: "La distribuzione condivisa di credenziali di reparto all'interno dei sistemi vault crittografati organizzati dei password manager, evitando del tutto l'invio in chiaro di segreti tramite e-mail, stampati o canali chat.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Shadow IT",
       name: "Infrastruttura Informatica Ombra (Shadow IT)",
       def: "La proliferazione e l'uso di software, dispositivi personali, storage cloud gratuiti o servizi SaaS all'interno dell'ambiente aziendale senza la supervisione formale dell'amministratore, creando notevoli vulnerabilità logore e rischi GDPR.",
@@ -1844,6 +2131,14 @@
       category: "ops",
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Single-factor Authentication",
+      name: "Autenticazione a singolo fattore",
+      def: "Procedimento di autenticazione elementare in cui l'utente convalida la propria identità impiegando una sola tipologia di prova (comunemente una combinazione di username e password), esponendosi a facili compromissioni.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "SLA",
@@ -1918,6 +2213,14 @@
       source_link: "chapters/obj2_2_social_engineering.html"
     },
     {
+      acronym: "Spraying Attacks",
+      name: "Attacco di Spruzzatura Password (Password Spraying)",
+      def: "Attacco elusivo teso a bypassare il lockout degli account: l'attaccante testa pochissime password deboli diffuse contro un'imponente molteplicità di profili utente diversi contemporaneamente, muovendosi lentamente.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Spyware",
       name: "Malware Spia",
       def: "Software nocivo stealth installato di nascosto per intercettare, raccogliere e trasmettere di nascosto informazioni sulle azioni computazionali dell'host (es. cattura PIN, cattura schermo, keylogging) senza alcun consenso.",
@@ -1941,7 +2244,6 @@
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
     },
-    // T
     {
       acronym: "Technical Control",
       name: "Controllo Tecnico (Logico)",
@@ -1967,20 +2269,20 @@
       source_link: "chapters/obj1_4_cryptography.html"
     },
     {
-      acronym: "TTP",
-      name: "Tactics, Techniques, and Procedures",
-      def: "Il quadro concettuale che descrive i comportamenti, i pattern logici, le abitudini e le metodologie ricorrenti tipiche degli attori di minacce informatiche conosciuti.",
-      category: "ops",
-      source_name: "OBJ 2.1",
-      source_link: "chapters/obj2_1_threat_actors.html"
-    },
-    {
       acronym: "Trojan",
       name: "Cavallo di Troia",
       def: "Programma malevolo mascherato da utility o software benigno e legittimo. Una volta eseguito dall'utente ignaro, avvia il payload dannoso installando backdoor e malware sul sistema.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "TTP",
+      name: "Tactics, Techniques, and Procedures",
+      def: "Il quadro concettuale che descrive i comportamenti, i pattern logici, le abitudini e le metodologie ricorrenti tipiche degli attori di minacce informatiche conosciuti.",
+      category: "ops",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
     },
     {
       acronym: "Typosquatting",
@@ -1990,7 +2292,6 @@
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
-    // U
     {
       acronym: "UEBA",
       name: "User and Entity Behavior Analytics",
@@ -2008,6 +2309,22 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
+      acronym: "Using CAPTCHAs",
+      name: "Integrazione di Test CAPTCHA",
+      def: "Mitigazione tesa a differenziare in tempo reale l'attività automatizzata robotica o di script da un'interazione mossa da un utente reale mediante enigmi cognitivi, contrastando i software brute force.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Using multifactor authentication",
+      name: "Impiego del Multi-Fattore (MFA)",
+      def: "Applicazione sistematica di sfide d'accesso differenziate che spezza l'efficacia derivante dalla sola compromissione delle credenziali statiche, garantendo una protezione solida dei profili anche in caso di password esposta.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "UTM",
       name: "Unified Threat Management",
       def: "Apparato di sicurezza multifunzionale centralizzato per piccole-medie imprese che racchiude in un singolo asset firewalling, ispezione gateway antivirus, filtro antispam e IDS/IPS.",
@@ -2015,7 +2332,6 @@
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
     },
-    // V
     {
       acronym: "VDI",
       name: "Virtual Desktop Infrastructure",
@@ -2056,7 +2372,6 @@
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
     },
-    // W
     {
       acronym: "WAF",
       name: "Web Application Firewall",
@@ -2129,7 +2444,6 @@
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
     },
-    // X
     {
       acronym: "XSS",
       name: "Cross-Site Scripting",
@@ -2138,7 +2452,6 @@
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
-    // Z
     {
       acronym: "Zero Trust",
       name: "Architettura a Fiducia Zero",
@@ -2154,7 +2467,7 @@
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
-    }
+    },
   ];
 
   const glossaryContent = document.getElementById('glossary-content');

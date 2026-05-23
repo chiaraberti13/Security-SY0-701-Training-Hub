@@ -34,6 +34,7 @@
     </header>
 
     <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Riferimento Manuale:</strong> Capitolo 8: Gestione delle identità e degli accessi</p>
       <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
       <p>
         <strong>Obiettivo ufficiale (CompTIA):</strong>
@@ -55,22 +56,26 @@
 
       <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
       <nav class="toc-sticky" aria-label="Indice del capitolo">
-        <div class="toc-section">Credenziali & MFA</div>
-        <a href="#mfa_factors">Fattori ed Attributi MFA</a>
-        <a href="#password_policies">Politiche delle Password & Passwordless</a>
+        <div class="toc-section">Standard &amp; Fondamenti</div>
+        <a href="#aaa_fundamentals">Ciclo AAA &amp; Ciclo di Vita IAM</a>
 
-        <div class="toc-section">IdP & Federazione</div>
-        <a href="#sso_federation">Directory Services, IdP, SSO & Federazione</a>
+        <div class="toc-section">Credenziali &amp; MFA</div>
+        <a href="#mfa_factors">Fattori ed Attributi MFA</a>
+        <a href="#password_policies">Politiche delle Password &amp; Passwordless</a>
+        <a href="#password_attacks">Attacchi alle Password &amp; Mitigazioni</a>
+
+        <div class="toc-section">IdP &amp; Federazione</div>
+        <a href="#sso_federation">Directory Services, IdP, SSO &amp; Federazione</a>
         <a href="#auth_protocols">Protocolli: SAML, OAuth, OIDC</a>
 
         <div class="toc-section">Controlli d'Accesso</div>
         <a href="#access_models">Modelli d'Accesso: RBAC, ABAC, DAC, MAC</a>
-        <a href="#time_access">Restrizioni Temporali & Geolocation</a>
+        <a href="#time_access">Restrizioni Temporali &amp; Geolocation</a>
 
-        <div class="toc-section">Strumenti & Hardening</div>
-        <a href="#pam_gpo">PAM (Privileged Access) & GPO (Active Directory)</a>
+        <div class="toc-section">Strumenti &amp; Hardening</div>
+        <a href="#pam_gpo">PAM (Privileged Access) &amp; GPO (Active Directory)</a>
 
-        <div class="toc-section">Verifica & Quiz</div>
+        <div class="toc-section">Verifica &amp; Quiz</div>
         <a href="#quiz-section">Quiz interattivo (38 quiz)</a>
         <a href="#flashcard">Flashcard di riepilogo</a>
       </nav>
@@ -78,46 +83,86 @@
       <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
       <main class="content" id="contenuto-principale">
 
+        <!-- ══ SEZIONE 0 — FONDAMENTI AAA & CICLO DI VITA IAM ══════ -->
+        <section id="aaa_fundamentals">
+          <h2>Fondamenti dell'Identity &amp; Access Management (IAM) e il Ciclo AAA</h2>
+          <p class="manual-reference-line"><span>📖</span> <strong>Riferimento Manuale:</strong> Capitolo 8: Gestione delle identità e degli accessi</p>
+          <p>
+            L'<strong>Identity and Access Management (IAM)</strong> è il framework di processi aziendali, politiche e tecnologie preposto a garantire che le entità autorizzate (utenti, dispositivi, servizi) abbiano l'accesso corretto alle risorse corrette al momento corretto e per i motivi corretti. Il cuore di qualsiasi architettura IAM si basa sul celebre ciclo <strong>AAA (Identification, Authentication, Authorization, Accounting)</strong>:
+          </p>
+          <dl class="termlist">
+            <dt>Identification (Identificazione)</dt>
+            <dd>L'atto iniziale in cui un soggetto dichiara la propria identità unica al sistema (es: inserendo un username, digitando un indirizzo e-mail o presentando un ID digitale). Non garantisce alcuna prova di validità o possesso autentico.</dd>
+            
+            <dt>Authentication (Autenticazione)</dt>
+            <dd>Il processo di verifica e convalida delle credenziali presentate per accertare che il soggetto corrisponda effettivamente all'identità digitale precedentemente dichiarata (es: tramite immissione di password, esibizione di smart card, token o riscontri biometrici).</dd>
+            
+            <dt>Authorization (Autorizzazione)</dt>
+            <dd>Consiste nello stabilire quali azioni, servizi e risorse l'utente autenticato sia formalmente autorizzato a compiere o utilizzare sulla base delle politiche aziendali e dei modelli di controllo degli accessi impostati (es: privilegi di lettura, scrittura o modifica dei database).</dd>
+            
+            <dt>Accounting (Tracciamento, Registrazione e Responsabilità)</dt>
+            <dd>L'attività di monitoraggio e registrazione cronologica (logging dei log di controllo o audit logs) di tutte le azioni e transazioni avviate dal soggetto durante l'uso del sistema. È essenziale per scopi di analisi forense, conformità normativa ed esclude la negazione del compimento dell'azione (non-ripudio).</dd>
+          </dl>
+
+          <h3>Processi Chiave del Ciclo di Vita delle Identità (Identity Lifecycle)</h3>
+          <p>
+            Il corretto governo della forza lavoro e delle identità impone la formalizzazione di rigorosi controlli dal momento dell'onboarding fino all'interruzione del rapporto:
+          </p>
+          <ul>
+            <li><strong>Identity Proofing (Verifica dell'identità)</strong>: Il processo col quale un'organizzazione o un Identity Provider (IdP) verifica e convalida in via preventiva l'identità del mondo reale di una persona (es: tramite esibizione di documenti d'identità validi come passaporto o patente, controlli incrociati notarili o domande contestuali di background) <em>prima</em> di registrare e creare ufficialmente il suo account nei sistemi digitali aziendali.</li>
+            <li><strong>Provisioning and Deprovisioning (Fornitura e Revoca degli accessi)</strong>:
+              <ul>
+                <li><em>User Provisioning</em>: Il processo centralizzato di creazione, configurazione, fornitura di caselle postali e assegnazione tempestiva dei relativi privilegi d'accesso iniziali a un nuovo collaboratore.</li>
+                <li><em>User Deprovisioning</em>: L'immediato e sistematico azzeramento, disabilitazione o cancellazione di tutti gli account e permessi di sicurezza associati a una risorsa aziendale nel momento dell'offboarding o del licenziamento. Questo processo è vitale per prevenire il formarsi di "account silenti" (account orfani di ex-collaboratori) ampiamente cercati dai black-hat hacker per infiltrarsi.</li>
+              </ul>
+            </li>
+            <li><strong>Interoperability (Interoperabilità)</strong>: La capacità di diversi sistemi complessi IAM (anche appartenenti a software vendor differenti o installati presso società partner) di interfacciarsi e scambiare asserzioni d'identità e permessi d'accesso in modo nativo e sicuro, grazie all'adozione concordata di standard aperti protocollari (come SAML 2.0, OpenID Connect e SCIM per il provisioning).</li>
+            <li><strong>Attestation / Access Certification (Attestazione / Verifica periodica)</strong>: Il controllo periodico di sicurezza in cui manager, amministratori di sistema o proprietari dei dati esaminano, convalidano e documentano formalmente che le autorizzazioni assegnate ai singoli utenti siano tuttora giustificate dalle loro mansioni lavorative attuali. Previene l'accumulo incontrollato di privilegi residuali (privilege creep) e garantisce il Least Privilege.</li>
+          </ul>
+        </section>
+
         <!-- ══ SEZIONE 1 — UNIVERSI MFA & FATTORI ════════════════ -->
         <section id="mfa_factors">
           <h2>Credenziali d'Autenticazione e Protocolli Multi-Fattore (MFA)</h2>
           <p>
-            L'autenticazione è il processo di <strong>convalida e verifica delle credenziali</strong> presentate da un utente al fine di accertare che corrisponda effettivamente all'identità digitale dichiarata. Per sventare accessi illeciti derivanti da furti di credenziali, si implementa obbligatoriamente l'<strong>autenticazione a più fattori (Multifactor Authentication - MFA)</strong>.
+            Al fine di irrobustire l'autenticazione oltre la semplice password singola (detta <strong>Single-factor Authentication</strong>, ad altissimo rischio di compromissione in assenza di passaggi addizionali), si impone l'impiego dell'autenticazione a due fattori (<strong>Two-factor Authentication - 2FA</strong>) o in generale a più fattori (<strong>Multifactor Authentication - MFA</strong>). Ciò richiede che il richiedente superi sfide appartenenti a categorie indipendenti tra loro.
           </p>
 
-          <h3>I 3 Fattori di Autenticazione Tradizionali</h3>
+          <h3>I 5 Fattori di Autenticazione Avanzati</h3>
           <p>
-            Perché un sistema si possa considerare rigorosamente MFA, i requisiti presentati dall'utente devono provenire da <strong>almeno due categorie indipendenti</strong> di fattori:
+            Perché un sistema si possa considerare rigorosamente MFA, i requisiti presentati dall'utente devono provenire da <strong>almeno due categorie indipendenti</strong> dei seguenti fattori:
           </p>
           <dl class="termlist">
-            <dt>Something You Know — Qualcosa che conosci</dt>
-            <dd>Si basa sulla conoscenza esclusiva di informazioni astratte archiviate nella mente del soggetto. Esempi chiave: <strong>Password</strong>, <strong>PIN personali</strong>, domande di sicurezza di backup.</dd>
+            <dt>Knowledge-based Factor — Qualcosa che conosci</dt>
+            <dd>Si basa sulla conoscenza esclusiva di informazioni astratte archiviate nella mente del soggetto. Esempi chiave: <strong>Password</strong>, <strong>PIN personali</strong>, domande di sicurezza di backup personali.</dd>
             
-            <dt>Something You Have — Qualcosa che possiedi</dt>
-            <dd>Elementi materiali o elettronici detenuti fisicamente dall'impiegato. Esempi chiave: <strong>Smart card</strong>, <strong>Hardware token</strong> (chiavette crittografiche come YubiKey), <strong>Software token</strong> (applicazioni su smartphone), chiavi di sicurezza o dispositivi registrati e associati all'account (Trusted Devices).</dd>
+            <dt>Possession-based Factor — Qualcosa che possiedi</dt>
+            <dd>Elementi materiali o elettronici detenuti fisicamente dall'impiegato. Esempi chiave: <strong>Smart card</strong>, <strong>Hardware tokens</strong> (chiavette crittografiche come YubiKey), <strong>Software token</strong> (applicazioni di generazione codici OTP come Google Authenticator su smartphone), chiavi di sicurezza fisiche o dispositivi certificati registrati (Trusted Devices).</dd>
             
-            <dt>Something You Are — Qualcosa che sei (Biometria)</dt>
-            <dd>Parametri biologici e tratti fisiologici statici intrinsechi dell'individuo. Esempi chiave: Scansione dell'iride, <strong>Retina scan</strong>, riscontro della fisionomia facciale (facial recognition) e <strong>Fingerprint scan</strong> (impronta digitale).</dd>
+            <dt>Inherence-based Factor — Qualcosa che sei (Biometria / Biometric Authentication)</dt>
+            <dd>Parametri biologici e tratti fisiologici statici intrinsechi dell'individuo. Esempi chiave: Scansione dell'iride, <strong>Retina scan</strong>, riscontro tridimensionale della fisionomia facciale (facial recognition) e <strong>Fingerprint scan</strong> (impronta digitale).</dd>
+
+            <dt>Behavior-based Factor — Qualcosa che fai</dt>
+            <dd>Include la cadenza e la dinamica temporale di battitura sulla tastiera (keystroke dynamics), la velocità o l'angolazione tipica di spostamento del mouse, o pattern ricorrenti d'uso della rete.</dd>
+
+            <dt>Location-based Factor — Dove sei</dt>
+            <dd>Rileva la posizione fisica del terminale a livello geografico ordinario o topologico. Esempi chiave: Indirizzo IP di provenienza geografica (<strong>IP Geolocation</strong>) o coordinate GPS precise.</dd>
           </dl>
 
           <div class="example-box">
             <strong>Esempio Dinamico d'Esame — Scenario MFA VPN:</strong><br>
-            Per proteggere una rete VPN ad alto rischio aziendale combinando tutti e tre i fattori fondamentali senza violare l'indipendenza strutturale, il manager deve prescrivere contemporaneamente una <strong>Password</strong> (conoscenza), un <strong>Token fisico o OTP</strong> (possesso), e un'<strong>Impronta digitale (Thumbprint)</strong> (essere).
+            Per proteggere una rete VPN ad alto rischio aziendale combinando più fattori fondamentali senza violare l'indipendenza strutturale, il manager deve prescrivere contemporaneamente una <strong>Password</strong> (conoscenza), un <strong>Hardware Token fisico</strong> (possesso), e un'<strong>Impronta digitale (Thumbprint)</strong> (essere).
           </div>
 
           <h3>Attributi Avanzati di Contesto</h3>
           <p>
-            Oltre ai fattori classici, i moderni motori IAM valutano attributi situazionali per decidere se bloccare un login o richiedere prove addizionali:
+            Oltre ai fattori classici, i moderni motori IAM valutano attributi situazionali per decidere se bloccare un login o richiedere prove addizionali tramite l'<strong>Accesso Condizionale</strong>: una richiesta proveniente dalla rete interna o in orari regolari viene ammessa rapidamente, mentre accessi dal perimetro esterno o da localizzazioni insolite innescano l'interdizione automatica o flussi MFA integrativi.
           </p>
-          <ul>
-            <li><strong>Somewhere You Are (IP Geolocation)</strong>: Rileva la posizione fisica del terminale a livello geografico. Consente di mitigare e inibire accessi illeciti originati da regioni ad alto rischio cyber o fuori sede ordinaria.</li>
-            <li><strong>Something You Do (Dinamiche del comportamento)</strong>: Include la cadenza di battitura sulla tastiera, la velocità di spostamento del mouse o i pattern tipici d'uso dell'applicazione.</li>
-          </ul>
         </section>
 
         <!-- ══ SEZIONE 2 — PASSWORD POLICIES & ACCESSI PASSWORDLESS ════ -->
         <section id="password_policies">
-          <h2>Politiche di Sicurezza delle Password & Passwordless</h2>
+          <h2>Politiche di Sicurezza delle Password (Password Security) &amp; Passwordless</h2>
           <p>
             In seguito a violazioni e account takeover dovuti a credenziali banali o facilmente indovinabili degli amministratori o degli utenti, un analista di sicurezza interviene riformando la <strong>politica di autenticazione</strong> aziendale.
           </p>
@@ -125,20 +170,74 @@
           <div class="critical">
             <strong>Parametri Cardine della Password Policy:</strong>
             <ul>
-              <li><strong>Lunghezza (Length)</strong>: È l'elemento critico assoluto per resistere alle scansioni automatiche. Incrementare il requisito minimo di lunghezza a 14 o più caratteri garantisce l'entropia ideale.</li>
-              <li><strong>Complessità (Complexity)</strong>: Forza l'adozione collettiva di una miscela casuale di lettere maiuscole, minuscole, cifre numeriche e <strong>caratteri speciali</strong> (@, #, $, %, ecc.).</li>
-              <li><strong>Storia delle Password (History)</strong>: Impedisce ai colleghi di riutilizzare all'infinito la stessa password costringendo il sistema a memorizzare le vecchie credenziali vietate.</li>
-              <li><strong>Età Massima (Maximum password age)</strong>: Impone la scadenza programmata dell'account (es: 90 giorni) per inibire l'uso di chiavi sottratte di nascosto.</li>
+              <li><strong>Lunghezza della password (Password length)</strong>: È l'elemento critico assoluto per resistere alle scansioni automatiche. Incrementare il requisito minimo di lunghezza a 14 o più caratteri garantisce l'entropia ideale.</li>
+              <li><strong>Complessità della password (Password complexity)</strong>: Forza l'adozione collettiva di una miscela casuale di lettere maiuscole, minuscole, cifre numeriche e <strong>caratteri speciali</strong> (@, #, $, %, ecc.).</li>
+              <li><strong>Riutilizzo della password (Password reuse / History)</strong>: Impedisce ai colleghi di riutilizzare all'infinito la stessa password costringendo il sistema Active Directory a memorizzare un database storico delle vecchie credenziali vietate.</li>
+              <li><strong>Scadenza delle password (Password expiration)</strong>: Impone la scadenza programmata dell'account (es: 90 giorni) per inibire l'uso di chiavi sottratte di nascosto.</li>
+              <li><strong>Età della password (Password age)</strong>:
+                <ul>
+                  <li><em>Età Massima (Maximum password age)</em>: Definisce il periodo di tempo massimo dopo il quale il sistema richiede inderogabilmente l'impostazione di nuove credenziali.</li>
+                  <li><em>Età Minima (Minimum password age)</em>: Impedisce agli utenti di cambiare la password molte volte consecutivamente in pochi secondi per aggirare la memoria storica.</li>
+                </ul>
+              </li>
             </ul>
           </div>
 
+          <h3>Sistemi di Gestione Centralizzata delle Password (Password Managers)</h3>
+          <p>
+            Per consentire il rispetto di password complesse e distinte per ogni singolo servizio senza indurre l'affaticamento cognitivo degli utenti, le organizzazioni diffondono l'uso di Password Manager integrati che garantiscono:
+          </p>
+          <ul>
+            <li><strong>Password Generation (Generazione automatica)</strong>: Strumenti in grado di produrre istantaneamente lunghe stringhe pseudocasuali ad elevato carattere di imprevedibilità (entropia).</li>
+            <li><strong>Autofill (Compilazione automatica sicura)</strong>: Inserimento istantaneo delle credenziali validato rigorosamente solo sull'effettiva corrispondenza del dominio DNS d'origine della pagina, azzerando i tentativi fraudolenti di cattura tramite phishing.</li>
+            <li><strong>Secure Sharing (Condivisione sicura)</strong>: Casseforti (vaults) crittografate condivise nell'ecosistema aziendale per distribuire in modo controllato credenziali di dipartimento senza mai rivelarle in chiaro su chat o e-mail.</li>
+            <li><strong>Cross-Platform Access (Accesso multipiattaforma)</strong>: La sincronizzazione protetta di password, chiavi e note cifrate tra svariati sistemi d'uso (mobile, desktop, estensioni browser) per favorire la fluidità operativa del personale in mobilità.</li>
+          </ul>
+
           <h3>L'evoluzione verso il Passwordless</h3>
           <p>
-            Per escludere alla radice i vettori di phishing legati all'impiego delle parole chiave ordinarie, l'architettura aziendale evolve verso meccanismi passwordless. Per utenti remoti e multinazionali aventi la necessità di navigare in assenza perpetua di rete cellulare stabile, l'uso di <strong>Time-based One-Time Passcode (TOTP - Token basati sul tempo)</strong> e applicazioni mobili rappresenta il gold standard di indipendenza hardware e continuità lavorativa offline.
+            Per escludere alla radice i vettori di phishing legati all'impiego delle parole chiave ordinarie, l'architettura aziendale evolve verso meccanismi passwordless:
           </p>
+          <ul>
+            <li><strong>One-Time Passwords (OTP)</strong>: Codici monouso dinamici generati in tempo reale (come i token basati su tempo <em>TOTP</em> o contatore <em>HOTP</em>) tramite apposite applicazioni o dispositivi standalone fisici.</li>
+            <li><strong>Magic Links (Link magici)</strong>: Link di accesso sicuro inviati alla casella protetta dell'utente contenenti un token asseverato temporalmente che autentica l'utente con un singolo clic, saltando del tutto l'inserimento di credenziali.</li>
+            <li><strong>Passkeys</strong>: Il gold standard moderno dell'autenticazione passwordless promosso dall'alleanza FIDO. Le passkey si basano sull'uso di chiavi crittografiche pubbliche/private legate indissolubilmente all'hardware dell'utente (TPM, smartphone o chip di sicurezza). La chiave privata non lascia mai il dispositivo dell'utente, rendendo questo protocollo strutturalmente immune a qualsiasi tentativo di phishing.</li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 2.5 — PASSWORD ATTACKS & SUGGESTED MITIGATIONS ════ -->
+        <section id="password_attacks">
+          <h2>Attacchi alle Password (Password Attacks) e Tecniche di Mitigazione</h2>
           <p>
-            Altresì, l'impiego del riconoscimento facciale integrato combinato con <strong>passcode monouso autogenerati in-app</strong> soddisfa i migliori standard odierni di sblocco rapido senza acquisti addizionali o hardware licenziatario proprietario.
+            Gli attaccanti mettono a punto molteplici tipologie di attacchi per identificare e compromettere le parole chiave dei profili utente, sfruttando debolezze comportamentali o lacune algoritmiche:
           </p>
+          <dl class="termlist">
+            <dt>Brute Force Attacks (Attacchi a forza bruta)</dt>
+            <dd>L'attaccante utilizza software automatici ad alte prestazioni per testare ininterrottamente qualsiasi permutazione ordinata e combinazione di caratteri fino a indovinare la password esatta. È matematicamente limitato solo dalla lunghezza complessiva della chiave.</dd>
+            
+            <dt>Dictionary Attacks (Attacchi basati su dizionario)</dt>
+            <dd>Prevede l'impiego continuo di un file preconfezionato ad hoc (dizionario delle password) contenente centinaia di migliaia di parole di uso comune, gerghi, codici banali e varianti regionali o storiche già violate.</dd>
+            
+            <dt>Spraying Attacks (Password Spraying)</dt>
+            <dd>Un attacco furtivo finalizzato ad eludere il blocco degli account (Account Lockout). L'attaccante seleziona poche password estremamente deboli e diffuse (es: "Password2026!" o "123456") e le "spruzza" a turno provandole una ad una contro <em>migliaia di account aziendali diversi</em>, muovendosi al di sotto dei radar di allarme del SIEM.</dd>
+            
+            <dt>Hybrid Attacks (Attacchi Ibridi)</dt>
+            <dd>Una sofisticata modalità combinata che unisce i concetti del dizionario con la forza bruta: il software prende le parole ordinarie presenti nel dizionario e applica sistematicamente modifiche algoritmiche parametriche (es: inserimento di numeri finali, sostituzione di lettere con simboli o leet speak tipo "E" in "3").</dd>
+          </dl>
+
+          <div class="critical">
+            <strong>Le 5 Tecniche di Mitigazione degli Attacchi alle Password d'Esame:</strong>
+            <p>
+              Gli amministratori di sicurezza neutralizzano gli attacchi descritti ricorrendo a controlli normativi e difese proattive:
+            </p>
+            <ol>
+              <li><strong>Increasing password length (Aumento della lunghezza)</strong>: È l'attività protettiva primaria. Incrementare la lunghezza minima arresta gli attacchi a forza bruta grazie al fattore di crescita esponenziale dello spazio di ricerca necessario all'attaccante.</li>
+              <li><strong>Increasing password complexity (Aumento della complessità)</strong>: Forza l'inclusione di caratteri alternativi rendendo inefficaci i dizionari di parole semplici e ampliando ulteriormente il tempo richiesto per le violazioni.</li>
+              <li><strong>Limiting the number of login attempts (Limitazione dei tentativi d'accesso)</strong>: L'implementazione di una rigorosa <strong>Account Lockout Policy</strong> che blocca temporaneamente l'account (es. dopo 5 tentativi consecutivi falliti in 15 minuti) uccide gli attacchi rapidi a forza bruta e a dizionario, arrestando i tentativi futuri.</li>
+              <li><strong>Using multifactor authentication (Uso del Multi-Fattore - MFA)</strong>: Rappresenta la difesa definitiva. Anche qualora l'hacker indovinasse la password esatta via dizionario o forza bruta, il login verrebbe inesorabilmente respinto a causa della mancanza dell'hardware token o dell'asserzione biometrica.</li>
+              <li><strong>Using CAPTCHAs</strong>: L'integrazione di verifiche visivo-cognitive tese a dimostrare che l'interazione è governata da un operatore umano. Rende inapplicabile l'esecuzione automatica di script massivi di brute-forcing da remoto.</li>
+            </ol>
+          </div>
         </section>
 
         <!-- ══ SEZIONE 3 — SSO & FEDERAZIONE ═════════════════════════ -->
