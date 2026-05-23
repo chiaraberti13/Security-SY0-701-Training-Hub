@@ -381,6 +381,14 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "Administrator and User Accounts",
+      name: "Account Amministrativo e Account Utente",
+      def: "La separazione dei profili per implementare il minimo privilegio. Gli account utente (standard) eseguono compiti di routine con poteri minimi protetti da UAC; gli account amministratore detengono controllo completo sul sistema operativo e vanno utilizzati esclusivamente per attività configurative protette.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Active Reconnaissance",
       name: "Ricognizione Attiva",
       def: "Metodologia di scansione e mappatura di una rete bersaglio che prevede l'invio proattivo di pacchetti (es. port scanning con Nmap) per identificare porte aperte, host attivi e vulnerabilità, risultando visibile nei sistemi IDS/IPS e firewall del target.",
@@ -525,6 +533,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Authenticating the user",
+      name: "Autenticazione dell'utente",
+      def: "Terzo passaggio nel flusso della transazione di federazione SSO. L'Identity Provider (IdP) sfida l'utente a dimostrare la sua identità reale richiedendo le sue credenziali personali, MFA o verifiche biometriche locali.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Authorization",
       name: "Autorizzazione",
       def: "La fase in cui vengono definiti i diritti d'azione, privilegi operativi e livelli d'accesso alle risorse che un utente o servizio, precedentemente autenticato, può esercitare sulla base dei criteri IAM definiti.",
@@ -584,6 +600,14 @@
       acronym: "Biometric Authentication",
       name: "Autenticazione Biometrica",
       def: "Il riscontro e la validazione basati su tessere e tratti fisiologici statici intrinsechi del richiedente (analisi impronte digitali, conformità viso, scansione geometrica retina/iride/vascolare) per sbloccare i dispositivi in modo sicuro e rapido.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Biometrics",
+      name: "Biometria",
+      def: "L'uso di caratteristiche fisiologiche uniche (impronte digitali, iride, retina, fisionomia facciale) o comportamentali (dinamica di battitura) come fattore di autenticazione Inherence-based (qualcosa che sei). Offre un'elevata resistenza al phishing rispetto alle credenziali tradizionali.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -893,6 +917,14 @@
       source_link: "chapters/obj4_8_incident_response.html"
     },
     {
+      acronym: "Deprovisioning",
+      name: "Deprovisioning (Disattivazione Account)",
+      def: "L'attività sistematica all'interno del ciclo di vita IAM dedicata a rimuovere, revocare e disabilitare tempestivamente l'account utente, i relativi privilegi storici e i diritti d'azione al momento dell'offboarding (licenziamento, dimissioni o trasferimento del dipendente), impedendo la persistenza di pericolosi account orfani silenti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "DES",
       name: "Data Encryption Standard",
       def: "Vecchio algoritmo di cifratura simmetrica a blocchi a 56-bit ormai ritenuto obsoleto e vulnerabile ad attacchi a forza bruta, sostituito interamente dall'AES.",
@@ -1037,6 +1069,14 @@
       source_link: "chapters/obj2_5_mitigation.html"
     },
     {
+      acronym: "Enhanced security",
+      name: "Sicurezza Accresciuta / Avanzata (Vantaggio SSO)",
+      def: "Vantaggio di sicurezza originato dall'integrazione di un Identity Provider (IdP) e SSO: consente di imporre e controllare centralmente criteri robusti di complessità e lunghezza delle password, unitamente alla corretta implementazione centralizzata dell'autenticazione a più fattori (MFA).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "EOSL",
       name: "End of Service Life",
       def: "Data stabilita dal produttore hardware o software oltre la quale cessa definitivamente qualunque tipo di supporto, rilascio di patch o aggiornamento di sicurezza. Diventa priorità assoluta di vulnerabilità in un asset inventory.",
@@ -1157,6 +1197,14 @@
       source_link: "chapters/obj5_4_security_compliance.html"
     },
     {
+      acronym: "Generation of an assertion",
+      name: "Generazione dell'asserzione",
+      def: "Quarto passaggio nella transazione di federazione SSO. Una volta che l'IdP ha verificato l'utente, genera un'asserzione digitale crittograficamente firmata (asserzione SAML basata su XML o JSON Web Token) contenente identità, attributi e permessi per attestarne l'affidabilità.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "GPO",
       name: "Group Policy Object",
       def: "Meccanismo centralizzato del servizio Active Directory di Microsoft che consente agli amministratori di forzare configurazioni di sicurezza e restrizioni d'uso collettive su tutti gli host membri del dominio.",
@@ -1253,8 +1301,8 @@
       source_link: "chapters/obj1_4_cryptography.html"
     },
     {
-      acronym: "Hybrid Attacks",
-      name: "Attacchi Ibridi alle Password",
+      acronym: "Hybrid Attack",
+      name: "Attacchi Ibridi alle Password (Hybrid Attack)",
       def: "Algoritmo evoluto che arricchisce i dizionari di vocaboli standard applicandovi variazioni regolari programmative in corrispondenza del target (es: aggiunta di suffissi, numeri dell'anno di nascita o caratteri leet speak).",
       category: "iam",
       source_name: "OBJ 4.6",
@@ -1301,6 +1349,22 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Implementation of least privilege",
+      name: "Attuazione del Minimo Privilegio",
+      def: "Le metodologie pratiche usate per assicurare che gli utenti non detengano privilegi eccessivi. Include controlli di separazione dei ruoli, utilizzo di account amministrativi protetti e separati da quelli d'uso quotidiano, revoca tempestiva dei permessi obsoleti (deprovisioning) e riesami d'accesso periodici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "IdP (Identity Provider)",
+      name: "Fornitore di Identità / Identity Provider",
+      def: "Un sistema o servizio di sicurezza centralizzato (come Okta, Azure AD, o Ping Identity) che archivia, gestisce e autentica le identità digitali degli utenti, trasmettendo asserzioni di autenticazione e attributi sicuri ad applicazioni terze partner (Service Provider) tramite protocolli standard come SAML o OIDC.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "IDS",
       name: "Intrusion Detection System",
       def: "Controllo tecnico investigativo (detective). Analizza il traffico o l'host cercando pattern noti d'attacco ed emettendo notifiche in tempo reale senza bloccare direttamente i vettori logici.",
@@ -1315,6 +1379,22 @@
       category: "gov",
       source_name: "OBJ 1.3",
       source_link: "chapters/obj1_3_change_management.html"
+    },
+    {
+      acronym: "Improved user experience",
+      name: "Esperienza Utente Migliorata (Vantaggio SSO)",
+      def: "Uno dei quattro vantaggi chiave del Single Sign-On (SSO) in ambito CompTIA: riduce l'affaticamento da password (password fatigue) consentendo agli utenti di accedere a tutte le risorse aziendali con un'unica autenticazione fluida e priva di interruzioni frequenti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Increased productivity",
+      name: "Produttività Aumentata (Vantaggio SSO)",
+      def: "Vantaggio aziendale chiave del Single Sign-On (SSO): gli utenti non perdono tempo operativo a inserire costantemente e ripetutamente credenziali differenti per ciascun servizio SaaS o portale aziendale singolo, riducendo i tempi morti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Increasing password complexity",
@@ -1429,6 +1509,14 @@
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
     {
+      acronym: "Just-In-Time Permissions",
+      name: "Permessi Just-In-Time (JIT)",
+      def: "L'assegnazione provvisoria e controllata di autorizzazioni d'accesso elevate a utenti o tecnici in occasione di specifiche attività approvate. Tali autorizzazioni restano attive solo per una ridotta finestra temporale per poi scadere automaticamente, riducendo l'esposizione degli account standard.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "KDC",
       name: "Key Distribution Center",
       def: "Entità centrale fidata del protocollo Kerberos che genera e distribuisce i ticket di sessione e chiavi crittografiche temporanee per consentire l'autenticazione a utenze e server del dominio.",
@@ -1461,9 +1549,17 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
-      acronym: "LDAP / LDAPS",
-      name: "Lightweight Directory Access Protocol (Secure)",
-      def: "Protocollo client-server usato per interrogare e gestire directory di identità aziendali centralizzate (Active Directory). La variante LDAPS introduce la sicurezza tramite TLS sulla porta standard 636.",
+      acronym: "LDAP",
+      name: "Lightweight Directory Access Protocol",
+      def: "Protocollo industriale standard aperto client-server della porta 389 utilizzato per interrogare, modificare e gestire directory centralizzate a livello di rete locale (Active Directory).",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "LDAPS",
+      name: "Lightweight Directory Access Protocol Secure",
+      def: "Versione crittografata del protocollo LDAP che incapsula le query di directory e lo scambio di credenziali all'interno di una sessione TLS/SSL protetta (porta standard 636) per scongiurare sniffing ostili.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1488,6 +1584,22 @@
       acronym: "Limiting the number of login attempts",
       name: "Limitazione dei Tentativi d'Accesso",
       def: "L'adozione centrale di criteri di lockout account che disabilitano transitoriamente o stabilmente il profilo utente superato un numero prefissato di login falliti in sequenza (es: 5 fallimenti), soffocando gli attacchi brute-force automatici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Local Accounts",
+      name: "Account Locali",
+      def: "Account memorizzati ed autenticati esclusivamente nel database locale (SAM in Windows, /etc/passwd in Linux) di un singolo elaboratore specifico, invece di utilizzare directory e identità centralizzate di dominio o server remoti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Login initiation",
+      name: "Inizializzazione della sessione (Login)",
+      def: "Il primo passaggio nel flusso della transazione di federazione SSO. L'utente tenta l'accesso a un'applicazione protetta (un Service Provider) che riconosce la necessità di una verifica federata avviando lo scambio di login.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1555,6 +1667,14 @@
       category: "ops",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Microsoft Accounts",
+      name: "Account Microsoft",
+      def: "Profili utente personali centralizzati basati sul servizio cloud di Microsoft. Consentono di accedere ai dispositivi Windows e sincronizzare impostazioni, app e dati a livello globale, differenziandosi dagli account locali nativi e offrendo backup di sicurezza automatici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "MFA",
@@ -1671,7 +1791,7 @@
     {
       acronym: "OAuth",
       name: "Open Authorization",
-      def: "Standard aperto basato su token di sessione per delegare autorizzazioni ad applicazioni partner esterne (es. Accedi con Google) senza revelar la master password originaria dell'utente.",
+      def: "Standard aperto basato su token di delega (access tokens) finalizzato ad autorizzare le applicazioni partner ad agire per conto dell'utente, focalizzandosi sull'autorizzazione piuttosto che direttamente sull'autenticazione.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1781,6 +1901,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Passwords",
+      name: "Password",
+      def: "La forma classica e più diffusa di credenziale d'autenticazione basata sulla conoscenza (qualcosa che sai). Richiedono politiche di controllo severe (lunghezza, complessità, non-riutilizzo ed età della password) per resistere ad attacchi brute-force, spray e phishing.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Password age",
       name: "Età delle Password",
       def: "Coppia di regole di validità d'accesso. L'Età Minima limita il cambio convulsivo immediato di password fatto per aggirare la cronologia storica; l'Età Massima pianifica le scadenze programmate collettive.",
@@ -1845,6 +1973,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Password Vaulting",
+      name: "Archiviazione Password in Cassaforte",
+      def: "L'atto di proteggere e conservare le credenziali cifrate all'interno di un 'vault' digitale protetto centralmente (nei Password Manager o sistemi PAM). Consente la rotazione periodica automatica, l'eliminazione di fogli in chiaro e la condivisione delegata controllata di credenziali critiche.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "PCI-DSS",
       name: "Payment Card Industry Data Security Standard",
       def: "Standard internazionale vincolante preposto a garantire la riservatezza e l'adozione di controlli di sicurezza logica a presidio di transazioni finanziarie operanti carte di debito o credito.",
@@ -1867,6 +2003,14 @@
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "Permission or Authorization Creep",
+      name: "Accumulo di Autorizzazioni (Privilege Creep)",
+      def: "La graduale acquisizione di autorizzazioni logiche e diritti eccessivi non necessari da parte di un utente nel corso della sua progressione di carriera o cambi di ruolo in una ditta, senza che i vecchi permessi obsoleti siano stati opportunamente revocati. Comporta violazione del minimo privilegio e si previene con riesami d'accesso periodici.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Pharming",
@@ -1957,6 +2101,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Provisioning",
+      name: "Provisioning (Attivazione Account e Privilegi)",
+      def: "L'attività sistematica all'interno del ciclo di vita IAM dedicata alla creazione, configurazione, allocazione e assegnazione iniziale di account utente, credenziali d'accesso, risorse di rete e specifici privilegi logici durante la fase di onboarding di un nuovo dipendente, per metterlo in condizione di lavorare secondo le policy aziendali.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Purple Team",
       name: "Collaborazione Coordinata d'Attacco e Difesa",
       def: "Unione strategica di cooperazione e coordinamento in cui Red Team (attaccanti) e Blue Team (difensori) condividono continuamente feedback per ottimizzare la rilevazione degli allarmi del SIEM e dei sistemi SOC.",
@@ -1997,6 +2149,22 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Redirection to an identity provider",
+      name: "Reindirizzamento all'Identity Provider",
+      def: "Secondo passaggio nel flusso della transazione di federazione SSO. Una volta avviato il login sul Service Provider (SP), quest'ultimo genera una richiesta SAML o OIDC e reindirizza via browser il client verso l'IdP autoritativo per la verifica.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Reduced information technology support costs",
+      name: "Costi di Supporto IT Ridotti (Vantaggio SSO)",
+      def: "Vantaggio finanziario e operativo dell'SSO: riducendo drasticamente il numero di password diverse gestite dall'utente, si minimizzano le richieste di sblocco account e ripristino password rivolte all'helpdesk IT, abbattendone i costi.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Replay Attack",
       name: "Attacco di Replay (Ripetizione)",
       def: "Attacco di rete in cui un utente malintenzionato intercetta e registra di nascosto una credenziale o un hash rassicurante in transito, ri-trasmettendolo successivamente per autenticarsi abusivamente come l'utente originale.",
@@ -2011,6 +2179,14 @@
       category: "ops",
       source_name: "OBJ 1.3",
       source_link: "chapters/obj1_3_change_management.html"
+    },
+    {
+      acronym: "Returning to a service provider",
+      name: "Ritorno al Service Provider",
+      def: "Quinto passaggio nel flusso della transazione di federazione SSO. Successivamente alla generazione dell'asserzione crittografata firmata, l'IdP reindirizza risonante il browser (tramite POST HTTP o token) indietro al Service Provider per completare la translatio logica.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "RoE",
@@ -2045,6 +2221,14 @@
       source_link: "chapters/obj3_4_resilience.html"
     },
     {
+      acronym: "Rule-Based Access Control (Rule-BAC)",
+      name: "Controllo d'Accesso basato su Regole",
+      def: "Modello di controllo d'accesso governato da un insieme rigido di regole e filtri logici definiti dagli amministratori (es. orari consentiti, restrizioni IP, porte firewall), indipendente dai ruoli o dalle mansioni individuali ricoperte dagli utenti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "SaaS",
       name: "Software as a Service",
       def: "Modello cloud con la minima gestione d'uso da parte dell'utente. Il programma è accessibile via browser ed è interamente ospitato, manutenuto, configurato e protetto dal provider.",
@@ -2063,7 +2247,7 @@
     {
       acronym: "SAML",
       name: "Security Assertion Markup Language",
-      def: "Standard crittografico aperto XML-based per implementare l'autenticazione federata SSO a livello enterprise tramite scambi protetti tra Identity Provider e Service Provider.",
+      def: "Standard crittografico basato su XML ampiamente impiegato per scambiare in sicurezza asserzioni di autenticazione e autorizzazione federata (SSO) tra Identity Provider (IdP) e Service Provider (SP).",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -2213,7 +2397,7 @@
       source_link: "chapters/obj2_2_social_engineering.html"
     },
     {
-      acronym: "Spraying Attacks",
+      acronym: "Password Spraying",
       name: "Attacco di Spruzzatura Password (Password Spraying)",
       def: "Attacco elusivo teso a bypassare il lockout degli account: l'attaccante testa pochissime password deboli diffuse contro un'imponente molteplicità di profili utente diversi contemporaneamente, muovendosi lentamente.",
       category: "iam",
@@ -2251,6 +2435,22 @@
       category: "general",
       source_name: "OBJ 1.1",
       source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "Temporal Accounts",
+      name: "Account Temporanei",
+      def: "Utenze create temporaneamente e programmate centralmente per scadere e autodistruggersi trascorso un brevissimo periodo pre-definito (es: per appaltatori esterni o revisori). Previene l'accumulo di account inattivi orfani.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Time-Of-Day Restrictions",
+      name: "Restrizioni Orarie di Filtro (Time-of-day restrictions)",
+      def: "Regola logica applicata a livello logico IAM che vieta tassativamente qualunque transizione di login o accesso operativo oltre ad un orario d'ufficio prefissato (es: dalle 19:00 alle 07:00), respingendo attori esterni notturni.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "TLS",
@@ -2309,6 +2509,22 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
+      acronym: "User Account Control (UAC)",
+      name: "Controllo dell'Account Utente (UAC)",
+      def: "Funzionalità essenziale di sicurezza dei sistemi operativi Microsoft Windows. Impedisce a malware e script l'esecuzione non autorizzata con privilegi amministrativi chiedendo esplicitamente conferma visiva all'utente prima di avviare modifiche di sistema o installazioni elevando i privilegi.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Usernames",
+      name: "Nome Utente (Username)",
+      def: "L'elemento identificativo pubblico o semi-pubblico primario associato a un'entità digitale (persona o servizio). Rappresenta lo stadio iniziale di Identificazione, che necessita obbligatoriamente di un successivo stadio di Autenticazione (es. Password, MFA) per convalidare l'effettivo possesso dell'account.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Using CAPTCHAs",
       name: "Integrazione di Test CAPTCHA",
       def: "Mitigazione tesa a differenziare in tempo reale l'attività automatizzata robotica o di script da un'interazione mossa da un utente reale mediante enigmi cognitivi, contrastando i software brute force.",
@@ -2339,6 +2555,14 @@
       category: "ops",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Verification and access",
+      name: "Verifica e Accesso",
+      def: "Sesto e ultimo passaggio nel flusso della transazione di federazione SSO. Il Service Provider (SP) riceve l'asserzione digitale crittografata firmata dall'IdP, ne verifica la firma e la validità oraria e concede infine l'accesso dell'utente all'applicazione protetta.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
     },
     {
       acronym: "Version Control",
