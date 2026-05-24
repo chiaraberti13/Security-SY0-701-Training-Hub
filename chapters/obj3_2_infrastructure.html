@@ -237,7 +237,15 @@
     <dt>Authentication server</dt>
     <dd>Server RADIUS che verifica le credenziali e autorizza/nega l'accesso, integrando AD o certificati digitali.</dd>
     <dt>EAP (Extensible Authentication Protocol)</dt>
-    <dd>Framework di autenticazione usato da 802.1X. Varianti: EAP-TLS (certificati, più sicuro), PEAP (password over TLS), EAP-TTLS. L'autenticazione avviene prima dell'accesso alla rete.</dd>
+    <dd>
+      Framework flessibile di autenticazione usato da 802.1X. Le principali varianti (metodi di autenticazione 802.1X) comprendono:
+      <ul style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">
+        <li><strong>EAP-TLS (Transport Layer Security)</strong>: Il metodo in assoluto più sicuro e raccomandato. Implementa la mutua autenticazione crittografica e richiede certificati digitali X.509 dal lato server *e* su tutti i singoli client (supplicant).</li>
+        <li><strong>PEAP (Protected Extensible Authentication Protocol)</strong>: Protegge lo scambio incapsulando la transazione di autenticazione all'interno di un tunnel TLS sicuro cifrato. Richiede un certificato digitale solo sul server. Per autenticare il client scompone l'autenticazione tramite un protocollo interno (tipicamente una password utente con MS-CHAPv2).</li>
+        <li><strong>EAP-TTLS (Tunneled Transport Layer Security)</strong>: Molto simile a PEAP (crea un tunnel TLS protetto con certificato server-side), ma offre una flessibilità notevolmente superiore per i canali interni della convalida client (supportando altri tipi di credenziali secondarie oltre a MS-CHAPv2).</li>
+        <li><strong>EAP-FAST (Flexible Authentication via Secure Tunneling)</strong>: Sviluppato da Cisco in alternativa a PEAP. Stabilisce un canale protetto senza ricorrere a complessi certificati digitali sui server, impiegando invece chiavi simmetriche denominate <strong>PAC (Protected Access Credential)</strong> per negoziare la sicurezza.</li>
+      </ul>
+    </dd>
   </dl>
 
   <div class="example-box">

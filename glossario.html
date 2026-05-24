@@ -341,6 +341,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "802.1x authentication methods",
+      name: "Metodi di Autenticazione IEEE 802.1X",
+      def: "Protocolli d'autenticazione impiegati nello standard 802.1X per abilitare l'accesso sicuro dei client supplicant ai nodi di rete (wireless/wired). Spiccano EAP-TLS (basato su autenticazione mutua a doppio certificato digitale, massima sicurezza), PEAP e EAP-TTLS (creano un tunnel TLS protetto con certificato server per trasmettere in sicurezza le password interne).",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
       acronym: "AAA",
       name: "Authentication, Authorization, Accounting",
       def: "La triade dei servizi di controllo degli accessi. L'autenticazione verifica l'identità del richiedente; l'autorizzazione stabilisce quali privilegi concedergli; l'accounting tiene traccia cronologica delle azioni completate.",
@@ -371,6 +379,14 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Account lockouts",
+      name: "Blocchi degli Account (Account Lockouts)",
+      def: "La sospensione o disattivazione temporanea o permanente di un account d'accesso a seguito del superamento della soglia massima di tentativi consecutivi di autenticazione errata.<br><strong>• Ruolo come IoC:</strong> Pur potendosi verificare a causa di errori umani dell'utente legittimo, l'occorrenza simultanea o massiva di lockouts su molteplici profili aziendali (Password Spraying) o tentativi incessanti contro un account utente critico (Brute Force) segnala un attacco in corso. Rappresenta un importante segnale di allerta nei Security logs (ad es. associato all'Event ID 4740 in Windows).<br><strong>• Mitigazione:</strong> Implementare politiche di blocco con sblocco automatico condizionato temporaneo, associare l'autenticazione a più fattori (MFA) e configurare alert in tempo reale nel SIEM per monitorare picchi anomali di fallimenti d'accesso.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "ACL",
@@ -407,7 +423,7 @@
     {
       acronym: "Adware",
       name: "Software Pubblicitario Indesiderato",
-      def: "Tipologia di malware o software potenzialmente indesiderato (PUP) incentrato sul bombardare lo schermo dell'utente con annunci promozionali, tracciandone di nascosto le abitudini di navigazione commerciale.",
+      def: "Software che veicola forzatamente bombardamenti massicci di pubblicità commerciale non autorizzata.<br><strong>• In cosa consiste l'attacco:</strong> Si installa di nascosto solitamente in bundle con software gratuiti e forza la visualizzazione invasiva di pop-up, finestre fluttuanti o modifica il motore di ricerca predefinito, talvolta rallentando l'host e raccogliendo telemetrie d'uso in modo illecito.<br><strong>• Come si può mitigare:</strong> Porre forte cautela all'atto dell'installazione delle form dei programmi terzi togliendo spunte opzionali a software collegati, implementare filtri antispam e blocchi DNS ad-blocker professionali a livello di gateway aziendale.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -445,6 +461,22 @@
       source_link: "chapters/obj5_2_risk_management.html"
     },
     {
+      acronym: "Always being cautious of unsolicited connection requests",
+      name: "Diffidenza verso Richieste di Pairing Non Sollecitate",
+      def: "Buona prassi di consapevolezza (Security Awareness) in cui il dipendente nega sistematicamente pop-up improvvisi o inviti fortuiti di associazione Bluetooth intercettati negli spazi pubblici.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Always using unique PINs or passkeys",
+      name: "PIN e Passkey d'Accoppiamento Univoci",
+      def: "Controllo di configurazione Bluetooth che vieta l'uso di chiavi standard di fabbrica (come 0000 o 1234), rimpiazzandole con stringhe pseudocasuali complesse per tagliare fuori attacchi brute-force radio.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "AoC",
       name: "Attestation of Compliance",
       def: "Documento formale firmato da un revisore indipendente qualificatosi come QSA che assevera ufficialmente lo stato di conformità di un fornitore o partner commerciale rispetto agli standard regolamentari prescritti (es. PCI DSS).",
@@ -469,6 +501,14 @@
       source_link: "chapters/obj2_1_threat_actors.html"
     },
     {
+      acronym: "Arbitrary Code Execution",
+      name: "Esecuzione di Codice Arbitrario (Arbitrary Code Execution - ACE)",
+      def: "Grave condizione logica in cui un attaccante sfrutta una vulnerabilità applicativa (es. iniezione o buffer overflow) per forzare il sistema ad eseguire comandi, binari o script dannosi di sua scelta sotto il proprio contesto di privilegi.<br><strong>• Esempio Semplice:</strong> Un software che risolve calcoli interpretando in modo cieco espressioni scritte dagli utenti viene indotto ad eseguire codice maligno (es. eliminazione file) camuffato da operazione matematica.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "ARO",
       name: "Annualized Rate of Occurrence",
       def: "La frequenza stimata con cui uno specifico scenario di minaccia o incidente di sicurezza si ripresenterà nell'arco di un singolo anno.",
@@ -477,9 +517,33 @@
       source_link: "chapters/obj5_2_risk_management.html"
     },
     {
+      acronym: "Asynchronous Procedure Calls (APC Injection)",
+      name: "Iniezione di Chiamate di Procedure Asincrone (APC Injection)",
+      def: "Tecnica evasiva di iniezione di processo che sfrutta il meccanismo nativo di accodamento delle chiamate e routine asincrone di Windows per forzare un thread legittimo a eseguire codice malevolo.<br><strong>• Come avviene:</strong> Le APC (Asynchronous Procedure Calls) sono funzioni native del sistema operativo che consentono a un thread di eseguire codice asincrono di sfondo quando entra in uno 'stato di allerta' (alertable state, es: in attesa di I/O). L'attaccante alloca il proprio shellcode nel processo vittima, individua un thread fidato alertable ed inserisce l'esecuzione del codice malevolo nella sua coda delle APC utilizzando l'API di sistema <code>QueueUserAPC</code>. All'attivazione dello stato di allerta, il thread esegue automaticamente il payload inserito senza richiedere la creazione di thread remoti anomali.<br><strong>• Mitigazione:</strong> Monitoraggio granulare delle API <code>QueueUserAPC</code> ed esecuzione di frequenti scansioni di memoria per identificare regioni allocate prive di corrispondenti file sul disco.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "ARP Poisoning",
+      name: "Avvelenamento ARP (ARP Poisoning / ARP Spoofing)",
+      def: "Attacco di livello 2 (Data Link) condotto all'interno di una rete locale intranet cablata o Wi-Fi.<br><strong>• In cosa consiste:</strong> L'attaccante trasmette pacchetti ed intestazioni ARP fasulli e non sollecitati (Gratuitous ARP) associando il proprio indirizzo MAC all'indirizzo IP del gateway (router) o di un server bersaglio. Dispositivi e switch aggiornano erroneamente la propria ARP cache. Tutto il traffico destinato a quel gateway viene così deviato verso la macchina dell'attaccante, posizionandolo on-path.<br><strong>• Mitigazione:</strong> Abilitare la Dynamic ARP Inspection (DAI) sugli switch e configurare associazioni IP/MAC statiche fisse per gli host critici.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Articles or documents on security breach",
+      name: "Articoli o Documenti su Violazioni di Sicurezza (Articles or Documents on Security Breach)",
+      def: "Pubblicazioni, bollettini di sicurezza informatica, notizie di cronaca specialistica, report forensi dettagliati o documentazioni ufficiali rilasciati da agenzie governative (come la CISA, il CSIRT nazionale o l'ENISA), da consorzi di settore, o da società di sicurezza informatica all'indomani di un data breach o incidente pubblico.<br><strong>• Valore di difesa:</strong> Questi documenti costituiscono fondamentali fonti di OSINT (Open Source Intelligence). Spiegano descrittivamente come gli attaccanti siano riusciti a superare le difese, indicano gli esatti malware impiegati (con i relativi hash file o domini IP), svelano le tattiche, tecniche e procedure (TTP) utilizzate dal gruppo d'attacco ed offrono indispensabili linee guida investigative e firme difensive per consentire ad altre imprese di immunizzarsi preventivamente o identificare compromissioni pregresse.",
+      category: "ops",
+      source_name: "OBJ 4.9",
+      source_link: "chapters/obj4_9_data_sources.html"
+    },
+    {
       acronym: "ASLR",
-      name: "Address Space Layout Randomization",
-      def: "Tecnica avanzata di sicurezza del software che dispone in modo del tutto casuale le posizioni delle aree chiave dei dati in memoria (stack, heap, librerie) per arginare l'efficacia di exploit di buffer overflow.",
+      name: "Address Space Layout Randomization (Casualizzazione dello Spazio degli Indirizzi)",
+      def: "Tecnica avanzata di sicurezza a livello di sistema operativo che mappa in modo casuale gli indirizzi di memoria delle funzioni e delle librerie.<br><strong>• In cosa consiste la tecnologia:</strong> Ad ogni avvio del programma, il sistema operativo introduce un fattore di casualità (entropia) nella disposizione delle aree dati chiave nella memoria virtuale, in particolare dello stack, dell'heap e delle librerie dinamiche caricate.<br><strong>• Come mitiga gli attacchi:</strong> Previene gli exploit statici di buffer overflow e ROP (Return-Oriented Programming). Non sapendo a priori dove risiedano lo shellcode o le funzioni di sistema (come libc), un attaccante non può determinare l'indirizzo esatto a cui reindirizzare l'Instruction Pointer, provocando solo un crash del programma invece dell'esecuzione di codice arbitrario.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
@@ -629,17 +693,57 @@
       source_link: "chapters/obj5_5_audits_assessments.html"
     },
     {
+      acronym: "Blackhole / Sinkhole",
+      name: "Blackhole Routing e DNS Sinkhole (Pozzo DNS)",
+      def: "Metodologie avanzate di instradamento ed isolamento perimetrale applicate per disperdere gli attacchi volumetrici e annullare le interazioni clandestine dei malware.<br><strong>• In cosa consiste:</strong> Nel <em>Blackhole Routing</em>, l'amministratore modifica i criteri dei router di frontiera dirottando ogni pacchetto indirizzato alla vittima di un mostruoso attacco DDoS verso un'interfaccia virtuale fittizia senza sbocco (chiamata Null0 o buco nero), salvaguardando così il resto della rete dagli intasamenti della linea. Nel <em>DNS Sinkhole</em>, il resolver aziendale viene programmato per scartare o rispedire IP non instradabili (es. 0.0.0.0) a fronte di interrogazioni dirette a domini Internet noti per ospitare server Command &amp; Control (C2) di virus e botnet.<br><strong>• Benefici:</strong> Ottima prevenzione dall'esfiltrazione dati dei worm e isolamento automatico dei sistemi infetti collegati all'intranet.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Blocked content",
+      name: "Contenuti Bloccati (Blocked Content)",
+      def: "Il blocco operato da sistemi di difesa perimetrale (Web Gateway, Firewall, proxy o DNS sinkhole) su file, link web, domini o risorse a cui un host interno della rete ha tentato di accedere.<br><strong>• Valore investigativo:</strong> L'attivazione ripetuta di filtri su siti contrassegnati come dannosi o in blacklist ad opera di un host aziendale rappresenta un indicatore chiave che il sistema è infettato da malware. Esempi tipici includono downloader e trojan che tentano periodicamente di richiamare i server di comando esterni (C2) o di scaricare i moduli crittografici finali del ransomware, venendo bloccati parzialmente dai guardrail di rete.<br><strong>• Mitigazione:</strong> Ispezionare i log dei DNS e dei firewall web, isolare tempestivamente la workstation che origina i tentativi bloccati e condurre una scansione approfondita del malware sull'host.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Blueborne",
+      name: "Exploit dello Stack Bluetooth (Blueborne)",
+      def: "Famiglia di vulnerabilità critiche nello stack software del protocollo Bluetooth.<br><strong>• In cosa consiste l'attacco:</strong> Consente a un utente malevolo di connettersi ad un host vittima (Android, iOS, Windows, Linux) semplicemente trovandosi nelle vicinanze, senza bisogno di accoppiamento preventivo (pairing) né visibilità dell'utente, potendo giungere ad assumere il pieno controllo del terminale (Command Injection/Arbitrary Code Execution) o a intercettare il traffico.<br><strong>• Come si può mitigare:</strong> Applicare tempestivamente gli aggiornamenti patch del sistema operativo messi a disposizione dai produttori dei dispositivi, e disattivare la radio Bluetooth in ambiente pubblico ostile se privi delle revisioni firmware di protezione.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Bluebugging",
+      name: "Controllo Remoto via Bluetooth (Bluebugging)",
+      def: "Grave e intrusivo attacco Bluetooth in cui l'aggressore si interconnette a un dispositivo adiacente vulnerabile prendendone il controllo totale, consentendogli di fare telefonate a pagamento, inviare SMS e attivare microfono o fotocamera.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Bluejacking",
       name: "Invio Spam via Bluetooth",
-      def: "Pratica fastidiosa ma solitamente innocua che consiste nell'inviare messaggi, note o contatti commerciali non richiesti ad altri dispositivi abilitati Bluetooth posizionati nelle vicinanze geografiche.",
+      def: "Sfruttamento innocuo ma invasivo dei canali wireless a corto raggio Bluetooth.<br><strong>• In cosa consiste l'attacco:</strong> Consiste nell'inviare messaggi di testo anonimi ed indesiderati o biglietti da visita elettronici (vCard) verso cellulari terzi scoperti con interfaccia Bluetooth attiva e configurata in modalità rilevabile nelle immediate aree geografiche vicine.<br><strong>• Come si può mitigare:</strong> Disattivare il Bluetooth quando non strettamente necessario, oppure configurare la visibilità logica del dispositivo su 'Non rilevabile' (Hidden/Non-discoverable) escludendo l'accettazione automatica di richieste d'accoppiamento esterne.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_social_engineering.html"
     },
     {
+      acronym: "Bluesmack",
+      name: "Saturazione DoS via Bluetooth (Bluesmack)",
+      def: "Attacco Denial of Service contro antenne Bluetooth, realizzato trasferendo flussi di pacchetti L2CAP distorti o di dimensioni spropositate per mandare in sovraccarico il buffer, provocando il crash del sistema operativo della vittima.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Bluesnarfing",
       name: "Furto Dati via Bluetooth",
-      def: "Attacco wireless a corto raggio molto più grave del bluejacking, mirato a connettersi senza autorizzazione a un dispositivo Bluetooth per sottrarne informazioni sensibili quali rubrica, email o messaggi privati.",
+      def: "Furto clandestino di dati sensibili condotto a mezzo radio Bluetooth.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante si aggancia ed estrapola informazioni riservate (quali SMS, rubrica telefonica completa, email, foto o calendari) da telefoni vulnerabili situati nel raggio d'azione del Bluetooth senza che l'utente riceva alcuna notifica visiva o richiesta di autorizzazione.<br><strong>• Come si può mitigare:</strong> Mantenere il firmware dei sistemi mobili accuratamente aggiornato per bloccare falle logiche nell'accoppiamento Bluetooth, disabilitare lo standard radio quando non in uso, ed impostare PIN e chiavi di pairing complesse ed univoche.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_social_engineering.html"
@@ -661,6 +765,14 @@
       source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
+      acronym: "Bounds Checking",
+      name: "Controllo dei Limiti (Bounds Checking)",
+      def: "Pratica fondamentale di programmazione sicura che verifica le dimensioni di qualsiasi pezzo di input inserito dall'utente per assicurare che non superi i limiti massimi dello spazio allocato in un buffer, neutralizzando attacchi di buffer overflow.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "BPA",
       name: "Business Partnership Agreement",
       def: "Accordo formale e contrattualizzato che disciplina l'inizio, lo sviluppo e le responsabilità finanziarie logiche relative a partnership commerciali ad-hoc instaurate tra imprese.",
@@ -677,6 +789,14 @@
       source_link: "chapters/obj5_1_governance.html"
     },
     {
+      acronym: "Browser Session Exploitation",
+      name: "Sfruttamento della Sessione del Browser (Browser Session Exploitation)",
+      def: "La combinazione di tecniche offensive (es. furto di token, XSS, o CSRF) mirate a dirottare o sfruttare la sessione attiva dell'utente nel browser. Consente all'attaccante di agire illegalmente a nome della vittima sul sito web fidato senza conoscerne le credenziali.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Brute Force",
       name: "Attacco a Forza Bruta",
       def: "Tecnica diagnostica ed esplorativa in cui l'attaccante tenta sistematicamente tutte le possibili combinazioni di caratteri, numeri e chiavi crittografiche per indovinare credenziali o decifrare stringhe protette, richiedendo tempo e capacità di calcolo.",
@@ -687,7 +807,7 @@
     {
       acronym: "Brute Force Attacks",
       name: "Attacchi a Forza Bruta",
-      def: "Attivazione ad alta frequenza computerizzata tesa ad elaborare esaustivamente tutte le possibili permutazioni matematiche di caratteri fino a sbloccare lo pseudo-hash o la password corretta.",
+      def: "Attacco basato sulla ricerca esaustiva e sistematica di chiavi d'accesso.<br><strong>• In cosa consiste l'attacco:</strong> Algoritmi computazionali testano instancabilmente ogni singola permutazione matematica teorica possibile di caratteri o password fino a individuare la stringa crittografica esatta per entrare nell'host o decifrare un archivio blindato.<br><strong>• Come si può mitigare:</strong> Limitazione stringente del numero massimo di login consecutivi falliti (con temporaneo lockout o tariffe temporali d'attesa), e adozione di algoritmi di hashing lenti e intensivi di risorse (es. bcrypt o Argon2) per frenare lo sforzo computazionale di cracking offline.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -695,7 +815,7 @@
     {
       acronym: "Buffer Overflow",
       name: "Saturazione del Buffer",
-      def: "Vulnerabilità software in cui un programma scrive più dati all'interno di un buffer di memoria rispetto a quelli effettivamente allocati, sovrascrivendo i blocchi adiacenti e provocando potenzialmente l'esecuzione di codice arbitrario.",
+      def: "Vulnerabilità in cui un'applicazione scrive in un buffer allocato temporaneamente più dati di quanti ne possa contenere.<br><strong>• In cosa consiste l'attacco:</strong> I dati in eccesso inviati dall'utente esondano oltre i limiti stabiliti, sovrascrivendo la memoria contigua. L'attaccante sfrutta questa anomalia per alterare il Return Address dello stack o registri critici della CPU per deviare il flusso logico ed eseguire codice nocivo arbitrario.<br><strong>• Come si può mitigare:</strong> Applicare rigorosi controlli di lunghezza degli input (bounds checking) prima di eseguire copie in memoria, compilare con difese attive (Stack Canaries), ed abilitare i controlli hardware-software del sistema operativo quali DEP (Data Execution Prevention) e ASLR (Address Space Layout Randomization).",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
@@ -765,12 +885,36 @@
       source_link: "chapters/obj5_4_security_compliance.html"
     },
     {
+      acronym: "Changing POST data",
+      name: "Changing POST data (Modifica dati POST)",
+      def: "La manipolazione sistematica del corpo delle richieste HTTP POST inviate in background. Scavalca i controlli preliminari del browser consentendo all'hacker di passare argomenti ed elementi d'attacco direttamente agli handler e validatori lato server.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "CIA Triad",
       name: "Triade di Sicurezza (Confidentiality, Integrity, Availability)",
       def: "Il modello di riferimento cardine della sicurezza delle informazioni. Riservatezza (evitare accessi non autorizzati), Integrità (interdire modifiche illegittime dei dati), e Disponibilità (consentire il servizio autorizzato).",
       category: "general",
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Client-side Browser Exploitation",
+      name: "Sfruttamento Browser Lato Client (Client-side Browser Exploitation)",
+      def: "Metodologia di attacco indirizzata a compromette la sandbox o i moduli del browser dell'utente (client) abusando di falle non patchate. Spesso impiegata per indurre download automatici di malware (drive-by downloading).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Client-side Scripts",
+      name: "Script Lato Client (Client-side Scripts)",
+      def: "Codici applicativi ed istruzioni (tipicamente scritte in JavaScript) scaricati da un server web ed eseguiti direttamente all'interno del browser web della macchina client della vittima, permettendo l'interazione dinamica ma esponendo la sessione ad attacchi qualora non validati.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "COBO",
@@ -781,6 +925,14 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
+      acronym: "Code Injection",
+      name: "Iniezione di Codice (Code Injection)",
+      def: "Grave vulnerabilità derivata dalla scarsa sanificazione degli input in cui frammenti di comandi dinamici vengono digeriti da interpreti del server.<br><strong>• In cosa consiste l'attacco:</strong> L'aggressore inserisce frammenti di codice applicativo nativo (PHP, Python, Ruby, ecc.) o comandi logici nei moduli applicativi. Il server interpreta ed esegue arbitrariamente questo codice, portando istantaneamente all'Esecuzione di Codice Arbitrario (Arbitrary Code Execution) ed alla compromissione del server di backend.<br><strong>• Come si può mitigare:</strong> Evitare l'impiego di funzioni di interpretazione dinamica nativa degli input utente, validare rigidamente tutti i parametri servendosi di solide allowlist e isolare i singoli microservizi applicativi in sandbox chiuse.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Cold Site",
       name: "Sito di Ripristino Freddo",
       def: "Sito di backup vuoto fornito di alimentazione elettrica e connettività di base, ma completamente privo di hardware pre-configurato o dati caricati. Ha costi ridotti ma i tempi di ripartenza superano i giorni.",
@@ -789,12 +941,28 @@
       source_link: "chapters/obj3_4_resilience.html"
     },
     {
+      acronym: "Command Injection",
+      name: "Iniezione di Comandi OS (Command Injection)",
+      def: "Vulnerabilità web eccezionalmente critica che consente ad un attaccante esterno di eseguire comandi di sistema operativi arbitrari direttamente sul server host che ospita l'applicazione.<br><strong>• In cosa consiste:</strong> Si verifica quando l'applicazione passa dell'input non validato direttamente a una shell di sistema (come la <code>cmd.exe</code> di Windows o la <code>bash</code> di Linux, tramite funzioni vulnerabili come <code>system()</code> o <code>exec()</code>). L'aggressore inserisce delimitatori e concatenatori di comandi (come <code>;</code>, <code>&amp;</code>, <code>|</code>, o <code>`</code>) seguiti dal comando malevolo. Questo permette ad esempio di avviare una reverse shell, scaricare malware sul server o cancellare dati del filesystem.<br><strong>• Mitigazione:</strong> Evitare l'esecuzione di comandi di sistema tramite runtime applicativi; se strettamente necessario, utilizzare API programmatiche sicure (che non invocano una shell intermedia) o applicare una validazione d'input ferrea basata esclusivamente su una whitelist di parametri concessi.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Compensating Control",
       name: "Controllo Compensativo",
       def: "Controllo alternativo implementato temporaneamente o permanentemente quando un controllo primario raccomandato non è fattibile per limiti tecnici o di costo, garantendo comunque lo stesso livello di sicurezza complessivo.",
       category: "general",
       source_name: "OBJ 1.1",
       source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "Concurrent session usage",
+      name: "Utilizzo di Sessioni Concorrenti (Concurrent Session Usage)",
+      def: "La presenza di molteplici sessioni di autenticazione attive collegate simultaneamente con le medesime credenziali utente a partire da host o locazioni geografiche differenti.<br><strong>• Rilevamento e Significato:</strong> Quando un account aziendale legittimo risulta attivo contiguamente su due o più endpoint non correlati, indica che un utente malintenzionato ha sottratto le credenziali di accesso o ha preso possesso del session cookie (Session Hijacking / Pass-the-Cookie) dell'utente originale mentre quest'ultimo è ancora operativo. Costituisce un indicatore comportamentale critico di violazione immediata dell'account.<br><strong>• Mitigazione:</strong> Configurare policy che limitano il numero massimo di sessioni concorrenti consentite (es. una sola sessione attiva per utente sui sistemi di front-end), invalidazione globale dei token di autenticazione in caso di anomalia, e revoca immediata di tutte le sessioni sospette.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Conduct regular audits",
@@ -829,6 +997,14 @@
       source_link: "chapters/obj3_1_architecture.html"
     },
     {
+      acronym: "Cookie",
+      name: "Cookie",
+      def: "Frammento di dati in formato chiave-valore inviato da un server ad un browser internet e archiviato localmente. Viene rinviato al server a ogni successiva richiesta per consentire il tracciamento dello stato, il mantenimento delle preferenze o della sessione attiva.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "COPE",
       name: "Corporate Owned, Personally Enabled",
       def: "Modello di gestione dei dispositivi mobili nel quale l'azienda fornisce il terminale e lo configura per uso business, lasciando al dipendente la facoltà di usarlo moderatamente per svaghi o funzioni personali.",
@@ -855,10 +1031,18 @@
     {
       acronym: "Credential Stuffing",
       name: "Riutilizzo di Credenziali Compromesse",
-      def: "Sottocategoria automatizzata dell'attacco brute-force in cui gli hacker pasturano script coordinati con enormi elenchi di coppie username/password violate da precedenti violazioni su altri portali, speculando sulla tendenza degli utenti a riutilizzare la stessa credenziale.",
+      def: "Abuso logico basato sull'automatizzazione massiva di login rubati.<br><strong>• In cosa consiste l'attacco:</strong> L'hacker acquisisce enormi database di utenze e password precedentemente colpite e trapelate sul web da altri portali esterni. Tramite script e botnet dedicati, testa a raffica queste credenziali sui pannelli login di altre piattaforme e banche dati ad alta capitalizzazione, scommettendo sull'abitudine degli utenti di riutilizzare la stessa password su più siti.<br><strong>• Come si può mitigare:</strong> Implementare filtri CAPTCHA costanti sul pannello di login, abilitare verifiche Multi-Factor Authentication (MFA), monitorare la registrazione del traffico anomalo proveniente da indirizzi IP o geolocalizzazioni insolite e sensibilizzare l'utenza ad utilizzare password sempre diverse e robuste.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "Criminals",
+      name: "Cybercriminali / Criminali",
+      def: "Soggetti malintenzionati o gruppi strutturati del crimine organizzato mossi prevalentemente da finalità di estorsione, profitto finanziario illecito (financial gain) o riscatto, che ricercano, acquistano o creano costantemente exploit per diffondere malware.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "CRL",
@@ -887,10 +1071,18 @@
     {
       acronym: "CSRF",
       name: "Cross-Site Request Forgery",
-      def: "Attacco informatico che costringe il browser web di un utente attualmente autenticato a trasmettere una richiesta HTTP non autorizzata e dannosa a un'applicazione web partner vulnerabile, compiendo azioni involontarie a nome dell'utente.",
+      def: "Acronimo di Cross-Site Request Forgery (anche noto come XSRF) o falsificazione delle richieste tra siti.<br><strong>• In cosa consiste l'attacco:</strong> Un sito di terze parti inganna il browser dell'utente autenticato forzandolo a compiere un invio furtivo di dati in background (attraverso form nascosti) verso l'applicazione d'origine. Il browser, per design, correda la richiesta clandestina dei Session Cookie validi, inducendo il server ad elaborare finti bonifici, cambi email o reset amministrativi.<br><strong>• Come si può mitigare:</strong> Implementazione di token di validazione dinamici anti-CSRF nascosti in tutti i form di sottomissione, adozione di SameSite Cookie attributes e richiesta sistematica di un re-input della password attuale prima di qualsiasi transazione di valore.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Current Password Verification",
+      name: "Verifica della Password Attuale (Current Password Verification)",
+      def: "Meccanismo di mitigazione e sicurezza che richiede all'utente autenticato di inserire nuovamente la propria password prima di poter svolgere azioni altamente sensibili (come cambiare email, mutare credenziali o spostare denaro), bloccando di fatto gli attacchi CSRF che non possono accedere o compilare campi blindati.",
+      category: "iam",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "CVE",
@@ -933,6 +1125,14 @@
       source_link: "chapters/obj3_3_data_protection.html"
     },
     {
+      acronym: "Data Exfiltration",
+      name: "Esfiltrazione di Dati (Data Exfiltration)",
+      def: "La sottrazione e il trasferimento non autorizzato di informazioni riservate, dati coperti da proprietà intellettuale o record sensibili aziendali dall'interno del perimetro sicuro dell'organizzazione verso un host esterno controllato dall'aggressore, operato via USB, cloud, posta o tunnel crittografati.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
       acronym: "Data Masking",
       name: "Mascheramento dei Dati (Offuscamento)",
       def: "Tecnica logica che maschera preventivamente i record sensibili nei database d'impresa (es. oscurando cifre intermedie di carte di debito) per permettere consultazioni corrette salvaguardando il piano di compliance.",
@@ -943,10 +1143,18 @@
     {
       acronym: "DDoS",
       name: "Distributed Denial of Service",
-      def: "Attacco informatico di saturazione causato da migliaia di nodi compromessi (botnet) che inondano contemporaneamente una risorsa web di richieste inutili, rendendola irraggiungibile agli utenti reali.",
+      def: "Attacco distribuito di Denial of Service mirato a inattivare e sovraccaricare risorse telematiche.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante si coordina tramite eserciti di dispositivi infetti (Botnet) per scagliare contemporaneamente flussi massicci di traffico immotivato (ad es. pacchetti TCP SYN, amplificazioni DNS o chiamate L7 massive) mandando in crash di banda o di risorse fisiche i server o le reti del target.<br><strong>• Come si può mitigare:</strong> Implementare servizi Cloud di pulizia ad alto volume del traffico (Cloud Scrubbing), installare sistemi di prevenzione IDS/IPS e WAF con limitazioni di rate-limiting, abilitare auto-scaling robusto delle risorse computazionali del cloud e disporre di solidi router perimetrali.",
       category: "ops",
       source_name: "OBJ 4.8",
       source_link: "chapters/obj4_8_incident_response.html"
+    },
+    {
+      acronym: "Deadlock",
+      name: "Deadlock (Stallo)",
+      def: "Grave sfasamento logico e strutturale della concorrenza in cui due o più processi o thread si arrestano irrimediabilmente all'infinito.<br><strong>• In cosa consiste il fenomeno:</strong> Si verifica quando ciascuno dei processi detiene una risorsa (o Mutex) ed attende contemporaneamente il rilascio di un'ulteriore risorsa bloccata da uno degli altri processi in gioco, creando un circolo chiuso di dipendenze insoddisfatto (es. Processo 1 detiene A e attende B; Processo 2 detiene B e attende A). Provoca un completo Denial of Service (DoS) applicativo.<br><strong>• Come si previene:</strong> Stabilire un rigido ordinamento globale nell'acquisizione dei lucchetti (Lock Hierarchy), adottare acquisizioni provvisorie soggette a timeout deterministici (try-lock) o implementare algoritmi di monitoraggio ed evasione dei cicli chiusi (Deadlock Detection).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Decommissioning",
@@ -955,6 +1163,30 @@
       category: "ops",
       source_name: "OBJ 4.2",
       source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Defacing the Trusted Website",
+      name: "Defacement dell'Aspetto del Sito Web Fidato",
+      def: "Attacco visivo o ideologico che consiste nell'alterare abusivamente l'HTML e l'interfaccia grafica di un sito web fidato (sfruttando fallimenti logici o XSS per modificare il DOM) al fine di screditarne la reputazione, trasmettere messaggi vandalici o allestire falsi moduli di login.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Delete",
+      name: "DELETE (Istruzione SQL)",
+      def: "Comando SQL preposto alla rimozione di record esistenti dalle tabelle del database. Può essere manipolato tramite SQL Injection per commettere sabotaggi logici eliminando in via distruttiva log d'accesso o interi file transazionali.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "DEP",
+      name: "Data Execution Prevention (DEP)",
+      def: "Caratteristica di sicurezza di livello hardware o software (nota in Linux anche come bit NX / No-Execute) che impedisce l'esecuzione di programmi o codice inseriti in aree di memoria designate per la memorizzazione dei soli dati (come lo Stack e lo Heap), sventando gli exploit che sfruttano i buffer overflow.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Deploying patches in a timely manner",
@@ -989,6 +1221,14 @@
       source_link: "chapters/obj2_5_mitigation.html"
     },
     {
+      acronym: "Device Spoofing",
+      name: "Falsificazione del Dispositivo (Device Spoofing)",
+      def: "L'atto doloso di clonare, contraffare o riprodurre gli identificatori unici di rete di una macchina fidata (es. MAC address o UUID Bluetooth/RFID) per aggirare gli elenchi di controllo d'accesso (ACL) e connettersi illegalmente.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Device's Firmware",
       name: "Firmware del Dispositivo",
       def: "Il software nativo a basso livello embedded in modo permanente all'interno dei componenti hardware (es. BIOS/UEFI, schede di rete, firmware di router e stampanti). Costituisce una vulnerabilità hardware-specific qualora non regolarmente aggiornato, poiché detiene elevati privilegi operativi ed effettua l'avvio prima del sistema operativo.",
@@ -1007,7 +1247,7 @@
     {
       acronym: "Dictionary Attack",
       name: "Attacco a Dizionario",
-      def: "Metodo mirato di brute-force per indovinare chiavi o password che utilizza un file di parole comuni preregistrato (un dizionario come 'rockyou.txt') invece di generare stringhe casuali, per velocizzare drammaticamente le probabilità di successo dell'exploit.",
+      def: "Metodologia d'attacco offline focalizzata sulla decodifica di password e hashes.<br><strong>• In cosa consiste l'attacco:</strong> Un programma ad alta velocità compara e testa sequenze ordinate di parole, gerghi o password reali derivati da dizionari linguistici e database di fughe storiche, sperando che l'utente abbia adoperato termini di senso compiuto per il proprio profilo computazionale.<br><strong>• Come si può mitigare:</strong> Imporre complessità minima del testo delle password (mix di lettere maiuscole, minuscole, numeri, simboli e nessun termine presente nei dizionari), e forzare l'implementazione del sale crittografico (salting) nell'archiviazione degli hashes server-side.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -1015,7 +1255,7 @@
     {
       acronym: "Dictionary Attacks",
       name: "Attacchi a Dizionario",
-      def: "Automazione di test di sblocco alimentata da un elenco mirato di parole comuni, sigle dialettali, frasi note e precedenti violazioni d'accesso estratte da leaks storici di rete.",
+      def: "Metodologia d'attacco offline focalizzata sulla decodifica di password e hashes.<br><strong>• In cosa consiste l'attacco:</strong> Un programma ad alta velocità compara e testa sequenze ordinate di parole, gerghi o password reali derivati da dizionari linguistici e database di fughe storiche, sperando che l'utente abbia adoperato termini di senso compiuto per il proprio profilo computazionale.<br><strong>• Come si può mitigare:</strong> Imporre complessità minima del testo delle password (mix di lettere maiuscole, minuscole, numeri, simboli e nessun termine presente nei dizionari), e forzare l'implementazione del sale crittografico (salting) nell'archiviazione degli hashes server-side.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -1029,9 +1269,33 @@
       source_link: "chapters/obj1_2_fundamental_concepts.html"
     },
     {
+      acronym: "Digital Signature",
+      name: "Firma Digitale (Digital Signature nel DNS)",
+      def: "Meccanismo crittografico asimmetrico impiegato in DNSSEC (sotto forma di record <code>RRSIG</code>) per comprovare l'autenticità dell'origine e l'integrità dei dati dei record DNS inviati. Consente ai resolver ricorsivi di verificare che le risposte DNS non siano state alterate da intermediari nel tragitto.",
+      category: "crypto",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Directory Traversal",
-      name: "Attraversamento di Directory",
-      def: "Vulnerabilità applicativa (Path Traversal) che ammette la manipolazione di input HTTP con sequenze di caratteri speciali (es. ../) per costringere il server a risalire l'albero di directory e sfogliare file di sistema privati.",
+      name: "Directory Traversal (Path Traversal / Attraversamento delle directory)",
+      def: "Vulnerabilità e attacco web mirato ad accedere abusivamente a file o cartelle situati al di fuori della web root del server.<br><strong>• In cosa consiste:</strong> L'attaccante concatena sequenze di risalita gerarchica (come <code>../</code> o <code>..\\</code>) all'interno dei parametri di input per forzare il sistema operativo a risalire l'albero delle directory fino alla radice, leggendo file sensibili (es. <code>/etc/passwd</code> o file di configurazione con password).<br><strong>• Come si mitiga:</strong> Applicare una rigida whitelist sull'input ammesso, impedire l'uso di metacaratteri tramite sanitizzazione, usare identificatori indiretti anziché i nomi dei file originali, ed eseguire il processo web con privilegi ridotti.",
+      category: "net",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Dirty COW",
+      name: "Dirty COW (Copy-On-Write)",
+      def: "Famosa vulnerabilità storica di privilege escalation locale (CVE-2016-5195) che ha interessato il kernel Linux.<br><strong>• In cosa consiste l'attacco:</strong> Sfrutta una race condition (condizione di gara) insita nella gestione del meccanismo di memoria virtuale Copy-On-Write (COW). Un utente locale privo di privileges speciali è in grado di raggirare i permessi di sola lettura del filesystem innescando uno sfasamento di thread, ottenendo la facoltà di modificare direttamente file sensibili di root (come <code>/etc/passwd</code>) per conseguire una completa escalation locale dei privileges.<br><strong>• Come si mitiga:</strong> Aggiornare tempestivamente il sistema operativo installando le patch ufficiali rilasciate dai vendor di distribuzione Linux.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "DLL Injection",
+      name: "Iniezione di DLL (Dynamic Link Library Injection)",
+      def: "Tecnica avanzata di iniezione di processo in cui un programmma malevolo forza un altro processo legittimo, già in esecuzione, a caricare una Dynamic Link Library (DLL) personalizzata contenente il payload dannoso.<br><strong>• Come avviene l'attacco:</strong> L'attaccante alloca memoria nel processo vittima (es. tramite <code>VirtualAllocEx</code>), scrive il percorso fisico della DLL malevola sulla memoria allocata del processo destinatario (via <code>WriteProcessMemory</code>) e infine costringe il processo a invocare l'API di Windows <code>LoadLibrary</code> creando un thread remoto coordinato (tramite <code>CreateRemoteThread</code>), inducendolo ad avviare il malware celato nella DLL sotto l'identità del processo fidato.<br><strong>• Mitigazione:</strong> Meccanismi di integrità del codice dei driver, disabilitazione del caricamento di DLL non firmate digitalmente, uso di restrizioni rigorose sulle interazioni inter-processo e monitoraggio delle chiamate API remote.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
@@ -1039,7 +1303,7 @@
     {
       acronym: "Disassociation Attack",
       name: "Attacco di Disassociazione Wireless",
-      def: "Attacco di disturbo wireless (DoS) che emette frame spoofing ad-hoc spoofando il MAC address dell'access point legittimo per disassociare brutalmente i nodi della vittima e costringerli ad agganciarsi a un Rogue AP o rincorrere handshake.",
+      def: "Attacco wireless focalizzato sull'interruzione delle comunicazioni radio WiFi.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante trasmette in aria finti pacchetti di disassociazione forgiati a nome del router/Access Point legittimo (falsificandone il MAC address), ordinando alla scheda di rete del PC vittima di scollegarsi istantaneamente, avviando disservizi radio persistenti o forzando la vittima a ricollegarsi ad un Access Point pirata (Evil Twin).<br><strong>• Come si può mitigare:</strong> Adottare standard radio WiFi avanzati ed aggiornati quali WPA3, i quali integrano la crittografia obbligatoria dei frame di controllo fisici (PMF - Protected Management Frames), rendendo vani ed impossibili i tentativi di deauthentication arbitrari da parte di terzi.",
       category: "net",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -1085,12 +1349,100 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
-      acronym: "DNSSEC",
-      name: "Domain Name System Security Extensions",
-      def: "Estensioni di sicurezza del protocollo DNS che appongono firme crittografiche asimmetriche ai record della zona, garantendo l'autenticità e l'integrità delle risposte del nameserver e neutralizzando le tecniche di avvelenamento della cache (DNS cache poisoning).",
+      acronym: "DNS",
+      name: "Domain Name System (DNS)",
+      def: "Il sistema gerarchico e distribuito che traduce i nomi di dominio internet (es. <code>www.esempio.it</code>) in indirizzi IP numerici (es. <code>192.0.2.1</code>), agendo come la rubrica telefonica globale per l'instradamento geografico dei pacchetti di rete.",
       category: "net",
-      source_name: "OBJ 3.2",
-      source_link: "chapters/obj3_2_infrastructure.html"
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DNS Amplification Attack",
+      name: "Attacco di Amplificazione DNS (DNS Amplification)",
+      def: "Grave e diffuso attacco DDoS di tipo volumetrico e riflesso basato sullo spoofing dell'IP della vittima.<br><strong>• In cosa consiste:</strong> L'attore ostile inoltra una raffica di richieste ad open resolver pubblici richiedendo record di grosse dimensioni (ANY, TXT). I server inviano risposte spropositate (DNS Response Traffic) direttamente alla vittima, intasando e saturando la sua capacità di banda.<br><strong>• Come si mitiga:</strong> Configurazione del Rate Limiting (RRL) sui DNS server, disabilitazione degli open resolver, e filtri anti-spoofing ISP.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DNS Cache Poisoning",
+      name: "DNS Cache Poisoning / DNS Spoofing (Avvelenamento della Cache DNS)",
+      def: "Infezione o manipolazione della memoria cache locale di un server DNS ricorsivo intermedio.<br><strong>• In cosa consiste:</strong> L'attaccante trasmette risposte DNS fittizie prima del server legittimo. Se il resolver le accetta e le memorizza in cache, reindirizzerà inconsapevolmente tutti gli utenti connessi a quel nodo verso indirizzi IP malevoli controllati dall'hacker.<br><strong>• Come si mitiga:</strong> Implementazione standardizzata di DNSSEC e disattivazione delle query ricorsive estranee all'intranet.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DNS Response Traffic",
+      name: "DNS Response Traffic (Traffico di Risposta DNS)",
+      def: "La porzione di traffico di rete generata in risposta alle query DNS. In chiave offensiva, nei DNS Amplification Attacks, questo traffico viene massimizzato volumetricamente con query specifiche (ANY, TXT) per sopraffare la connettività della vittima (il cui IP è spoofato come sorgente originaria).",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DNS Tunneling",
+      name: "DNS Tunneling (Canalizzazione clandestina DNS)",
+      def: "Sofisticato attacco di evasione dei filtri di rete che abusa dei record DNS per incapsulare traffico non autorizzato (es. SSH, shell remote o dati esfiltrati).<br><strong>• In cosa consiste:</strong> Un malware interno codifica dati sensibili (in Base64 o Hex) innestandoli come sottodomini di interrogazione DNS (es. <code>dati.attacker.com</code>). Il traffico, transitando libero attraverso i firewall (in genere permissivi sul protocollo UDP 53), arriva direttamente al Name Server dell'attaccante che decodifica i pacchetti.<br><strong>• Come si mitiga:</strong> Ispezione profonda dei log DNS e blocco di domini registrati di recente o insolitamente lunghi.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DNS Zone Transfer Attack",
+      name: "Attacco di Trasferimento di Zona (AXFR Attack)",
+      def: "Vettore diagnostico di ricognizione (Reconnaissance) mirato all'acquisizione della mappa logica di una rete intranet.<br><strong>• In cosa consiste:</strong> Sfrutta l'errata configurazione del server DNS primario che consente l'esecuzione a chiunque del comando di trasferimento zona (AXFR), concepito originariamente solo per sincronizzare i server secondari. L'attaccante scarica così all'istante l'elenco completo di router, server, indirizzi IP interni e host fisici dell'intera azienda.<br><strong>• Come si mitiga:</strong> Restringere rigorosamente la sottomissione dei comandi AXFR unicamente agli indirizzi IP dei server secondari fidati e usare Transaction Signatures (TSIG).",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DNSSEC",
+      name: "Domain Name System Security Extensions (DNSSEC)",
+      def: "Insieme di specifiche e standard crittografici concepiti per blindare la sicurezza del protocollo DNS mediante l'autenticazione delle origini.<br><strong>• Tecnologia:</strong> Consente ai server autoritativi di firmare digitalmente le proprie risposte (Digital Signature) usando chiavi asimmetriche (private). Il client ricorsivo valida la firma con la chiave pubblica, azzerando i rischi di avvelenamento cache pur senza cifrare la connessione (il traffico rimane leggibile).",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DOM (Document Object Model)",
+      name: "Document Object Model (DOM)",
+      def: "La rappresentazione logico-strutturale ad albero degli elementi HTML e XML di un documento, creata in memoria dal browser web. Definisce le proprietà, le intestazioni e gli elementi manipolabili tramite client-side script in JavaScript.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "DOM XSS",
+      name: "DOM-based Cross-Site Scripting (DOM XSS)",
+      def: "Variante avanzata e interamente client-side di Cross-Site Scripting basata sulla manipolazione del Document Object Model.<br><strong>• In cosa consiste l'attacco:</strong> Lo script dannoso viene introdotto manipolando direttamente sorgenti lato client (es. decodificando in modo non sicuro parametri dall'URL della barra degli indirizzi o variabili di sessione locali tramite gli script JS legittimi della pagina), senza bisogno di transitare o essere memorizzato dal backend sul server.<br><strong>• Come si può mitigare:</strong> Evitare metodi JavaScript intrinsecamente pericolosi di mutamento dei tag HTML (quali <code>eval()</code>, <code>document.write()</code> o <code>innerHTML</code>), preferendo proprietà sicure come <code>textContent</code> o <code>innerText</code>, e impiegare librerie JS di sanificazione certificate.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Domain Hijacking",
+      name: "Domain Hijacking (Dirottamento del Dominio)",
+      def: "Appropriazione illecita o alterazione non autorizzata delle registrazioni e dei server autoritativi di un intero dominio Internet presso l'istituto del Registrar (es. GoDaddy).<br><strong>• In cosa consiste:</strong> L'attaccante acquisisce le credenziali del registrar della ditta o inganna gli operatori e modifica i Name Server puntandoli a indirizzi IP fraudolenti, dirottando in blocco traffico web ed email ufficiali.<br><strong>• Come si previene:</strong> Autenticazione MFA forte sull'utenza registrar e acquisto programmato di servizi Registry Lock.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Domain Registry Lock Services",
+      name: "Domain Registry Lock Services (Servizi di blocco del registro)",
+      def: "Le massime risposte preventive di difesa a tutela di domini istituzionali contro i tentativi fraudolenti di Domain Hijacking.<br><strong>• Come funziona:</strong> Congela irreversibilmente ogni parametro e associazione IP direttamente sul Registro centrale dei domini (.com, .it). Ogni modifica, inclusi i cambi di attributi o Name Server, necessita di una procedura manuale e asincrona offline di sblocco con riscontro vocale e passphrase blindate scambiate tra gli amministratori effettivi e lo staff del registro.<br><strong>• Beneficio complessivo:</strong> Rende nullo e inefficace qualsiasi cambiamento non autorizzato tentato a livello di pannello registrar o API automatizzate.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "DoS",
+      name: "Denial of Service (DoS / Negazione di Servizio)",
+      def: "Attacco informatico mirato a compromettere la disponibilità (Availability) di un sistema o servizio di rete, impedendo agli utenti legittimi di accedervi.<br><strong>• In cosa consiste:</strong> L'attacco origina da una singola sorgente e tenta di inondare il server di richieste (Flood volumetrico) o di sfruttare vulnerabilità software (es. buffer overflow o bug logici) per arrestare il servizio o provocarne il crash.<br><strong>• Come si mitiga:</strong> Applicazione tempestiva di patch di sicurezza, ottimizzazione delle impostazioni interne dei socket e implementazione di filtri perimetrali e rate limiting.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Downtime",
@@ -1099,6 +1451,14 @@
       category: "net",
       source_name: "OBJ 1.3",
       source_link: "chapters/obj1_3_change_management.html"
+    },
+    {
+      acronym: "Downgrade Attack",
+      name: "Attacco di Degradazione (Downgrade / Cryptographic Downgrade)",
+      def: "Tecnica in cui un intermediario forza due host comunicanti a rinunciare a un protocollo di comunicazione sicuro per adottarne uno obsoleto e vulnerabile.<br><strong>• In cosa consiste:</strong> Durante la fase di handshake iniziale (es. in TLS o SSH), l'attaccante on-path altera i parametri dichiarando falsamente che il client o il server supportano esclusivamente vecchi standard obsoleti (es. SSL 3.0, WEP, canali di radio cellulare 2G obsoleti). Poiché i due host si adattano al minimo comune denominatore, viene stabilita una cifratura debole o nulla, consentendo all'avversario di decifrare o alterare facilmente la sessione.<br><strong>• Mitigazione:</strong> Disattivare rigorosamente il supporto a protocolli e suite di cifratura deprecate sul server, e abilitare parametri moderni come l'HTTP Strict Transport Security (HSTS).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "DRP",
@@ -1133,6 +1493,22 @@
       source_link: "chapters/obj2_5_mitigation.html"
     },
     {
+      acronym: "Elastic Cloud Infrastructure",
+      name: "Elastic Cloud Infrastructure (Infrastruttura Cloud Elastica)",
+      def: "Progettazione strutturale di hosting e cloud computing caratterizzata dall'elasticità logica e dalla capacità di allocare o revocare dinamicamente le risorse in risposta alla domanda computazionale corrente.<br><strong>• Ruolo nella sicurezza:</strong> Mitiga in modo resiliente gli attacchi volumetrici di tipo DoS/DDoS. Il sistema monitora costantemente l'uso di CPU, memoria e traffico di rete sui nodi e, grazie a moduli combinati di bilanciamento del carico (Load Balancing) e scalabilità orizzontale (Auto-scaling), provvede ad accendere instantaneamente e in autonomia nuove istanze e server di appoggio per diluire e assorbire i sovraccarichi.<br><strong>• Vantaggi dell'elasticità:</strong> Garantisce la continuità della Availability anche sotto attacchi estremi di inondazione, senza costringere a colossali acquisti statici preventivi on-premises.",
+      category: "net",
+      source_name: "OBJ 3.1",
+      source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
+      acronym: "Endpoint Security Solutions",
+      name: "Soluzioni di Sicurezza degli Endpoint (Endpoint Security Solutions)",
+      def: "Suite e sistemi di protezione centralizzati preposti a presidiare, ispezionare, bloccare e rimediare programmaticamente alle minacce di sicurezza che colpiscono i singoli dispositivi utente ('endpoint', come laptop, server e workstation).<br><strong>• Tipologie principali:</strong> EPP (Endpoint Protection Platforms - antivirus basati su firme, firewall locali e prevenzione base), EDR (Endpoint Detection and Response - analisi e rilevamento in tempo reale di comportamenti anomali, telemetria di memoria e attività di rete) e MDR (Managed Detection and Response - monitoraggio gestito h24 con l'apporto di analisti SOC esterni).<br><strong>• Funzione d'esame:</strong> Mitigare gli attacchi sofisticati in memoria, fileless, ed exploit non individuabili dalle sole firme statiche tradizionali.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "End-of-life (EOL)",
       name: "Fine del Ciclo di Vita Logico (End-of-Life)",
       def: "Stato in cui un sistema hardware, software o un'applicazione non riceve più alcun supporto attivo o patch di sicurezza dal produttore originale. Qualora continuino ad essere mantenuti in linea per esigenze produttive critiche, creano severi rischi di exploit non mitigati.",
@@ -1155,6 +1531,22 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Ensuring that devices are set to \"non-discoverable\" mode",
+      name: "Modalità Bluetooth Non Scopribile (Invisibile)",
+      def: "Impostazione che occulta e scherma la presenza dell'interfaccia radio Bluetooth dagli scanning dei pirati informatici, consentendo l'accoppiamento solo in momenti controllati ed intenzionali.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Entering data",
+      name: "Entering data (Immissione Dati)",
+      def: "Il fondamentale vettore d'immissione logico che fa perno sui campi di inserimento visivi, form o barre degli indirizzi esposti dall'applicazione per introdurre payload di iniezione direttamente nei server.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "EOSL",
@@ -1181,12 +1573,28 @@
       source_link: "chapters/obj5_1_governance.html"
     },
     {
+      acronym: "Escalation Attacks",
+      name: "Attacchi di Escalation (Escalation Attacks)",
+      def: "Insieme di vettori e strategie offensive mirate a superare gradualmente le barriere logiche di autorizzazione di un sistema per acquisire diritti di controllo via via superiori su risorse ed elementi infrastrutturali protetti.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Evil Twin",
       name: "Punto di Accesso Gemello Malevolo",
       def: "Access point abusivo (Rogue AP) configurato dall'attaccante in prossimità di uffici o luoghi pubblici replicando l'esatto SSID di una rete WiFi legittima esistente al fine di intercettare le credenziali dei client che vi si associano.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "Exploit",
+      name: "Exploit (Codice di Sfruttamento)",
+      def: "Software, comando, payload o tecnica metodologica d'attacco sviluppata appositamente da un avversario per fare leva su una specifica vulnerabilità attiva al fine di bypassare i meccanismi di protezione o eseguire comandi non autorizzati.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "False Positive",
@@ -1221,6 +1629,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "File Inclusion",
+      name: "Inclusione di File (File Inclusion)",
+      def: "Vulnerabilità web che si verifica quando un'applicazione carica ed esegue in modo dinamico file forniti dall'utente o da fonti esterne all'interno del proprio contesto d'esecuzione.<br><strong>• Varianti principali:</strong> Si divide in Local File Inclusion (LFI), dove il file incluso risiede già sul server locale (es. un file di log o un'immagine compromessa), e Remote File Inclusion (RFI), dove il codice viene scaricato in tempo reale da un server esterno controllato dall'attaccante.<br><strong>• Come si mitiga:</strong> Disabilitare l'inclusione di URL remoti (es. impostando <code>allow_url_include = Off</code> in PHP), sanitizzare in modo rigoroso gli input degli utenti, e utilizzare liste chiuse (whitelist) per i moduli caricabili.",
+      category: "net",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "FIM",
       name: "File Integrity Monitoring",
       def: "Controllo detective tecnico che esegue costanti controlli hash sui file di configurazione essenziali o di sistema operativo per avvertire di cambiamenti o manomissioni improvvise non approvate.",
@@ -1235,6 +1651,46 @@
       category: "gov",
       source_name: "OBJ 5.5",
       source_link: "chapters/obj5_5_audits_assessments.html"
+    },
+    {
+      acronym: "Fix",
+      name: "Fix / Correzione",
+      def: "Qualsiasi rimedio o intervento compensativo di sicurezza (come un cambio provvisorio di configurazione o una regola firewall temporanea) volto a mitigare o risolvere il rischio legato a una vulnerabilità in attesa di un update definitivo.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Flood Attack",
+      name: "Attacco di Inondazione (Flood Attack)",
+      def: "Tecnica classica di attacco DoS/DDoS basata sull'inondazione volumetrica di un apparato o link di comunicazione con milioni di dati o pacchetti anomali al secondo.<br><strong>• In cosa consiste:</strong> Mira a esaurire integralmente la banda di ricezione delle interfacce o le risorse logiche di elaborazione della CPU e i socket di connessione, rendendo impossibile per i pacchetti legittimi di transito raggiungere il server.<br><strong>• Come si mitiga:</strong> Utilizzo di apparati con Flood Guards idonei, rate limiting rigoroso sui router di frontiera, e appoggio a servizi di Cloud Scrubbing in grado di dissipare i picchi a monte del data center.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Flood Guards",
+      name: "Flood Guards (Sbarramenti anti-flood)",
+      def: "Insieme integrato di logiche di controllo e filtri configurati a bordo di elementi fisici d'interfaccia e commutatori (es. switch, firewall e Load Balancers) per contrastare la saturazione intenzionale delle porte e delle risorse di socket.<br><strong>• In cosa consiste la tecnologia:</strong> Monitora e limita i flussi di pacchetti in ingresso verificando che non eccedano prefissati valori soglia su parametri strategici (es. frequenza dei record SYN, ICMP o richieste GET da un medesimo IP). Qualora la soglia venga superata, scatta la contromisura immediata di silenziamento (drop) dei flussi ostili del trasgressore.<br><strong>• Scenario d'uso:</strong> Difesa essenziale contro il flooding TCP SYN, broadcast storm e network loop insoliti.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Fork Bomb",
+      name: "Bomba Fork (Fork Bomb / Esaurimento dei PID)",
+      def: "Vettorato critico di Denial of Service condotto internamente per mezzo di un malware o istruzione lanciata localmente sul sistema operativo host.<br><strong>• In cosa consiste:</strong> Lo script (un esempio celebre in bash è <code>:(){ :|:&amp; };:</code>) esegue una chiamata infinita e ricorsiva di duplicazione orizzontale dei propri processi (la system call <code>fork()</code>). Questa esplosione geometrica di micro-processori occupa interamente l'elenco dei PID (Process ID) disponibili nell'OS, saturando contestualmente CPU e memoria, e congelando irrimediabilmente la macchina senza possibilità di interazione dell'utente fino ad hard-reset.<br><strong>• Come si mitiga:</strong> Impostare quote fisse e limiti inflessibili sul numero massimo di processi contemporanei richiamabili per ogni singolo account utente registrato (tramite <code>ulimit</code> in Unix o i criteri di gruppo locali su Windows).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Form Submissions",
+      name: "Inoltro dei Moduli (Form Submissions)",
+      def: "Processo standard con cui il browser raccoglie i dati compilati all'interno di un modulo HTML (form) e li trasmette al server. Gli attacchi CSRF abusano di form submissions nascoste ed automatiche avviate da script di terze parti per rubare l'autorizzazione dell'utente.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "FRR",
@@ -1283,6 +1739,14 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Government Agencies",
+      name: "Agenzie Governative",
+      def: "Enti statali che possono operare in chiave di cyber-difesa (diffondendo bollettini d'allerta e imponendo politiche di conformità, es: CISA, NIST) o in chiave offensiva (gruppi d'intelligence APT operanti violazioni di sicurezza cyber per conto di uno Stato).",
+      category: "gov",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "GPO",
@@ -1341,6 +1805,14 @@
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
+      acronym: "Heap-based Buffer Overflow",
+      name: "Saturazione del Buffer dell'Heap (Heap-based Buffer Overflow)",
+      def: "Overflow del buffer focalizzato sul pool dinamico di memoria a runtime (l'Heap).<br><strong>• In cosa consiste l'attacco:</strong> L'esondazione di caratteri distrugge le intestazioni logiche dei blocchi allocati dynamicamente nell'heap o i puntatori ad oggetti ed a funzioni adiacenti, portando solitamente all'instabilità controllata del programma, a crash pianificati o, in casi complessi, all'escalation dei permessi d'esecuzione.<br><strong>• Come si può mitigare:</strong> Bounds checking rigoroso sugli input, adozione di gestori di memoria robusti e immuni a doppie liberazioni (double free prevention), uso preferenziale di linguaggi safe-memory (Java, Python, Rust) e scansione accurata di librerie open-source terze.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Heuristic Scan",
       name: "Scansione Euristica comportamento malware",
       def: "Tecnica avanzata di analisi antivirus che rileva minacce precedentemente sconosciute o varianti zero-day monitorando indicatori e comportamenti sospetti dei processi eseguiti.",
@@ -1389,6 +1861,14 @@
       source_link: "chapters/obj1_2_fundamental_concepts.html"
     },
     {
+      acronym: "Horizontal Privilege Escalation",
+      name: "Elevazione Orizzontale dei Privilegi (Horizontal Privilege Escalation)",
+      def: "Scalata logica in cui l'aggressore, sprovvisto di privilegi amministrativi, acquisisce l'accesso a risorse di un utente avente lo stesso grado gerarchico ma operante su percorsi o cartelle protette diverse.<br><strong>• Esempio Semplice:</strong> Modificare a mano il valore numerico di un parametro in un URL web vulnerabile (es. da <code>account_id=10</code> a <code>account_id=11</code>) e visualizzare l'estratto conto riservato di un altro iscritto senza superare una verifica di autorizzazione della pagina.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Hot Site",
       name: "Sito di Ripristino Attivo (Hot Site)",
       def: "Sito di backup interamente duplicato e operativo, provvisto di hardware, software e dati live costantemente sincronizzati. Consente un ripristino quasi istantaneo ma comporta elevati costi di mantenimento.",
@@ -1403,6 +1883,14 @@
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "HTML",
+      name: "HyperText Markup Language (HTML)",
+      def: "Il linguaggio standard di formattazione a marcatori impiegato per progettare la struttura fissa ed elementi d'interfaccia delle risorse web sul client. Modificabile abusivamente tramite XSS o attacchi di iniezione di codice nel DOM.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Hybrid Attack",
@@ -1443,6 +1931,14 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Identify",
+      name: "Identificazione / Identificare",
+      def: "La fase metodica di scoperta e catalogazione sistematica di debolezze di sicurezza e vulnerabilità strutturali dell'azienda (tramite scansioni di vulnerabilità e audit), o la prima area funzionale fondamentale del NIST Cybersecurity Framework.",
+      category: "gov",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Identity Proofing",
@@ -1493,6 +1989,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Impossible travel",
+      name: "Viaggio Impossibile (Impossible Travel)",
+      def: "Anomalia geo-spaziale rilevata dai sistemi di gestione degli accessi in cui un singolo account esegue due tentativi di autenticazione andati a buon fine da due località geografiche troppo distanti in un intervallo di tempo fisicamente incompatibile con qualsiasi mezzo di trasporto.<br><strong>• Scenario d'esempio:</strong> Un login effettuato da Roma e, solo quindici minuti dopo, un secondo login con gli stessi dati da Pechino. Dimostra in modo inequivocabile che le credenziali o la sessione dell'utente (ad es. cookie VPN o account SaaS) sono state esfiltrate dall'attaccante ed utilizzate in remoto.<br><strong>• Mitigazione:</strong> Implementazione di allarmi automatizzati nei moduli Identity Protection (es. Microsoft Entra ID Protection), revoca istantanea della sessione di login, imposizione della reimpostazione della password d'emergenza e applicazione rigorosa di regole basate su fattori di geolocalizzazione.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Improved user experience",
       name: "Esperienza Utente Migliorata (Vantaggio SSO)",
       def: "Uno dei quattro vantaggi chiave del Single Sign-On (SSO) in ambito CompTIA: riduce l'affaticamento da password (password fatigue) consentendo agli utenti di accedere a tutte le risorse aziendali con un'unica autenticazione fluida e priva di interruzioni frequenti.",
@@ -1533,12 +2037,76 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Injection Attacks",
+      name: "Attacchi di Iniezione (Injection Attacks)",
+      def: "Ampia classe di vulnerabilità del software che si verifica quando un'applicazione riceve dati non fidati da un utente e li trasmette a un interprete senza un'adeguata validazione o sanitizzazione.<br><strong>• In cosa consiste:</strong> L'input malevolo fornito dall'attaccante contiene comandi o metacaratteri speciali che alterano la logica del comando originale, forzando l'interprete (es. SQL parser, shell del sistema operativo, parser XML, interprete LDAP) ad eseguire istruzioni arbitrarie inserite dall'aggressore.<br><strong>• Sottotipi comuni:</strong> SQL Injection (SQLi), Command Injection, LDAP Injection, XML Injection, HTML Injection e Cross-Site Scripting (XSS).<br><strong>• Mitigazione principale:</strong> Separazione netta tra dati e istruzioni di controllo (es. Prepared Statements), unita ad una rigorosa validazione e sanitizzazione di ogni input applicativo.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Injection of arbitrary code",
+      name: "Iniezione di Codice Arbitrario (Injection of Arbitrary Code)",
+      def: "La sottomissione e l'esecuzione forzata di istruzioni logiche, shell script o comandi non previsti scritti direttamente nei linguaggi compresi dall'ecosistema applicativo in uso (NodeJS, Python, PHP), provocando la perdita immediata di controllo del computer.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Input Sanitization",
+      name: "Sanitizzazione dell'Input (Input Sanitization)",
+      def: "Pratica di sicurezza volta a ripulire o disattivare dati sospetti inseriti da utenti esterni (es. rimuovendo tag '<script>' o sequenze '../' relative a directory traversal) per neutralizzare payload malevoli prima che raggiungano interpreti, database o client d'interfaccia.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Input Validation Vulnerability",
+      name: "Vulnerabilità di Validazione dell'Input (Input Validation Vulnerability)",
+      def: "Debolezza software dovuta all'omissione di controlli sui tipi, sulle dimensioni e sul contenuto dei dati trasmessi dall'utente all'applicazione, costituendo la radice principale di quasi tutti gli attacchi di iniezione applicativa (SQLi, XXE, Code Injection, XSS).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Insecure connection methods",
+      name: "Metodi di Connessione non Sicuri (Insecure Connections)",
+      def: "Utilizzo di interfacce o standard radio/fisici privi di robusta cifratura o autenticazione mutua (es. Wi-Fi pubblici liberi, hotspot Evil Twin, Bluetooth non scopribile sbloccato o in pairing di default, canali NFC non protetti o ricariche fisiche USB vulnerabili a Juice Jacking), che facilitano attacchi on-path d'intercettazione.",
+      category: "net",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Insecure Pairing",
+      name: "Accoppiamento Non Sicuro",
+      def: "Configurazione vulnerabile riscontrabile quando due periferiche Bluetooth completano il pairing senza mutua autenticazione forte o cifratura adeguata (es. Just Works), esponendo la sessione a sniff della chiave o nodi abusivi.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Insert",
+      name: "INSERT (Istruzione SQL)",
+      def: "Comando SQL preposto alla creazione e inserimento di nuovi record in una tabella. Sfruttato in SQL Injection per registrare nuovi privilegiati o account eludendo le registrazioni standard.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Insider Threat",
       name: "Minaccia Interna (Insider)",
       def: "Dipendente, collaboratore esterno, amministratore o ex dipendente insoddisfatto che possiede credenziali e autorizzazioni d'accesso fidate ai circuiti aziendali e abusa del proprio ruolo per esfiltrare file o sabotare applicativi.",
       category: "ops",
       source_name: "OBJ 2.1",
       source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Installing Malware on Client’s System",
+      name: "Installazione di Malware sul Client",
+      def: "L'esito di un attacco in cui un cybercriminale sfrutta difetti del browser corrente (client-side browser exploitation) o ingegneria sociale tramite XSS/phishing per convincere l'utente a scaricare o far avviare ed installare silentemente virus, trojan o ransomware sulla propria macchina locale.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Integrity",
@@ -1549,6 +2117,14 @@
       source_link: "chapters/obj1_2_fundamental_concepts.html"
     },
     {
+      acronym: "Intercepting Data or Communications",
+      name: "Intercettazione di Dati o Comunicazioni",
+      def: "Attività ostile focalizzata sulla cattura in transito o in esecuzione locale di dati riservati. Può avvenire intercettando i flussi di rete con attacchi on-path (sniffing), oppure iniettando script XSS in grado di catturare l'input della tastiera del browser o registrare messaggi.",
+      category: "net",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Interoperability",
       name: "Interoperabilità IAM",
       def: "La capacità di sistemi e infrastrutture IAM distinti di raccordarsi, interpretare ed elaborare asserzioni o token d'accesso federati in modo uniforme, conseguita mediante l'implementazione di standard universali (es. SAML, OAuth, OIDC, SCIM).",
@@ -1557,9 +2133,17 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
-      acronym: "IoC",
-      name: "Indicator of Compromise",
-      def: "Elenchi di prove digitali oggettive (come indirizzi IP malevoli confermati, chiavi di registro modificate o stringhe hash SHA-256) che indicano la presenza di un'avvenuta intrusione di rete.",
+      acronym: "Intrusion Prevention",
+      name: "Intrusion Prevention (Prevenzione proattiva delle intrusioni)",
+      def: "Approccio attivo alla messa in sicurezza della rete basato sul rilevamento immediato e sull'interruzione istantanea in tempo reale (on-the-fly) di attività ostili o incursioni informatiche.<br><strong>• Come opera:</strong> I sistemi tecnologici preposti (IPS - Intrusion Prevention System) operano in modalità 'inline' all'interno dei flussi principali della connettività, esaminando ciascun payload. Se riscontrano associazioni con firme di attacco scoperte o comportamenti anomali euristici, intervengono attivamente per bloccare i pacchetti ed isolare la sorgente, prima che l'exploit possa effettivamente colpire il server di destinazione.<br><strong>• Distinzione:</strong> A differenza dell'IDS (che rileva e notifica, catalogabile come Detective), l'IPS blocca in tempo reale, qualificandosi come un controllo Tecnico Preventivo (Preventive).",
+      category: "net",
+      source_name: "OBJ 2.5",
+      source_link: "chapters/obj2_5_mitigation.html"
+    },
+    {
+      acronym: "IoC (Indicators of Compromise)",
+      name: "Indicatori di Compromissione (Indicators of Compromise)",
+      def: "Artefatti, prove, tracce digitali o attività insolite osservate all'interno di un sistema operativo, di una rete o di un database che suggeriscono con elevata probabilità l'avvenuta compromissione o un'attività malevola in corso.<br><strong>• In cosa consistono:</strong> A differenza delle firme dei virus tradizionali, gli IoC possono includere sia indicatori statici (es. hash SHA-256 o MD5 di un file malware noto, indirizzi IP esterni di server Command &amp; Control, chiavi di registro di Windows abusive) sia indicatori dinamico-comportamentali (es. picchi anomali di traffico di rete, esecuzione di routine fuori orario come logging fuori ciclo, sessioni concorrenti o impossibilità di viaggio). Consentono agli analisti dei SOC ed ai sistemi SIEM di rilevare violazioni prima che arrechino danni catastrofici.<br><strong>• Mitigazione:</strong> Integrazione automatica di feed strutturati di threat intelligence nel SIEM, monitoraggio euristico in tempo reale tramite soluzioni EDR/XDR, e scansioni proattive con regole YARA o file di firma IoC aggiornati.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -1629,12 +2213,28 @@
       source_link: "chapters/obj2_5_mitigation.html"
     },
     {
+      acronym: "Jailbreaking and Rooting",
+      name: "Sblocco dei Privilegi (Jailbreaking e Rooting)",
+      def: "Processo di rimozione intenzionale dei blocchi e delle mitigazioni di sicurezza (come sandboxing hardware o secure boot) configurati dal produttore sul sistema operativo di un dispositivo (iOS o Android). Pur fornendo un controllo amministrativo assoluto all'utente (root Access), disinnesca i controlli MDM dell'azienda ed espone a furto di dati.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Jamming",
       name: "Disturbo dei Segnali Wireless (Jamming)",
       def: "Attacco wireless a livello fisico (RF) consistente nel trasmettere intenzionalmente potenti segnali RF di disturbo per saturare le frequenze radio (es. 2.4 GHz o 5 GHz), interrompendo la connettività di client e access point.",
       category: "net",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "JavaScript",
+      name: "JavaScript",
+      def: "Linguaggio di programmazione ad eventi ampiamente usato per la logica client-side all'interno dei browser web. Se non opportunamente gestito o isolato, può essere abusato per iniettare malicious code negli attacchi di tipo Cross-Site Scripting (XSS).",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Just-In-Time Permissions",
@@ -1653,9 +2253,17 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Kernel Mode",
+      name: "Modalità Kernel (Kernel Mode - Ring 0)",
+      def: "L'ambiente operativo della CPU a privilegi massimi e illimitati in cui risiede il nocciolo del sistema operativo (Kernel) ed i relativi driver. Gode dell'accesso diretto all'hardware (RAM, hard disk, scheda video); qualsiasi malfunzionamento in questa modalità inficia e arresta immediatamente l'intero host di sistema.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Keylogger",
       name: "Registratore di Tasti Digitati",
-      def: "Software spyware o piccolo dongle hardware interposto tra la tastiera e l'host col fine di registrare segretamente e trasmettere all'attaccante qualunque tasto premuto (incluse master password).",
+      def: "Sottotipo di malware orientato alla sorveglianza dell'attività dell'utente sulla tastiera.<br><strong>• In cosa consiste l'attacco:</strong> Cattura, memorizza e trasferisce segretamente all'hacker ogni singolo tasto digitato sul computer, rubando password, pins, numeri di carte di credito o conversazioni confidenziali.<br><strong>• Come si può mitigare:</strong> Usare tastiere virtuali dynamicamente rimescolate, utilizzare identificatrici biometriche o password manager sicuri con compilazione automatica cifrata, avere software antimalware locale efficiente e prediligere l'autenticazione a più fattori (MFA) per azzerare il valore di codici statici intercettati.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -1685,12 +2293,28 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
+      acronym: "Law Enforcement Agencies",
+      name: "Forze dell'Ordine / Agenzie di Polizia",
+      def: "Enti pubblici preposti all'applicazione delle leggi e alle indagini penali su intrusioni digitali. Assistono le organizzazioni durante la risposta agli incidenti, coordinano takedown globali di infrastrutture di C2 e colpiscono i focolai dei cybercriminali.",
+      category: "gov",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "LDAP",
       name: "Lightweight Directory Access Protocol",
       def: "Protocollo industriale standard aperto client-server della porta 389 utilizzato per interrogare, modificare e gestire directory centralizzate a livello di rete locale (Active Directory).",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "LDAP Injection",
+      name: "Iniezione LDAP (LDAP Injection)",
+      def: "Vulnerabilità di sicurezza specifica dei servizi di directory che utilizzano il protocollo LDAP per la gestione centralizzata delle identità e risorse.<br><strong>• In cosa consiste:</strong> Si verifica quando un'applicazione web costruisce query LDAP dinamiche concatenando direttamente l'input dell'utente non sanitizzato. L'attaccante può inserire metacaratteri LDAP (come asterischi <code>*</code>, parentesi tonde <code>()</code>, e commerciali <code>&amp;</code>, barre verticali <code>|</code>) per alterare la logica del filtro LDAP. Questo permette di bypassare i controlli di autenticazione, estrarre informazioni sensibili sugli utenti dell'Active Directory o ottenere privilegi elevati.<br><strong>• Mitigazione:</strong> Validazione rigorosa degli input prima del loro utilizzo (regole regex su allowlist), sanificazione immediata di tutti i metacaratteri speciali LDAP prima di immetterli nei filtri, e utilizzo di query parametriche sicure.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "LDAPS",
@@ -1721,6 +2345,14 @@
       name: "Sistemi Legacy Obsoleti",
       def: "Infrastrutture server, sistemi operativi o apparati hardware vetusti che un'impresa sceglie razionalmente di continuare a mantenere attivi in produzione a supporto di applicazioni di business critiche non altrimenti convertibili, mitigati a barriera operando network segmentation logiche ed elenchi di controllo ACL estremi.",
       category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "LFI",
+      name: "Local File Inclusion (LFI / Inclusione di File Locali)",
+      def: "Variante di File Inclusion in cui l'applicazione web viene ingannata per includere ed eseguire un file precedentemente caricato o già residente sul filesystem locale.<br><strong>• Esempio d'uso:</strong> L'attaccante esegue l'upload di un file apparentemente innocuo (es. un'immagine jpeg) contenente in realtà script malevolo nascosto nei tag EXIF o nel payload, e successivamente forza l'applicazione a includerlo per avviarne l'esecuzione sul server.<br><strong>• Come si mitiga:</strong> Sanitizzazione accurata dei percorsi, disabilitazione dell'esecuzione di script nelle cartelle di upload, e whitelisting delle risorse caricabili.",
+      category: "net",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
@@ -1765,6 +2397,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Long, strong, and complex password",
+      name: "Password Lunghe, Forti e Complesse",
+      def: "Principio fondamentale della gestione IAM mirato ad accrescere l'entropia delle chiavi mnemoniche di sicurezza. Unisce un requisito di lunghezza minima marcata (es. 14+ caratteri o intere passphrases) a una robusta miscela di caratteri assortiti (maiuscole, minuscole, numeri, caratteri speciali) per azzerare l'efficacia di brute-forcing, spray o dizionari.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "MAC",
       name: "Mandatory Access Control",
       def: "Modello severo di controllo accessi (guidato dal sistema operativo) basato su etichette di riservatezza (Secret, Top Secret) e requisiti di abilitazione (clearance). L'utente non può modificare i permessi di un file.",
@@ -1787,6 +2427,30 @@
       category: "gov",
       source_name: "OBJ 1.3",
       source_link: "chapters/obj1_3_change_management.html"
+    },
+    {
+      acronym: "Malicious Code",
+      name: "Codice Malevolo (Malicious Code)",
+      def: "Qualsiasi segmento di istruzioni, script o comando logico aggiunto intenzionalmente a un software o ad una sessione web per alterare l'esecuzione originale, sottrarre informazioni, installare malware o aggirare i controlli di sicurezza (es. malware, payload XSS, backdoor).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Malicious Updates",
+      name: "Aggiornamenti Malevoli (Malicious Updates)",
+      def: "Vettore d'attacco silente (spesso integrato in campagne di Supply Chain) mediante il quale un utente ostile inietta codice ostile o backdoor all'interno di un pacchetto di patch provvisorie o stabili originariamente lecite distribuite dal produttore originario, inducendo la vittima ad aggiornare e installare accidentalmente il malware.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Malware",
+      name: "Malware (Software Malevolo)",
+      def: "Qualsiasi tipo di software dannoso (ransomware, spyware, trojan, rootkit, worm, adware) concepito con finalità ostili per infettare un host, causare disservizi, sottrarre informazioni sensibili o assumere il controllo amministrativo abusivamente.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Managerial Control",
@@ -1829,6 +2493,22 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Misconfigurations",
+      name: "Errate Configurazioni (Misconfigurations)",
+      def: "Qualsiasi sbilanciamento o debolezza logica introdotta in un sistema (es: cloud bucket esposti, credenziali predefinite non variate, porte superflue aperte su firewall) dovuta a imperizia nell'installare, attivare o gestire i servizi, rappresentando una delle minacce più frequenti e facili da penetrare.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Missing logs",
+      name: "Log Mancanti (Missing Logs)",
+      def: "L'assenza inspiegabile o l'interruzione totale della trasmissione dei record di log in un determinato arco temporale su server, workstation o dispositivi di rete.<br><strong>• Perché accade:</strong> Rappresenta uno dei comportamenti tipici degli attaccanti più abili e dotati di privilegi amministrativi. Per ostacolare l'attività di incident response ed eliminare le prove del proprio operato, l'aggressore esegue lo svuotamento manuale dei registri (ad es. eliminando l'Event Log con comandi come <code>wevtutil cl Security</code>) o interrompe attivamente i servizi degli agenti SIEM localizzati sulla macchina bersaglio.<br><strong>• Mitigazione:</strong> Inoltro dei log in tempo reale verso un server Syslog centralizzato protetto in modalità 'write-only', e configurazione del SIEM affinché generi un allarme di assoluta gravità ogni qual volta un endpoint interrompa bruscamente l'invio frequente della propria telemetria (Heartbeat detection).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Mitigation",
       name: "Mitigazione del Rischio / Contromisure",
       def: "Strategia di contenimento che consiste nell'implementare controlli di sicurezza (tecnici, amministrativi o fisici) volti a ridurre l'impatto o la probabilità di accadimento di una minaccia nota.",
@@ -1839,10 +2519,18 @@
     {
       acronym: "MitM",
       name: "Man-in-the-Middle",
-      def: "Tipologia classica di attacco attivo in cui un infiltrato si inserisce di nascosto nel canale di comunicazione tra due nodi fidati al fine di intercettare, ascoltare o alterare a piacimento lo scambio informativo privato.",
+      def: "Sigla storica di Man-in-the-Middle, ora formalizzato come attacco On-path negli standard teorici.<br><strong>• In cosa consiste l'attacco:</strong> Consente ad un utente ostile interposto fra client e server di catturare ed abusare di traffico in transito senza alcun tipo di avviso hardware, permettendo l'esfiltrazione silenziosa di password in chiaro, sessioni e privilegi computazionali.<br><strong>• Come si può mitigare:</strong> Rigetto assoluto di connettività HTTP non cifrata a livello applicativo, installazione sistematica di certificati affidabili e firmati da CA certificate, ed impiego di canali sicuri schermati quali VPN.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Mobile Device Management (MDM) Solution",
+      name: "Soluzione di Gestione Dispositivi Mobili (MDM)",
+      def: "Insieme organizzato di software centralizzati che permette ai gestori IT aziendali di condurre tracciamento, distribuzione software, enforcement dei pin obbligatori, isolamento protetto di dati aziendali (containerizzazione) e azzeramento programmato a distanza (remote wipe) di smartphone e tablet d'impresa o in uso BYOD.",
+      category: "ops",
+      source_name: "OBJ 4.1",
+      source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
       acronym: "Mobile Devices",
@@ -1851,6 +2539,14 @@
       category: "ops",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Modifying cookies",
+      name: "Modifying cookies (Modifica dei Cookie)",
+      def: "Vettore d'iniezione o attacco logico in cui un hacker altera direttamente il contenuto dei cookie salvati nel client. Se il backend esegue o processa questi cookie in modo acritico, esegue il payload integrato dal malintenzionato.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "MOU",
@@ -1891,6 +2587,14 @@
       category: "gov",
       source_name: "OBJ 3.4",
       source_link: "chapters/obj3_4_resilience.html"
+    },
+    {
+      acronym: "Mutex",
+      name: "Mutex (Mutual Exclusion / Esclusione Mutua)",
+      def: "Strumento di sincronizzazione software e hardware impiegato per regolamentare la concorrenza di thread multipli in esecuzione.<br><strong>• In cosa consiste la tecnologia:</strong> Opera analogamente a un lucchetto ad acquisizione esclusiva. Un singolo thread lo acquisisce prima di addentrarsi in una 'sezione critica' di codice manipolante risorse comuni. Ogni altro thread parallelo che tenti di accedere alla stessa area sarà trattenuto in coda d'attesa (wait) fino al rilascio formale del Mutex, disattivando alla radice le race condition.<br><strong>• Rischio intrinseco:</strong> L'utilizzo improprio o disordinato dei Mutex può esporre il software a fenomeni di Deadlock (Stallo di esecuzione).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "NAC",
@@ -1941,12 +2645,36 @@
       source_link: "chapters/obj5_4_security_compliance.html"
     },
     {
+      acronym: "Non-Persistent XSS",
+      name: "Cross-Site Scripting Non Persistente",
+      def: "Sinonimo di Reflected XSS. Vettore di iniezione di codice script che colpisce in via temporanea una specifica transazione.<br><strong>• In cosa consiste l'attacco:</strong> Lo script dannoso viene veicolato come parametro dentro un link web malevolo inoltrato appositamente alla vittima. All'atto del click del collegamento, il payload tocca il server e viene immediatamente riflesso a schermo ed eseguito sul browser client locale.<br><strong>• Come si può mitigare:</strong> Codifica accurata delle entità HTML (output encoding), adozione di un Web Application Firewall (WAF) a livello 7 per filtrare i parametri degli URL e restrizioni della Content Security Policy (CSP).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Non-repudiation",
       name: "Non Ripudiabilità",
       def: "Principio che assicura che un utente o un sistema non possa negare la paternità o l'esecuzione di un'azione o di una transazione, ottenuto combinando crittografia asimmetrica e firme digitali.",
       category: "general",
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "NOP Sled",
+      name: "Slitta NOP / Istruzione NOP (NOP Sled / NOP Slide)",
+      def: "Tecnica utilizzata negli attacchi di exploit a basso livello per facilitare l'esecuzione di exploit di buffer overflow.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante inserisce una sequenza sequenziale di istruzioni NOP (No Operation, es. opcode <code>0x90</code>) subito prima dello shellcode dannoso. Qualora l'indirizzo di ritorno venga sovrascritto puntando a un punto qualsiasi di questa sequenza, la CPU 'scivolerà' eseguendo i NOP in serie senza svolgere alcuna operazione, fino ad atterrare sul payload malevolo finale, garantendone l'esecuzione.<br><strong>• Come si può mitigare:</strong> Abilitare protezioni di sicurezza a basso livello e runtime come DEP (Data Execution Prevention, per marcare lo stack come non eseguibile) d'intesa con ASLR (Address Space Layout Randomization), ed utilizzare compilatori dotati di Stack Canaries e tecniche di bounds checking nel codice.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Null Pointer Dereference",
+      name: "Null Pointer Dereference (Dereferenziazione di un Puntatore Nullo)",
+      def: "Vulnerabilità software derivante dal tentativo di accedere ad un valore o area di memoria tramite un puntatore nullo (NULL/0x0).<br><strong>• In cosa consiste il difetto:</strong> Il programma cerca ad esempio di leggere o scrivere all'indirizzo zero assumendo erroneamente che il puntatore contenga un riferimento a memoria allocata valida. Questo perturba il gestore della memoria (MMU) provocando la terminazione forzata del processo (Segmentation Fault).<br><strong>• Come si mitiga:</strong> Inserire preventivamente controlli di validità sui puntatori (es. <code>if (ptr != NULL)</code>) prima di dereferenziarli, utilizzare linguaggi sicuri tipo Rust, e abilitare protezioni di kernel (es. <code>mmap_min_addr</code> in Linux) per interdire l'allocazione utente della pagina zero.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "OAuth",
@@ -1967,10 +2695,18 @@
     {
       acronym: "On-path Attack",
       name: "Attacco On-path (Intercettazione)",
-      def: "La designazione moderna nello standard SY0-701 per gli storici attacchi Man-in-the-Middle (MitM). L'attore ostile intercetta, analizza o altera il traffico web o crittografico scambiato fidatamente tra due endpoint legittimi.",
+      def: "Attacco di intercettazione attiva condotto lungo i canali fisici o logici della rete.<br><strong>• In cosa consiste l'attacco:</strong> Conosciuto originariamente come Man-in-the-Middle (MitM). L'attaccante si infiltra ed incanala i flussi informativi tra due host legittimi che credono di parlare direttamente. Consente all'attore malevolo di ispezionare, catturare, deviare o persino alterare a piacimento le informazioni segrete scambiate.<br><strong>• Come si può mitigare:</strong> Utilizzare protocolli interamente cifrati end-to-end (come HTTPS, SSH, TLS, IPsec/VPN) per rendere incomprensibile l'intercettazione dei dati, ed implementare controlli di autenticazione robusti a livello di rete (es. 802.1X o DHCP Snooping/Dynamic ARP Inspection).",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "On-Path Attacks",
+      name: "Attacchi On-Path (Intercettazione sul Percorso)",
+      def: "Attacco di intercettazione attiva condotto lungo i canali fisici o logici della rete.<br><strong>• In cosa consiste l'attacco:</strong> Conosciuto originariamente come Man-in-the-Middle (MitM). L'attaccante si infiltra ed incanala i flussi informativi tra due host legittimi che credono di parlare direttamente. Consente all'attore malevolo di ispezionare, catturare, deviare o persino alterare a piacimento le informazioni segrete scambiate.<br><strong>• Come si può mitigare:</strong> Utilizzare protocolli interamente cifrati end-to-end (come HTTPS, SSH, TLS, IPsec/VPN) per rendere incomprensibile l'intercettazione dei dati, ed implementare controlli di autenticazione robusti a livello di rete (es. 802.1X o DHCP Snooping/Dynamic ARP Inspection).",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "One-Time Passwords",
@@ -1979,6 +2715,14 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Only pairing with known and trusted devices",
+      name: "Accoppiamento Esclusivo con Dispositivi Fidati",
+      def: "Mitigazione tesa ad evitare la connessione di accessori o terminali adiacenti non posseduti o non autenticati, rifiutando ogni transazione di pairing non esplicitamente voluta dall'analista.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Operational Control",
@@ -2003,6 +2747,14 @@
       category: "gov",
       source_name: "OBJ 3.1",
       source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
+      acronym: "Out-of-cycle logging",
+      name: "Logging Fuori Ciclo (Out-of-Cycle Logging)",
+      def: "La generazione insolita di registri di eventi o modifiche amministrative in orari estranei alla normale routine operativa e lavorativa dell'azienda, oppure picchi d'attività in giorni festivi o periodi di fermo programmato.<br><strong>• Ruolo investigativo:</strong> Gli attaccanti solitamente agiscono nel cuore della notte o durante le festività per eludere la presenza fisica del team di sicurezza e godere di più ore di operatività indisturbata. Un'improvvisa ondata di record di log in orari insospettabili da parte di un utente o amministratore (es. backup straordinari o modifiche AD alle 4:00 di mattina) rappresenta un indicatore comportamentale chiave per avviare investigazioni immediate.<br><strong>• Mitigazione:</strong> Definizione di profili comportamentali della base utente (User and Entity Behavior Analytics - UEBA) che attribuiscono un punteggio di rischio (risk score) elevato alle attività notturne o festive non preannunciate.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "OWASP",
@@ -2127,7 +2879,7 @@
     {
       acronym: "Password Spraying",
       name: "Attacco di Spruzzatura Password (Password Spraying)",
-      def: "Attacco elusivo teso a bypassare il lockout degli account: l'attaccante testa pochissime password deboli diffuse contro un'imponente molteplicità di profili utente diversi contemporaneamente, muovendosi lentamente.",
+      def: "Attacco speculare al classico brute force per aggirare le restrizioni di blocco degli account.<br><strong>• In cosa consiste l'attacco:</strong> Invece di testare migliaia di password contro una sola utenza (scatenando il lockout dell'account dopo pochi tentativi), l'attaccante testa un numero minimo di password estremamente comuni (es: <code>Password123!</code>) contro un elenco molto vasto di identità email aziendali, evitando di allertare le soglie di sicurezza.<br><strong>• Come si può mitigare:</strong> Bandire l'uso di password semplici o prevedibili a livello di policy di dominio, implementare protezioni intelligenti basate sulla telemetria IP (Smart Lockout), monitorare picchi di tentativi falliti distribuiti su più profili e implementare MFA.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
@@ -2149,6 +2901,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Patch",
+      name: "Patch (Patch di Sicurezza)",
+      def: "Aggiornamento correttivo ufficiale distribuito dal produttore originario del software o dell'hardware (vendor) mirato a sostituire in via permanente i blocchi di codice vulnerabili, sanando la falla in radice senza intaccare le funzionalità generali.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Patching",
       name: "Applicazione di Patch di Sicurezza (Patching)",
       def: "Pratica di rimedio primaria (remediation) consistente nell'installare aggiornamenti ufficiali periodici correttivi sul firmware, SO o applicazioni d'impresa. Consente l'eliminazione del bug o della vulnerabilità nota senza intaccare in via logica l'integrità dei dati utente.",
@@ -2163,6 +2923,14 @@
       category: "gov",
       source_name: "OBJ 5.4",
       source_link: "chapters/obj5_4_security_compliance.html"
+    },
+    {
+      acronym: "PDoS",
+      name: "Permanent Denial of Service (PDoS / Phlashing)",
+      def: "Particolare e distruttiva variante di negazione del servizio basata sul danneggiamento permanente e irreversibile a livello firmware o hardware del dispositivo bersaglio (anche detta phlashing).<br><strong>• In cosa consiste:</strong> L'attaccante sfrutta vulnerabilità o credenziali di fabbrica non modificate per accedere all'apparato (router, switch, modem, controller industriali IoT) ed effettuare un aggiornamento fraudolento con un firmware corrotto o modificato nella memoria non volatile (EEPROM). Al riavvio, il dispositivo si 'bricca' (diventa inerte come un mattone), costringendo alla sostituzione fisica delle sue parti o all'intervento manuale con chip reader ed oscilloscopi elettronici.<br><strong>• Come si mitiga:</strong> Impedire gli update del firmware se non firmati digitalmente dal produttore e validati da chiavi crittografiche pubbliche locali, condurre hardening delle password e disabilitare i canali di configurazione remota insicuri.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "PEAP",
@@ -2181,6 +2949,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Persistent XSS",
+      name: "Cross-Site Scripting Persistente (Persistent XSS)",
+      def: "Sinonimo di Stored XSS. Variante micidiale di Cross-Site Scripting in grado di infettare focolai multipli e silenti di utenti passivi.<br><strong>• In cosa consiste l'attacco:</strong> Lo script JavaScript dannoso viene inserito e salvato definitivamente all'interno del database del server. Chiunque visiti la risorsa web compromessa subirà l'avvio silente dello script nel proprio browser, con potenziale furto o hijacking dei cookie di sessione.<br><strong>• Come si può mitigare:</strong> Disattivazione o interpretazione testuale sicura degli input, validazione rigorosa in fase di caricamento dei dati e conversione dell'output in entità inoffensive prime di mandarlo in rendering.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "PFS",
       name: "Perfect Forward Secrecy",
       def: "Meccanismo crittografico in cui viene generata una chiave di sessione temporanea e unica per ciascuna connessione di rete, rendendo impossibile decifrare il traffico passato anche se la chiave privata del server venisse compromessa in futuro.",
@@ -2191,7 +2967,7 @@
     {
       acronym: "Pharming",
       name: "Reindirizzamento Fraudolento (Pharming)",
-      def: "Attacco di reindirizzamento strisciante in cui il traffico web legittimo degli utenti viene dirottato verso un portale falso, ottenuto manipolando i file hosts locali della vittima o tramite avvelenamento (poisoning) della cache DNS.",
+      def: "Inquinamento dei meccanismi logici di risoluzione dei nomi di rete.<br><strong>• In cosa consiste l'attacco:</strong> L'aggressore altera i file di configurazione degli host locali (file hosts) o corrompe le tabelle dei server DNS pubblici (DNS Poisoning). All'atto della navigazione legittima verso un sito noto, l'utente viene silenziamente dirottato a server e portali clone di login interamente controllati dall'attaccante per rubarne l'identità.<br><strong>• Come si può mitigare:</strong> Eseguire l'hardening logico dei file host locali (revoca dei privilegi di scrittura), adoperare sempre estensioni crittografiche DNSSEC sui domini, utilizzare server DNS pubblici fidati protetti da cifratura e installare certificati digitali web solidi basati su TLS.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -2207,7 +2983,7 @@
     {
       acronym: "Phishing",
       name: "Phishing Generico",
-      def: "Attacco di ingegneria sociale diffuso in cui l'aggressore invia messaggi ingannevoli di massa (email, SMS) simulando fonti legittime e autorevoli per carpire credenziali, dati bancari o diffondere malware.",
+      def: "Tattica primordiale e pervasiva di social engineering mirata all'inganno visivo degli impiegati.<br><strong>• In cosa consiste l'attacco:</strong> L'aggressore inoltra comunicazioni fittizie e manipolate di massa (email, SMS, pagine web clone di banche) fingendo di impersonificare una fonte autorevole e richiedendo urgentemente il login o click ad URL nocivi.<br><strong>• Come si può mitigare:</strong> Configurare e attivare chiavi logiche di tracciamento e convalida email del brand (come SPF, DKIM e DMARC), implementare gateway protetti di analisi ed isolamento degli URL di rete (Secure Email Gateway - SEG), ed istruire regolarmente lo staff tramite simulazioni attive di Phishing.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_social_engineering.html"
@@ -2229,6 +3005,14 @@
       source_link: "chapters/obj3_3_data_protection.html"
     },
     {
+      acronym: "Ping Flood",
+      name: "Ping Flood (Inondazione ICMP)",
+      def: "Semplice tipologia di Flood Attack condotta tramite una raffica costante e sconsiderata di messaggi ICMP Echo Request (i ping coordinati di rete).<br><strong>• In cosa consiste:</strong> Chi attacca bersaglia la vittima inviando quanti più ping possibili. Il server vittima è costretto a impegnare sia la sua larghezza di banda sia i cicli di CPU per analizzare l'input e rispondere con altrettanti pacchetti di ICMP Echo Reply, rallentando drasticamente il normale operato fino al totale collasso sistemico.<br><strong>• Come si mitiga:</strong> Configurare le ACL di router e firewall per bloccare o limitare severamente il transito dei pacchetti ICMP, oppure impostare la mancata risposta automatica dei server pubblici (silent drop).",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "PKI",
       name: "Public Key Infrastructure",
       def: "L'intera architettura formata da hardware, CA, chiavi, certificati, algoritmi e flussi di fiducia necessari a gestire la cifratura asimmetrica a livello aziendale.",
@@ -2243,6 +3027,14 @@
       category: "gov",
       source_name: "OBJ 3.1",
       source_link: "chapters/obj3_1_architecture.html"
+    },
+    {
+      acronym: "Portable Executable (PE) Injection",
+      name: "Iniezione di Portable Executable (PE Injection)",
+      def: "Sottotipo sofisticato di iniezione di processo in cui l'intero codice eseguibile compilato (il file Portable Executable raw, es. un file eseguibile .exe o dll di Windows) viene copiato direttamente nella memoria virtuale di un processo target legittimo.<br><strong>• Come avviene:</strong> A differenza della DLL Injection (che mappa un file .dll esistente sul disco usando l'API <code>LoadLibrary</code>), la PE Injection opera interamente in modalità 'fileless' sul disco fisso. L'avversario alloca dinamicamente una regione di memoria nel processo target, copia materialmente le varie sezioni ed header dell'eseguibile compilato, esegue autonomamente il ricalcolo degli indirizzi e la rilocazione delle librerie del modulo (passaggio di relocation), ed infine sposta il flusso d'esecuzione del thread (EIP/RIP) agganciandolo al nuovo entry point.<br><strong>• Mitigazione:</strong> Meccanismi di Data Execution Prevention (DEP), tecniche ASLR combinate hardware-software, ed agenti endpoint EDR per scansionare segmenti di memoria allocati come eseguibili ma privi di corrispondenti file mappati fisicamente.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Possession-based Factor",
@@ -2261,9 +3053,41 @@
       source_link: "chapters/obj2_2_social_engineering.html"
     },
     {
+      acronym: "Principle of Least Privilege (PoLP)",
+      name: "Principio del Minimo Privilegio (Principle of Least Privilege - PoLP)",
+      def: "Regola di sicurezza fondamentale che stabilisce che a qualsiasi entità (utente, programma di sistema, servizio o processo applicativo) debbano essere assegnati esclusivamente i diritti di accesso, le autorizzazioni e le risorse minime indispensabili a compiere correttamente le sue mansioni procedurali e funzioni di business.<br><strong>• Benefici:</strong> Riduce drasticamente la superficie d'attacco complessiva e limita significativamente i danni derivanti da eventuali compromissioni. Se un account viene bucato tramite furto credenziali o exploit software, la severità dell'evento risulterà circoscritta ai soli permessi minimi storicizzati per quell'utente, bloccando movimenti laterali o esecuzioni distruttive nell'infrastruttura d'impresa.<br><strong>• Applicazione:</strong> Revisione sistematica delle abilitazioni (Attestation periodica del personale), rimozione di qualsiasi utenza locale di amministrazione superflua, e applicazione di criteri PAM o RBAC/ABAC rigorosi.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Privilege Escalation",
-      name: "Scalata dei Privilegi",
-      def: "Tecnica con cui un attaccante (o un malware) sfrutta bug, configurazioni errate o vulnerabilità logiche per ottenere privilegi di sicurezza superiori rispetto a quelli originariamente previsti per la propria utenza.",
+      name: "Scalata dei Privilegi (Privilege Escalation)",
+      def: "Abuso di difetti e falle logiche per elevare i poteri d'esecuzione del proprio account oltre quanto stabilito dalle politiche dei confini di sicurezza. Si suddivide in escalation verticale (acquisire pieni poteri amministrativi) ed escalation orizzontale (accedere a dati privati di utenti paritetici).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Process Doppelgänging",
+      name: "Process Doppelgänging (Clonazione e Sostituzione di Processo)",
+      def: "Tecnica elusiva di iniezione di memoria e mascheramento di codice ad elevata persistenza progettata per raggirare i sistemi di rilevamento dei file e gli antivirus tradizionali di Windows sfruttando il meccanismo integrato di transazione dei filesystem (NTFS Transactions / TxF).<br><strong>• In cosa consiste la tecnica:</strong> L'attaccante crea un transazione fittizia NTFS per sovrascrivere parzialmente un file eseguibile fidato e legittimo sul disco con il proprio payload maligno in un ambiente di persistenza temporaneo privo di salvataggio finale. Successivamente, mappa e avvia una sezione di memoria e un processo virtuale a partire da questa transazione transitoria ed esegue immediatamente il rollback (annullamento totale) delle transazioni su disco prima che i motori AV possano rilevarne le tracce fisiche. Non vi sarà alcun file anomalo o modificato persistente sul filesystem, ma nel sistema girerà ed eseguirà l'istanza nociva clonata celata sotto il nome dell'eseguibile di fiducia.<br><strong>• Mitigazione:</strong> Monitoraggio avanzato ed intercettazione delle chiamate alle funzioni API del sottosistema transazionale (TxF) e scansione dinamica del comportamento dei processi alla loro inizializzazione.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Process Hollowing",
+      name: "Svuotamento del Processo (Process Hollowing)",
+      def: "Tecnica sofisticata di iniezione di codice e mascheramento malware in memoria che consiste nel lanciare un'istanza legittima di un tool di sistema in modalità sospesa al solo fine di svuotarne la memoria originaria e sostituirla con codice dannoso.<br><strong>• Fasi operative dell'attacco:</strong> L'attaccante avvia un processo di sistema noto e fidato (es. <code>svchost.exe</code> o <code>explorer.exe</code>) impostando il flag di creazione sospesa (<code>CREATE_SUSPENDED</code>). Utilizzando chiamate di sistema (es: <code>NtUnmapViewOfSection</code>), dealloca e svuota la sua sezione di memoria originaria contenente il codice legittimo. Successivamente, alloca e scrive nello stesso spazio di memoria virtuale del processo vittima il proprio malware compilato, riallineando il thread context (Entry Point). Al riavvio dell'esecuzione, il thread esegue il software malevolo pur visualizzandosi a livello di OS e dei controlli tradizionali con l'identità e la firma digitale del processo legittimo originale.<br><strong>• Mitigazione:</strong> Soluzioni EDR ed euristica comportamentale dei processi, ispezione granulare dell'integrità della memoria virtuale a runtime del processo ed allerta sull'uso delle API di unmapping di sezione.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Process Injection",
+      name: "Iniezione di Processo (Process Injection)",
+      def: "Tecnologia e metodologia furtiva di esecuzione di malware volta a superare le barriere di sicurezza installate, inserendo ed eseguendo codice malevolo all'interno dello spazio d'indirizzo occupato da un processo attivo legittimo.<br><strong>• Ruolo ed evasione di sicurezza:</strong> Poiché non scrive file e binari sul disco fisso ('fileless') e non avvia nuovi processi isolati sospetti, bypassa i controlli dell'antivirus tradizionale basato su firme. L'attività malvagia viene compiuta sotto lo scudo ed i privilegi di un'applicazione fidata (come il browser web o l'interfaccia utente), adoperando le sue credenziali native per trasmettere segreti di rete o eludere i firewall locais.<br><strong>• Sottoclassi note:</strong> DLL Injection, PE Injection, Process Hollowing, Process Doppelgänging, Thread Execution Hijacking, APC Injection.<br><strong>• Mitigazione:</strong> Implementazione di soluzioni hardware-software quali DEP ed ASLR, rimozione dei privilegi amministrativi superflui per inibire le chiamate API diagnostiche del sistema operativo, ed installazione di agenti EDR per analizzare l'integrità del comportamento dei thread.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
@@ -2301,6 +3125,14 @@
       source_link: "chapters/obj5_5_audits_assessments.html"
     },
     {
+      acronym: "Race Condition",
+      name: "Race Condition (Condizione di Gara)",
+      def: "Anomalia di funzionamento sincronizzato che si verifica quando il comportamento o il risultato di un software dipende crucialmente dalla sequenza temporale (timing) di esecuzione di thread o processi concorrenti.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante sabota il coordinamento dei tempi di esecuzione tra thread diversi di un software per agire in una frazione infinitesimale di tempo in cui i blocchi di convalida sono vulnerabili prima che la transazione sia commessa.<br><strong>• Come si può mitigare:</strong> Implementare meccanismi di mutua esclusione (Mutex, Semafori o Lock), ricorrere ad operazioni atomiche a livello di runtime o processore, e forzare transazioni di database configurate con livelli rigorosi di isolamento serializzabile.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "RAID",
       name: "Redundant Array of Independent Disks",
       def: "Controllo tecnologico di resilienza hardware (disponibilità). Combina più dischi indipendenti per tollerare guasti meccanici improvvisi senza interruzioni di servizio né perdite informative.",
@@ -2309,9 +3141,17 @@
       source_link: "chapters/obj3_4_resilience.html"
     },
     {
+      acronym: "Randomness",
+      name: "Randomness (Casualità / Entropia)",
+      def: "L'imprevedibilità e la casualità matematica impiegate per generare identificatori di sessione, chiavi o indicativi crittografici. Se carente, espone l'applicazione a Session Prediction e Session Hijacking poiché l'attaccante può indovinare la sequenza di generazione.",
+      category: "crypto",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Ransomware",
       name: "Malware per Riscatto",
-      def: "Malware altamente distruttivo che esporta o crittografa localmente i dati degli host e del server, richiedendo alla vittima il riscatto (solitamente in criptovaluta anonima) per cedere la rispettiva chiave correttiva o per non pubblicare i file rubati.",
+      def: "Malware ricattatorio specializzato nella cifratura e sequestro delle risorse d'archiviazione dati locali dell'azienda.<br><strong>• In cosa consiste l'attacco:</strong> Crittografa inesorabilmente con forti cifrature (es: AES + RSA) tutti i file del disco e delle share di rete collegate, visualizzando infine una nota visiva per pretendere il pagamento di un riscatto monetario (solitamente in criptovalute) in cambio delle chiavi di decrittazione.<br><strong>• Come si può mitigare:</strong> Mantenere backup regolari ed offline o immutabili (WORM) scollegati logicamente dalla rete centrale, addestrare il personale a non aprire allegati email sospetti, e dotarsi di sensori EDR capaci di identificare ed arrestare all'istante la cifratura massiva in tempo reale.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -2321,6 +3161,14 @@
       name: "Remote Access Trojan",
       def: "Malware stealth progettato per aprire una backdoor persistente sui sistemi compromessi, conceding all'attaccante la facoltà di comandare da remoto il dispositivo infetto.",
       category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Rate Limiting",
+      name: "Rate Limiting (Limitazione di frequenza DNS)",
+      def: "Controllo tecnologico protettivo configurato sui server DNS (noto come Response Rate Limiting o RRL) per contrastare la proliferazione di traffico di amplificazione DDoS. Limita il numero massimo di risposte o larghezza di banda che il server è disposto a rilasciare a un medesimo richiedente in frazioni di secondo.",
+      category: "net",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
     },
@@ -2349,6 +3197,22 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Reflected Payload",
+      name: "Carico Utile Riflesso (Reflected Payload)",
+      def: "La stringa strutturata o script inseriti come parametri d'ingresso in un link HTTP, i quali nei casi di Reflected XSS vengono rimandati indietro dal server (riflessi) e interpretati localmente dal browser client.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Reflected XSS",
+      name: "Cross-Site Scripting Riflesso (Reflected XSS)",
+      def: "Tipologia di XSS non persistente (Non-Persistent XSS) in cui il payload dannoso deve essere incluso in ciascuna singola richiesta.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante allestisce un URL compromesso contenente script malevolo nei parametri d'ingresso dell'indirizzo di query e induce la vittima a cliccarvi (ad es. tramite phishing). Quando la richiesta raggiunge il server di backend, questo la riflette immediatamente nella pagina di risposta senza averla sanitizzata, inducendo il browser a eseguirla.<br><strong>• Come si può mitigare:</strong> Output encoding accurato su tutte le variabili restituite dinamicamente dal server sul browser, sanificazione degli input, e utilizzo dell'intestazione CSP <code>script-src</code> per limitare le fonti valide dei file di script.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Regular updates",
       name: "Aggiornamenti Periodici Regolari",
       def: "Il rilascio coordinato continuo delle patch correttive del fornitore originale a presidio dei sistemi aziendali informativi. È un controllo operativo fundamental per estirpare vulnerabilità prima che diventino oggetto di incidenti ed exploitation attiva.",
@@ -2365,12 +3229,60 @@
       source_link: "chapters/obj4_3_vulnerability_management.html"
     },
     {
-      acronym: "Replay Attack",
-      name: "Attacco di Replay (Ripetizione)",
-      def: "Attacco di rete in cui un utente malintenzionato intercetta e registra di nascosto una credenziale o un hash rassicurante in transito, ri-trasmettendolo successivamente per autenticarsi abusivamente come l'utente originale.",
+      acronym: "Regularly updating devices",
+      name: "Aggiornamento Sistematico dei Dispositivi",
+      def: "Imposizione pianificata di aggiornamenti firmware e pacchetti OS rilasciati dal costruttore per eliminare costantemente exploit di sicurezza dello stack protocollare (come le vulnerabilità colpite da Blueborne).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Remote Code Execution",
+      name: "Esecuzione di Codice da Remoto (Remote Code Execution - RCE)",
+      def: "Sottoinsieme distruttivo dell'Esecuzione di Codice Arbitrario (ACE) in cui l'operazione di compromissione e l'invio del codice maligno avvengono via rete o Internet, senza che l'attaccante disponga preventivamente di credenziali o privilegi logico-fisici sul computer bersaglio.<br><strong>• Esempio Semplice:</strong> Inviare ad un servizio di logging di un server una richiesta web con un'intestazione HTTP alterata (come nel caso del noto bug <em>Log4Shell</em>), la quale induce il server a scaricare ed avviare in modo automatico una backdoor.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Relay Attack",
+      name: "Attacco di Inoltro (Relay Attack) — e differenza con Replay",
+      def: "Attacco attivo di tipo on-path in cui l'aggressore funge da ponte e inoltra frame di comunicazione in tempo reale tra due parti comunicanti distanti.<br><strong>• In cosa consiste:</strong> L'attaccante intercetta i flussi dati sul momento e li devia intatti (relay) in <strong>tempo reale</strong> per estendere a distanza la portata di una comunicazione autenticata che richiede la vicinanza fisica (es. NFC, badge RFID, transazioni contactless). Si differenzia dal <em>Replay Attack</em> proprio per il fattore tempo: il Relay richiede che la vittima e il lettore legittimo stiano compiendo l'operazione in contemporanea, inoltrando le risposte bidirezionali all'istante (come sdoppiare il segnale di una Smart Key per rubare un'auto parcheggiata lontano).<br><strong>• Mitigazione:</strong> Meccanismi di distance-bounding basati su tempi massimi e rigorosi di risposta (RTT), mutua autenticazione e canali sicuri cifrati combinati con fattori fisici.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Replay Attack",
+      name: "Attacco di Replay (Ripetizione)",
+      def: "Attacco di dirottamento logico mediante la cattura e la successiva ritrasmissione non autorizzata di pacchetti di dati legittimi.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante intercetta un pacchetto dati valido, una chiamata API o una trasmissione in radiofrequenza (come un segnale keyless di un'auto o una transazione bancaria e di login cifrata) e la rigioca (replay) intatta al destinatario. Poiché il pacchetto è stato originato e firmato legittimamente, l'attaccante bypassa completamente la cifratura senza conoscerne la chiave segreta o la password, inducendo il server a ripetere l'azione o ad autenticarlo.<br><strong>• Come si può mitigare:</strong> Impiegare contromisure crittografiche attive come i <em>Nonces</em> (numeri casuali monouso generati per singola transazione), l'uso di <em>Timestamps</em> temporali rigorosi (il server rifiuta pacchetti scaduti o con clock fuori sincronia), l'inserimento di <em>Sequence Numbers</em> sequenziali all'interno di canali protetti (TLS) e la sincronizzazione oraria tramite protocollo NTP.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Request forgery",
+      name: "Request Forgery (Falsificazione della Richiesta)",
+      def: "Classe di attacchi logici web focalizzati sulla falsificazione e instradamento forzato di transazioni e comandi.<br><strong>• In cosa consiste l'attacco:</strong> Si divide in due varianti distinte: CSRF (lato client browser) e SSRF (lato server). In CSRF l'aggressore forza l'interprete client browser a lanciare transazioni non volute sfruttandone la presenza di persistenza di cookie; in SSRF l'attaccante induce il server vulnerabile a generare chiamate ad hoc verso l'infrastruttura interna protetta.<br><strong>• Come si può mitigare:</strong> Per CSRF: token anti-CSRF univoci per utente e verifica della password. Per SSRF: validazione rigorosa delle destinazioni esterne richieste ed isolamento di rete (firewalling/ACL) degli endpoint interni e dei metadati del cloud.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Resource consumption",
+      name: "Consumo Anomalo di Risorse (Resource Consumption)",
+      def: "Un improvviso o prolungato picco di utilizzo delle risorse hardware (CPU, memoria RAM, attività di I/O del disco, o banda di rete) non correlato a normali processi di lavoro o picchi stagionali dell'azienda.<br><strong>• Tipologie di anomalie:</strong> Un utilizzo di CPU prossimo al 100% su client può indicare la presenza di cryptojacking (mining non autorizzato di criptovalute). Un carico di I/O del disco insolitamente elevato sul file server suggerisce l'avvio della fase di cifratura massiva da parte di un ransomware. Una saturazione anomala della banda indica una massiccia esfiltrazione di dati (Data Exfiltration) o un'attività di scansione interna (Worm propagation).<br><strong>• Mitigazione:</strong> Configurazione di soglie di allarmistica (thresholding) nei sistemi di monitoraggio infrastrutturale (NMS), rilevamenti euristici EDR e limitazione delle risorse computazionali allocabili ai singoli thread o servizi.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Resource inaccessibility",
+      name: "Inaccessibilità delle Risorse (Resource Inaccessibility)",
+      def: "La condizione in cui un'applicazione web, un server di database, stampanti, o cartelle condivise di rete diventano improvvisamente indisponibili agli utenti autorizzati.<br><strong>• Cause e significato:</strong> Può essere l'effetto tangibile di un attacco Denial of Service (DoS/DDoS) per esaurimento risorse, di un ransomware che ha crittografato l'intero archivio aziendale rendendo illeggibili i file nel filesystem, o di un tentativo intenzionale di sabotaggio o interruzione di servizio perpetrato da attaccanti esterni o minacce interne (insider threat).<br><strong>• Mitigazione:</strong> Soluzioni di bilanciamento del carico, ridondanza di server e dischi ad alta disponibilità (HA), backup offline immutabili e piani di incident response focalizzati sulla continuità operativa.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Restricted Activity",
@@ -2389,6 +3301,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "RFI",
+      name: "Remote File Inclusion (RFI / Inclusione di File Remoti)",
+      def: "Grave vulnerabilità e vettore d'attacco in cui il server web viene indotto a scaricare ed eseguire codice software ospitato su un host remoto controllato dall'hacker.<br><strong>• In cosa consiste:</strong> L'attaccante passa un URL Internet completo (es. <code>http://attacker.com/shell.txt</code>) ad un parametro di caricamento dinamico non controllato. Il server contatta l'indirizzo remoto, preleva il payload ed esegue il codice nel contesto dei privilegi dell'applicazione web.<br><strong>• Come si mitiga:</strong> Configurare l'ambiente di runtime per inibire il recupero di risorse remote per inclusione (es. <code>allow_url_include = Off</code>) e filtrare il traffico in uscita dal server (egress filtering).",
+      category: "net",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "RoE",
       name: "Rules of Engagement",
       def: "Documento contrattuale formale vincolante che stabilisce gli standard di orari, indirizzi IP, perimetro d'azione, flussi organizzativi e limits tecnici autorizzati da seguire durante l'esecuzione di un penetration test.",
@@ -2397,12 +3317,28 @@
       source_link: "chapters/obj5_5_audits_assessments.html"
     },
     {
-      acronym: "Rogue AP",
-      name: "Punto di Accesso Non Autorizzato",
-      def: "Qualunque access point non autorizzato collegato materialmente a una porta di uno switch o borchia di rete d'ufficio senza previa approvazione del reparto IT, eludendo i controlli formali e creando una breccia nella rete perimetrale protetta.",
+      acronym: "Rogue AP / Rogue WAP",
+      name: "Rogue Wireless Access Point (Punto di Accesso Wireless Non Autorizzato)",
+      def: "Qualunque access point o antenna wireless installata clandestinamente ed eludendo l'approvazione del reparto IT aziendale.<br><strong>• In cosa consiste:</strong> Viene collegato fisicamente a uno switch o borchia di rete aziendale per fornire connettività radio non autorizzata, aggirando le porte di sicurezza e i firewall logici del perimetro. Può assumere la forma di un <em>Evil Twin</em>: un finto access point radio configurato dall'attaccante con SSID e canale identici a quelli della rete ufficiale, spingendo gli utenti a connettersi ad esso per poterne intercettare il traffico on-path.<br><strong>• Mitigazione:</strong> Implementare sensori WIPS (Wireless Intrusion Prevention Systems), autenticazione 802.1X (port-based security), disattivazione sistematica delle porte inutilizzate degli switch di piano.",
       category: "net",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "Rogue Hub / Switch",
+      name: "Rogue Hub / Rogue Switch (Concentratore o Commutatore Non Autorizzato)",
+      def: "Infrastruttura di connessione cablata non autorizzata inserita all'interno dell'ambiente di rete fisica aziendale.<br><strong>• In cosa consiste:</strong> L'installazione clandestina di uno Switch o Hub illegittimo consente a un attaccante di connettere contemporaneamente più macchine non registrate a un'unica porta ethernet fidata dello switch di piano (eludendo i vincoli di cablaggio statico e l'asset inventory). Inoltre, un vecchio Hub abusivo (che diffonde ogni pacchetto in broadcast) o uno Switch pre-configurato per MAC flooding / port mirroring permette di sniffare comodamente il traffico locale.<br><strong>• Mitigazione:</strong> Abilitare la Port Security (limite sui MAC address consentiti per singola porta dello switch di livello 2) e l'autenticazione di sicurezza secondo lo standard 802.1X.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Rootkits",
+      name: "Rootkit (Rootkits)",
+      def: "Vettori malware altamente sofisticati ingegnerizzati al fine di persistere nel sistema e occultare i propri processi e file ad antivirus e comandi di controllo.<br><strong>• Varianti:</strong> Sebbene la variante in User Mode modifichi librerie d'utente intercettando solo logiche parziali, il letale <strong>Kernel Mode Rootkit (Ring 0)</strong> devia direttamente le query del nucleo del sistema operativo, falsificando l'output dei resoconti di ispezione e nascondendo i file nocivi dalla memoria fisica. Possono essere localizzati solo mediante strumenti di File Integrity Monitoring (FIM).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Routers",
@@ -2461,6 +3397,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Sanitize data",
+      name: "Sanitization (Sanitizzazione dei Dati)",
+      def: "Atto metodico di depurare e ripulire gli input utente rimuovendo caratteri speciali identificabili ordinariamente come istruzioni (es: estirpare sequenze relative a script o traversal) o applicando l'output encoding delle entità corrispondenti.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "SASE",
       name: "Secure Access Service Edge",
       def: "Architettura integrata cloud che unisce servizi SD-WAN intelligenti con moderne soluzioni logiche di cybersicurezza edge (quali CASB, FWaaS e Zero Trust), per proteggere utenti distribuiti geograficamente.",
@@ -2517,6 +3461,14 @@
       source_link: "chapters/obj2_5_mitigation.html"
     },
     {
+      acronym: "Select",
+      name: "SELECT (Istruzione SQL)",
+      def: "Il comando SQL fondamentale preposto all'interrogazione e recupero di dati da una o più tabelle, spesso bersaglio primario di attacchi SQL Injection finalizzati all'esfiltrazione abusiva di informazioni.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Servers",
       name: "Server Aziendali",
       def: "Computer ad alte capacità prestazionali dedicati a dispensare risorse, file, database corporativi o servizi applicativi ai nodi client. Richiedono robusti standard di hardening (disattivare servizi inutilizzati, porte inesplorate e abilitare logging esaustivo) prima di venire esposti.",
@@ -2533,12 +3485,84 @@
       source_link: "chapters/obj3_4_resilience.html"
     },
     {
+      acronym: "Cookie Poisoning",
+      name: "Avvelenamento dei Cookie (Cookie Poisoning)",
+      def: "Attacco informatico in cui una parte malintenzionata manipola deliberatamente il contenuto, i parametri o i valori di un cookie memorizzato sul proprio sistema prima di trasmetterlo nuovamente al server.<br><strong>• In cosa consiste:</strong> Se lo sviluppatore inserisce dati logici sensibili in chiaro (es: <code>role=user</code>, <code>isAdmin=0</code> o <code>discount=10</code>) fidandosi ciecamente delle risposte del client, l'hacker modifica il file locale (avvelenando il cookie in <code>role=admin</code>) per forzare un'escalation di privilegi ed ottenere accessi non autorizzati o sconti illegittimi.<br><strong>• Mitigazione:</strong> Non includere mai logica applicativa critica o segreti modificabili nei cookie; ogni dato inviato al client deve essere crittograficamente firmato (es: HMAC), cifrato sul backend, oppure gestito esclusivamente lato server.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Persistent Cookie",
+      name: "Cookie Persistente (Persistent Cookie)",
+      def: "Particolare tipologia di cookie web configurato con una data o durata di validità esplicita (attributi <code>Expires</code> o <code>Max-Age</code>).<br><strong>• Differenza con i Session Cookies:</strong> Mentre i cookie di sessione vivono esclusivamente nella RAM temporanea del browser e svaniscono alla chiusura dello stesso, i cookie persistenti vengono memorizzati direttamente sul disco fisso (storage non volatile) del client. Questo consente loro di sopravvivere alle chiusure del browser o riavvii del sistema, venendo adoperati per mantenere l'autenticazione automatica ('Ricordami'), archiviare preferenze dell'interfaccia o per finalità di profilazione continuativa (analytics e marketing) sul lungo termine.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Security Kernel Module",
+      name: "Modulo di Sicurezza del Kernel (Security Kernel Module)",
+      def: "Modulo software protetto a livello di sistema operativo che viene eseguito all'interno della Kernel Mode (il livello hardware privilegato Ring 0), incaricato di far rispettare in modo forzato le politiche di sicurezza fondamentali ed analizzare ogni tentativo d'interazione diretta con aree critiche (registri Cpu, bios/firmware o dispositivi di memoria).<br><strong>• Utilità di difesa profonda:</strong> Operando a livello nucleo dell'OS, questo modulo garantisce una visibilità completa sul comportamento dei processi di sistema che i normali software in modalità utente (User Mode) non possono raggiungere. È la difesa di assoluto rilievo per tracciare tempestivamente i malware ultra-evasivi (es: i rootkit) e intercettare attività anomale di memory injection provocate sulla memoria fisica della macchina.<br><strong>• Mitigazioni correlate:</strong> Obbligo di firma digitale rigorosa sui driver caricati, isolamento hardware Hypervisor-protected Code Integrity (HVCI).",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Session Cookie",
+      name: "Cookie di Sessione (Session Cookie)",
+      def: "Il cookie adibito a custodire il Session Token dell'utente, inoltrato automaticamente dal browser tramite intestazioni HTTP ad ogni richiesta verso il server web d'origine.<br><strong>• Caratteristiche di Sicurezza:</strong> Deve essere protetto tramite tre flag fondamentali: <em>HttpOnly</em> (impedisce l'esfiltrazione via XSS bloccando gli script client-side), <em>Secure</em> (impone la trasmissione del cookie esclusivamente su HTTPS cifrato) e <em>SameSite=Strict/Lax</em> (mitiga l'attacco CSRF impedendo l'inoltro incontrollato del cookie durante richieste originate da siti terzi). Vive solo nella memoria RAM temporanea e si cancella alla chiusura totale del browser.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Session Hijacking",
+      name: "Dirottamento della Sessione (Session Hijacking)",
+      def: "Il furto diretto o la cattura illecita di un Session Token attivo appartenente a un utente legittimo.<br><strong>• In cosa consiste:</strong> Un utente malintenzionato intercetta un token di sessione valido tramite sniffing su reti insicure, attacchi di tipo Cross-Site Scripting (XSS) o infezione di malware sul client. Successivamente, inietta il cookie nel proprio browser per impersonare la vittima (spoofing) ed accedere all'account senza conoscere le credenziali reali o violare i controles d'autenticazione secondari.<br><strong>• Mitigazione:</strong> Utilizzo rigoroso dei flag <em>HttpOnly</em> (blocca furti via XSS/JavaScript), <em>Secure</em> (impone trasmissione cifrata tramite TLS/HTTPS) e disconnessione automatica dopo periodi di inattività.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Session Management",
+      name: "Gestione delle Sessioni (Session Management)",
+      def: "La combinazione di meccanismi logico-applicativi adottati dagli sviluppatori web per tracciare lo stato e le interazioni di un utente attraverso più chiamate HTTP successive.<br><strong>• Perché è necessaria:</strong> HTTP è un protocollo strutturalmente <em>stateless</em> (privo di memoria), per cui ogni richiesta è indipendente dalle precedenti. La gestione delle sessioni orchestra la creazione, la durata (idle e absolute timeouts), la trasmissione protetta e la distruzione (logout) degli identificativi temporanei di sessione (Session Token), garantendo continuità e sicurezza dell'esperienza d'uso.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Session Prediction",
+      name: "Predizione della Sessione (Session Prediction)",
+      def: "Tipologia di attacco logico in cui l'avversario indovina un identificativo di sessione valido senza necessità di intercettarlo.<br><strong>• In cosa consiste:</strong> Avviene quando i Session Token generati dall'applicazione web presentano una scarsa <em>Randomness</em> (bassa entropia o prevedibilità, come la generazione basata su timestamp lineari, indirizzi IP fissi o numeri incrementali). L'attaccante analizza la logica di generazione dei token e, calcolando i successivi, testa una serie di combinazioni fino a dirottare la sessione attiva di un altro utente.<br><strong>• Mitigazione:</strong> Utilizzo obbligatorio di generatori di numeri pseudo-casuali crittograficamente sicuri (CSPRNG) e stringhe casuali lunghe ad elevatissima entropia.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Session Token",
+      name: "Identificativo di Sessione (Session Token)",
+      def: "Stringa alfanumerica temporanea generata dal server web all'avvenuta autenticazione che funge da ticket elettronico identificativo per l'utente.<br><strong>• Implementazione e Struttura:</strong> Evita l'esposizione e la ri-trasmissione continua delle credenziali primarie (password). Può essere gestito in modalità <em>Stateful</em> (sessione classica in cui il token è solo un id associato a dati salvati in un server cache come Redis, con revoca istantanea) o <em>Stateless</em> (token slegato da database di sessione come i JSON Web Token — JWT, firmati crittograficamente per comprovare integrità lato client). Devono possedere un'elevata entropia per prevenire attacchi predittivi.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Shadow IT",
       name: "Infrastruttura Informatica Ombra (Shadow IT)",
       def: "La proliferazione e l'uso di software, dispositivi personali, storage cloud gratuiti o servizi SaaS all'interno dell'ambiente aziendale senza la supervisione formale dell'amministratore, creando notevoli vulnerabilità logore e rischi GDPR.",
       category: "ops",
       source_name: "OBJ 2.1",
       source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Sideloading",
+      name: "Installazione non autorizzata (Sideloading)",
+      def: "Pratica di installare applicazioni (.apk o .ipa) su un dispositivo mobile al fuori dell'app store ufficiale approvato dal produttore, aggirando i controlli di sicurezza preventivi del market e aumentando sensibilmente il rischio di infezioni malware.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "SIEM",
@@ -2573,12 +3597,28 @@
       source_link: "chapters/obj5_2_risk_management.html"
     },
     {
+      acronym: "Smashing the Stack",
+      name: "Smashing the Stack (Distruzione dello Stack)",
+      def: "Tecnica gergale storica di sfruttamento dei software vulnerabili a Stack-based Buffer Overflow.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante invia volutamente input estranei di lunghezza eccessiva a un buffer locale dello stack di memoria. I caratteri estranei esondano oltre i limiti allocati, sovrascrivendo e 'sotto-ponendo' a distruzione (smashing) il Return Address (indirizzo di ritorno) memorizzato nello stack frame corrente. In questo modo l'attaccante dirotta l'ordine operativo della CPU verso un codice o shellcode arbitrario iniettato nell'input stesso.<br><strong>• Come si può mitigare:</strong> Effettuare un rigoroso bounds checking (controllo dei limiti di taglia dell'input), fare uso di linguaggi di programmazione di concezione moderna e 'safe' (Rust, Java, Go), implementare protezioni del compilatore come Stack Canaries, e abilitare DEP/ASLR a livello di kernel del sistema operativo.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Smishing",
       name: "Phishing via SMS (Smishing)",
-      def: "Sottocategoria del phishing basata sull'utilizzo di messaggi di testo SMS per recapitare link ingannevoli, esortando con urgenza la vittima a verificar transazioni di carte o sbloccare credenziali in un portale fake.",
+      def: "Attacco di social engineering condotto attraverso l'impiego dei messaggi di testo cellulari (SMS).<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante invia SMS falsificando l'ID del mittente per farlo comparire nei canali reali di istituti noti (SMS Spoofing). Il messaggio allerta la vittima di prelievi fittizi o minaccia blocchi carte, inducendola a toccare un collegamento abusivo per carpire dati bancari o credenziali.<br><strong>• Come si può mitigare:</strong> Diffidare per norma assoluta di collegamenti internet inviati via SMS, utilizzare app bancarie ufficiali per consultazioni, installare sistemi protetti di rilevazione antispam sul cellulare e non divulgare mai PIN ricavati da canali temporanei.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
+    },
+    {
+      acronym: "Snooping",
+      name: "Snooping (Intercettazione Passiva / Eavesdropping)",
+      def: "Pratica di intercettazione silente e invisibile per carpire o intercettare segreti aziendali, credenziali, e token sensibili in transito, operata tramite packet sniffing passivo senza alterare in alcuna misura i flussi o i protocolli logici.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "SOAR",
@@ -2607,7 +3647,7 @@
     {
       acronym: "Spear Phishing",
       name: "Phishing Mirato",
-      def: "Variante avanzata del phishing indirizzata e personalizzata espressamente verso uno specifico dipendente, reparto o azienda, sfruttando dettagli familiari reali per aumentarne notevolmente l'efficacia.",
+      def: "Evoluzione mirata del phishing generico studiata per colpire specifici individui.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante studia preventivamente le abitudini d'acquisto o l'organico di un target, inviandogli email ad hoc contenenti dettagli personalizzati accurati (nomi reali di collaboratori, scadenze contrattuali o progetti correnti) per forzare l'apertura di malware o il furto di specifiche password aziendali.<br><strong>• Come si può mitigare:</strong> Ridurre l'impronta informativa pubblica aziendale (come eliminare elenchi completi di email su social professionali), adottare autenticazione a multifattore (MFA) resistente al phishing (es. passkey FIDO2), e rafforzare le policy interne di riscontro telefonico a fronte di richieste insolite.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_social_engineering.html"
@@ -2622,27 +3662,51 @@
     },
     {
       acronym: "Spoofing",
-      name: "Falsificazione dell'Identità (Spoofing)",
-      def: "Vasta famiglia di tattiche attive d'attacco nelle quali un malintenzionato maschera e falsifica parametri identificativi di rete (IP, MAC Address, mittente email, DNS) per impersonare un nodo trusted e superare le difese.",
-      category: "ops",
-      source_name: "OBJ 2.2",
-      source_link: "chapters/obj2_2_social_engineering.html"
+      name: "Spoofing (Falsificazione d'Identità)",
+      def: "Tecnica o famiglia d'attacco basata sul camuffamento di identificativi fidati (IP spoofing, MAC spoofing, Caller ID spoofing o DNS spoofing) finalizzata a trarre in inganno utenti, sistemi logici, o scavalcare elenchi di controllo d'accesso (ACL).",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Spoofing Attack",
+      name: "Attacco di Spoofing (Falsificazione)",
+      def: "Classe estesa di minacce basate sul camuffamento dell'identità originaria in rete.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante altera ad arte dati sensibili all'interno dell'host o della rete per fingersi qualcun altro (un server trusted, un indirizzo IP affidabile locale, un mittente e-mail legittimo), ingannando i relativi meccanismi di controllo d'accesso e le difese aziendali.<br><strong>• Come si può mitigare:</strong> Configurare e applicare controlli di validazione crittografata (come IPsec per la rete e SPF/DKIM per la posta), implementare regole di controllo degli accessi fisici, e attivare filtri DHCP e pacchettistica interna che respingono indirizzamenti non congrui.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Spyware",
       name: "Malware Spia",
-      def: "Software nocivo stealth installato di nascosto per intercettare, raccogliere e trasmettere di nascosto informazioni sulle azioni computazionali dell'host (es. cattura PIN, cattura schermo, keylogging) senza alcun consenso.",
+      def: "Software nocivo invisibile volto a violare sistematicamente la contabilità dei dati privati.<br><strong>• In cosa consiste l'attacco:</strong> Intercetta ed esfiltra di nascosto l'utilizzo generico del pc, tracce internet, messaggi ed abitudini d'uso dello schermo o microfono, inviandoli all'esterno a server abusivi senza destare alcun tipo di preavviso visivo.<br><strong>• Come si può mitigare:</strong> Impedire il download di applicazioni da market non ufficiali (side loading), revocare accessi amministrativi locali agli utenti standard, ed eseguire controlli continui dei traffici anomali outbound a livello di firewall di rete.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
+      acronym: "SQL Injection",
+      name: "SQL Injection (SQLi)",
+      def: "Vulnerabilità applicativa in cui un attaccante inietta frammenti di comandi SQL nei campi d'input non sanificati.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante manipola la struttura logica della query SQL eseguita sul database, riuscendo a bypassare l'autenticazione, esfiltrare dati riservati, alterare record o distruggere intere tabelle.<br><strong>• Come si può mitigare:</strong> Utilizzare query parametrizzate (Prepared Statements) con parametri tipizzati, applicare rigorosa validazione degli input (input validation) con liste consentite, adottare ORM sicuri e configurare i privilegi minimi sull'account del database.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "SQLi",
       name: "SQL Injection",
-      def: "Uno dei bug applicativi web più famigerati (OWASP Top 10) in cui dati passati dall'utente flettono le query SQL del database di backend a causa di una scorretta sanificazione degli input a monte.",
+      def: "Sinonimo di SQL Injection. Uno dei difetti di sicurezza più comuni e letali a livello di backend della OWASP Top 10.<br><strong>• In cosa consiste l'attacco:</strong> Sfrutta l'impropria concatenazione di input utente crudi nelle stringhe di query SQL dinamiche per piegarne l'esecuzione logica.<br><strong>• Come si può mitigare:</strong> Banda totale alle query dinamiche grezze nel codice di produzione, adozione obbligatoria di ORM sicuri o Prepared Statements, sanitizzazione di tutti i campi dinamici ed esecuzione di frequenti scansioni di vulnerabilità SAST/DAST.",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "SSL Stripping",
+      name: "Degradazione HTTPS (SSL Stripping Attack)",
+      def: "Tipologia di attacco on-path mirata ad azzerare in modo invisibile la sicurezza dei canali web cifrati.<br><strong>• In cosa consiste:</strong> L'attaccante intercetta la richiesta iniziale di navigazione HTTPS del client e risponde in chiaro via HTTP standard, agendo come proxy intermedio (effettua la connessione HTTPS sicura lato server, ma mantiene un collegamento in chiaro HTTP lato client con la vittima). Il browser della vittima non mostra il lucchetto di cifratura e trasmette tutte le informazioni (tra cui credenziali d'accesso, token e cookie di sessione) in chiaro, lasciandole intercettare dall'avversario.<br><strong>• Mitigazione:</strong> Implementare a livello di server web l'intestazione di sicurezza HTTP Strict Transport Security (HSTS), che costringe i browser a effettuare connessioni esclusivamente cifrate HTTPS (rifiutando fallback non cifrati).",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "SSO",
@@ -2653,12 +3717,44 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Stack Canaries",
+      name: "Canarini dello Stack (Stack Canaries)",
+      def: "Piccoli numeri casuali (noti anche come Stack Cookies) collocati dal compilatore subito prima del Return Address (indirizzo di ritorno) all'interno dello Stack di memoria. Qualora vengano corrotti o sovrascritti (esito tipico di un tentativo di stack overflow), l'applicazione si arresta immediatamente bloccando l'esecuzione dell'exploit.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Stack-based Buffer Overflow",
+      name: "Saturazione del Buffer dello Stack (Stack-based Buffer Overflow)",
+      def: "Variante estremamente insidiosa di buffer overflow focalizzata sull'area ordinata dello stack di esecuzione.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante fornisce un input di dimensioni eccessive rispetto alla variabile locale del buffer nello stack, traboccando fino a sovrascrivere l'indirizzo di ritorno (Return Address) della funzione o l'Instruction Pointer del processore con l'indirizzo di uno shellcode precedentemente iniettato.<br><strong>• Come si può mitigare:</strong> Evitare funzioni di copia insicure a basso livello (es. in C usare <code>fgets</code> o <code>strncpy</code> invece di <code>gets</code> o <code>strcpy</code>), abilitare gli Stack Cookies del compilatore che verificano l'integrità logica dello stack, e attivare DEP/ASLR.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Stored XSS",
+      name: "Cross-Site Scripting Persistente (Stored XSS)",
+      def: "Tipologia letale di XSS persistente (Persistent XSS) in cui l'exploit risiede durevolmente nel server.<br><strong>• In cosa consiste l'attacco:</strong> L'attore ostile inietta uno script maligno di JavaScript all'interno dei campi di immissione (es. in un forum di discussione, commento, o profilo utente) che l'applicazione salva in modo persistente sul proprio database. In futuro, chiunque navighi su quella pagina richiamerà automaticamente e subirà in background l'esecuzione dello script dannoso.<br><strong>• Come si può mitigare:</strong> Sanificazione profonda preventiva sui dati in ingresso per bandire tag pericolosi dal database, e applicazione della codifica HTML/JS all'estrazione e visualizzazione del dato sul browser.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "Switches",
       name: "Switch di Instradamento LAN (Switches)",
       def: "Dispositivi hardware di livello 2 preposti a commutare e indirizzare materialmente i frame Ethernet all'interno di una rete LAN locale d'ufficio basandosi sull'indirizzo MAC locale. Richiedono hardening delle porte switch inutilizzate e MAC filtering per scongiurare intrusioni.",
       category: "net",
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "SYN Flood",
+      name: "SYN Flood (Saturazione di Connessione TCP)",
+      def: "Attacco di network flood mirato a sovraccaricare le tabelle di connessione (backlog queue) di un server sfruttando il meccanismo della stretta di mano a tre vie (3-way handshake) del protocollo TCP.<br><strong>• In cosa consiste:</strong> L'attaccante trasmette un flusso infinito di pacchetti di richiesta connessione <code>SYN</code> simulando indirizzi sorgente falsi (IP spoofing). Il server risponde dedicando risorse di cache e inviando a sua volta un pacchetto <code>SYN-ACK</code> all'indirizzo spoofato, rimanendo in attesa perpetua del pacchetto definitivo di riscontro <code>ACK</code> (stato di connessione half-open). Questo esaurisce rapidamente tutti gli slot in tabella, impedendo qualsiasi nuova interazione fidata ad utenti autentici.<br><strong>• Come si mitiga:</strong> Abilitare la tecnologia dei <code>SYN Cookies</code> a livello di kernel sul server, configurare l'ottimizzazione del timeout di drop dei socket half-open ed installare appositi sbarramenti (Flood Guards) sul firewall perimetrale.",
+      category: "net",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Technical Control",
@@ -2685,12 +3781,44 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Timeout",
+      name: "Ottimizzazione dei Timeout (Timeout Adjustment)",
+      def: "Processo di indurimento (hardening) applicativo e di sistema focalizzato ad accorciare i tempi limite entro cui i server tollerano lo stato di attesa o inattività per socket e canali TCP/HTTP aperti.<br><strong>• Ruolo nella sicurezza:</strong> Risponde in modo proattivo agli attacchi DoS lenti basati sulla permanenza artificiale delle connessioni (es. Slowloris o sessioni half-open), disconnettendo forzatamente le sorgenti improduttive o inattive per liberare risorse RAM e thread applicativi, lasciandoli pronti al traffico legittimo.<br><strong>• Tipica configurazione:</strong> Impostazione di timeout dinamici o più brevi nei file di configurazione dei server Apache, Nginx o all'interno delle policy del firewall.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Thread Execution Hijacking",
+      name: "Dirottamento dell'Esecuzione del Thread (Thread Execution Hijacking)",
+      def: "Tipologia avanzata e altamente mirata di iniezione di processo che intercetta e dirotta il flusso di lavoro di un thread legittimo già autorizzato dal sistema operativo, costringendolo ad eseguire istruzioni dannose.<br><strong>• Meccanica d'attacco:</strong> Invece di far nascere un thread aggiuntivo sospetto per avviare il codice maligno (come avviene con CreateRemoteThread), l'attaccante contatta un thread in esecuzione nel processo bersaglio, lo mette temporaneamente in pausa (usando l'API Windows <code>SuspendThread</code>), risintonizza dinamicamente il suo Instruction Pointer interno (il registro Cpu <code>EIP/RIP</code>) modificando il contesto del thread affinché punti al proprio payload inserito, e riavvia il thread (<code>ResumeThread</code>). Il thread di fiducia elaborerà inconsapevolmente il malware prima di poter rientrare ordinariamente nelle proprie routine istituzionali.<br><strong>• Mitigazione:</strong> Blocco di accessi diretti di debugging inter-processo non abilitati (es. inibendo l'uso delle funzioni API <code>OpenThread</code>), monitoraggio diagnostico continuo dell'analisi comportamentale dei singoli thread tramite agenti EDR/MDR.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "TLS",
       name: "Transport Layer Security",
       def: "La massima evoluzione dello standard SSL. Cifra asimmetricamente i flussi scambiati in linea (in-transit) a livello di trasporto garantendo integrità e antimanomissione.",
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "TOC/TOU",
+      name: "Time-of-Check / Time-of-Use",
+      def: "Sotto-classe regina delle race condition (condizioni di gara) incentrata sulla mancanza di atomicità tra la fase di controllo dei privilegi e quella di reale utilizzo di una risorsa.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante sfrutta la finestra temporale che intercorre tra il completamento positivo della verifica di idoneità (Time-of-Check) e la reale operazione o utilizzo della risorsa (Time-of-Use). In questa millesimale finestra d'opportunità l'attaccante rimpiazza la risorsa legittima con un'estensione o symlink malevolo.<br><strong>• Come si può mitigare:</strong> Utilizzare API di sistema sicure che legano direttamente i file a handle (File Descriptor) aperti anziché usare i path testuali volatili, ed impostare operazioni atomiche che blindino in una transazione indivisibile il controllo e l'azione.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "TOE",
+      name: "Time-of-Evaluation (Tempo di Valutazione)",
+      def: "Il preciso istante logico in cui il compilatore, interprete o hardware valuta formalmente un'espressione o espressione condizionale.<br><strong>• Ruolo nella sicurezza:</strong> Nelle vulnerabilità temporali (quali le race condition), se lo sfasamento tra il tempo di controllo (TOC), il tempo di valutazione (TOE) e il tempo d'uso (TOU) consente la variazione concorrente dello stato di una variabile ad opera di thread paralleli, la logica applicativa viene compromessa permettendo bypass di autenticazione o esecuzioni impreviste.<br><strong>• Come si mitiga:</strong> Sincronizzare i contesti paralleli introducendo mutue esclusioni (Mutex) o applicare variabili e letture atomiche per rendere uniche ed indivisibili le tre fasi.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "TPM",
@@ -2703,10 +3831,26 @@
     {
       acronym: "Trojan",
       name: "Cavallo di Troia",
-      def: "Programma malevolo mascherato da utility o software benigno e legittimo. Una volta eseguito dall'utente ignaro, avvia il payload dannoso installando backdoor e malware sul sistema.",
+      def: "Malware camuffato sotto la finta forma visiva di un'utilità applicativa benevola ed autorizzata.<br><strong>• In cosa consiste l'attacco:</strong> Convince l'utente per mezzo di social engineering a scaricare, installare ed eseguire il software. Una volta lanciato nel sistema, avvia silentemente la sua routine occulta (backdoor, keylogging, RAT) eludendo i privilegi per spiare o distruggere file sensibili dall'interno dell'host.<br><strong>• Come si può mitigare:</strong> Adottare solidi antivirus basati sia sulle firme che su analisi euristica dei comportamenti, limitare drasticamente l'installazione di programmi esterni revocando i privilegi amministrativi permanenti (UAC attivo) e formare regolarmente la forza lavoro contro le minacce informatiche (Security Awareness Training).",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Trusted Site",
+      name: "Sito Web Attendibile (Trusted Site)",
+      def: "Un portale internet legittimo ritenuto integro e sicuro dall'utente (in cui è stabilita una sessione o un legame fiduciario) o dal browser web della macchina client. Gli hacker vi inseriscono script o codici per abusare della fiducia degli utenti.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Trusted Website",
+      name: "Sito Web Fidato (Trusted Website)",
+      def: "Un portale internet legittimo ritenuto integro e sicuro dall'utente (in cui è stabilita una sessione o un legame fiduciario) o dal browser web della macchina client. Gli hacker vi inseriscono script o codici per abusare della fiducia degli utenti.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "TTP",
@@ -2717,9 +3861,17 @@
       source_link: "chapters/obj2_1_threat_actors.html"
     },
     {
+      acronym: "Turning off Bluetooth",
+      name: "Disattivazione Totale del Bluetooth (Mitigazione)",
+      def: "Pratica raccomandata che consiste nello spegnimento radicale dell'interfaccia radio Bluetooth quando non in uso, rimuovendo interamente il vettore di attacco aereo ed inibendo tentativi opportunistici.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Typosquatting",
       name: "Squatting Tipografico (URL Hijacking)",
-      def: "Tecnica basata sull'acquistare domini web che presentano lievi errori ortografici riconducibili a marchi o ditte celebri (es. faceboko.com) speculando su lapsus digitali delle vittime o email falsificate per infettare host.",
+      def: "Abuso logico basato sulla falsificazione d'immagine di indirizzi DNS.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante registra e allestisce portali web con nomi di dominio leggermente errati rispetto ai marchi legittimi (es. <code>googlee.com</code> o <code>bancatrustet.com</code>), basandosi sulla probabilità dell'errore di battitura commesso dall'utente sulla barra degli indirizzi o spingendoli su tali cloni con esche di spam per sottrarre credenziali.<br><strong>• Come si può mitigare:</strong> Registrazione protettiva e preventiva da parte del brand proprietario delle principali varianti di errore tipografico del proprio nome, ed impiego di browser dotati di filtri intelligenti di reputazione web integrati anti-typo.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -2749,9 +3901,25 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Unauthorized Domain Registration Changes",
+      name: "Unauthorized Domain Registration Changes (Cambiamenti non Autorizzati del Dominio)",
+      def: "Tentativi non autorizzati di mutamento delle anagrafiche, dei record DNS chiave o dei server autoritativi associati a un dominio aziendale presso il registrar. Vengono condotti con attacchi phishing alle credenziali del pannello di controllo o elusione del supporto tecnico per impadronirsi delle risorse di rete e deviare il flusso applicativo degli utenti.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Unpatched System",
       name: "Sistema Non Aggiornato (Unpatched System)",
       def: "Riferimento a un sistema operativo, application o apparato di rete per il quale non sono state applicate le patch di sicurezza raccomandate e disponibili dal produttore originale, lasciandolo scoperto ed esposto ad attacchi automatici e cyber exploit noti.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Unpatched Systems",
+      name: "Sistemi Non Aggiornati (Unpatched Systems)",
+      def: "Sistemi e host attivi in produzione che eseguono software o sistemi operativi privi degli opportuni aggiornamenti di sicurezza rilasciati dal vendor originario, lasciandoli vulnerabili a exploit noti e stabili (known exploits).",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
@@ -2765,12 +3933,44 @@
       source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
+      acronym: "Update",
+      name: "UPDATE (Istruzione SQL)",
+      def: "Comando SQL preposto alla modifica o aggiornamento dinamico di record esistenti nel database. Se esposto a SQL Injection, un attaccante lo sfrutta per alterare parametri sensibili come privilegi utente o prezzi di listino.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Input Validation",
+      name: "Validazione dell'Input (Input Validation)",
+      def: "Contromisura di sicurezza logica fondamentale basata sulla verifica proattiva di tutti i dati in ingresso ricevuti dall'applicazione da fonti esterne (come moduli web, query string o parametri API).<br><strong>• Come opera:</strong> Accetta esclusivamente dati conformi a criteri rigorosi e predefiniti (como formato, tipo, lunghezza e intervallo consentito) rifiutando o interrompendo istantaneamente qualsiasi input anomalo. Predilige regole di tipo <em>Allowlist / Whitelisting</em> (accetta solo caratteri consentiti, es. tramite espressioni regolari come regular expression) rispetto alle meno sicure Denylist (che cercano solo caratteri cattivi noti).<br><strong>• Differenza con la Sanitizzazione:</strong> Mentre la validazione respinge l'input non conforme ed interrompe l'esecuzione, la sanitizzazione (Input Sanitization/Scrubbing) accetta l'input modificandolo e ripulendolo attivamente (es. rimuovendo caratteri pericolosi o codificandoli in HTML Entity). Rappresenta il guardrail principale contro SQLi, XSS, Directory Traversal e Command Injection.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "User Account Control (UAC)",
       name: "Controllo dell'Account Utente (UAC)",
       def: "Funzionalità essenziale di sicurezza dei sistemi operativi Microsoft Windows. Impedisce a malware e script l'esecuzione non autorizzata con privilegi amministrativi chiedendo esplicitamente conferma visiva all'utente prima di avviare modifiche di sistema o installazioni elevando i privilegi.",
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "User Mode",
+      name: "Modalità Utente (User Mode - Ring 3)",
+      def: "Stato protetto a bassi privilegi in cui lavorano le comuni e ordinarie applicazioni d'utente (es. browser, editor). Non possono dialogare direttamente con l'hardware ma sono costrette ad avanzare richieste regolate al sistema operativo mediante interazioni di System Calls per preservare la stabilità.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "User-specific Tokens",
+      name: "Token Specifici per Utente (User-specific Tokens)",
+      def: "I contrassegni univoci e non predicibili (anti-CSRF tokens) assegnati dinamicamente ad ogni sessione logica e inseriti nei moduli dell'interfaccia. Servono a comprovare che l'invio della richiesta provenga volontariamente dall'utente sul sito legittimo, mitigando i tentativi di Cross-Site Request Forgery.",
+      category: "iam",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
     },
     {
       acronym: "Usernames",
@@ -2787,6 +3987,22 @@
       category: "iam",
       source_name: "OBJ 4.6",
       source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Using encryption for sensitive data transfers",
+      name: "Cifratura dei Trasferimenti Sensibili (Bluetooth)",
+      def: "L'adozione di standard crittografati aggiuntivi (come HTTPS o VPN) sopra il canale wireless Bluetooth, per tutelare l'incomprensione dei dati riservati scambiati qualora il cipher radio di base venisse scardinato.",
+      category: "crypto",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
+      acronym: "Using HTTP headers",
+      name: "Using HTTP headers (Uso intestazioni HTTP)",
+      def: "Vettore di iniezione focalizzato sull'alterazione dei metadati delle intestazioni di transazione client-server (come User-Agent, Host, o Referer) che vengono loggati o elaborati in modo insicuro da scripts o database dal backend.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     },
     {
       acronym: "Using multifactor authentication",
@@ -2829,9 +4045,17 @@
       source_link: "chapters/obj1_3_change_management.html"
     },
     {
+      acronym: "Vertical Privilege Escalation",
+      name: "Elevazione Verticale dei Privilegi (Vertical Privilege Escalation)",
+      def: "Tipologia di scalata dei privilegi in cui un utente non privilegiato (es: profilo standard o guest) riesce ad assumere poteri amministrativi superiori (es: utente Root su Linux o System/Administrator in Windows) per governare completamente la macchina ospitante.<br><strong>• Esempio Semplice:</strong> Forzare un programma di backup avente bit speciale <code>SUID</code> di configurazione a lanciare una riga di comando per l'utente, ereditando così i permessi massimi dell'amministratore che lo possiede.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Vishing",
       name: "Phishing Vocale (Vishing)",
-      def: "Campagna o singolo tentativo di social engineering condotto a voce tramite chiamata telefonica fittizia, simulando l'identità di uffici IT o istituti bancari per carpire credenziali, codici MFA o forzare transazioni bancarie rapide.",
+      def: "Attacco di phishing veicolato verbalmente al telefono (Voice Phishing).<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante telefona alla vittima camuffando il proprio numero chiamante (Caller ID Spoofing) per apparire come il dipartimento IT centrale, la banca o un fornitore. Con toni formali o imperativi, convince la vittima a recitare codici MFA urgenti, password o ad operare ricariche bancarie rapide.<br><strong>• Come si può mitigare:</strong> Adottare procedure ferree di richiamata (interrompere la telefonata e chiamare autonomamente il numero verde ufficiale per verificare), non comunicare mai codici sensibili a voce a terzi (nessuna banca o IT reale chiede mai password o codici MFA), e implementare sistemi avanzati di reputazione chiamate sul centralino.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -2853,6 +4077,14 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "Vulnerability",
+      name: "Vulnerabilità",
+      def: "Debolezza, bug, lacuna strutturale o errore logico imprevisto presente nel codice, nel design, nella configurazione o nelle difese fisiche di un sistema informatico, in grado di essere sfruttata da un attaccante per violare le garanzie di riservatezza, integrità o disponibilità.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
       acronym: "WAF",
       name: "Web Application Firewall",
       def: "Controllo tecnico preventivo di livello 7 (applicazione). Ispeziona, filtra e decifra i transiti HTTP/S prima che questi investano le pagine del server di backend.",
@@ -2871,15 +4103,23 @@
     {
       acronym: "Watering Hole",
       name: "Attacco alla Sorgente (Watering Hole)",
-      def: "Tattica di compromissione in cui un attaccante inietta malware o exploit in un sito web di terzi ampiamente visitato e reputato interamente trusted dal personale dell'azienda target, colpendoli furtivamente al transito.",
+      def: "Tecnica avanzata di social engineering mirata contro organizzazioni protette ferreamente.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante, impossibilitato a colpire direttamente la rete blindata dell'azienda target, individua e infetta preventivamente siti web minori di terze parti ampiamente visitati dallo staff aziendale (es. blog di settore o fornitori). Il dipendente, navigando indifeso sul sito fidato d'abitudine, riceve silentemente il malware sul proprio computer di lavoro.<br><strong>• Come si può mitigare:</strong> Eseguire l'ispezione ed il filtraggio e-mail ed internet a livello di DNS aziendale o proxy web, disporre di solidi ed evoluti antivirus host-based dotati di controllo di isolamento browser, e censire sistematicamente i portali di transito.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
     {
+      acronym: "Web Browser Session",
+      name: "Sessione del Browser Web (Web Browser Session)",
+      def: "Lo stato continuativo di navigazione stabilito temporaneamente tra l'interprete client locale ed uno specifico applicativo backend, mantenuto coeso per mezzo di cookie o token che evitano continue sottomissioni manuali di credenziali.",
+      category: "general",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "Whaling",
       name: "Pesca Grossa (Phishing C-Level)",
-      def: "Tipo altamente mirato ed elaborato di social engineering focalizzato esclusivamente su ruoli dirigenziali apicali d'azienda (CEO, CFO, C-Level) allo scopo di autorizzare grandi pagamenti o sottrarre segreti industriali.",
+      def: "Variante di social engineering di massimo livello rivolta espressamente ai vertici aziendali.<br><strong>• In cosa consiste l'attacco:</strong> Indirizza email ingannevoli altamente strategiche e formali a figure C-Level (CEO, CFO, direttori generali) simulando atti giudiziari, notifiche regolatorie urgenti o catastrofi d'immagine per manipolarli facendogli firmare ingenti bonifici clandestini.<br><strong>• Come si può mitigare:</strong> Addestrare specificamente i dirigenti apicali sul rischio informatico (Executive Cyber Security Training), istituire workflow stringenti di doppia e indipendente approvazione per qualsiasi spostamento finanziario, e abilitare policy rigorose di identificazione delle email provenienti dall'esterno.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_social_engineering.html"
@@ -2925,9 +4165,57 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "XML",
+      name: "XML (eXtensible Markup Language)",
+      def: "Linguaggio di marcatura strutturato autorevole ed estendibile preposto alla rappresentazione e scambio di dati strutturati. Sotto-tecnologie sensibili e parser XML impiegati se configurati male possono esporsi a iniezioni, XXE e XML Bomb.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "XML Bomb (Billion Laughs Attack)",
+      name: "XML Bomb / Billion Laughs Attack",
+      def: "Attacco di Denial of Service (DoS) logico e computazionale indirizzato contro i motori analizzatori XML.<br><strong>• In cosa consiste l'attacco:</strong> L'aggressore invia un file XML contenente al suo interno dichiarazioni ricorsive e annidate di molteplici entità referenziate reciprocamente. Al momento della lettura da parte del parser del server, ciascun riferimento si moltiplica in via esponenziale macinando RAM e CPU fino a saturarle ed a far crashare l'intero server web.<br><strong>• Come si può mitigare:</strong> Configurare i motori XML impedendo esplicitamente l'espansione e definizione in-line di riferimenti DTD, limitando la memoria allocabile al singolo analizzatore a runtime e impostando stringenti time-out di elaborazione.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "XML Exploitation",
+      name: "Sfruttamento XML (XML Exploitation)",
+      def: "Insieme di tecniche d'attacco operanti a danno di processori e interpreti XML privi di configurazioni blindate.<br><strong>• In cosa consiste l'attacco:</strong> Sfrutta difetti applicativi nel parser XML per esfiltrare file sensibili d'ambiente locale caricandoli come entità esterne (XXE - XML External Entity), forzare interrogazioni abusive di backend o esaurire le risorse hardware tramite espansione ricorsiva (XML Bomb).<br><strong>• Come si può mitigare:</strong> Disabilitare completamente le risoluzioni delle entità esterne dichiarate nei DTD (Document Type Definitions) all'interno delle impostazioni di avvio di ciascun parser XML, e impostare limiti restrittivi all'uso di CPU e memoria dei servizi.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "XML Injection",
+      name: "Iniezione XML (XML Injection)",
+      def: "Infiltrazione e alterazione abusiva di flussi di dati formattati in linguaggio XML.<br><strong>• In cosa consiste l'attacco:</strong> L'utente maligno inietta metacaratteri o tag XML personalizzati all'interno dei campi di input non sanificati. Il processore o parser XML riceve e analizza la struttura modificata, alterando l'integrità logica dei dati o modificando il flusso operativo interno.<br><strong>• Come si può mitigare:</strong> Eseguire una rigorosa sanificazione ed encoding degli input prima di inserirli in documenti XML dinamici, ed utilizzare API di generazione sicure e pre-strutturate invece della semplice concatenazione di stringhe.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "XML Vulnerability",
+      name: "XML Vulnerability (Vulnerabilità XML)",
+      def: "Qualsiasi debolezza intrinseca all'interno di applicativi o librerie preposte al parsing XML, derivata solitamente dalla errata gestione di entità esterne o espansione esponenziale, che espone il software a disclosure di file locali (XXE) o DoS.",
+      category: "general",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "XSRF / CSRF",
+      name: "Cross-Site Request Forgery (CSRF / XSRF)",
+      def: "Vulnerabilità web (Cross-Site Request Forgery) derivante dal legame di fiducia implicito che il server ripone nel browser dell'utente.<br><strong>• In cosa consiste l'attacco:</strong> L'attaccante allestisce un sito esca maligno esterno in grado di lanciare chiamate o form submissions invisibili verso l'applicazione web fidata (es. una banca) dove la vittima ha una sessione attiva. Il browser della vittima esegue la richiesta in background alleganvi automaticamente il Session Cookie di sessione, costringendo il server a compiere la transazione fraudolenta a nome della vittima.<br><strong>• Come si può mitigare:</strong> Impiego di token anti-CSRF crittograficamente unici, casuali e accoppiati singolarmente con l'utente (user-specific tokens), impostazione dell'attributo <code>SameSite=Strict</code> o <code>Lax</code> nei cookie di sessione e pretesa di verifica della password attuale (Current Password Verification) o MFA prima di finalizzare cambiamenti sensibili.",
+      category: "ops",
+      source_name: "OBJ 2.4",
+      source_link: "chapters/obj2_4_malicious_activity.html"
+    },
+    {
       acronym: "XSS",
       name: "Cross-Site Scripting",
-      def: "Iniezione malevola di codice script interpretato direttamente nel browser di una vittima ignara a causa di una scorretta sanificazione applicativa web a monte.",
+      def: "Infezione di codice dinamico interpretabile integrato nei moduli d'interfaccia client-side di una web application fidata.<br><strong>• In cosa consiste l'attacco:</strong> L'aggressore inietta frammenti di codice JavaScript malevolo che vengono eseguiti dal browser degli utenti legittimi al caricamento della pagina web. Consente il furto clandestino dei token identificativi nei Session Cookie, il reindirizzamento forzato o la modifica non autorizzata del layout visivo (defacement).<br><strong>• Come si può mitigare:</strong> Convalidare rigidamente gli input in ingresso, applicare la codifica sensibile al contesto prima dell'output a schermo (context-aware output encoding), marcare i cookie di sessione come HttpOnly per impedirne la lettura da JavaScript, e implementare una solida Content Security Policy (CSP).",
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
@@ -2947,8 +4235,40 @@
       category: "ops",
       source_name: "OBJ 2.3",
       source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Zero-Day Attack",
+      name: "Attacco Zero-Day",
+      def: "L'episodio reale di attacco o aggressione digitale in cui un malintenzionato sfrutta con successo un exploit zero-day per colpire e penetrare le difese di uno specifico bersaglio di produzione prima che sia noto ed esistano patch.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Zero-Day Exploit",
+      name: "Exploit Zero-Day",
+      def: "Lo specifico codice macchina, script o payload d'attacco concepito in via clandestina e impiegato per approfittare di una vulnerabilità zero-day prima che la vittima o il vendor di riferimento ne scoprano l'esistenza o abbiano sviluppato ripari.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Zero-day Vulnerabilities",
+      name: "Vulnerabilità Zero-day (Zero-day Vulnerabilities)",
+      def: "Grave ed imprevista falla o debolezza logica nel codice software completamente sconosciuta agli sviluppatori del prodotto (vendor), traducendosi in zero giorni di preavviso per approntare difese e totale mancanza di patch ufficiali.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
+    },
+    {
+      acronym: "Zero-Day Vulnerability",
+      name: "Vulnerabilità Zero-Day",
+      def: "Grave ed imprevista falla o debolezza logica nel codice software completamente sconosciuta agli sviluppatori del prodotto (vendor), traducendosi in zero giorni di preavviso per approntare difese e totale mancanza di patch ufficiali.",
+      category: "ops",
+      source_name: "OBJ 2.3",
+      source_link: "chapters/obj2_3_vulnerabilities.html"
     }
-    ];
+  ];
 
   const glossaryContent = document.getElementById('glossary-content');
   const searchInput = document.getElementById('glossary-search');
@@ -3099,7 +4419,7 @@
               <span class="term-acronym">${escapeHTML(item.acronym)}</span>
             </div>
             <div class="term-full-name">${escapeHTML(item.name)}</div>
-            <p class="term-def ${blurClass}" title="${blurTitle}" onclick="if(this.classList.contains('flashcard-blur')){ this.classList.remove('flashcard-blur'); this.classList.add('flashcard-revealed'); }">${escapeHTML(item.def)}</p>
+            <p class="term-def ${blurClass}" title="${blurTitle}" onclick="if(this.classList.contains('flashcard-blur')){ this.classList.remove('flashcard-blur'); this.classList.add('flashcard-revealed'); }">${item.def}</p>
           </div>
           <div class="term-meta">
             <span class="term-category" style="background-color: ${getCategoryColor(item.category)};">${escapeHTML(catNames[item.category])}</span>

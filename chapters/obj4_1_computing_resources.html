@@ -262,6 +262,45 @@
       <li><strong>Side-loading (Caricamento laterale):</strong> Il semplice atto di installare pacchetti applicativi (.apk o .ipa) bypassando il market store ufficiale, senza richiedere necessariamente lo sblocco del root del firmware.</li>
     </ul>
   </div>
+
+  <h3 id="connection-methods" style="margin-top: 24px;">Metodi di Connessione e Rischi Associati (Connection Methods & Insecure Connections)</h3>
+  <p>
+    I dispositivi mobili utilizzano diverse tecnologie radio e cablate per trasmettere dati ed interagire con l'ambiente circostante. Ognuna di queste modalità di connessione presenta minacce specifiche qualora venga utilizzata senza adeguate impostazioni di sicurezza (insecure connection methods):
+  </p>
+  <dl class="termlist">
+    <dt>Cellular (Connessioni Cellulari - LTE/5G)</dt>
+    <dd>Utilizza la rete dell'operatore telefonico. Sebbene generalmente più cifrata e protetta dei Wi-Fi aperti, la rete cellulare può essere esposta a intercettazioni mediante <strong>IMSI Catchers / Rogue Cell Towers</strong> (finte antenne radio che imitano ripetitori legittimi) o attacchi di <strong>downgrade coercitivo</strong> (forzando il telefono a ricollegarsi a reti obsolete 2G/3G dove la cifratura è debole o inesistente).</dd>
+
+    <dt>Wi-Fi</dt>
+    <dd>L'accesso wireless a reti locali. Collegarsi a Wi-Fi pubblici non protetti o a hotspot privi di cifratura espone il traffico Internet ad attacchi on-path (MitM) guidati da <strong>Evil Twin</strong>. Gli aggressori possono spiare le credenziali trasmesse in chiaro o sequestrare i token di sessione dell'utente.</dd>
+
+    <dt>Bluetooth</dt>
+    <dd>Comprende corti collegamenti radio a basso consumo. Quando configurato con <strong>accoppiamento non sicuro (Insecure Pairing)</strong> o lasciato costantemente in modalità visibile (discoverable mode), il Bluetooth diventa vulnerabile a intrusioni opportunistiche di spionaggio, quali:
+      <ul style="margin-left: 20px; margin-top: 4px;">
+        <li><em>Bluejacking</em>: Inoltro di spam e note fastidiose adiacenti.</li>
+        <li><em>Bluesnarfing</em>: Sottrazione invisibile dei file, contatti o SMS riposti nel terminale.</li>
+        <li><em>Bluebugging</em>: Presa di controllo amministrativa totale finalizzata a compiere chiamate e spiare l'ambiente circostante.</li>
+        <li><em>Blueborne</em>: Attacchi zero-day allo stack logico firmware che provocano esecuzione di codice e diffusione di malware senza richiedere pairing.</li>
+      </ul>
+    </dd>
+
+    <dt>NFC (Near Field Communication)</dt>
+    <dd>Tecnologia magnetica a brevissimo raggio (&lt; 4 cm) utilizzata principalmente per transazioni finanziarie (Apple Pay/Google Wallet) o scambi rapidi. Può soffrire di attacchi di intercettazione ravvicinata (eavesdropping) o furto passivo di credenziali mediante scanner occultati.</dd>
+
+    <dt>USB (Universal Serial Bus)</dt>
+    <dd>Cavo fisico per carica elettrica e sincro dati. Poiché le specifiche USB instradano l'energia e i canali di comunicazione negli stessi alloggiamenti, l'uso di prese o alimentatori pubblici manomessi espone i terminali al <strong>Juice Jacking</strong>: un attacco fisico in cui l'hacker sfrutta i pin dei dati per caricare virus o sottrarre file a insaputa del dipendente.</dd>
+  </dl>
+
+  <div class="note-box">
+    <strong>Linee guida di riepilogo contro i metodi di connessione insicuri (Insecure Connection Mitigations):</strong><br>
+    Le policy aziendali raccomandano vivamente di:
+    <ul style="margin-left: 20px; margin-top: 6px; line-height: 1.6;">
+      <li>Disabilitare sempre le interfacce radio (Wi-Fi, Bluetooth, NFC) quando non necessarie.</li>
+      <li>Imporre il Bluetooth in modalità <strong>"non-discoverable" (non scopribile)</strong> ad eccezione dell'istante d'accoppiamento manuale con accessori di provata fiducia.</li>
+      <li>Vietare la connessione a Wi-Fi pubblici sprovvisti di <strong>VPN aziendale cifrata</strong>.</li>
+      <li>Incoraggiare l'impiego di protettori fisici <strong>USB Data Blockers</strong> (preservativi USB) che isolano i pin dei dati lasciando transitare unicamente l'energia elettrica per disattivare del tutto le minacce di Juice Jacking.</li>
+    </ul>
+  </div>
 </section>
 
 <!-- ══ WIRELESS SECURITY SETTINGS ═══════════════════════════════ -->

