@@ -1,76 +1,86 @@
-![CompTIA Security+ Cyberpunk Banner](https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&h=450&q=80)
+# 🛡️ CompTIA Security+ (SY0-701) — Interactive Study Guide & Exam Resource Hub
 
-# 🛡️ CompTIA Security+ (SY0-701) — Interactive Study Guide / Guida di Studio Interattiva
-
-Welcome to the **CompTIA Security+ (SY0-701) Interactive Study Guide** repository. This is a rich, modern, and fully localized study environment designed to thoroughly cover official exam objectives and facilitate active, step-by-step learning.
+Welcome to the **CompTIA Security+ (SY0-701) Interactive Study Guide** repository. This is an advanced, fully localized study platform designed to thoroughly cover official exam objectives, track learning milestones, and facilitate interactive domain-by-domain exam practice.
 
 ---
 
 # 🇬🇧 English Version
 
-## 🎨 Design & Mood Concept: Cyberpunk Security Grid
-The user experience is guided by a sleek aesthetic inspired by tactical security interfaces (Cyberpunk Security Operations Center), featuring:
-* **Dark Tones & Neon Accents**: Anthracite gray, deep midnight blue, electric cyan, and high-visibility violet reduce eye strain during long study blocks.
-* **Fluid & Responsive Layout**: Responsive info cards, subtle interactive hover effects, and a streamlined navigation dock for easy access.
-* **Progress Tracking**: Clear status badges and progress indicators showing study completion.
-
----
-
 ## 🚀 Key Features
 
 ### 1. 📖 Structured Exam Objectives & Chapters
-The application is structured around the five official CompTIA exam domains. Each chapter includes:
-* Deep technical explanations, ASCII network/structural diagrams, and real-world cybersecurity scenarios.
-* A dual focus on theory, actual cyber attacks, and concrete mitigation steps.
+The application is structured precisely around the official CompTIA exam domains. Each chapter includes:
+* Deep technical breakdowns, secure architecture diagrams, and real-world system engineering scenarios.
+* Direct emphasis on mapping theoretical vulnerabilities to practical security controls and mitigations.
 
-### 2. 📝 Interactive Simulated Exam Quizzes
-Each chapter embeds an interactive quiz engine with multiple-choice questions formulated in the signature CompTIA exam style:
-* **Instant Feedbacks**: Instant evaluation highlighting correct/incorrect choices accompanied by extremely thorough technical explanations (*rationale*).
-* **Fully Responsive**: Touch targets optimized for both desktop cursors and mobile devices (at least 44px) with modern fluid animations.
+### 2. 📝 Simulated Exam Engine
+An interactive testing engine with multi-format practice questions crafted in the signature CompTIA exam style:
+* **Immediate Rationale**: Feedback is backed by extensive explanations to reinforce learning on both correct and incorrect selections.
+* **Fully Responsive**: Designed for comfortable usage on all screen sizes, ensuring clear typography and large tap targets.
 
-### 3. 🔍 Advanced Technical Glossary (`glossario.html`)
-An interactive, searchable reference database containing all key acronyms and vocabulary expected for the SY0-701 exam, with deep investigative details and actionable security mitigations for critical indicators including:
+### 3. 🔍 Technical Security Glossary (`glossario.html`)
+An advanced reference index indexing primary terms and acronyms expected for the CompTIA Security+ (SY0-701) exam. It houses rich definitions and investigation rules for indicators like:
 * **Process Injection, Process Hollowing & Process Doppelgänger**
 * **Indicators of Compromise (IoC)**
-* **Impossible travel**
-* **Account lockouts & Concurrent session usage**
-* **Resource consumption & Resource inaccessibility**
-* **Out-of-cycle logging & Missing logs**
+* **Impossible travel detection**
+* **Account lockouts & Concurrent session monitoring**
+* **Resource consumption & Resource inaccessibility triage**
+* **Out-of-cycle logging & Missing logs investigation**
 
-### 4. 📈 Local Client Synchronization (`localStorage`)
-Never lose your study progress. The application automatically and silently synchronizes your reading completion states and quiz answers directly inside the client's local storage (`localStorage`), allowing you to resume your learning exactly where you left off.
+### 4. 📈 Local Client Persistence (`localStorage`)
+Track progress offline. The application saves candidate checklist markings and simulated question attempts in the browser's persistent sandbox (`localStorage`), preventing data loss across reboots.
+
+---
+
+## ⚙️ Checklist Cloud Synchronization Setup
+The interactive self-assessment checklist (`checklist.html`) supports persistent backup and remote synchronization across devices via an external JSON storage service. To configure this, you must edit the empty credentials in `checklist.html`.
+
+### How to Configure:
+1. Open the file `checklist.html` and locate the configuration block around line 1005:
+   ```javascript
+   // ══════════════════════════════════════════════════════
+   //  CONFIGURAZIONE JSONBIN — inserisci i tuoi dati qui
+   // ══════════════════════════════════════════════════════
+   const JSONBIN_API_KEY = '';   // Paste your API Key here
+   const JSONBIN_BIN_ID  = '';   // Paste your Bin ID here
+   // ══════════════════════════════════════════════════════
+   ```
+2. Navigate to [jsonbin.io](https://jsonbin.io/) and create a free account.
+3. Extract your **API Key** from the JSONBin developer dashboard, and paste it inside the single quotes of `JSONBIN_API_KEY`.
+4. Create a new **Private Bin** (can be initialized with an empty array `[]` or any basic object). Copy the resulting **Bin ID** and paste it inside the single quotes of `JSONBIN_BIN_ID`.
+5. Save the file. Upon reload, your checklist achievements will automatically sync securely to the cloud.
 
 ---
 
 ## 🛠️ Project Architecture
 
 ```bash
-├── chapters/               # Rich study chapters for each exam domain (HTML files)
+├── chapters/               # Study manuals and syllabus guides (HTML)
 ├── style/
-│   └── style.css           # Central stylesheet with Cyberpunk theme variables
-├── index.html              # Main dashboard with overall progress and module access
-├── quizzes.html            # Core integrated quiz simulator hub
-├── glossario.html          # Interactive searchable dictionary of security terms
-├── checklist.html          # Dynamic self-assessment checklist of SY0-701 goals
-├── quiz_database.xml       # Structured XML database hosting mock exam items
-├── server.js               # Lightweight Node.js server for local hosting
-└── package.json            # Application dependencies and script definitions
+│   └── style.css           # Global stylesheet with central design token variables
+├── index.html              # Core application entrypoint and overall study tracker dashboard
+├── quizzes.html            # Core integrated simulated testing hub
+├── glossario.html          # Searchable dictionary of technical threat and mitigation terms
+├── checklist.html          # Interactive self-assessment checklist with JSONBin integration features
+├── quiz_database.xml       # Structured database storing practice exam items
+├── server.js               # Lightweight Node.js server for host execution
+└── package.json            # Application dependencies and execution scripts
 ```
 
 ---
 
 ## 🧑‍💻 Running the Application Locally
 
-1. **Prerequisites**: Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
-2. **Install Dependencies**: Install the tiny set of dependencies by running:
+1. **Prerequisites**: Ensure you have [Node.js](https://nodejs.org/) installed.
+2. **Install Dependencies**: Retrieve required modules:
    ```bash
    npm install
    ```
-3. **Boot the App**: Launch the built-in development server:
+3. **Start the Application**: Execute the local runtime server:
    ```bash
    npm start
    ```
-4. **Access UI**: Open your web browser and navigate to `http://localhost:3000` to begin your cybersecurity training course.
+4. **Access UI**: Open your web browser and navigate to `http://localhost:3000` to begin your training course.
 
 ---
 
@@ -84,69 +94,81 @@ Never lose your study progress. The application automatically and silently synch
 
 # 🇮🇹 Versione Italiana
 
-## 🎨 Design & Mood Concept: Cyberpunk Security Grid
-L'esperienza d'uso è guidata da un'estetica ispirata alle interfacce operative di sicurezza (Cyberpunk Security Operations Center), caratterizzata da:
-* **Tonalità Scure e Contrasti Neon**: Grigio antracite, blu notte profondo, ciano elettrico e violetto ad alta visibilità che riducono l'affaticamento visivo durante le lunghe sessioni di studio.
-* **Layout Fluido e Dinamico**: Card informative reattive, effetti di hover micro-animati e menu di scelta rapida ad accesso facilitato.
-* **Tracciamento Visivo dei Progressi**: Indicatori progressivi e barre di avanzamento dinamiche sincronizzate con lo stato dello studio effettuato.
-
----
-
-## 🚀 Caratteristiche Principali del Progetto
+## 🚀 Caratteristiche Principali
 
 ### 1. 📖 Capitoli e Domini d'Esame Strutturati
-L'applicazione è suddivisa secondo la classificazione ufficiale dei domini d'esame CompTIA (Dominio 1, 2, 3, 4, 5). Ciascun capitolo include:
-* Spiegazioni approfondite, diagrammi tecnici testuali ed esempi reali sul campo per ogni concetto di sicurezza.
-* Approccio pratico focalizzato sia sui concetti teorici fondamentali che sugli attacchi sferrati e le rispettive contromisure.
+L'applicazione è suddivisa secondo i domini ufficiali d'esame CompTIA. Ciascun capitolo include:
+* Spiegazioni approfondite, diagrammi tecnici d'architettura ed esempi di vulnerabilità sul campo.
+* Forte enfasi tecnica sulla mappatura tra falle logico-sistemiche e rispettive contromisure pratiche.
 
-### 2. 📝 Quiz Interattivi d'Esame
-Ciascun capitolo integra un motore di simulazione dei quiz d'esame con domande a risposta multipla formulate nello stile ufficiale CompTIA:
-* **Feedback immediato**: Visualizzazione istantanea delle risposte corrette ed errate accompagnata da una spiegazione razionale (*rationale*) approfondita.
-* **Adattabilità Desktop e Mobile**: Esperienza touch target ottimizzata (comandi di almeno 44px) ed elementi grafici fluidi.
+### 2. 📝 Simulatore d'Esame Interattivo
+Un motore di quiz interattivo mirato all'esercitazione progressiva:
+* **Analisi Logica delle Risposte**: Spiegazioni dettagliate per ciascuna opzione (*rationale*) per comprendere le ragioni dietro le risposte corrette ed errate.
+* **Layout Ottimizzato**: Strutturato per essere leggibile su schermi desktop e mobile, garantendo un'interfaccia usabile in mobilità.
 
 ### 3. 🔍 Glossario Tecnico Avanzato (`glossario.html`)
-Un compendio alfabetico esaustivo e interattivo contenente tutte le sigle e i termini per l'esame SY0-701. Include definizioni ricche di dettagli investigativi e mitigazioni pratiche per indicatori critici di compromissione, tra cui:
-* **Process Injection, Process Hollowing & Process Doppelgänger**
-* **Indicators of Compromise (IoC)**
-* **Impossible travel**
-* **Account lockouts & Concurrent session usage**
-* **Resource consumption & Resource inaccessibility**
-* **Out-of-cycle logging & Missing logs**
+Un compendio alfabetico integrato progettato per riassumere sigle e vocabolario d'esame. Include dettagli di forensics e mitigazioni per indicatori tra cui:
+* **Process Injection, Process Hollowing e Process Doppelgänger**
+* **Indicatori di Compromissione (IoC)**
+* **Identificazione di Impossible travel**
+* **Blocco degli account (Account lockouts) e Monitoraggio di sessioni concorrenti**
+* **Gestione di Resource consumption e Resource inaccessibility**
+* **Logging fuori ciclo (Out-of-cycle logging) e Log mancanti (Missing logs)**
 
-### 4. 📈 Persistenza Locale & Sincronizzazione (`localStorage`)
-Non lasciarti preoccupare dalla chiusura della scheda o del browser: l'app salva automaticamente lo stato di avanzamento dei capitoli studiati e delle risposte dei quiz nel `localStorage` del client ordinatamente, garantendo la ripresa dello studio esattamente da dove era stato interrotto.
+### 4. 📈 Salvataggio Locale Persistente (`localStorage`)
+Nessuna perdita di progresso: lo stato di completamento dei moduli studiati e i punteggi dei quiz superati vengono depositati nel `localStorage` del browser, consentendo di riprendere le sessioni di studio.
 
 ---
 
-## 🛠️ Architettura e Struttura Directory
+## ⚙️ Configurazione per la Sincronizzazione Remota della Checklist
+La checklist di studio (`checklist.html`) supporta il salvataggio in cloud e la sincronizzazione dello stato dei progressi tra dispositivi differenti. Per attivare questo modulo, è necessario inserire i parametri personali di JSONBin all'interno del codice sorgente di `checklist.html`.
+
+### Passaggi per la Configurazione:
+1. Apri il file `checklist.html` e individua il blocco di configurazione intorno alla riga 1005:
+   ```javascript
+   // ══════════════════════════════════════════════════════
+   //  CONFIGURAZIONE JSONBIN — inserisci i tuoi dati qui
+   // ══════════════════════════════════════════════════════
+   const JSONBIN_API_KEY = '';   // Incolla qui la tua API Key
+   const JSONBIN_BIN_ID  = '';   // Incolla qui il tuo Bin ID
+   // ══════════════════════════════════════════════════════
+   ```
+2. Accedi al portale [jsonbin.io](https://jsonbin.io/) e crea un account gratuito.
+3. Ottieni la tua **API Key** dalla dashboard sviluppatore del servizio e incollala all'interno dei singoli apici della variabile `JSONBIN_API_KEY`.
+4. Crea un nuovo **Bin privato** sul portale (può essere inizializzato con un semplice array vuoto `[]` o un oggetto a piacimento). Copia il relativo **Bin ID** ottenuto e incollalo nei singoli apici di `JSONBIN_BIN_ID`.
+5. Salva il file. Ricaricando l'applicazione, la checklist invierà e riceverà lo stato d'avanzamento dal tuo archivio sicuro online.
+
+---
+
+## 🛠️ Architettura e File del Progetto
 
 ```bash
-├── chapters/               # Raccolta dei capitoli per ogni dominio d'esame (HTML)
+├── chapters/               # Manuali tecnici descrittivi per ciascun dominio d'esame (HTML)
 ├── style/
-│   └── style.css           # Fogli di stile centralizzati con variabili di colore Cyberpunk
-├── index.html              # Portale principale con cruscotto complessivo e avanzamento
-├── quizzes.html            # Hub centrale dei quiz interattivi
-├── glossario.html          # Dizionario interattivo ricercabile
-├── checklist.html          # Lista di autoscorritura dei requisiti d'esame (SY0-701)
-├── quiz_database.xml       # Archivio strutturato delle domande del simulatore quiz
-├── server.js               # Server Node.js elementare per l'ambiente di runtime
-└── package.json            # Configurazione delle dipendenze del progetto
+│   └── style.css           # CSS globale contenente i fogli di stile dell'applicazione
+├── index.html              # Home page principale e dashboard complessiva di tracciamento dello studio
+├── quizzes.html            # Hub dei quiz d'esame simulati e interattivi
+├── glossario.html          # Dizionario dei termini, investigazioni e relative contromisure
+├── checklist.html          # Checklist di autovalutazione degli obiettivi con sistema JSONBin
+├── quiz_database.xml       # Database XML contenente i blocchi delle domande d'esame
+├── server.js               # Server Node.js minimale per l'hosting locale
+└── package.json            # Dipendenze Node e comandi di esecuzione
 ```
 
 ---
 
 ## 🧑‍💻 Come Eseguire l'Applicazione in Locale
 
-1. **Requisiti**: Assicurati di avere installato [Node.js](https://nodejs.org/) sul computer.
-2. **Installazione**: Installa le dipendenze dichiarate avviando:
+1. **Requisiti**: Assicurati di aver installato [Node.js](https://nodejs.org/) sul tuo elaboratore.
+2. **Installazione**: Installa la suite di moduli richiesta avviando:
    ```bash
    npm install
    ```
-3. **Avvio**: Esegui il server di sviluppo integrato:
+3. **Avvio**: Avvia il server locale di sviluppo:
    ```bash
    npm start
    ```
-4. **Accesso**: Apri il browser all'indirizzo `http://localhost:3000` per iniziare il tuo addestramento di sicurezza informatica.
+4. **Accesso**: Digita nel browser `http://localhost:3000` per accedere all'ambiente di studio.
 
 ---
 
