@@ -824,8 +824,8 @@
 (function () {
   /* ── Dati quiz OBJ 1.2 (16 domande d'esame) ─────────────────── */
   const Q = [
-    { id:'SCREEN_095', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'Il login verifica l\'identità (Authentication). Ciò che avviene dopo — decidere cosa l\'utente può fare — è Authorization. Le due fasi sono sequenziali e distinte.' },
-    { id:'SCREEN_108', text:'You have been tasked with conducting a security assessment of hosts on an IP subnet. When configuring the vulnerability scan, you enter valid credentials. A colleague suggests the scan results are useless since the credentials were known. Which IT security concept validates the scan results?', opts:[{id:'A',t:'Zero trust',c:true},{id:'B',t:'Principle of least privilege',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Zero-day',c:false}], expl:'Zero Trust assume che ogni sistema debba essere verificato e testato, anche dall\'interno. Usare credenziali valide per una scansione autenticata è coerente con il paradigma: "verificare sempre", indipendentemente dalla posizione o dall\'identità.' },
+    { id:'SCREEN_095', source:'TL', text:'Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?', opts:[{id:'A',t:'Authorization',c:true},{id:'B',t:'Identification',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Authentication',c:false}], expl:'Il login verifica l\'identità (Authentication). Ciò che avviene dopo — decidere cosa l\'utente può fare — è Authorization. Le due fasi sono sequenziali e distinte.' },
+    { id:'SCREEN_108', source:'TL', text:'You have been tasked with conducting a security assessment of hosts on an IP subnet. When configuring the vulnerability scan, you enter valid credentials. A colleague suggests the scan results are useless since the credentials were known. Which IT security concept validates the scan results?', opts:[{id:'A',t:'Zero trust',c:true},{id:'B',t:'Principle of least privilege',c:false},{id:'C',t:'Non-repudiation',c:false},{id:'D',t:'Zero-day',c:false}], expl:'Zero Trust assume che ogni sistema debba essere verificato e testato, anche dall\'interno. Usare credenziali valide per una scansione autenticata è coerente con il paradigma: "verificare sempre", indipendentemente dalla posizione o dall\'identità.' },
     { id:'SCREEN_114', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'SSO (Single Sign-On) permette di usare un\'unica autenticazione (le credenziali di dominio) per accedere a più applicazioni SaaS. MFA aumenta la sicurezza dell\'accesso ma non riduce il numero di credenziali. LEAP e PEAP sono protocolli EAP per reti Wi-Fi.' },
     { id:'SCREEN_131', text:'A data administrator is configuring authentication for a SaaS application and would like to reduce the number of credentials employees need to maintain. The company prefers to use domain credentials to access new SaaS applications. Which of the following methods would allow this functionality?', opts:[{id:'A',t:'SSO',c:true},{id:'B',t:'LEAP',c:false},{id:'C',t:'MFA',c:false},{id:'D',t:'PEAP',c:false}], expl:'Stessa domanda di . SSO federated (es. SAML con Active Directory) è esattamente il pattern descritto: le credenziali di dominio vengono usate come identity provider per i SaaS applicativi.' },
     { id:'SCREEN_144', text:'An analyst is evaluating the implementation of Zero Trust principles within the data plane. Which of the following would be most relevant for the analyst to evaluate?', opts:[{id:'A',t:'Secured zones',c:false},{id:'B',t:'Subject role',c:true},{id:'C',t:'Adaptive identity',c:false},{id:'D',t:'Threat scope reduction',c:false}], expl:'Il Data Plane include Subject/System, Policy Enforcement Point e il concetto di Implicit Trust Zones. "Subject role" si riferisce al componente Subject nel Data Plane. Adaptive identity e Threat scope reduction appartengono al Control Plane.' },
@@ -882,7 +882,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1013,5 +1013,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

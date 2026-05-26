@@ -58,13 +58,15 @@
       <nav class="toc-sticky" aria-label="Indice del capitolo">
         <div class="toc-section">Sorgenti di Rete</div>
         <a href="#network_firewall_logs">Log di Firewall e di Rete</a>
+        <a href="#ips_packet_captures">IPS/IDS e Packet Captures (PCAP)</a>
         <a href="#vpn_impossible_travel">VPN e Impossible Travel</a>
         <a href="#waf_injection">WAF e Logic Bomb / Command Injection</a>
 
         <div class="toc-section">Sorgenti Organizzative</div>
         <a href="#siem_aggregation">Sistemi SIEM ed Alerting</a>
         <a href="#agent_vs_agentless">Monitoraggio Agentless ed Endpoint</a>
-        <a href="#dashboards_metrics">Dashboard per la Dirigenza</a>
+        <a href="#dashboards_metrics">Dashboard e Report Automatizzati</a>
+        <a href="#vuln_scans_investigation">Scansioni di Vulnerabilità nell'Istruttoria</a>
 
         <div class="toc-section">Investigazioni e Forensics</div>
         <a href="#brute_force_failure">Log di Autenticazione (Event ID 4625)</a>
@@ -104,7 +106,26 @@
           </div>
         </section>
 
-        <!-- ══ SEZIONE 2 — VPN E IMPOSSIBLE TRAVEL ════════════════ -->
+        <!-- ══ SEZIONE 2 — IPS/IDS E PACKET CAPTURES ═══════════════ -->
+        <section id="ips_packet_captures">
+          <h2>Sorgenti di Rete Avanzate: Log di IPS/IDS e Packet Captures (PCAP)</h2>
+          <p>
+            Mentre i firewall approvano o rigettano i transiti basandosi principalmente su porte e indirizzi IP, altre fonti di rete avanzate offrono visibilità sul payload e sul comportamento interno del traffico:
+          </p>
+          <dl class="termlist">
+            <dt>IPS/IDS Logs (Registri dei Sistemi di Intrusione)</dt>
+            <dd>Catturano gli allarmi emessi quando i pacchetti di rete corrispondono a firme di pattern dannosi (Signature-based) o deviano dai comportamenti attesi (Anomaly-based). Riportano la regola infranta, la gravità del pericolo e l'eventuale reazione di blocco istantaneo intrapresa dall'Intrusion Prevention System (IPS).</dd>
+
+            <dt>Packet Captures (Cattura dei Pacchetti / file PCAP)</dt>
+            <dd>La registrazione fedele e a livello più profondo del traffico raw di rete passante da un'interfaccia o switch (tramite port mirroring o TAP). L'analista forense analizza i file di cattura (PCAP) con software come Wireshark per compiere la <strong>Deep Packet Inspection (DPI)</strong>.
+              <ul>
+                <li><strong>Utilità Investigativa</strong>: Permette di ricostruire intere sessioni TCP, estrarre file binari e allegati in transito o ispezionare le stringhe esatte di testo scambiate, benché richieda imponenti risorse di archiviazione (Storage cost).</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 3 — VPN E IMPOSSIBLE TRAVEL ════════════════ -->
         <section id="vpn_impossible_travel">
           <h2>Indicatori VPN e Allarmi di "Impossible Travel"</h2>
           <p>
@@ -164,19 +185,38 @@
           </ul>
         </section>
 
-        <!-- ══ SEZIONE 6 — DASHBOARD PER LA DIRIGENZA ═════════════ -->
+        <!-- ══ SEZIONE 6 — DASHBOARD E REPORT AUTOMATIZZATI ══════ -->
         <section id="dashboards_metrics">
-          <h2>Dashboard ed indicators di alto livello</h2>
+          <h2>Dashboard e Report Automatizzati nelle Investigazioni</h2>
           <p>
-            Il linguaggio impiegato con specialisti SOC differisce da quello adatto agli organi direttivi.
+            Il reporting e lo scambio dati assumono forme differenziate a seconda del pubblico di destinazione all'interno dell'organizzazione aziendale:
           </p>
           <dl class="termlist">
-            <dt>Dashboard (Cruscotti visuali)</dt>
-            <dd>Strumento principale che l'amministratore di sistema deve impiegare per **presentare trimestralmente al Board of Directors** i dati salienti sull'andamento globale degli incidenti e lo stato complessivo di cybersecurity. Evita metadati tecnici ostici per la dirigenza favorendo metriche e trend grafici di fatturato d'impatto.</dd>
+            <dt>Dashboard (Cruscotti di sintesi visiva)</dt>
+            <dd>Fornisce dati in tempo reale aggregati sotto forma di grafici, diagrammi e trend storici. È lo strumento ideale utilizzato dagli analisti senior per <strong>presentare trimestralmente al consiglio di amministrazione (Board of Directors)</strong> l'andamento globale della cyber security e l'impatto degli incidenti, escludendo minuzie tecniche incomprensibili per il management.</dd>
+
+            <dt>Automated Reports (Reportistica periodica automatizzata)</dt>
+            <dd>Documenti schedulati inviati automaticamente a intervalli regolari (giornalieri o settimanali) ai vari responsabili di sistema. Riassumono metriche, elenchi di alert insoluti, performance di patching e allineamento di compliance, consentendo di monitorare continuativamente lo stato dell'infrastruttura.</dd>
           </dl>
         </section>
 
-        <!-- ══ SEZIONE 7 — EVENT ID E DIGITAL FORENSICS ═══════════ -->
+        <!-- ══ SEZIONE 7 — SCANSIONI DI VULNERABILITÀ NELLE INDAGINI ════ -->
+        <section id="vuln_scans_investigation">
+          <h2>Scansioni di Vulnerabilità nell'Istruttoria</h2>
+          <p>
+            L'analisi forense e l'investigazione degli incidenti traggono immensa utilità dai dati di scansione preventiva e consultiva delle debolezze del sistema:
+          </p>
+          <dl class="termlist">
+            <dt>Vulnerability Scans (Scansione delle Vulnerabilità)</dt>
+            <dd>L'ispezione periodica d'infrastruttura (scansioni delle vulnerabilità di rete o scansioni antivirus) volta a mappare attivamente host, porte aperte ed elementi orfani.
+              <ul>
+                <li><strong>Utilità Investigativa</strong>: Quando si verifica un attacco Cyber, l'analista consulta i log degli scanner di vulnerabilità (es: Nessus) per determinare se il server compromesso ospitasse difetti descritti o non patchati prima dell'evento. Questo permette di mappare il probabile percorso d'ingresso (Vettore d'attacco) adoperato dall'attaccante e ricostruire scientificamente la "root cause".</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 8 — EVENT ID E DIGITAL FORENSICS ═══════════ -->
         <section id="brute_force_failure">
           <h2>Event ID Windows, Metadati e Fasi Forensi</h2>
           
@@ -190,25 +230,73 @@
             <dd>Contengono attributi incorporati nei file (come foto o video) che riportano data di scatto-creazione, coordinate geografiche GPS, autore e macchina d'origine. Estrarre i metadati è il metodo d'elezione per ricavare tali informazioni senza alterare il reperto.</dd>
             
             <dt>Forensic Acquisition (Acquisizione Forense)</dt>
-            <dd>È la sottofase delle investigazioni forensi regolamentate volta all'ottenimento vero e proprio dell'immagine conforme (Bit-stream image) dai dischi rigidi o dai supporti fisici. Consente l'analisi offline dettagliata preservando il sistema originale.</dd>
+            <dd>La sottofase dello studio investigativo volta all'ottenimento vero e proprio dell'immagine conforme (Bit-stream image) dai dischi rigidi o dai supporti fisici. Consente l'analisi offline dettagliata preservando il sistema originale.</dd>
 
-            <dt>Write Blocker (Inibitore di Scrittura)</dt>
-            <dd>Un dispositivo hardware o un driver software specializzato che <strong>impedisce tassativamente qualsiasi tentativo di scrittura o modifica accidentale</strong> della memoria di memorizzazione originale (es: hard disk del computer target) durante il processo di acquisizione forense. Garantisce l'integrità giuridica assoluta del reperto originario.</dd>
+            <dt>Order of Volatility (Ordine di volatilità delle prove)</dt>
+            <dd>Principio metodologico fondamentale che definisce la sequenza di raccolta e conservazione dei reperti digitali a caldo. L'analista deve estrarre prioritariamente le informazioni a deterioramento rapido o evaporazione elettrica prima che si spenga l'host, seguendo questa gerarchia standard decrescente:
+              <ol>
+                <li><strong>Memoria CPU e Cache Memory</strong>: Registri del processore, cache di hardware L1/L2/L3 (le più labili in assoluto).</li>
+                <li><strong>Tabella di stato e Cache di Rete</strong>: Tabelle di routing, connessioni TCP/UDP attive, e la <strong>ARP Cache</strong> (che associa indirizzi IP locali a MAC fisici).</li>
+                <li><strong>Memoria di Sistema (RAM)</strong>: Mappatura complessiva delle esecuzioni interattive a caldo (tramite <strong>Memory Dump</strong>).</li>
+                <li><strong>Memoria Virtuale Ausiliaria</strong>: File temporanei e porzioni di accumulo su disco (como lo <strong>Swap File / Pagefile.sys</strong>).</li>
+                <li><strong>Supporti Fissi di Archiviazione</strong>: I dati persistenti conservati nei dischi rigidi integrati (<strong>Hard Disk</strong> / SSD).</li>
+                <li><strong>Supporti di Memoria Rimovibili (Removable Storage Media)</strong>: Unità Flash esterne USB o schede SD scoperte.</li>
+                <li><strong>Tracce Logiche Remote</strong>: Record e telemetria trasmessi a server SIEM esterni o repository centralizzate.</li>
+                <li><strong>Optical Discs</strong>: Supporti laser non volatili offline (CD-ROM, DVD, Blu-Ray), in fondo alla gerarchia.</li>
+              </ol>
+            </dd>
 
-            <dt>Disk Image (Immagine del Disco)</dt>
-            <dd>Una copia bit-a-bit (bit-stream image) esatta e fedele di un intero supporto fisico di archiviazione (come HDD, SSD o pen-drive USB). Include non solo i file visibili logici, ma anche la tabella delle partizioni, i file di sistema nascosti, lo spazio non allocato (unallocated space) e lo <em>slack space</em> dove potrebbero celarsi frammenti di dati precedentemente cancellati dall'attaccante.</dd>
+            <dt>Write Protection e Write Blocker (Inibitori di Scrittura)</dt>
+            <dd>L'adozione di protezioni fisiche (Write Protection abilitata da selettori hardware) o logiche. Un diodo d'inibizione hardware (<strong>Write Blocker</strong>) funge da guardiano elettronico frapposto tra la memoria sequestrata e la <strong>Forensics Workstation</strong> del perito, bloccando comandi intesi a scrivere sul disco originario e lasciando fluire solo comandi di lettura per l'imaging. Impedisce tassativamente qualsiasi modifica accidentale o alterazione dei timestamp del reperto.</dd>
 
-            <dt>RAM Volatility (Volatilità della RAM)</dt>
-            <dd>Il principio forense <strong>Order of Volatility (Ordine di volatilità)</strong> definisce la memoria fisica **RAM** come il reperto a più elevata volatilità chimico-elettronica (seguita da file temporanei, registri ed infine memorie SSD/HDD). I contenuti della RAM vanno perciò raccolti e conservati accuratamente per primi durante l'intervento a caldo.</dd>
+            <dt>Disk Image e Copia Fisica (Sector-by-Sector / Bit-level Copy)</dt>
+            <dd>Una copia bit-a-bit (bit-stream image o clone) speculare esatta di un intero supporto d'archiviazione (es: HDD o SSD) redatta a basso livello settore per settore. Include non solo i file visibili logici, ma anche la tabella delle partizioni, i file di sistema nascosti, lo spazio non allocato (unallocated space) e lo <em>slack space</em> dove risiedono i <strong>Deleted Files</strong> (file rimossi logicamente dall'utente i cui dati binari rimangono fisicamente intatti sulla superficie magnetica fino a successiva sovrascrittura).</dd>
 
-            <dt>Memory Dump (Dump della Memoria)</dt>
-            <dd>La procedura d'estrazione e copia speculare del contenuto volatile memorizzato all'interno della memoria RAM fisica di un computer attivo in un file su disco (es: tramite utility come FTK Imager o WinPmem). Consente di ispezionare credenziali in chiaro, chiavi crittografiche attive, processi in esecuzione ed eventuali malware operanti in modalità fileless.</dd>
+            <dt>Strumenti Software di Digital Forensics (FTK, EnCase, Autopsy, CAINE)</dt>
+            <dd>Piattaforme standard validate necessarie per l'esame analitico, la classificatione e il reporting dibattimentale:
+              <ul>
+                <li><strong>FTK (Forensic Toolkit)</strong> ed <strong>FTK Imager</strong>: Suite commerciali e utility freeware note per compiere calcoli istantanei di funzioni hash integrali (<strong>MD5</strong> e <strong>SHA</strong>) e per l'imaging rapido conforme dei supporti.</li>
+                <li><strong>EnCase Forensic</strong>: Software analitico commerciale d'elezione consolidato nei tribunali globali per l'indicizzazione estesa e l'analisi dei file system.</li>
+                <li><strong>Autopsy</strong>: Eccezionale suite grafica open source intuitiva (basata sul motore Sleuth Kit) ideale per investigazioni rapide e file carving.</li>
+                <li><strong>CAINE (Computer Aided Investigative Environment)</strong>: Distribuzione Live Linux italiana che monta di default in sola lettura i dischi innestati, proteggendo l'integrità giuridica originaria.</li>
+              </ul>
+            </dd>
 
-            <dt>Live Forensics (Analisi a Caldo)</dt>
-            <dd>La conduzione di indagini informatiche direttamente su un **sistema operativo attivo e ancora acceso**, raccogliendo informazioni estremamente sensibili e volatili (come connessioni di rete TCP/UDP aperte, file aperti in tempo reale, chiavi d'accesso decifrate e dati RAM) che andrebbero irrimediabilmente perdute in caso di spegnimento fisico della valvola d'alimentazione.</dd>
+            <dt>KFF (Known File Filter) e File Filtering</dt>
+            <dd>Tecnologia avanzata integrata nelle suite forensi per il filtraggio intelligente (<strong>File Filtering</strong>). Sfruttando un database centrale di firme hash (quali quelle del NIST), il Known File Filter (KFF) isola ed esclude automaticamente i file noti integri di sistema (es: dll native di Windows) riducendo i tempi di analisi, o allerta istantaneamente l'analista al rilevamento di hash noti nocivi come i malware censiti.</dd>
 
-            <dt>Dead Forensics (Analisi a Freddo)</dt>
-            <dd>La conduzione di indagini informatiche su un **sistema spento (powered off)**, asportandone fisicamente i supporti di memorizzazione e procedendo all'imaging offline per mezzo di un write blocker. Questa tecnica è esente da rischi derivanti dall'attivazione di frammenti di codice malevolo o distruttivo ed assicura la totale stabilità degli indici logici del disco fisso.</dd>
+            <dt>Strumenti a Riga di Comando in Ambito Unix (dd, ddrescue e Netcat)</dt>
+            <dd>Nelle investigazioni su kernel standard (<strong>Linux Forensics</strong>), si utilizzano utility fondamentali:
+              <ul>
+                <li><strong>dd</strong>: Comando universale adatto alla copia a basso livello di blocchi fisici per generare file immagine grezzi esenti da alterazioni.</li>
+                <li><strong>ddrescue</strong>: Strumento avanzato per estrarre copie conformi da supporti fisici logorati o aventi settori danneggiati, saltando le aree illeggibili in sicurezza.</li>
+                <li><strong>Netcat (nc)</strong>: Il coltellino svizzero per incanalare a caldo lo stream crudo dell'acquisizione volatile (es: dump di RAM) via cavo di rete Ethernet direttamente alla macchina forense di raccolta.</li>
+              </ul>
+            </dd>
+
+            <dt>Artefatti di Sistema e Investigazione (Registry Keys ed Event Logs)</dt>
+            <dd>La telemetria e i log locali conservati nei sistemi d'endpoint che evidenziano le azioni d'attacco:
+              <ul>
+                <li><strong>Registry Keys (Chiavi di Registro Windows)</strong>: Un database che conserva frammenti storici di file recenti aperti, configurazioni di persistenza malware, esecuzioni di programmi e cronologia delle periferiche USB agganciate.</li>
+                <li><strong>Event Logs (Registri Eventi)</strong>: Registrazioni centralizzate dei messaggi del sistema, per esempio ispezionabili per riscontrare tentativi ripetuti falliti di login (Event ID 4625 per forza bruta).</li>
+                <li><strong>Ricerche Internet (Internet Searches)</strong>: File di cronologia browser, cache web e cookie di sessione residui che attestano il punto d'approdo iniziale dell'attaccante.</li>
+              </ul>
+            </dd>
+
+            <dt>Metodiche di Duplicazione: Disk-to-Image, Disk-to-Disk, Image-to-Disk</dt>
+            <dd>Le procedure fisiche di trasfusione del dato:
+              <ul>
+                <li><strong>Disk-to-Image (Da disco a file immagine)</strong>: Riversa l'intera superficie del disco originale in un file contenitore compresso protetto da firme hash (es: formato .E01 o file raw).</li>
+                <li><strong>Disk-to-Disk (Da disco a disco)</strong>: Duplica i settori crudi bit-a-bit direttamente da un disco originario ad un secondo disco fisico sterile di laboratorio.</li>
+                <li><strong>Image-to-Disk (Da file immagine a disco fisico)</strong>: L'operazione speculare di scrittura e scompattamento di un'immagine forense validata su disco fisico per riprodurre un sistema speculare avviabile in sandbox.</li>
+              </ul>
+            </dd>
+
+            <dt>Live Forensics (Analisi a Caldo) e Live Acquisition</dt>
+            <dd>La conduzione di indagini ed estrazione delle informazioni direttamente su un <strong>sistema operativo acceso e attivo</strong>. È indispensabile per catturare la memoria RAM prima dello spegnimento dell'alimentatore fisico, consentendo all'analista forense di conservare l'offuscamento di malware fileless, processi attivi in background e chiavi di cifratura attive.</dd>
+
+            <dt>Dead Forensics (Analisi a Freddo) e Static Acquisition</dt>
+            <dd>La conduzione di indagini informatiche e l'estratto forense su un <strong>sistema spento (powered off)</strong>, asportandone fisicamente i supporti di memorizzazione per connetterli offline a un inibitore di scrittura. Annulla e azzera il rischio di iniezione di codice distruttivo e assicura l'immobilità e la ripetibilità assoluta degli indici d'analisi.</dd>
           </dl>
         </section>
 
@@ -993,7 +1081,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1121,5 +1209,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

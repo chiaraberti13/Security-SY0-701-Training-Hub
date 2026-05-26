@@ -71,6 +71,11 @@
         <div class="toc-section">Accessi e VPN</div>
         <a href="#vpn_quarantine">IPSec VPN & Quarantena Host Guest</a>
 
+        <div class="toc-section">Email & OS Security</div>
+        <a href="#email_security">Sicurezza Email (SPF, DKIM, DMARC)</a>
+        <a href="#os_security">OS Hardening (GPO, SELinux)</a>
+        <a href="#detection_control">NAC, EDR/XDR & DLP</a>
+
         <div class="toc-section">Verifica & Quiz</div>
         <a href="#quiz-section">Quiz interattivo (35 quiz)</a>
         <a href="#flashcard">Flashcard di riepilogo</a>
@@ -269,6 +274,141 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             <li><strong>IPSec per Cloud e VPN</strong>: Per schermare comunicazioni sensibili all'interno di un private cloud della ditta o blindare il transito verso l'esterno per dipendenti legati fittiziamente a client software in smart working (Remote Access VPN Agent), la suite d'elezione a livello di rete IP è rappresentata da <strong>IPSec</strong>.</li>
             <li><strong>Quarantena e Attestazione di Conformità (Compliance Attestation)</strong>: Disporre di una sottorete chiusa di quarantena per raccogliere dispositivi guest sconosciuti impone la conformità degli stessi prima della liberazione sui canali enterprise. Questo controllo è assicurato tramite processi di <strong>Compliance Attestation (Attestazione di Conformità)</strong>.</li>
           </ul>
+        </section>
+
+        <!-- ══ SEZIONE 8 — SICUREZZA EMAIL E MITIGAZIONE SPOOFING ════ -->
+        <section id="email_security">
+          <h2>Misure di Sicurezza Email e Mitigazione dello Spoofing</h2>
+          <p>
+            La posta elettronica è il vettore primario per gli attacchi di Phishing e frodi aziendali. Configurare le misure tecniche correttive nel DNS permette di reprimere il camuffamento dei mittenti (Email Spoofing):
+          </p>
+          <dl class="termlist">
+            <dt>SPF (Sender Policy Framework)</dt>
+            <dd>Un record testuale (TXT) pubblicato nel DNS di un'organizzazione che <strong>autorizza esplicitamente quali indirizzi IP o server di posta sono legittimati a inviare email</strong> per conto di quel dominio aziendale. I server dei destinatari controllano questo record per rifiutare messaggi non autorizzati.</dd>
+
+            <dt>DKIM (DomainKeys Identified Mail)</dt>
+            <dd>Aggiunge un'<strong>impronta o firma crittografica digitale (Cryptographic Signature) all'header dei messaggi email inviati</strong>. Consente al server ricevente di fare una verifica asimmetrica tramite la chiave pubblica pubblicata nel DNS del mittente, accertando che il contenuto non sia stato modificato in transito e che provenga realmente dal detentore del dominio.</dd>
+
+            <dt>DMARC (Domain-based Message Authentication, Reporting, and Conformance)</dt>
+            <dd>La tecnologia cardine che <strong>unisce e armonizza le convalide SPF e DKIM</strong>. Consente di definire nel DNS regole o istruzioni rigide (Policy) destinate ai server riceventi di tutto il pianeta su come trattare le email che fallisent le verifiche di allineamento (es. <code>p=none</code> per monitorare, <code>p=quarantine</code> per deviare nello spam, o <code>p=reject</code> per distruggere silenziatemente la mail spooffata).</dd>
+
+            <dt>Secure Email Gateway (SEG) / Gateway di Posta</dt>
+            <dd>Un proxy applicativo trasparente interposto in linea (In-line) che esegue un'ispezione preventiva completa (Content Inspection, filtro antispam, sandboxing degli allegati e scansione degli URL) prima di inoltrare la posta verso il mail server interno o verso la mailbox finale dell'utente.</dd>
+          </dl>
+          <div class="focused-concept">
+            <strong>Sintesi d'Esame — SPF vs DKIM vs DMARC:</strong><br>
+            Mentre <strong>SPF</strong> valida l'<em>IP d'origine</em> del mittente e <strong>DKIM</strong> convalida l'<em>integrità crittografica</em> della mail, <strong>DMARC</strong> coordina entrambe fornendo precise <strong>politiche prescrittive di blocco</strong> ed aggregando report storici delle sorgenti d'attacco nel mondo.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 9 — OS HARDENING E REGOLE DI ACCESSO OPERATIVO ═ -->
+        <section id="os_security">
+          <h2>OS Hardening ed Implementazione di Standard Sicuri</h2>
+          <p>
+            Modificare le impostazioni dei singoli sistemi operativi e strutturare regole di transito logico è vitale per arrestare gli attacchi laterali:
+          </p>
+          <dl class="termlist">
+            <dt>Group Policy (GPO / Criteri di Gruppo) & Windows Enforcement</dt>
+            <dd>
+              Strumento centralizzato di spicco in ambiente Microsoft Active Directory (AD). Consente agli amministratori di imporre a livello centralizzato, uniforme e automatico criteri di configurazione, restrizioni e controlli su migliaia di postazioni e server aziendali. Le politiche più importanti gestite tramite GPO per lo standard Security+ comprendono:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Password requirements (Requisiti della password)</strong>: Regole forzate che dettano la lunghezza minima della password, i vincoli di complessità (simboli, maiuscole, numeri), il ciclo massimo e minimo di vita (password age) e la cronologia storica (password history) per sventare il riutilizzo di password vecchie o deboli.</li>
+                <li style="margin-bottom: 6px;"><strong>Account lockout policies (Criteri di blocco dell'account)</strong>: Parametri per limitare gli attacchi di brute force e limitare il lockout. Definiscono il <em>Lockout threshold</em> (soglia massima di tentativi falliti permessi), il <em>Lockout duration</em> (minuti di blocco dell'account) e il tempo di reset del contatore. Se configurati impropriamente, costringono gli utenti a continui fermi in caso di spruzzi massivi (Password Spraying).</li>
+                <li style="margin-bottom: 6px;"><strong>Software restrictions / Application restrictions (Restrizioni del Software)</strong>: Tecnologie come Software Restriction Policies (SRP) e AppLocker che impediscono l'esecuzione di file non autorizzati. Funzionano creando regole basate sull'impronta (Hash rule), sul percorso di cartella (Path rule) o sul certificato del produttore (Publisher rule) per attuare un rigoroso modello di <em>Application Allow List</em> (permettendo di eseguire solo codice esplicitamente approvato) e sopprimere file nocivi.</li>
+                <li style="margin-bottom: 6px;"><strong>Security Template (Modello di Sicurezza)</strong>: File di configurazione preconfezionati e strutturati che raccolgono una combinazione di impostazioni di sicurezza logiche (registri, patch enforcement, diritti d'utenza, politiche password e audit). Questi modelli possono essere importati nelle GPO o analizzati tramite tool di conformità per verificare l'allineamento istantaneo di un host ad una baseline approvata.</li>
+              </ul>
+            </dd>
+
+            <dt>Mandatory Access Control (MAC) vs Discretionary Access Control (DAC)</dt>
+            <dd>
+              I due principali modelli di controllo dell'accesso esaminati a livello di sistema operativo ed OS hardening:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Discretionary Access Control (DAC)</strong>: Modello in cui il proprietario della risorsa (file o directory) ha la facoltà (discrezione) di decidere chi può accedervi e con quali diritti (es: <code>chmod 777 file.txt</code> in Linux). Vulnerabile per eccellenza: se un hacker compromette o infetta un processo in esecuzione sotto un'utenza con privilegi elevati (come root o un utente amministratore), eredita i suoi interi permessi operativi, espugnando l'intero sistema.</li>
+                <li style="margin-bottom: 6px;"><strong>Mandatory Access Control (MAC)</strong>: Il modello più rigido e protetto (utilizzato in scenari militari e governativi). Il sistema operativo impone le regole di accesso basandosi esclusivamente su policy e <strong>livelli di classificazione (security labels/labels d'integrità o contesti)</strong> predefiniti. L'utente o il proprietario del file non ha alcuna autorità per alterare o aggirare le regole. Se un demone web viene bucato, il MAC gli impedisce di scrivere fuori dalla sua area di competenza, anche se il demone agisce con credenziali di root.</li>
+              </ul>
+            </dd>
+
+            <dt>SELinux (Security-Enhanced Linux) & Context-based Permissions</dt>
+            <dd>
+              Un'implementazione di riferimento del modello MAC integrata nel kernel Linux. SELinux impone politiche di sicurezza basate su <strong>Context-based Permissions (Permessi guidati dal contesto)</strong>. Ogni risorsa del sistema — utenti, file fisici, cartelle, processi in esecuzione, porte di rete logiche — riceve un'etichetta crittografata detta <strong>Security Context</strong> (es: <code>unconfined_u:object_r:httpd_sys_content_t:s0:c0.c1023</code>). I controlli sul contesto analizzano tre proprietà essenziali e si appoggiano a precise modalità e criteri di configurazione:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Type (Tipo)</strong>: Nel tipo d'imposizione (<em>Type Enforcement</em>), questa è la proprietà di massima importanza. Si definiscono etichette per i processi (es: dicitura <code>http_t</code> per Apache) e per i file (es: dicitura <code>httpd_sys_content_t</code> per i file HTML). Le policy del kernel stabiliscono rigorosamente che solo un processo identificato dal tipo <code>http_t</code> può leggere file etichettati come <code>httpd_sys_content_t</code>, bloccando preventivamente qualsiasi tentativo di lettura di file di sistema critici ad opera del server compromesso.</li>
+                <li style="margin-bottom: 6px;"><strong>Role (Ruolo)</strong>: Gestito nel modello RBAC (Role-Based Access Control) di SELinux. Determina quali domini di tipi di processo un determinato utente può risvegliare o gestire, fungendo da ponte di interconnessione protetta.</li>
+                <li style="margin-bottom: 6px;"><strong>Level (Livello)</strong>: Proprietà opzionale ma di cruciale importanza correlata alla classificazione della sensibilità e dei compartimenti (es: <code>s0</code>, <code>s0-s15:c0.c1023</code>). Esprime requisiti di <strong>Multi-Level Security (MLS)</strong> o <strong>Multi-Category Security (MCS)</strong>, dove l'accesso viene concesso solo se il processo possiede un livello di autorizzazione (Clearance) compatibile con l'etichetta di sensibilità (Sensitivity Level) della risorsa.</li>
+              </ul>
+              <strong style="display:block; margin: 10px 0 5px 0;">Le tre modalità d'esercizio (SELinux Modes):</strong>
+              <ul style="padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Enforcing (Forzata / Blocco attivo)</strong>: La modalità di default e raccomandata per la sicurezza dell'host. Le regole di accesso MAC vengono applicate attivamente dal kernel Linux, modificando i comportamenti anomali, rigettando le azioni non permesse dal Security Context ed inserendo i dettagli nei file di log di ispezione.</li>
+                <li style="margin-bottom: 6px;"><strong>Permissive (Tollerante / Solo report)</strong>: SELinux non impedisce le azioni illegittime dei processi e degli utenti, ma ne documenta e registra in modo dettagliato le violazioni nei log (denials). Ottimale in fase di troubleshooting o baselining per profilare le regole di un software personalizzato senza interromperne le funzionalità amministrative.</li>
+                <li style="margin-bottom: 6px;"><strong>Disabled (Disabilitato / Spento)</strong>: Il framework SELinux è interamente inattivo nel kernel, lasciando la sicurezza dell'host unicamente alle tradizionali (e meno profilate) restrizioni discrezionali DAC dello user space. Richiede il riavvio completo della macchina per essere riattivato.</li>
+              </ul>
+              <strong style="display:block; margin: 10px 0 5px 0;">Le politiche operative principali (SELinux Policies):</strong>
+              <ul style="padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Targeted (Mirata)</strong>: La policy più comune ed equilibrata ad uso enterprise. Protegge e isola esclusivamente un insieme definito di demoni e processi di sistema sensibili esposti in rete (es. Apache, Bind, Squid), lasciando gli utenti locali ed altri moduli d'utenza ordinari nel dominio <code>unconfined_t</code>. Riduce drasticamente le complessità d'uso e i falsi positivi.</li>
+                <li style="margin-bottom: 6px;"><strong>Strict (Rigorosa)</strong>: Politica ad altissima protezione dove ogni singolo processo, porta, utente e risorsa di sistema all'interno dell'OS viene mappato da una specifica e inflessibile regola di SELinux. Ciascun soggetto deve possedere una specifica autorizzazione esplicita, massimizzando l'hardening ma richiedendo un ingente sforzo manutentivo continuativo.</li>
+              </ul>
+            </dd>
+
+            <dt>SELinux Utenze d'Imposizione (Linux Users Classification)</dt>
+            <dd>
+              SELinux isola le utenze di sistema mappandole in categorie a controllo differenziato:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>`unconfined_u` (All users/Processi liberi)</strong>: Identifica i processi e gli utenti non soggetti ad eccessive restrizioni di SELinux. Pur non essendo schermati nel dettaglio dalle policy MAC e ricadendo sotto le tradizionali e deboli regole DAC, rappresenta il default per gli utenti locali locali allo scopo di garantire operabilità basica alle utilità locali.</li>
+                <li style="margin-bottom: 6px;"><strong>`user_u` (Unprivileged users/Utenze senza privilegi)</strong>: Contesto rigido applicato a utenti corporativi non privilegiati. Non possono compiere transizioni verso ruoli di sistema o di root, garantendo che un eventuale dipendente malizioso sia severamente impossibilitato a danneggiare altre sezioni o esfiltrare file del kernel.</li>
+                <li style="margin-bottom: 6px;"><strong>`sysadmin_u` (System administrators/Amministratori di sistema)</strong>: Contesto d'amministrazione confinabile (confined admin context). Ha il potere logico di compiere le necessarie attività sistemiche e manutenzioni ad alta priorità, ma rimane soggetto alle regole di contenimento del MAC per mitigare l'impatto di un furto di credenziali sistemistiche.</li>
+                <li style="margin-bottom: 6px;"><strong>`root` (Root user in MAC context)</strong>: Nel controllo MAC, l'onnipotenza del superuser `root` viene revocata. Anche se un atacante ottiene una shell operante come Root, se quella shell risiede in un contesto logico limitato, il kernel gli rigetta l'accesso a directory non mappate della policy, impedendo la compromissione totale dell'host.</li>
+              </ul>
+            </dd>
+
+            <dt>AppArmor — Alternativa MAC basata su Path</dt>
+            <dd>
+              Un framework MAC alternativo a SELinux, integrato di serie in distribuzioni Linux come Ubuntu e Debian, noto per essere considerevolmente più semplice da impostare. A differenza di SELinux, che è basato su etichette e metadati (label-based), AppArmor è <strong>path-based (basato sui percorsi del filesystem)</strong>: le sue policy delimitano i privilegi di un'applicazione associando profili direttamente al percorso assoluto dell'eseguibile (es: <code>/usr/bin/tcpdump</code>). Opera in due modalità distinte:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Enforce Mode (Pratica/Blocco attivo)</strong>: AppArmor applica rigidamente le direttive del profilo logico, bloccando e registrando nei log (syslog) qualsiasi azione non espressamente consentita.</li>
+                <li style="margin-bottom: 6px;"><strong>Complain Mode (Ascolto/Diagnostica)</strong>: Le azioni non permesse non vengono interrotte ma vengono unicamente documentate nei log di sistema come allarmi. Utilizzato ampiamente dagli ingegneri in fase di testing e baselining per profilare il comportamento di un software custom prima di attivare la protezione totale.</li>
+              </ul>
+            </dd>
+
+            <dt>Implementazione di Protocolli Sicuri & Selezione delle Porte</dt>
+            <dd>Una delle azioni fondamentali di hardening di rete consiste nello smantellare protocolli legacy insicuri o vulnerabili (che transitano in chiaro svelando password o dati) per sostituirli con alternative protette da cifratura TLS o certificati:
+              <ul>
+                <li>Sostituire <strong>HTTP (Porta 80)</strong> con <strong>HTTPS (Porta 443)</strong> per la navigazione web d'impresa.</li>
+                <li>Sostituire <strong>Telnet (Porta 23)</strong> con <strong>SSH (Porta 22)</strong> per la gestione remota CLI di server e switch.</li>
+                <li>Sostituire <strong>FTP (Porte 20/21)</strong> con <strong>SFTP (Porta 22)</strong> per il trasferimento sicuro di archivi.</li>
+                <li>Sostituire <strong>LDAP (Porta 389)</strong> con <strong>LDAPS (Porta 636)</strong> per l'interazione protetta con Active Directory.</li>
+                <li>Sostituire <strong>SNMP v1/v2 (Porte 161/162)</strong> con <strong>SNMP v3</strong> per garantire cifratura e robusta autenticazione alle metriche di rete.</li>
+              </ul>
+            </dd>
+
+            <dt>Screened Subnet (Subnet Schermata - ex DMZ)</dt>
+            <dd>La denominazione ufficiale moderna definita da CompTIA per la classica DMZ (Demilitarized Zone). Rappresenta una porzione o segmento di rete fisica isolata interposta ed incapsolata tra la rete Internet mondiale pubblica e la fidata rete Intranet aziendale privata, adibita a ospitare i soli server che devono essere contattabili dall'esterno (es. Web server pubblici o server mail).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 10 — NAC, RILEVAMENTO ENDPOINT E DLP ══════════ -->
+        <section id="detection_control">
+          <h2>Sicurezza Avanzata degli Accessi e degli Endpoint</h2>
+          <p>
+            L'ottimizzazione del perimetro richiede il tracciamento continuo dei dispositivi connessi e analisi in tempo reale:
+          </p>
+          <dl class="termlist">
+            <dt>Network Access Control (NAC / Controllo degli Accessi alla Rete)</dt>
+            <dd>Una tecnologia strutturale di adempimento che <strong>analizza e intercetta qualsiasi endpoint o laptop (anche BYOD o dispositivi guest esterni d'ufficio) che tenti di agganciarsi fisicamente o via wireless alla rete aziendale</strong>. Il NAC effettua una scansione pre-connessione (Posture assessment) accertando che il laptop ospiti un antivirus attivo, che gli aggiornamenti di sistema siano installati ed escluda la presenza di malware. Se il laptop devia da questa baseline, il NAC gli <strong>rifiuta l'accesso</strong> o lo relega in una sottorete chiusa di quarantena.</dd>
+
+            <dt>EDR vs XDR (Threat Hunting e Risposta Estesa)</dt>
+            <dd>
+              <ul>
+                <li><strong>EDR (Endpoint Detection and Response)</strong>: Agente software installato che esamina visivamente e continuamente l'attività comportamentale della CPU e dei file sull'host specifico, isolandolo all'istante dall'intera LAN se incontra pattern anomali deviation-based.</li>
+                <li><strong>XDR (Extended Detection and Response)</strong>: L'evoluzione olistica che unisce e armonizza la telemetria non solo degli endpoint, ma anche dei log di rete, delle identità cloud e della sicurezza email, consentendo indagini proattive di <strong>Threat Hunting</strong> ad ampio spettro integrato.</li>
+              </ul>
+            </dd>
+
+            <dt>DLP (Data Loss Prevention / Prevenzione della Fuga dei Dati)</dt>
+            <dd>Soluzione atta ad ispezionare granularmente l'uso delle informazioni. Si declina in DLP di rete (Network DLP - monitora mail, upload web e cloud), DLP dell'host (Endpoint DLP - impedisce la copia verso USB o stampanti non permesse) e DLP di storage (scansiona archivi). Opera tramite fingerprinting dei file sensibili.</dd>
+
+            <dt>DNS Filtering (Filtro a Livello DNS)</dt>
+            <dd>La configurazione di filtri sui resolver DNS aziendali che rigettano la risoluzione dei nomi per i siti web categorizzati come canali malevoli, adware, gambling o phishing, bloccando la navigazione ad un livello preventivo primario rispetto alle regole HTTP dei proxy.</dd>
+          </dl>
         </section>
 
         <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
@@ -1380,7 +1520,7 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1508,5 +1648,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

@@ -79,6 +79,10 @@
         <a href="#signatures">Signature-based vs IDS</a>
         <a href="#incident-response">IR: Fase di Analisi</a>
 
+        <div class="toc-section">Standard & Attività</div>
+        <a href="#monitoring-activities">Attività di Monitoraggio</a>
+        <a href="#advanced-tools">Strumenti: SCAP, SNMP, NetFlow</a>
+
         <div class="toc-section">Verifica</div>
         <a href="#quiz-section">Quiz interattivo (19 quiz)</a>
         <a href="#flashcard">Flashcard di riepilogo</a>
@@ -212,6 +216,166 @@
           <p>
             Quando si rileva un'allarmistica severa e l'Incident Response Team (Squadra di Risposta agli Incidenti) avvia un'indagine formale **cercando di comprendere a fondo l'esatta causa d'infiltrazione e rintracciare la sorgente scatenante dell'incidente**, questa determinata sequenza operativa ricade programmaticamente sotto la fase di <strong>Analisi (Analysis)</strong> del ciclo di vita IR. Essa costituisce una fase distinta che precede l'isolamento della minaccia (Containment) e l'eradicazione del malware (Eradication).
           </p>
+        </section>
+
+        <!-- ══ SEZIONE 6: ATTIVITÀ DI MONITORAGGIO ═══════════════════ -->
+        <section id="monitoring-activities">
+          <h2>Attività nel Monitoraggio di Sicurezza</h2>
+          <p>
+            Il monitoraggio operativo delle risorse computazionali dell'impresa (Sistemi operativi, Applicazioni business-critical e infrastrutture di Rete e Cloud) si articola in svariati processi e attività chiave:
+          </p>
+          <dl class="termlist">
+            <dt>Log Aggregation (Aggregazione dei Log)</dt>
+            <dd>Il processo sistematico di prelievo e centralizzazione dei file di registro generati da fonti eterogenee all'interno di un unico archivio protetto (conservazione standard di dati e record). È fondamentale per garantire la correlabilità logica globale degli eventi cyber.</dd>
+
+            <dt>Alerting (Allarmistica)</dt>
+            <dd>L'attivazione istantanea di notifiche (tramite email, webhook, canali chat o trigger logistici) per richiamare l'attenzione dell'analista SOC nel preciso momento in cui un evento supera le soglie prestabilite o fa scattare regole di correlazione.</dd>
+
+            <dt>Scanning (Scansione)</dt>
+            <dd>L'ispezione periodica d'infrastruttura (scansioni delle vulnerabilità di rete o scansioni antivirus) volta a mappare attivamente host, porte aperte ed elementi orfani.</dd>
+
+            <dt>Reporting (Reportistica ed Esportazione)</dt>
+            <dd>La redazione e fornitura automatizzata o manuale di statistiche, andamenti di adempimento e sintesi delle allarmistiche per supportare gli audit conformità e agevolare le decisioni dei C-Level (es. CISO).</dd>
+
+            <dt>Archiving (Archiviazione e Conservazione Long-Term)</dt>
+            <dd>La conservazione a lungo termine e di ripiego della telemetria storica (retention policy). Prescrive il passaggio automatico dei dati datati da storage veloci caldi (hot storage) a memorie a freddo (cold storage) per rispettare le normative aziendali riducendo i costi ordinari.</dd>
+
+            <dt>Alert Response, Mitigation e Validation (Risposta, Mitigazione e Validazione)</dt>
+            <dd>L'insieme dei flussi logici atti a neutralizzare e ripulire gli eventi incidenti rilevati. Si avvale di due buone pratiche determinanti:
+              <ul>
+                <li><strong>Quarantine (Quarantena)</strong>: L'isolamento logico immediato o l'inibizione dinamica di un file dannoso rilevato (bloccandolo in una cartella inaccessibile per impedirne l'esecuzione diretta) o di una workstation sospetta (confinandola in una VLAN limitata in attesa di rinvigorimento).</li>
+                <li><strong>Alert Tuning (Sintonizzazione dei Criteri di Allarme)</strong>: Il costante lavoro di affinamento, calibrazione e ottimizzazione delle regole di correlazione dei log del SOC al fine di **sopprimere i falsi positivi** e prevenire l'affaticamento degli analisti (Alert Fatigue), senza compromettere la sensibilità verso le minacce reali.</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 7: STRUMENTI DI MONITORAGGIO AVANZATO ═════════ -->
+        <section id="advanced-tools">
+          <h2>Strumenti e Protocolli Standard per l'Allarmistica</h2>
+          <p>
+            Al fine di automatizzare e armonizzare il governo delle operazioni di sicurezza, l'industria adotta protocolli e standard internazionali consolidati:
+          </p>
+          <dl class="termlist">
+            <dt>SCAP (Security Content Automation Protocol)</dt>
+            <dd>Una suite definita dal NIST che standardizza il formato per scambiare e rappresentare informazioni di sicurezza, vulnerabilità note e configurazioni d'hardening. Include indici e linguaggi standardizzati (es. CVE, CVSS, CCE, OVAL) che agevolano l'interoperabilità automatica di molteplici strumenti di scansione di vendor differenti.</dd>
+
+            <dt>Benchmarks (Baseline di Hardening)</dt>
+            <dd>Documenti normativi e linee guida rigorose di configurazione approvate dal settore (es. i famosi benchmarks del **Center for Internet Security - CIS**) atti ad accertare e verificare scientificamente se un determinato server o applicativo sia configurato secondo i massimi requisiti di resistenza agli exploit.</dd>
+
+            <dt>SNMP Traps (Notifiche Semplificate SNMP)</dt>
+            <dd>Il protocollo <strong>Simple Network Management Protocol (SNMP)</strong> monitora i dispositivi fisici di rete (router, switch, UPS, stampanti). Mentre il server di gestione esegue ordinariamente polling ciclici per raccogliere metriche, i dispositivi possono notificare istantaneamente eventi critici anomali (es. surriscaldamento CPU o interruzione di corrente) tramite l'invio proattivo di pacchetti non sollecitati denominati <strong>SNMP Traps (Porta UDP 162)</strong> al server centrale.</dd>
+
+            <dt>NetFlow</dt>
+            <dd>Protocollo e tecnologia proprietaria Cisco (Standardizzata poi come IPFIX) operante sui router e switch per raggruppare visibilità sui flussi di rete. NetFlow <strong>non cattura e non memorizza il payload (il contenuto effettivo) dei pacchetti</strong>; al contrario, registra meticolosamente i soli <strong>metadati di transito (metadata)</strong> quali: IP sorgente e destinazione, porte di trasporto e byte scambiati. Questa telemetria leggera permette agli investigatori del SOC di mappare interamente le rotte e scovare esfiltrazioni dati massicce o scansioni orizzontali interne senza saturare lo storage di rete.</dd>
+
+            <dt>Vulnerability Scanners (Scansione delle Vulnerabilità)</dt>
+            <dd>Strumenti specializzati (es. Nessus, Qualys) adibiti a ispezionare l'infrastruttura d'impresa per scovare porte lasciate aperte, software legacy orfani e bug non patchati confrontando i banner di risposta con i database di vulnerabilità noti.</dd>
+
+            <dt>Event Logs (Registri d'Evento)</dt>
+            <dd>File e flussi di record strutturati generati dai sistemi operativi (es. Windows Event Viewer o i registri di Syslog) che catturano l'esecuzione delle attività fondamentali del sistema, quali avvii di servizi, autenticazioni degli utenti e registrazioni di errori applicativi.</dd>
+
+            <dt>Log Anomalies (Anomalie nei Log)</dt>
+            <dd>Modelli di record o eventi insoliti che deviano significativamente dalla baseline standard. Rientrano in questa definizione picchi anomali di login falliti fuori orario, accessi amministrativi da posizioni geografiche impossibili o la cancellazione improvvisa e deliberata degli stessi file di log.</dd>
+
+            <dt>Signature Mismatch (Mancata Corrispondenza delle Firme)</dt>
+            <dd>Un alert generato quando un file di sistema o un driver non corrisponde alla firma hashes approvata o alla chiave digitale autenticata del fornitore originale, indicando una potenziale contraffazione del software o la presenza di malware.</dd>
+
+            <dt>Security Onion</dt>
+            <dd>Una celebre distribuzione Linux gratuita e open-source interamente pre-configurata per il monitoraggio della sicurezza di rete e host (NSM) e la gestione dei log. Integra in un unico ecosistema strumenti leader del settore come Snort, Suricata, Zeek, Wazuh e la suite Elasticsearch per consentire analisi forensi immediate.</dd>
+
+            <dt>Wazuh</dt>
+            <dd>Piattaforma di sicurezza open-source adibita al monitoraggio degli endpoint attraverso agenti specializzati. Offre capacità avanzate di protezione tra cui analisi dei registri, rilevamento delle intrusioni host (HIDS), monitoraggio dell'integrità dei file (FIM), protezione dei container cloud e risposte di mitigazione attiva in tempo reale.</dd>
+
+            <dt>OSSEC</dt>
+            <dd>Un Host-based Intrusion Detection System (HIDS) storico e open-source. Esegue analisi dei log locali sui server, monitoraggio dell'integrità dei registri di configurazione (es. registro di sistema di Windows), rilevamento attivo di rootkit nascosti e flussi di allarmistica coordinata sugli host.</dd>
+
+            <dt>Snort</dt>
+            <dd>Un Network Intrusion Detection System (NIDS) open-source basato su regole e firme crittografiche d’attacco. Analizza pacchetti di rete in tempo reale per scovare tentativi di exploit, scansioni di porte esterne o traffico sospetto e lancia avvisi di sicurezza coordinati.</dd>
+
+            <dt>Endpoint Monitoring (Monitoraggio Continuo degli Endpoint)</dt>
+            <dd>La pratica operativa di sorvegliare, tracciare e raccogliere costantemente metriche di sicurezza e registri d'evento provenienti da tutti i nodi e host dell'impresa (workstation, server, dispositivi mobili, macchine virtuali) per rilevare intrusioni locali prima del loro diffondersi.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 8: STRUMENTI DIAGNOSTICI A RIGA DI COMANDO ══════ -->
+        <section id="cli-tools">
+          <h2>Strumenti Diagnostici a Riga di Comando (Command-Line Diagnostics)</h2>
+          <p>
+            Durante le fasi di monitoraggio, ricognizione o investigazione d'incidenti informatici, l'analista di sicurezza deve saper adoperare con proattività i principali comandi di sistema e utilities di rete native o di terze parti:
+          </p>
+
+          <h3>Windows &amp; Diagnostica dei Processi Locali</h3>
+          <dl class="termlist">
+            <dt>Whoami</dt>
+            <dd>Comando essenziale in Windows e Linux che restituisce l'utente corrente in esecuzione sul terminale e il relativo dominio Active Directory. È fondamentale per accertare se un attacco simulato ha ottenuto con successo la <strong>scalata dei privilegi (privilege escalation)</strong> o agisce ancora con permessi limitati.</dd>
+
+            <dt>Netstat (Network Statistics)</dt>
+            <dd>Espone tutte le connessioni di rete attive (In ascolto o Stabilite) sull'host locale. Se un analista deve rintracciare un malware che sta effettuando connessioni anomale verso l'esterno (C2 Server), l'uso di <code>netstat -ano</code> permette di isolare l'IP remoto e il rispettivo PID (Process ID) di avvio.</dd>
+
+            <dt>Net Session</dt>
+            <dd>Utility per Windows che mostra le sessioni di rete stabilite d'esterni tramite il protocollo di condivisione file SMB con il calcolatore corrente. Richiede massimi poteri amministratore per essere lanciata.</dd>
+
+            <dt>Tasklist &amp; Taskkill</dt>
+            <dd>
+              Due facce della stessa medaglia in Windows:
+              <ul>
+                <li><strong>Tasklist</strong>: elenca tutti i processi in corso d'esecuzione nel kernel locale, con indicazioni sul Process ID (PID) e l'utilizzo di RAM.</li>
+                <li><strong>Taskkill</strong>: consente di sopprimere ed uccidere forzatamente qualsiasi processo ritenuto malevolo o instabile indicandone il PID (es: <code>taskkill /F /PID 1234</code>).</li>
+              </ul>
+            </dd>
+
+            <dt>Net Statistics (workstation / server)</dt>
+            <dd>Fornisce report consolidati inerenti alle prestazioni dei relativi moduli di Windows, tracciando totali di errori generati, blocchi o record scambiati sottomano.</dd>
+
+            <dt>Net User</dt>
+            <dd>Comando che permette all'amministratore locale di interrogare l'elenco dei profili abilitati sulla macchina, crearne di nuovi o resettarne le password.</dd>
+
+            <dt>Auditpol</dt>
+            <dd>Consente di leggere ed impostare granularmente la politica d'evento d'audit a livello di Windows (es: monitorare i log d'accesso degli utenti o le modifiche di privilegi locali), assicurando che i registri catturino ogni mossa criminosa.</dd>
+          </dl>
+
+          <h3>Linux &amp; Monitoraggio Risorse Locale</h3>
+          <dl class="termlist">
+            <dt>ps (Process Status)</dt>
+            <dd>Stampa l'istantanea dei processi in esecuzione in Linux. Se abbinato ai flag aux (<code>ps aux</code>), mostra tutti i processi di qualunque sessione e utente, facilitando la caccia a file o demoni orfani.</dd>
+
+            <dt>Htop</dt>
+            <dd>Grafico interattivo d'analisi per Linux adoperato dagli sysadmin per scrutinare in tempo reale il comportamento dinamico di core CPU, consumi complessivi di RAM e sopprimere processi con layout colorati intuitivi.</dd>
+
+            <dt>Free</dt>
+            <dd>Rilascia l'indicazione istantanea dello spazio di RAM fisica e della partizione Swap in uso corrente su host Unix, evidenziando se i carichi applicativi o attacchi DoS stanno per saturare la macchina.</dd>
+
+            <dt>df -h (Disk Free)</dt>
+            <dd>Rileva lo spazio di storage disponibile sui dischi formattati montati nel filesystem Linux, espresso in formato facilmente leggibile dall'operatore umano (flag <code>-h</code>) per evitare saturazioni.</dd>
+          </dl>
+
+          <h3>Diagnostica ed Esplorazione delle Reti (Network Recon)</h3>
+          <dl class="termlist">
+            <dt>Ipconfig &amp; Ifconfig</dt>
+            <dd>Restituiscono l'esatta conformazione delle schede di rete (IP locale, Gateway, subnet mask): <code>ipconfig</code> su sistemi Windows e <code>ifconfig</code> sui sistemi Unix-like legacy.</dd>
+
+            <dt>Ping &amp; Pathping</dt>
+            <dd>
+              Strumenti di validazione di connettività basati su protocollo ICMP:
+              <ul>
+                <li><strong>Ping</strong>: invia richieste d'eco ad un indirizzo per controllare l'accessibilità logica di base.</li>
+                <li><strong>Pathping</strong>: combina ping a traceroute, monitorando per un intervallo esteso le risposte dei router intermedi per quantificarne con precisione statistica la stabilità e la perdita di pacchetti.</li>
+              </ul>
+            </dd>
+
+            <dt>Tracert &amp; Traceroute</dt>
+            <dd>Mappano la catena fisica di nodi router (Hop) attraversata dai pacchetti per giungere alla destinazione: <code>tracert</code> su macchine Windows e <code>traceroute</code> su sistemi Linux/macOS.</dd>
+
+            <dt>Nslookup &amp; Dig</dt>
+            <dd>Utilities impiegate per svolgere interrogazioni sui name server logici DNS: <code>nslookup</code> per verifiche di base multipiattaforma e <code>dig</code> (Domain Information Groper) per ispezioni più avanzate e complete, con risposte standard pulite in ambiente Unix.</dd>
+
+            <dt>Hping (Hping2 / Hping3)</dt>
+            <dd>Incredibile e potente assemblatore di pacchetti TCP/IP in grado di condurre scansioni attive personalizzate, aggirare firewall con frammentazioni e forzare pacchetti ICMP o UDP ad hoc, simulando svariati vettori di attacco di rete.</dd>
+
+            <dt>theHarvester</dt>
+            <dd>Strumento OSINT prediletto per reperire e catalogare indirizzi email corporativi, nomi a domino di terzo livello e informazioni di account pubblici riconducibili a un determinato brand target sul web.</dd>
+          </dl>
         </section>
 
         <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
@@ -866,7 +1030,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -994,5 +1158,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

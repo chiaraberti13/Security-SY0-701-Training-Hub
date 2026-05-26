@@ -84,6 +84,11 @@
           </p>
 
           <dl class="termlist">
+            <dt>Human Error (Errore Umano)</dt>
+            <dd>
+              Qualsiasi azione involontaria, svista, distrazione o errata interpretazione procedurale da parte di un utente o amministratore che determina l'esposizione accidentale o la perdita di dati aziendali, o l'introduzione involontaria di malware. L'errore umano (es. configurazione errata di un bucket S3 pubblico, divulgazione telefonica di un segreto o clic su un link dannoso) è storicamente la causa primaria di oltre l'80% degli incidenti di sicurezza informatica. Si combatte ed attenua attraverso controlli tecnici preventivi integrati a sessioni continue di Security Awareness Training.
+            </dd>
+
             <dt>Campagna di Phishing Simulato (Phishing Campaign)</dt>
             <dd>
               Una simulazione controllata coordinata dal team di sicurezza in cui vengono inviate email fittizie con esche tipiche del phishing reale per testare sul campo la prontezza dei dipendenti. <br>
@@ -102,6 +107,16 @@
             <dt>Gestione dei Falsi Positivi (Phishing False Positives)</dt>
             <dd>
               Un aumento vertiginoso della sensibilità della sicurezza può spingere gli utenti a segnalare via ticket all'Help Desk mail del tutto lecite identificandole erroneamente come malevole. Per <strong>ridurre la mole di falsi positivi (false-positive phishing reports)</strong> inviati al supporto tecnico, l'azienda non deve limitarsi a fare più campagne di simulazione generiche, ma deve <strong>migliorare capillarmente il contenuto e gli indicatori trattati nel corso di formazione (Improving security awareness training)</strong> affinché gli utenti apprendano la differenza formale tra spam o mail di routine ed effettive e-mail di phishing con intestazioni contraffatte.
+            </dd>
+
+            <dt>Risposta ai Messaggi Sospetti Segnalati (Responding to Reported Suspicious Messages)</dt>
+            <dd>
+              Le policy aziendali devono istruire chiaramente i dipendenti non solo su come riconoscere, ma anche su come gestire attivamente una mail sospetta:
+              <ul>
+                <li><strong>Utilizzo di Pulsanti di Segnalazione Dedicati:</strong> Gli utenti devono utilizzare gli appositi add-in integrati nel client (es. Outlook Report Message / PhishAlarm) che inviano automaticamente la mail alla casella di sicurezza del SOC senza che l'utente debba digitarla manualmente.</li>
+                <li><strong>Divieto di Inoltro Semplice:</strong> È severamente vietato inoltrare e-mail sospette (Simple Forward) ad altri colleghi o manager per chiedere pareri, poiché ciò propaga accidentalmente il vettore d'infezione nella rete. Se necessario, l'inoltro deve avvenire esclusivamente tramite allegato (Forward as attachment) verso l'indirizzo email di audit del team di sicurezza.</li>
+                <li><strong>Triage e Contromisure Tecniche:</strong> Ricevuto il report, l'analista del SOC controlla le intestazioni (Header) in cerca di anomalie SPF/DKIM/DMARC ed esegue analisi in sandbox. Se il phishing è confermato, scattano i playbook operativi per revocare l'accesso ai domini maligni o bloccarli preventivamente a livello di Mail Gateway e server DNS aziendali prima che altri dipendenti facciano clic sulle esche.</li>
+              </ul>
             </dd>
           </dl>
         </section>
@@ -210,6 +225,36 @@
             <dd>
               Fornire istruzioni sul corretto utilizzo di password complesse, sul divieto assoluto di riutilizzo delle credenziali di lavoro su siti non aziendali, e guidare gli utenti all'adozione di Password Manager aziendali cifrati e metodi di autenticazione a più fattori (MFA).
             </dd>
+
+            <dt>Supporti Rimovibili e Cavi (Removable Media & Cables)</dt>
+            <dd>
+              Le insidie legate a periferiche USB di origine non accertata e stazioni di ricarica pubbliche:
+              <ul>
+                <li><strong>Dispositivi e Payload USB Malevoli:</strong> Chiavette apparentemente innocue abbandonate nei parcheggi o spedite come regali possono celare emulatori di tastiera hardware (es. USB Rubber Ducky) programmati per iniettare comandi malevoli ad altissima velocità (keystroke injection) non ed impediti dai controlli antivirus standard.</li>
+                <li><strong>Cavi di Ricarica Maliziosi e Juice Jacking:</strong> L'uso di stazioni di ricarica USB in aeroporti o alberghi può esporre gli utenti al <em>Juice Jacking</em>, in cui i pin dedicati alla trasmissione dati vengono abusati di nascosto per rubare file o installare trojan. Inoltre, cavi apparentemente di marca (es. cavi O.MG) possono contenere microchip invisibili per l'injection di exploit wireless a breve distanza.</li>
+                <li><strong>Mitigazioni:</strong> Divieto assoluto di collegare periferiche non censite d'inventario, obbligo di utilizzare sempre "cavi di blocco o barriere dati USB" (USB condoms, che disattivano fisicamente la trasmissione dati consentendo solo l'apporto elettrico) e blocco logico totale delle porte USB a livello di policy di endpoint (GPO/MDM).</li>
+              </ul>
+            </dd>
+
+            <dt>Sicurezza Operativa (Operational Security - OPSEC)</dt>
+            <dd>
+              La mentalità tesa a salvaguardare piccoli dettagli operativi o fisici che, se ricombinati ed aggregati da agenti ostili, potrebbero esporre l'azienda ad attacchi mirati:
+              <ul>
+                <li><strong>Politica della Scrivania Pulita (Clean Desk Policy):</strong> Obbligo tassativo di non lasciare fogli con note sensibili, contratti stampati o credenziali sotto la tastiera o visibili sulla scrivania quando ci si allontana, riponendoli in cassettiere chiuse a chiave.</li>
+                <li><strong>Distruzione dei Documenti (Shredding):</strong> Qualsiasi carta d'appoggio contenente anagrafiche, codice o schemi non deve essere gettata nel cestino ordinario dell'ufficio ma inserita nei trituratori (Shredders) per sventare lo rovistamento dei rifiuti (Dumpster Diving).</li>
+                <li><strong>Fuga di Metadati e Social Media OPSEC:</strong> Vietare la pubblicazione sui social media (es: LinkedIn, Twitter) di selfie o foto d'ufficio con schermi visibili sul retro, discussioni su forum tecnici in cui vengono riportati file di configurazione con indirizzi IP o versioni precise dei software in uso.</li>
+              </ul>
+            </dd>
+
+            <dt>Ambienti di Lavoro Ibridi e Remoti (Hybrid/Remote Work Environments)</dt>
+            <dd>
+              La delocalizzazione lavorativa dilata sensibilmente il perimetro di attacco vulnerabile, richiedendo presidi specifici:
+              <ul>
+                <li><strong>Sicurezza del Wi-Fi Domestico:</strong> Obbligo di configurare i router di casa con chiavi di cifratura moderne (preferibilmente WPA3 o WPA2-Personal robusto con password non predefinita) e segmentare i device aziendali dalle subnet della domotica (IoT).</li>
+                <li><strong>Uso di Reti Pubbliche e VPN:</strong> Divieto tassativo di utilizzare Wi-Fi gratuiti o aperti in hotel, bar o stazioni ferroviarie senza aver prima stabilito una connessione cifrata mediante la <em>VPN aziendale (Virtual Private Network)</em>, impedendo intercettazioni dei dati in transito (Man-in-the-Middle).</li>
+                <li><strong>Vigilanza Fisica e Shoulder Surfing:</strong> Quando si opera in spazi pubblici o di co-working, il dipendente deve attivamente salvaguardare lo schermo tramite filtri polarizzatori per impedire lo spionaggio d'occhio alle spalle (Shoulder Surfing), e bloccare manualmente il computer (Serratura Win+L / Lock shortcut) se si alza anche per un solo istante.</li>
+              </ul>
+            </dd>
           </dl>
         </section>
 
@@ -253,21 +298,39 @@
         </section>
 
 
-        <!-- ══ SEZIONE 4 — CURRICULUM PLANNING ═══════════════════════ -->
+        <!-- ══ SEZIONE 4 — CURRICULUM PLANNING, DEVELOPMENT & EXECUTION ════ -->
         <section id="curriculum_planning">
-          <h2>Pianificazione del Curriculum e Ruoli del Dato</h2>
+          <h2>Sviluppo ed Esecuzione del Programma (Program Development & Execution)</h2>
           <p>
-            Un programma di addestramento sulla sicurezza efficace richiede un'attenta programmazione che consideri sia la frequenza didattica, sia le specifiche tipologie di minaccia del proprio settore commerciale.
+            Un programma di addestramento sulla sicurezza efficace richiede un'attenta programmazione che consideri sia la frequenza didattica, sia le specifiche tipologie di minaccia del proprio settore commerciale, monitorando l'efficacia pratica sul campo.
           </p>
 
           <dl class="termlist">
             <dt>Formulazione del Curriculum Formativo (Curriculum formulation)</dt>
             <dd>
-              Quando si progetta e si struttura il piano formativo di un'organizzazione sulla sicurezza, i due fattori in assoluto più critici e importanti da valutare e indirizzare per garantire il successo didattico sono:
+              Quando si progetta e si struttura il piano formativo di un'organizzazione sulla sicurezza, i due fattori in assoluto più ricristallizzati da valutare e indirizzare per garantire il successo didattico sono:
               <ol>
-                <li><strong>I vettori di minaccia specifici attivi nel settore industriale in cui l'azienda risiede storicamente (Threat vectors based on the industry)</strong> (es: attacchi POS nel commercio al dettaglio o furto di cartelle cliniche nel panorama sanitario).</li>
+                <li><strong>I vettori di minaccia specifici attivi nel settore industriale in cui l'azienda risiede (Threat vectors based on the industry)</strong> (es: attacchi POS e frodi PCI nel commercio al dettaglio, o furto di cartelle cliniche elettroniche PHI e conformità HIPAA nel panorama sanitario).</li>
                 <li><strong>La cadenza strutturale e la durata temporale pianificata per ciascun evento e modulo di formazione (Cadence and duration of training events)</strong>, garantendo che le sessioni siano digeribili, frequenti e non ridondanti per non causare "fatigue" o saturazione cognitiva negli utenti aziendali.</li>
               </ol>
+            </dd>
+
+            <dt>Formazione Iniziale vs. Ricorrente (Initial vs. Recurring Training)</dt>
+            <dd>
+              Il monitoraggio della consapevolezza dell'organico copre l'intero ciclo di vita aziendale:
+              <ul>
+                <li><strong>Addestramento Iniziale (Initial / Onboarding Training):</strong> Da erogare tassativamente durante la prima settimana di inserimento (Onboarding) dei neo-assunti nell'organigramma. Serve ad illustrare fin da subito le policy aziendali (AUP), l'uso sicuro delle VPN e le regole fondamentali di gestione delle password.</li>
+                <li><strong>Addestramento Ricorrente (Recurring Training & Monitoring):</strong> Campagne educative continue (es. mensili o trimestrali) volte a mantenere desta la vigilanza degli utenti (situational awareness) mediante simulazioni pratiche di phishing, newsletter con i vettori di minaccia più recenti, e rinfreschi di formazione annuale obbligatoria.</li>
+              </ul>
+            </dd>
+
+            <dt>Sviluppo ed Esecuzione (Program Development & Execution)</dt>
+            <dd>
+              Un programma di sicurezza non è statico, ma segue un ciclo di miglioramento continuo:
+              <ul>
+                <li><strong>Sviluppo (Program Development):</strong> La fase di ingegneria della formazione in cui, partendo dall'analisi dei rischi aziendali, si stabiliscono gli obiettivi di apprendimento generali, si identificano i ruoli aziendali critici che richiedono addestramento mirato (es. ruoli finanziari esposti a truffe CEO) e si sviluppano i contenuti multimediali basati su minacce attuali.</li>
+                <li><strong>Esecuzione (Program Execution):</strong> La messa in opera del programma. Include il lancio delle simulazioni di attacco fuori sacco e il monitoraggio di metriche reali, quali il <em>Tasso di Clic sulle esche (Click-through rate)</em> e il fondamentale <em>Tasso di Segnalazione tempestiva (Reporting rate)</em>. Se le metriche evidenziano punteggi di debolezza, il curriculum viene immediatamente rimodellato ed ottimizzato per colmare i gap riscontrati.</li>
+              </ul>
             </dd>
           </dl>
 
@@ -437,7 +500,7 @@
   /* ── Dati quiz OBJ 5.6 (15 domande d'esame) ─────────────────── */
   const Q = [
     {
-      id: "SCREEN_045",
+      id:'SCREEN_045', source:'TL',
       text: "You are asked to prepare a brief to senior management about insider threats. You detail the use of data loss prevention (DLP) as a major factor in identifying and protecting against insider threats. What is the primary reason DLP can protect against these threats?",
       opts: [
         { id: "A", t: "Avoiding data leakage through malware.", c: false },
@@ -547,7 +610,7 @@
       expl: "In assenza di basi scritte, non è possibile pretendere compliance. L'aggiornamento dei manuali dei dipendenti e delle politiche di comportamento (Policies and handbooks) costituisce la pietra d'angolo preliminare obbligatoria."
     },
     {
-      id: "SCREEN_694",
+      id:'SCREEN_694', source:'TL',
       text: "While updating the security awareness training, a security analyst wants to address issues created if vendors' email accounts are compromised. Which of the following recommendations should the security analyst include in the training?",
       opts: [
         { id: "A", t: "Refrain from clicking on images included in emails from new vendors.", c: false },
@@ -653,7 +716,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -781,5 +844,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

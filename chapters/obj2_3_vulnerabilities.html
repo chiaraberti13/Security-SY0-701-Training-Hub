@@ -980,7 +980,9 @@ if (!safePattern.test(usernameInput)) {
     <dt>Service provider (Fornitore di servizi)</dt>
     <dd>Un Managed Service Provider (MSP) o un SaaS provider che gestisce sistemi per molti clienti diventa un bersaglio ad alto valore: compromettere l'MSP significa accedere a tutti i suoi clienti simultaneamente.</dd>
     <dt>SBOM (Software Bill of Materials)</dt>
-    <dd>Un inventario completo di tutti i componenti, librerie e dipendenze incluse in un prodotto software. Permette di identificare rapidamente quali dipendenze sono vulnerabili e quali prodotti ne sono affetti.</dd>
+    <dd>Un inventario completo di tutti i componenti, librerie e dipendenze incluse in un product software. Permette di identificare rapidamente quali dipendenze sono vulnerabili e quali prodotti ne sono affetti.</dd>
+    <dt>Outsourced Code Development (Sviluppo software in outsourcing)</dt>
+    <dd>La pratica di affidare a terze parti (es. agenzie esterne o contraenti offshore) la scrittura di codice, lo sviluppo di moduli applicativi o l'intera realizzazione di un software aziendale. Se non regolata da rigorosi requisiti contrattuali e controlli formali, questa dipendenza può introdurre nella <em>supply chain</em> vulnerabilità impercettibili derivanti da scarsa igiene del codice (es. assenza di validazione dell'input o backdoor fraudolente).</dd>
   </dl>
 
   <div class="exam-tip">
@@ -1008,6 +1010,8 @@ if (!safePattern.test(usernameInput)) {
     <dd>Le API cloud prive di autenticazione, autorizzazione o rate limiting possono essere sfruttate per accedere, modificare o cancellare risorse cloud senza autorizzazione.</dd>
     <dt>Shared responsibility model violations</dt>
     <dd>I clienti cloud non comprendono correttamente cosa è responsabilità del provider e cosa è responsabilità loro, lasciando gap di sicurezza in aree di cui credevano il provider si occupasse.</dd>
+    <dt>Data Spill (Sversamento accidentale di dati)</dt>
+    <dd>Il trasferimento o l'esposizione incontrollata di dati riservati, protetti o classificati (es. informazioni personali, sanitarie o aziendali segrete) verso sistemi, reti o ambienti privi del livello equivalente di classificazione o delle autorizzazioni di sicurezza adatte. Generalmente scaturito da errore umano, ad esempio spostando per sbaglio un database sensibile in un bucket di storage pubblico.</dd>
   </dl>
 </section>
 
@@ -1044,8 +1048,10 @@ if (!safePattern.test(usernameInput)) {
   <dl class="termlist">
     <dt>Default credentials (Credenziali predefinite)</dt>
     <dd>Dispositivi (router, switch, IoT) con username/password di fabbrica non cambiati. Sono pubblicamente note — gli scanner automatizzati le provano sistematicamente.</dd>
-    <dt>Open permissions (Permessi aperti)</dt>
-    <dd>File, directory, bucket cloud o database con permessi troppo permissivi: accesso in lettura/scrittura per "tutti" o per gruppi troppo ampi.</dd>
+    <dt>Default Settings (Impostazioni predefinite di fabbrica)</dt>
+    <dd>La vulnerabilità che deriva dal non aver cambiato o rimosso le impostazioni di default dei dispositivi e applicativi appena acquistati. Include sample file di test, servizi ausiliari attivi inutilizzati e impostazioni di rete insicure volte alla massima semplicità d'uso e plug-and-play a discapito della protezione.</dd>
+    <dt>Open permissions & Permission Issues (Permessi aperti e problemi di autorizzazione)</dt>
+    <dd>Configurazioni di accesso errate o eccessivamente aperte su file, directory, bucket di storage, database o aree di rete, che lasciano l'accesso in lettura/scrittura a "tutti" o a utenti non autorizzati. I "Permission Issues" sorgono anche quando i privilegi ereditati non vengono interrotti o quando non si rispetta il principio di Least Privilege.</dd>
     <dt>Configurazioni di sicurezza disabilitate</dt>
     <dd>Firewall con regole troppo permissive, logging disabilitato, TLS non configurato su servizi che supportano solo HTTP, autenticazione disabilitata per "comodità".</dd>
   </dl>
@@ -1281,9 +1287,9 @@ if (!safePattern.test(usernameInput)) {
 <script>
 (function(){
 var Q=[
-{id:'SCREEN_001',text:'A technician is installing a new cloud-based application for customer tracking and billing. Which of the following would be the most significant security concern associated with this installation?',opts:[{id:'A',t:'Brand Impersonation',c:false},{id:'B',t:'SMS Phishing',c:false},{id:'C',t:'Piggybacking',c:false},{id:'D',t:'SQL injection',c:true}],expl:'Un\'applicazione cloud per il tracking clienti e la fatturazione interagisce con un database. Il rischio più significativo è la SQL injection: se i campi di input non sono validati, un attaccante può manipolare le query per accedere o modificare dati sensibili dei clienti. Brand impersonation e SMS phishing sono vettori di social engineering, non vulnerabilità applicative.'},
-{id:'SCREEN_005',text:'An application does not perform any bounds checking when a user provides input. Which of the following exploits would be the most likely result of this issue?',opts:[{id:'A',t:'Race condition',c:false},{id:'B',t:'Zero-day',c:false},{id:'C',t:'Buffer overflow',c:true},{id:'D',t:'Open permission',c:false}],expl:'La mancanza di bounds checking è esattamente la condizione che rende possibile un buffer overflow: l\'input dell\'utente può eccedere la dimensione del buffer allocato, sovrascrivendo memoria adiacente. Le race condition riguardano la tempistica degli eventi, non la dimensione dell\'input.'},
-{id:'SCREEN_093',text:'A software company learns their product contains a vulnerability, and the security team suspects the issue was caused by a third-party dependency. What can the team consult to learn which dependencies are included in the product?',opts:[{id:'A',t:'Continuous integration (CI)',c:false},{id:'B',t:'The staging environment',c:false},{id:'C',t:'The software bill of materials (SBOM)',c:true},{id:'D',t:'The testing environment',c:false}],expl:'Lo SBOM (Software Bill of Materials) è un inventario completo di tutti i componenti, librerie e dipendenze di terze parti incluse in un prodotto software. Permette di identificare rapidamente se una dipendenza vulnerabile è presente. CI, staging e testing environment non documentano le dipendenze.'},
+{id:'SCREEN_001', source:'TL',text:'A technician is installing a new cloud-based application for customer tracking and billing. Which of the following would be the most significant security concern associated with this installation?',opts:[{id:'A',t:'Brand Impersonation',c:false},{id:'B',t:'SMS Phishing',c:false},{id:'C',t:'Piggybacking',c:false},{id:'D',t:'SQL injection',c:true}],expl:'Un\'applicazione cloud per il tracking clienti e la fatturazione interagisce con un database. Il rischio più significativo è la SQL injection: se i campi di input non sono validati, un attaccante può manipolare le query per accedere o modificare dati sensibili dei clienti. Brand impersonation e SMS phishing sono vettori di social engineering, non vulnerabilità applicative.'},
+{id:'SCREEN_005', source:'TL',text:'An application does not perform any bounds checking when a user provides input. Which of the following exploits would be the most likely result of this issue?',opts:[{id:'A',t:'Race condition',c:false},{id:'B',t:'Zero-day',c:false},{id:'C',t:'Buffer overflow',c:true},{id:'D',t:'Open permission',c:false}],expl:'La mancanza di bounds checking è esattamente la condizione che rende possibile un buffer overflow: l\'input dell\'utente può eccedere la dimensione del buffer allocato, sovrascrivendo memoria adiacente. Le race condition riguardano la tempistica degli eventi, non la dimensione dell\'input.'},
+{id:'SCREEN_093', source:'TL',text:'A software company learns their product contains a vulnerability, and the security team suspects the issue was caused by a third-party dependency. What can the team consult to learn which dependencies are included in the product?',opts:[{id:'A',t:'Continuous integration (CI)',c:false},{id:'B',t:'The staging environment',c:false},{id:'C',t:'The software bill of materials (SBOM)',c:true},{id:'D',t:'The testing environment',c:false}],expl:'Lo SBOM (Software Bill of Materials) è un inventario completo di tutti i componenti, librerie e dipendenze di terze parti incluse in un prodotto software. Permette di identificare rapidamente se una dipendenza vulnerabile è presente. CI, staging e testing environment non documentano le dipendenze.'},
 {id:'SCREEN_142',text:'Which of the following vulnerabilities is associated with installing software outside of a manufacturer\'s approved software repository?',opts:[{id:'A',t:'Jailbreaking',c:false},{id:'B',t:'Memory injection',c:false},{id:'C',t:'Resource reuse',c:false},{id:'D',t:'Side loading',c:true}],expl:'Il side loading è l\'installazione di applicazioni attraverso canali non ufficiali, al di fuori dell\'app store approvato dal produttore. Il jailbreaking modifica il sistema operativo per rimuovere le restrizioni — è un passaggio diverso che spesso precede il side loading ma non è la stessa cosa.'},
 {id:'SCREEN_159',text:'Which of the following enables the use of an input field to run commands that can view or manipulate data?',opts:[{id:'A',t:'Cross-site scripting',c:false},{id:'B',t:'Side loading',c:false},{id:'C',t:'Buffer overflow',c:false},{id:'D',t:'SQL injection',c:true}],expl:'La SQL injection usa i campi di input per inserire comandi SQL che possono visualizzare o modificare dati nel database. La XSS usa i campi di input per iniettare script nel browser del client, non per manipolare dati del database.'},
 {id:'SCREEN_167',text:'A security team is reviewing the findings in a report that was delivered after a third party performed a penetration test. One of the findings indicated that a web application form field is vulnerable to cross-site scripting. Which of the following application security techniques should the security analyst recommend the developer implement to prevent this vulnerability?',opts:[{id:'A',t:'Secure cookies',c:false},{id:'B',t:'Version control',c:false},{id:'C',t:'Input validation',c:true},{id:'D',t:'Code signing',c:false}],expl:'La mitigazione primaria per la XSS è l\'input validation (e l\'output encoding): se l\'applicazione verifica e sanitizza l\'input prima di includerlo nella risposta HTML, gli script malevoli non possono essere iniettati. Secure cookies proteggono i cookie ma non prevengono la XSS. Code signing verifica l\'origine del software.'},
@@ -1325,7 +1331,7 @@ function openQuiz(){setupEl.style.display='block';contentEl.style.display='none'
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
   function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1431,5 +1437,6 @@ overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();
 </script>
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

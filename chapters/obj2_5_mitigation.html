@@ -259,24 +259,33 @@
 <section id="operations">
   <h2>Tecniche operative</h2>
 
-  <h3 id="patching">Patching (Applicazione delle patch)</h3>
+  <h3 id="patching">Patching e Patch Management (Applicazione delle patch)</h3>
   <p>
     Il <strong>patching</strong> è il processo di applicazione di aggiornamenti software
-    che correggono vulnerabilità di sicurezza note. È la mitigazione più diretta per
-    la maggior parte delle vulnerabilità: elimina la causa alla radice invece di
-    aggiungere controlli intorno ad essa. Una patch disponibile e non applicata è una
-    vulnerabilità con un timer: gli attaccanti spesso iniziano a sfruttare le
-    vulnerabilità patchate entro ore dalla pubblicazione della patch, perché il bulletin
-    di sicurezza descrive esattamente cosa è stato corretto — e quindi dove cercare
-    la vulnerabilità nei sistemi non aggiornati.
+    che correggono vulnerabilità di sicurezza note. È la mitigazione più diretta ed efficace per
+    la maggior parte delle vulnerabilità: elimina permanentemente la causa alla radice invece di
+    aggiungere controlli esterni intorno ad essa. Una patch disponibile e non applicata rappresenta un serio fattore di rischio:
+    gli attaccanti spesso iniziano a sfruttare le debolezze corrette entro pochissime ore dal rilascio pubblico, poiché i bollettini
+    di sicurezza dei vendor e i dettagli dei CVE descrivono esattamente cosa è stato corretto, fornendo una mappa di attacco implicita per tutti i sistemi non aggiornati.
   </p>
   <dl class="termlist">
-    <dt>Patch management lifecycle</dt>
-    <dd>Identificazione (vulnerability scanning) → valutazione (priorità per criticità e esposizione) → testing (ambiente non-production) → deployment (finestra di manutenzione) → verifica (ri-scansione post-patch). Non si applica una patch direttamente in produzione senza testare.</dd>
+    <dt>Fase 1: Planning (Pianificazione)</dt>
+    <dd>Consiste nell'identificazione sistematica delle vulnerabilità (ad esempio, tramite scansioni periodiche o report di minaccia) e nella pianificazione della bonifica. In questa fase si stabilisce l'ordine di priorità in base alla gravità dei CVE, si definisce la finestra di manutenzione (maintenance window) ottimale per ridurre i disservizi aziendali, si redige una richiesta formale di modifica (change control request) e, fondamentale per la salvaguardia aziendale, si progetta un dettagliato <strong>backout / rollback plan</strong> per ripristinare lo stato di funzionamento originale della macchina qualora l'aggiornamento causi crash o instabilità impreviste.</dd>
+    
+    <dt>Fase 2: Testing (Collaudo)</dt>
+    <dd>Prima di toccare qualsiasi macchina di produzione reale, la patch deve essere distribuita e testata all'interno di un ambiente non produttivo (Staging o Sandbox) che replichi fedelmente l'hardware, le dipendenze e il carico della rete reale. Lo scopo del testing è quantificare la stabilità della patch, monitorare l'eventuale degrado delle performance e verificare l'assenza di incompatibilità logiche che potrebbero causare la rottura (breakage) o l'interruzione di applicazioni legacy o software custom critici per il business.</dd>
+
+    <dt>Fase 3: Implementing (Implementazione / Deployment)</dt>
+    <dd>Rappresenta l'applicazione materiale e lo spiegamento della patch sui sistemi di produzione dell'azienda, rigorosamente all'interno della finestra di manutenzione concordata. Per garantire l'uniformità, minimizzare l'errore umano e scalare su migliaia di host, l'implementazione deve fare uso di strumenti di automazione e configurazione centralizzata, quali Group Policy Objects (GPO) in Active Directory, orchestratori come Ansible, Chef o Puppet, e sistemi integrati di data center management come <strong>Cisco UCS Manager</strong> per l'hardening e il firmware patching unificato dell'infrastruttura sottostante.</dd>
+
+    <dt>Fase 4: Auditing (Verifica e Ispezione)</dt>
+    <dd>L'ultima fase del ciclo di gestione garantisce che la vulnerabilità sia stata definitivamente neutralizzata e che la patch sia attiva ed efficace. Si realizza mediante l'esecuzione di scansioni di sicurezza confermative focalizzate (vulnerability re-scanning con Nessus o simili applicando credenziali o sonde locali), controlli storici dei log nei registri eventi della macchina, ispezioni automatiche di conformità della baseline e il monitoraggio continuo contro il configuration drift (deriva delle configurazioni).</dd>
+
     <dt>Patch di sicurezza vs aggiornamenti funzionali</dt>
-    <dd>Le patch di sicurezza correggono CVE specifici e hanno la massima priorità. Gli aggiornamenti funzionali aggiungono feature e hanno priorità inferiore. In ambienti critici, le patch di sicurezza vengono spesso applicate separatamente dagli aggiornamenti funzionali per ridurre il rischio di interruzioni.</dd>
+    <dd>Le patch di sicurezza correggono falle logiche e CVE specifici, pertanto hanno sempre la massima priorità e richiedono canali di distribuzione accelerati. Al contrario, gli aggiornamenti funzionali (feature updates) aggiungono nuove funzionalità o modificano l'interfaccia utente; avendo un impatto sul business meno urgente e un potenziale di rottura più elevato, seguono cicli di approvazione e test molto più conservativi in sede di change management.</dd>
+    
     <dt>Limitazioni del patching</dt>
-    <dd>Non applicabile a sistemi EOL (il vendor non rilascia più patch), non sempre possibile su sistemi embedded o IoT (richiede downtime inaccettabili), non efficace contro zero-day (patch non ancora disponibile). In questi casi si usano controlli compensativi (segmentazione, WAF).</dd>
+    <dd>Il patching soffre di limiti strutturali severi: non è applicabile a sistemi End-of-Life/End-of-Service-Life (EOL/EOSL) per l'indisponibilità fisica di patch di sicurezza da parte del vendor, o su dispositivi sensibili (es: controllori industriali ICS/SCADA) dove il fermo macchina comporta interruzioni d'altissimo costo finanziario. In tali contesti si adottano necessariamente <strong>controlli compensativi</strong> (VLAN di microsegmentazione, firewall ostativi di rete o host-based, e sistemi WAF dedicati).</dd>
   </dl>
 
   <h3 id="encryption-mit">Encryption (Cifratura come mitigazione)</h3>
@@ -324,8 +333,13 @@
   <dl class="termlist">
     <dt>Configuration Management Database (CMDB)</dt>
     <dd>Repository centralizzato che traccia lo stato di configurazione atteso per ogni sistema. Le deviazioni dalla baseline vengono rilevate e corrette.</dd>
+    
+    <dt>Cisco UCS Manager (Hardware & Infrastructure Configuration Enforcement)</dt>
+    <dd>Esempio d'eccellenza industriale per il controllo unificato dell'infrastruttura d'impatto (Cisco Unified Computing System). Consente di definire in modo forzato <em>Service Profiles</em> e <strong>Security Templates</strong> (unificando parametri di sicurezza come versioni di firmware ammesse, policies di account lockout, cifratura e protocolli di rete protetti come SSH e LDAPS) applicandoli in modo simultaneo e non-drifting su tutti i blade server, nodi ed interconnect hardware tramite una singola console logica.</dd>
+    
     <dt>Infrastructure as Code (IaC)</dt>
     <dd>Le configurazioni vengono definite come codice (Terraform, Ansible, CloudFormation). Ogni deployment è deterministico: stesso codice = stessa configurazione. Previene la deriva e permette il rollback immediato.</dd>
+    
     <dt>Secure baselines</dt>
     <dd>Configurazioni di sicurezza minime predefinite per ogni tipo di sistema. L'ordine corretto è: <strong>establish → deploy → maintain</strong>. Prima si definisce la baseline sicura, poi la si implementa, poi la si mantiene nel tempo tramite monitoring e enforcement.</dd>
   </dl>
@@ -459,17 +473,33 @@
 
   <h3 id="baselines">Secure baselines (Baseline di sicurezza)</h3>
   <p>
-    Una <strong>secure baseline</strong> è un insieme di configurazioni di sicurezza
-    minime e approvate per un tipo specifico di sistema. L'ordine corretto di implementazione
-    è: <strong>Establish → Deploy → Maintain</strong>:
+    Una <strong>secure baseline</strong> è un insieme documentato di impostazioni di configurazione e controlli di sicurezza minimi obbligatori e approvati per un tipo specifico di risorsa o sistema (es: workstation Windows, server web Linux, router di rete). L'andamento sequenziale corretto per progettare e gestire le baseline è: <strong>Establish → Deploy → Maintain</strong>:
   </p>
   <dl class="termlist">
     <dt>1. Establish (Stabilire)</dt>
-    <dd>Definire la configurazione di sicurezza minima accettabile: quali servizi attivare, quali disabilitare, quali policy applicare, quali configurazioni di logging abilitare. Basarsi su benchmark di sicurezza standard: CIS Benchmarks, DISA STIGs, NIST SP 800-70.</dd>
+    <dd>
+      Consiste nel definire formalmente la configurazione ottimale e sicura degli host basandosi su standard e benchmark industriali noti (come CIS Benchmarks, DISA STIGs e NIST SP 800-70). In sede di esame, i <strong>quattro ingredienti fondamentali e imprescindibili</strong> che compongono una secure baseline per un host sicuro comprendono:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <strong>Firewalls (Configurazione Firewall locale)</strong>: L'attivazione e la configurazione forzata di un software firewall host-based (es: Windows Defender Firewall, iptables o ufw su Linux) con policy di tipo "default-deny", la quale consente il traffico unicamente sulle porte strettamente necessarie al ruolo logico del server (es. bloccando l'inbound a eccezione della porta 443 su un server Web).
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>User Permissions (Gestione e restrizione dei permessi utente)</strong>: L'applicazione del principio del minimo privilegio (Least Privilege). Questo si ottiene eliminando diritti eccessivi o account non censiti, disabilitando gli account ospite (Guest), limitando severamente l'appartenenza a gruppi ad alti privilegi (come gli Administrator o i Sudoers) ed eseguendo i servizi applicativi tramite account di servizio non privilegiati dedicati.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Encryption Protocols (Protocolli di cifratura sicuri)</strong>: L'imposizione forzata di canali e protocolli crittografati moderni e robusti per qualsiasi interazione con il sistema (es: SSHv2, TLS 1.3, HTTPS, LDAPS, SFTP, WPA3), assicurandosi al contempo di disabilitare e deprecare protocolli legacy intrinsecamente insicuri o che trasmettono dati in chiaro (es: SMBv1, SSLv3, WEP, FTP o Telnet).
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Up-to-Date Antivirus and Antimalware (Soluzioni Antivirus aggiornate)</strong>: L'allestimento di motori di protezione contro minacce locali ed esecuzioni di codice malevolo. La baseline richiede che l'antivirus sia attivo sul sistema, configurato per scansioni periodiche ed euristica attiva, e provvisto di aggiornamenti in tempo reale e automatici del database delle firme (signature updates) per contrastare attivamente virus, malware, worm ed exploit noti.
+        </li>
+      </ul>
+    </dd>
+    
     <dt>2. Deploy (Implementare)</dt>
-    <dd>Applicare la baseline a tutti i sistemi del tipo corrispondente, tipicamente tramite automazione (Group Policy, Ansible, Chef, Puppet) per garantire coerenza e riducibilità degli errori umani.</dd>
+    <dd>Applicare la baseline a tutti i sistemi corrispondenti tramite strumenti centralizzati e processi di automazione (es: Group Policy Objects (GPO) in Active Directory o tool di Configuration Management quali Ansible, Chef e Puppet). Ciò riduce l'incidenza di errori umani legati a configurazioni manuali e assicura uniformità su scala aziendale.</dd>
+    
     <dt>3. Maintain (Mantenere)</dt>
-    <dd>Monitorare continuamente che i sistemi rimangano conformi alla baseline (configuration drift detection). Aggiornare la baseline quando cambiano le best practice o le minacce. Rieseguire il deployment se vengono rilevate deviazioni.</dd>
+    <dd>Monitorare con costanza l'ambiente per rilevare l'insorgenza di deviazioni nei parametri concordati (configuration drift). Richiede periodiche verifiche di vulnerabilità, aggiornamenti periodici delle regole in base all'evoluzione delle minacce reali e l'applicazione tempestiva di remediation strutturate.</dd>
   </dl>
 
   <h3 id="waf">WAF — Web Application Firewall</h3>
@@ -678,7 +708,7 @@
 <script>
 (function(){
 var Q=[
-{id:'SCREEN_006',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'WAF',c:true},{id:'B',t:'NGFW',c:false},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Un WAF (Web Application Firewall) opera a livello 7 e ispeziona il contenuto delle richieste HTTP. Può rilevare e bloccare parametri con caratteristiche anomale (lunghezza eccessiva, caratteri non attesi) tipici di un buffer overflow su applicazione web. Il NGFW vede solo traffico HTTPS legittimo verso la porta 443 e non ispeziona il payload applicativo. TLS cifra ma non filtra il contenuto malevolo.'},
+{id:'SCREEN_006', source:'TL',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'WAF',c:true},{id:'B',t:'NGFW',c:false},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Un WAF (Web Application Firewall) opera a livello 7 e ispeziona il contenuto delle richieste HTTP. Può rilevare e bloccare parametri con caratteristiche anomale (lunghezza eccessiva, caratteri non attesi) tipici di un buffer overflow su applicazione web. Il NGFW vede solo traffico HTTPS legittimo verso la porta 443 e non ispeziona il payload applicativo. TLS cifra ma non filtra il contenuto malevolo.'},
 {id:'SCREEN_117',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Il WAF è la risposta corretta per attacchi alle applicazioni web. Analizza il payload HTTP a livello applicativo (L7) rilevando pattern di attacco come buffer overflow, SQLi e XSS. Il NGFW lavora a livello di rete e non capisce la semantica delle richieste HTTP.'},
 {id:'SCREEN_122',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Stessa domanda, stessa risposta: WAF per attacchi alle web application. La ripetizione nell\'esame indica l\'importanza di questo concetto. Memorizza: web application attack → WAF, non NGFW.'},
 {id:'SCREEN_125',text:'An organization\'s internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?',opts:[{id:'A',t:'NGFW',c:false},{id:'B',t:'WAF',c:true},{id:'C',t:'TLS',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Quarta occorrenza dello stesso scenario. Il WAF è la risposta universale per attacchi alle applicazioni web esposti su internet. TLS protegge la confidenzialità in transito ma non filtra contenuti malevoli.'},
@@ -698,7 +728,7 @@ function openQuiz(){setupEl.style.display='block';contentEl.style.display='none'
 function startQuiz(mode){var n=mode==='quick'?8:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
   function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -804,5 +834,6 @@ overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();
 </script>
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

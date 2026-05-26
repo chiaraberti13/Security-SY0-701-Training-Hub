@@ -73,36 +73,136 @@
     Per erigere sistemi difensivi solidi, un ingegnere di sicurezza deve comprendere non solo l'identità dell'attaccante,
     ma anche l'arsenale logico e pratico con cui colpire gli asset aziendali. In questo capitolo analizziamo in dettaglio
     i <strong>vettori di minaccia (threat vectors)</strong> — ovvero le vie d'accesso utilizzate per aprirsi un varco — 
-    ed i <strong>tipi di attacco comuni (threat types)</strong>, spaziando dalle frodi mirate sino ai rischi hardware.
-  </p>
-</section>
-
-<section id="vectors">
+    ed i <strong>tipi di attacco comuni (threat types)</strong>, spaziando dalle frodi mirate sino ai ris<section id="vectors">
   <h2>Vettori di minaccia (Threat Vectors)</h2>
   <p>
-    Un <strong>vettore di minaccia</strong> rappresenta la strada fisica o logica percorsa da un threat actor o da un pacchetto software
-    ostile per penetrare una rete protetta o esfiltrare dati. I vettori principali comprendono:
+    Un <strong>vettore di minaccia (threat vector)</strong> rappresenta la via o il canale — fisico o logico — utilizzato da un threat actor per infiltrarsi all'interno di un sistema informativo, diffondere malware o esfiltrare informazioni riservate. Comprendere i singoli vettori consente ai difensori di identificare e restringere la superficie di attacco di un'organizzazione.
+  </p>
+  
+  <h3>1. Vettori basati su messaggi (Message-based)</h3>
+  <p>
+    I canali di comunicazione testuale e multimediale rappresentano il punto di ingresso preferito per gli attacchi di social engineering, data l'immediata interazione con il fattore umano:
   </p>
   <dl class="termlist">
     <dt>Email</dt>
-    <dd>Il vettore d'accesso iniziale statisticamente più comune. Utilizzato per ospitare link fraudolenti (phishing), allegati con ransomware camuffati (curriculum, fatture fittizie) o per attuare campagne di impersonificazione verbale scritta.</dd>
-    <dt>Removable media (supporti rimovibili)</dt>
-    <dd>Rappresenta il canale più comune ed efficace per scavalcare reti completamente isolate (<strong>air-gapped networks</strong>) come quelle industriali (SCADA) o governative d'alto livello. Una chiavetta USB inserita da un operatore compie il passaggio fisico insuperabile da remoto.</dd>
-    <dt>Direct Access (Accesso diretto / locale)</dt>
-    <dd>L'accesso materiale e fisico diretto ad hardware, server o postazioni sbloccate o mal custodite. Consente operazioni di intercettazione passiva, caricamento istantaneo di backdoor o furti fisici rapidi.</dd>
-    <dt>Wireless &amp; Rogue APs</dt>
-    <dd>Reti senza fili deboli o Wi-Fi pubblici in cui un utente sceglie di loggarsi ignorando avvisi sui certificati ssl deboli, rimanendo vittima di intercettazioni e attacchi on-path (MitM) condotti da Rogue Access Point o configurazioni Evil Twin.</dd>
+    <dd>Statisticamente rimane il vettore primario d'accesso a livello globale. Viene impiegato per diffondere link malevoli (credential harvesting o phishing), malware incorporati o allegati fraudolenti (es. falsi curriculum, fatture insolute, notifiche urgenti di sistema).</dd>
+    <dt>SMS (Short Message Service)</dt>
+    <dd>Sfrutta i telefoni cellulari aziendali aggirando i filtri di protezione della posta elettronica aziendale per recapitare link brevi ad altissima efficacia emotiva, come falsi pacchi in consegna, avvisi di sicurezza bancari o messaggi fittizi da parte dei vertici aziendali (Smishing).</dd>
+    <dt>Instant messaging (IM)</dt>
+    <dd>Include piattaforme di messaggistica consumer come WhatsApp e Telegram, oppure strumenti di collaborazione aziendale integrati come Microsoft Teams, Slack o Discord. Gli aggressori usano la fiducia implicita in questi ambienti per condividere file dannosi, estorcere dati o bypassare le policy di rete.</dd>
+  </dl>
+
+  <h3>2. Vettori basati su immagini (Image-based)</h3>
+  <p>
+    I file di immagine (come PNG, JPEG, GIF) non contengono tipicamente codice eseguibile nativo, ma possono fungere da vettori in modi ingegnosi:
+  </p>
+  <dl class="termlist">
+    <dt>Steganografia (Steganography)</dt>
+    <dd>L'atto di occultare un payload malevolo all'interno dei pixel o dei metadati non critici di un'immagine apparentemente innocua. Una volta scaricata sulla macchina vittima, uno script o un malware di pre-infezione estrae il codice nascosto ed avvia l'attività dannosa.</dd>
+    <dt>Exploit delle librerie di rendering</dt>
+    <dd>Sfruttamento di vulnerabilità note (es. buffer overflow o memory leakage) nelle vecchie librerie del sistema operativo o del browser preposte a disegnare a schermo l'immagine (es. formati JPEG o WebP). La visualizzazione d'immagine sul browser o nell'e-mail comporta l'esecuzione arbitraria di codice sul sistema colpito.</dd>
+  </dl>
+
+  <h3>3. Vettori basati su file esterni (File-based)</h3>
+  <p>
+    Documenti di produttività quotidiana che gli utenti aprono con frequenza e fiducia implicita:
+  </p>
+  <dl class="termlist">
+    <dt>Documenti PDF ed Office macro-enabled</dt>
+    <dd>Documenti PDF contenenti exploit per JavaScript integrati nel lettore locale o file word/excel provvisti di <strong>Macro VBA</strong> malevole personalizzate. All'apertura, manipolano l'utente ad attivare le funzionalità esterne, richiamando script Powershell o script WMI in background per installare malware.</dd>
+  </dl>
+
+  <h3>4. Vettori basati su chiamate vocali (Voice call)</h3>
+  <p>
+    Il telefono classico è uno strumento formidabile per aggirare i controlli tecnologici basandosi sulla manipolazione e sull'interazione vocale diretta:
+  </p>
+  <dl class="termlist">
+    <dt>Vishing (Voice Phishing)</dt>
+    <dd>Chiamate telefoniche in cui l'aggressore, servendosi del <strong>Caller ID Spoofing</strong> (alterazione dell'ID chiamante per far apparire numeri fidati come l'Help Desk centrale, la banca o l'amministratore delegato), richiede verbalmente credenziali, ripristino o dettatura di codici MFA o l'installazione di software di controllo remoto (come AnyDesk o TeamViewer).</dd>
+  </dl>
+
+  <h3>5. Supporti rimovibili (Removable device)</h3>
+  <p>
+    I supporti fisici di memorizzazione costituiscono il vettore d'elezione per infettare ambienti isolati o privi di connessione esterna:
+  </p>
+  <dl class="termlist">
+    <dt>USB Flash Drive &amp; External Drives</dt>
+    <dd>Dispositivi d'archiviazione esterni lasciati appositamente in aree strategiche (parcheggi aziendali, sale d'attesa) per stimolare la curiosità dei dipendenti. All'inserimento, emulano una tastiera (attacchi <strong>Rubber Ducky / BadUSB</strong>) per digitare ad altissima velocità comandi dannosi in background, bypassando le difese perimetrali o infettando sistemi isolati (<em>air-gapped networks</em>).</dd>
+  </dl>
+
+  <h3>6. Software vulnerabili: Client-based vs. Agentless</h3>
+  <p>
+    Le architetture software determinano il modo in cui le vulnerabilità vengono esposte e verificate:
+  </p>
+  <dl class="termlist">
+    <dt>Client-based (Basato su agente/client)</dt>
+    <dd>L'analisi o la protezione della macchina richiede l'installazione locale di un modulo software ("agente") che rileva e invia dati di telemetria. Se l'agente è compromesso, mal configurato o antiquato, la postazione diventa cieca. Gli exploit derivano dall'interazione software che agisce direttamente a livello host.</dd>
+    <dt>Agentless (Senza agente)</dt>
+    <dd>L'ispezione della sicurezza avviene da remoto autenticandosi tramite protocolli sicuri o analizzando le porte di rete esposte (es. tramite scansioni API centralizzate o cloud-native). Sebbene eviti l'overhead di gestione di un agente su ciascun server, un errore di autenticazione centralizzata o una debolezza nei protocolli di connessione remoti può esporre l'intera flotta di macchine a comandi illegittimi dall'esterno.</dd>
+  </dl>
+
+  <h3>7. Sistemi ed applicazioni non supportati (Unsupported systems / applications)</h3>
+  <p>
+    Infrastrutture rimaste orfane di protezione correttiva:
+  </p>
+  <dl class="termlist">
+    <dt>End-of-life (EOL) &amp; Legacy software</dt>
+    <dd>Sistemi operativi obsoleti (come Windows Server 2008) o pacchetti applicativi per cui il produttore ha terminato il supporto tecnico e non rilascia più <strong>security patch (aggiornamenti di sicurezza)</strong>. Rimangono permanentemente vulnerabili ai nuovi exploit noti ed esposti su internet o in intranet, configurando un bersaglio statico di facilissimo accesso per qualsiasi threat actor.</dd>
+  </dl>
+
+  <h3>8. Reti non sicure (Unsecure networks)</h3>
+  <p>
+    La mancanza di una robusta crittografia e di mutua autenticazione su canali wireless e cablati rende semplice l'intercettazione e la deviazione dei pacchetti:
+  </p>
+  <dl class="termlist">
+    <dt>Wireless (Senza fili)</dt>
+    <dd>L'uso di standard wireless superati (WEP o WPA con algoritmi deboli) o la presenza di hotspot fittizi (<strong>Rogue Access Points</strong> ed <strong>Evil Twin</strong>: reti Wi-Fi che clonano fedelmente il nome, SSID, dell'infrastruttura aziendale) per spingere i dipendenti remoti ad accoppiarsi ed intercettarne l'intero traffico web in chiaro (attacchi On-path).</dd>
+    <dt>Wired (Cablato/Ethernet)</dt>
+    <dd>L'assenza di filtri d'autenticazione delle porte di rete a livello fisico (<strong>standard IEEE 802.1X / MAC filtering</strong>) in aree aperte o comuni (hall, uffici ad accesso pubblico, prese a muro incustodite). Consente a terzi di collegare fisicamente un computer portatile o un piccolo dispositivo di cattura (sniffer) ed entrare istantaneamente nell'intranet aziendale.</dd>
+    <dt>Bluetooth</dt>
+    <dd>Standard wireless a corto raggio spesso mal configurato o lasciato in modalità sempre visibile (Discoverable). Consente attacchi adiacenti opportunistici: <strong>Bluejacking</strong> (invio di messaggi non autorizzati), <strong>Bluesnarfing</strong> (sottrazione abusiva di SMS, mail, rubrica telefonica) o vulnerabilità nello stack di sistema come <strong>Blueborne</strong> per l'esecuzione di comandi.</dd>
+  </dl>
+
+  <h3>9. Porte di servizio aperte (Open service ports)</h3>
+  <p>
+    La pubblicazione indiscriminata di protocolli di rete deboli:
+  </p>
+  <dl class="termlist">
+    <dt>Open ports</dt>
+    <dd>Server ed endpoint che lasciano servizi sensibili esposti direttamente su indirizzi IP pubblici senza il filtro di una VPN o di un firewall perimetrale. Porte come la 23 (Telnet, traffico in chiaro), 21 (FTP), o 3389 (RDP - Remote Desktop Protocol, bersaglio continuo di attacchi brute-force o exploit per l'esecuzione di codice) ampliano a dismisura le porte logiche d'ingresso per gli attaccanti esterni.</dd>
+  </dl>
+
+  <h3>10. Credenziali di default (Default credentials)</h3>
+  <p>
+    La vulnerabilità logica più sfacciata ed evitabile nel network management:
+  </p>
+  <dl class="termlist">
+    <dt>Default passwords</dt>
+    <dd>Spediti dai produttori con coppie di login e password di fabbrica note a tutti (es. <code>admin / admin</code>, <code>root / password</code>, nomi produttore dei router/switch). Gli amministratori negligenti che omettono di modificare queste credenziali durante il deployment consentono agli attaccanti di assumere all'istante il controllo privilegiato sul sistema o sul dispositivo di rete alla prima scansione.</dd>
+  </dl>
+
+  <h3>11. Catena di fornitura (Supply Chain)</h3>
+  <p>
+    Gli attacchi alla supply chain scavalcano i controlli diretti colpendo le relazioni di fiducia dell'ecosistema aziendale:
+  </p>
+  <dl class="termlist">
+    <dt>Managed Service Providers (MSP)</dt>
+    <dd>I fornitori di servizi IT gestiti dispongono di canali VPN permanenti ed agenti di monitoraggio ad altissimo privilegio installati su tutte le macchine dei loro clienti. Compromettendo la console d'amministrazione dell'MSP, un attaccante ottiene istantaneamente accesso automatizzato e totale alle reti di centinaia di aziende clienti downstream.</dd>
+    <dt>Vendors (Fornitori di terze parti)</dt>
+    <dd>Aziende esterne (es. manutentori HVAC, logistica, consulenti) con accessi remoti VPN dedicati per la gestione di sottomoduli d'ufficio. Tradizionalmente meno protette del target principale, fungono da teste di ponte per entrare nella rete e muoversi lateralmente.</dd>
+    <dt>Suppliers (Fornitori di hardware o software)</dt>
+    <dd>Manomissione del software durante le fasi di sviluppo prima della firma digitale (es. l'attacco SolarWinds tramite patch infette generate dal software provider), o intercettazione logistica di hardware server inserendovi microchip spia (hardware tampering / hardware implants).</dd>
   </dl>
 </section>
 
 <section id="social-eng">
-  <h2>Social Engineering (Ingegneria sociale)</h2>
+  <h2>Social Engineering &amp; Human Vectors (Ingegneria sociale e fattori umani)</h2>
   <p>
-    L'ingegneria sociale non sfrutta difetti del software, bensì manipola i bias cognitivi dell'essere umano (urgenza, autorità, paura, curiosità) per compiere azioni dannose o diffondere credenziali.
+    L'ingegneria sociale non sfrutta difetti del software, bensì manipola i bias cognitivi dell'essere umano (urgenza, autorità, paura, curiosità, simpatia) per indurre i collaboratori aziendali a compiere azioni dannose o diffondere credenziali.
   </p>
   <dl class="termlist">
     <dt>Phishing</dt>
-    <dd>Operazione massiva che induce le vittime a digitare password su pagine web falsificate (<strong>Credential Harvesting</strong>) per mezzo di e-mail fasulle.</dd>
+    <dd>Operazione massiva che induce le vittime a digitare password su pagine web falsificate (<strong>Credential Harvesting</strong>) o a scaricare file dannosi per mezzo di e-mail appositamente camuffate.</dd>
     <dt>Smishing (SMS Phishing)</dt>
     <dd>Vettore che viaggia tramite SMS adoperato per indurre all'urgenza ('sono il CEO, acquista gift card') o carpire reset password remoti.</dd>
     <dt>Vishing (Voice Phishing)</dt>
@@ -113,6 +213,14 @@
     <dd>Infezione indiretta che consiste nel compromettere un sito web esterno di settore comunemente frequentato e reputato fido dalla nicchia di dipendenti dell'azienda target.</dd>
     <dt>Pharming</dt>
     <dd>Un attacco sofisticato diretto a re-indirizzare automaticamente il traffico web degli utenti da un sito web legittimo a un duplicato maligno, anche se l'utente digita correttamente l'URL originale nel browser. Si realizza primariamente tramite <strong>DNS cache poisoning (avvelenamento DNS)</strong> sui server ricorsivi o modificando abusivamente il file locale delle corrispondenze host (<strong>hosts file modification</strong>) sul PC della vittima. A differenza del phishing tradizionale, non richiede al dipendente di commettere l'errore di fare clic su un link e-mail falso.</dd>
+    <dt>Pretexting</dt>
+    <dd>La creazione di uno scenario inventato e dettagliato (il "pretesto") per indurre la vittima a cedere informazioni confidenziali. Ad esempio, spacciarsi per un revisore dei conti o un tecnico dell'assistenza esterna che richiede l'estrazione manuale di report riservati.</dd>
+    <dt>Impersonation (Impersonificazione)</dt>
+    <dd>Il cybercriminale assume volutamente l'identità di un'altra persona nota (es. un dirigente, la polizia postale, un collega) sfruttando l'autorità o il senso di deferenza dei lavoratori aziendali per indurli a compiere azioni vietate.</dd>
+    <dt>Brand impersonation (Impersonificazione del Marchio)</dt>
+    <dd>Falsificazione sistematica dell'identità visiva, loghi e nomi commerciali di marchi estremamente noti (es. Microsoft, Amazon, DHL) per ingannare utenti finali o impiegati a compilare form fittizi di login, sbloccando le credenziali o installando finti aggiornamenti.</dd>
+    <dt>Misinformation vs Disinformation (Disinformazione)</dt>
+    <dd>Campagne di influenza e alterazione dell'informazione aziendale o pubblica. La <strong>Misinformation (Disinformazione involontaria)</strong> è la propagazione involontaria di notizie palesemente errate o false senza intenti malevoli di base. Al contrario, la <strong>Disinformation (Disinformazione intenzionale)</strong> è la pianificazione, creazione e coordinamento doloso di notizie distorte o totalmente false realizzate appositamente per screditare un marchio, manipolare i mercati azionari, destabilizzare il morale aziendale o indurre i dipendenti a compiere errori operativi catastrofici.</dd>
   </dl>
 </section>
 
@@ -123,8 +231,8 @@
   </p>
   <div class="exam-tip">
     <strong>EXAM TIP — BEC vs Whaling</strong><br>
-    Il <strong>Whaling</strong> colpisce in modo esclusivo e mirato i soggetti al vertice aziendale (CEO, CFO) per estorcerne i privilegi.<br>
-    Il <strong>Business Email Compromise (BEC)</strong> consiste nell'utilizzare account e-mail di figure executive o partner commerciali (compromessi o simulati con cura) per ingannare i dipendenti operativi di basso livello a compiere bonifici o pagamenti urgenti su conti fantasma.
+    Il <strong>Whaling</strong> colpisce in modo esclusivo e mirato i soggetti al vertice aziendale (CEO, CFO, direttori di divisione) per estorcerne i privilegi o ottenere risposte dirette d'alto rango.<br>
+    Il <strong>Business Email Compromise (BEC)</strong> consiste nell'utilizzare account e-mail di figure executive o partner commerciali (compromessi o simulati con cura, spesso combinandoli con typosquatting sui domini) per ingannare i dipendenti operativi dell'ufficio contabilità o acquisti a compiere bonifici o pagamenti urgenti su conti fittizi sotto forma di scadenze fittizie o fatture rielaborate.
   </div>
 </section>
 
@@ -155,7 +263,28 @@
     <dt>Hardware Tampering &amp; Supply Chain</dt>
     <dd>L'atto di manomettere fisicamente circuiti e schede madri di server o dispositivi di rete durante la logistica di trasporto della supply chain. Richiede ispezioni visive minuziose delle schede madri e chip prima dell'accettazione e dell'installazione finali sul ferro aziendale.</dd>
     <dt>Dumpster diving aziendale</dt>
-    <dd>Il riciclo di fogli o scarti cartacei contenenti segreti dai raccoglitori di fogli in disuso delle stampanti condivise fa risaltare rischi di fuga d'informazioni.</dd>
+    <dd>Le minacce derivano anche dal riciclo di fogli o scarti cartacei contenenti segreti dai raccoglitori di fogli in disuso delle stampanti condivise, che fa risaltare i rischi fisici di fuga d'informazioni.</dd>
+  </dl>
+</section>
+
+<!-- STORICALL MALWARE & PAYMENTS -->
+<section id="notable-malware">
+  <h2>Minacce Storiche, Botnet e Riscatto (Notable Malware and Financial Vectors)</h2>
+  <p>
+    I threat actor adattano continuamente i propri payload per massimizzare il ritorno economico o l'impatto distruttivo, facendo leva su canali di pagamento anonimi o worm ad altissimo tasso d'infezione:
+  </p>
+  <dl class="termlist">
+    <dt>Petya (Ransomware di MBR/MFT)</dt>
+    <dd>Un malware di tipo ransomware distruttivo emerso nel 2016 e propagatosi nel 2017 a livello globale tramite una variante denominata <em>NotPetya</em>. A differenza dei ransomware ordinari che cifrano solo singoli file lasciando integro il sistema operativo, Petya sovrascrive direttamente il record di bootstrap del disco, il Master Boot Record (MBR), e cifra la tabella di allocazione NTFS (Master File Table - MFT), mandando in crash la macchina e bloccandone l'avvio prima di mostrare la richiesta di riscatto.</dd>
+
+    <dt>Bitcoin Payments (Pagamenti in Bitcoin)</dt>
+    <dd>La criptovaluta decentralizzata maggiormente imposta e richiesta dai gruppi criminali di Ransomware come unica modalità per eseguire l'estorsione finanziaria. L'uso di account pseudonimi basati su registri blockchain distribuiti rende complessa la tracciabilità delle transazioni transfrontaliere rispetto al classico circuito bancario fiat, alimentando l'economia sotterranea dei riscatti.</dd>
+
+    <dt>Zeus (Trojan Bancario e Botnet)</dt>
+    <dd>Uno dei Trojan bancari (banking Trojan) più prolifici della storia, scoperto nel 2007. Sfrutta tecniche avanzate di Man-in-the-Browser (MitB), keylogging e form grabbing per intercettare ed esfiltrare credenziali bancarie ed e-commerce inserite dalle vittime sui portali finanziari. I pc infetti venivano reclutati in una delle botnet geograficamente più vaste di sempre, controllata da server centrali di Command and Control.</dd>
+
+    <dt>MyDoom (Worm e-mail distruttivo)</dt>
+    <dd>Worm malware ad altissimo potenziale d'infezione via e-mail apparso nel 2004. Si autopropagava estraendo i contatti dalla rubrica locale dell'host compromesso ed inviando mail infette a cascata, generando una mole di traffico insolito e posta spazzatura (spam) così mastodontica sul web da mandare in affanno e rallentare in misura tangibile l'intera infrastruttura internet globale dell'epoca.</dd>
   </dl>
 </section>
 
@@ -1495,7 +1624,7 @@ function startQuiz(mode){var n=mode==='quick'?10:Q.length,pool=shuffle(Q).slice(
 
 function render() {
   var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-  counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+  counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
   progressEl.style.width = ((quiz.idx / n) * 100) + '%';
   questionEl.textContent = q.text;
   explanEl.style.display = 'none';
@@ -1625,5 +1754,6 @@ document.addEventListener('keydown', function(e){
 </script>
 
 </div></div>
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

@@ -153,12 +153,17 @@
 
             <dt>Esami Formali e Ispezioni (Examinations)</dt>
             <dd>
-              Ispezioni a sorpresa o programmate condotte da funzionari governativi di agenzie nazionali di vigilanza per certificare la corretta applicazione delle tutele d'ordine pubblico.
+              Ispezioni investigative condotte ufficialmente da funzionari o esaminatori di agenzie nazionali e federali di vigilanza per certificare aderenza e conformità a tutele legali d'ordine pubblico.
+            </dd>
+
+            <dt>Valutazioni della Sicurezza (External Assessments)</dt>
+            <dd>
+              Rilevazioni esterne periodiche della postura di sicurezza informatica focalizzate sull'identificazione proattiva di minacce, bug e vulnerabilità globali del sistema, a differenza degli <em>Audit</em> che sono processi di conformità formale leganti al superamento di specifici requisiti rigidi predeterminati.
             </dd>
 
             <dt>Audit Indipendente di Terze Parti (Independent third-party audit)</dt>
             <dd>
-              Processo analitico oggettivo, condotto da enti di certificazione accreditati, il cui esito si traduce in asseverazioni standardizzate internazionalmente (es: certificazioni ISO 27001 o certificati SOC).
+              Processo analitico oggettivo e regolato, condotto da enti di certificazione accreditati terzi del tutto svincolati dalle relazioni clientela/fornitore, il cui esito si traduce in relazioni ed asseverazioni standardizzate internazionalmente (es: certificazioni ISO 27001 o report SOC 2).
             </dd>
           </dl>
         </section>
@@ -189,9 +194,9 @@
               Il personale di sicurezza interno dell'organizzazione (es: Security Operations Center - SOC) preposto a monitorare costantemente le allerte, analizzare il traffico di rete ed arrestare attivamente gli assalti simulati condotti dal Red Team.
             </dd>
 
-            <dt>Squadra Integrata (Purple Team)</dt>
+            <dt>Test Integrati o Cooperativi (Integrated Testing / Purple Team)</dt>
             <dd>
-              Un team o un approccio operativo che <strong>combina in modo coordinato, trasparente e sincrono sia tecniche offensive sia tecniche difensive</strong>. L'obiettivo primario del Purple Team non risiede nella "vittoria" di una fazione sull'altra, bensì nella massima condivisione dei riscontri tattici del Red Team con il Blue Team in tempo reale per tarare le regole del SIEM ed ottimizzare la postura protettiva del sistema.
+              Un approccio operativo strutturato che <strong>combina e integra in modo sincrono e trasparente sia le attività tecniche offensive (Red Team) sia quelle difensive (Blue Team)</strong>. Invece di eseguire test in cieco non cooperativi, l'Integrated Testing prevede la condivisione istantanea e continua di riscontri tecnici in tempo reale, aiutando gli ingegneri difensivi a validare, calibrare ed affinare immediatamente le regole del SIEM, del firewall e dei vettori d'allerta per sventare minacce reali in modo congiunto.
             </dd>
           </dl>
 
@@ -417,7 +422,7 @@
   /* ── Dati quiz OBJ 5.5 (21 domande d'esame) ─────────────────── */
   const Q = [
     {
-      id: "SCREEN_009",
+      id:'SCREEN_009', source:'TL',
       text: "A penetration tester begins an engagement by performing port and service scans against the client environment according to the rules of engagement. Which of the following reconnaissance types is the tester performing?",
       opts: [
         { id: "A", t: "Active", c: true },
@@ -428,7 +433,7 @@
       expl: "La scansione proattiva di porte ed IP prevede l'invio diretto di pacchetti verso i sistemi bersaglio e l'interazione diretta, configurandosi come Ricognizione Attiva (Active reconnaissance)."
     },
     {
-      id: "SCREEN_014",
+      id:'SCREEN_014', source:'TL',
       text: "Which of the following is the most likely outcome if a large bank fails an internal PCI DSS compliance assessment?",
       opts: [
         { id: "A", t: "Fines", c: false },
@@ -439,7 +444,7 @@
       expl: "Trattandosi di uno scrutinio o valutazione esclusivamente Interna all'azienda, il fallimento non comporta sanzioni pubbliche immediate ma genera Rilievi d'Audit (Audit findings) destinati alla divisione interna per la corretta mitigazione d'esercizio."
     },
     {
-      id: "SCREEN_036",
+      id:'SCREEN_036', source:'TL',
       text: "If you are trying to collect information about a company in the stealthiest manner possible without being discovered, you might use which of the following?",
       opts: [
         { id: "A", t: "Passive reconnaissance", c: true },
@@ -450,7 +455,7 @@
       expl: "Per raccogliere informazioni con la massima segretezza ed in maniera interamente silente si sfrutta la Ricognizione Passiva (Passive reconnaissance) attingendo da fonti OSINT e query DNS terze senza mai interrogare direttamente l'infrastruttura bersaglio."
     },
     {
-      id: "SCREEN_059",
+      id:'SCREEN_059', source:'TL',
       text: "Which of the following statements about bug bounty programs are true?",
       opts: [
         { id: "A", t: "Discovered bugs are worth very little and reputable companies never host them.", c: false },
@@ -699,7 +704,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -827,5 +832,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

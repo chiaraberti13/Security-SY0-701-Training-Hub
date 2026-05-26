@@ -1,4 +1,3 @@
-<?xml version="1.0" ?>
 <quiz>
   <question id="SCREEN_001" objective="2.3">
     <text>A technician is installing a new cloud-based application for customer tracking and billing. Which of the following would be the most significant security concern associated with this installation?</text>
@@ -9,6 +8,7 @@
       <option id="D" correct="true">SQL injection</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_002" objective="3.1">
     <text>A system administrator is installing a zero-day patch on the company's hypervisors. Which of the following attacks would the administrator be most likely preventing?</text>
@@ -19,6 +19,7 @@
       <option id="D" correct="false">Cross-site scripting</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_003" objective="2.4">
     <text>A company has found malware in their lab which can move between systems without clicking any links. Which of the following would best describe this malware?</text>
@@ -29,6 +30,7 @@
       <option id="D" correct="false">VM escape</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_004" objective="4.2">
     <text>A company owns a product which is no longer sold or supported by the manufacturer. Which of the following would best describe this product?</text>
@@ -40,6 +42,7 @@
       <option id="E" correct="false">SLA</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_005" objective="2.3">
     <text>An application does not perform any bounds checking when a user provides input. Which of the following exploits would be the most likely result of this issue?</text>
@@ -50,6 +53,7 @@
       <option id="D" correct="false">Open permission</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_006" objective="2.5">
     <text>An organization's internet-facing website was compromised when an attacker exploited a buffer overflow. Which of the following should the organization deploy to best protect against similar attacks in the future?</text>
@@ -60,6 +64,7 @@
       <option id="D" correct="false">SD-WAN</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_007" objective="1.4">
     <text>Which of the following is used to add extra complexity before using a one way data transformation algorithm?</text>
@@ -70,6 +75,7 @@
       <option id="D" correct="false">Steganography</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_008" objective="3.4">
     <text>Which of the following is required an organization to properly manage its restore process in the event of system failure?</text>
@@ -80,6 +86,7 @@
       <option id="D" correct="false">SDLC</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_009" objective="5.5">
     <text>A penetration tester begins an engagement by performing port and service scans against the client environment according to the rules of engagement. Which of the following reconnaissance types is the tester performing?</text>
@@ -90,6 +97,7 @@
       <option id="D" correct="false">Offensive</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_010" objective="2.4">
     <text>A security analyst is reviewing the following logs: [10:00:00 AM] Login rejected - username administrator - password Spring2023; [10:00:01 AM] Login rejected - username jsmith - password Spring2023; [10:00:01 AM] Login rejected - username guest - password Spring2023; [10:00:02 AM] Login rejected - username cpolk - password Spring2023; [10:00:03 AM] Login rejected - username fmartin - password Spring2023. Which of the following attacks is most likely occurring?</text>
@@ -100,6 +108,7 @@
       <option id="D" correct="false">Brute-force</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_011" objective="4.2">
     <text>A company has begun labeling all laptops with asset inventory stickers and associating them with employee IDs. Which of the following security benefits do these actions provide? (Choose two.)</text>
@@ -112,6 +121,7 @@
       <option id="F" correct="true">Company data can be accounted for when the employee leaves the organization.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_012" objective="2.4">
     <text>A systems administrator receives the following alert from a file integrity monitoring tool: The hash of the cmd.exe file has changed. The systems administrator checks the OS logs and notices that no patches were applied in the last two months. Which of the following most likely occurred?</text>
@@ -122,6 +132,7 @@
       <option id="D" correct="true">A rootkit was deployed.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_013" objective="1.3">
     <text>A technician needs to apply a high-priority patch to a production system. Which of the following steps should be taken first?</text>
@@ -132,6 +143,7 @@
       <option id="D" correct="false">Apply the patch to the system.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_014" objective="5.5">
     <text>Which of the following is the most likely outcome if a large bank fails an internal PCI DSS compliance assessment?</text>
@@ -142,6 +154,7 @@
       <option id="D" correct="true">Audit findings</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_015" objective="2.1">
     <text>Which of the following threat actors is the most likely to be motivated by profit?</text>
@@ -152,6 +165,7 @@
       <option id="D" correct="false">Shadow IT</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_016" objective="4.9">
     <text>An organization experiences a cybersecurity incident involving a command-and-control server. Which of the following logs should be analyzed to identify the impacted host? (Choose two.)</text>
@@ -164,6 +178,7 @@
       <option id="F" correct="false">Database</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_017" objective="1.3">
     <text>Which of the following describes effective change management procedures?</text>
@@ -174,6 +189,7 @@
       <option id="D" correct="false">Using an automatic change control bypass for security updates</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_018" objective="4.5">
     <text>A security engineer is installing an IPS to block signature-based attacks in the environment. Which of the following modes will best accomplish this task?</text>
@@ -184,6 +200,7 @@
       <option id="D" correct="false">Audit</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_019" objective="4.6">
     <text>Which of the following best describes the principle of least privilege?</text>
@@ -194,6 +211,7 @@
       <option id="D" correct="false">Providing users with temporary access permissions</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_020" objective="3.2">
     <text>What is the primary purpose of implementing a DMZ (Demilitarized Zone) in a network architecture?</text>
@@ -204,6 +222,7 @@
       <option id="D" correct="false">To store backup data securely</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_021" objective="2.2">
     <text>What type of attack involves intercepting and altering communication between two parties who believe they are directly communicating with each other?</text>
@@ -214,6 +233,7 @@
       <option id="D" correct="false">SQL Injection</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_022" objective="5.1">
     <text>Which of the following control types is AUP an example of?</text>
@@ -224,6 +244,7 @@
       <option id="D" correct="false">Technical</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_023" objective="4.9">
     <text>A company's online shopping website became unusable shortly after midnight on January 30, 2023. When a security analyst reviewed the database server, the analyst noticed the following code used for backing up data: IF DATE() = &quot;01/30/2023&quot; THEN BEGIN DROP DATABASE WebShopOnline; END. Which of the following should the analyst do next?</text>
@@ -234,6 +255,7 @@
       <option id="D" correct="false">Search the web server for ransomware notes.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_024" objective="4.6">
     <text>An organization is adopting cloud services at a rapid pace and now has multiple SaaS applications in use. Each application has a separate log-in, so the security team wants to reduce the number of credentials each employee must maintain. Which of the following is the first step the security team should take?</text>
@@ -244,6 +266,7 @@
       <option id="D" correct="true">Select an IdP.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_025" objective="4.8">
     <text>Which of the following phases of an incident response involves generating reports?</text>
@@ -254,6 +277,7 @@
       <option id="D" correct="false">Containment</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_026" objective="1.4">
     <text>A company wants to ensure that the software it develops will not be tampered with after the final version is completed. Which of the following should the company most likely use?</text>
@@ -264,6 +288,7 @@
       <option id="D" correct="false">Baselines</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_027" objective="1.1">
     <text>Which of the following security controls is most likely being used when a critical legacy server is segmented into a private network?</text>
@@ -274,6 +299,7 @@
       <option id="D" correct="true">Preventive</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_028" objective="4.9">
     <text>A security analyst is investigating a workstation that is suspected of outbound communication to a command-and-control server. During the investigation, the analyst discovered that logs on the endpoint were deleted. Which of the following logs would the analyst most likely look at next?</text>
@@ -284,6 +310,7 @@
       <option id="D" correct="false">Windows security</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_029" objective="5.1">
     <text>A company needs to keep the fewest records possible, meet compliance needs, and ensure destruction of records that are no longer needed. Which of the following best describes the policy that meets these requirements?</text>
@@ -294,6 +321,7 @@
       <option id="D" correct="false">Access control policy</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_030" objective="4.6">
     <text>Easy-to-guess passwords led to an account compromise. The current password policy requires at least 12 alphanumeric characters, one uppercase character, one lowercase character, a password history of two passwords, a minimum password age of one day, and a maximum password age of 90 days. Which of the following would reduce the risk of this incident from happening again? (Choose two.)</text>
@@ -306,6 +334,7 @@
       <option id="F" correct="true">Including a requirement for at least one special character.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_031" objective="3.4">
     <text>A technician is deploying a new security camera. Which of the following should the technician do?</text>
@@ -316,6 +345,7 @@
       <option id="D" correct="true">Conduct a site survey.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_032" objective="4.5">
     <text>A security team has been alerted to a flood of incoming emails that have various subject lines and are addressed to multiple email inboxes. Each email contains a URL shortener link that is redirecting to a dead domain. Which of the following is the best step for the security team to take?</text>
@@ -326,6 +356,7 @@
       <option id="D" correct="true">Block the URL shortener domain in the web proxy.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_033" objective="1.4">
     <text>During a penetration test, a flaw in the internal PKI was exploited to gain domain administrator rights using specially crafted certificates. Which of the following remediation tasks should be completed as part of the cleanup phase?</text>
@@ -336,6 +367,7 @@
       <option id="D" correct="false">Patching the CA</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_034" objective="3.1">
     <text>Which of the following is the biggest risk involved in cloud computing?</text>
@@ -346,6 +378,7 @@
       <option id="D" correct="false">Lack of responsibility</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_035" objective="4.3">
     <text>Which of the following is a list of known vulnerabilities in software systems?</text>
@@ -356,6 +389,7 @@
       <option id="D" correct="false">Intelligence Fusion</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_036" objective="5.5">
     <text>If you are trying to collect information about a company in the stealthiest manner possible without being discovered, you might use which of the following?</text>
@@ -366,6 +400,7 @@
       <option id="D" correct="false">Penetrating testing</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_037" objective="3.2">
     <text>Which of these items are considered &quot;unsecure&quot; protocols? (Select three choices).</text>
@@ -376,6 +411,7 @@
       <option id="D" correct="true">FTP</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_038" objective="4.2">
     <text>Which of the following statements about EOSL items is true?</text>
@@ -386,6 +422,7 @@
       <option id="D" correct="false">An EOSL item is only sold to current customers.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_039" objective="2.4">
     <text>Which technique is employed when executing a distributed denial-of-service (DDoS) attack?</text>
@@ -396,6 +433,7 @@
       <option id="D" correct="false">Hashing</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_040" objective="3.2">
     <text>Your monitoring and patch management system was put together in house. It has multiple scripts that need to log in to servers and network devices to query for certain information. It currently uses Telnet to establish these connections using credentials stored in a flat file. In improving security of the monitoring system, what are some reasons you would mandate switching to SSH? (Select two choices)</text>
@@ -406,6 +444,7 @@
       <option id="D" correct="true">Uses an encrypted connection</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_041" objective="5.2">
     <text>You are part of a penetration testing red team that will attempt to discover and exploit IT service vulnerabilities. Due to the sensitive nature of data on the network to be pen tested, the red team has been asked to sign a legal document.</text>
@@ -416,6 +455,7 @@
       <option id="D" correct="false">Service-level agreement</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_042" objective="5.3">
     <text>Which of the following concepts should be the most important consideration when determining how to budget properly for security controls?</text>
@@ -426,6 +466,7 @@
       <option id="D" correct="false">Asset identification</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_043" objective="3.2">
     <text>Your web application developers come to you and request affinity scheduling from the load balancers. Why does a web application benefit from affinity scheduling?</text>
@@ -436,6 +477,7 @@
       <option id="D" correct="false">Affinity scheduling helps web servers know the source of the traffic.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_044" objective="4.7">
     <text>What does WPA3 use Simultaneous Authentication of Equals (SAE) to do?</text>
@@ -446,6 +488,7 @@
       <option id="D" correct="false">It is used to create collision-resistant hash values.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_045" objective="5.6">
     <text>You are asked to prepare a brief to senior management about insider threats. You detail the use of data loss prevention (DLP) as a major factor in identifying and protecting against insider threats. What is the primary reason DLP can protect against these threats?</text>
@@ -456,6 +499,7 @@
       <option id="D" correct="true">Prevention of sensitive data being transferred in an unauthorized manner</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_046" objective="4.6">
     <text>Which of the following processes is concerned with validating credentials?</text>
@@ -466,6 +510,7 @@
       <option id="D" correct="false">Authorization</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_047" objective="2.2">
     <text>You have received an unsolicited email message from a website stating that you should click a button to reset your password. What should you do?</text>
@@ -476,6 +521,7 @@
       <option id="D" correct="false">Ensure your anti-malware software is up to date, then click the button.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_048" objective="1.4">
     <text>You have been tasked with planning a solution where cryptographic key generation and web application cryptographic operations are centralized on the network. What should you implement?</text>
@@ -486,6 +532,7 @@
       <option id="D" correct="false">Blockchain</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_049" objective="4.9">
     <text>Which of the following correctly defines a combination of hardware and software that classify and analyze data from numerous sources?</text>
@@ -496,6 +543,7 @@
       <option id="D" correct="false">DLP</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_050" objective="3.2">
     <text>For security purposes, how are network hosts typically separated? (Select two choices).</text>
@@ -506,6 +554,7 @@
       <option id="D" correct="true">Physically</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_051" objective="1.4">
     <text>What are two major causes of weak encryption?</text>
@@ -516,6 +565,7 @@
       <option id="D" correct="false">Using 256-bit keys and rotating keys frequently</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_052" objective="3.1">
     <text>Which type of cloud service is usually operated by a third-party provider that sells or rents &quot;pieces&quot; of the cloud to different entities, such as small businesses or large corporations, to use as they need?</text>
@@ -526,6 +576,7 @@
       <option id="D" correct="false">Private</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_053" objective="4.8">
     <text>Jewel's team located a compromised system. Their SIEM software successfully disconnected the system, but her team hasn't yet cleaned up the compromised system. What point of the incident response process has Jewel's team completed?</text>
@@ -536,6 +587,7 @@
       <option id="D" correct="false">Recovery</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_054" objective="4.1">
     <text>An application developer is using guardrails when creating a new web app. Which of the following would best describe this technique?</text>
@@ -546,6 +598,7 @@
       <option id="D" correct="true">Automate input and output validation</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_055" objective="4.6">
     <text>Select the appropriate authentication type for the following items: retina scan, smart card, hardware token, password, PIN number, and fingerprint scan.</text>
@@ -558,6 +611,7 @@
       <option id="F" correct="true">Fingerprint scan = Something you are</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_056" objective="4.6">
     <text>Select the appropriate authentication type for the following items: retina scan, smart card, hardware token, password, PIN number, and fingerprint scan.</text>
@@ -580,6 +634,7 @@
       <option id="D" correct="false">Accessibility</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_058" objective="4.9">
     <text>To reduce the configuration management burden of user devices, your manager has decided a security monitoring solution must be implemented where technician stations can scan and query user devices on demand. The installation, configuration, and maintenance of security monitoring software on user devices is not desirable. What type of device security monitoring solution should be considered?</text>
@@ -590,6 +645,7 @@
       <option id="D" correct="false">SIEM</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_059" objective="5.5">
     <text>Which of the following statements about bug bounty programs are true? (Select two choices).</text>
@@ -600,6 +656,7 @@
       <option id="D" correct="true">Companies pay people to find vulnerabilities in their software.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_060" objective="4.5">
     <text>What is the largest advantage host-based firewalls have over network-based firewalls?</text>
@@ -610,6 +667,7 @@
       <option id="D" correct="false">Host-based firewalls can coordinate with other endpoints’ host-based firewalls to perform a unified attack response.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_061" objective="3.2">
     <text>Which of the following is a software or a hardware appliance responsible for balancing user requests and network traffic among several different physical or virtualized hosts?</text>
@@ -620,6 +678,7 @@
       <option id="D" correct="false">Hypervisor</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_062" objective="3.1">
     <text>Your company plans on opening three new branch offices in different parts of the world. Devices on each branch office network must be able to securely connect to services on all other branch office networks with the least amount of network latency. The solution must include web filtering and firewall rule capabilities. Each branch office currently has a secured connection into a public cloud provider. Which solution should you implement?</text>
@@ -630,6 +689,7 @@
       <option id="D" correct="false">Site-to-site VPN</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_063" objective="5.2">
     <text>Which of the following statements best describes the relationship between the elements of risk?</text>
@@ -640,6 +700,7 @@
       <option id="D" correct="false">Threat actors initiate vulnerabilities</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_064" objective="5.2">
     <text>Which type of assessment looks at events that could exploit vulnerabilities?</text>
@@ -650,6 +711,7 @@
       <option id="D" correct="false">Vulnerability assessment</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_065" objective="1.4">
     <text>When information is converted to an unreadable state using cryptography, in what form is the information?</text>
@@ -660,6 +722,7 @@
       <option id="D" correct="false">Hash</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_066" objective="3.4">
     <text>Which is not a specific type of recovery site?</text>
@@ -670,6 +733,7 @@
       <option id="D" correct="false">Warm site</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_067" objective="1.1">
     <text>Task: Drag the items on the left to show the different types of security for the shown devices. Not all fields need to be filled. Not all items need to be used.</text>
@@ -684,6 +748,7 @@
       <option id="H" correct="true">Server in Data Center Security: Mantrap</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_068" objective="1.1">
     <text>Task: Drag the items on the left to show the different types of security for the shown devices. Not all fields need to be filled. Not all items need to be used.</text>
@@ -708,6 +773,7 @@
       <option id="D" correct="true">Time-of-day restrictions</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_070" objective="2.2">
     <text>A systems administrator is concerned users are accessing emails through a duplicate site that is not run by the company. Which of the following is used in this scenario?</text>
@@ -718,6 +784,7 @@
       <option id="D" correct="false">Smishing</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_071" objective="5.4">
     <text>Which of the following would be the greatest concern for a company that is aware of the consequences of non-compliance with government regulations?</text>
@@ -728,6 +795,7 @@
       <option id="D" correct="false">External compliance reporting</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_072" objective="4.6">
     <text>Which of the following allows a systems administrator to tune permissions for a file?</text>
@@ -738,6 +806,7 @@
       <option id="D" correct="false">Least privilege</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_073" objective="2.2">
     <text>A company's website is www.company.com. Attackers purchased the domain www.c0mpany.com. Which of the following types of attacks describes this example?</text>
@@ -748,6 +817,7 @@
       <option id="D" correct="true">Typosquatting</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_074" objective="4.3">
     <text>After conducting a vulnerability scan, a systems administrator notices that one of the identified vulnerabilities is not present on the systems that were scanned. Which of the following describes this example?</text>
@@ -758,6 +828,7 @@
       <option id="D" correct="false">True negative</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_075" objective="4.2">
     <text>A company is discarding a classified storage array and hires an outside vendor to complete the disposal. Which of the following should the company request from the vendor?</text>
@@ -768,6 +839,7 @@
       <option id="D" correct="false">Proof of ownership</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_076" objective="3.2">
     <text>Which of the following would be the best way to handle a critical business application that is running on a legacy server?</text>
@@ -778,6 +850,7 @@
       <option id="D" correct="false">Decommissioning</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_077" objective="3.3">
     <text>An organization is leveraging a VPN between its headquarters and a branch location. Which of the following is the VPN protecting?</text>
@@ -788,6 +861,7 @@
       <option id="D" correct="false">Data sovereignty</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_078" objective="4.1">
     <text>An organization recently updated its security policy to include the following statement: Regular expressions are included in source code to remove special characters such as $, |, ;, &amp;, `, and ? from variables set by forms in a web application. Which of the following best explains the security technique the organization adopted by making this addition to the policy?</text>
@@ -798,6 +872,7 @@
       <option id="D" correct="false">Static code analysis</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_079" objective="4.4">
     <text>Which of the following would be used to detect an employee who is emailing a customer list to a personal account before leaving the company?</text>
@@ -808,6 +883,7 @@
       <option id="D" correct="false">EDR</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_080" objective="4.5">
     <text>A company tested and validated the effectiveness of network security appliances within the corporate network. The IDS detected a high rate of SQL injection attacks against the company's servers, and the company's perimeter firewall is at capacity. Which of the following would be the best action to maintain security and reduce the traffic to the perimeter firewall?</text>
@@ -818,6 +894,7 @@
       <option id="D" correct="false">Configure the firewall to perform deep packet inspection and monitor TLS traffic.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_081" objective="3.4">
     <text>A company is concerned about weather events causing damage to the server room and downtime. Which of the following should the company consider?</text>
@@ -828,6 +905,7 @@
       <option id="D" correct="false">Off-site backups</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_082" objective="4.1">
     <text>Which of the following practices would be best to prevent an insider from introducing malicious code into a company's development process?</text>
@@ -838,6 +916,7 @@
       <option id="D" correct="true">Peer review and approval</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_083" objective="4.8">
     <text>Which of the following incident response activities ensures evidence is properly handled?</text>
@@ -848,6 +927,7 @@
       <option id="D" correct="true">Chain of custody</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_084" objective="4.1">
     <text>A security team is reviewing the findings in a report that was delivered after a third party performed a penetration test. One of the findings indicated that a web application form field is vulnerable to cross-site scripting. Which of the following application security techniques should the security analyst recommend the developer implement to prevent this vulnerability?</text>
@@ -858,6 +938,7 @@
       <option id="D" correct="false">Code signing</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_085" objective="5.3">
     <text>A client asked a security company to provide a document outlining the project, the cost, and the completion time frame. Which of the following documents should the company provide to the client?</text>
@@ -868,6 +949,7 @@
       <option id="D" correct="true">SOW</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_086" objective="2.1">
     <text>A department is not using the company VPN when accessing various company-related services and systems. Which of the following scenarios describes this activity?</text>
@@ -878,6 +960,7 @@
       <option id="D" correct="true">Shadow IT</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_087" objective="4.3">
     <text>Which of the following most impacts an administrator's ability to address CVEs discovered on a server?</text>
@@ -888,6 +971,7 @@
       <option id="D" correct="false">Risk tolerance</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_088" objective="1.3">
     <text>Which of the following should a security administrator adhere to when setting up a new set of firewall rules?</text>
@@ -898,6 +982,7 @@
       <option id="D" correct="true">Change management procedure</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_089" objective="4.7">
     <text>A security operations center determines that the malicious activity detected on a server is normal. Which of the following activities describes the act of ignoring detected activity in the future?</text>
@@ -908,6 +993,7 @@
       <option id="D" correct="false">Archiving</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_090" objective="4.6">
     <text>A security administrator is configuring fileshares. The administrator removed the default permissions and added permissions for only users who will need to access the fileshares as part of their job duties. Which of the following best describes why the administrator performed these actions?</text>
@@ -918,6 +1004,7 @@
       <option id="D" correct="false">Access control monitoring</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_091" objective="4.5">
     <text>What type of NIDS commonly uses artificial intelligence and data mining to identify malicious network traffic?</text>
@@ -928,6 +1015,7 @@
       <option id="D" correct="true">Anomaly-based NIDS</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_092" objective="3.1">
     <text>Which of the following roles, according to the shared responsibility model, is responsible for securing the company's database in an IaaS model for a cloud environment?</text>
@@ -938,6 +1026,7 @@
       <option id="D" correct="false">DBA</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_093" objective="2.3">
     <text>A software company learns their product contains a vulnerability, and the security team suspects the issue was caused by a third-party dependency. What can the team consult to learn which dependencies are included in the product?</text>
@@ -948,6 +1037,7 @@
       <option id="D" correct="false">The testing environment</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_094" objective="3.2">
     <text>A growing organization, which hosts an externally accessible application, adds multiple virtual servers to improve application performance and decrease the resource usage on individual servers. Which of the following solutions is the organization most likely to employ to further increase performance and availability?</text>
@@ -958,6 +1048,7 @@
       <option id="D" correct="false">SD-WAN</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_095" objective="1.2">
     <text>Which of the following security concepts is accomplished when granting access after an individual has logged into a computer network?</text>
@@ -968,6 +1059,7 @@
       <option id="D" correct="false">Authentication</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_096" objective="3.3">
     <text>A security administrator is addressing an issue with a legacy system that communicates data using an unencrypted protocol to transfer sensitive data to a third party. No software updates that use an encrypted protocol are available, so a compensating control is needed. Which of the following are the most appropriate for the administrator to suggest? (Choose two.)</text>
@@ -980,6 +1072,7 @@
       <option id="F" correct="false">Data masking</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_097" objective="5.2">
     <text>Which of the following steps in the risk management process involves establishing the scope and potential risks involved with a project?</text>
@@ -990,6 +1083,7 @@
       <option id="D" correct="true">Risk identification</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_098" objective="5.1">
     <text>How can an organization build a culture of compliance among its employees?</text>
@@ -1000,6 +1094,7 @@
       <option id="D" correct="true">Teaching employees procedures to use technology safely and effectively</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_099" objective="3.1">
     <text>How can attack path simulation help an organization choose the right preventative security controls for their cloud environment?</text>
@@ -1010,6 +1105,7 @@
       <option id="D" correct="false">Resolving vulnerabilities in web applications</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_100" objective="1.4">
     <text>Which of the following are characteristics of hashing? (Select three choices)</text>
@@ -1020,6 +1116,7 @@
       <option id="D" correct="true">Hashes produce fixed-length digests for variable-length text.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_101" objective="4.3">
     <text>Which of the following formal management efforts is designed to remediate security flaws discovered in applications and operating systems?</text>
@@ -1030,6 +1127,7 @@
       <option id="D" correct="false">Change management</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_102" objective="4.3">
     <text>You are conducting a penetration test for a vehicle repair shop. The environment consists of a guest Wi-Fi network requiring a security code, which is printed on a piece of paper in the guest waiting area. The employee computers are connected to a separate wired network in the office. After posing as a legitimate customer, you wait in the guest lounge, connect to the Wi-Fi network, and capture network traffic using a network protocol analyzer program. After analyzing captured traffic, you realize that the Wi-Fi router appears to be using vulnerable network protocols. To which penetration testing phase does this activity apply?</text>
@@ -1040,6 +1138,7 @@
       <option id="D" correct="false">Scanning</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_103" objective="4.5">
     <text>You get a new batch of servers into your network operations center. After you install the initial operating system (OS), what is your first step in applying system hardening to the servers?</text>
@@ -1050,6 +1149,7 @@
       <option id="D" correct="true">Closing unused ports and disabling unused services</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_104" objective="5.3">
     <text>Your company is in the midst of negotiating a business partnership with an organization specializing in secure software development for the medical industry. The partner organization has requested proof that your organization is compliant with HIPAA data privacy standards. What type of documentation should you provide to the partner organization?</text>
@@ -1060,6 +1160,7 @@
       <option id="D" correct="true">Security attestation</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_105" objective="1.4">
     <text>Which of the following DES/AES encryption modes is considered the weakest?</text>
@@ -1070,6 +1171,7 @@
       <option id="D" correct="false">CBC</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_106" objective="3.4">
     <text>Which of the following are used to back up files that have changed since the last full backup of a virtual machine? (Select two choices)</text>
@@ -1080,6 +1182,7 @@
       <option id="D" correct="true">Differential backup</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_107" objective="4.5">
     <text>What capability is used to check the origin of an email sender?</text>
@@ -1090,6 +1193,7 @@
       <option id="D" correct="false">DLP</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_108" objective="1.2">
     <text>You have been tasked with conducting a security assessment of hosts on an IP subnet. The subnet hosts run a variety of services including HTTP and SQL databases. When configuring the vulnerability scan, you enter a number of sets of valid credentials that will be used when probing hosts. After running the scan and reviewing the results, a colleague suggests the scan results are useless since the credentials were known. Which IT security concept validates the scan results?</text>
@@ -1100,6 +1204,7 @@
       <option id="D" correct="false">Zero-day</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_109" objective="2.4">
     <text>Which of the following is generally a script planted by a disgruntled employee or other malicious actor that is set to execute at a certain time?</text>
@@ -1110,6 +1215,7 @@
       <option id="D" correct="false">Virus</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_110" objective="2.1">
     <text>Which of the following threat actors is the most likely to be hired by a foreign government to attack critical systems located in other countries?</text>
@@ -3623,6 +3729,7 @@
       <option id="D" correct="false">Warm site</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_358" objective="5.1">
     <text>An administrator at a small business notices an increase in support calls from employees who receive a blocked page message after trying to navigate to a spoofed website. Which of the following should the administrator do?</text>
@@ -3633,6 +3740,7 @@
       <option id="D" correct="false">Update the acceptable use policy.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_359" objective="4.3">
     <text>Which of the following teams is best suited to determine whether a company has systems that can be exploited by a potential, identified vulnerability?</text>
@@ -3643,6 +3751,7 @@
       <option id="D" correct="false">White team</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_360" objective="4.6">
     <text>A company is reviewing options to enforce user logins after several account takeovers. The following conditions must be met as part of the solution: Allow employees to work remotely or from assigned offices around the world. Provide a seamless login experience. Limit the amount of equipment required. Which of the following best meets these conditions?</text>
@@ -3653,6 +3762,7 @@
       <option id="D" correct="false">Time-based logins</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_361" objective="4.5">
     <text>Which of the following methods can be used to detect attackers who have successfully infiltrated a network? (Choose two.)</text>
@@ -3665,6 +3775,7 @@
       <option id="F" correct="false">Data obfuscation</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_362" objective="1.4">
     <text>A company wants to ensure that the software it develops will not be tampered with after the final version is completed. Which of the following should the company most likely use?</text>
@@ -3685,6 +3796,7 @@
       <option id="D" correct="false">OpenID</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_364" objective="2.2">
     <text>A user, who is waiting for a flight at an airport, logs in to the airline website using the public Wi-Fi, ignores a security warning and purchases an upgraded seat. When the flight lands, the user finds unauthorized credit card charges. Which of the following attacks most likely occurred?</text>
@@ -3695,6 +3807,7 @@
       <option id="D" correct="true">On-path attack</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_365" objective="3.4">
     <text>A network engineer deployed a redundant switch stack to increase system availability. However, the budget can only cover the cost of one ISP connection. Which of the following best describes the potential risk factor?</text>
@@ -3705,6 +3818,7 @@
       <option id="D" correct="true">There is a single point of failure.</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_366" objective="1.1">
     <text>A network team segmented a critical, end-of-life server to a VLAN that can only be reached by specific devices but cannot be reached by the perimeter network. Which of the following best describe the controls the team implemented? (Choose two.)</text>
@@ -3718,6 +3832,7 @@
       <option id="G" correct="false">Deterrent</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_367" objective="4.1">
     <text>A threat actor was able to use a username and password to log in to a stolen company mobile device. Which of the following provides the best solution to increase mobile data security on all employees' company mobile devices?</text>
@@ -6974,6 +7089,7 @@
       <option id="D" correct="false">Encryption</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_688" objective="5.1">
     <text>Which of the following is the most important element when defining effective security governance?</text>
@@ -6984,6 +7100,7 @@
       <option id="D" correct="false">Defining and monitoring change management procedures</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_689" objective="2.2">
     <text>A contractor is required to visually inspect the motherboards of all new servers that are purchased to determine whether the servers were tampered with. Which of the following risks is the contractor attempting to mitigate?</text>
@@ -6994,6 +7111,7 @@
       <option id="D" correct="false">RFID keylogger</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_690" objective="2.4">
     <text>Which of the following could potentially be introduced at the time of side loading?</text>
@@ -7004,6 +7122,7 @@
       <option id="D" correct="false">Buffer overflow</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_691" objective="2.1">
     <text>While a school district is performing state testing, a security analyst notices all internet services are unavailable. The analyst discovers that ARP poisoning is occurring on the network and then terminates access for the host. Which of the following is most likely responsible for this malicious activity?</text>
@@ -7014,6 +7133,7 @@
       <option id="D" correct="false">Nation-state</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_692" objective="2.2">
     <text>A user needs to complete training at https://comptiatraining.com. After manually entering the URL, the user sees that the accessed website is noticeably different from the standard company website. Which of the following is the most likely explanation for the difference?</text>
@@ -7024,6 +7144,7 @@
       <option id="D" correct="false">Vishing</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_693" objective="5.3">
     <text>A company has yearly engagements with a service provider. The general terms and conditions are the same for all engagements. The company wants to simplify the process and revisit the general terms every three years. Which of the following documents would provide the best way to set the general terms?</text>
@@ -7034,6 +7155,7 @@
       <option id="D" correct="false">SLA</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_694" objective="5.6">
     <text>While updating the security awareness training, a security analyst wants to address issues created if vendors' email accounts are compromised. Which of the following recommendations should the security analyst include in the training?</text>
@@ -7044,6 +7166,7 @@
       <option id="D" correct="true">Be alert to unexpected requests from familiar email addresses</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_695" objective="4.6">
     <text>A new corporate policy requires all staff to use multifactor authentication to access company resources. Which of the following can be utilized to set up this form of identity and access management? (Choose two.)</text>
@@ -7056,6 +7179,7 @@
       <option id="F" correct="false">SAML</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_696" objective="2.2">
     <text>A help desk employee receives a call from someone impersonating the Chief Executive Officer. The caller asks for assistance with resetting a password. Which of the following best describes this event?</text>
@@ -7066,6 +7190,7 @@
       <option id="D" correct="false">Misinformation</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_697" objective="5.6">
     <text>The number of tickets the help desk has been receiving has increased recently due to numerous false-positive phishing reports. Which of the following would be best to help to reduce the false positives?</text>
@@ -7417,6 +7542,7 @@
       <option id="D" correct="true">Impersonation</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_732" objective="2.2">
     <text>An unexpected and out-of-character email message from a Chief Executive Officer's corporate account asked an employee to provide financial information and to change the recipient's contact number. Which of the following attack vectors is most likely being used?</text>
@@ -7427,6 +7553,7 @@
       <option id="D" correct="false">Pretexting</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_733" objective="5.3">
     <text>Which of the following should an organization use to ensure that it can review the controls and performance of a service provider or vendor?</text>
@@ -7437,6 +7564,7 @@
       <option id="D" correct="false">Supply chain analysis</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_734" objective="5.2">
     <text>Which of the following is used to calculate the impact to an organization per cybersecurity incident?</text>
@@ -7447,6 +7575,7 @@
       <option id="D" correct="false">SLA</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_735" objective="5.4">
     <text>A retail company receives a request to remove a customer's data. Which of the following is the retail company considered under GDPR legislation?</text>
@@ -7457,6 +7586,7 @@
       <option id="D" correct="false">Data custodian</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_736" objective="4.5">
     <text>An administrator implements web-filtering products but still sees that users are visiting malicious links. Which of the following configuration items does the security administrator need to review?</text>
@@ -7467,6 +7597,7 @@
       <option id="D" correct="false">DNS service</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_737" objective="4.9">
     <text>A security analyst is reviewing the following logs about a suspicious activity alert for a user's VPN log-ins. The logs show successful logins from Chicago-IL-USA on multiple dates, and a login from Rome-Italy on 2023-01-27 at 09:43:55. Which of the following malicious activity indicators triggered the alert?</text>
@@ -7477,6 +7608,7 @@
       <option id="D" correct="false">Concurrent session usage</option>
     </options>
     <explanation/>
+    <source>TL</source>
   </question>
   <question id="SCREEN_738" objective="4.8">
     <text>Which of the following phases of the incident response process attempts to minimize disruption?</text>
@@ -7487,5 +7619,17 @@
       <option id="D" correct="false">Analysis</option>
     </options>
     <explanation/>
+    <source>TL</source>
+  </question>
+  <question id="SCREEN_739" objective="3.4">
+    <text>A company has limited storage space available and an online presence that cannot be down for more than four hours. Which of the following backup methodologies would the company implement to allow for the FASTEST database restore time in the event of a failure, while being mindful of the limited available storage space?</text>
+    <options>
+      <option id="A" correct="false">Implement full tape backups every Sunday at 8:00 p.m. and perform nightly tape rotations.</option>
+      <option id="B" correct="false">Implement differential backups every Sunday at 8:00 p.m. and nightly incremental backups at 8:00 p.m.</option>
+      <option id="C" correct="false">Implement nightly full backups every Sunday at 8:00 p.m.</option>
+      <option id="D" correct="true">Implement full backups every Sunday at 8:00 p.m. and nightly differential backups at 8:00 p.m.</option>
+    </options>
+    <explanation/>
+      <source>TL</source>
   </question>
 </quiz>

@@ -62,6 +62,7 @@
         <div class="toc-section">Governance, Appetito e Tolleranza</div>
         <a href="#register">Registro dei Rischi (Risk Register)</a>
         <a href="#appetite_tolerance">Appetito e Tolleranza al Rischio</a>
+        <a href="#risk_reporting">Reporting e Escalation del Rischio</a>
 
         <div class="toc-section">Strategie di Trattamento</div>
         <a href="#treatment_strategies">Le 4 Strategie: Mitigare, Trasferire, Evitare, Accettare</a>
@@ -359,7 +360,52 @@
         </section>
 
 
-        <!-- ══ SEZIONE 9 — BIA E METRICHE DI RIPRISTINO ════════════ -->
+
+
+        <!-- ══ SEZIONE 9 — REPORTING ED ESCALATION DEL RISCHIO ══════ -->
+        <section id="risk_reporting">
+          <h2>Reporting, Comunicazione ed Escalation del Rischio (Risk Reporting)</h2>
+          <p>
+            L'identificazione e l'analisi del rischio non producono benefici operativi se i risultati non vengono comunicati efficacemente e tempestivamente a chi detiene il potere decisionale e finanziario dell'organizzazione.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Canali di Reporting e Flussi di Comunicazione:</strong><br>
+            La governance del rischio esige l'uso sistematico di canali di comunicazione standardizzati per trasmettere la postura di sicurezza:
+            <ul style="margin-top: 10px;">
+              <li><strong>Canali Esistenti (Existing Channels):</strong> Il team di sicurezza deve integrarsi laddove possibile con i flussi di reporting aziendali regolari (es. riunioni dei capi dipartimento, newsletter interne, checkpoint periodici sui progetti) per inserire la consapevolezza del rischio senza appesantire la burocrazia.</li>
+              <li><strong>Canali Dedicati (New/Dedicated Channels):</strong> In presenza di alterazioni sistemiche, criticità impiego-fornitori o trend di attacco aggressivi, vanno istituiti canali verticali specifici (es. cruscotti/dashboard SIEM dedicati, comitati periodici di sicurezza cyber, audizioni formali davanti al consiglio esecutivo).</li>
+            </ul>
+          </div>
+
+          <div class="example-box">
+            <strong>Adattamento del Messaggio agli Stakeholder:</strong><br>
+            Il formato e la complessità del risk reporting devono essere ritagliati accuratamente sul pubblico di destinazione:
+            <ul>
+              <li><strong>Ingegneri e Team Tecnico:</strong> Ricevono report analitici dettagliati sulle vulnerabilità (punteggi CVSS, porte aperte, codice exploit proof-of-concept) per porre in atto mitigazioni tecnologiche immediate.</li>
+              <li><strong>Project Manager e Line Manager:</strong> Ricevono report operativi sul rischio relativo alle scadenze dei progetti o all'erogazione dei servizi, con focus sui costi/risorse delle contromisure inerenti.</li>
+              <li><strong>Consiglio di Amministrazione / Board:</strong> Riceve report di alto livello espressi in **linguaggio puramente finanziario e di conformità legale** (SLE/ALE, ROI della sicurezza e scenari qualitativi di alta/media priorità), per ratificare l'appetito e le esenzioni al rischio.</li>
+            </ul>
+          </div>
+
+          <fieldset class="framework-box">
+            <legend>🚀 Procedure di Escalation del Rischio (Escalation Procedures)</legend>
+            <p>
+              Cosa accade se un ingegnere o un analista SOC scopre un rischio critico (es. una backdoor o una deviazione grave dalle politiche interne) ma non ha l'autorità o il budget di spesa per approvare la sproporzionata spesa di un controllo compensativo o di una patch?
+            </p>
+            <p>
+              In questo frangente entrano in gioco le **Procedure di Escalation del Rischio**:
+            </p>
+            <ol>
+              <li><strong>Identificazione sul campo (L1/L2):</strong> L'analista tecnico documenta formalmente la deviazione o la vulnerabilità e la inserisce all'interno del <em>Risk Register</em>.</li>
+              <li><strong>Escalation al Risk Manager / CISO (L3):</strong> Il rischio viene indirizzato formalmente all'ufficio del CISO se l'intervento supera le soglie di tolleranza o il budget ordinario del team operativo.</li>
+              <li><strong>Escalation al Comitato Esecutivo / Consiglio di Amministrazione (L4):</strong> Qualora il rischio non possa essere tecnicamente risolto (mitigato) senza arrestare la produzione o richieda un'investimento strategico multimilionario, la decisione ultima di accettazione (Exception/Exemption), trasferimento o evitamento deve essere "scalata" e decisa formalmente in sede di Board. Questa catena predefinita solleva gli ingegneri da responsabilità legali dirette, convogliando la delibera ai corretti rappresentanti d'impresa.</li>
+            </ol>
+          </fieldset>
+        </section>
+
+
+        <!-- ══ SEZIONE 10 — BIA E METRICHE DI RIPRISTINO ════════════ -->
         <section id="bia">
           <h2>Analisi dell'Impatto sul Business (BIA) e Metriche di Rilancio</h2>
           <p>
@@ -553,7 +599,7 @@
   /* ── Dati quiz OBJ 5.2 (25 domande d'esame) ─────────────────── */
   const Q = [
     {
-      id: 'SCREEN_041',
+      id:'SCREEN_041', source:'TL',
       text: 'You are part of a penetration testing red team that will attempt to discover and exploit IT service vulnerabilities. Due to the sensitive nature of data on the network to be pen tested, the red team has been asked to sign a legal document. Which document is this?',
       opts: [
         { id: 'A', t: 'Memorandum of agreement', c: false },
@@ -564,7 +610,7 @@
       expl: 'Per tutelare la natura altamente riservata delle informazioni sensibili riscontrate dalla red team durante un test intrusivo di penetrazione, si richiede la sottoscrizione formale di un accordo di non divulgazione / Non-disclosure agreement (NDA).'
     },
     {
-      id: 'SCREEN_063',
+      id:'SCREEN_063', source:'TL',
       text: 'Which of the following statements best describes the relationship between the elements of risk?',
       opts: [
         { id: 'A', t: 'Threats exploit vulnerabilities', c: true },
@@ -575,7 +621,7 @@
       expl: 'La definizione cardinale di rischio sancisce che gli attori o gli agenti di minaccia sfruttano le vulnerabilità o i difetti del sistema (Threats exploit vulnerabilities) per incidere negativamente sui beni aziendali.'
     },
     {
-      id: 'SCREEN_064',
+      id:'SCREEN_064', source:'TL',
       text: 'Which type of assessment looks at events that could exploit vulnerabilities?',
       opts: [
         { id: 'A', t: 'Penetration test', c: false },
@@ -586,7 +632,7 @@
       expl: 'Un Threat Assessment (Valutazione delle minacce) si concentra specificamente sull\'identificazione e sulla ricostruzione di eventi avversi o soggetti esterni in grado di approfittare attivamente di debolezze intrinseche.'
     },
     {
-      id: 'SCREEN_097',
+      id:'SCREEN_097', source:'TL',
       text: 'Which of the following steps in the risk management process involves establishing the scope and potential risks involved with a project?',
       opts: [
         { id: 'A', t: 'Risk monitoring and review', c: false },
@@ -820,7 +866,7 @@
       expl: 'Il calcolo matematico deterministico di indici economici oggettivi come il Fattore di Esposizione (EF) è una prerogativa di esclusiva attribuzione dell\'analisi di tipo Quantitativo (Quantitative Risk Analysis).'
     },
     {
-      id: 'SCREEN_734',
+      id:'SCREEN_734', source:'TL',
       text: 'Which of the following is used to calculate the impact to an organization per cybersecurity incident?',
       opts: [
         { id: 'A', t: 'SLE', c: true },
@@ -884,7 +930,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1012,5 +1058,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

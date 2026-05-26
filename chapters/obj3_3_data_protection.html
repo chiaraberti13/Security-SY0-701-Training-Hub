@@ -312,6 +312,17 @@
     requisito funzionale (reversibilità?), e dal contesto normativo.
   </p>
 
+  <h3 id="geographic-restrictions-data">Geographic restrictions (Restrizioni geografiche)</h3>
+  <p>
+    Le <strong>restrizioni geografiche (geographic restrictions o geoblocking)</strong> limitano l'accesso e la fruibilità dei dati sensibili o delle risorse applicative basandosi sulla posizione geografica reale del richiedente (rilevata tramite indirizzo IP in corrispondenza di un database GeoIP, coordinate GPS o triangolazione di rete).
+  </p>
+  <dl class="termlist">
+    <dt>Geofencing</dt>
+    <dd>L'istituzione di un perimetro virtuale (recinto digitale) attorno a un'area geografica reale. Se l'utente o il dispositivo tenta di accedere ai dati al di fuori di questo perimetro fisicamente stabilito (es: fuori dalla sede aziendale), l'applicazione nega l'accesso o richiede fattori aggiuntivi di controllo.</dd>
+    <dt>Fisica del confine e Compliance</dt>
+    <dd>Spesso utilizzato per garantire la sovranità dei dati (Data Sovereignty) forzando l'utilizzo di server locali interni ai confini dello stato, oppure per bloccare preventivamente tentativi di autenticazione da paesi ad alto rischio con cui l'azienda non ha relazioni d'affari legittime.</dd>
+  </dl>
+
   <h3 id="encryption-data">Encryption (Cifratura)</h3>
   <p>
     La <strong>cifratura (encryption)</strong> trasforma i dati in formato illeggibile
@@ -322,11 +333,35 @@
   </p>
   <dl class="termlist">
     <dt>Encryption at rest (Cifratura a riposo)</dt>
-    <dd>FDE sui laptop protegge tutti i dati se il dispositivo viene rubato. TDE (Transparent Data Encryption) cifra i file del database sul disco. Scenario: "bank requires vendors to prevent data loss on stolen laptops" → encryption at rest.</dd>
+    <dd>Protezione dei dati memorizzati su dispositivi fisici o logici. FDE sui laptop protegge tutti i dati se il dispositivo viene rubato. TDE (Transparent Data Encryption) cifra i file del database sul disco. Scenario: "bank requires vendors to prevent data loss on stolen laptops" → encryption at rest.</dd>
+    
     <dt>Encryption in transit (Cifratura in transito)</dt>
     <dd>TLS 1.3 per tutto il traffico web e API. VPN (IPSec) per connessioni site-to-site. "Protect sensitive data in transit across geographically dispersed infrastructure" → encryption. È la risposta corretta: più efficace di masking, tokenization o obfuscation per proteggere dati in movimento.</dd>
-    <dt>Full Disk Encryption (FDE)</dt>
-    <dd>"Encrypt all data on employee laptops" → Full disk encryption. Non volume (limitato a un volume logico), non partition (limitato a una partizione), non file (troppo granulare per proteggere l'intero sistema). FDE è la soluzione comprensiva per i laptop.</dd>
+
+    <dt>Livelli di Data Encryption (Encryption Levels & Tools)</dt>
+    <dd>
+      La cifratura at-rest può essere applicata a diversi livelli di astrazione del sistema, ciascuno con specifici casi d'uso, vantaggi e tecnologie di riferimento:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <strong>Full-disk Encryption (FDE / Cifratura dell'intero disco)</strong>: Cifra l'intero disco di archiviazione fisica (incluso il sistema operativo, i file temporanei, le aree di swap e le partizioni utente). È la soluzione primaria consigliata per endpoint e laptop aziendali per proteggere l'intera unità in caso di furto o perdita fisica del dispositivo hardware.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Partition-level Encryption (Cifratura a livello di partizione)</strong>: Cifra segmenti circoscritti o specifiche partizioni logiche del disco fisso (es: la partizione contenente i dati utente o i log), lasciando la partizione del sistema operativo e di avvio non cifrate per ottimizzare i tempi di boot o supportare configurazioni multi-boot.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Volume-level Encryption (Cifratura di volume)</strong>: Cifra interi volumi logici o contenitori virtuali dedicati. Uno strumento d'eccellenza in questo ambito è <strong>VeraCrypt</strong> (successore open source del celebre TrueCrypt), che permette di creare un file-contenitore cifrato su disco, il quale viene montato nel sistema operativo come una risorsa di archiviazione virtuale decifrando i dati dinamicamente "al volo" (on-the-fly) unicamente dopo che l'utente inserisce la chiave corretta.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>File-level Encryption (Cifratura a livello di file / File)</strong>: Fornisce una granularità microscopica, proteggendo file o intere cartelle individuali in modo asimmetrico o simmetrico. Per scompartire in sicurezza documenti sigillati su canali insicuri si predilige l'impiego di standard a cifratura pubblica come <strong>GNU Privacy Guard (GPG / GnuPG)</strong>, che permette di crittografare e firmare digitalmente singoli file d'archivio o flussi e-mail tra utenze fidate.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Database Encryption (Cifratura a livello di database)</strong>: Protegge i file fisici in cui è archiviato il database sul filesystem per scongiurare che un malintenzionato che acceda abusivamente al disco del server (o a backup estratti) possa decifrare le tabelle. La misura di elezione è <strong>SQL Server Transparent Data Encryption (TDE)</strong> o equivalenti proprietari, che agisce in trasparenza crittografando l'intero file di database (MDF/LDF) a livello di archiviazione I/O, sollevando lo sviluppatore di applicazioni dalla necessità di modificare il codice delle query.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Record-level Encryption (Cifratura a livello di Record / Record)</strong>: Offre il massimo livello di granularità e isolamento protettivo all'interno dei database. Viene applicata direttamente alle singole righe (record), campi o colonne specifiche (es: cifrare la colonna del numero di previdenza sociale o codice fiscale, o del numero di carta di credito). Sebbene richieda che lo strato applicativo gestisca le chiavi logiche e decifri individualmente i campi, garantisce che perfino gli amministratori di database (DBA) o hacker con accessi DB a livello di root non possano visualizzare il dato sensibile in chiaro.
+        </li>
+      </ul>
+    </dd>
   </dl>
 
   <div class="exam-tip">
@@ -668,8 +703,8 @@
 <script>
 (function(){
 var Q=[
-{id:'SCREEN_077',text:'An organization is leveraging a VPN between its headquarters and a branch location. Which of the following is the VPN protecting?',opts:[{id:'A',t:'Data in use',c:false},{id:'B',t:'Data in transit',c:true},{id:'C',t:'Geographic restrictions',c:false},{id:'D',t:'Data sovereignty',c:false}],expl:'Una VPN crea un tunnel cifrato per il traffico di rete tra i due siti. Protegge i dati mentre si muovono attraverso la rete (in transit). Non protegge i dati at rest (sui dischi locali) né i dati in use (elaborati in memoria). Le geographic restrictions sono policy di accesso, non di cifratura del traffico.'},
-{id:'SCREEN_096',text:'A security administrator is addressing an issue with a legacy system that communicates data using an unencrypted protocol to transfer sensitive data to a third party. No software updates are available. Which of the following are the most appropriate compensating controls? (Choose two.)',opts:[{id:'A',t:'Tokenization',c:true},{id:'B',t:'Cryptographic downgrade',c:false},{id:'C',t:'SSH tunneling',c:true},{id:'D',t:'Segmentation',c:false},{id:'E',t:'Patch installation',c:false},{id:'F',t:'Data masking',c:false}],expl:'Due compensating controls: SSH tunneling crea un canale cifrato per proteggere i dati in transito anche con il protocollo non cifrato (es. FTP dentro SSH tunnel). Tokenization protegge i dati sensibili sostituendoli con token prima del trasferimento. Il cryptographic downgrade riduce la sicurezza. La patch non è disponibile. La segmentazione non cifra il canale.'},
+{id:'SCREEN_077', source:'TL',text:'An organization is leveraging a VPN between its headquarters and a branch location. Which of the following is the VPN protecting?',opts:[{id:'A',t:'Data in use',c:false},{id:'B',t:'Data in transit',c:true},{id:'C',t:'Geographic restrictions',c:false},{id:'D',t:'Data sovereignty',c:false}],expl:'Una VPN crea un tunnel cifrato per il traffico di rete tra i due siti. Protegge i dati mentre si muovono attraverso la rete (in transit). Non protegge i dati at rest (sui dischi locali) né i dati in use (elaborati in memoria). Le geographic restrictions sono policy di accesso, non di cifratura del traffico.'},
+{id:'SCREEN_096', source:'TL',text:'A security administrator is addressing an issue with a legacy system that communicates data using an unencrypted protocol to transfer sensitive data to a third party. No software updates are available. Which of the following are the most appropriate compensating controls? (Choose two.)',opts:[{id:'A',t:'Tokenization',c:true},{id:'B',t:'Cryptographic downgrade',c:false},{id:'C',t:'SSH tunneling',c:true},{id:'D',t:'Segmentation',c:false},{id:'E',t:'Patch installation',c:false},{id:'F',t:'Data masking',c:false}],expl:'Due compensating controls: SSH tunneling crea un canale cifrato per proteggere i dati in transito anche con il protocollo non cifrato (es. FTP dentro SSH tunnel). Tokenization protegge i dati sensibili sostituendoli con token prima del trasferimento. Il cryptographic downgrade riduce la sicurezza. La patch non è disponibile. La segmentazione non cifra il canale.'},
 {id:'SCREEN_160',text:'Employees in the research and development business unit receive extensive training to ensure they understand how to best protect company data. Which of the following is the type of data these employees are most likely to use in day-to-day work activities?',opts:[{id:'A',t:'Encrypted',c:false},{id:'B',t:'Intellectual property',c:true},{id:'C',t:'Critical',c:false},{id:'D',t:'Data in transit',c:false}],expl:'I dipendenti R&D lavorano principalmente con la proprietà intellettuale dell\'organizzazione: brevetti, design di prodotti, codice sorgente, ricerche. Non è "encrypted" (che descrive uno stato, non un tipo). "Critical" descrive l\'impatto della perdita, non il tipo di dati. "Data in transit" descrive lo stato, non il tipo.'},
 {id:'SCREEN_178',text:'A systems administrator works for a local hospital and needs to ensure patient data is protected and secure. Which of the following data classifications should be used to secure patient data?',opts:[{id:'A',t:'Private',c:false},{id:'B',t:'Critical',c:false},{id:'C',t:'Sensitive',c:true},{id:'D',t:'Public',c:false}],expl:'"Sensitive" è la classificazione appropriata per i dati sanitari dei pazienti (PHI): include PII e PHI che richiedono protezione speciale per la privacy e la salute. "Private" si usa per dati personali generici senza implicazioni sanitarie. "Critical" indica i dati la cui perdita causa il maggior impatto operativo, non necessariamente dati sanitari.'},
 {id:'SCREEN_226',text:'An organization is leveraging a VPN between its headquarters and a branch location. Which of the following is the VPN protecting?',opts:[{id:'A',t:'Data in use',c:false},{id:'B',t:'Data in transit',c:true},{id:'C',t:'Geographic restrictions',c:false},{id:'D',t:'Data sovereignty',c:false}],expl:'La VPN protegge i dati in transito (in transit) cifrando il traffico di rete tra HQ e filiale.'},
@@ -708,7 +743,7 @@ function openQuiz(){setupEl.style.display='block';contentEl.style.display='none'
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
   function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -814,5 +849,6 @@ overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();
 </script>
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

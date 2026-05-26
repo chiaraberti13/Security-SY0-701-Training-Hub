@@ -83,6 +83,42 @@
         <li><strong>Asset Software (Software Assets)</strong>: Sistemi operativi, suite applicative corporative, strumenti middleware, database.</li>
         <li><strong>Asset di Dati (Data Assets)</strong>: Archivi di file, database, dati proprietari protetti e registri delle transazioni.</li>
       </ul>
+
+      <h3 id="asset-phases">Le Fasi Chiave della Gestione degli Asset (SY0-701 Syllabus)</h3>
+      <p>
+        La gestione degli asset copre l'intero ciclo vitale delle risorse ed è governata da quattro macro-attività imposte dagli standard d'esame:
+      </p>
+      
+      <dl class="termlist">
+        <dt>1. Acquisizione e Approvvigionamento (Acquisition / Procurement Process)</dt>
+        <dd>Il processo formale di selezione, convalida e acquisto degli asset hardware e software. Durante la fase di approvvigionamento, la sicurezza deve valutare l'affidabilità dei fornitori (Supply Chain Trust), verificare la presenza di moduli hardware di sicurezza nativi (come il firmware TPM - Trusted Platform Module) e definire i requisiti di autenticazione del software prescelto per escludere malware silenti inseriti nel percorso logistico.</dd>
+        
+        <dt>2. Assegnazione e Accountabilità (Assignment / Accounting)</dt>
+        <dd>La fase operativa legata all'attribuzione formale delle responsabilità d'uso e protezione:
+          <ul>
+            <li><strong>Proprietà degli Asset (Asset Ownership)</strong>: Identifica formalmente un <em>Asset Owner</em> (proprietario dell'asset, solitamente un manager della linea di business) che ha la responsabilità ultima di classificarlo, approvare i diritti di acesso e condurre revisioni periodiche di idoneità.</li>
+            <li><strong>Classificazione (Classification)</strong>: Consiste nel classificare logica e fisicamente l'asset (es. Pubblico, Privato, Proprietario, Altamente Confidenziale) al fine di applicarvi automaticamente le difese strutturali corrispondenti alla classe di sensitività.</li>
+          </ul>
+        </dd>
+        
+        <dt>3. Monitoraggio e Tracciamento (Monitoring / Asset Tracking)</dt>
+        <dd>Assicura visibilità continua e controllo sui dispositivi in esercizio:
+          <ul>
+            <li><strong>Inventario Sistematico (Inventory)</strong>: La compilazione automatizzata e manuale di tutti i tag descrittivi (serial number, IP, OS, sticker number) dei dispositivi autorizzati.</li>
+            <li><strong>Enumerazione e Scoperta (Enumeration)</strong>: Le attività continuative condotte tramite scanner di rete attivi o sonde passive per intercettare host orfani o abusivi. L'enumerazione ostacola in via preventiva la proliferazione della <strong>Shadow IT</strong> (dispositivi e software integrati dai dipendenti senza formale approvazione del reparto di sicurezza).</li>
+          </ul>
+        </dd>
+        
+        <dt>4. Dismissione e Smaltimento (Disposal / Decommissioning)</dt>
+        <dd>La rimozione sicura delle risorse al termine del ciclo operativo:
+          <ul>
+            <li><strong>Sanitizzazione (Data Sanitization)</strong>: Cancellazione sicura delle memorie per impedire l'esfiltrazione postuma (es. purificazione/purging, azzeramento magnetico o crittografico).</li>
+            <li><strong>Distruzione Fisica (Destruction)</strong>: Demolizione irreversibile tramite incenerimento, triturazione fisica o degaussing avanzato di storage contenenti dati riservati.</li>
+            <li><strong>Certificazione di Distruzione (Certificate of Destruction)</strong>: Un documento vincolante rilasciato da un fornitore terzo certificato che attesta la distruzione definitiva ed ecologica dello storage array. È indispensabile per scopi di conformità e per scagionare l'azienda da eventuali perdite postume.</li>
+            <li><strong>Conservazione dei Dati (Data Retention)</strong>: Le leggi o policy interne che impongono la conservazione d'archivio protetta per un determinato numero di anni prima dello smaltimento totale.</li>
+          </ul>
+        </dd>
+      </dl>
     </section>
 
     <!-- ══ CICLO DI VITA: EOL vs EOSL ══════════════════════════════ -->
@@ -570,7 +606,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -698,5 +734,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

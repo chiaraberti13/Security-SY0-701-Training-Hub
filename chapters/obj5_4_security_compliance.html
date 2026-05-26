@@ -122,6 +122,11 @@
               Spese pecuniarie forzate derivanti dall'inadempienza (non-compliance) riscontrata dagli ispettori o a seguito di ripetute inadempienze formali.
             </dd>
 
+            <dt>Perdita della Licenza d'Esercizio (Loss of License)</dt>
+            <dd>
+              La revoca formale delle licenze professionali, sanitarie, finanziarie o commerciali necessarie per operare legalmente sul mercato (es: perdita della licenza bancaria, sospensione della licenza clinica per erogare servizi sanitari o revoca dei permessi d'appalto). Questa conseguenza blocca materialmente ed immediatamente qualsiasi attività d'impresa (Business Interruption).
+            </dd>
+
             <dt>Danno Reputazionale (Reputational Damage)</dt>
             <dd>
               Il deterioramento della fiducia dei consumatori e del valore di mercato. Ad esempio, per una catena di supermercati al dettaglio (retailer) la violazione degli standard per le carte di credito <strong>PCI DSS (Payment Card Industry Data Security Standard)</strong> non comporta solo penali contrattuali, ma determina un devastante <strong>danno d'immagine e reputazione (reputational damage)</strong> che spinge la clientela a boicottare l’attività commerciale.
@@ -162,6 +167,11 @@
             <dd>
               Esami imparziali ed autoritativi eseguiti da organizzazioni esterne ed accreditate. Rappresentano lo strumento ideale e più qualificato quando un'organizzazione è obbligata a <strong>fornire rassicurazioni legali indiscutibili circa il fatto che le proprie contromisure e i controlli protettivi siano strutturati a regola d'arte ed operativamente efficaci</strong>.
             </dd>
+
+            <dt>Automazione (Automation in Compliance Monitoring)</dt>
+            <dd>
+              L'impiego continuo ed integrato di strumenti tecnologici per testare la conformità in tempo reale (Continuous Compliance Monitoring), superando i limiti dei campionamenti manuali periodici. Include l'uso di software di <em>Cloud Security Posture Management (CSPM)</em> per verificare le policy in cloud, l'impiego del <em>Microsoft Security Compliance Toolkit (SCT)</em> per validare i GPO di dominio, e l'integrazione di script <em>Compliance-as-Code</em> nei canali DevOps, bloccando istantaneamente build o servizi non allineati alle regole di sicurezza prima della messa online.
+            </dd>
           </dl>
         </section>
 
@@ -182,20 +192,33 @@
           <p>Il GDPR e i principali standard di privacy introducono una rigida divisione dei ruoli per definire le catene di responsabilità giuridiche dell'ecosistema dei dati personali:</p>
 
           <dl class="termlist">
+            <dt>Soggetto dei Dati (Data Subject)</dt>
+            <dd>
+              La persona fisica (es: cittadino, cliente, utente, impiegato) a cui appartengono i dati personali o PII oggetto delle attività di raccolta, archiviazione e manipolazione. Nel GDPR, ha pieni diritti inalienabili, tra cui il diritto di rettifica, accesso, limitazione ed il fondamentale <strong>diritto all'oblio (Right to be Forgotten)</strong> di veder cancellati permanentemente i propri dati personali salvati sui server aziendali.
+            </dd>
+
             <dt>Responsabile della Protezione dei Dati (DPO — Data Protection Officer)</dt>
             <dd>
               Figura consultiva, indipendente e professionale obbligatoriamente prescritta per molti enti pubblici e aziende private operanti su dati ad alta intensità. Il <strong>DPO</strong> sorveglia metodicamente la conformità con il GDPR (o regolamenti speculari), eroga consulenza ai proprietari di business, funge da punto di raccordo diretto ed istituzionale con l'autorità di vigilanza del Paese (Garante della Privacy), e coordina le procedure investigative interne in caso di perdite accidentali di PII.
             </dd>
 
-            <dt>Titolare del Trattamento (Data Controller)</dt>
+            <dt>Titolare del Trattamento (Data Controller) vs. Responsabile del Trattamento (Data Processor)</dt>
             <dd>
-              L'entità giuridica (o l'azienda) che <strong>determina in esclusiva gli scopi, le finalità, la logica e i mezzi del trattamento dei dati personali</strong>. Questa valutazione rappresenta la colonna portante di un programma di privacy.<br>
-              <strong>Esempio cardine:</strong> Se un'azienda di vendita al dettaglio (retailer) raccoglie dati personali dei clienti finali e memorizza la cronologia degli ordini per scopi promozionali, nel momento in cui riceve una richiesta di pulizia o rimozione dati da parte di un utente, l’azienda agisce in qualità di <strong>Titolare del Trattamento (Data Controller)</strong> poiché esercita la titolarità formale su scopi e mezzi di quel database.
+              La colonna portante delle catene di responsabilità privacy.
+              <ul>
+                <li><strong>Data Controller (Titolare):</strong> L'entità giuridica o azienda che <strong>determina originariamente ed in via esclusiva gli scopi, le finalità, la logica ed i mezzi del trattamento dei dati personali</strong>. Se un'azienda di vendita al dettaglio (retailer) raccoglie dati personali dei clienti finali e memorizza la cronologia degli ordini per scopi promozionali, essa agisce in qualità di Data Controller. Ad essa fa capo l'obbligo legale principale di rispondere e conformarsi alle richieste dei Data Subjects (es: cancellazione record).</li>
+                <li><strong>Data Processor (Responsabile):</strong> L'entità esterna o partner commerciale che si limita ad <strong>elaborare e manipolare materialmente le informazioni personali su mandato esplicito e conto esclusivo del Titolare</strong> (es. un software esterno di invio newsletter SaaS, un cloud hoster).</li>
+              </ul>
             </dd>
 
-            <dt>Responsabile del Trattamento (Data Processor)</dt>
+            <dt>Proprietà dei Dati e Ruoli di Supporto (Data Ownership & Stewardship)</dt>
             <dd>
-              L'entità che si limita a <strong>elaborare e manipolare materialmente le informazioni personali su mandato esplicito e per conto esclusivo del Titolare</strong> (es: un software gestionale cloud, un fornitore esterno per l'invio delle newsletter o un host di hosting web).
+              La governance interna dei dati si avvale di ruoli d'impresa precisi:
+              <ul>
+                <li><strong>Data Owner (Proprietario dei Dati):</strong> Il dirigente o owner di business capo di un determinato dipartimento aziendale (es. CFO per i conti creditizi, Direttore HR per i fogli dipendenti) che ha la responsabilità ultima della riservatezza del dato, definisce i requisiti di classificazione di sicurezza (es. confidenziali, pubblici) ed approva i diritti d'accesso.</li>
+                <li><strong>Data Steward (Amministratore dei Dati):</strong> Ruolo orientato al business (quality officer) preposto ad assicurare l'integrità, l'accuratezza semantica, l'allineamento dei metadati e la qualità complessiva del dato caricato, facilitandone l'utilizzo e verificando il rispetto dei formati della policy.</li>
+                <li><strong>Data Custodian (Custode Tecnico dei Dati):</strong> Ruolo prettamente tecnico (es. System Administrator, gestore di database) preposto a <strong>applicare materialmente le tutele tecnologiche protettive (cifratura, ACL, orari di blocco, backup e retention)</strong> stabilite dall'Owner per sventare incidenti informatici.</li>
+              </ul>
             </dd>
 
             <dt>Valutazione dell'Impatto sulla Protezione dei Dati (DPIA — Data Protection Impact Assessment)</dt>
@@ -429,7 +452,7 @@
   /* ── Dati quiz OBJ 5.4 (19 domande d'esame) ─────────────────── */
   const Q = [
     {
-      id: "SCREEN_071",
+      id:'SCREEN_071', source:'TL',
       text: "Which of the following would be the greatest concern for a company that is aware of the consequences of non-compliance with government regulations?",
       opts: [
         { id: "A", t: "Right to be forgotten", c: false },
@@ -627,7 +650,7 @@
       expl: "La formale attestazione di non conformità dovuta a esclusione preventiva dal perimetro d'ingaggio viene archiviata documentalmente tramire Acknowledgement and Attestation (Accettazione e Attestazione)."
     },
     {
-      id: "SCREEN_735",
+      id:'SCREEN_735', source:'TL',
       text: "A retail company receives a request to remove a customer's data. Which of the following is the retail company considered under GDPR legislation?",
       opts: [
         { id: "A", t: "Data processor", c: false },
@@ -689,7 +712,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -817,5 +840,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

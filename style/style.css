@@ -1043,3 +1043,286 @@ ul.flashcard li strong { color: var(--navy); }
   }
 }
 
+/* ── Barra di Ricerca Globale ──────────────────────────────────── */
+.global-nav-search-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--light-slate);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+.global-nav-search-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--white);
+}
+.global-nav-search-btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+.search-icon-svg {
+  flex-shrink: 0;
+}
+.search-btn-text {
+  margin-right: 4px;
+}
+.search-btn-kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--light-slate);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 640px) {
+  .search-btn-text { display: none; }
+  .search-btn-kbd { display: none; }
+  .global-nav-search-btn {
+    padding: 6px;
+    border-radius: 50%;
+  }
+}
+
+/* Modal Overlay di Ricerca */
+.search-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.search-modal-content {
+  background: var(--white);
+  width: 100%;
+  max-width: 680px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
+  animation: slideDown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid var(--light-slate);
+  padding: 14px 20px;
+  gap: 12px;
+  background: #FAFAFC;
+}
+
+.search-modal-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  color: var(--navy);
+  outline: none;
+  font-family: inherit;
+  box-shadow: none !important;
+}
+.search-modal-input::placeholder {
+  color: #94A3B8;
+}
+
+.search-modal-close-btn {
+  background: none;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.search-modal-close-btn:hover {
+  background: var(--light-slate);
+  color: var(--navy);
+}
+
+.search-modal-quick-tips {
+  padding: 8px 20px;
+  background: #FCFCFD;
+  border-bottom: 1px solid var(--light-slate);
+  font-size: 0.78rem;
+  color: #64748B;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Risultati di Ricerca */
+.search-modal-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.search-result-group {
+  margin-bottom: 20px;
+}
+.search-result-group-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748B;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+  padding-left: 4px;
+  border-left: 3px solid var(--teal);
+}
+
+.search-result-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.search-result-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  background: #F8FAFC;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  outline: none;
+  cursor: pointer;
+}
+.search-result-item.selected, .search-result-item:hover {
+  background: var(--crit-bg);
+  border-color: var(--light-slate);
+}
+.search-result-item.selected .result-item-title, .search-result-item:hover .result-item-title {
+  color: var(--teal);
+}
+
+.result-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.result-item-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-item-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+}
+
+.result-item-acronym {
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+}
+
+.result-item-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--light-slate);
+  color: var(--slate);
+}
+.result-item-badge.chapter {
+  background: var(--tip-bg);
+  color: var(--teal);
+}
+.result-item-badge.quiz {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+
+.result-item-desc {
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.result-item-meta {
+  font-size: 0.76rem;
+  color: #64748B;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748B;
+}
+.search-no-results p {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.search-no-results small {
+  font-size: 0.82rem;
+  color: #94A3B8;
+}
+
+/* Suggested searches styling in search modal */
+.search-no-results .filter-tab {
+  background: var(--white);
+  border: 1px solid var(--light-slate);
+  color: var(--slate);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.search-no-results .filter-tab:hover {
+  background: var(--teal);
+  color: var(--white);
+  border-color: var(--teal);
+}
+
+

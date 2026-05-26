@@ -100,13 +100,24 @@
     necessaria per verificare la conformità e contenere i rischi.
   </p>
   <p>
-    Il ciclo di gestione delle baseline comprende tre fasi operative cruciali:
+    Il ciclo di gestione delle baseline comprende tre fasi operative cruciali, integrate con importanti concetti di monitoraggio e conformità:
   </p>
   <dl class="termlist">
     <dt>Stabilire (Establish)</dt>
     <dd>Definire lo standard di sicurezza iniziale utilizzando linee guida interne e benchmark riconosciuti a livello internazionale, come i CIS Benchmarks (Center for Internet Security) o le DISA STIGs (Defense Information Systems Agency Security Technical Implementation Guides). Esempio: stabilire che tutte le workstation Windows devono avere BitLocker abilitato, porte USB disabilitate e la password di root disattivata.</dd>
+    
+    <dt>Security Baseline (Baseline di Sicurezza)</dt>
+    <dd>Il set di configurazioni standardizzate minime e verificate (es. impostazioni del sistema operativo, porte attive, cifrari e patch di sicurezza) che un dispositivo o un'applicazione deve tassativamente rispettare per essere approvato e allacciato alla rete aziendale.</dd>
+
+    <dt>Baseline Deviation (Deviazione dalla Baseline)</dt>
+    <dd>Conosciuta anche come <em>configuration drift</em>, rappresenta lo spostamento o l'alterazione di una macchina rispetto ai valori standard approvati della baseline, dovuto ad errori gestionali, modifiche arbitrarie degli utenti o azioni svolte da malware latenti.</dd>
+
+    <dt>Hash Mismatch (Discrepanza dell'Hash / Incongruenza dell'Impronta)</dt>
+    <dd>Una condizione d'errore o allarme in cui l'impronta hashes calcolata su un file di configurazione, un driver o un modulo software differisce dal valore hash sancito come sicuro nella baseline di riferimento. Indica inequivocabilmente che il file è stato alterato, corrotto, o sostituito da terzi.</dd>
+
     <dt>Distribuire (Deploy)</dt>
     <dd>Applicare lo standard di configurazione stabilito a tutti i dispositivi nuovi ed esistenti. Questa fase solitamente è automatizzata tramite l'uso di Group Policy Objects (GPO) in Active Directory, profili di configurazione di Mobile Device Management (MDM), o strumenti di Infrastructure as Code (IaC) e Configuration Management (come Ansible, Terraform o Chef) per garantire la scalabilità e ridurre gli errori di imposizione manuale.</dd>
+    
     <dt>Gestire / Mantenere (Maintain)</dt>
     <dd>Monitorare costantemente i sistemi per individuare la deviazione della configurazione (configuration drift) e applicare patch aggiornate nel tempo. Il monitoraggio continuo rileva le modifiche non intenzionali o non autorizzate alla baseline stabilita.</dd>
   </dl>
@@ -146,6 +157,17 @@
     Oltre al sistema operativo server, è fondamentale **mettere in sicurezza l'host virtuale (Harden the virtual host)** sul quale gira la macchina virtuale del server web prima che questa diventi visibile su internet.
   </p>
 
+  <dl class="termlist" style="margin-top: 16px; margin-bottom: 24px;">
+    <dt>Limited Privilege Accounts (Account con Privilegi Limitati)</dt>
+    <dd>Account utente sprovvisti di credenziali di amministrazione (non-root / non-admin) impiegati per svolgere le sole mansioni ordinarie quotidiane. Rispettano rigorosamente il principio di Least Privilege: se compromessi, impediscono ad un malware di alterare l'intero server o scavalcare l'isolamento locale dell'host.</dd>
+
+    <dt>Service Accounts (Account di Servizio)</dt>
+    <dd>Particolari account adoperati esclusivamente da servizi in background, demoni aziendali o applicazioni server (es. un database engine) per accedere alle risorse locali o di rete. Devono essere configurati bloccando programmaticamente la possibilità di login interattivo (no interactive logon) sia locale che tramite canali SSH/RDP.</dd>
+
+    <dt>Print Spooler (Spooler di Stampa)</dt>
+    <dd>Un servizio di sistema nativo che memorizza temporaneamente in coda i processi di stampa inviati alle stampanti locali o di rete. Rappresenta un target ad alto rischio di sicurezza d'esame (es. la vulnerabilità distruttiva PrintNightmare) poiché di solito gira con i privilegi di SYSTEM ed è affetto da vulnerabilità storiche di Privilege Escalation. Una regola imperativa di hardening impone di <strong>disabilitare interamente lo spooler di stampa</strong> su tutti i controller di dominio e server di produzione critici che non necessitano dello spooler.</dd>
+  </dl>
+
   <h3 id="hardening-network">Dispositivi di Rete: Switch e Router</h3>
   <p>
     Anche l'infrastruttura di routing e switching deve essere oggetto di hardening per impedire agli attaccanti interni od esterni di deviare o catturare il traffico di transito.
@@ -183,12 +205,53 @@
     e autenticazione specifiche.
   </p>
 
-  <h3 id="wireless-installation">Site Survey e Heat Map</h3>
+  <h3 id="wireless-installation">Installazione Wireless: Site Survey, Copertura, Interferenze e Troubleshooting</h3>
+  <p>
+    La progettazione strutturale di una rete <strong>Wireless Infrastructure Security (Sicurezza dell'Infrastruttura Wireless)</strong> richiede una meticolosa taratura delle proprietà fisiche e logiche delle trasmissioni radio per evitare lacune di copertura, dispersioni del segnale e vulnerabilità d'intercettazione.
+  </p>
   <dl class="termlist">
-    <dt>Rilievo RF sul campo (Site Surveys)</dt>
-    <dd>Consente di pianificare la disposizione fisica degli Access Point analizzando ostacoli fisici (muri in cemento, metalli) e interferenze, prima della messa in funzione.</dd>
-    <dt>Mappe termiche radio (Heat Maps)</dt>
-    <dd>Rappresentazioni grafiche dell'intensità del segnale Wi-Fi nell'edificio. Permettono agli amministratori di regolare le potenze di trasmissione degli AP in modo da limitare la dispersione radio ("leakage") nei parcheggi esterni o strade limitrofe, dove gli attaccanti potrebbero tentare attacchi offline.</dd>
+    <dt>Wireless Access Point (WAP / AP)</dt>
+    <dd>L'interfaccia ricetrasmittente che connette dispositivi client sprovvisti di cablaggio fisico alla rete intranet aziendale tramite onde convogliate nell'etere, fungendo da ponte del Layer 2 dello stack ISO/OSI verso lo switch fisico di distribuzione.</dd>
+
+    <dt>Range (Portata) e Coverage (Copertura)</dt>
+    <dd>
+      Proprietà fondamentali per il disegno delle celle radio:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;"><strong>Range (Portata):</strong> Rappresenta la distanza lineare massima entro cui un client può allacciarsi al segnale emesso dall'Access Point in condizioni operative standard.</li>
+        <li style="margin-bottom: 6px;"><strong>Coverage (Copertura):</strong> Individua l'area tridimensionale reale in cui l'intensità e la robustezza del segnale Wi-Fi sono sufficienti a consentire scambi e flussi dati efficienti e conformi alle baseline aziendali di larghezza di banda.</li>
+      </ul>
+    </dd>
+
+    <dt>Signal Strength (Forza del segnale) & Power Control</dt>
+    <dd>La potenza dinamica della trasmissione radio Wi-Fi emessa dagli AP, espressa comunemente in dBm o mW. Uno dei controlli primari di hardening wireless consiste nel regolare accuratamente il <strong>Power Control</strong>: riducendo la potenza di trasmissione al minimo indispensabile per coprire le scrivanie, si limita drasticamente il <em>signal leakage</em> (dispersione del segnale oltre le pareti dell'immobile aziendale), sventando preventivamente l'operato di attaccanti che praticano il <em>wardriving</em> o posizionano <em>Evil Twin</em> nei parcheggi circostanti.</dd>
+
+    <dt>Extended Service Set (ESS) Configuration</dt>
+    <dd>La configurazione formale in cui molteplici Wireless Access Point (WAP) adiacenti o distribuiti condividono lo stesso identico nome di rete (SSID - Service Set Identifier) e configurazioni crittografiche d'autenticazione. L'allineamento in un <strong>Extended Service Set (ESS)</strong> permette agli utenti in mobilità la transizione fluida e ininterrotta (seamless roaming) tra celle radio e antenne distinte senza costringerli a disconnessioni operative o reinserimenti di credenziali.</dd>
+
+    <dt>Gestione dello Spettro: Co-Channel vs Adjacent Channel Interference</dt>
+    <dd>
+      La sovrapposizione e saturazione delle frequenze radio nello spettro genera rumore distruttivo ed instabilità strutturale, catalogati in due tipologie principali:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <strong>Co-Channel Interference (Interferenza Co-canale):</strong> Si consuma quando più Access Point installati nella medesima area di servizio vengono incautamente impostati per tramettere sullo stesso identico canale radio (es: due AP adiacenti entrambi sul canale 1 nella banda 2.4 GHz). Essendo costretti a condividere lo "spazio d'ascolto" aereo, i client subiscono forti rallentamenti di banda logica in quanto il protocollo CSMA/CA forza ciascun host ad attendere il proprio turno prima di emettere frames.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Adjacent Channel Interference (Interferenza da Canale Adiacente / Adjacent Channel):</strong> Rappresenta la forma più dannosa di degrado e si verifica quando i canali configurati per gli AP vicini si sovrappongono parzialmente nello spettro di frequenze (es: configurare canali stretti confinanti quali il canale 1, 2 e 3 nella banda 2.4 GHz). La parziale comunanza delle frequenze non permette ai ricetrasmettitori di discernere ed escludere il segnale spurio, distruggendo le trame di rete e provocando continue rinegoziazioni dei pacchetti. Si previene pianificando l'impiego esclusivo di canali ortogonali (non sovrapposti), come l'impiego rigido dei canali 1, 6 e 11 nella debole banda 2.4 GHz, ed espandendo la migrazione sulla robusta banda a 5 GHz o 6 GHz.
+        </li>
+      </ul>
+    </dd>
+
+    <dt>Site Survey (Sopralluogo RF) e Heat Map (Mappe Termiche)</dt>
+    <dd>
+      La pianificazione professionale mirata ad azzerare le problematiche di dispersione dell'infrastruttura wireless:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;"><strong>Site Survey (Rilievo RF/Sopralluogo sul campo):</strong> Indagine diagnostica attiva o predittiva intrapresa dai tecnici per analizzare la conformità degli spazi architettonici (barriere in metallo, pareti in cartongesso o cemento armato), catalogare sorgenti di interferenza estranee già attive e calibrare la posizione ottimale dei WAP sui piloni portanti.</li>
+        <li style="margin-bottom: 6px;"><strong>Heat Map (Mappa termica radio):</strong> Rappresentazione grafica computerizzata dell'intensità di propagazione delle frequenze Wi-Fi dell'edificio d'ufficio. Mostra istantaneamente con gradienti di colore (dal rosso caldo per segnali massimi al blu/grigio freddo per le assenze di linea o dead-zones) la postura esatta delle onde radio emesse, supportando l'audit di leakage radio.</li>
+      </ul>
+    </dd>
+
+    <dt>Troubleshooting (Risoluzione delle anomalie radio)</dt>
+    <dd>Il processo logico-manutentivo finalizzato a scovare ed emendare disfunzioni nella connettività aerea. Comprende la diagnosi di cadute repentine di throughput (risolvibili ripianificando la griglia dei canali per stroncare l'interferenza da canali adiacenti), la bonifica di zone d'ombra non coperte (risolvibile riposizionando gli AP o innalzando il guadagno d'antenna), o l'intercettazione e soppressione di disturbatori attivi (jammer) ed Evil Twin che sequestrano le sessioni legittime.</dd>
   </dl>
 
   <h3 id="guest-captive-portal">Sistemi di Ospiti e Captive Portal</h3>
@@ -306,11 +369,102 @@
 <!-- ══ WIRELESS SECURITY SETTINGS ═══════════════════════════════ -->
 <section id="wireless-security-settings">
   <h2>Impostazioni e protocolli di sicurezza Wireless</h2>
+  <p>
+    La blindatura dello spettro radio richiede la comprensione approfondita di standard crittografici moderni, architetture di autenticazione centralizzata corporativa e metodi di transito sicuri.
+  </p>
+  
+  <h3 id="wpa3-vs-wpa2">Evoluzione degli Standard Wireless: Da WEP a WPA3 e Enhanced Open (OWE)</h3>
+  <p>
+    L'evoluzione della sicurezza dell'interfaccia radio ha visto la progressiva dismissione di protocolli crittografici vulnerabili a favore di standard protettivi in grado di contrastare le principali minacce aeree.
+  </p>
   <dl class="termlist">
+    <dt>Wired Equivalent Privacy (WEP)</dt>
+    <dd>
+      Il primo, storico e ormai <strong>completamente obsoleto</strong> standard wireless. Sfruttava il cifrario simmetrico RC4 combinato con chiavi statiche e un vettore di inizializzazione (IV) estremamente corto di appena 24 bit. A causa del riutilizzo frequente degli IV su reti con traffico moderato, un utente non autorizzato può catturare passivamente l'etere ed estrarre la chiave crittografica WEP in pochissimi minuti mediante tool di cracking automatizzati. Ne è tassativamente deprecato e vietato l'uso.
+    </dd>
+
+    <dt>Wi-Fi Protected Access (WPA)</dt>
+    <dd>
+      Sviluppato come standard di pezza temporaneo per correggere le macroscopiche vulnerabilità di WEP senza richiedere la dismissione fisica dell'hardware obsoleto degli access point già in opera. Ha introdotto il protocollo di cifratura <strong>TKIP (Temporal Key Integrity Protocol)</strong>, il quale ricorreva sempre a RC4 ma implementava un meccanismo di rotazione e generazione dinamica delle chiavi per ciascun pacchetto (Temporal Key) unito a un codice di controllo di integrità (MIC). È considerato oggi obsoleto e insicuro.
+    </dd>
+
+    <dt>Wi-Fi Protected Access 2 (WPA2)</dt>
+    <dd>
+      Lo standard wireless di seconda generazione ampiamente diffuso a livello mondiale. Basato sui dettami dello standard IEEE 802.11i, bandisce del tutto RC4 ed impone l'impiego del robusto cifrario a blocchi <strong>Advanced Encryption Standard (AES)</strong> gestito e veicolato dal protocollo crittografico <strong>CCMP</strong> (Counter Mode con CBC-MAC). Pur garantendo un'eccellente blindatura simmetrica, WPA2 è affetto da vulnerabilità nei confronti di attacchi di intercettazione e cracking offline del quadrilatero d'autenticazione (4-way handshake) se configurato in modalità pre-condivisa (WPA2 Personal / PSK), ed è suscettibile a exploit complessi di reinstallazione della chiave (KRACK).
+    </dd>
+
     <dt>Wi-Fi Protected Access 3 (WPA3)</dt>
-    <dd>Lo standard crittografico moderno per Wi-Fi. Sostituisce la chiave precondivisa vulnerabile (PSK) di WPA2 con il protocollo <strong>SAE (Simultaneous Authentication of Equals)</strong>. SAE offre protezione robusta contro attacchi offline di brute-force sulle password "leggere", fornendo quella che viene denominata <em>Forward Secrecy</em>.</dd>
-    <dt>RADIUS (Remote Authentication Dial-In User Service) & Autenticazione AAA</dt>
-    <dd>Consente l'autenticazione individuale e centralizzata. Invece di condividere la stessa password Wi-Fi tra 500 dipendenti, ogni dipendente inserisce le credenziali aziendali del dominio. Lo switch/AP inoltra la richiesta al server RADIUS (AAA) che convalida l'accesso tramite protocolli come 802.1X.</dd>
+    <dd>
+      Lo standard di sicurezza wireless moderno progettato per elevare drasticamente la postura di sicurezza sia delle installazioni Enterprise sia di quelle Personal:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;"><strong>Simultaneous Authentication of Equals (SAE):</strong> Sostituisce la debole chiave pre-condivisa (PSK) di WPA2. SAE implementa uno scambio Diffie-Hellman protetto come metodo di scambio password-based (<em>password-based key exchange</em>) che neutralizza i tentativi di intercettazione passiva d'handshake e rende impossibili gli attacchi offline di cracking e di forza bruta a dizionario, anche con chiavi utente deboli o corte.</li>
+        <li style="margin-bottom: 6px;"><strong>Forward Secrecy (Segretezza in Avanti):</strong> Tecnica crittografica per cui il furto tardivo della password primaria della rete non permette al malintenzionato di decrittare le sessioni di trasmissione dati catturate e archiviate passivamente dall'etere in epoche precedenti.</li>
+        <li style="margin-bottom: 6px;"><strong>Protected Management Frames (PMF) Obbligatori:</strong> Impone la cifratura ed autenticazione obbligatoria dei frame di gestione e controllo aerei, disarmando attacchi wireless classici come il deauthentication DOS (forging di pacchetti fittizi di disconnessione).</li>
+        <li style="margin-bottom: 6px;"><strong>AES-GCMP (Galois/Counter Mode Protocol):</strong> Per gli ambiti ad alta performance, WPA3 introduce e impone l'adozione del protocollo crittografico <strong>GCMP</strong> basato su AES in modalità Galois/Counter Mode. Rispetto al CCMP di WPA2, GCMP assicura un'integrità crittografica e un livello di sicurezza superiore uniti a un parallelismo computazionale a livello hardware superbo, ottimizzato per neutralizzare i colli di bottiglia logici negli access point.</li>
+      </ul>
+    </dd>
+
+    <dt>Enhanced Open / Opportunistic Wireless Encryption (OWE)</dt>
+    <dd>
+      Standard e protocollo concepito per proteggere le tipiche reti Wi-Fi pubbliche o ad "accesso libero" (hotel, caffetterie) prive di chiavi di sicurezza precondivise. Tradizionalmente, le reti aperte convogliano tutto il traffico aereo in totale chiaro, facilitandone lo sniffing arbitrario. Con <strong>Enhanced Open (OWE)</strong>, il client e l'Access Point instaurano una cifratura individualizzata e trasparente delle trasmissioni tramite una negoziazione autonoma Diffie-Hellman a runtime, stroncando le attività di intercettazione passiva (eavesdropping) dei curiosi senza gravare l'utente di password o credenziali d'ingresso.
+    </dd>
+  </dl>
+
+  <h3 id="wireless-threats">Integrità e Vettori di Minaccia dello Spettro: Eavesdropping, Forging e Tampering</h3>
+  <p>
+    La predisposizione fisica dei canali radio li espone per loro natura a tre macro-tipologie di attacco logico operanti a livello Layer 2 dello stack network:
+  </p>
+  <dl class="termlist">
+    <dt>Intercettazione Passiva (Eavesdropping)</dt>
+    <dd>
+      L'ascolto passivo e clandestino dei frame captati nell'aere da parte di una scheda di rete impostata in <em>Monitor Mode</em> (Sniffing). Mira al furto di credenziali ordinarie, file scambiati e cookie di sessione. Si sventa azzerando le trasmissioni in chiaro mediante l'adozione obbligatoria della crittografia di sessione (WPA2/WPA3 o OWE/Enhanced Open per hot-spot).
+    </dd>
+
+    <dt>Falsificazione di Frame (Forging)</dt>
+    <dd>
+      L'alterazione dell'identità di rete o la compilazione artificiale di pacchetti falsificati al fine di ingannare l'Access Point o i client (es. spoofing di MAC address, Evil Twin). Un attacco comune consiste nel fare <strong>forging dei frame di deautenticazione</strong> (disconnessione coercitiva dei client), possibile in WPA2 in quanto i frame di gestione viaggiano in chiaro. Viene neutralizzato in WPA3 grazie ai Protected Management Frames (PMF).
+    </dd>
+
+    <dt>Manomissione e Alterazione (Tampering)</dt>
+    <dd>
+      L'intercettazione attiva e la modifica arbitraria dei dati nel pacchetto durante il volo prima che raggiungano il ricevente. Per rilevare ed impedire il <strong>tampering</strong> silente, i protocolli moderni integrano blocchi di Message Integrity Code (CCMP e GCMP) matematicamente protetti. Si tratta di un'evoluzione drastica rispetto al WEP, che usava una banale checksum CRC-32 (ridondanza ciclica), facilmente ricalcolabile dall'attacante dopo aver alterato il contenuto del rispettivo pacchetto.
+    </dd>
+  </dl>
+
+  <h3 id="aaa-radius">Autenticazione Centralizzata: AAA, RADIUS e Federazione</h3>
+  <dl class="termlist">
+    <dt>RADIUS (Remote Authentication Dial-In User Service) e Server AAA</dt>
+    <dd>Delinea il meccanismo d'eccellenza per la gestione centralizzata di Authentication, Authorization e Accounting (AAA). In ambienti aziendali, gli Access Point (AP) agiscono come client NAS (Network Access Server), catturando le richieste di login degli impiegati e instradandole verso un server RADIUS di ripiego (es. Microsoft NPS, FreeRADIUS). Tale server esegue il raffronto sicuro contro il database centrale (Active Directory o LDAP) convalidando l'accesso singolo.</dd>
+    <dt>Federazione RADIUS (RADIUS Federation)</dt>
+    <dd>Consente a più organizzazioni indipendenti di instaurare relazioni di fiducia reciproca permettendo ai propri dipendenti o studenti di accedere alle rispettive infrastrutture Wi-Fi locali immettendo le credenziali dell'universo di provenienza (home-identity domain). Un esempio iconico e d'esame è <strong>eduroam</strong>, ampiamente adottato nel settore accademico internazionale, in cui i server RADIUS federati instradano le query di autenticazione fino al server d'origine dell'utente istituzionale.</dd>
+  </dl>
+
+  <h3 id="wireless-cryptography">Protocolli Crittografici Wireless e Scelta dei Protocolli</h3>
+  <p>
+    La scelta dei protocolli crittografici (<em>Cryptographic Protocols</em>) influisce direttamente sulla robustezza strutturale del canale di comunicazione dell'infrastruttura di rete:
+  </p>
+  <dl class="termlist">
+    <dt>Temporal Key Integrity Protocol (TKIP)</dt>
+    <dd>Protocollo crittografico obsoleto e deprecato introdotto in WPA. Generava chiavi uniche per ciascun pacchetto sfruttando sempre l'algoritmo RC4. Essendo insicuro e aggirabile, deve essere totalmente escluso dalle reti aziendali.</dd>
+    <dt>Counter Mode with Cipher Block Chaining Message Authentication Code Protocol (CCMP)</dt>
+    <dd>Sviluppato per WPA2, impiega l'algoritmo AES a 128 bit in modalità Counter Mode (per la riservatezza) e CBC-MAC (per l'integrità e l'autenticità dei frame). Fornisce una protezione molto solida ma manca del parallelismo hardware nativo del GCMP.</dd>
+    <dt>Galois/Counter Mode Protocol (GCMP / AES-GCMP)</dt>
+    <dd>Il protocollo crittografico d'elezione integrato nativamente nelle reti WPA3 ad alte prestazioni. Sfrutta l'algoritmo Advanced Encryption Standard in modalità Galois/Counter Mode (AES-GCMP). Offre un parallelismo ed una velocità hardware eccezionali sui carichi di calcolo degli access point, fornendo una cifratura superiore a CCMP.</dd>
+  </dl>
+
+  <h3 id="wireless-auth-protocols">Protocolli di Autenticazione 802.1X ed EAP</h3>
+  <p>
+    Lo standard <strong>IEEE 802.1X (Port-Based Network Access Control)</strong> agisce come guardiano d'ingresso alle porte fisiche e wireless. Utilizza il framework di trasporto flessibile <strong>EAP (Extensible Authentication Protocol)</strong>, i cui protocolli di autenticazione (<em>Authentication Protocols</em>) si basano su requisiti stringenti di certificati per validare l'identità:
+  </p>
+  <dl class="termlist">
+    <dt>PEAP (Protected Extensible Authentication Protocol)</dt>
+    <dd>Framework sicuro sviluppato congiuntamente da Microsoft, Cisco e RSA. PEAP richiede l'installazione obbligatoria di un <strong>certificato digitale sul solo lato server (server certificate)</strong>, autenticando il server RADIUS di fronte alle workstation degli impiegati. Crea un tunnel TLS cifrato esterno (Outer Tunnel) e ne sfrutta la blindatura per scambiare un metodo di autenticazione basato su tradizionali credenziali password dell'impiegato (Inner Tunnel, tipicamente MS-CHAPv2). Riduce drasticamente l'overhead di distribuzione dei certificati sui singoli portatili.</dd>
+    <dt>EAP-FAST (EAP-Flexible Authentication via Secure Tunneling)</dt>
+    <dd>Protocollo proprietario Cisco progettato per superare le debolezza intrinseche di LEAP. Al posto di scambi asimmetrici o certificati complessi, si avvale di una chiave simmetrica pre-erogata nota come <strong>PAC (Protected Access Credential)</strong> per instaurare il tunnel protetto TLS iniziale, velocizzando i riagganci radio.</dd>
+    <dt>EAP-TLS (EAP-Transport Layer Security)</dt>
+    <dd>Il protocollo in assoluto <strong>più sicuro ed inattaccabile dell'universo wireless</strong>. Impone rigorosamente una <strong>mutua autenticazione a doppio certificato (Mutual Authentication)</strong>: sia il server RADIUS sia ciascun singolo host/workstation client del dipendente devono possedere e scambiare certificati digitali validi rilasciati dalla CA aziendale. Impedisce fisicamente l'accesso a macchine non registrate, ma comporta un elevatissimo costo gestionale di gestione del ciclo di vita dei certificati.</dd>
+    <dt>EAP-TTLS (EAP-Tunneled Transport Layer Security)</dt>
+    <dd>Estensione raffinata sviluppata da Funk Software. Come per PEAP, richiede rigorosamente l'installazione di un <strong>certificato digitale sul solo lato server (server certificate)</strong> per erigere il canale cifrato TLS iniziale. All'interno del tunnel protetto risultante, il dipendente può accreditarsi impiegando tradizionali password legacy o banali archivi utente sprovvisti di certificati client individuali, ottimizzando gli oneri gestionali pur mantenendo impenetrabili le comunicazioni.</dd>
   </dl>
 </section>
 
@@ -318,13 +472,19 @@
 <section id="application-security">
   <h2>Sicurezza delle Applicazioni (Application Security)</h2>
   <p>
-    Un codice non indurito espone le organizzazioni ad attacchi devastanti finiti poi nei log e sfruttabili per rubare credenziali o dati sensibili.
+    Un codice non indurito espone le organizzazioni ad attacchi devastanti finiti poi nei log e sfruttabili per rubare credenziali o dati sensibili. La difesa del software richiede l'adozione di un ciclo di vita protetto (Secure SDLC) basato su solide linee guida di codifica sicura (Secure Coding).
   </p>
 
-  <h3 id="input-validation">Validazione dell'Input (Input Validation)</h3>
+  <h3 id="input-validation">Validazione dell'Input (Input Validation) e Regole di Validazione (Validation Rules)</h3>
   <p>
     La <strong>validazione dell'input (input validation)</strong> o <strong>sanificazione dell'input (input sanitization)</strong> è il controllo prioritario assoluto per prevenire attacchi di tipo Injection (come SQLi) e Cross-Site Scripting (XSS).
   </p>
+  <dl class="termlist">
+    <dt>Regole di Validazione (Validation Rules)</dt>
+    <dd>
+      Consistono nella definizione di criteri formali e stringenti (allowlist) per accettare esclusivamente dati in ingresso conformi a determinati requisiti. Le regole specificano tipo di dato (es: numerico, alfanumerico), lunghezza massima/minima, range di valori ammessi e formato specifico (tramite espressioni regolari). Ad esempio, forzare un campo CAP ad accettare esattamente ed esclusivamente 5 caratteri numerici.
+    </dd>
+  </dl>
   <div class="example-box">
     <strong>Esempi d'Esame — Tecniche di validazione</strong><br>
     <ul>
@@ -336,6 +496,19 @@
     </ul>
   </div>
 
+  <h3 id="secure-cookies">Biscotti di Sessione Sicuri (Secure Cookies)</h3>
+  <p>
+    I cookie sono frammenti di dati conservati dal browser dell'utente, spesso contenenti token sensibili o identificativi di sessione (session ID). Se non opportunamente protetti, espongono l'utente al dirottamento della sessione (Session Hijacking). L'indurimento impone l'applicazione di attributi protettivi (Secure Cookies):
+  </p>
+  <dl class="termlist">
+    <dt>Attributo Secure</dt>
+    <dd>Istruisce il browser a trasmettere il cookie esclusivamente attraverso connessioni crittografate (HTTPS), impedendo che venga inviato su canali HTTP non protetti ed esposto a intercettazioni (eavesdropping).</dd>
+    <dt>Attributo HttpOnly</dt>
+    <dd>Impedisce del tutto l'accesso al cookie tramite script lato client (es: JavaScript con <code>document.cookie</code>). Questa misura è cruciale per vanificare il furto di token e session ID operato tramite attacchi Cross-Site Scripting (XSS).</dd>
+    <dt>Attributo SameSite</dt>
+    <dd>Controlla se il cookie debba essere inviato con le richieste originate da siti terzi. Configurato su <em>Strict</em> o <em>Lax</em>, costituisce il baluardo primario di mitigazione contro attacchi di falsificazione delle richieste intersito (CSRF - Cross-Site Request Forgery).</dd>
+  </dl>
+
   <h3 id="code-review">Peer Review e Prevenzione degli Insider (Peer Review and Approval)</h3>
   <div class="exam-tip">
     <strong>EXAM TIP — Blocco degli Insider infiltrati</strong><br>
@@ -345,34 +518,83 @@
     Nessun sistema di scansione vulnerabilità automatico o test QA garantisce che un programmatore interno malevolo non inserisca intenzionalmente una backdoor astuta e "pulita" nel sorgente. Solo una meticolosa revisione manuale guidata da un secondo programmatore indipendente (Peer Review) seguita da autorizzazione formale scherma questo rischio.
   </div>
 
-  <h3 id="code-analysis">Analisi del codice: Silente vs Runtime</h3>
+  <h3 id="code-analysis">Analisi del codice ed Ispezioni: SAST, DAST, Fuzzing e Stress Test</h3>
+  <p>
+    Il controllo della qualità e dell'assenza di falle si avvale di metodologie e strumenti operanti a freddo (statici) o durante l'esecuzione logica temporale (dinamici o di stress):
+  </p>
   <dl class="termlist">
     <dt>Analisi Statica del codice (Static Code Analysis / SAST)</dt>
-    <dd>Analisi del codice sorgente condotta "a freddo" senza eseguire il programma. Ideale per cercare vulnerabilità strutturali, credenziali hardcoded o firme note di file malevoli (Static analysis).</dd>
+    <dd>Analisi del codice sorgente condotta "a freddo" (scatola bianca / white-box) senza eseguire fisicamente il programma. Scansiona l'intera codebase alla ricerca di vulnerabilità strutturali (es: buffer overflow, race conditions), librerie deprecate o credenziali/API key hardcoded (hardcoded secrets).</dd>
     <dt>Analisi Dinamica del codice (Dynamic Analysis / DAST)</dt>
-    <dd>Verifica e test di sicurezza eseguiti <strong>mentre l'applicazione è in esecuzione (at runtime)</strong>. Permette di valutare le risposte reali dell'app a sollecitazioni fittizie e carichi di traffico.</dd>
+    <dd>Verifica e test di sicurezza eseguiti <strong>mentre l'applicazione è in esecuzione (at runtime)</strong> con un approccio "a scatola nera" (black-box). Simula un attaccante privo di credenziali che bombarda gli endpoint attivi dell'app per verificar le risposte reali dinanzi a sollecitazioni standard.</dd>
+    <dt>Test di Robustezza / Iniezione di Input Anomali (Fuzzing / Fuzz Testing)</dt>
+    <dd>Metodologia di test dinamico automatizzato che prevede l'invio continuo e massivo di enormi volumi di input semistrutturati, casuali, malformati o imprevisti (chiamati <i>fuzz</i>) all'applicazione. Lo scopo principale del fuzzing è indurre l'app al crash, rivelando falle logiche non gestite, perdite di memoria (memory leaks) o difetti nel parser dei dati di input.</dd>
+    <dt>Test di Sotto-Sforzo (Stress Testing)</dt>
+    <dd>Processo di valutazione delle performance e della stabilità dell'applicazione al di là dei limiti di picco della sua capacità nominale. Mira a misurare e verificare come si comporta l'app (es: degrado delle prestazioni, reattività o arresti anomali) quando sovraccaricata di transazioni o utenti simultanei, garantendo che anche sotto stress non fallisca in modo insicuro (fail-secure).</dd>
   </dl>
 
-  <h3 id="obfuscation-signing">Obfuscation e Code Signing</h3>
+  <h3 id="error-handling-auditing">Gestione degli Errori (Error Handling) e Audit di Sicurezza Regolari</h3>
+  <dl class="termlist">
+    <dt>Gestione Corretta degli Errori (Implementing Proper Error Handling)</dt>
+    <dd>
+      Pratica di sviluppo sicura che impone all'applicazione di catturare in modo pulito ed elegante qualsiasi eccezione o anomalia software a runtime, fornendo all'utente esterno unicamente un messaggio generico (es: "Si è verificato un errore di elaborazione, riprovare più tardi") senza mai rivelare dettagli architetturali interni. Una cattiva gestione degli errori (Default Error Handling) che espone stack trace, query SQL residue, variabili di sistema o la versione esatta del database engine sul browser dell'utente, fornisce informazioni vitali agli attaccanti facilitandone il profiling dell'architettura (information disclosure).
+    </dd>
+    <dt>Audit di Sicurezza Regolari (Regular Security Auditing)</dt>
+    <dd>
+      Un processo sistematico e programmato di ispezione condotto internamente o da terze parti indipendenti. Comprende l'analisi regolare dei registri di configurazione, la revisione strutturale dei log complessivi, l'ispezione delle pipeline CI/CD e delle vulnerabilità persistenti dei componenti di terze parti (SCA - Software Composition Analysis), certificando l'aderenza costante dell'applicazione ed evitare il <i>configuration drift</i> operativo.
+    </dd>
+  </dl>
+
+  <h3 id="obfuscation-signing-sandbox">Obfuscation, Code Signing e Sandboxing</h3>
   <dl class="termlist">
     <dt>Offuscamento del codice (Code Obfuscation)</dt>
-    <dd>La tecnica preferita per ridurre drasticamente la probabilità che il software proprietario esportato o ceduto ai clienti venga decompilato o retroingegnerizzato (Reverse engineering), proteggendo la proprietà intellettuale.</dd>
+    <dd>La tecnica preferita per ridurre drasticamente la probabilità che il software proprietario esportato o ceduto ai clienti venga decompilato o retroingegnerizzato (Reverse engineering), alterando la leggibilità logica dei nomi di variabili, classi e relazioni del sorgente senza alterarne la stabilità logica finale.</dd>
     <dt>Firma digitale del codice (Code Signing)</dt>
-    <dd>Garantisce l'integrità e l'autenticità del codice d'installazione. L'utente ricevente sa con certezza che l'eseguibile proviene dal fornitore dichiarato e che non è stato alterato da terze parti.</dd>
+    <dd>Garantisce l'integrità e l'autenticità del codice d'installazione mediante l'apposizione di una firma basata su crittografia asimmetrica. Fornisce all'utente la prova inoppugnabile che l'eseguibile non è stato alterato, manomesso o infettato da malware post-rilascio e che proviene dal reale fornitore originario.</dd>
+    <dt>Isolamento Applicativo (Sandboxing)</dt>
+    <dd>
+      Tecnica volta a confinare l'esecuzione di programmi, script o file potenzialmente non sicuri all'interno di un ambiente di esecuzione logico-computazionale isolato e strettamente limitato (sandbox). Il software in sandboxing non possiede accessi diretti al file system dell'host primario, alla memoria adiacente delle altre applicazioni né ai canali di rete locali, minimizzando a zero i danni dovuti ad eventuali tentativi di compromise o infezione (blast radius limitato).
+    </dd>
   </dl>
 </section>
 
 <!-- ══ HOST SECURITY & ENDPOINT ═════════════════════════════════ -->
 <section id="host-security">
-  <h2>Sicurezza degli Host e degli Endpoint (Host Security & Controls)</h2>
+  <h2>Sicurezza degli Host, degli Endpoint e dei Protocolli (Host Security & Controls)</h2>
   <p>
-    Una volta immessi sulla rete, gli host richiedono protezioni individuali capaci di operare anche qualora il perimetro esterno crolli.
+    Una volta immessi sulla rete, gli host e gli endpoint richiedono protezioni granulari avanzate e protocolli di comunicazione induriti capaci di operare anche qualora il perimetro di segmentazione esterno crolli.
   </p>
 
-  <h3 id="nac-protection">Controllo degli Accessi di Rete (NAC) e Superfici Fisiche</h3>
+  <h3 id="nac-protection">Controllo degli Accessi di Rete (Network Access Control - NAC)</h3>
   <p>
-    Il <strong>Network Access Control - NAC (Controllo degli accessi di rete)</strong> convalida l'identità, lo stato delle patch e i sistemi antivirus di qualsiasi dispositivo che tenti di accoppiarsi alla rete prima di accordare un IP.
+    Il <strong>Network Access Control - NAC (Controllo degli accessi di rete)</strong> rappresenta un guardiano logico ad ampio spettro per l'universo aziendale, unificando l'autenticazione delle credenziali all'ispezione dello stato di integrità del dispositivo (health status) prima di autorizzare l'accesso fisico o logico.
   </p>
+  <dl class="termlist">
+    <dt>Posture Assessment (Valutazione della postura)</dt>
+    <dd>Il processo dinamico mediante il quale il NAC ispeziona l'endpoint interrogando parametri critici: attivazione del firewall locale, presenza e aggiornamento costante delle firme antimalware, installazione delle patch di sicurezza del sistema operativo e assenza di rooting/jailbreak.</dd>
+
+    <dt>Quarantine VLAN (VLAN di Quarantena)</dt>
+    <dd>Se un dispositivo (anche BYOD o laptop ospite) fallisce l'accertamento di postura (Posture Assessment), il NAC gli <strong>rifiuta l'accesso</strong> alla rete di produzione e lo relega forzatamente in una sottorete chiusa di quarantena. In questa sandbox protetta, l'host può unicamente scaricare gli aggiornamenti mancanti o usufruire di strumenti di remediation per rientrare nella baseline prima di una nuova scansione.</dd>
+
+    <dt>Agent-based vs. Agentless NAC</dt>
+    <dd>
+      L'ispezione della postura si avvale di metodologie differenti a seconda degli scenari operativi:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;"><strong>Persistent Agent (Agente Persistente):</strong> Un agente installato permanentemente sul sistema operativo del dispositivo locale (disco fisso). Rimane costantemente attivo in background, esegue controlli periodici di postura e comunica continuativamente con l'infrastruttura di policy NAC. Pur offrendo il massimo livello di controllo e monitoraggio continuativo nel tempo, richiede amministrazione aziendale centralizzata, distribuzione iniziale e aggiornamenti sistematici.</li>
+        <li style="margin-bottom: 6px;"><strong>Non-Persistent Agent / Dissolvable Agent (Agente Non Persistente / Dissolvibile):</strong> Soluzione temporanea in cui un agente leggero viene scaricato ed eseguito temporaneamente in memoria RAM (es: tramite un browser o un portale web captive) unicamente durante lo sbarco iniziale sulla rete. Svolge l'ispezione di postura istantanea, spedisce il verbale diagnostico al server NAC e, finita l'operazione, si <strong>disinstalla ed auto-elimina autonomamente e completamente</strong> dal dispositivo senza lasciare tracce persistenti sul disco. Rappresenta l'approccio ideale per host personali dei dipendenti (BYOD) o collaboratori esterni/ospiti dove non si ha l'autorizzazione o la facoltà di installare pacchetti stabili.</li>
+        <li style="margin-bottom: 6px;"><strong>Agentless NAC:</strong> Tecnologia che valuta l'host senza installare o scaricare alcun codice locale, interrogando le telemetrie fornite dagli switch di dominio Active Directory, eseguendo scansioni di vulnerabilità dall'esterno dell'host (network probes) o sollecitando direttamente le API native di sistema del dispositivo.</li>
+      </ul>
+    </dd>
+
+    <dt>Pre-Connection vs. Post-Connection Control</dt>
+    <dd>
+      Il NAC presidia l'arco temporale logico dell'appartenenza alla rete:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;"><strong>Pre-Connection (Controllo pre-connessione):</strong> Ispezione preventiva rigida. Il dispositivo viene bloccato in un'area neutra (un-associated) finché non supera con successo il posture assessment. Solo allora ottiene un IP valido nella subnet operativa.</li>
+        <li style="margin-bottom: 6px;"><strong>Post-Connection (Controllo post-connessione):</strong> Ispezione continuativa a runtime. Monitora proattivamente le attività dell'host mentre è allacciato alla Intranet. Se il client mostra improvvisamente comportamenti anomali (es. scansioni di porte o traffico verso server malevoli), il NAC ne revoca istantaneamente l'autorizzazione, de-associandolo fisicamente o spingendolo indietro nella VLAN di quarantena.</li>
+      </ul>
+    </dd>
+  </dl>
   <div class="exam-tip">
     <strong>EXAM TIP — Proteggere la superficie cablata (Wired Port)</strong><br>
     (1) "After a security incident, a system administrator asks the company to buy a NAC platform. Which attack surface is trying to protect?" <br>
@@ -381,18 +603,132 @@
     → <strong>Port Security</strong> (o 802.1X). La port security spegne la porta switch se rileva un indirizzo MAC non registrato o forza la richiesta di profili di sicurezza individuali.
   </div>
 
-  <h3 id="edr-lateral">EDR, Lateral Movement e Isolamento</h3>
+  <h3 id="edr-lateral">EDR, XDR e Analisi Comportamentale (UBA/UEBA)</h3>
+  <p>
+    Le difese reattive basate su firme antivirus statiche non sono sufficienti a fermare ransomware e attacchi APT avanzati. Si impiegano motori basati sui comportamenti software e degli utenti.
+  </p>
   <dl class="termlist">
+    <dt>Endpoint Detection and Response (EDR)</dt>
+    <dd>Suite di protezione avanzata residente sull'endpoint che monitora real-time l'attività del file system, il caricamento dei registri, la creazione di processi insoliti e le connessioni locali. Identifica e reagisce prontamente dinanzi a minacce sofisticate e zero-day non catalogate tramite algoritmi euristici. Offre strumenti d'azione istantanei:</dd>
+
     <dt>Host Isolation (Isolamento dell'host / host-based isolation)</dt>
-    <dd>Il meccanismo in assoluto più sicuro per garantire che una risorsa infetta diventi totalmente impermeabile ed inaccessibile ad ogni altra entità connessa alla rete aziendale.</dd>
+    <dd>Il controllo automatico condotto dall'EDR che disconnette la scheda di rete dell'host compromesso da internet e da ogni altro elemento della intranet aziendale (lateral movement prevention), tenendo aperto esclusivamente un canale di telemetria protetto verso la console SOC dell'ufficio di sicurezza per analisi forensi ed indagini.</dd>
+
     <dt>Host-based Firewall (Firewall lato host)</dt>
     <dd>Fornisce la protezione più fine contro flussi e comunicazioni insicure inviate da e verso la singola workstation o server.</dd>
-    <dt>Endpoint Detection and Response (EDR)</dt>
-    <dd>Piattaforma avanzata che monitora in real-time i comportamenti malevoli su dischi, processi e registri. È la risposta per bloccare l'esecuzione laterale di ransomware e virus tra nodi della stessa rete.</dd>
+
+    <dt>Extended Detection and Response (XDR)</dt>
+    <dd>L'evoluzione della sicurezza integrata che supera i limiti dell'EDR. Spiana i silos di sicurezza e unifica la telemetria degli agenti degli endpoint, della sicurezza e-mail (SEG), dei log dei Web Proxy, degli hub di rete e dei log di Active Directory. Rileva campagne d'attacco coordinate correlando gli indizi sparsi in tempo reale.</dd>
+
+    <dt>User and Entity Behavior Analytics (UEBA / UBA)</dt>
+    <dd>Tecnologia focalizzata sulla determinazione delle anomalie comportamentali degli utenti (impiegati) e delle entità logiche (server, router, account di servizio) tramite Machine Learning. UEBA stabilisce una <strong>baseline di operatività standard</strong> per ciascun profilo (es: orari tipici di ingresso, geolocalizzazioni frequenti, volumi e destinazioni di download ordinari). Allerta istantaneamente il SOC in presenza di scostamenti significativi quali l'<em>impossible travel</em> (connessioni consecutive a pochi minuti di distanza da nazioni separate geograficamente) o l'esportazione silente di file sensibili in ore notturne, indicando credenziali violate o minacce interne (insider threats).</dd>
   </dl>
   <div class="example-box">
     <strong>Mitigare i click sui Phishing Link</strong><br>
     Un test aziendale di Phishing mostra tassi di errore inaccettabili da parte degli utenti, i quali cliccano con alta frequenza su link pericolosi. Al fine di circoscrivere ed abbattere l'impatto distruttivo in tempo reale di questi click, l'analista deve **configurare le politiche EDR lato endpoint** per impedire l'esecuzione automatica di codici e software scaricati a seguito del click.
+  </div>
+
+  <h3 id="filtering-dns-web">Filtri di Rete: Web Filtering, DNS Filtering ed Email Security</h3>
+  <p>
+    La depurazione delle minacce provenienti dal Web e dai canali invasivi di posta elettronica si fonda su sistemi avanzati di ispezione dei nomi di dominio, dei singoli URL, della reputazione dei mittenti e dell'analisi in tempo reale dei contenuti in viaggio.
+  </p>
+  <dl class="termlist">
+    <dt>Web and DNS Filtering (Sistemi di Filtro Web e Filtro DNS)</dt>
+    <dd>
+      Strumenti preposti a prevenire e contrastare l'accesso dell'utente ad aree web malevole o non autorizzate:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 12px;">
+          <strong>Filtro Web (Web Filtering / Content and URL Filtering):</strong> Ispeziona e controlla il traffico HTTP e HTTPS diretto verso l'esterno. Si basa su diverse metodologie d'implementazione logica e criteri di filtraggio:
+          <ul style="margin-top: 4px; padding-left: 20px; list-style-type: circle;">
+            <li style="margin-bottom: 4px;"><strong>Proxy Centralizzati (Centralized Proxies):</strong> Tutto il traffico web delle postazioni dell'ufficio viene incanalato (forzato) attraverso un server proxy centrale (Centralized Proxy) situato al confine aziendale. Questo proxy decifra il traffico HTTPS (SSL/TLS Inspection), esegue controlli antivirus e applica le policy corporative.</li>
+            <li style="margin-bottom: 4px;"><strong>Filtro basato su Agenti (Agent-based Web Filtering):</strong> Un agente software leggero viene installato direttamente sui laptop dei dipendenti. Consente di applicare, monitorare e imporre le medesime politiche di filtro web sia all'interno sia all'esterno degli uffici (<em>both in and out of the office</em>), escludendo la necessità di configurare complessi tunnel VPN o sovraccaricare l'infrastruttura di rete centrale dell'azienda.</li>
+            <li style="margin-bottom: 4px;"><strong>Scansione degli URL (URL Scanning):</strong> Analisi analitica e in tempo reale dell'indirizzo completo richiesto (es: <code>http://dominio.com/cartella/eseguibile.exe</code>), non fermandosi al solo dominio ma controllando l'effettiva presenza di minacce annidate in percorsi (path) specifici.</li>
+            <li style="margin-bottom: 4px;"><strong>Categorizzazione dei Contenuti (Content Categorization):</strong> Suddivide l'intero spazio di indirizzamento mondiale in categorie predefinite (es: Gioco d'Azzardo, Social Media, Malware, Pornografia). Questo consente agli amministratori di configurare politiche aziendali ad ampio spettro anziché gestire singoli domini ad hoc.</li>
+            <li style="margin-bottom: 4px;"><strong>Regole di Blocco (Block Rules):</strong> Criteri espliciti definiti dagli amministratori per inibire determinate richieste, consentire eccezioni (allowlist) o mostrare pagine di avvertimento personalizzate agli utenti indicando la violazione delle politiche di utilizzo aziendali.</li>
+            <li style="margin-bottom: 4px;"><strong>Filtro Basato sulla Reputazione (Reputation-based Filtering):</strong> Assegna in tempo reale un punteggio dinamico di attendibilità (reputation score) ad ogni indirizzo IP e dominio del pianeta, alimentato da feed di intelligence sulle minacce commerciali. Consente di vietare in tempo reale il transito verso domini registrati di recente (che hanno reputazione zero) o associati momentaneamente ad attività e-mail aggressive, botnet o phishing.</li>
+          </ul>
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Filtro a livello DNS (DNS Filtering):</strong> Intercetta e risolve preventivamente le richieste di traduzione dei nomi a livello di Layer d'Applicazione (Layer 7). Se l'utente clicca su un collegamento malevolo o un processo malware tenta di dialogare con un server di Command and Control (C2), il filtro risponde restituendo un indirizzo di loopback (sinkholing) o un errore (NXDOMAIN), neutralizzando il traffico indipendentemente dai protocolli o dall'offuscamento delle query successive.
+        </li>
+      </ul>
+    </dd>
+
+    <dt>Email Security &amp; Tecniche Anti-Spoofing (Sicurezza E-Mail)</dt>
+    <dd>
+      La messaggistica elettronica è il principale vettore di intrusione malware e social engineering. La difesa si avvale di Secure Email Gateway (SEG) per la scansione inline dei messaggi alla ricerca di macro anomale o allegati nocivi, abbinata a tre record DNS fondamentali per convalidare l'autenticità dei messaggi inviati e proteggere l'identità del brand:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <strong>Sender Policy Framework (SPF):</strong> Un record di testo (TXT) pubblicato nel DNS di un dominio che elenca esplicitamente quali indirizzi IP e server di posta sono esplicitamente autorizzati a spedire messaggi a nome di quel dominio. I server riceventi consultano questo record per rifiutare e-mail inviate da server abusivi.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>DomainKeys Identified Mail (DKIM):</strong> Fornisce un meccanismo di autenticazione crittografica. Il server mittente firma digitalmente una parte dell'intestazione (header) e del corpo dell'e-mail utilizzando una chiave privata. Il server ricevente scarica la chiave pubblica DKIM memorizzata nel record DNS del mittente, validando che il messaggio provenga realmente da quel dominio e che l'e-mail non abbia subito alterazioni o manipolazioni lungo il transito (garanzia di integrità).
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Domain-based Message Authentication, Reporting, and Conformance (DMARC):</strong> Il protocollo di alleanza supremo che unifica SPF e DKIM. Specifica ai server riceventi come comportarsi (policy: <code>none</code> per mero monitoraggio, <code>quarantena</code> nella cartella spam, o <code>reject</code> per blocco totale) qualora un'e-mail non superi l'allineamento dei controlli SPF o DKIM. Inoltre, DMARC stabilisce l'invio quotidiano di rapporti formali dettagliati (reports) al proprietario del dominio su chi stia inviando mail a suo nome nel pianeta.
+        </li>
+      </ul>
+      <div class="example-box" style="margin-top: 12px; margin-bottom: 0;">
+        <strong>I Benefici della Trinità Anti-Spoofing (SPF, DKIM, DMARC):</strong><br>
+        • <strong>Prevenzione del Furto d'Identità E-mail (Preventing Email Spoofing):</strong> Impedisce ad attaccanti e spammer di camuffarsi da dipendenti dell'azienda o falsificare l'indirizzo mittente (es: applicando lo spoofing di <code>azienda.com</code>), neutralizzando attacchi di Business Email Compromise (BEC) e phishing mirato.<br>
+        • <strong>Miglioramento della Ricezione delle Mail (Improving Email Deliverability):</strong> I server di posta mondiali (Gmail, Outlook, Yahoo) ripongono fiducia nelle e-mail firmate e allineate, scongiurando che comunicazioni lecite o commerciali inviate dal personale aziendale finiscano erroneamente contrassegnate come spam o scartate dai filtri.<br>
+        • <strong>Rafforzamento della Reputazione del Dominio (Enhanced Domain's Reputation):</strong> L'applicazione delle restrizioni di rigetto (DMARC reject) protegge continuativamente il dominio aziendale, impedendo che venga marchiato come insicuro e inserito in blacklist globali a causa di abusi perpetrati da truffatori esterni.
+      </div>
+    </dd>
+
+  <h3 id="selecting-secure-protocols">Scelta dei Protocolli Sicuri (Selecting Secure Protocols)</h3>
+  <p>
+    Nel design delle baseline di sicurezza dell'host e dei servizi, è tassativo disabilitare protocolli legacy insicuri o vulnerabili ed imporre esclusivamente alternative ad alto coefficiente crittografico (Selecting Secure Protocols). Questo neutralizza attacchi on-path d'intercettazione passiva (snooping) e modifiche arbitrarie:
+  </p>
+  <div style="overflow-x:auto; margin-bottom: 24px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Ambito d'Uso</th>
+          <th>Protocollo Insicuro (Deprecato)</th>
+          <th>Protocollo Sicuro (Imposto)</th>
+          <th>Meccanismo di Protezione ed Hardening</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">Navigazione Web</td>
+          <td>HTTP (Porta 80)</td>
+          <td><strong>HTTPS</strong> (Sullo standard TLS 1.3 / Porta 443)</td>
+          <td>Garantisce la cifratura asimmetrica/simmetrica transitiva escludendo eavesdropping sui flussi utente e attacchi MitM.</td>
+        </tr>
+        <tr>
+          <td class="label">Amministrazione Remota</td>
+          <td>Telnet (Porta 23)</td>
+          <td><strong>SSH</strong> (Secure Shell / Porta 22)</td>
+          <td>In Telnet le credenziali amministrative ed i comandi viaggiano in chiaro; SSH cifra l'intera console e supporta l'autenticazione tramite chiavi private asimmetriche.</td>
+        </tr>
+        <tr>
+          <td class="label">Trasferimento File</td>
+          <td>FTP (Porte 20/21) o TFTP (Porta 69)</td>
+          <td><strong>SFTP</strong> (SSH File Transfer / Porta 22) o FTPS (Porte 989/990)</td>
+          <td>Incanala i trasferimenti dati in un canale protetto SSH o TLS escludendo il furto di dati sensibili in transito.</td>
+        </tr>
+        <tr>
+          <td class="label">Directory Services</td>
+          <td>LDAP (Porta 389)</td>
+          <td><strong>LDAPS</strong> (LDAP over SSL/TLS / Porta 636)</td>
+          <td>Blindatura delle interrogazioni Active Directory contro il furto di Hash delle credenziali in chiaro sulle prese switch.</td>
+        </tr>
+        <tr>
+          <td class="label">Gestione Dispositivi</td>
+          <td>SNMPv1 / SNMPv2 (Porta 161)</td>
+          <td><strong>SNMPv3</strong> (Porta 161)</td>
+          <td>Introduce il supporto integrato alla cifratura simmetrica, all'integrità crittografica dei pacchetti ed alla mutua autenticazione (USM).</td>
+        </tr>
+        <tr>
+          <td class="label">Risoluzione dei Nomi</td>
+          <td>DNS standard (Porta 53)</td>
+          <td><strong>DNSSEC / DoH / DoT</strong></td>
+          <td>Aggiunge firme digitali crittografiche (DNSSEC) per prevenire attacchi di DNS Cache Poisoning ed impacchetta le query in TLS (DoH/DoT) per la riservatezza.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <h3 id="application-allowlist">Application Allow List (Lista di programmi autorizzati)</h3>
@@ -402,19 +738,33 @@
   <dl class="termlist">
     <dt>Application Allow List (Lista di programmi autorizzati)</dt>
     <dd>Filosofia di sicurezza "Zero-Trust" in cui l'host blocca programmaticamente l'avvio di qualsiasi programma, script o eseguibile ad eccezione di quelli esplicitamente registrati e approvati in lista. Rappresenta la difesa d'oro per impedire l'esecuzione accidentale di malware da parte del personale e bloccare programmi sconosciuti.</dd>
+    
+    <dt>Windows AppLocker</dt>
+    <dd>Tecnologia nativa dei sistemi operativi Microsoft Windows Enterprise e Server che permette agli amministratori di imporre solide politiche di Application Allow List. Consente di definire regole rigidissime basate sulla firma del produttore (Publisher), sull'hash del file o sul percorso delle directory, bloccando preventivamente l'esecuzione di script non sicuri, pacchetti di installazione o librerie DLL arbitrarie.</dd>
   </dl>
 
-  <h3 id="endpoint-management">Gestione Endpoints, IaC e Wiping dei Laptop dismessi</h3>
+  <h3 id="endpoint-management">Gestione Endpoints, Sicurezza delle Porte Fisiche (USB) e Protezione Hardware (ESD)</h3>
   <p>
-    Per governare parchi computer formati da migliaia di nodi, si scelgono software centralizzati di Endpoint Management.
+    Per governare parchi computer formati da migliaia di nodi, si scelgono software centralizzati di Endpoint Management, uniti a solide misure di igiene fisica e hardware:
   </p>
   <dl class="termlist">
     <dt>Endpoint Management Software (Software di gestione degli endpoint)</dt>
     <dd>Fornisce una singola console centralizzata atta a verificare l'insorgenza di modifiche non autorizzate del parco server e delle workstation aziendali, offrendo monitoraggio costante del software caricato.</dd>
+    
     <dt>Controllo di Versione (Version Control)</dt>
-    <dd>Quando i server sono configurati tramite modelli software di Infrastructure as Code (IaC), lo strumento più adatto per tracciare e tenere storicizzate le modifiche al codice di build è un applicativo di **Version Control (Controllo di Versione - es. Git)**.</dd>
+    <dd>Quando i server sono configurati tramite modelli software di Infrastructure as Code (IaC), lo strumento più adatto per tracciare e tenere storicizzate le modifiche al codice di build è un applicativo di <strong>Version Control (Controllo di Versione - es. Git)</strong>.</dd>
+    
     <dt>Bonifica (Wiping) dei Laptop pensionati</dt>
-    <dd>Per impedire il furto di dati dei clienti conservati all'interno di hard disk appartenenti a laptop dismessi (pensionati/decommissionati), il metodo più efficiente per costi e scalabilità che azzera i rischi è procedere al **Wiping (Sovrascrittura sicura dei dati del disco)** rispetto alla più costosa frammentazione o distruzione fisica del bene aziendale riutilizzabile.</dd>
+    <dd>Per impedire il furto di dati dei clienti conservati all'interno di hard disk appartenenti a laptop dismessi (pensionati/decommissionati), il metodo più efficiente per costi e scalabilità che azzera i rischi è procedere al <strong>Wiping (Sovrascrittura sicura dei dati del disco)</strong> rispetto alla più costosa frammentazione o distruzione fisica del bene aziendale riutilizzabile.</dd>
+
+    <dt>USB Security &amp; Disable USB Ports (Sicurezza e Disabilitazione Porte USB)</dt>
+    <dd>L'insieme dei controlli atti a inibire fisicamente o logicamente l'accesso alle interfacce USB. La <strong>Disabilitazione delle porte USB</strong> viene imposta tramite Group Policy (GPO) o piattaforme EDR/MDM, impedendo l'allaccio di memorie di massa esterne. Questo riduce la superficie d'attacco rispetto all'esfiltrato abusivo di dati legali e blocca la propagazione automatica di worm e Trojan.</dd>
+
+    <dt>Electrostatic Discharge (ESD — Scariche Elettrostatiche)</dt>
+    <dd>Il rilascio improvviso di elettricità statica accumulata sul corpo umano o su oggetti conduttori. Anche una scarica impercettibile all'uomo è sufficiente a fondere o danneggiare permanentemente i preziosi circuiti integrati dei server (CPU, RAM, schede PCI) durante le ispezioni o manutenzioni hardware interne.</dd>
+
+    <dt>Antistatic Wrist Strap (Braccialetto Antistatico)</dt>
+    <dd>Braccialetto indossato dal tecnico e collegato tramite un cavo metallico a una presa di messa a terra dell'armadio rack del server. Sotto il profilo preventivo, devia continuamente a terra l'elettricità statica del corpo, azzerando i rischi di incidenti legati alle <strong>ESD</strong> sulle componenti microelettroniche.</dd>
   </dl>
 </section>
 
@@ -988,7 +1338,7 @@ function openQuiz(){setupEl.style.display='block';contentEl.style.display='none'
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
   function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1094,5 +1444,6 @@ overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();
 </script>
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

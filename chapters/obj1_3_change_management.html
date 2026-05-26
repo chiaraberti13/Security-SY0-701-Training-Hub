@@ -677,7 +677,7 @@
 (function () {
   const Q = [
     {
-      id: 'SCREEN_013',
+      id:'SCREEN_013', source:'TL',
       text: 'A technician needs to apply a high-priority patch to a production system. Which of the following steps should be taken first?',
       opts: [
         { id: 'A', t: 'Air gap the system', c: false },
@@ -688,7 +688,7 @@
       expl: 'Anche per una patch ad alta priorità, il primo passo obbligatorio è creare una change control request. Il processo di change management viene prima dell\'azione tecnica, anche in caso di urgenza.'
     },
     {
-      id: 'SCREEN_017',
+      id:'SCREEN_017', source:'TL',
       text: 'Which of the following describes effective change management procedures?',
       opts: [
         { id: 'A', t: 'Approving the change after a successful deployment', c: false },
@@ -699,7 +699,7 @@
       expl: 'Un backout plan è il requisito fondamentale di un change management efficace: garantisce che il sistema possa essere ripristinato allo stato precedente se la modifica fallisce. Approvare dopo il deployment è troppo tardi. Il bypass automatico elimina il controllo. Il foglio di calcolo non è una soluzione scalabile.'
     },
     {
-      id: 'SCREEN_088',
+      id:'SCREEN_088', source:'TL',
       text: 'Which of the following should a security administrator adhere to when setting up a new set of firewall rules?',
       opts: [
         { id: 'A', t: 'Disaster recovery plan', c: false },
@@ -882,7 +882,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1010,5 +1010,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

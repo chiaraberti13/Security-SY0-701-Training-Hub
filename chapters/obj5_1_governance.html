@@ -53,6 +53,7 @@
       <nav class="toc-sticky" aria-label="Indice del capitolo">
         <div class="toc-section">Strumenti di Governance</div>
         <a href="#gov_docs">Politiche, Standard, Linee Guida e SOP</a>
+        <a href="#gov_structures_external">Strutture di Governance & Considerazioni</a>
         <a href="#aup_expectations">Politica d'Utilizzo Accettabile (AUP)</a>
         <a href="#nda_conflict">Accordi di Riservatezza & Conflitti d'Interesse</a>
         <a href="#personnel_security">Sicurezza del Personale (HR Security)</a>
@@ -95,12 +96,23 @@
             <dd>
               È un documento tecnico-operativo a grana finissima che descrive **passo-passo, in modo dettagliato ed esente da fraintendimenti logici**, come portare a termine un compito tecnico specifico di protezione o engineering.
               <br><br>
-              <strong>Applicazione delle SOP sulle Baseline:</strong> Un amministratore di sistema del reparto IT ricorre puntualmente a una **Standard Operating Procedure (SOP)** per garantire la conformità ad una baseline di sicurezza (Secure baseline) preconfigurata durante la delicata esecuzione degli aggiornamenti periodici delle patch software (Patch update).
+              <strong>Applicazione delle SOP sulle Baseline:</strong> Un amministratore di sistema del reparto IT ricorre puntualmente a una **Standard Operating Procedure (SOP)** per garantire la conformità ad una baseline di sicurezza (Secure baseline) preconfigurata durante la delicata esecuzione degli aggiornamenti periodici delle patch software (Patch update). Le procedure tipicamente includono:
+              <ul>
+                <li><strong>Gestione del Cambiamento (Change Management Procedures):</strong> Processi formali per richiedere, testare, approvare e documentare modifiche all'infrastruttura IT.</li>
+                <li><strong>Onboarding/Offboarding:</strong> Iter formali per registrare, istruire, fornire privilegi (Onboarding) e revocare istantaneamente privilegi ed accessi recuperando gli asset sensibili (Offboarding) ad impiegati o appaltatori.</li>
+                <li><strong>Playbooks (o Runbooks):</strong> Guide d'azione tecnico-operative pre-codificate che istruiscono passo-passo sui processi e sulle scelte che l'azienda deve seguire prima, durante e dopo uno specifico attacco o alterazione (es. playbook di risposta agli incidenti).</li>
+              </ul>
             </dd>
 
             <dt>Standard</dt>
             <dd>
-              Requisiti o schemi mandatori e misurabili che impongono l'uso di piattaforme, tecnologie o cifrari hardware/software uniformi all'interno dell'ecosistema aziendale (es. "Tutti i laptop aziendali devono impiegare BitLocker con AES-256").
+              Requisiti o schemi mandatori e misurabili che impongono l'uso di piattaforme, tecnologie, baselines o cifrari hardware/software uniformi all'interno dell'organizzazione. CompTIA Security+ esige la padronanza di quattro tipologie chiave di standard:
+              <ul>
+                <li><strong>Standard delle Password (Password Standards):</strong> Definiscono i criteri obbligatori per le credenziali degli utenti (es. lunghezza minima di 14 caratteri, complessità facoltativa, scadenza periodica e divieto di riutilizzo immediato tramite storico memorizzato).</li>
+                <li><strong>Standard di Controllo degli Accessi (Access Control Standards):</strong> Stabiliscono l'obbligatorietà di utilizzo di specifici modelli di autorizzazione (es. RBAC, ABAC o DAC) e l'applicazione vincolante del principio del minimo privilegio.</li>
+                <li><strong>Standard di Sicurezza Fisica (Physical Security Standards):</strong> Definiscono i controlli per monitorare e proteggere le infrastrutture, come l'uso di badge elettronici di prossimità, armadi di rete sotto chiave, telecamere TVCC e varchi di sicurezza controllati.</li>
+                <li><strong>Standard di Crittografia (Encryption Standards):</strong> Impongono gli algoritmi d'anonimizzazione dei dati consentiti per la protezione sia in transito (es. TLS 1.3, IPsec) sia a riposo (es. cifratura del disco tramite AES-256).</li>
+              </ul>
             </dd>
 
             <dt>Linee Guida (Guidelines)</dt>
@@ -108,6 +120,57 @@
               Insieme di suggerimenti flessibili e non obbligatori che indicano buone abitudini o best practices nell'adempimento di determinati contesti sensibili alle variazioni d'uso.
             </dd>
           </dl>
+        </section>
+
+        <!-- ══ STRUTTURE DI GOVERNANCE E CONSIDERAZIONI ESTERNE ═════ -->
+        <section id="gov_structures_external">
+          <h2>Strutture di Governance, Revisione e Considerazioni Esterne</h2>
+          <p>
+            I programmi di governance operano a tutti i livelli dell'azienda per coordinarsi con i piani strategici, legali e normativi. Ciò avviene attraverso strutture organizzative precise e l'analisi continua del perimetro geografico ed economico in cui opera l'entità giuridica.
+          </p>
+
+          <fieldset class="framework-box">
+            <legend>🔬 Tipi di Strutture di Governance (Governance Structures)</legend>
+            <p>Le attività decisionali e di supervisione dell'IT e della sicurezza sono dettate da differenti organi direttivi e modelli organizzativi:</p>
+            <ul>
+              <li><strong>Consigli d'Amministrazione (Boards):</strong> Consiglio formato da amministratori (preferibilmente indipendenti) eletti direttamente dagli azionisti. Rappresenta l'autorità ultima aziendale a livello strategico e nomina il CEO.</li>
+              <li><strong>Comitati (Committees):</strong> Organi interni più focalizzati, formati da Subject Matter Experts (SME) e manager (es. comitato di audit o comitato per la sicurezza delle informazioni), che supervisionano e deliberano su specifiche discipline.</li>
+              <li><strong>Entità Governative (Government Entities):</strong> Enti pubblici nazionali o internazionali di regolamentazione che sovrintendono alle buone pratiche generali del mercato e emettono standard obbligatori o sanzioni penali.</li>
+              <li><strong>Strutture Centralizzate vs. Decentralizzate:</strong> 
+                <ul>
+                  <li>Una <strong>Governance Centralizzata (Centralized)</strong> colloca l'intera catena di responsabilità e le infrastrutture critiche sotto un unico nucleo aziendale centralizzato (migliora consistenza e controllo).</li>
+                  <li>Una <strong>Governance Decentralizzata (Decentralized)</strong> distribuisce l'autorità ed i carichi tecnologici tra più business unit o fornitori differenti, riducendo i singoli punti di cedimento sistemici (Single Point of Failure) e concedendo flessibilità locale.</li>
+                </ul>
+              </li>
+            </ul>
+          </fieldset>
+
+          <div class="focused-concept">
+            <strong>Considerazioni Esterne (External Considerations):</strong><br>
+            Le decisioni del team di sicurezza non dipendono unicamente da logiche proprietarie o commerciali, bensì dall'allineamento con molteplici contesti di conformità e giurisdizione:
+            <ul style="margin-top: 10px;">
+              <li><strong>Regolamentari (Regulatory):</strong> Norme prescrittive emesse da autorità ufficiali di settore (es. enti di regolamentazione federali o di mercato finanziario) che impongono precisi controlli obbligatori a pena di sanzioni immediate.</li>
+              <li><strong>Legali (Legal):</strong> Leggi civili e penali applicabili all'organizzazione o giurisdizioni penali sui dati personali che stabiliscono precise responsabilità legali e obblighi di riservatezza (liability).</li>
+              <li><strong>di Settore o Industriali (Industry):</strong> Standard qualitativi di settore non emessi dallo Stato ma de facto obbligatori per compiere transazioni d'affari (es. standard PCI DSS per i gestori di carte di pagamento).</li>
+              <li><strong>Geografia e Giurisdizione (Local/regional, National, Global):</strong> Le norme e i requisiti di tutela dei dati variano enormemente in base al posizionamento fisico dei server, del fornitore cloud e dell'utenza. L'azienda risponde cumulativamente a requisiti <strong>locali/regionali</strong> (es. singole regioni o stati), <strong>nazionali</strong> (leggi dello Stato sovrano) e <strong>globali</strong> (normative sovranazionali, es. il GDPR per utenti UE o accordi di trasferimento dati transfrontalieri).</li>
+            </ul>
+          </div>
+
+          <div class="critical">
+            <strong>Monitoraggio e Revisione (Monitoring and revision):</strong><br>
+            La governance è un ciclo dinamico, non un'attività una tantum. I requisiti normativi esterni e il paesaggio delle minacce mutano costantemente. L'azienda deve implementare processi formali di **monitoring and revision** per verificare su base ricorrente la reale efficacia delle politiche rispetto ai nuovi contesti legali, aggiornando i processi decisionali qualora si riscontrino mutamenti o fallimenti operativi primari (es. riallineamento dei pagamenti a seguito di violazioni).
+          </div>
+
+          <div class="note-box" style="margin-top: 24px;">
+            <strong>Impatto Strategico e di Business dei Fallimenti di Governance:</strong>
+            <p style="margin-top: 10px; margin-bottom: 8px;">
+              L'omissione di un controllo di conformità o una cattiva formulazione delle politiche di sicurezza espongono l'organizzazione a gravi ripercussioni d'impresa, tra cui:
+            </p>
+            <ul style="margin-left: 20px; line-height: 1.6;">
+              <li><strong>Perdita Finanziaria (Financial Loss)</strong>: Il danno economico diretto derivante da interruzioni di servizio, incidenti informatici, salti di fatturazione, ritorsioni di attori ostili o pesanti sanzioni pecuniarie comminate dalle agenzie di controllo (es. violazioni delle normative sulla privacy come il GDPR).</li>
+              <li><strong>Violazione della Conformità delle Licenze (License Compliance Violation)</strong>: L'utilizzo non autorizzato, non regolamentato o in eccedenza di software commerciali o moduli di terze parti al di fuori del numero di licenze d'uso contrattualizzate. Questa debolezza, rilevata durante audit e ispezioni di conformità, espone l'azienda a cause legali civili e a pesanti penali economiche retroattive.</li>
+            </ul>
+          </div>
         </section>
 
         <!-- ══ SEZIONE 2 — POLITICA D'UTILIZZO ACCETTABILE (AUP) ════ -->
@@ -222,19 +285,24 @@
               Figura apicale di business preposta a **individuare i rischi associati e a definire i livelli corretti di accesso** alla risorsa informativa. Stabilisce i criteri di riservatezza, classifica i contenuti e sanziona l'autorizzazione all'accesso logico dei dipendenti.
             </dd>
 
-            <dt>Custode dei Dati (Data Custodian)</dt>
+            <dt>Custode dei Dati (Data Custodian / Custodian)</dt>
             <dd>
               Figura tecnica (es. SysAdmin, Database Administrator o addetto alla sicurezza fisica) preposta ad applicare e attuare materialmente le tutele tecnologiche, i sistemi di cifratura, i backup ed a garantire che gli **standard di conservazione dei dati (data retention standards)** definiti dall'Owner siano fedelmente realizzati a livello applicativo sul perimetro aziendale.
             </dd>
 
-            <dt>Titolare del Trattamento (Data Controller)</dt>
+            <dt>Steward dei Dati (Data Steward / Steward)</dt>
+            <dd>
+              Figura aziendale preposta a curare la **qualità logica dei dati, la consistenza dei metadati, la conformità agli schemi e la semantica organizzativa dei dati** (assicura che siano ben formati, puliti, comprensibili e coerenti con le politiche d'uso d'impresa). Mientras il <em>Custodian</em> agisce sui bit e sull'architettura tecnica di memorizzazione fisica, lo <em>Steward</em> si focalizza sulla correttezza applicativa dei contenuti e del loro significato.
+            </dd>
+
+            <dt>Titolare del Trattamento (Data Controller / Controller)</dt>
             <dd>
               L'entità giuridica d'impresa che stabilisce in autonomia le finalità ed i severi metodi di trattamento e conservazione logica dei dati personali dei consumatori (es. conformemente ai requisiti europei del GDPR).
             </dd>
 
-            <dt>Responsabile del Trattamento (Data Processor)</dt>
+            <dt>Responsabile del Trattamento (Data Processor / Processor)</dt>
             <dd>
-              La ditta fornitrice terza che tratta i suddetti dati materiali strettamente per conto e sotto le espresse indicazioni stabilite dal Data Controller iniziale.
+              La ditta fornitrice terza (es. un provider cloud o SaaS) che tratta i suddetti dati materiali strettamente per conto e sotto le espresse indicazioni stabilite dal Data Controller iniziale.
             </dd>
           </dl>
         </section>
@@ -790,7 +858,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -918,5 +986,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

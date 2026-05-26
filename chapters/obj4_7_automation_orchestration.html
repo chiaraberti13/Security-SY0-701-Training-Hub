@@ -64,6 +64,11 @@
         <a href="#playbooks_runbooks">Playbook e Runbook</a>
         <a href="#alert_tuning">Tuning delle Regole & Log Applicativi</a>
 
+        <div class="toc-section">Casi d'Uso & Benefici</div>
+        <a href="#automation_usecases">Casi d'Uso dell'Automazione</a>
+        <a href="#automation_benefits">Benefici dell'Automazione</a>
+        <a href="#automation_considerations">Sfide e Considerazioni</a>
+
         <div class="toc-section">Casi di Cleanup</div>
         <a href="#ca_patching">Patching di Emergenza della CA</a>
         <a href="#wpa3_sae">WPA3 e Sicurezza Password-Based</a>
@@ -140,7 +145,97 @@
           </div>
         </section>
 
-        <!-- ══ SEZIONE 5 — CASI DI CLEANUP E INDAGINI PKI ════════ -->
+        <!-- ══ SEZIONE 5 — CASI D'USO DELL'AUTOMAZIONE E SCRIPTING ══ -->
+        <section id="automation_usecases">
+          <h2>Casi d'Uso dell'Automazione e dello Scripting</h2>
+          <p>
+            L'integrazione di script e processi orchestrati a livello centrale consente alle organizzazioni di supportare operazioni di sicurezza massive e immuni all'errore umano. Di seguito si analizzano i principali casi d'uso:
+          </p>
+          <dl class="termlist">
+            <dt>User Provisioning (Provisioning degli Utenti)</dt>
+            <dd>Creazione, profilazione e popolamento automatico degli account utente e dei gruppi di sicurezza (es. in Active Directory o Azure/Entra ID) sincronizzati con i sistemi HR di onboarding di impresa. Elimina le configurazioni errate manuali.</dd>
+
+            <dt>Resource Provisioning (Provisioning delle Risorse)</dt>
+            <dd>Allocazione programmata e sicura di macchine virtuali, database e storage nel cloud in base a template pre-validati di hardening, riducendo le falle introdotte da deploy improvvisati.</dd>
+
+            <dt>Guard Rails (Guard rail logici strutturali)</dt>
+            <dd>Criteri automatici di configurazione e policy restrittive che vigilano l'ambiente cloud e applicativo. Se una risorsa devia dalle regole stabilite (es. se un utente apre accidentalmente un bucket S3 ad accesso pubblico), il guard rail interviene in millisecondi ri-configurando e blindando la risorsa.</dd>
+
+            <dt>Security Groups (Aggiornamento dinamico dei Gruppi di Sicurezza)</dt>
+            <dd>Modifica automatica delle regole firewall cloud (Security Groups) o delle ACL di rete quando un allarme (es. trigger EDR) individua un host anomalo. Il sistema esclude l'host isolando i flussi di rete vulnerabili.</dd>
+
+            <dt>Ticket Creation (Creazione automatica dei Ticket)</dt>
+            <dd>Apertura automatica di incidenti gestionali (es. su Jira Service Desk, ServiceNow) non appena un allarme severo scatta nel SIEM, precompilando tutti i dettagli tecnici cruciali dell'IoC (IP, hash, host).</dd>
+
+            <dt>Escalation (Escalation automatica delle Allarmistiche)</dt>
+            <dd>Inoltro progressivo e tempestivo dell'allarme ad analisti L2, L3 o al team IR se un incidente non riceve riscontro entro i limiti temporali concordati (SLA) o se la gravità dell'IoC scala oltre determinate soglie di minaccia.</dd>
+
+            <dt>Enabling/Disabling Services & Access (Abilitazione/Disabilitazione di Servizi e Accessi)</dt>
+            <dd>Disattivazione proattiva di porte fisiche di switch, rimozione di chiavi API sospette e blocco sistematico (disabling) di account utente reputati sotto attacco per arrestare tentativi di esfiltrazione dati.</dd>
+
+            <dt>Continuous Integration and Testing (CI/CD - Integrazione e Test Continui)</dt>
+            <dd>Scansione automatica e dinamica del codice sorgente di un'applicazione (SAST/DAST/Dependency Scanning) inserita all'interno della pipeline di sviluppo del software, approvando il deploy in produzione esclusivamente se esente da falle di sicurezza note.</dd>
+
+            <dt>Integrations & APIs (Integrazioni e Interfacce di Programmazione)</dt>
+            <dd>L'uso di interfacce standardizzate API costituisce il collante indispensabile per consentire l'interazione tra differenti vendor e sili informativi (es. far comunicare il firewall di rete aziendale con il database di Threat Intelligence globale tramite chiamate API esterne).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 6 — BENEFICI DELL'AUTOMAZIONE NELLE SECURITY OPERATIONS ══ -->
+        <section id="automation_benefits">
+          <h2>Benefici dell'Automazione nel SOC</h2>
+          <p>
+            Riconfigurare e sbloccare flussi di lavoro automatici produce miglioramenti tangibili per la postura complessiva di sicurezza dell'azienda:
+          </p>
+          <dl class="termlist">
+            <dt>Efficiency/Time Saving (Efficienza e risparmio di tempo)</dt>
+            <dd>Sgravare gli ingegneri SOC da compiti logico-ripetitivi consente di velocizzare la lavorazione delle attività amministrative e concentrare l'attenzione su investigazioni complesse.</dd>
+
+            <dt>Enforcing Baselines (Applicazione rigida delle Baseline)</dt>
+            <dd>Assicura che qualsiasi server o laptop configurato in azienda rispetti fedelmente le baseline di hardening stabilite, correggendo in modo proattivo le configurazioni difformi.</dd>
+
+            <dt>Standard Infrastructure Configurations (Configurazioni infrastrutturali standard)</dt>
+            <dd>L'adozione dell'<strong>Infrastructure as Code (IaC)</strong> consente di definire reti, VLAN e firewall tramite file di configurazione, eliminando adempimenti non conformi o differenze strutturali imprevedibili o "configuration drift".</dd>
+
+            <dt>Scaling in a Secure Manner (Scalabilità Sicura)</dt>
+            <dd>Permette a un'infrastruttura di ampliare a dismisura le proprie risorse in cloud (es. picchi stagionali di carico) ereditando automaticamente tutte le regole e i controlli protettivi preimpostati.</dd>
+
+            <dt>Employee Retention (Fidelizzazione dei dipendenti e prevenzione del Burnout)</dt>
+            <dd>I tassi di abbandono dei SOC sono storicamente alti a causa del burnout da compiti noiosi e alert fatigue. L'automazione elimina la polvere del lavoro ripetitivo, migliorando la soddisfazione professionale dello staff.</dd>
+
+            <dt>Reaction Time (Abbattimento dei tempi di reazione)</dt>
+            <dd>Un analista umano impiega decine di minuti per leggere un allarme, investigare, loggarsi sul firewall o Active Directory ed isolare una macchina compromessa. L'automazione esegue questa severa risposta in **millesimi di secondo**, contenendo l'infezione sul nascere.</dd>
+
+            <dt>Workforce Multiplier (Moltiplicatore delle forze)</dt>
+            <dd>Elemento cardine che trasforma un piccolo team SOC sguarnito in uno scudo impenetrabile, rendendolo capace di monitorare e neutralizzare migliaia di attacchi paralleli senza dover triplicare gli organici fisici.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 7 — SFIDE E CONSIDERAZIONI SULL'AUTOMAZIONE ════ -->
+        <section id="automation_considerations">
+          <h2>Sfide e Considerazioni nell'uso dell'Automazione</h2>
+          <p>
+            L'adozione di script ed automazioni non è esente da pericoli strutturali, rischi operativi e limitazioni sistematiche:
+          </p>
+          <dl class="termlist">
+            <dt>Complexity (Complessità ed Errori logici)</dt>
+            <dd>I playbook e le pipeline automatizzate creano un ecosistema contorto. Un difetto logico di programmazione in un playbook può bloccare il traffico legittimo aziendale scambiandolo per un attacco informatico, paralizzando l'impresa (es. quarantene di massa accidentali).</dd>
+
+            <dt>Cost (Costi di adozione ed esercizio)</dt>
+            <dd>Adottare piattaforme di orchestrazione (SOAR) e ingegnerizzare playbook validati richiede elevati costi vivi iniziali di licenza, consulenza professionale e formazione del personale.</dd>
+
+            <dt>Single Point of Failure (SPOF - Singolo Punto di Vulnerabilità)</dt>
+            <dd>Se il server di automazione centrale o l'account privilegiato di orchestrazione (che detiene credenziali amministrative straordinarie su switch, cloud e macchine client) viene compromesso, l'attaccante acquisisce all'istante le chiavi dell'intero regno, oppure se va offline, disabilita ogni capacità di reazione del SOC.</dd>
+
+            <dt>Technical Debt (Debito Tecnico residuale)</dt>
+            <dd>Si accumula quando si impiegano script e codici scritti in fretta per contenere minacce contingenti, senza documentarli o normalizzarli. Con il tempo, questi script diventano moduli orfani ingovernabili.</dd>
+
+            <dt>Ongoing Supportability (Supportabilità e Manutenzione continuativa)</dt>
+            <dd>I vendor cloud e gli standard cambiano costantemente. Le integrazioni API e i runbook tecnici devono essere continuativamente monitorati, testati e manutenuti per evitare che smettano di funzionare proprio nel momento critico d'emergenza.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 8 — CASI DI CLEANUP E INDAGINI PKI ════════ -->
         <section id="ca_patching">
           <h2>Gestione Post-Attacco: Patching della CA</h2>
           <p>
@@ -519,7 +614,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -647,5 +742,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

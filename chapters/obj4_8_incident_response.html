@@ -131,25 +131,36 @@
           </dl>
         </section>
 
-        <!-- ══ SEZIONE 4 — ESERCITAZIONI TABLETOP ═════════════════ -->
+        <!-- ══ SEZIONE 4 — ADDESTRAMENTO E TESTING DEI PIANI ═══════ -->
         <section id="tabletop_exercises">
-          <h2>Strumenti di Convalida ed Addestramento: Le Tabletop Exercise</h2>
+          <h2>Addestramento (Training) e Standard di Testing (Testing)</h2>
           <p>
-            Un Incident Response Plan (IRP) ha poco valore pratico se il personale chiave non è stato addestrato ad applicarlo in condizioni stressanti.
+            Un piano di risposta agli incidenti (Incident Response Plan - IRP) e i relativi playbook hanno scarso valore se il personale chiave non viene addestrato con continuità ad applicarli in condizioni di forte stress organizzativo.
           </p>
 
-          <div class="focused-concept">
-            <strong>Tabletop Exercises (Esercitazioni da Tavolo):</strong><br>
-            Una Tabletop Exercise è una simulazione formale, verbale e discussiva in cui i rappresentanti dei dipartimenti chiave d'azienda (dirigenti, legali, tecnici, pubbliche relazioni) si riuniscono verbalmente per esaminare uno scenario d'attacco ipotetico.
-            <br><br>
-            <strong>Caratteristiche e Obiettivi Fondamentali:</strong>
-            <ul>
-              <li><strong>Obiettivo di fondo</strong>: Familiarizzare compiutamente i partecipanti con il piano di risposta all'incidente e i rispettivi ruoli.</li>
-              <li><strong>Metodologia</strong>: Si svolge a parole in modo pianificato (es: intorno a un tavolo in riunione ufficiale), confrontando e coordinando le reazioni all'attacco.</li>
-              <li><strong>Riconfigurazione dei Piani</strong>: Serve all'organizzazione cyber per scovare discrepanze o buchi procedurali e provvedere prontamente ad <strong>aggiornare l'Incident Response Plan (IRP)</strong>.</li>
-              <li><strong>Timing ideale</strong>: Costituisce il passaggio logico immediatamente successivo all'introduzione di nuovi playbook o dopo la revisione critica della documentazione aziendale di sicurezza.</li>
-            </ul>
-          </div>
+          <dl class="termlist">
+            <dt>Incident Response Training (Addestramento del Personale)</dt>
+            <dd>Il processo continuo che assicura che ciascun dipendente (sia tecnico che dirigenziale o di reparto esterno come l'ufficio legale, HR e PR) comprenda i propri compiti specifici e sappia come allertare o escalare un incidente informatico. Questo include l'onboarding di sicurezza, i briefing periodici e la familiarizzazione con la catena di comando.</dd>
+
+            <dt>Tabletop Exercises (Esercitazioni da Tavolo / Verbali)</dt>
+            <dd>Una discussione informale e facilitata in cui i rappresentanti dei dipartimenti chiave d'azienda (C-Level, legali, SOC manager, relazioni esterne) si riuniscono fisicamente o virtualmente attorno a un tavolo. Viene presentato uno scenario ipotetico di attacco e si discute verbalmente la risposta appropriata secondo il piano aziendale.
+              <ul>
+                <li><strong>Obiettivo</strong>: Familiarizzare i partecipanti con l'IRP e i rispettivi ruoli, svelando "buchi" di coordinamento o incomprensioni procedurali.</li>
+                <li><strong>Outcome</strong>: Si conclude con raccomandazioni formali usate per <strong>aggiornare e riallineare l'Incident Response Plan (IRP)</strong> senza testare attivamente server o impattare la produzione.</li>
+              </ul>
+            </dd>
+
+            <dt>Simulations (Simulazioni Interattive / Live-Fire)</dt>
+            <dd>Un test pratico operato su sistemi reali o in ambienti di laboratori "sandbox" dove il personale tecnico affronta attacchi simulati in tempo reale (ad esempio attività coordinate Red Team vs Blue Team o infezioni fittizie di malware attivo).
+              <ul>
+                <li><strong>Obiettivo</strong>: Misurare e valutare la prontezza tecnica, le capacità analitiche di isolamento, la rapidità d'esecuzione dei runbook e la reattività dei sistemi difensivi di fronte a minacce realistiche e non preannunciate.</li>
+                <li><strong>Differenza chiave</strong>: Mentre il <em>Tabletop</em> è prettamente teorico e verbale (strategico), la <em>Simulation</em> è un'attività hands-on ad alta fedeltà tecnologica (operativo).</li>
+              </ul>
+            </dd>
+
+            <dt>Walkthroughs (Scansioni Procedurali Guidate)</dt>
+            <dd>Incontri strutturati in cui i membri del team di risposta esaminano passo-passo ogni singola riga di un playbook per verificare se i comandi, i contatti e i flussi logici descritti siano tuttora applicabili e agganciati ai sistemi di produzione correnti.</dd>
+          </dl>
         </section>
 
         <!-- ══ SEZIONE 5 — THREAT HUNTING PROATTIVO ═══════════════ -->
@@ -166,24 +177,36 @@
           </p>
         </section>
 
-        <!-- ══ SEZIONE 6 — FORENSICS E CHAIN OF CUSTODY ═══════════ -->
+        <!-- ══ SEZIONE 6 — FORENSICS E PROCESSO INVESTIGATIVO ══════ -->
         <section id="chain_of_custody_pki">
           <h2>Integrità delle Prove e Investigazione Informatica (Digital Forensics)</h2>
           <p>
-            Durante lo svolgimento delle investigazioni informatiche su endpoint o server manomessi, ogni azione svolta dagli analisti deve preservare il reperto per eventuali procedimenti legali.
+            Durante lo svolgimento delle investigazioni informatiche su endpoint o server manomessi, ogni azione svolta dagli analisti forensi deve preservare meticolosamente i reperti e la telemetria raccolti secondo standard rigorosi e ripetibili. Il processo forense si delinea attraverso sei sotto-fasi critiche:
           </p>
 
           <dl class="termlist">
-            <dt>Chain of Custody (Catena di Custodia)</dt>
-            <dd>È il protocollo ufficiale deputato a documentare l'intera storia di vita delle prove digitali dal momento in cui vengono estratte fino alla presentazione in tribunale, annotando l'ora, il responsabile della presa di possesso e il luogo di custodia. La compilazione meticolosa della catena di custodia è indispensabile affinché le evidenze vengano reputate <strong>correttamente e validamente maneggiate</strong>.</dd>
-            
-            <dt>Data Preservation (Preservazione del Dato)</dt>
-            <dd>È una prassi cardine volta ad <strong>assicurare l'integrità formale della prova crittografica</strong> prima e dopo l'acquisizione (ad esempio l'esecuzione di una copia bit-a-bit protetta da hash immodificabile per evitare la corruzione dei metadati fisici sui dischi fissi).</dd>
+            <dt>1. Acquisition (Acquisizione)</dt>
+            <dd>Il processo di estrazione e cattura dei reperti digitali a caldo (RAM) o a freddo (hard disk fisici). Segue l'<strong>Order of Volatility (Ordine di volatilità)</strong>, partendo dai dati più labili come la memoria RAM (Memory Dump) prima dello spegnimento del computer, per concludersi con le copie logico-fisiche (Bit-stream Image) dei supporti tramite inibitori di scrittura hardware (Write Blockers).</dd>
+
+            <dt>2. Preservation (Preservazione)</dt>
+            <dd>Garantisce che la prova digitale non subisca modificazioni accidentali o dolose. Ogni immagine forense acquisita viene dotata di una firma crittografica univoca (MD5 o SHA-256) calcolata all'istante dell'acquisizione e verificata sistematicamente ad ogni successivo esame, assicurando l'integrità matematica assoluta.</dd>
+
+            <dt>3. Legal Hold (Conservazione Coattiva Legale)</dt>
+            <dd>Un'ingiunzione emessa dall'ufficio legale d'impresa o dalle autorità giudiziarie che ordina di sospendere immediatamente qualsiasi politica societaria o automatica di riciclo dati, archiviazione a rotazione o distruzione programmata di email, registrazioni e backup. Tutti i record correlati all'incidente vengono blindati indefinitamente per uso processuale.</dd>
+
+            <dt>4. Chain of Custody (Catena di Custodia)</dt>
+            <dd>Documento meticoloso che traccia cronologicamente l'intera "storia di vita" di una prova, dal momento esatto in cui viene reperita fino alla presentazione dinnanzi alle autorità. Specifica precisamente data e ora di ogni movimentazione, nome e firma del responsabile di custodia, finalità e luogo fisico di conservazione. Una catena di custodia inquinata o lacunosa inficia l'ammissibilità legale delle prove.</dd>
+
+            <dt>5. E-Discovery (Electronic Discovery)</dt>
+            <dd>Il processo sistematico di localizzazione, identificazione, raccolta e fornitura di informazioni memorizzate elettronicamente (ESI - Electronically Stored Information) in risposta a requisiti processuali o mandati legali legati a vertenze e data breach d'impresa.</dd>
+
+            <dt>6. Reporting (Rapporto Tecnico Forense)</dt>
+            <dd>La redazione finale di una relazione scritta formale, dettagliata, imparziale e adatta ai non-specialisti (C-Level, avvocati o giudici) che delinea con rigore scientifico le esecuzioni compite, la timeline dell'attacco cyber, le evidenze estratte e le conclusioni investigative certificate.</dd>
           </dl>
 
-          <div class="example-box font-mono text-sm">
+          <div class="focused-concept">
             <strong>Esempio Dinamico d'Esame — Password in Chiarofila:</strong><br>
-            Nel momento in cui un analista del SOC si avvede (tramite sessioni remote o registri) che un utente ha trascritto sul proprio computer un file in cui figurano in chiaro gli account email personali completi delle rispettive password, la prima azione da fare per isolare l'esposizione è consigliare all'utente di <strong>cambiare subito le password</strong>.
+            Nel momento in cui un analista si avvede (tramite sessioni remote o registri) che un utente ha erroneamente memorizzato sul proprio computer un file di testo contenente chiavi d'accesso private in chiaro, la prima misura pratica di rimedio consiste nel consigliare all'utente di <strong>cambiare immediatamente quelle password</strong>, prima di svolgere indagini post-mortem retrospettive.
           </div>
         </section>
 
@@ -960,7 +983,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -1088,5 +1111,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

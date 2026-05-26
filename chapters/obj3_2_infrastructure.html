@@ -134,6 +134,8 @@
     <dd>Il dispositivo è nel percorso del traffico e può intervenire (bloccare, modificare). Esempi: IPS, firewall, load balancer, WAF. Impatto diretto sulla disponibilità se si guasta.</dd>
     <dt>Passive / Tap</dt>
     <dd>Riceve una copia del traffico (via SPAN/mirror port). Solo osserva, non può bloccare. Nessun impatto sulle prestazioni. Esempi: IDS, packet sniffer, SIEM collector.</dd>
+    <dt>Dropped Packets (Pacchetti Scartati / Perdita di Pacchetti)</dt>
+    <dd>Pacchetti di rete scartati deliberatamente o accidentalmente a livello hardware o software. Un firewall inline può eseguire il "drop" (filtraggio silenzioso) di frame ritenuti malevoli o non autorizzati, facendoli sparire senza notificare l'host mittente. Può anche indicare congestione fisica sulla linea di rete o buffers dei socket saturi.</dd>
   </dl>
 
   <div class="example-box">
@@ -345,18 +347,54 @@
   </div>
 
   <div class="pitfall">
-    <strong>ATTENZIONE — VoIP: i protocolli</strong><br>
-    RTP, SIP, H.323, SRTP sono tutti protocolli <strong>VoIP</strong>. Regole firewall
-    per questi protocolli → supporto VoIP. Non confondere con RTOS, SoC, o HVAC.
+    <strong>ATTENZIONE — VoIP e PBX: i protocolli e l'infrastruttura fonica</strong><br>
+    RTP, SIP, H.323, SRTP sono tutti protocolli <strong>VoIP (Voice over IP)</strong>. Le regole del firewall che aprono o ispezionano queste porte sono adibite al traffico voce.
+    <br><br>
+    Un componente centrale di questa architettura è il <strong>PBX (Private Branch Exchange)</strong>, ossia il centralino telefonico aziendale. Un tempo sistema puramente analogico e isolato, oggi il PBX è interamente basato su IP (IP-PBX) ed integrato nella Intranet. Di conseguenza, eredita tutte le vulnerabilità di rete tradizionali, richiedendo specifiche misure di hardening (es. forti regole di autenticazione SIP, blocco del traffico internazionale non pianificato e crittografia forzata tramite SRTP) per evitare intrusioni e frodi telefoniche ad alto impatto economico.
+    <br><br>
+    Non confondere questi servizi telefonici ed enterprise con RTOS, SoC o HVAC.
+  </div>
+
+  <h3 id="sd-wan-sase">SD-WAN e SASE (Software-Defined WAN &amp; Secure Access Service Edge)</h3>
+  <p>
+    Nelle moderne architetture d'impresa, la connettività geografica si è evoluta oltre le tradizionali VPN site-to-site e i costosi circuiti MPLS:
+  </p>
+  <dl class="termlist">
+    <dt>SD-WAN (Software-Defined Wide Area Network)</dt>
+    <dd>Tecnologia che separa il piano di controllo (control plane) dal piano dati (data plane) nella gestione delle connessioni WAN. Invece di affidarsi ad hardware proprietario statico, SD-WAN gestisce dinamicamente il traffico instradandolo attraverso canali differenti (Fibra, LTE/5G, Internet commerciale) in base a criteri di costo, latenza e qualità del servizio (QoS). Ottimizza il routing del traffico, ma di per sé non implementa funzionalità di sicurezza avanzate come il filtraggio dei contenuti.</dd>
+
+    <dt>SASE (Secure Access Service Edge)</dt>
+    <dd>Modello di sicurezza che esegue la convergenza di funzionalità di rete avanzate (SD-WAN) e di sicurezza cloud-native (come FWaaS, CASB, ZTNA e SWG) all'interno di un unico servizio edge distribuito a livello globale nel cloud. Ideale per aziende con laboratori o workforce altamente decentralizzata, in quanto instrada e analizza il traffico localmente verso il nodo SASE più vicino invece di congestionare un concentratore VPN centrale.</dd>
+  </dl>
+  <div class="exam-tip">
+    <strong>EXAM TIP — SD-WAN vs SASE</strong><br>
+    Se lo scenario d'esame vi propone una forza lavoro totalmente distribuita e remota che necessita di filtraggio web e ispezione di sicurezza senza sovraccaricare la VPN centrale aziendale, pensate immediatamente a <strong>SASE</strong>. Se lo scenario menziona solo la necessità di ottimizzare e instradare in modo flessibile ed economico il traffico tra diverse succursali d'ufficio senza accennare a politiche integrate L7 di sicurezza web, la risposta corretta è <strong>SD-WAN</strong>.
   </div>
 
   <h3 id="zero-trust-net">Zero Trust per la rete enterprise</h3>
   <p>
-    "Secure zone + company-wide access control policy + reduce scope of threats"
-    = <strong>Zero Trust</strong>. Nessuna zona implicitamente fidata,
-    ogni accesso verificato, policy applicata consistentemente. Non è AAA (solo
-    autenticazione), non è CIA (principi dei dati).
+    Il paradigma <strong>Zero Trust Architecture (ZTA)</strong> si basa sul presupposto fondamentale che nessuna risorsa, utente o dispositivo debba godere di fiducia implicita, a prescindere dal fatto che si trovi all'interno o all'esterno del perimetro di rete dell'organizzazione.
   </p>
+  <ul>
+    <li><strong>Principi Chiave</strong>: Verifica esplicita e continuativa di ogni connessione (basata su identità, postura del dispositivo, posizione), adozione rigorosa del Least Privilege (privilegio minimo) e presupposto continuo di compromissione (Assume Breach), dividendo la rete in micro-segmenti difendibili.</li>
+    <li><strong>ZTNA (Zero Trust Network Access)</strong>: Fornisce agli utenti l'accesso esclusivo e granulare solo alle specifiche applicazioni di cui hanno bisogno, nascondendo completamente l'IP e il resto dell'infrastruttura di rete a chiunque si colleghi.</li>
+  </ul>
+
+  <h3 id="control-selection">Selezione dei controlli di sicurezza efficaci (Selection of Effective Controls)</h3>
+  <p>
+    La messa in sicurezza dell'infrastruttura enterprise richiede all'analista di saper selezionare il controllo (preventivo, investigativo, correttivo o compensativo) più adatto in relazione alle minacce ed ai vincoli operativi specifici del contesto:
+  </p>
+  <dl class="termlist">
+    <dt>Punti di decisione strategica</dt>
+    <dd>
+      <ul>
+        <li><strong>Proteggere siti Web esposti ad attacchi applicativi (SQLi, XSS)</strong>: La scelta d'elezione ricade su un <strong>WAF (Web Application Firewall)</strong> a livello 7, anziché su un semplice firewall di rete stateful a livello 4 o su un IDS/IPS generico.</li>
+        <li><strong>Isolare e tracciare le azioni degli hacker a scopi conoscitivi</strong>: Prediligere l'implementazione di <strong>Honeypots</strong> (sistemi esca), <strong>Honeynets</strong> (reti fittizie) o l'inserimento strategico di <strong>Honeyfiles / Honeytokens</strong> (finti record o file contenenti dati tracciabili) per catturare l'attività degli intrusi senza esporre i sistemi di produzione.</li>
+        <li><strong>Autenticazione all'accesso fisico in ambienti ad alto rischio (es: hall d'ingresso o reception)</strong>: Impiegare politiche di <strong>802.1X</strong> abbinate a server RADIUS o <strong>Port Security</strong> per bloccare preventivamente le porte ethernet inutilizzate.</li>
+        <li><strong>Protezione dei dati aziendali in uscita (Data Exfiltration)</strong>: Scegliere sistemi <strong>DLP (Data Loss Prevention)</strong> a livello di rete e macchine host, configurando filtri che riconoscono pattern sensibili o impronte protette (watermarking).</li>
+      </ul>
+    </dd>
+  </dl>
 </section>
 
 <!-- QUIZ -->
@@ -496,14 +534,14 @@
 <script>
 (function(){
 var Q=[
-{id:'SCREEN_020',text:'What is the primary purpose of implementing a DMZ (Demilitarized Zone) in a network architecture?',opts:[{id:'A',t:'To provide a secure area for sensitive internal resources',c:false},{id:'B',t:'To isolate and add an additional layer of security between the internal network and external network',c:true},{id:'C',t:'To enhance the performance of the internal network by offloading traffic',c:false},{id:'D',t:'To store backup data securely',c:false}],expl:'La DMZ crea una zona tampone tra internet e la rete interna. Ospita servizi pubblici (web, mail, DNS) proteggendo la rete interna: anche se un server DMZ viene compromesso, l\'attaccante non accede direttamente alla rete interna.'},
-{id:'SCREEN_037',text:'Which of these items are considered "unsecure" protocols? (Select three choices).',opts:[{id:'A',t:'Telnet',c:true},{id:'B',t:'SSH',c:false},{id:'C',t:'HTTP',c:true},{id:'D',t:'FTP',c:true}],expl:'Telnet, HTTP e FTP trasmettono dati (incluse credenziali) in chiaro, senza cifratura. SSH è sicuro (sostituisce Telnet). HTTPS è sicuro. SFTP/FTPS sostituiscono FTP.'},
-{id:'SCREEN_040',text:'Your monitoring system uses Telnet with credentials in a flat file. What are some reasons you would mandate switching to SSH? (Select two choices)',opts:[{id:'A',t:'Uses asymmetric keys for authentication',c:true},{id:'B',t:'Allows access to superuser commands',c:false},{id:'C',t:'Does not require the use of pre-shared keys',c:false},{id:'D',t:'Uses an encrypted connection',c:true}],expl:'SSH vs Telnet: (A) usa chiavi asimmetriche per l\'autenticazione (più sicuro delle credenziali in chiaro) e (D) cifra tutta la connessione. Anche Telnet permette comandi superuser (B non è specifico di SSH). SSH può usare pre-shared key (C è falso).'},
-{id:'SCREEN_043',text:'Your web application developers request affinity scheduling from the load balancers. Why does a web application benefit from affinity scheduling?',opts:[{id:'A',t:'Affinity scheduling can allow a user to stay logged in to a session instead of opening a new session each time they are sent to a new server host.',c:true},{id:'B',t:'Affinity scheduling allows the load balancer to move traffic to the closest server, reducing overall latency.',c:false},{id:'C',t:'Affinity scheduling reduces the total number of connections by offloading TLS operations.',c:false},{id:'D',t:'Affinity scheduling helps web servers know the source of the traffic.',c:false}],expl:'L\'affinity scheduling (sticky session) garantisce che le richieste di uno stesso utente vadano sempre allo stesso server backend. Critico per app stateful: senza affinity, ogni richiesta potrebbe andare a un server diverso che non ha la sessione, causando logout.'},
-{id:'SCREEN_050',text:'For security purposes, how are network hosts typically separated? (Select two choices).',opts:[{id:'A',t:'Functionally',c:false},{id:'B',t:'Logically',c:true},{id:'C',t:'Geographically',c:false},{id:'D',t:'Physically',c:true}],expl:'Gli host di rete vengono separati logicamente (VLAN, subnet, zone) e fisicamente (reti fisicamente separate, switch dedicati). La separazione funzionale e geografica non sono i criteri primari di sicurezza.'},
-{id:'SCREEN_061',text:'Which of the following is a software or hardware appliance responsible for balancing user requests and network traffic among several different physical or virtualized hosts?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Guest operating system',c:false},{id:'C',t:'Host operating system',c:false},{id:'D',t:'Hypervisor',c:false}],expl:'Il load balancer distribuisce il traffico tra più server. L\'hypervisor gestisce le VM su un singolo host fisico ma non bilancia il traffico di rete tra host diversi.'},
-{id:'SCREEN_076',text:'Which of the following would be the best way to handle a critical business application that is running on a legacy server?',opts:[{id:'A',t:'Segmentation',c:true},{id:'B',t:'Isolation',c:false},{id:'C',t:'Hardening',c:false},{id:'D',t:'Decommissioning',c:false}],expl:'Un\'applicazione critica su server legacy: non può essere dismessa né facilmente hardenita. La segmentazione la mantiene operativa isolandola in un segmento con accesso controllato. L\'isolamento totale impedirebbe l\'accesso agli utenti legittimi.'},
-{id:'SCREEN_094',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Con più server virtuali, il load balancer è il passo successivo: distribuisce il traffico, garantisce HA con failover automatico, permette scalabilità orizzontale.'},
+{id:'SCREEN_020', source:'TL',text:'What is the primary purpose of implementing a DMZ (Demilitarized Zone) in a network architecture?',opts:[{id:'A',t:'To provide a secure area for sensitive internal resources',c:false},{id:'B',t:'To isolate and add an additional layer of security between the internal network and external network',c:true},{id:'C',t:'To enhance the performance of the internal network by offloading traffic',c:false},{id:'D',t:'To store backup data securely',c:false}],expl:'La DMZ crea una zona tampone tra internet e la rete interna. Ospita servizi pubblici (web, mail, DNS) proteggendo la rete interna: anche se un server DMZ viene compromesso, l\'attaccante non accede direttamente alla rete interna.'},
+{id:'SCREEN_037', source:'TL',text:'Which of these items are considered "unsecure" protocols? (Select three choices).',opts:[{id:'A',t:'Telnet',c:true},{id:'B',t:'SSH',c:false},{id:'C',t:'HTTP',c:true},{id:'D',t:'FTP',c:true}],expl:'Telnet, HTTP e FTP trasmettono dati (incluse credenziali) in chiaro, senza cifratura. SSH è sicuro (sostituisce Telnet). HTTPS è sicuro. SFTP/FTPS sostituiscono FTP.'},
+{id:'SCREEN_040', source:'TL',text:'Your monitoring system uses Telnet with credentials in a flat file. What are some reasons you would mandate switching to SSH? (Select two choices)',opts:[{id:'A',t:'Uses asymmetric keys for authentication',c:true},{id:'B',t:'Allows access to superuser commands',c:false},{id:'C',t:'Does not require the use of pre-shared keys',c:false},{id:'D',t:'Uses an encrypted connection',c:true}],expl:'SSH vs Telnet: (A) usa chiavi asimmetriche per l\'autenticazione (più sicuro delle credenziali in chiaro) e (D) cifra tutta la connessione. Anche Telnet permette comandi superuser (B non è specifico di SSH). SSH può usare pre-shared key (C è falso).'},
+{id:'SCREEN_043', source:'TL',text:'Your web application developers request affinity scheduling from the load balancers. Why does a web application benefit from affinity scheduling?',opts:[{id:'A',t:'Affinity scheduling can allow a user to stay logged in to a session instead of opening a new session each time they are sent to a new server host.',c:true},{id:'B',t:'Affinity scheduling allows the load balancer to move traffic to the closest server, reducing overall latency.',c:false},{id:'C',t:'Affinity scheduling reduces the total number of connections by offloading TLS operations.',c:false},{id:'D',t:'Affinity scheduling helps web servers know the source of the traffic.',c:false}],expl:'L\'affinity scheduling (sticky session) garantisce che le richieste di uno stesso utente vadano sempre allo stesso server backend. Critico per app stateful: senza affinity, ogni richiesta potrebbe andare a un server diverso che non ha la sessione, causando logout.'},
+{id:'SCREEN_050', source:'TL',text:'For security purposes, how are network hosts typically separated? (Select two choices).',opts:[{id:'A',t:'Functionally',c:false},{id:'B',t:'Logically',c:true},{id:'C',t:'Geographically',c:false},{id:'D',t:'Physically',c:true}],expl:'Gli host di rete vengono separati logicamente (VLAN, subnet, zone) e fisicamente (reti fisicamente separate, switch dedicati). La separazione funzionale e geografica non sono i criteri primari di sicurezza.'},
+{id:'SCREEN_061', source:'TL',text:'Which of the following is a software or hardware appliance responsible for balancing user requests and network traffic among several different physical or virtualized hosts?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Guest operating system',c:false},{id:'C',t:'Host operating system',c:false},{id:'D',t:'Hypervisor',c:false}],expl:'Il load balancer distribuisce il traffico tra più server. L\'hypervisor gestisce le VM su un singolo host fisico ma non bilancia il traffico di rete tra host diversi.'},
+{id:'SCREEN_076', source:'TL',text:'Which of the following would be the best way to handle a critical business application that is running on a legacy server?',opts:[{id:'A',t:'Segmentation',c:true},{id:'B',t:'Isolation',c:false},{id:'C',t:'Hardening',c:false},{id:'D',t:'Decommissioning',c:false}],expl:'Un\'applicazione critica su server legacy: non può essere dismessa né facilmente hardenita. La segmentazione la mantiene operativa isolandola in un segmento con accesso controllato. L\'isolamento totale impedirebbe l\'accesso agli utenti legittimi.'},
+{id:'SCREEN_094', source:'TL',text:'A growing organization adds multiple virtual servers to improve performance. Which of the following solutions is the organization most likely to employ to further increase performance and availability?',opts:[{id:'A',t:'Load balancer',c:true},{id:'B',t:'Jump server',c:false},{id:'C',t:'Proxy server',c:false},{id:'D',t:'SD-WAN',c:false}],expl:'Con più server virtuali, il load balancer è il passo successivo: distribuisce il traffico, garantisce HA con failover automatico, permette scalabilità orizzontale.'},
 {id:'SCREEN_116',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Il jump server è il punto di accesso intermedio per amministrare sistemi in zone protette: il DBA si connette al jump server, poi da lì ai DB server. RADIUS è per AAA. HSM gestisce chiavi crittografiche.'},
 {id:'SCREEN_121',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Jump server = punto di accesso controllato per zone di rete separate e protette.'},
 {id:'SCREEN_133',text:'A company prevented direct access from the database administrators\' workstations to the network segment that contains database servers. Which of the following should a database administrator use to access the database servers?',opts:[{id:'A',t:'Jump server',c:true},{id:'B',t:'RADIUS',c:false},{id:'C',t:'HSM',c:false},{id:'D',t:'Load balancer',c:false}],expl:'Terza occorrenza. CompTIA enfatizza: accesso amministrativo a zona separata → jump server.'},
@@ -534,7 +572,7 @@ function openQuiz(){setupEl.style.display='block';contentEl.style.display='none'
 function startQuiz(mode){var n=mode==='quick'?15:Q.length,pool=shuffle(Q).slice(0,n);quiz={pool:pool,idx:0,score:0,locked:false};setupEl.style.display='none';contentEl.style.display='block';resultEl.style.display='none';render();}
   function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -640,5 +678,6 @@ overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuiz();}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeQuiz();});
 })();
 </script>
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>

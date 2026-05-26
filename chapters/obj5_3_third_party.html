@@ -75,9 +75,12 @@
 
         <!-- ══ SEZIONE 1 — VENDOR ASSESSMENT ══════════════════════ -->
         <section id="vendor_assessment">
-          <h2>La Valutazione del Rischio dei Fornitori (Vendor Assessment)</h2>
+          <h2>La Gestione e Valutazione dei Fornitori (Vendor Management &amp; Vendor Assessment)</h2>
           <p>
-            Nel panorama informatico moderno, le organizzazioni non sono entità isolate: utilizzano costantemente servizi in cloud (SaaS/IaaS), integrano software di sviluppatori indipendenti e delegano porzioni della propria operatività a partner industriali esterni. Questo amplia enormemente la superficie d'attacco. La <strong>Valutazione dei Fornitori (Vendor Assessment)</strong> è la disciplina deputata a indagare proattivamente la postura di sicurezza delle terze parti.
+            Nel panorama informatico moderno, le organizzazioni non sono entità isolate: utilizzano costantemente servizi in cloud (SaaS/IaaS), integrano software di sviluppatori indipendenti e delegano porzioni della propria operatività a partner industriali esterni. Questo amplia enormemente la superficie d'attacco ed espone i sistemi a gravi minacce esterne.
+          </p>
+          <p>
+            Per mitigare questi rischi, le aziende adottano un programma strutturato di <strong>Vendor Management (Gestione dei Fornitori)</strong>. Questa disciplina organizza l'intero ciclo di vita delle collaborazioni esterne, dalla fase di selezione iniziale (pre-boarding), alla negoziazione contrattuale, fino al costante monitoraggio prestazionale e alla dismissione sicura delle credenziali di accesso (off-boarding). La <strong>Valutazione dei Fornitori (Vendor Assessment)</strong> rappresenta il pilastro tecnologico e di conformità del Vendor Management, deputato a indagare proattivamente la postura di sicurezza delle terze parti.
           </p>
 
           <div class="critical">
@@ -450,18 +453,18 @@
   /* ── Dati quiz OBJ 5.3 (21 domande d'esame) ─────────────────── */
   const Q = [
     {
-      id: 'SCREEN_042',
+      id:'SCREEN_042', source:'TL',
       text: 'Which of the following concepts should be the most important consideration when determining how to budget properly for security controls?',
       opts: [
         { id: 'A', t: 'Threat of natural disasters', c: false },
         { id: 'B', t: 'Qualitative costs', c: false },
         { id: 'C', t: 'Risk likelihood and impact', c: true },
-        { id: 'D', t: 'Asset identification'Index, c: false }
+        { id: 'D', t: 'Asset identification', c: false }
       ],
       expl: 'La probabilità e l\'impatto del rischio (Risk likelihood and impact) consentono di stabilire in modo logico e strutturato come allocare le risorse finanziarie aziendali per i controlli di sicurezza, sventando danni catastrofici probabili.'
     },
     {
-      id: 'SCREEN_085',
+      id:'SCREEN_085', source:'TL',
       text: 'A client asked a security company to provide a document outlining the project, the cost, and the completion time frame. Which of the following documents should the company provide to the client?',
       opts: [
         { id: 'A', t: 'MSA', c: false },
@@ -472,7 +475,7 @@
       expl: 'Il SOW (Statement of Work) specifica rigidamente l\'architettura d\'ingaggio del singolo progetto erogativo, dettagliando i costi finali e le date scadenziate di consegna delle attività concordate.'
     },
     {
-      id: 'SCREEN_104',
+      id:'SCREEN_104', source:'TL',
       text: 'Your company is in the midst of negotiating a business partnership with an organization specializing in secure software development for the medical industry. The partner organization has requested proof that your organization is compliant with HIPAA data privacy standards. What type of documentation should you provide to the partner organization?',
       opts: [
         { id: 'A', t: 'Service-level agreement', c: false },
@@ -659,7 +662,7 @@
       expl: 'La Third-party attestation fornisce un documento neutrale ed ufficiale che formalizza l\'adeguato superamento e lo svolgimento regolare di rigorosi test di sicurezza della rete.'
     },
     {
-      id: 'SCREEN_693',
+      id:'SCREEN_693', source:'TL',
       text: 'A company has yearly engagements with a service provider. The general terms and conditions are the same for all engagements. The company wants to simplify the process and revisit the general terms every three years. Which of the following documents would provide the best way to set the general terms?',
       opts: [
         { id: 'A', t: 'MSA', c: true },
@@ -670,7 +673,7 @@
       expl: 'Il Master Service Agreement (MSA) accorpa legalmente tutte le clausole ed i termini contrattuali pregressi valevoli per ingaggi pluriennali successivi, demandando i singoli ordini rapidi a semplici Work Orders.'
     },
     {
-      id: 'SCREEN_733',
+      id:'SCREEN_733', source:'TL',
       text: 'Which of the following should an organization use to ensure that it can review the controls and performance of a service provider or vendor?',
       opts: [
         { id: 'A', t: 'Service-level agreement', c: false },
@@ -732,7 +735,7 @@
 
     function render() {
     var q = quiz.pool[quiz.idx], n = quiz.pool.length;
-    counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;
+    counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class="quiz-source-tag" style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
@@ -860,5 +863,6 @@ function showResult() {
 })();
 </script>
 
+<script src="../script/global-search.js" defer></script>
 </body>
 </html>
