@@ -60,6 +60,70 @@
       border-color: var(--teal);
     }
 
+    /* Custom Category Colors & Hover States (Theme-based) */
+    .cat-general {
+      --cat-bg: var(--dom1-bg);
+      --cat-fg: var(--dom1-fg);
+      --cat-border: var(--dom1-border);
+    }
+    .cat-crypto {
+      --cat-bg: #EEF2FF;
+      --cat-fg: #4F46E5;
+      --cat-border: #C7D2FE;
+    }
+    .cat-net {
+      --cat-bg: var(--dom3-bg);
+      --cat-fg: var(--dom3-fg);
+      --cat-border: var(--dom3-border);
+    }
+    .cat-iam {
+      --cat-bg: var(--dom4-bg);
+      --cat-fg: var(--dom4-fg);
+      --cat-border: var(--dom4-border);
+    }
+    .cat-ops {
+      --cat-bg: var(--dom5-bg);
+      --cat-fg: var(--dom5-fg);
+      --cat-border: var(--dom5-border);
+    }
+    .cat-gov {
+      --cat-bg: var(--dom2-bg);
+      --cat-fg: var(--dom2-fg);
+      --cat-border: var(--dom2-border);
+    }
+
+    /* Filter Tabs colors on hover and active states */
+    .filter-tab.cat-general:hover, .filter-tab.cat-general.active {
+      background: var(--dom1-bg) !important;
+      color: var(--dom1-fg) !important;
+      border-color: var(--dom1-fg) !important;
+    }
+    .filter-tab.cat-crypto:hover, .filter-tab.cat-crypto.active {
+      background: #EEF2FF !important;
+      color: #4F46E5 !important;
+      border-color: #4F46E5 !important;
+    }
+    .filter-tab.cat-net:hover, .filter-tab.cat-net.active {
+      background: var(--dom3-bg) !important;
+      color: var(--dom3-fg) !important;
+      border-color: var(--dom3-fg) !important;
+    }
+    .filter-tab.cat-iam:hover, .filter-tab.cat-iam.active {
+      background: var(--dom4-bg) !important;
+      color: var(--dom4-fg) !important;
+      border-color: var(--dom4-fg) !important;
+    }
+    .filter-tab.cat-ops:hover, .filter-tab.cat-ops.active {
+      background: var(--dom5-bg) !important;
+      color: var(--dom5-fg) !important;
+      border-color: var(--dom5-fg) !important;
+    }
+    .filter-tab.cat-gov:hover, .filter-tab.cat-gov.active {
+      background: var(--dom2-bg) !important;
+      color: var(--dom2-fg) !important;
+      border-color: var(--dom2-fg) !important;
+    }
+
     /* Alphabet Filter */
     .alpha-filter {
       display: flex;
@@ -129,7 +193,7 @@
     }
     .term-card {
       background: var(--white);
-      border: 1px solid var(--light-slate);
+      border: 1.5px solid var(--light-slate);
       border-radius: 8px;
       padding: 16px;
       transition: all 0.2s ease;
@@ -138,8 +202,8 @@
       justify-content: space-between;
     }
     .term-card:hover {
-      border-color: var(--teal);
-      box-shadow: 0 4px 10px rgba(15, 118, 110, 0.05);
+      border-color: var(--cat-fg, var(--teal));
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       transform: translateY(-1px);
     }
     .term-title {
@@ -153,7 +217,7 @@
       gap: 8px;
     }
     .term-acronym {
-      color: var(--teal);
+      color: var(--cat-fg, var(--teal));
       font-family: ui-monospace, monospace;
       font-size: 1.1rem;
       font-weight: 800;
@@ -183,9 +247,9 @@
       font-size: 0.72rem;
       text-transform: uppercase;
       font-weight: 700;
-      color: var(--white);
-      background: var(--slate);
-      padding: 2px 7px;
+      color: var(--cat-fg, var(--white));
+      background: var(--cat-bg, var(--slate));
+      padding: 3px 8px;
       border-radius: 4px;
     }
     
@@ -281,6 +345,7 @@
   </a>
   <div class="global-nav-links">
     <a href="index.html" class="global-nav-link">Home</a>
+    <a href="index.html#capitoli" class="global-nav-link">Guida</a>
     <a href="quizzes.html" class="global-nav-link">Quiz</a>
     <a href="glossario.html" class="global-nav-link active">Glossario</a>
     <a href="checklist.html" class="global-nav-link">Checklist</a>
@@ -304,12 +369,12 @@
     <!-- Category Tabs -->
     <div class="filter-tabs">
       <button class="filter-tab active" data-cat="all">Tutti i termini</button>
-      <button class="filter-tab" data-cat="general">Concetti Generali</button>
-      <button class="filter-tab" data-cat="crypto">Crittografia</button>
-      <button class="filter-tab" data-cat="net">Infrastruttura &amp; Rete</button>
-      <button class="filter-tab" data-cat="iam">Identità &amp; Accessi</button>
-      <button class="filter-tab" data-cat="ops">Operazioni &amp; IR</button>
-      <button class="filter-tab" data-cat="gov">Governance &amp; Rischio</button>
+      <button class="filter-tab cat-general" data-cat="general">Concetti Generali</button>
+      <button class="filter-tab cat-crypto" data-cat="crypto">Crittografia</button>
+      <button class="filter-tab cat-net" data-cat="net">Infrastruttura &amp; Rete</button>
+      <button class="filter-tab cat-iam" data-cat="iam">Identità &amp; Accessi</button>
+      <button class="filter-tab cat-ops" data-cat="ops">Operazioni &amp; IR</button>
+      <button class="filter-tab cat-gov" data-cat="gov">Governance &amp; Rischio</button>
     </div>
 
     <!-- Stats and Interactive options -->
@@ -13232,7 +13297,7 @@
     const catBadge = categoryBadgeMap[item.category] || item.category;
 
     return `
-      <div class="term-card">
+      <div class="term-card cat-${item.category}">
         <div>
           <div class="term-title">
             <span class="term-acronym">${titleText}</span>
@@ -13241,7 +13306,7 @@
           <p class="${defClass}">${item.def}</p>
         </div>
         <div class="term-meta">
-          <span class="term-category" style="background-color: var(--teal);">${catBadge}</span>
+          <span class="term-category">${catBadge}</span>
           ${sourceHtml}
         </div>
       </div>

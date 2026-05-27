@@ -542,21 +542,25 @@
     // Detect active page based on current filename
     const path = window.location.pathname.toLowerCase();
     
-    const isHome = path.endsWith('index.html') || path.endsWith('/') || (!path.includes('.html') && !path.includes('/chapters/'));
-    const isGuida = path.includes('checklist.html');
+    const isRootHome = path.endsWith('index.html') || path.endsWith('/') || (!path.includes('.html') && !path.includes('/chapters/'));
+    const isHome = isRootHome && !window.location.hash.includes('capitoli');
+    const isGuidaMenu = isRootHome && window.location.hash.includes('capitoli');
     const isQuiz = path.includes('quizzes.html');
     const isGlossario = path.includes('glossario.html');
+    const isChecklist = path.includes('checklist.html');
 
     const homeUrl = resolveLink('index.html');
-    const guidaUrl = resolveLink('checklist.html');
+    const guidaMenuUrl = resolveLink('index.html#capitoli');
     const quizUrl = resolveLink('quizzes.html');
     const glossarioUrl = resolveLink('glossario.html');
+    const checklistUrl = resolveLink('checklist.html');
 
     navLinksContainer.innerHTML = `
       <a href="${homeUrl}" class="global-nav-link${isHome ? ' active' : ''}">Home</a>
+      <a href="${guidaMenuUrl}" class="global-nav-link${isGuidaMenu ? ' active' : ''}">Guida</a>
       <a href="${quizUrl}" class="global-nav-link${isQuiz ? ' active' : ''}">Quiz</a>
       <a href="${glossarioUrl}" class="global-nav-link${isGlossario ? ' active' : ''}">Glossario</a>
-      <a href="${guidaUrl}" class="global-nav-link${isGuida ? ' active' : ''}">Checklist</a>
+      <a href="${checklistUrl}" class="global-nav-link${isChecklist ? ' active' : ''}">Checklist</a>
     `;
   }
 
@@ -565,6 +569,9 @@
     normalizeNavbar();
     injectSearchButton();
     setupKeyboardShortcuts();
+
+    // Re-normalize dynamic active classes when hash changes
+    window.addEventListener('hashchange', normalizeNavbar);
 
     // Auto-detect chapter and apply domain class to body for background/accent styling
     const path = window.location.pathname;

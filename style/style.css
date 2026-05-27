@@ -808,7 +808,7 @@ nav.toc-sticky a[href="#flashcard"] {
   gap: 8px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.ch-card:hover { border-color: var(--muted); box-shadow: var(--shadow-1); }
+.ch-card:hover { border-color: var(--dom-fg, var(--muted)); box-shadow: var(--shadow-1); }
 .ch-card.done {
   background: var(--surface);
   border-color: var(--dom-border, #A7F3D0);
@@ -1586,11 +1586,58 @@ nav.toc-sticky a[href="#flashcard"] {
   border-color: var(--muted);
   box-shadow: var(--shadow-1);
 }
+.intro-card.dom-1 {
+  background: var(--dom1-bg);
+  border-color: var(--dom1-border);
+}
+.intro-card.dom-1 .intro-card-icon {
+  background: transparent;
+  color: var(--dom1-fg);
+}
+.intro-card.dom-1:hover {
+  border-color: var(--dom1-fg);
+}
+.intro-card.dom-2 {
+  background: var(--dom2-bg);
+  border-color: var(--dom2-border);
+}
+.intro-card.dom-2 .intro-card-icon {
+  background: transparent;
+  color: var(--dom2-fg);
+}
+.intro-card.dom-2:hover {
+  border-color: var(--dom2-fg);
+}
+.intro-card.dom-3 {
+  background: var(--dom3-bg);
+  border-color: var(--dom3-border);
+}
+.intro-card.dom-3 .intro-card-icon {
+  background: transparent;
+  color: var(--dom3-fg);
+}
+.intro-card.dom-3:hover {
+  border-color: var(--dom3-fg);
+}
+.intro-card.dom-4 {
+  background: var(--dom4-bg);
+  border-color: var(--dom4-border);
+}
+.intro-card.dom-4 .intro-card-icon {
+  background: transparent;
+  color: var(--dom4-fg);
+}
+.intro-card.dom-4:hover {
+  border-color: var(--dom4-fg);
+}
+.intro-card .icon-svg {
+  color: inherit !important;
+}
 .intro-card-icon {
   margin-bottom: 12px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   width: 32px;
   height: 32px;
   border-radius: var(--radius-sm);
@@ -1689,8 +1736,9 @@ nav.toc-sticky a[href="#flashcard"] {
 }
 .guide-step .step-num {
   font-family: var(--font-mono);
-  background: var(--ink);
-  color: var(--white);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  color: var(--ink);
   font-weight: 600;
   font-size: 0.78rem;
   width: 24px;
@@ -1730,8 +1778,11 @@ nav.toc-sticky a[href="#flashcard"] {
 }
 
 .cta-btn {
-  display: inline-block;
-  padding: 9px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
   font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
@@ -1760,6 +1811,59 @@ nav.toc-sticky a[href="#flashcard"] {
   background: var(--surface-alt);
   border-color: var(--muted);
   color: var(--ink);
+}
+
+.cta-btn-dom1 {
+  background: var(--dom1-bg);
+  color: var(--dom1-fg);
+  border-color: var(--dom1-border) !important;
+}
+.cta-btn-dom1:hover {
+  background: var(--dom1-bg) !important;
+  color: var(--dom1-fg) !important;
+  border-color: var(--dom1-fg) !important;
+  text-decoration: none;
+}
+
+.cta-btn-dom4 {
+  background: var(--dom4-bg);
+  color: var(--dom4-fg);
+  border-color: var(--dom4-border) !important;
+}
+.cta-btn-dom4:hover {
+  background: var(--dom4-bg) !important;
+  color: var(--dom4-fg) !important;
+  border-color: var(--dom4-fg) !important;
+  text-decoration: none;
+}
+
+.cta-btn-dom5 {
+  background: var(--dom5-bg);
+  color: var(--dom5-fg);
+  border-color: var(--dom5-border) !important;
+}
+.cta-btn-dom5:hover {
+  background: var(--dom5-bg) !important;
+  color: var(--dom5-fg) !important;
+  border-color: var(--dom5-fg) !important;
+  text-decoration: none;
+}
+
+.btn-icon-svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  fill: none;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.btn-icon-svg.arrow-icon {
+  margin-left: 2px;
+  transition: transform 0.15s ease;
+}
+.cta-btn:hover .arrow-icon {
+  transform: translateX(3px);
 }
 
 /* ── Icone SVG: stile minimale e uniforme ─────────────────────── */
