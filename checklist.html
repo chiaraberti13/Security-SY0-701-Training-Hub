@@ -402,25 +402,331 @@
   .sync-status.saved   { color: #34D399; }
   .sync-status.error   { color: #F87171; }
 
+<style>
+  :root {
+    --navy:        var(--ink);
+    --blue:        var(--teal);
+    --lblue:       var(--teal-soft);
+    --teal:        var(--teal);
+    --lteal:       var(--teal-soft);
+    --amber:       var(--warn);
+    --lamber:      var(--warn-bg);
+    --red:         var(--critical);
+    --lred:        var(--crit-bg);
+    --grey:        var(--slate);
+    --dgrey:       var(--muted);
+    --lgrey:       var(--surface-alt);
+    --mgrey:       var(--light-slate);
+    --white:       var(--surface);
+    --done-bg:     var(--green-bg);
+    --done-line:   var(--green);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--slate);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── Day card ── */
+  .day-card {
+    background: var(--surface);
+    border: 1.5px solid var(--dom-border, var(--light-slate));
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-1);
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .day-card:hover {
+    box-shadow: var(--shadow-2);
+    border-color: var(--dom-fg, var(--teal));
+  }
+
+  /* Day header */
+  .day-header {
+    background: var(--dom-bg, var(--surface-alt));
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease;
+    border-bottom: 1.5px solid var(--dom-border, var(--light-slate));
+  }
+  .day-header:hover {
+    background: var(--dom-bg, var(--teal-soft));
+    opacity: 0.95;
+  }
+  .day-header.collapsed {
+    border-bottom: none;
+  }
+
+  .day-badge {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--dom-fg, var(--teal));
+    width: 58px;
+    min-width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    padding: 14px 0;
+  }
+
+  .day-title-wrap {
+    flex: 1;
+    padding: 12px 18px;
+  }
+
+  .day-title {
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .day-sub {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  .day-meta {
+    font-size: .72rem;
+    color: var(--muted);
+    padding: 8px 16px 8px 0;
+    text-align: right;
+    min-width: 100px;
+    line-height: 1.6;
+  }
+
+  .day-meta .quiz-count {
+    font-family: var(--font-mono);
+    color: var(--dom-fg, var(--teal));
+    font-size: .8rem;
+    font-weight: 600;
+  }
+
+  .collapse-icon {
+    color: var(--muted);
+    padding: 0 16px 0 6px;
+    font-size: 1.1rem;
+    transition: transform .25s;
+    align-self: center;
+  }
+  .day-header.collapsed .collapse-icon { transform: rotate(-90deg); }
+
+  /* Day body */
+  .day-body { padding: 0; }
+  .day-body.hidden { display: none; }
+
+  /* Section label */
+  .section-label {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    margin: 0;
+    border-top: 1px solid var(--light-slate);
+  }
+  .section-label.studio   { background: var(--teal-soft);  color: var(--teal); border-top: 1.1px solid var(--light-slate); }
+  .section-label.pratica  { background: var(--green-bg);  color: var(--green); border-top: 1.1px solid var(--light-slate); }
+  .section-label.focus    { background: var(--warn-bg); color: var(--warn); border-top: 1.1px solid var(--light-slate); }
+  .section-label.consolid { background: var(--surface-alt);  color: var(--ink); border-top: 1.1px solid var(--light-slate); }
+
+  /* Checklist */
+  .checklist { padding: 6px 16px 10px; list-style: none; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--hairline);
+    transition: background .15s;
+    border-radius: var(--radius-xs);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { background: var(--surface-alt); }
+
+  .checklist li.sub {
+    padding-left: 28px;
+    opacity: .88;
+  }
+
+  .checklist li.done {
+    background: var(--green-bg) !important;
+    opacity: 0.85;
+  }
+  .checklist li.done .item-text {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  /* Custom checkbox */
+  .cb-box {
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    border: 2px solid var(--dom-border, var(--light-slate));
+    border-radius: var(--radius-xs);
+    margin-top: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s ease;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .cb-box:hover {
+    border-color: var(--dom-fg, var(--teal));
+    background: var(--dom-bg, var(--teal-soft));
+  }
+  .cb-box.checked {
+    background: var(--dom-fg, var(--teal));
+    border-color: var(--dom-fg, var(--teal));
+  }
+  .cb-box.checked::after {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 10px;
+    border: 2.5px solid var(--white);
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translate(-1px, -1.5px);
+  }
+
+  .item-text {
+    font-size: .86rem;
+    line-height: 1.55;
+    color: var(--slate);
+    cursor: pointer;
+    flex: 1;
+  }
+  .item-text.sub-text {
+    font-size: .80rem;
+    color: var(--muted);
+  }
+
+  /* Day completion badge */
+  .day-done-badge {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    background: var(--green);
+    color: var(--white);
+    border-radius: 99px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity .3s;
+    font-weight: 600;
+  }
+  .day-done-badge.visible { opacity: 1; }
+
+  /* Focus text */
+  .focus-text {
+    font-size: .84rem;
+    font-style: italic;
+    color: var(--warn);
+    padding: 10px 16px 14px;
+    line-height: 1.6;
+    background: var(--surface);
+  }
+
+  /* Objectives table */
+  .obj-table-wrap { padding: 4px 16px 12px; overflow-x: auto; }
+  .obj-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .82rem;
+  }
+  .obj-table th {
+    background: var(--ink);
+    color: var(--white);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--light-slate);
+  }
+  .obj-table td {
+    padding: 8px 12px;
+    border-bottom: 1.5px solid var(--hairline);
+    color: var(--slate);
+  }
+  .obj-table tr:nth-child(even) td { background: var(--surface-alt); }
+  .obj-table .obj-code { font-family: var(--font-mono); color: var(--teal); font-weight: 600; }
+  .obj-table .quiz-n   { font-family: var(--font-mono); text-align: center; }
+  .obj-table .quiz-n.high { color: var(--critical); font-weight: 700; }
+  .obj-table .domain-label { font-weight: 700; color: var(--ink); }
+  .obj-table .weight { color: var(--muted); text-align: center; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Note priority */
+  .priority-note {
+    background: var(--crit-bg);
+    border-left: 4px solid var(--critical);
+    padding: 12px 16px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: .84rem;
+    color: var(--critical);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .priority-note b { font-weight: 700; }
+
+  /* Sync status */
+  .sync-status {
+    font-family: var(--font-mono);
+    font-size: .78rem;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: color .3s;
+  }
+  .sync-status.syncing { color: var(--warn); }
+  .sync-status.saved   { color: var(--green); }
+  .sync-status.error   { color: var(--critical); }
+
   /* Config banner */
   .config-banner {
-    background: #FFF7ED;
-    border: 1px solid #FED7AA;
-    border-radius: 8px;
+    background: var(--warn-bg);
+    border: 1px solid var(--light-slate);
+    border-radius: var(--radius-md);
     padding: 14px 18px;
-    margin-bottom: 20px;
-    font-size: .85rem;
-    color: #92400E;
+    margin-bottom: 24px;
+    font-size: .88rem;
+    color: var(--warn);
     line-height: 1.7;
   }
   .config-banner code {
-    background: #FEF3C7;
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-family: ui-monospace, 'SF Mono', monospace;
+    background: var(--light-slate);
+    color: var(--ink);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
     font-size: .82rem;
   }
-  .config-banner a { color: var(--blue); }
+  .config-banner a { color: var(--teal); font-weight: 500; text-decoration: none; }
+  .config-banner a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -437,31 +743,44 @@
   </div>
 </nav>
 
-<header>
-  <h1>SY0-701 <span>18 maggio · 5 giugno 2026</span></h1>
-  <div class="progress-wrap">
-    <div class="progress-bar-outer">
-      <div class="progress-bar-inner" id="progressBar"></div>
-    </div>
-    <div class="progress-pct" id="progressPct">0%</div>
-  </div>
-  <button class="btn-reset" onclick="resetAll()">Azzera tutto</button>
-  <div id="syncStatus" class="sync-status">⬤ --</div>
-</header>
+<div class="container">
+<div class="page" style="max-width: 960px; margin: 0 auto; padding: 32px;">
 
-<main>
+  <!-- UNIFIED HERO HEADER -->
+  <div class="ig-header" style="margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
+      <div>
+        <h1 style="font-size: 1.75rem; color: var(--ink); margin-bottom: 6px;">Checklist di Studio SY0-701</h1>
+        <p style="color: var(--slate); font-size: 0.95rem;">Il tuo piano di marcia giornaliero personalizzato dal 18 maggio al 5 giugno 2026.</p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+        <button class="btn-reset" onclick="resetAll()">Azzera progressi</button>
+        <div id="syncStatus" class="sync-status">⬤ Collegato</div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 18px; display: flex; align-items: center; gap: 14px; background: var(--surface-alt); padding: 12px 18px; border-radius: var(--radius-md); border: 1.5px solid var(--light-slate);">
+      <div style="font-weight: 600; font-size: 0.88rem; color: var(--ink); white-space: nowrap;">Avanzamento Globale:</div>
+      <div class="progress-wrap" style="flex: 1; margin: 0; display: flex; align-items: center;">
+        <div class="progress-bar-outer" style="background: var(--light-slate); height: 8px; border-radius: 99px; overflow: hidden; width: 100%;">
+          <div class="progress-bar-inner" id="progressBar" style="background: var(--teal); height: 100%; transition: width 0.3s ease; width: 0%;"></div>
+        </div>
+      </div>
+      <div class="progress-pct" id="progressPct" style="font-family: var(--font-mono); font-weight: 700; color: var(--ink); font-size: 1rem;">0%</div>
+    </div>
+  </div>
 
   <!-- TABS -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('piano', this)">Piano giornaliero</button>
-    <button class="tab-btn" onclick="showTab('obiettivi', this)">Mappa obiettivi</button>
+  <div class="index-tabs" style="border-bottom: 1.5px solid var(--light-slate); margin-bottom: 24px; padding-bottom: 0;">
+    <button class="index-tab active" id="tab-btn-piano" onclick="showTab('piano', this)">Piano giornaliero</button>
+    <button class="index-tab" id="tab-btn-obiettivi" onclick="showTab('obiettivi', this)">Mappa obiettivi</button>
   </div>
 
   <!-- ══ TAB: PIANO ══ -->
   <div id="tab-piano" class="tab-content active">
 
     <!-- Giorno 1 -->
-    <div class="day-card" id="card-1">
+    <div class="day-card dom-1" id="card-1">
       <div class="day-header" onclick="toggleDay(1)">
         <div class="day-badge">1</div>
         <div class="day-title-wrap">
@@ -494,7 +813,7 @@
     </div>
 
     <!-- Giorno 2 -->
-    <div class="day-card" id="card-2">
+    <div class="day-card dom-1" id="card-2">
       <div class="day-header" onclick="toggleDay(2)">
         <div class="day-badge">2</div>
         <div class="day-title-wrap">
@@ -528,7 +847,7 @@
     </div>
 
     <!-- Giorno 3 -->
-    <div class="day-card" id="card-3">
+    <div class="day-card dom-2" id="card-3">
       <div class="day-header" onclick="toggleDay(3)">
         <div class="day-badge">3</div>
         <div class="day-title-wrap">
@@ -563,7 +882,7 @@
     </div>
 
     <!-- Giorno 4 -->
-    <div class="day-card" id="card-4">
+    <div class="day-card dom-2" id="card-4">
       <div class="day-header" onclick="toggleDay(4)">
         <div class="day-badge">4</div>
         <div class="day-title-wrap">
@@ -593,7 +912,7 @@
     </div>
 
     <!-- Giorno 5 -->
-    <div class="day-card" id="card-5">
+    <div class="day-card dom-4" id="card-5">
       <div class="day-header" onclick="toggleDay(5)">
         <div class="day-badge">5</div>
         <div class="day-title-wrap">
@@ -633,7 +952,7 @@
     </div>
 
     <!-- Giorno 6 -->
-    <div class="day-card" id="card-6">
+    <div class="day-card dom-3" id="card-6">
       <div class="day-header" onclick="toggleDay(6)">
         <div class="day-badge">6</div>
         <div class="day-title-wrap">
@@ -671,7 +990,7 @@
     </div>
 
     <!-- Giorno 7 -->
-    <div class="day-card" id="card-7">
+    <div class="day-card dom-3" id="card-7">
       <div class="day-header" onclick="toggleDay(7)">
         <div class="day-badge">7</div>
         <div class="day-title-wrap">
@@ -703,7 +1022,7 @@
     </div>
 
     <!-- Giorno 8 -->
-    <div class="day-card" id="card-8">
+    <div class="day-card dom-3" id="card-8">
       <div class="day-header" onclick="toggleDay(8)">
         <div class="day-badge">8</div>
         <div class="day-title-wrap">
@@ -734,7 +1053,7 @@
     </div>
 
     <!-- Giorno 9 -->
-    <div class="day-card" id="card-9">
+    <div class="day-card dom-4" id="card-9">
       <div class="day-header" onclick="toggleDay(9)">
         <div class="day-badge">9</div>
         <div class="day-title-wrap">
@@ -768,7 +1087,7 @@
     </div>
 
     <!-- Giorno 10 -->
-    <div class="day-card" id="card-10">
+    <div class="day-card dom-4" id="card-10">
       <div class="day-header" onclick="toggleDay(10)">
         <div class="day-badge">10</div>
         <div class="day-title-wrap">
@@ -805,7 +1124,7 @@
     </div>
 
     <!-- Giorno 11 -->
-    <div class="day-card" id="card-11">
+    <div class="day-card dom-4" id="card-11">
       <div class="day-header" onclick="toggleDay(11)">
         <div class="day-badge">11</div>
         <div class="day-title-wrap">
@@ -838,7 +1157,7 @@
     </div>
 
     <!-- Giorno 12 -->
-    <div class="day-card" id="card-12">
+    <div class="day-card dom-5" id="card-12">
       <div class="day-header" onclick="toggleDay(12)">
         <div class="day-badge">12</div>
         <div class="day-title-wrap">
@@ -874,7 +1193,7 @@
     </div>
 
     <!-- Giorno 13 -->
-    <div class="day-card" id="card-13">
+    <div class="day-card dom-5" id="card-13">
       <div class="day-header" onclick="toggleDay(13)">
         <div class="day-badge">13</div>
         <div class="day-title-wrap">
@@ -906,7 +1225,7 @@
     </div>
 
     <!-- Giorno 14 -->
-    <div class="day-card" id="card-14">
+    <div class="day-card dom-4" id="card-14">
       <div class="day-header" onclick="toggleDay(14)">
         <div class="day-badge">14</div>
         <div class="day-title-wrap">
@@ -939,7 +1258,7 @@
     </div>
 
     <!-- Giorno 15 -->
-    <div class="day-card" id="card-15">
+    <div class="day-card dom-4" id="card-15">
       <div class="day-header" onclick="toggleDay(15)">
         <div class="day-badge">15</div>
         <div class="day-title-wrap">
@@ -1024,7 +1343,8 @@
     </div>
   </div>
 
-</main>
+</div>
+</div>
 
 <script>
   // ══════════════════════════════════════════════════════
@@ -1203,7 +1523,7 @@
   // ── Tab ────────────────────────────────────────────────
   function showTab(name, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.index-tab').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + name).classList.add('active');
     btn.classList.add('active');
   }

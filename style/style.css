@@ -1528,12 +1528,66 @@ nav.toc-sticky a[href="#flashcard"] {
 
 .index-tab:hover {
   color: var(--ink);
+  background: var(--surface-alt);
 }
 
 .index-tab.active {
   color: var(--ink);
   border-bottom-color: var(--ink);
   font-weight: 600;
+}
+
+/* Custom pastel colors randomly chose among domain palettes for home and checklist tabs */
+#tab-btn-intro.active {
+  background: var(--dom5-bg) !important;
+  color: var(--dom5-fg) !important;
+  border: 1.5px solid var(--dom5-border) !important;
+  border-bottom: 3px solid var(--dom5-fg) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+#tab-btn-intro:hover:not(.active) {
+  background: var(--dom5-bg) !important;
+  color: var(--dom5-fg) !important;
+  opacity: 0.8;
+}
+
+#tab-btn-capitoli.active {
+  background: var(--dom1-bg) !important;
+  color: var(--dom1-fg) !important;
+  border: 1.5px solid var(--dom1-border) !important;
+  border-bottom: 3px solid var(--dom1-fg) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+#tab-btn-capitoli:hover:not(.active) {
+  background: var(--dom1-bg) !important;
+  color: var(--dom1-fg) !important;
+  opacity: 0.8;
+}
+
+#tab-btn-piano.active {
+  background: var(--dom3-bg) !important;
+  color: var(--dom3-fg) !important;
+  border: 1.5px solid var(--dom3-border) !important;
+  border-bottom: 3px solid var(--dom3-fg) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+#tab-btn-piano:hover:not(.active) {
+  background: var(--dom3-bg) !important;
+  color: var(--dom3-fg) !important;
+  opacity: 0.8;
+}
+
+#tab-btn-obiettivi.active {
+  background: var(--dom4-bg) !important;
+  color: var(--dom4-fg) !important;
+  border: 1.5px solid var(--dom4-border) !important;
+  border-bottom: 3px solid var(--dom4-fg) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+#tab-btn-obiettivi:hover:not(.active) {
+  background: var(--dom4-bg) !important;
+  color: var(--dom4-fg) !important;
+  opacity: 0.8;
 }
 
 /* Tab views */
@@ -1684,10 +1738,10 @@ nav.toc-sticky a[href="#flashcard"] {
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--surface);
+  background: var(--dom-bg, var(--surface));
   padding: 14px 16px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--light-slate);
+  border: 1px solid var(--dom-border, var(--light-slate));
   box-shadow: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
   position: relative;
