@@ -45,9 +45,9 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .quiz-card:hover {
-      border-color: var(--teal);
+      border-color: var(--dom-fg, var(--teal));
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
     .quiz-card-header {
       display: flex;
@@ -66,8 +66,8 @@
     .quiz-card-num {
       font-size: 0.82rem;
       font-weight: 600;
-      color: var(--teal);
-      background: var(--tip-bg);
+      color: var(--dom-fg, var(--teal));
+      background: var(--dom-bg, var(--tip-bg));
       padding: 3px 8px;
       border-radius: 4px;
     }
@@ -96,21 +96,22 @@
     }
     .quiz-action-btn.primary {
       background: none;
-      color: var(--teal);
-      border: 1.5px solid var(--teal);
+      color: var(--dom-fg, var(--teal));
+      border: 1.5px solid var(--dom-fg, var(--teal));
     }
     .quiz-action-btn.primary:hover {
-      background: var(--tip-bg, #EEF2FF);
+      background: var(--dom-bg, #EEF2FF);
+      color: var(--dom-fg, var(--teal));
     }
     .quiz-action-btn.secondary {
       background: none;
-      color: var(--slate);
-      border: 1.5px solid var(--light-slate);
+      color: var(--dom-fg, var(--slate));
+      border: 1.5px solid var(--dom-border, var(--light-slate));
     }
     .quiz-action-btn.secondary:hover {
-      background: var(--bg);
-      border-color: var(--slate);
-      color: var(--navy);
+      background: var(--dom-bg, var(--bg));
+      border-color: var(--dom-fg, var(--slate));
+      color: var(--dom-fg, var(--navy));
     }
     
     /* Stats banner */

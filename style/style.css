@@ -977,8 +977,23 @@ nav.toc-sticky a[href="#flashcard"] {
   line-height: 1.5;
   font-family: inherit;
 }
-.quiz-option:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-soft); }
-.quiz-option.selected { border-color: var(--teal); background: var(--teal-soft); font-weight: 500; color: var(--ink); }
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--dom-fg, var(--teal));
+  background: var(--surface);
+}
+.quiz-option:hover:not(:disabled) .quiz-opt-letter {
+  background: var(--dom-fg, var(--teal));
+}
+.quiz-option.selected {
+  border-color: var(--dom-fg, var(--teal));
+  background: var(--dom-bg, var(--teal-soft));
+  font-weight: 600;
+  color: var(--dom-fg, var(--ink));
+}
+.quiz-option.selected .quiz-opt-letter {
+  background: var(--dom-fg, var(--teal));
+  color: var(--white);
+}
 .quiz-option.correct { border-color: #6EE7B7; background: var(--green-bg); color: var(--green); }
 .quiz-option.wrong   { border-color: #FCA5A5; background: var(--crit-bg); color: var(--critical); }
 .quiz-opt-letter {
@@ -1017,25 +1032,26 @@ nav.toc-sticky a[href="#flashcard"] {
   font-size: 0.88em;
   font-weight: 500;
   cursor: pointer;
-  border: 1px solid var(--light-slate);
+  border: 1px solid var(--dom-border, var(--light-slate));
   background: var(--surface);
-  color: var(--slate);
+  color: var(--dom-fg, var(--slate));
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   font-family: inherit;
 }
 .quiz-btn:hover {
-  background: var(--surface-alt);
-  border-color: var(--muted);
-  color: var(--ink);
+  background: var(--dom-bg, var(--surface-alt));
+  border-color: var(--dom-fg, var(--muted));
+  color: var(--dom-fg, var(--ink));
 }
 .quiz-btn.primary {
-  background: var(--ink);
+  background: var(--dom-fg, var(--ink));
   color: var(--white);
-  border-color: var(--ink);
+  border-color: var(--dom-fg, var(--ink));
 }
 .quiz-btn.primary:hover {
-  background: var(--slate);
-  border-color: var(--slate);
+  background: var(--dom-fg, var(--slate));
+  border-color: var(--dom-fg, var(--slate));
+  opacity: 0.9;
   color: var(--white);
 }
 .quiz-btn:disabled {
@@ -1066,9 +1082,9 @@ nav.toc-sticky a[href="#flashcard"] {
 .quiz-launch-btn {
   font-size: 0.8em;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--dom-fg, var(--ink));
   background: var(--surface);
-  border: 1px solid var(--light-slate);
+  border: 1.5px solid var(--dom-border, var(--light-slate));
   border-radius: var(--radius-sm);
   padding: 5px 12px;
   cursor: pointer;
@@ -1076,9 +1092,9 @@ nav.toc-sticky a[href="#flashcard"] {
   transition: background 0.15s ease, border-color .15s ease, color .15s ease;
 }
 .quiz-launch-btn:hover {
-  background: var(--ink);
-  color: var(--white);
-  border-color: var(--ink);
+  background: var(--dom-bg, var(--ink));
+  color: var(--dom-fg, var(--white));
+  border-color: var(--dom-fg, var(--ink));
 }
 
 .quiz-score-badge {
@@ -1121,7 +1137,7 @@ nav.toc-sticky a[href="#flashcard"] {
   align-items: flex-start;
   gap: 3px;
   padding: 14px 16px;
-  border: 1px solid var(--light-slate);
+  border: 1.5px solid var(--dom-border, var(--light-slate));
   border-radius: var(--radius-md);
   background: var(--surface);
   cursor: pointer;
@@ -1130,7 +1146,7 @@ nav.toc-sticky a[href="#flashcard"] {
   width: 100%;
   font-family: inherit;
 }
-.quiz-mode-btn:hover { border-color: var(--teal); background: var(--teal-soft); }
+.quiz-mode-btn:hover { border-color: var(--dom-fg, var(--teal)); background: var(--dom-bg, var(--teal-soft)); }
 .quiz-mode-btn strong { font-size: 0.92em; color: var(--ink); font-weight: 600; }
 .quiz-mode-btn span   { font-size: 0.82em; color: var(--muted); }
 
