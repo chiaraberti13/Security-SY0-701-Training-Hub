@@ -39,19 +39,24 @@
       gap: 8px;
     }
     .filter-tab {
-      background: var(--white);
-      border: 1px solid var(--light-slate);
+      background: none;
+      border: 1.5px solid var(--light-slate);
       color: var(--slate);
-      padding: 6px 14px;
+      padding: 5px 14px;
       font-size: 0.85rem;
       font-weight: 600;
-      border-radius: 20px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
-    .filter-tab:hover, .filter-tab.active {
-      background: var(--teal);
-      color: var(--white);
+    .filter-tab:hover {
+      background: var(--bg);
+      border-color: var(--slate);
+      color: var(--navy);
+    }
+    .filter-tab.active {
+      background: var(--tip-bg);
+      color: var(--teal);
       border-color: var(--teal);
     }
 
@@ -66,7 +71,7 @@
     }
     .alpha-btn {
       background: none;
-      border: none;
+      border: 1.5px solid transparent;
       color: var(--slate);
       font-size: 0.85rem;
       font-weight: 700;
@@ -75,13 +80,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
-    .alpha-btn:hover, .alpha-btn.active {
-      background: var(--navy);
-      color: var(--white);
+    .alpha-btn:hover {
+      background: #f1f5f9;
+      color: var(--navy);
+      border-color: var(--light-slate);
+    }
+    .alpha-btn.active {
+      border-color: var(--teal);
+      background: var(--tip-bg);
+      color: var(--teal);
     }
     .alpha-btn.disabled {
       color: #94a3b8;
@@ -238,27 +249,28 @@
     }
 
     .btn-flashcard {
-      background: var(--white);
-      border: 1.5px solid var(--teal);
-      color: var(--teal);
-      padding: 6px 12px;
+      background: none;
+      border: 1.5px solid var(--light-slate);
+      color: var(--slate);
+      padding: 5px 12px;
       font-size: 0.82rem;
       font-weight: 700;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
     .btn-flashcard:hover {
-      background: var(--teal);
-      color: var(--white);
+      background: var(--bg);
+      border-color: var(--slate);
+      color: var(--navy);
     }
     .btn-flashcard.active {
-      background: var(--navy);
-      color: var(--white);
-      border-color: var(--navy);
+      background: var(--tip-bg);
+      color: var(--teal);
+      border-color: var(--teal);
     }
   </style>
 </head>
@@ -271,6 +283,7 @@
     <a href="index.html" class="global-nav-link">Home</a>
     <a href="quizzes.html" class="global-nav-link">Quiz</a>
     <a href="glossario.html" class="global-nav-link active">Glossario</a>
+    <a href="checklist.html" class="global-nav-link">Checklist</a>
   </div>
 </nav>
 
@@ -332,6 +345,134 @@
 
   // High fidelity database of all key CompTIA Security+ terminology
   const database = [
+    {
+      acronym: "AIC Triad",
+      name: "Triade AIC (Availability, Integrity, Confidentiality)",
+      def: "Rappresentazione alternativa della storica Triade CIA (CIA Triad), formulata per porre enfasi sulla Disponibilità (Availability) come pilastro primario, tipicamente in scenari operativi industriali (ICS/SCADA) o di resilienza sul campo.",
+      category: "general",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Preventive Control",
+      name: "Controllo Preventivo",
+      def: "Tipologia di controllo proattivo utile a intercettare ed arrestare vettori d'attacco prima dell'effettivo accadimento di un incidente (es. Firewall, MFA, formazione del personale, hardening dei sistemi).",
+      category: "general",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "Deterrent Control",
+      name: "Controllo Deterrente",
+      def: "Tipologia di controllo proattivo che tenta di distogliere o scoraggiare psicologicamente un intruso o un aggressore dal compiere azioni malevole (es. cartelli d'area videosorvegliata, telecamere finte o vistose).",
+      category: "general",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "Detective Control",
+      name: "Controllo Investigativo / Rilevatore (Detective Control)",
+      def: "Tipologia di controllo preposta ad accertarsi e captare in tempo reale o ex-post l'effettivo verificarsi di incidenti o intrusioni attive (es: motion sensors, IDS log correlation, audit logs, FIM).",
+      category: "general",
+      source_name: "OBJ 1.1",
+      source_link: "chapters/obj1_1_security_controls.html"
+    },
+    {
+      acronym: "NIST SP 800-53",
+      name: "NIST Special Publication 800-53",
+      def: "Il catalogo sistematico dei controlli di sicurezza e privacy sviluppato dal National Institute of Standards and Technology (NIST) per i sistemi di informazione federali statunitensi, ampiamente adottato dall'industria privata come standard normativo d'eccellenza.",
+      category: "gov",
+      source_name: "OBJ 5.4",
+      source_link: "chapters/obj5_4_security_compliance.html"
+    },
+    {
+      acronym: "Account Management",
+      name: "Gestione degli Account (Account Management)",
+      def: "L'insieme sistematico di procedure preposte all'intero ciclo di vita delle credenziali aziendali: audit, monitoraggio dello stato di attività, revoca dei privilegi inutilizzati e gestione delle password d'impresa.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "User Registration / De-registration",
+      name: "Registrazione e Cancellazione Utenti",
+      def: "Fasi opposte e complementari del ciclo IAM: la registrazione immette formalmente un nuovo utente nel repository d'identità; la cancellazione (de-registration) rimuove in modo stabile le anagrafiche logiche evitando il rischio di account silenti residui.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "User Access Provisioning",
+      name: "Assegnazione dei Privilegi d'Accesso (User Access Provisioning)",
+      def: "La configurazione controllata e l'assegnazione iniziale di permessi digitali, ruoli operativi ed unicità d'accesso sulle risorse informative d'impresa a beneficio di un nuovo dipendente, ispirato al Least Privilege.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Privileged Access Management (PAM)",
+      name: "Gestione dei Diritti d'Accesso Privilegiati",
+      def: "Suite integrata di tecnologie preposta a isolare, governare e ruotare con costanza le credenziali d'alto livello (amministrative, root) d'impresa, adottando paradigmi protettivi JIT (Just-in-Time) e password vaulting.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "User Access Rights Review",
+      name: "Revisione periodica dei Privilegi (Access Rights Review)",
+      def: "Attività formale di verifica periodica con cui manager e custodi dei dati analizzano la lista dei permessi concessi agli utenti per assicurare che non si sia verificato il privilege creep, attestando la persistenza del principio del Least Privilege.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Removal / Adjustment of Access Rights",
+      name: "Rimozione ed Adeguamento dei Diritti d'Accesso",
+      def: "La tempestiva revoca parziale o disattivazione totale dei privilegi informatici (deprovisioning) a ridosso di una variazione organizzativa o interruzione del rapporto lavorativo, per eradicare la persistenza di vecchi privilegi non più dovuti.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
+      acronym: "Subjects and Systems",
+      name: "Soggetti e Sistemi (Subjects and Systems)",
+      def: "I due componenti focali del Data Plane in Zero Trust: il soggetto (Subject, es. utente umano, processo automatico) è l'entità attiva che formula una proposta d'accesso; il sistema (System, es. DB, server) è l'entità passiva o risorsa protetta di ricezione.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Trusted vs Untrusted Systems",
+      name: "Sistemi Fidati rispetto a Sistemi Non Fidati",
+      def: "La dicotomia sradicata da Zero Trust. I sistemi tradizionali trattavano l'intranet locale come fidata (trusted) ed esterna non-fidata (untrusted); la moderna postura esige che ogni macchina interna ed esterna sia classificata 'non fidata' fino a verifica continuativa.",
+      category: "iam",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Connection Monitoring & Termination",
+      name: "Monitoraggio e Terminazione delle Connessioni",
+      def: "Servizi di controllo dinamico delle sessioni attive. Sovrintendono real-time i flussi dati (monitoring) e revocano/terminano attivamente la connessione (termination) non appena scadono i limiti consentiti o in presenza d'anomalie repentine.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Deception & Disruption",
+      name: "Tecniche di Inganno e Disturbo (Deception and Disruption)",
+      def: "Controlli difensivi attivi (es. honeypot, honeyfile, honeytoken) deputati ad allestire esche fittizie credibili all'interno della rete aziendale per indurre l'attaccante a rivelarsi con allarmi ad altissima fedeltà.",
+      category: "general",
+      source_name: "OBJ 1.2",
+      source_link: "chapters/obj1_2_fundamental_concepts.html"
+    },
+    {
+      acronym: "Technical Change Management",
+      name: "Gestione Tecnica delle Modifiche",
+      def: "La pianificazione rigorosa, l'approvazione formale dal CAB, il collaudo in staging e l'esecuzione documentata di variazioni a parametri operativi di reti e software aziendali (es: hardening, regole firewall, policy IAM) corredata da esplicito backout plan.",
+      category: "ops",
+      source_name: "OBJ 1.3",
+      source_link: "chapters/obj1_3_change_management.html"
+    },
     {
       acronym: "2.4 GHz",
       name: "Banda di Frequenza a 2.4 GHz",
@@ -1839,7 +1980,7 @@
     {
       acronym: "CIA Triad",
       name: "Triade di Sicurezza (Confidentiality, Integrity, Availability)",
-      def: "Il modello di riferimento cardine della sicurezza delle informazioni. Riservatezza (evitare accessi non autorizzati), Integrità (interdire modifiche illegittime dei dati), e Disponibilità (consentire il servizio autorizzato).",
+      def: "Il modello di riferimento concettuale cardine della cybersecurity, noto anche come AIC Triad. Si fonda su tre pilastri simmetrici: Riservatezza (Confidentiality - accesso consentito solo a soggetti autorizzati), Integrità (Integrity - protezione dei dati da modifiche arbitrarie) e Disponibilità (Availability - operatività dei sistemi e delle risorse per gli utenti autorizzati).",
       category: "general",
       source_name: "OBJ 1.2",
       source_link: "chapters/obj1_2_fundamental_concepts.html"

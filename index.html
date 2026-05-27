@@ -28,6 +28,7 @@
     <a href="index.html" class="global-nav-link active">Home</a>
     <a href="quizzes.html" class="global-nav-link">Quiz</a>
     <a href="glossario.html" class="global-nav-link">Glossario</a>
+    <a href="checklist.html" class="global-nav-link">Checklist</a>
   </div>
 </nav>
 
@@ -43,30 +44,178 @@
 
   <div class="ig-header">
     <h1>Guida interattiva — CompTIA Security+ SY0-701</h1>
-    <p>Capitoli disponibili del Dominio 1. Spunta i capitoli man mano che li studi per tracciare i tuoi progressi. Ogni capitolo include il quiz interattivo con le domande d'esame ufficiali.</p>
+    <p>La piattaforma completa per organizzare lo studio, verificare le tue competenze e prepararti al superamento dell'esame ufficiale.</p>
   </div>
 
-  <div class="progress-wrap">
-    <div class="progress-label">
-      <strong>Progressi di studio</strong>
-      <span id="prog-text">0 / 12 capitoli completati</span>
+  <!-- Sottonavigazione a schede della Home -->
+  <div class="index-tabs" role="tablist">
+    <button class="index-tab active" id="tab-btn-intro" role="tab" aria-selected="true" aria-controls="view-intro">
+      <svg class="tab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      Introduzione &amp; Info Esame
+    </button>
+    <button class="index-tab" id="tab-btn-capitoli" role="tab" aria-selected="false" aria-controls="view-chapters">
+      <svg class="tab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      </svg>
+      Capitoli &amp; Progressi (28 Obiettivi)
+    </button>
+  </div>
+
+  <!-- VISTA 1: INTRODUZIONE ALL'APP E ALL'ESAME -->
+  <div id="view-intro" class="tab-view active" role="tabpanel" aria-labelledby="tab-btn-intro">
+    <div class="intro-welcome-card" style="border-left-color: var(--teal);">
+      <h2>Benvenuto nel tuo Portale di Studio Interattivo!</h2>
+      <p>Questa applicazione è stata progettata per darti la migliore preparazione possibile all'esame <strong>CompTIA Security+ SY0-701</strong>. Monitora i tuoi progressi di studio capitolo per capitolo, affronta simulazioni d'esame realistiche e consulta istantaneamente il glossario terminologico integrato.</p>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
-    <p class="progress-note" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-      <span>
-        I progressi vengono salvati nel browser.
-        <button class="reset-btn" id="reset-btn">Azzera progressi</button>
-      </span>
-      <span id="syncStatusIndex" class="sync-status">⬤ --</span>
-    </p>
+
+    <h3 class="section-title">Panoramica dell'Esame Ufficiale</h3>
+    <div class="intro-grid">
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h4>90 Minuti</h4>
+        <p>Tempo totale a disposizione nella sessione d'esame ufficiale.</p>
+      </div>
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <h4>Max 90 Domande</h4>
+        <p>Quesiti a scelta multipla e complessi di tipo Performance-Based (PBQs).</p>
+      </div>
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h4>750 / 900</h4>
+        <p>Il punteggio minimo richiesto per superare e conseguire la certificazione.</p>
+      </div>
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+        <h4>Rapporto di Peso</h4>
+        <p>I 28 obiettivi d'esame sono rigorosamente divisi in cinque ampi domini professionali.</p>
+      </div>
+    </div>
+
+    <h3 class="section-title">Ripartizione dei 5 Domini d'Esame</h3>
+    <div class="domains-overview-grid">
+      <div class="domain-info-row dom-1">
+        <span class="domain-info-badge">Dom 1</span>
+        <div class="domain-info-content">
+          <strong>Concetti generali di sicurezza (12% del peso d'esame)</strong>
+          <p>Comprensione approfondita dei controlli di sicurezza, triage del rischio e architetture base guidate dal cambiamento.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-2">
+        <span class="domain-info-badge">Dom 2</span>
+        <div class="domain-info-content">
+          <strong>Minacce, vulnerabilità e mitigazioni (22% del peso d'esame)</strong>
+          <p>Profili di hacker (Threat Actors), tipologie di malware strutturati e metodologie preventive di cyber-indurimento.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-3">
+        <span class="domain-info-badge">Dom 3</span>
+        <div class="domain-info-content">
+          <strong>Architettura di sicurezza (18% del peso d'esame)</strong>
+          <p>Standard Zero Trust, modelli cloud aziendali, crittografia avanzata e strategie di Disaster Recovery resilienti.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-4">
+        <span class="domain-info-badge">Dom 4</span>
+        <div class="domain-info-content">
+          <strong>Operazioni di sicurezza (28% del peso d'esame)</strong>
+          <p>Gestione continuativa degli asset, monitoraggio di rete, Incident Response di emergenza e audit sui log applicativi.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-5">
+        <span class="domain-info-badge">Dom 5</span>
+        <div class="domain-info-content">
+          <strong>Governance, rischio e conformità (20% del peso d'esame)</strong>
+          <p>Quadro legislativo della privacy (GDPR, PCI-DSS, HIPAA), risk assessment continuo e monitoraggio contrattuale dei fornitori.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-title">💡 Come sfruttare gli strumenti integrati</h3>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div>
+          <strong>Usa la Checklist dei Capitoli per guidare lo studio</strong>
+          <p>Visita il tab "Capitoli & Progressi" per visualizzare tutte le schede dei domini. Studia i dettagli e spunta i capitoli contrassegnandoli come completati: i tuoi progressi complessivi e dei singoli domini verranno calcolati e salvati in tempo reale.</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div>
+          <strong>Esegui i Quiz sul Simulatore Interattivo</strong>
+          <p>Accedi a quiz approfonditi per ciascun capitolo d'esame o visita il tab <strong>"Quiz"</strong> dal menù principale per simulare quesiti reali con risposte ragionate e feedback immediato.</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div>
+          <strong>Risolvi l'ostacolo degli Acronimi con il Glossario</strong>
+          <p>Accedi ad una libreria formidabile dal tab <strong>"Glossario"</strong> del menù complessivo d'applicazione. Utilizza la Modalità Studio "Flashcard" opzionale per nascondere le definizioni e allenare rapidamente la memoria visiva degli obiettivi.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-actions">
+      <button class="cta-btn primary" id="btn-start-studying">Inizia lo Studio (Sfoglia i Capitoli) ➔</button>
+      <a href="quizzes.html" class="cta-btn secondary">Simulatore d'Esame (Quiz) ⏱️</a>
+      <a href="glossario.html" class="cta-btn secondary">Dizionario &amp; Flashcard (Glossario) 🛡️</a>
+    </div>
   </div>
 
-  <main id="main">
+  <!-- VISTA 2: CAPITOLI & PROGRESSI (Inizialmente nascosta) -->
+  <div id="view-chapters" class="tab-view" role="tabpanel" aria-labelledby="tab-btn-capitoli">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <strong>Progressi di studio</strong>
+        <span id="prog-text">0 / 12 capitoli completati</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+      <p class="progress-note" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <span>
+          I progressi vengono salvati nel browser.
+          <button class="reset-btn" id="reset-btn">Azzera progressi</button>
+        </span>
+        <span id="syncStatusIndex" class="sync-status">⬤ --</span>
+      </p>
+    </div>
+
+    <main id="main">
 
     <!-- DOMINIO 1 -->
-    <div class="domain-block" id="d1-block">
+    <div class="domain-block dom-1" id="d1-block">
       <button class="domain-toggle" aria-expanded="false" aria-controls="d1-body">
-        <div class="domain-color" style="background:#0B1F3A;"></div>
+        <div class="domain-color"></div>
         <div class="domain-info">
           <strong>Dominio 1 — Concetti generali di sicurezza</strong>
           <small>Obiettivi 1.1 · 1.2 · 1.3 &nbsp;·&nbsp; 4 capitoli disponibili</small>
@@ -152,9 +301,9 @@
     </div>
 
     <!-- DOMINIO 2 -->
-    <div class="domain-block" id="d2-block">
+    <div class="domain-block dom-2" id="d2-block">
       <button class="domain-toggle" aria-expanded="false" aria-controls="d2-body">
-        <div class="domain-color" style="background:#0F766E;"></div>
+        <div class="domain-color"></div>
         <div class="domain-info">
           <strong>Dominio 2 — Minacce, vulnerabilità e mitigazioni</strong>
           <small>Obiettivi 2.1 – 2.5 &nbsp;·&nbsp; 5 capitoli disponibili</small>
@@ -252,9 +401,9 @@
     </div>
 
     <!-- DOMINIO 3 -->
-    <div class="domain-block" id="d3-block">
+    <div class="domain-block dom-3" id="d3-block">
       <button class="domain-toggle" aria-expanded="false" aria-controls="d3-body">
-        <div class="domain-color" style="background:#334155;"></div>
+        <div class="domain-color"></div>
         <div class="domain-info">
           <strong>Dominio 3 — Architettura di sicurezza</strong>
           <small>Obiettivi 3.1 – 3.4 &nbsp;·&nbsp; 4 capitoli disponibili</small>
@@ -337,9 +486,9 @@
     </div>
 
     <!-- DOMINIO 4 -->
-    <div class="domain-block" id="d4-block">
+    <div class="domain-block dom-4" id="d4-block">
       <button class="domain-toggle" aria-expanded="false" aria-controls="d4-body">
-        <div class="domain-color" style="background:#1D4ED8;"></div>
+        <div class="domain-color"></div>
         <div class="domain-info">
           <strong>Dominio 4 — Operazioni di sicurezza</strong>
           <small>Obiettivi 4.1 – 4.9 &nbsp;·&nbsp; 9 capitoli disponibili</small>
@@ -501,9 +650,9 @@
     </div>
 
     <!-- DOMINIO 5 -->
-    <div class="domain-block" id="d5-block">
+    <div class="domain-block dom-5" id="d5-block">
       <button class="domain-toggle" aria-expanded="false" aria-controls="d5-body">
-        <div class="domain-color" style="background:#7C3AED;"></div>
+        <div class="domain-color"></div>
         <div class="domain-info">
           <strong>Dominio 5 — Governance e supervisione</strong>
           <small>Obiettivi 5.1 – 5.6 &nbsp;·&nbsp; 6 capitoli disponibili</small>
@@ -617,6 +766,7 @@
     </div>
 
   </main>
+  </div> <!-- chiusura div view-chapters -->
 </div>
 </div>
 
@@ -1028,6 +1178,43 @@
       if (chev) chev.textContent = isOpen ? '▾' : '▸';
     });
   });
+
+  // Gestione delle schede della homepage (Intro vs Capitoli)
+  var tabBtnIntro = document.getElementById('tab-btn-intro');
+  var tabBtnCapitoli = document.getElementById('tab-btn-capitoli');
+  var viewIntro = document.getElementById('view-intro');
+  var viewChapters = document.getElementById('view-chapters');
+  var btnStartStudying = document.getElementById('btn-start-studying');
+
+  function selectTab(tabId) {
+    if (tabId === 'intro') {
+      tabBtnIntro.classList.add('active');
+      tabBtnIntro.setAttribute('aria-selected', 'true');
+      tabBtnCapitoli.classList.remove('active');
+      tabBtnCapitoli.setAttribute('aria-selected', 'false');
+      viewIntro.classList.add('active');
+      viewChapters.classList.remove('active');
+    } else if (tabId === 'capitoli') {
+      tabBtnCapitoli.classList.add('active');
+      tabBtnCapitoli.setAttribute('aria-selected', 'true');
+      tabBtnIntro.classList.remove('active');
+      tabBtnIntro.setAttribute('aria-selected', 'false');
+      viewChapters.classList.add('active');
+      viewIntro.classList.remove('active');
+    }
+  }
+
+  if (tabBtnIntro && tabBtnCapitoli) {
+    tabBtnIntro.addEventListener('click', function () { selectTab('intro'); });
+    tabBtnCapitoli.addEventListener('click', function () { selectTab('capitoli'); });
+  }
+
+  if (btnStartStudying) {
+    btnStartStudying.addEventListener('click', function () {
+      selectTab('capitoli');
+      viewChapters.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 
   // Avvio sincronizzazione
   initSync();

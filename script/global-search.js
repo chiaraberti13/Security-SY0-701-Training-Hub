@@ -534,10 +534,44 @@
       .replace(/'/g, "&#039;");
   }
 
+  // 12.5 Normalize Global Navigation Links to ensure consistency
+  function normalizeNavbar() {
+    const navLinksContainer = document.querySelector('.global-nav-links');
+    if (!navLinksContainer) return;
+
+    // Detect active page based on current filename
+    const path = window.location.pathname.toLowerCase();
+    
+    const isHome = path.endsWith('index.html') || path.endsWith('/') || (!path.includes('.html') && !path.includes('/chapters/'));
+    const isGuida = path.includes('checklist.html');
+    const isQuiz = path.includes('quizzes.html');
+    const isGlossario = path.includes('glossario.html');
+
+    const homeUrl = resolveLink('index.html');
+    const guidaUrl = resolveLink('checklist.html');
+    const quizUrl = resolveLink('quizzes.html');
+    const glossarioUrl = resolveLink('glossario.html');
+
+    navLinksContainer.innerHTML = `
+      <a href="${homeUrl}" class="global-nav-link${isHome ? ' active' : ''}">Home</a>
+      <a href="${quizUrl}" class="global-nav-link${isQuiz ? ' active' : ''}">Quiz</a>
+      <a href="${glossarioUrl}" class="global-nav-link${isGlossario ? ' active' : ''}">Glossario</a>
+      <a href="${guidaUrl}" class="global-nav-link${isGuida ? ' active' : ''}">Checklist</a>
+    `;
+  }
+
   // 13. Initialization Router
   function initialize() {
+    normalizeNavbar();
     injectSearchButton();
     setupKeyboardShortcuts();
+
+    // Auto-detect chapter and apply domain class to body for background/accent styling
+    const path = window.location.pathname;
+    const match = path.match(/obj([1-5])_/i);
+    if (match && document.body) {
+      document.body.classList.add(`dom-${match[1]}`);
+    }
   }
 
   // Fire as soon as structural DOM elements are parsed (safe and fast)

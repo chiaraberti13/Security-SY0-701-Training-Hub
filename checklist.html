@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SY0-701 — Checklist</title>
+<link rel="stylesheet" href="style/style.css" />
 <style>
   :root {
-    --navy:   #1C2B4A;
-    --blue:   #2563EB;
-    --lblue:  #EFF6FF;
-    --teal:   #0D9488;
-    --lteal:  #F0FDFA;
+    --navy:   #01496e;
+    --blue:   #4498c2;
+    --lblue:  #EEF2FF;
+    --teal:   #4498c2;
+    --lteal:  #EEF2FF;
     --amber:  #B45309;
     --lamber: #FFFBEB;
     --red:    #B91C1C;
@@ -101,17 +102,21 @@
 
   .btn-reset {
     background: none;
-    border: 1px solid rgba(255,255,255,.2);
+    border: 1.5px solid rgba(255,255,255,.25);
     color: #94A3B8;
     font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-size: .78rem;
-    padding: 5px 12px;
-    border-radius: 6px;
+    padding: 4px 12px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all .2s;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     white-space: nowrap;
   }
-  .btn-reset:hover { border-color: rgba(255,255,255,.5); color: #fff; }
+  .btn-reset:hover {
+    border-color: rgba(255,255,255,.7);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
 
   /* ── Container ── */
   main { max-width: 860px; margin: 0 auto; padding: 28px 20px 0; }
@@ -350,16 +355,24 @@
     font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-size: .82rem;
     font-weight: 600;
-    padding: 6px 16px;
-    border: none;
+    padding: 5px 14px;
     background: none;
-    color: var(--dgrey);
-    border-radius: 6px;
     cursor: pointer;
-    transition: all .15s;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    border-radius: 5px;
+    border: 1.5px solid transparent;
+    color: var(--dgrey);
   }
-  .tab-btn:hover { background: var(--lgrey); color: var(--navy); }
-  .tab-btn.active { background: var(--navy); color: #fff; }
+  .tab-btn:hover {
+    background: var(--lgrey);
+    color: var(--navy);
+    border-color: var(--mgrey);
+  }
+  .tab-btn.active {
+    border-color: var(--blue);
+    color: var(--navy);
+    background: var(--lblue);
+  }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -411,6 +424,14 @@
 </style>
 </head>
 <body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="index.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <!-- Fills dynamically by global-search.js -->
+  </div>
+</nav>
 
 <header>
   <h1>SY0-701 <span>18 maggio · 5 giugno 2026</span></h1>
@@ -638,7 +659,7 @@
         <div class="section-label pratica">Pratica</div>
         <ul class="checklist">
           <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Quiz 3.3 (30) + Quiz 3.4 (29) = 59 domande</span></li>
-          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Flashcard: RTO / RPO / MTTR / MTBF con definizione precisa + esempio</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Definire con precisione RTO / RPO / MTTR / MTBF con un esempio pratico</span></li>
         </ul>
         <div class="section-label focus">Focus esame</div>
         <div class="focus-text">Scegliere la tecnica di protezione dati corretta per stato del dato; calcolare l'impatto di RPO in uno scenario DR; distinguere tokenization da masking da anonymization; sito DR corretto in base a budget e RTO.</div>
@@ -886,7 +907,7 @@
         <div class="day-badge">14</div>
         <div class="day-title-wrap">
           <div class="day-title">Giovedì 04/06 · Consolidamento <span class="day-done-badge" id="done-14">✓ Completato</span></div>
-          <div class="day-sub">Revisione errori · Flash review · Mini-simulazione · Tabelle critiche</div>
+          <div class="day-sub">Revisione errori · Ripasso rapido · Mini-simulazione · Tabelle critiche</div>
         </div>
         <div class="day-meta">—<br><span class="quiz-count">30 quiz misti</span></div>
         <div class="collapse-icon">▾</div>
@@ -895,8 +916,8 @@
         <div class="section-label consolid">Struttura della giornata</div>
         <ul class="checklist">
           <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Aprire il log cumulativo errori: classificare tutti gli errori per dominio e obiettivo</span></li>
-          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Identificare i top 3 obiettivi con più errori → ripasso mirato: rilettura sezione capitolo + flashcard</span></li>
-          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Flash review sintetico per dominio: 5 punti chiave irrinunciabili per ciascuno dei 5 domini</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Identificare i top 3 obiettivi con più errori → ripasso mirato: rilettura della sezione del capitolo</span></li>
+          <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Ripasso rapido sintetico per dominio: 5 punti chiave irrinunciabili per ciascuno dei 5 domini</span></li>
           <li><div class="cb-box" onclick="toggle(this)"></div><span class="item-text">Mini simulazione mista a tempo: 30 domande mixed (focus su obiettivi deboli identificati)</span></li>
         </ul>
         <div class="section-label consolid">Tabelle critiche da ripassare</div>
@@ -1211,5 +1232,6 @@
     }
   });
 </script>
+<script src="script/global-search.js" defer></script>
 </body>
 </html>

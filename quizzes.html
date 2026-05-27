@@ -59,7 +59,7 @@
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--white);
-      background: var(--navy);
+      background: var(--dom-fg, var(--navy));
       padding: 3px 8px;
       border-radius: 4px;
     }
@@ -88,31 +88,34 @@
       display: block;
       text-align: center;
       text-decoration: none;
-      padding: 10px 14px;
+      padding: 8px 14px;
       font-size: 0.85rem;
       font-weight: 600;
-      border-radius: 6px;
-      transition: all 0.15s ease-in-out;
+      border-radius: 5px;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
     .quiz-action-btn.primary {
-      background: var(--teal);
-      color: var(--white);
+      background: none;
+      color: var(--teal);
+      border: 1.5px solid var(--teal);
     }
     .quiz-action-btn.primary:hover {
-      background: #0d635c;
+      background: var(--tip-bg, #EEF2FF);
     }
     .quiz-action-btn.secondary {
-      background: var(--bg);
+      background: none;
       color: var(--slate);
-      border: 1px solid var(--light-slate);
+      border: 1.5px solid var(--light-slate);
     }
     .quiz-action-btn.secondary:hover {
-      background: var(--light-slate);
+      background: var(--bg);
+      border-color: var(--slate);
+      color: var(--navy);
     }
     
     /* Stats banner */
     .stats-banner {
-      background: linear-gradient(135deg, var(--navy) 0%, #152E52 100%);
+      background: linear-gradient(135deg, var(--navy) 0%, #00324d 100%);
       color: var(--white);
       border-radius: 12px;
       padding: 24px;
@@ -162,20 +165,21 @@
     
     /* Accordion in Quizzes list */
     .domain-title-header {
-      font-size: 1.15rem;
+      font-size: 1.08rem;
       font-weight: 700;
-      color: var(--white);
-      background: var(--navy);
-      padding: 12px 18px;
+      color: var(--dom-fg, var(--white));
+      background: var(--dom-bg, var(--navy));
+      border: 1px solid var(--dom-border, transparent);
+      padding: 12px 20px;
       border-radius: 8px 8px 0 0;
       margin-top: 32px;
     }
     .domain-quiz-wrapper {
-      border: 1.5px solid var(--light-slate);
+      border: 1px solid var(--dom-border, var(--light-slate));
       border-top: none;
       border-radius: 0 0 8px 8px;
       padding: 20px;
-      background: #fafbfe;
+      background: var(--white);
     }
     
     .no-results {
@@ -199,6 +203,7 @@
     <a href="index.html" class="global-nav-link">Home</a>
     <a href="quizzes.html" class="global-nav-link active">Quiz</a>
     <a href="glossario.html" class="global-nav-link">Glossario</a>
+    <a href="checklist.html" class="global-nav-link">Checklist</a>
   </div>
 </nav>
 
@@ -240,8 +245,8 @@
   <main id="quizzes-container">
     
     <!-- DOMINIO 1 -->
-    <div class="domain-group" data-domain="1">
-      <div class="domain-title-header" style="background: #0B1F3A;">
+    <div class="domain-group dom-1" data-domain="1">
+      <div class="domain-title-header">
         Dominio 1 — Concetti generali di sicurezza (D1)
       </div>
       <div class="domain-quiz-wrapper">
@@ -300,8 +305,8 @@
     </div>
 
     <!-- DOMINIO 2 -->
-    <div class="domain-group" data-domain="2">
-      <div class="domain-title-header" style="background: #0F766E;">
+    <div class="domain-group dom-2" data-domain="2">
+      <div class="domain-title-header">
         Dominio 2 — Minacce, vulnerabilità e mitigazioni (D2)
       </div>
       <div class="domain-quiz-wrapper">
@@ -372,8 +377,8 @@
     </div>
 
     <!-- DOMINIO 3 -->
-    <div class="domain-group" data-domain="3">
-      <div class="domain-title-header" style="background: #334155;">
+    <div class="domain-group dom-3" data-domain="3">
+      <div class="domain-title-header">
         Dominio 3 — Architettura di sicurezza (D3)
       </div>
       <div class="domain-quiz-wrapper">
@@ -432,8 +437,8 @@
     </div>
 
     <!-- DOMINIO 4 -->
-    <div class="domain-group" data-domain="4">
-      <div class="domain-title-header" style="background: #1D4ED8;">
+    <div class="domain-group dom-4" data-domain="4">
+      <div class="domain-title-header">
         Dominio 4 — Operazioni di sicurezza (D4)
       </div>
       <div class="domain-quiz-wrapper">
@@ -552,8 +557,8 @@
     </div>
 
     <!-- DOMINIO 5 -->
-    <div class="domain-group" data-domain="5">
-      <div class="domain-title-header" style="background: #7C3AED;">
+    <div class="domain-group dom-5" data-domain="5">
+      <div class="domain-title-header">
         Dominio 5 — Governance e supervisione (D5)
       </div>
       <div class="domain-quiz-wrapper">
