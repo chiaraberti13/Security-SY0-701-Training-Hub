@@ -73,7 +73,11 @@
     Per erigere sistemi difensivi solidi, un ingegnere di sicurezza deve comprendere non solo l'identità dell'attaccante,
     ma anche l'arsenale logico e pratico con cui colpire gli asset aziendali. In questo capitolo analizziamo in dettaglio
     i <strong>vettori di minaccia (threat vectors)</strong> — ovvero le vie d'accesso utilizzate per aprirsi un varco — 
-    ed i <strong>tipi di attacco comuni (threat types)</strong>, spaziando dalle frodi mirate sino ai ris<section id="vectors">
+    ed i <strong>tipi di attacco comuni (threat types)</strong>, spaziando dalle frodi mirate sino ai rischi informatici complessi.
+  </p>
+</section>
+
+<section id="vectors">
   <h2>Vettori di minaccia (Threat Vectors)</h2>
   <p>
     Un <strong>vettore di minaccia (threat vector)</strong> rappresenta la via o il canale — fisico o logico — utilizzato da un threat actor per infiltrarsi all'interno di un sistema informativo, diffondere malware o esfiltrare informazioni riservate. Comprendere i singoli vettori consente ai difensori di identificare e restringere la superficie di attacco di un'organizzazione.
@@ -81,15 +85,13 @@
   
   <h3>1. Vettori basati su messaggi (Message-based)</h3>
   <p>
-    I canali di comunicazione testuale e multimediale rappresentano il punto di ingresso preferito per gli attacchi di social engineering, data l'immediata interazione con il fattore umano:
-  </p>
-  <dl class="termlist">
+    I canali di comunicazione testuale e multimediale rappresentano il punto di ingresso preferito per gli attacchi di social engineering, data l'immediata int  <dl class="termlist">
     <dt>Email</dt>
-    <dd>Statisticamente rimane il vettore primario d'accesso a livello globale. Viene impiegato per diffondere link malevoli (credential harvesting o phishing), malware incorporati o allegati fraudolenti (es. falsi curriculum, fatture insolute, notifiche urgenti di sistema).</dd>
+    <dd>Statisticamente rimane il vettore primario d'accesso a livello globale. Viene impiegato per diffondere link malevoli (credential harvesting o phishing), malware incorporati o allegati fraudolenti (es. falsi curriculum, fatture insolute, notifiche urgenti di sistema).<br><strong>• Mitigazione principale:</strong> Configurazione di un Secure Email Gateway (SEG) con sandboxing e scansione attiva degli URL, adozione di record DNS protettivi (SPF, DKIM, DMARC) e sessioni costanti di security awareness.</dd>
     <dt>SMS (Short Message Service)</dt>
-    <dd>Sfrutta i telefoni cellulari aziendali aggirando i filtri di protezione della posta elettronica aziendale per recapitare link brevi ad altissima efficacia emotiva, come falsi pacchi in consegna, avvisi di sicurezza bancari o messaggi fittizi da parte dei vertici aziendali (Smishing).</dd>
+    <dd>Sfrutta i telefoni cellulari aziendali aggirando i filtri di protezione della posta elettronica aziendale per recapitare link brevi ad altissima efficacia emotiva, come falsi pacchi in consegna, avvisi di sicurezza bancari o messaggi fittizi da parte dei vertici aziendali (Smishing).<br><strong>• Mitigazione principale:</strong> Disattivazione dell'anteprima dei link nei messaggi sugli smartphone aziendali, software Mobile Device Management (MDM) e disaccoppiamento di account aziendali da MFA basato su SMS, preferendo token fisici o app di autenticazione.</dd>
     <dt>Instant messaging (IM)</dt>
-    <dd>Include piattaforme di messaggistica consumer come WhatsApp e Telegram, oppure strumenti di collaborazione aziendale integrati come Microsoft Teams, Slack o Discord. Gli aggressori usano la fiducia implicita in questi ambienti per condividere file dannosi, estorcere dati o bypassare le policy di rete.</dd>
+    <dd>Include piattaforme di messaggistica consumer come WhatsApp e Telegram, oppure strumenti di collaborazione aziendale integrati come Microsoft Teams, Slack o Discord. Gli aggressori usano la fiducia implicita in questi ambienti per condividere file dannosi, estorcere dati o bypassare le policy di rete.<br><strong>• Mitigazione principale:</strong> Ispezione centralizzata dei file transitati tramite API di sicurezza, limitazione strutturale dei permessi di interazione e condivisione file con utenti esterni non autorizzati.</dd>
   </dl>
 
   <h3>2. Vettori basati su immagini (Image-based)</h3>
@@ -98,9 +100,9 @@
   </p>
   <dl class="termlist">
     <dt>Steganografia (Steganography)</dt>
-    <dd>L'atto di occultare un payload malevolo all'interno dei pixel o dei metadati non critici di un'immagine apparentemente innocua. Una volta scaricata sulla macchina vittima, uno script o un malware di pre-infezione estrae il codice nascosto ed avvia l'attività dannosa.</dd>
+    <dd>L'atto di occultare un payload malevolo all'interno dei pixel o dei metadati non critici di un'immagine apparentemente innocua. Una volta scaricata sulla macchina vittima, uno script o un malware di pre-infezione estrae il codice nascosto ed avvia l'attività dannosa.<br><strong>• Mitigazione principale:</strong> Utilizzo di proxy e firewall con ispezione profonda dei contenuti (DPI), analisi comportamentale degli endpoint (EDR) per rilevare tentativi irregolari di estrazione ed esecuzione di codice in memoria.</dd>
     <dt>Exploit delle librerie di rendering</dt>
-    <dd>Sfruttamento di vulnerabilità note (es. buffer overflow o memory leakage) nelle vecchie librerie del sistema operativo o del browser preposte a disegnare a schermo l'immagine (es. formati JPEG o WebP). La visualizzazione d'immagine sul browser o nell'e-mail comporta l'esecuzione arbitraria di codice sul sistema colpito.</dd>
+    <dd>Sfruttamento di vulnerabilità note (es. buffer overflow o memory leakage) nelle vecchie librerie del sistema operativo o del browser preposte a disegnare a schermo l'immagine (es. formati JPEG o WebP). La visualizzazione d'immagine sul browser o nell'e-mail comporta l'esecuzione arbitraria di codice sul sistema colpito.<br><strong>• Mitigazione principale:</strong> Patch management rigido e automatizzato per browser e visualizzatori d'immagini, sandboxing robusto delle applicazioni che trattano file non attendibili.</dd>
   </dl>
 
   <h3>3. Vettori basati su file esterni (File-based)</h3>
@@ -109,7 +111,7 @@
   </p>
   <dl class="termlist">
     <dt>Documenti PDF ed Office macro-enabled</dt>
-    <dd>Documenti PDF contenenti exploit per JavaScript integrati nel lettore locale o file word/excel provvisti di <strong>Macro VBA</strong> malevole personalizzate. All'apertura, manipolano l'utente ad attivare le funzionalità esterne, richiamando script Powershell o script WMI in background per installare malware.</dd>
+    <dd>Documenti PDF contenenti exploit per JavaScript integrati nel lettore locale o file word/excel provvisti di <strong>Macro VBA</strong> malevole personalizzate. All'apertura, manipolano l'utente ad attivare le funzionalità esterne, richiamando script Powershell o script WMI in background per installare malware.<br><strong>• Mitigazione principale:</strong> Configurazione di Group Policy (GPO) per disabilitare l'esecuzione di macro da internet nei file Office e isolamento preventivo dei file in sandbox (Application Guard).</dd>
   </dl>
 
   <h3>4. Vettori basati su chiamate vocali (Voice call)</h3>
@@ -118,7 +120,7 @@
   </p>
   <dl class="termlist">
     <dt>Vishing (Voice Phishing)</dt>
-    <dd>Chiamate telefoniche in cui l'aggressore, servendosi del <strong>Caller ID Spoofing</strong> (alterazione dell'ID chiamante per far apparire numeri fidati come l'Help Desk centrale, la banca o l'amministratore delegato), richiede verbalmente credenziali, ripristino o dettatura di codici MFA o l'installazione di software di controllo remoto (come AnyDesk o TeamViewer).</dd>
+    <dd>Chiamate telefoniche in cui l'aggressore, servendosi del <strong>Caller ID Spoofing</strong> (alterazione dell'ID chiamante per far apparire numeri fidati come l'Help Desk centrale, la banca o l'amministratore delegato), richiede verbalmente credenziali, ripristino o dettatura di codici MFA o l'installazione di software di controllo remoto (come AnyDesk o TeamViewer).<br><strong>• Mitigazione principale:</strong> Richiesta e utilizzo obbligatorio di un canale secondario di convalida interno (out-of-band verification), divieto formale di rivelare password al telefono e adozione di protocolli di autenticazione delle chiamate VoIP (es. STIR/SHAKEN a livello carrier).</dd>
   </dl>
 
   <h3>5. Supporti rimovibili (Removable device)</h3>
@@ -127,7 +129,7 @@
   </p>
   <dl class="termlist">
     <dt>USB Flash Drive &amp; External Drives</dt>
-    <dd>Dispositivi d'archiviazione esterni lasciati appositamente in aree strategiche (parcheggi aziendali, sale d'attesa) per stimolare la curiosità dei dipendenti. All'inserimento, emulano una tastiera (attacchi <strong>Rubber Ducky / BadUSB</strong>) per digitare ad altissima velocità comandi dannosi in background, bypassando le difese perimetrali o infettando sistemi isolati (<em>air-gapped networks</em>).</dd>
+    <dd>Dispositivi d'archiviazione esterni lasciati appositamente in aree strategiche (parcheggi aziendali, sale d'attesa) per stimolare la curiosità dei dipendenti. All'inserimento, emulano una tastiera (attacchi <strong>Rubber Ducky / BadUSB</strong>) per digitare ad altissima velocità comandi dannosi in background, bypassando le difese perimetrali o infettando sistemi isolati (<em>air-gapped networks</em>).<br><strong>• Mitigazione principale:</strong> Disabilitazione delle porte USB non necessarie sui sistemi critici via GPO, impostazione di restrizioni di sola lettura per periferiche esterne tramite agenti EDR/DLP, e disabilitazione globale dell'AutoRun dei dispositivi.</dd>
   </dl>
 
   <h3>6. Software vulnerabili: Client-based vs. Agentless</h3>
@@ -136,9 +138,9 @@
   </p>
   <dl class="termlist">
     <dt>Client-based (Basato su agente/client)</dt>
-    <dd>L'analisi o la protezione della macchina richiede l'installazione locale di un modulo software ("agente") che rileva e invia dati di telemetria. Se l'agente è compromesso, mal configurato o antiquato, la postazione diventa cieca. Gli exploit derivano dall'interazione software che agisce direttamente a livello host.</dd>
+    <dd>L'analisi o la protezione della macchina richiede l'installazione locale di un modulo software ("agente") che rileva e invia dati di telemetria. Se l'agente è compromesso, mal configurato o antiquato, la postazione diventa cieca. Gli exploit derivano dall'interazione software che agisce direttamente a livello host.<br><strong>• Mitigazione principale:</strong> Utilizzo di sistemi automatici di patching per aggiornare periodicamente l'agente locale di sicurezza, accoppiati a controlli continui di heartbeat/SIEM per rilevare spegnimenti anomali dell'agente stesso.</dd>
     <dt>Agentless (Senza agente)</dt>
-    <dd>L'ispezione della sicurezza avviene da remoto autenticandosi tramite protocolli sicuri o analizzando le porte di rete esposte (es. tramite scansioni API centralizzate o cloud-native). Sebbene eviti l'overhead di gestione di un agente su ciascun server, un errore di autenticazione centralizzata o una debolezza nei protocolli di connessione remoti può esporre l'intera flotta di macchine a comandi illegittimi dall'esterno.</dd>
+    <dd>L'ispezione della sicurezza avviene da remoto autenticandosi tramite protocolli sicuri o analizzando le porte di rete esposte (es. tramite scansioni API centralizzate o cloud-native). Sebbene eviti l'overhead di gestione di un agente su ciascun server, un errore di autenticazione centralizzata o una debolezza nei protocolli di connessione remoti può esporre l'intera flotta di macchine a comandi illegittimi dall'esterno.<br><strong>• Mitigazione principale:</strong> Restrizione dell'accesso alle API e porte amministrative di scansione remota utilizzando liste di controllo degli accessi (ACL) rigide, e adozione di credenziali dedicate ad alta rotazione gestite tramite sistemi PAM.</dd>
   </dl>
 
   <h3>7. Sistemi ed applicazioni non supportati (Unsupported systems / applications)</h3>
@@ -147,7 +149,7 @@
   </p>
   <dl class="termlist">
     <dt>End-of-life (EOL) &amp; Legacy software</dt>
-    <dd>Sistemi operativi obsoleti (come Windows Server 2008) o pacchetti applicativi per cui il produttore ha terminato il supporto tecnico e non rilascia più <strong>security patch (aggiornamenti di sicurezza)</strong>. Rimangono permanentemente vulnerabili ai nuovi exploit noti ed esposti su internet o in intranet, configurando un bersaglio statico di facilissimo accesso per qualsiasi threat actor.</dd>
+    <dd>Sistemi operativi obsoleti (come Windows Server 2008) o pacchetti applicativi per cui il produttore ha terminato il supporto tecnico e non rilascia più <strong>security patch (aggiornamenti di sicurezza)</strong>. Rimangono permanentemente vulnerabili ai nuovi exploit noti ed esposti su internet o in intranet, configurando un bersaglio statico di facilissimo accesso per qualsiasi threat actor.<br><strong>• Mitigazione principale:</strong> Migrazione tempestiva ad hardware e software supportati; per sistemi legacy intrasferibili, isolamento logico tramite una VLAN dedicata priva di connettività internet e configurazione di regole IPS dedicate sul firewall perimetrale.</dd>
   </dl>
 
   <h3>8. Reti non sicure (Unsecure networks)</h3>
@@ -156,11 +158,11 @@
   </p>
   <dl class="termlist">
     <dt>Wireless (Senza fili)</dt>
-    <dd>L'uso di standard wireless superati (WEP o WPA con algoritmi deboli) o la presenza di hotspot fittizi (<strong>Rogue Access Points</strong> ed <strong>Evil Twin</strong>: reti Wi-Fi che clonano fedelmente il nome, SSID, dell'infrastruttura aziendale) per spingere i dipendenti remoti ad accoppiarsi ed intercettarne l'intero traffico web in chiaro (attacchi On-path).</dd>
+    <dd>L'uso di standard wireless superati (WEP o WPA con algoritmi deboli) o la presenza di hotspot fittizi (<strong>Rogue Access Points</strong> ed <strong>Evil Twin</strong>: reti Wi-Fi che clonano fedelmente il nome, SSID, dell'infrastruttura aziendale) per spingere i dipendenti remoti ad accoppiarsi ed intercettarne l'intero traffico web in chiaro (attacchi On-path).<br><strong>• Mitigazione principale:</strong> Configurazione obbligatoria del protocollo WPA3 Enterprise, monitoraggio dello spettro radio tramite sistemi WIPS (Wireless Intrusion Prevention System) per abbattere i rogue AP, e blocco preventivo dei dipendenti esterni tramite l'obbligo di tunnel VPN aziendali.</dd>
     <dt>Wired (Cablato/Ethernet)</dt>
-    <dd>L'assenza di filtri d'autenticazione delle porte di rete a livello fisico (<strong>standard IEEE 802.1X / MAC filtering</strong>) in aree aperte o comuni (hall, uffici ad accesso pubblico, prese a muro incustodite). Consente a terzi di collegare fisicamente un computer portatile o un piccolo dispositivo di cattura (sniffer) ed entrare istantaneamente nell'intranet aziendale.</dd>
+    <dd>L'assenza di filtri d'autenticazione delle porte di rete a livello fisico (<strong>standard IEEE 802.1X / MAC filtering</strong>) in aree aperte o comuni (hall, uffici ad accesso pubblico, prese a muro incustodite). Consente a terzi di collegare fisicamente un computer portatile o un piccolo dispositivo di cattura (sniffer) ed entrare istantaneamente nell'intranet aziendale.<br><strong>• Mitigazione principale:</strong> Blindatura fisica delle prese non utilizzate o canali chiusi e implementazione rigorosa dello standard <strong>IEEE 802.1X</strong> per esigere certificati digitali per l'autenticazione dei dispositivi di rete collegati a livello di porta dello switch.</dd>
     <dt>Bluetooth</dt>
-    <dd>Standard wireless a corto raggio spesso mal configurato o lasciato in modalità sempre visibile (Discoverable). Consente attacchi adiacenti opportunistici: <strong>Bluejacking</strong> (invio di messaggi non autorizzati), <strong>Bluesnarfing</strong> (sottrazione abusiva di SMS, mail, rubrica telefonica) o vulnerabilità nello stack di sistema come <strong>Blueborne</strong> per l'esecuzione di comandi.</dd>
+    <dd>Standard wireless a corto raggio spesso mal configurato o lasciato in modalità sempre visibile (Discoverable). Consente attacchi adiacenti opportunistici: <strong>Bluejacking</strong> (invio di messaggi non autorizzati), <strong>Bluesnarfing</strong> (sottrazione abusiva di SMS, mail, rubrica telefonica) o vulnerabilità nello stack di sistema come <strong>Blueborne</strong> per l'esecuzione di comandi.<br><strong>• Mitigazione principale:</strong> Disattivazione totale del Bluetooth quando non in uso, disabilitazione della visibilità (Non-discoverable mode) sui telefoni ed endpoint mobili aziendali, e divieto assoluto di stabilire abbinamenti (pairing) in aree pubbliche non controllate.</dd>
   </dl>
 
   <h3>9. Porte di servizio aperte (Open service ports)</h3>
@@ -169,7 +171,7 @@
   </p>
   <dl class="termlist">
     <dt>Open ports</dt>
-    <dd>Server ed endpoint che lasciano servizi sensibili esposti direttamente su indirizzi IP pubblici senza il filtro di una VPN o di un firewall perimetrale. Porte come la 23 (Telnet, traffico in chiaro), 21 (FTP), o 3389 (RDP - Remote Desktop Protocol, bersaglio continuo di attacchi brute-force o exploit per l'esecuzione di codice) ampliano a dismisura le porte logiche d'ingresso per gli attaccanti esterni.</dd>
+    <dd>Server ed endpoint che lasciano servizi sensibili esposti direttamente su indirizzi IP pubblici senza il filtro di una VPN o di un firewall perimetrale. Porte come la 23 (Telnet, traffico in chiaro), 21 (FTP), o 3389 (RDP - Remote Desktop Protocol, bersaglio continuo di attacchi brute-force o exploit per l'esecuzione di codice) ampliano a dismisura le porte logiche d'ingresso per gli attaccanti esterni.<br><strong>• Mitigazione principale:</strong> Esecuzione di scansioni periodiche delle porte aperte (Network Scanning con tool come Nmap), configurazione dei firewall per bloccare per impostazione predefinita tutto il traffico (Implicit Deny / Least Privilege) e isolamento totale di RDP e SSH dietro canali VPN protetti da MFA.</dd>
   </dl>
 
   <h3>10. Credenziali di default (Default credentials)</h3>
@@ -178,7 +180,7 @@
   </p>
   <dl class="termlist">
     <dt>Default passwords</dt>
-    <dd>Spediti dai produttori con coppie di login e password di fabbrica note a tutti (es. <code>admin / admin</code>, <code>root / password</code>, nomi produttore dei router/switch). Gli amministratori negligenti che omettono di modificare queste credenziali durante il deployment consentono agli attaccanti di assumere all'istante il controllo privilegiato sul sistema o sul dispositivo di rete alla prima scansione.</dd>
+    <dd>Spediti dai produttori con coppie di login e password di fabbrica note a tutti (es. <code>admin / admin</code>, <code>root / password</code>, nomi produttore dei router/switch). Gli amministratori negligenti che omettono di modificare queste credenziali durante il deployment consentono agli attaccanti di assumere all'istante il controllo privilegiato sul sistema o sul dispositivo di rete alla prima scansione.<br><strong>• Mitigazione principale:</strong> Obbligo di modificare in via tassativa la password al primo avvio (enforced credential change) e auditing periodico e automatizzato del network per individuare interfacce con credenziali standard.</dd>
   </dl>
 
   <h3>11. Catena di fornitura (Supply Chain)</h3>
@@ -187,11 +189,11 @@
   </p>
   <dl class="termlist">
     <dt>Managed Service Providers (MSP)</dt>
-    <dd>I fornitori di servizi IT gestiti dispongono di canali VPN permanenti ed agenti di monitoraggio ad altissimo privilegio installati su tutte le macchine dei loro clienti. Compromettendo la console d'amministrazione dell'MSP, un attaccante ottiene istantaneamente accesso automatizzato e totale alle reti di centinaia di aziende clienti downstream.</dd>
+    <dd>I fornitori di servizi IT gestiti dispongono di canali VPN permanenti ed agenti di monitoraggio ad altissimo privilegio installati su tutte le macchine dei loro clienti. Compromettendo la console d'amministrazione dell'MSP, un attaccante ottiene istantaneamente accesso automatizzato e totale alle reti di centinaia di aziende clienti downstream.<br><strong>• Mitigazione principale:</strong> Limitazione rigorosa e segmentazione di rete della VPN dell'MSP, auditing costante dei privilegi degli agenti installati e disattivazione delle connessioni fino al momento effettivo dell'assistenza.</dd>
     <dt>Vendors (Fornitori di terze parti)</dt>
-    <dd>Aziende esterne (es. manutentori HVAC, logistica, consulenti) con accessi remoti VPN dedicati per la gestione di sottomoduli d'ufficio. Tradizionalmente meno protette del target principale, fungono da teste di ponte per entrare nella rete e muoversi lateralmente.</dd>
+    <dd>Aziende esterne (es. manutentori HVAC, logistica, consulenti) con accessi remoti VPN dedicati per la gestione di sottomoduli d'ufficio. Tradizionalmente meno protette del target principale, fungono da teste di ponte per entrare nella rete e muoversi lateralmente.<br><strong>• Mitigazione principale:</strong> Implementazione del modello Zero Trust, controllo degli accessi VPN per fornitori tramite PAM (Privileged Access Management) con MFA obbligatorio e sessioni monitorate in tempo reale.</dd>
     <dt>Suppliers (Fornitori di hardware o software)</dt>
-    <dd>Manomissione del software durante le fasi di sviluppo prima della firma digitale (es. l'attacco SolarWinds tramite patch infette generate dal software provider), o intercettazione logistica di hardware server inserendovi microchip spia (hardware tampering / hardware implants).</dd>
+    <dd>Manomissione del software durante le fasi di sviluppo prima della firma digitale (es. l'attacco SolarWinds tramite patch infette generate dal software provider), o intercettazione logistica di hardware server inserendovi microchip spia (hardware tampering / hardware implants).<br><strong>• Mitigazione principale:</strong> Richiesta di integrità del codice certificata con SBOM (Software Bill of Materials), verifiche crittografiche dell'hash delle patch prima dell'applicazione e ispezione fisica hardware pre-deployment.</dd>
   </dl>
 </section>
 
@@ -202,25 +204,25 @@
   </p>
   <dl class="termlist">
     <dt>Phishing</dt>
-    <dd>Operazione massiva che induce le vittime a digitare password su pagine web falsificate (<strong>Credential Harvesting</strong>) o a scaricare file dannosi per mezzo di e-mail appositamente camuffate.</dd>
+    <dd>Operazione massiva che induce le vittime a digitare password su pagine web falsificate (<strong>Credential Harvesting</strong>) o a scaricare file dannosi per mezzo di e-mail appositamente camuffate.<br><strong>• Mitigazione principale:</strong> Abilitazione di sistemi MFA resistenti al phishing (FIDO2), integrazione di filtri antispam e anti-phishing euristici nel SEG, e simulazioni periodiche di phishing per la formazione del personale.</dd>
     <dt>Smishing (SMS Phishing)</dt>
-    <dd>Vettore che viaggia tramite SMS adoperato per indurre all'urgenza ('sono il CEO, acquista gift card') o carpire reset password remoti.</dd>
+    <dd>Vettore che viaggia tramite SMS adoperato per indurre all'urgenza ('sono il CEO, acquista gift card') o carpire reset password remoti.<br><strong>• Mitigazione principale:</strong> Education del personale a non cliccare mai su link inclusi in SMS sospetti e imposizione di criteri di sicurezza (MDM, blocco di numeri sconosciuti).</dd>
     <dt>Vishing (Voice Phishing)</dt>
-    <dd>Chiamata vocale truffaldina supportata da alterazione dell'identità visiva del chiamante (<strong>Caller ID spoofing</strong>).</dd>
+    <dd>Chiamata vocale truffaldina supportata da alterazione dell'identità visiva del chiamante (<strong>Caller ID spoofing</strong>).<br><strong>• Mitigazione principale:</strong> Obbligo procedurale di riagganciare e ricontattare l'interlocutore richiamando il numero ufficiale registrato nella rubrica aziendale (non quello visualizzato a schermo), e divieto assoluto di dettare codici sensibili.</dd>
     <dt>Typosquatting (URL Hijacking)</dt>
-    <dd>La registrazione strategica di nomi a dominio palesemente storpiati per errori di battitura manuale da parte delle vittime (es: <code>www.c0mpany.com</code> al posto di <code>www.company.com</code>) per caricarvi malware o sottrarre credenziali.</dd>
+    <dd>La registrazione strategica di nomi a dominio palesemente storpiati per errori di battitura manuale da parte delle vittime (es: <code>www.c0mpany.com</code> al posto di <code>www.company.com</code>) per caricarvi malware o sottrarre credenziali.<br><strong>• Mitigazione principale:</strong> Registrazione preventiva dei domini graficamente o foneticamente simili da parte del brand, e installazione di filtri di sicurezza di navigazione (Web Proxy / Secure Web Gateway) che bloccano l'accesso a siti web con scarsa reputazione.</dd>
     <dt>Watering-hole attack</dt>
-    <dd>Infezione indiretta che consiste nel compromettere un sito web esterno di settore comunemente frequentato e reputato fido dalla nicchia di dipendenti dell'azienda target.</dd>
+    <dd>Infezione indiretta che consiste nel compromettere un sito web esterno di settore comunemente frequentato e reputato fido dalla nicchia di dipendenti dell'azienda target.<br><strong>• Mitigazione principale:</strong> Uso di sistemi EDR avanzati per bloccare exploit derivanti da drive-by-download provenienti dal browser, navigazione internet isolata (RBI - Remote Browser Isolation) e aggiornamento costante delle sandbox locali.</dd>
     <dt>Pharming</dt>
-    <dd>Un attacco sofisticato diretto a re-indirizzare automaticamente il traffico web degli utenti da un sito web legittimo a un duplicato maligno, anche se l'utente digita correttamente l'URL originale nel browser. Si realizza primariamente tramite <strong>DNS cache poisoning (avvelenamento DNS)</strong> sui server ricorsivi o modificando abusivamente il file locale delle corrispondenze host (<strong>hosts file modification</strong>) sul PC della vittima. A differenza del phishing tradizionale, non richiede al dipendente di commettere l'errore di fare clic su un link e-mail falso.</dd>
+    <dd>Un attacco sofisticato diretto a re-indirizzare automaticamente il traffico web degli utenti da un sito web legittimo a un duplicato maligno, anche se l'utente digita correttamente l'URL originale nel browser. Si realizza primariamente tramite <strong>DNS cache poisoning (avvelenamento DNS)</strong> sui server ricorsivi o modificando abusivamente il file locale delle corrispondenze host (<strong>hosts file modification</strong>) sul PC della vittima. A differenza del phishing tradizionale, non richiede al dipendente di commettere l'errore di fare clic su un link e-mail falso.<br><strong>• Mitigazione principale:</strong> Configurazione di <strong>DNSSEC</strong> a livello di record DNS pubblici, irrigidimento dei sistemi operativi client impedendo la modifica del file `hosts` tramite GPO/EDR, ed esecuzione costante di scansioni di integrità del database di cache dei server DNS aziendali.</dd>
     <dt>Pretexting</dt>
-    <dd>La creazione di uno scenario inventato e dettagliato (il "pretesto") per indurre la vittima a cedere informazioni confidenziali. Ad esempio, spacciarsi per un revisore dei conti o un tecnico dell'assistenza esterna che richiede l'estrazione manuale di report riservati.</dd>
+    <dd>La creazione di uno scenario inventato e dettagliato (il "pretesto") per indurre la vittima a cedere informazioni confidenziali. Ad esempio, spacciarsi per un revisore dei conti o un tecnico dell'assistenza esterna che richiede l'estrazione manuale di report riservati.<br><strong>• Mitigazione principale:</strong> Procedure standardizzate e rigidamente formalizzate per l'interazione con l'esterno, obbligo di identificazione formale (badge o canali cifrati aziendali) per chiunque richieda l'accesso ad informazioni non pubbliche.</dd>
     <dt>Impersonation (Impersonificazione)</dt>
-    <dd>Il cybercriminale assume volutamente l'identità di un'altra persona nota (es. un dirigente, la polizia postale, un collega) sfruttando l'autorità o il senso di deferenza dei lavoratori aziendali per indurli a compiere azioni vietate.</dd>
+    <dd>Il cybercriminale assume volutamente l'identità di un'altra persona nota (es. un dirigente, la polizia postale, un collega) sfruttando l'autorità o il senso di deferenza dei lavoratori aziendali per indurli a compiere azioni vietate.<br><strong>• Mitigazione principale:</strong> Canali formali per autorizzare qualsiasi spostamento finanziario o credenziale sensibile, e cultura aziendale aperta in cui proporre dubbi o domande non viene mai sanzionato.</dd>
     <dt>Brand impersonation (Impersonificazione del Marchio)</dt>
-    <dd>Falsificazione sistematica dell'identità visiva, loghi e nomi commerciali di marchi estremamente noti (es. Microsoft, Amazon, DHL) per ingannare utenti finali o impiegati a compilare form fittizi di login, sbloccando le credenziali o installando finti aggiornamenti.</dd>
+    <dd>Falsificazione sistematica dell'identità visiva, loghi e nomi commerciali di marchi estremamente noti (es. Microsoft, Amazon, DHL) per ingannare utenti finali o impiegati a compilare form fittizi di login, sbloccando le credenziali o installando finti aggiornamenti.<br><strong>• Mitigazione principale:</strong> Controlli rigorosi del mittente della mail tramite DKIM e SPF, blocco dei loghi esterni sui server di posta tramite rilevamenti grafici automatici e utilizzo di gestori di password che prejuicano di compilare automaticamente i dati se l'URL esatto non corrisponde al dominio ufficiale registrato.</dd>
     <dt>Misinformation vs Disinformation (Disinformazione)</dt>
-    <dd>Campagne di influenza e alterazione dell'informazione aziendale o pubblica. La <strong>Misinformation (Disinformazione involontaria)</strong> è la propagazione involontaria di notizie palesemente errate o false senza intenti malevoli di base. Al contrario, la <strong>Disinformation (Disinformazione intenzionale)</strong> è la pianificazione, creazione e coordinamento doloso di notizie distorte o totalmente false realizzate appositamente per screditare un marchio, manipolare i mercati azionari, destabilizzare il morale aziendale o indurre i dipendenti a compiere errori operativi catastrofici.</dd>
+    <dd>Campagne di influenza e alterazione dell'informazione aziendale o pubblica. La <strong>Misinformation (Disinformazione involontaria)</strong> è la propagazione involontaria di notizie palesemente errate o false senza intenti malevoli di base. Al contrario, la <strong>Disinformation (Disinformazione intenzionale)</strong> è la pianificazione, creazione e coordinamento doloso di notizie distorte o totalmente false realizzate appositamente per screditare un marchio, manipolare i mercati azionari, destabilizzare il morale aziendale o indurre i dipendenti a compiere errori operativi catastrofici.<br><strong>• Mitigazione principale:</strong> Canali di PR e comunicazione aziendale veloci e centralizzati, monitoraggio costante del brand (Brand Monitoring) sui social e forum esterni, e canali interni trasparenti per convalidare le notizie ed evitare fraintendimenti operativi.</dd>
   </dl>
 </section>
 
@@ -234,15 +236,23 @@
     Il <strong>Whaling</strong> colpisce in modo esclusivo e mirato i soggetti al vertice aziendale (CEO, CFO, direttori di divisione) per estorcerne i privilegi o ottenere risposte dirette d'alto rango.<br>
     Il <strong>Business Email Compromise (BEC)</strong> consiste nell'utilizzare account e-mail di figure executive o partner commerciali (compromessi o simulati con cura, spesso combinandoli con typosquatting sui domini) per ingannare i dipendenti operativi dell'ufficio contabilità o acquisti a compiere bonifici o pagamenti urgenti su conti fittizi sotto forma di scadenze fittizie o fatture rielaborate.
   </div>
+  <div class="exam-tip" style="background-color: #f0f7ff; border-left: 4px solid var(--navy); margin-top: 15px;">
+    <strong>🛡️ MITIGAZIONI CHIAVE PER BEC E WHALING:</strong>
+    <ul style="margin-left: 20px; margin-top: 8px;">
+      <li><strong>Separazione dei compiti (Separation of Duties / Dual Authorization):</strong> Richiedere tassativamente l'approvazione formale e la firma di almeno due persone distinte prima di autorizzare modifiche agli IBAN dei fornitori o compiere pagamenti superiori ad un determinato importo finanziario.</li>
+      <li><strong>Verifica Esterna (Out-of-band Verification):</strong> Utilizzare una via di comunicazione separata (ad esempio, una telefonata a un numero di telefono già noto e registrato in anagrafica fissa, e non quello fornito nella nuova mail sospetta) per confermare qualsiasi variazione ai canali di fatturazione.</li>
+      <li><strong>Autenticazione E-mail Avanzata:</strong> Forzare policy DNS DMARC con direttiva d'isolamento palese (<code>p=reject</code>) per annientare il furto o spoofing diretto di posta elettronica del marchio aziendale.</li>
+    </ul>
+  </div>
 </section>
 
 <section id="network-attacks">
   <h2>Attacchi di rete e di intercettazione</h2>
   <dl class="termlist">
     <dt>On-path attack (abbreviato in On-path)</dt>
-    <dd>Il termine moderno per identificare il classico <em>Man-in-the-Middle</em> (MitM). L'attaccante intercetta i flussi dati in viaggio, spesso alterando la cifratura SSL inserendo certificati fittizi non attendibili che gli utenti pigri tendono ad accettare senza controllo.</dd>
+    <dd>Il termine moderno per identificare il classico <em>Man-in-the-Middle</em> (MitM). L'attaccante intercetta i flussi dati in viaggio, spesso alterando la cifratura SSL inserendo certificati fittizi non attendibili che gli utenti tendono ad accettare senza controllo.<br><strong>• Mitigazione principale:</strong> Uso diffuso e forzato di protocolli crittografici resistenti (SSH, HTTPS/TLS 1.3), installazione di HSTS (HTTP Strict Transport Security), blocco delle CA non valide a livello browser, e l'uso continuo di VPN di rete.</dd>
     <dt>Sniffing e Telnet</dt>
-    <dd>L'adozione di protocolli obsoleti in chiaro come Telnet (porta 23) o FTP (porta 21) consente ad avversari passivi di catturare le password in transito in modo banale.</dd>
+    <dd>L'adozione di protocolli obsoleti in chiaro come Telnet (porta 23) o FTP (porta 21) consente ad avversari passivi di catturare le password in transito in modo banale.<br><strong>• Mitigazione principale:</strong> Dismissione immediata dei vecchi protocolli insicuri, forzando la migrazione a canali cifrati equivalenti (es. SSH per Telnet, SFTP per FTP) e monitoraggio dei flussi di traffico alla ricerca di flussi di rete non cifrati.</dd>
   </dl>
 </section>
 
@@ -250,7 +260,7 @@
   <h2>Attacchi DNS e Zone Transfer</h2>
   <dl class="termlist">
     <dt>DNS Zone Transfer (AXFR)</dt>
-    <dd>Una query di tipo AXFR inviata ad un DNS server non protetto gli impone di riversare l'intera mappa dettagliata di nomi di host, sottodomini, server di database e indirizzi IP adiacenti dell'azienda, esponendo la mappa del patrimonio informativo interno (OSINT/reconnaissance).</dd>
+    <dd>Una query di tipo AXFR inviata ad un DNS server non protetto gli impone di riversare l'intera mappa dettagliata di nomi di host, sottodomini, server di database e indirizzi IP adiacenti dell'azienda, esponendo la mappa del patrimonio informativo interno (OSINT/reconnaissance).<br><strong>• Mitigazione principale:</strong> Configurazione del server DNS pubblico per bloccare le query AXFR provenienti da indirizzi sconosciuti, abilitando solo i server secondari legittimi tramite elenchi IP limitati o l'adozione di firme TSIG (Transaction Signatures).</dd>
   </dl>
 </section>
 
@@ -261,9 +271,9 @@
   </p>
   <dl class="termlist">
     <dt>Hardware Tampering &amp; Supply Chain</dt>
-    <dd>L'atto di manomettere fisicamente circuiti e schede madri di server o dispositivi di rete durante la logistica di trasporto della supply chain. Richiede ispezioni visive minuziose delle schede madri e chip prima dell'accettazione e dell'installazione finali sul ferro aziendale.</dd>
+    <dd>L'atto di manomettere fisicamente circuiti e schede madri di server o dispositivi di rete durante la logistica di trasporto della supply chain. Richiede ispezioni visive minuziose delle schede madri e chip prima dell'accettazione e dell'installazione finali sul ferro aziendale.<br><strong>• Mitigazione principale:</strong> Acquisto esclusivo da vendor certificati, ispezioni fisiche di integrità (compresi sigilli antimanomissione numerati sui colli logistici) e l'utilizzo di chipset crittografici HSM/TPM per verificare l'integrità del firmware all'avvio (Boot Attestation).</dd>
     <dt>Dumpster diving aziendale</dt>
-    <dd>Le minacce derivano anche dal riciclo di fogli o scarti cartacei contenenti segreti dai raccoglitori di fogli in disuso delle stampanti condivise, che fa risaltare i rischi fisici di fuga d'informazioni.</dd>
+    <dd>Le minacce derivano anche dal riciclo di fogli o scarti cartacei contenenti segreti dai raccoglitori di fogli in disuso delle stampanti condivise, che fa risaltare i rischi fisici di fuga d'informazioni.<br><strong>• Mitigazione principale:</strong> Installazione capillare di distruggidocumenti industriali a frammentazione fine (Shredders) negli uffici, ed educazione della forza lavoro a non gettare mai nei rifiuti ordinari fogli di lavoro non distrutti.</dd>
   </dl>
 </section>
 
@@ -275,16 +285,16 @@
   </p>
   <dl class="termlist">
     <dt>Petya (Ransomware di MBR/MFT)</dt>
-    <dd>Un malware di tipo ransomware distruttivo emerso nel 2016 e propagatosi nel 2017 a livello globale tramite una variante denominata <em>NotPetya</em>. A differenza dei ransomware ordinari che cifrano solo singoli file lasciando integro il sistema operativo, Petya sovrascrive direttamente il record di bootstrap del disco, il Master Boot Record (MBR), e cifra la tabella di allocazione NTFS (Master File Table - MFT), mandando in crash la macchina e bloccandone l'avvio prima di mostrare la richiesta di riscatto.</dd>
+    <dd>Un malware di tipo ransomware distruttivo emerso nel 2016 e propagatosi nel 2017 a livello globale tramite una variante denominata <em>NotPetya</em>. A differenza dei ransomware ordinari che cifra solo singoli file lasciando integro il sistema operativo, Petya sovrascrive direttamente il record di bootstrap del disco, il Master Boot Record (MBR), e cifra la tabella di allocazione NTFS (Master File Table - MFT), mandando in crash la macchina e bloccandone l'avvio prima di mostrare la richiesta di riscatto.<br><strong>• Mitigazione principale:</strong> Esecuzione periodica di backup scollegati fisicamente o in cloud immutabile (air-gapped/immutable backups) che consentano il ripristino bare-metal dell'host, blocco degli exploit di vulnerabilità Windows SMB (come la vulnerabilità Microsoft MS17-010 usata da EternalBlue) e disattivazione dei servizi di rete non necessari.</dd>
 
     <dt>Bitcoin Payments (Pagamenti in Bitcoin)</dt>
-    <dd>La criptovaluta decentralizzata maggiormente imposta e richiesta dai gruppi criminali di Ransomware come unica modalità per eseguire l'estorsione finanziaria. L'uso di account pseudonimi basati su registri blockchain distribuiti rende complessa la tracciabilità delle transazioni transfrontaliere rispetto al classico circuito bancario fiat, alimentando l'economia sotterranea dei riscatti.</dd>
+    <dd>La criptovaluta decentralizzata maggiormente imposta e richiesta dai gruppi criminali di Ransomware come unica modalità per eseguire l'estorsione finanziaria. L'uso di account pseudonimi basati su registri blockchain distribuiti rende complessa la tracciabilità delle transazioni transfrontaliere rispetto al classico circuito bancario fiat, alimentando l'economia sotterranea dei riscatti.<br><strong>• Mitigazione principale:</strong> Blocco proattivo sui server DNS dei vettori di broker di criptovalute e dei nodi della rete Tor usati per raggiungere i portali di pagamento dei riscatti, e pianificazione dei piani di Disaster Recovery per evitare del tutto la necessità di avviare trattative di pagamento con i criminali.</dd>
 
     <dt>Zeus (Trojan Bancario e Botnet)</dt>
-    <dd>Uno dei Trojan bancari (banking Trojan) più prolifici della storia, scoperto nel 2007. Sfrutta tecniche avanzate di Man-in-the-Browser (MitB), keylogging e form grabbing per intercettare ed esfiltrare credenziali bancarie ed e-commerce inserite dalle vittime sui portali finanziari. I pc infetti venivano reclutati in una delle botnet geograficamente più vaste di sempre, controllata da server centrali di Command and Control.</dd>
+    <dd>Uno dei Trojan bancari (banking Trojan) più prolifici della storia, scoperto nel 2007. Sfrutta tecniche avanzate di Man-in-the-Browser (MitB), keylogging e form grabbing per intercettare ed esfiltrare credenziali bancarie ed e-commerce inserite dalle vittime sui portali finanziari. I pc infetti venivano reclutati in una delle botnet geograficamente più vaste di sempre, controllata da server centrali di Command and Control.<br><strong>• Mitigazione principale:</strong> Adattamento di soluzioni EPP/EDR moderne con modulo euristico e protezione antimalware web integrata, adozione obbligatoria di MFA per tutte le credenziali operative finanziarie, e l'uso di browser isolati.</dd>
 
     <dt>MyDoom (Worm e-mail distruttivo)</dt>
-    <dd>Worm malware ad altissimo potenziale d'infezione via e-mail apparso nel 2004. Si autopropagava estraendo i contatti dalla rubrica locale dell'host compromesso ed inviando mail infette a cascata, generando una mole di traffico insolito e posta spazzatura (spam) così mastodontica sul web da mandare in affanno e rallentare in misura tangibile l'intera infrastruttura internet globale dell'epoca.</dd>
+    <dd>Worm malware ad altissimo potenziale d'infezione via e-mail apparso nel 2004. Si autopropagava estraendo i contatti dalla rubrica locale dell'host compromesso ed inviando mail infette a cascata, generando una mole di traffico insolito e posta spazzatura (spam) così mastodontica sul web da mandare in affanno e rallentare in misura tangibile l'intera infrastruttura internet globale dell'epoca.<br><strong>• Mitigazione principale:</strong> Filtri di rilevamento dell'invio massivo anomalo di posta sul server SMTP interno (DLP/Rate limits sull'invio di mail), installazione di barriere antispam con protezione euristica e di reputazione dei link alle mail in ingresso presso il SEG.</dd>
   </dl>
 </section>
 

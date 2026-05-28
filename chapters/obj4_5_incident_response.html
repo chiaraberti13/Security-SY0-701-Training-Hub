@@ -280,9 +280,29 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
         <section id="email_security">
           <h2>Misure di Sicurezza Email e Mitigazione dello Spoofing</h2>
           <p>
-            La posta elettronica è il vettore primario per gli attacchi di Phishing e frodi aziendali. Configurare le misure tecniche correttive nel DNS permette di reprimere il camuffamento dei mittenti (Email Spoofing):
+            La posta elettronica è il vettore d'attacco primario sia per truffe finanziarie sofisticate sia per la propagazione di malware. Proteggere questa infrastruttura richiede controlli multilivello che spaziano dalla validazione crittografica e di paternità del dominio sul DNS, fino ad architetture Gateway collocate in linea per l'ispezione di flussi in transito.
           </p>
-          <dl class="termlist">
+
+          <h3 style="margin-top: 20px; color: var(--ink); font-size: 1.15rem; font-weight: 600; border-bottom: 1.5px solid var(--light-slate); padding-bottom: 6px;">1. Minacce Principali alla Sicurezza e-mail (Email Threats)</h3>
+          <p style="margin-top: 8px;">
+            Le campagne dannose trasmesse tramite messaggistica si dividono in diverse macro-categorie, ognuna con precisi target e modus operandi:
+          </p>
+          <dl class="termlist" style="margin-top: 10px;">
+            <dt>Email Compromise Attacks (Attacchi ai Danni della Posta Aziendale)</dt>
+            <dd>Conosciuti primariamente come <strong>Business Email Compromise (BEC)</strong>, rappresentano attacchi mirati ad alto impatto. Un attaccante, camuffando la propria identità da dirigente apicale (CEO) o fornitore di fiducia tramite spoofing del dominio, induce gli uffici contabili ad effettuare pagamenti urgenti o trasferimenti monetari su conti fraudolenti. Non richiedendo l'uso di link nocivi o allegati malevoli, questi attacchi aggirano i classici controlli antivirus puntando interamente sulla violazione dell'autorità e dello spoofing d'identità.<br><strong>• Mitigazione principale:</strong> Configurazione rigorosa dei criteri SPF, DKIM e DMARC con policy di rigetto (<code>p=reject</code>) per bloccare lo spoofing del dominio aziendale; adozione obbligatoria di MFA per impedire il takeover di account legittimi; utilizzo di soluzioni anti-spoofing avanzate basate su AI per analizzare la reputazione dei mittenti e deviazioni nel linguaggio comunicativo; ed esecuzione tassativa di verifiche out-of-band (es. canali alternativi confermati o contatti telefonici diretti) prima di convalidare transazioni monetarie eccezionali.</dd>
+
+            <dt>Phishing Emails (E-mail di Phishing)</dt>
+            <dd>Campagne massive o mirate (Spear Phishing) progettate per ingannare i riceventi facendosi passare per soggetti legittimi (es. banche, corrieri, gestori di utenze). L'obiettivo primario è estorcere credenziali sensibili mediante pagine web clone fraudolente o provocare l'infezione del sistema inducendo la vittima ad aprire allegati portatori di script o malware.<br><strong>• Mitigazione principale:</strong> Distribuzione di un Secure Email Gateway (SEG) con motori di scansione euristica e ambienti isolati (Sandboxing) per disarmare macro e file dannosi; integrazione di controlli sul flusso in uscita (DLP) per sventare fughe di dati; implementazione di chiavi di autenticazione hardware resistenti al phishing (FIDO2/WebAuthn); ed esecuzione periodica di addestramenti interattivi e finte campagne di phishing controllate per addestrare il personale.</dd>
+
+            <dt>Email Scams (Truffe via E-mail)</dt>
+            <dd>Messaggi ingannevoli diffusi in blocco che fanno leva sulla psicologia della vittima (paura, vincite improvvise, minacce di ricatto o richieste di aiuto umanitario) per estorcere denaro, buoni regalo o informazioni sensibili senza l'ausilio di carichi crittografici nocivi o exploits tecnici.<br><strong>• Mitigazione principale:</strong> Attivazione di filtri di reputazione e motori antispam globali a livello e-mail gateway per sopprimere botnet ed e-mail spazzatura; adozione di banner informativi ed evidenti a bordo pagina (es: <em>"[E-mail Esterna] Attenzione a transazioni insolite"</em>) per ogni messaggio proveniente da domini esterni; e formazione costante d'aula ed esercizi pratici di Security Awareness per sensibilizzare i dipendenti contro i vettori tipici delle card regalo e dei raggiri emotivi.</dd>
+          </dl>
+
+          <h3 style="margin-top: 24px; color: var(--ink); font-size: 1.15rem; font-weight: 600; border-bottom: 1.5px solid var(--light-slate); padding-bottom: 6px;">2. Protocolli di Autenticazione e-mail (Email Authentication)</h3>
+          <p style="margin-top: 8px;">
+            Per contrastare l'Email Spoofing (falsificazione dell'intestazione del mittente), l'architettura internet globale si affida a tre record DNS cooperativi, che permettono di verificare l'origine e l'integrità del messaggio:
+          </p>
+          <dl class="termlist" style="margin-top: 10px;">
             <dt>SPF (Sender Policy Framework)</dt>
             <dd>Un record testuale (TXT) pubblicato nel DNS di un'organizzazione che <strong>autorizza esplicitamente quali indirizzi IP o server di posta sono legittimati a inviare email</strong> per conto di quel dominio aziendale. I server dei destinatari controllano questo record per rifiutare messaggi non autorizzati.</dd>
 
@@ -290,11 +310,48 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
             <dd>Aggiunge un'<strong>impronta o firma crittografica digitale (Cryptographic Signature) all'header dei messaggi email inviati</strong>. Consente al server ricevente di fare una verifica asimmetrica tramite la chiave pubblica pubblicata nel DNS del mittente, accertando che il contenuto non sia stato modificato in transito e che provenga realmente dal detentore del dominio.</dd>
 
             <dt>DMARC (Domain-based Message Authentication, Reporting, and Conformance)</dt>
-            <dd>La tecnologia cardine che <strong>unisce e armonizza le convalide SPF e DKIM</strong>. Consente di definire nel DNS regole o istruzioni rigide (Policy) destinate ai server riceventi di tutto il pianeta su come trattare le email che fallisent le verifiche di allineamento (es. <code>p=none</code> per monitorare, <code>p=quarantine</code> per deviare nello spam, o <code>p=reject</code> per distruggere silenziatemente la mail spooffata).</dd>
-
-            <dt>Secure Email Gateway (SEG) / Gateway di Posta</dt>
-            <dd>Un proxy applicativo trasparente interposto in linea (In-line) che esegue un'ispezione preventiva completa (Content Inspection, filtro antispam, sandboxing degli allegati e scansione degli URL) prima di inoltrare la posta verso il mail server interno o verso la mailbox finale dell'utente.</dd>
+            <dd>La norma cardine di governance e coordinamento che <strong>unisce, convalida e armonizza i risultati di SPF e DKIM</strong>. Consente di dichiarare regole severe destinate ai server riceventi globali su come reagire qualora le verifiche SPF e/o DKIM e i loro allineamenti falliscano:</dd>
           </dl>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong><code>p=none</code> (Monitoraggio)</strong>: Consente il passaggio del messaggio ma l'evento fallito viene segnalato nei report DMARC periodici diretti all'amministratore del dominio.</li>
+            <li><strong><code>p=quarantine</code> (Quarantena)</strong>: Sposta automaticamente l'e-mail sospetta nella cartella spam/quarantena del destinatario.</li>
+            <li><strong><code>p=reject</code> (Rigetto forzato)</strong>: Ordina la distruzione e il blocco incondizionato e immediato della mail illegittima alla sorgente, impedendo l'accesso alla casella.</li>
+          </ul>
+
+          <h4 style="margin-top: 14px; color: var(--ink); font-size: 1rem; font-weight: 600;">Benefici dell'Autenticazione e-mail (Benefits of Email Authentication):</h4>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>Prevenzione dello Spoofing e-mail (Preventing Email Spoofing)</strong>: Inibisce in radice agli spammer la possibilità di apporre fraudulentemente il nome del dominio aziendale legittimo nell'intestazione "Da:" (From Header), disarmando attacchi di impersonificazione BEC rivolti a partner esterni o interni.</li>
+            <li><strong>Miglioramento del Recapito e-mail (Improving Email Deliverability)</strong>: I server dei principali operatori di posta (es. Microsoft, Google) penalizzano per impostazione predefinita le mail sprovviste di signatures SPF/DKIM valide. L'allineamento dei protocolli incrementa drasticamente la probabilità che le communications e-mail legittime dei dipendenti vengano consegnate correttamente nell'Inbox principale del destinatario anziché finire nello spam.</li>
+            <li><strong>Rafforzamento della Reputazione del Dominio (Enhanced Domain Reputation)</strong>: L'invio e il blocco di posta illegittima a nome dell'azienda previene il "domain blacklisting". Mantenerne intatta la bontà impedisce alle autorità mondiali antispam di declassare la firma aziendale.</li>
+          </ul>
+
+          <h3 style="margin-top: 24px; color: var(--ink); font-size: 1.15rem; font-weight: 600; border-bottom: 1.5px solid var(--light-slate); padding-bottom: 6px;">3. Secure Email Gateway (SEG) & Protocolli</h3>
+          <p style="margin-top: 8px;">
+            Al di l&agrave; dei record DNS, le reti si dotano di un <strong>Secure Email Gateway (SEG)</strong>, che intercetta e analizza attivamente la posta transitata adoperando definiti protocolli e meccanismi di protezione in linea:
+          </p>
+          <dl class="termlist" style="margin-top: 10px;">
+            <dt>Email Gateway Protocol (SMTP, SMTPS e STARTTLS)</dt>
+            <dd>L'instradamento di base impiega il protocollo standard <strong>SMTP (porta TCP 25)</strong>, intrinsecamente non sicuro. I gateway implementano quindi <strong>STARTTLS</strong> per effettuare l'upgrade opportunistico della connessione esistente ad un tunnel crittografato SSL/TLS (opportunistic encryption), oppure predispongono canali <strong>SMTPS (SMTP Secure, su porta TCP 465)</strong> per imporre la crittografia SSL/TLS end-to-end fin dall'inizio della sessione.</dd>
+
+            <dt>Spam Filtering (Filtraggio Antispam)</dt>
+            <dd>Il modulo integrato del Gateway incaricato di bloccare la posta indesiderata e nociva in base a regole euristiche, firme di spam noti, reputazione degli IP di origine, analisi degli allegati (con annesso sandboxing) ed ispezione del testo (per individuare dizionari tipici di truffe o phishing).</dd>
+          </dl>
+
+          <h4 style="margin-top: 14px; color: var(--ink); font-size: 1rem; font-weight: 600;">Funzionalità ed Operazioni Critiche dell'Email Gateway:</h4>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>Email Routing (Instradamento della Posta)</strong>: Il SEG funge da intermediario MX (Mail Exchanger) nel DNS. Riceve tutta la posta destinata al dominio dall'esterno, la esamina, ed effettua l'instradamento ordinato solo della posta pulita verso i server e-mail interni dell'azienda.</li>
+            <li><strong>Email Security (Controllo Contenuti e Integrità)</strong>: Blocco automatico di malware, scansione attiva dei link esterni contenuti nei messaggi per verificarne la reputazione prima e durante l'accesso del dipendente (Scansione URL), ed estrapolazione degli allegati rischiosi per sottoporli a controlli in ambienti virtuali isolati (Sandboxing).</li>
+            <li><strong>Policy Enforcement (Applicazione dei Criteri di Sicurezza)</strong>: Blocco proattivo dei messaggi in uscita contenenti dati riservati non strutturati (Data Loss Prevention - DLP) per impedire la fuga di numeri di carte di credito, file sensibili, brevetti o dati tutelati GDPR, conformemente alle politiche dell'impresa.</li>
+            <li><strong>Encryption and Decryption (Crittografia e Decifratura dei Messaggi)</strong>: Crittografia centralizzata ad alta intensità del flusso uscente per messaggi contenenti informazioni sanitarie o finanziarie sensibili verso partner terzi esterni, e parallela decifratura e ispezione dei messaggi in entrata precedentemente cifrati.</li>
+          </ul>
+
+          <h4 style="margin-top: 14px; color: var(--ink); font-size: 1rem; font-weight: 600;">Modelli di Distribuzione dell'Email Gateway (Email Gateway Deployment Models):</h4>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>On-Premise (In Locale)</strong>: Una appliance fisica o virtuale dedicata installata direttamente dentro il data center proprietario dell'organizzazione, dietro la demilitarized zone (DMZ). Garantisce il totale controllo directo sulle code dei messaggi e sulla sovranità fisica sui flussi di posta aziendale, ma richiede investimenti e oneri continui di manutenzione e aggiornamento delle definizioni.</li>
+            <li><strong>Cloud-Based (Su Cloud)</strong>: Un servizio gestito esterno (SaaS) ad alta disponibilità distribuito interamente in cloud (es. Google Workspace, Microsoft Defender for Office 365, Proofpoint). Non richiede hardware locale, gode di aggiornamenti sulle minacce mondiali in tempo reale, si adatta all'istante all'aumento dei volumi (scalabilità illimitata) ed intercetta gli attacchi prima ancora que penetrino nel perimetro fisico aziendale.</li>
+            <li><strong>Hybrid (Ibrido)</strong>: Soluzione coordinata che impiega una scansione e pre-filtraggio globali ad alta efficienza in Cloud ed esegue parallelamente un secondo passaggio approfondito di ispezione dei contenuti e dei criteri sui server dislocati On-Premise nel perimetro locale, unendo rigidità del controllo di conformità con i vantaggi d'efficienza del cloud computing.</li>
+          </ul>
+
           <div class="focused-concept">
             <strong>Sintesi d'Esame — SPF vs DKIM vs DMARC:</strong><br>
             Mentre <strong>SPF</strong> valida l'<em>IP d'origine</em> del mittente e <strong>DKIM</strong> convalida l'<em>integrità crittografica</em> della mail, <strong>DMARC</strong> coordina entrambe fornendo precise <strong>politiche prescrittive di blocco</strong> ed aggregando report storici delle sorgenti d'attacco nel mondo.
@@ -369,14 +426,33 @@ Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
               </ul>
             </dd>
 
-            <dt>Implementazione di Protocolli Sicuri & Selezione delle Porte</dt>
-            <dd>Una delle azioni fondamentali di hardening di rete consiste nello smantellare protocolli legacy insicuri o vulnerabili (che transitano in chiaro svelando password o dati) per sostituirli con alternative protette da cifratura TLS o certificati:
-              <ul>
-                <li>Sostituire <strong>HTTP (Porta 80)</strong> con <strong>HTTPS (Porta 443)</strong> per la navigazione web d'impresa.</li>
-                <li>Sostituire <strong>Telnet (Porta 23)</strong> con <strong>SSH (Porta 22)</strong> per la gestione remota CLI di server e switch.</li>
-                <li>Sostituire <strong>FTP (Porte 20/21)</strong> con <strong>SFTP (Porta 22)</strong> per il trasferimento sicuro di archivi.</li>
-                <li>Sostituire <strong>LDAP (Porta 389)</strong> con <strong>LDAPS (Porta 636)</strong> per l'interazione protetta con Active Directory.</li>
-                <li>Sostituire <strong>SNMP v1/v2 (Porte 161/162)</strong> con <strong>SNMP v3</strong> per garantire cifratura e robusta autenticazione alle metriche di rete.</li>
+            <dt>Concept della Comunicazione e dei Protocolli di Rete (Network Communication Concepts)</dt>
+            <dd>Per comprendere approfonditamente la postura di sicurezza e applicare contromisure efficaci, è indispensabile padroneggiare i tre pilastri della comunicazione digitale:
+              <ul style="margin-top: 8px; padding-left: 20px; list-style-type: disc;">
+                <li style="margin-bottom: 6px;"><strong>Protocols (Protocolli)</strong>: Insiemi predefiniti e standardizzati di regole formali che normalizzano, strutturano e coordinano i flussi informativi scambiati tra due nodi di rete. Definiscono le regole sintattiche, il formato dei dati e la sequenza temporale dei messaggi.</li>
+                <li style="margin-bottom: 6px;"><strong>Ports (Porte)</strong>: Identificativi numerici logici espressi a 16 bit (con un intervallo dinamico che si estende da 0 a 65535) utilizzati a livello del Layer 4 (Trasporto) per canalizzare i flussi verso processi, applicazioni o demoni specifici operativi sul sistema.</li>
+                <li style="margin-bottom: 6px;"><strong>Transport Methods (Metodi di Trasporto)</strong>: La logica di consegna dei blocchi informativi all'interno dell'infrastruttura di Layer 4. I due modelli principali sono: il modello orientato alla connessione (Connection-oriented) basato su conferme e controllo strutturato del flusso, e il modello non orientato alla connessione (Connectionless) basato sull'invio istantaneo e snello senza conferme di ricezione.</li>
+              </ul>
+            </dd>
+
+            <dt>Transmission Control Protocol (TCP) — Il Protocollo di Trasporto Affidabile</dt>
+            <dd>Il <strong>TCP (Transmission Control Protocol)</strong> è l'indiscusso standard nei protocolli di trasporto orientati alla connessione (Connection-oriented Transport Method):
+              <ul style="margin-top: 8px; padding-left: 20px; list-style-type: square;">
+                <li style="margin-bottom: 6px;"><strong>Natura e Funzionamento:</strong> Stabilisce un canale logico bidirezionale e sicuro tra client e server applicando il processo rigoroso della <strong>stretta di mano a tre vie (3-way handshake)</strong>, guidato dai pacchetti di sincronizzazione ed assenso <code>SYN</code>, <code>SYN-ACK</code> e infine <code>ACK</code>.</li>
+                <li style="margin-bottom: 6px;"><strong>Tratti Distintivi d'Affidabilità:</strong> Garantisce che tutti i segmenti inviati raggiungano l'host di destinazione nell'ordine esatto di partenza senza duplicati, provvedendo alla ritrasmissione automatica e guidata dei segmenti persi per via di congestioni ed implementando il controllo del flusso (flow control) per non saturare la CPU del server bersaglio.</li>
+              </ul>
+            </dd>
+
+            <dt>Implementazione di Protocolli Sicuri & Hardening delle Porte (Secure Protocols)</dt>
+            <dd>Rappresenta una delle attività primarie di hardening sistemistico. Consiste nello spegnere, smantellare e interdire l'utilizzo di protocolli non cifrati legacy (che trasmettono in chiaro dati o password, esponendosi a banali attacchi di sniffing), per sostituirli con controparti blindate ed impregnate di crittografia TLS (Transport Layer Security) o tunnel SSH asimmetrici:
+              <ul style="margin-top: 8px; padding-left: 20px; list-style-type: decimal;">
+                <li style="margin-bottom: 6px;"><strong>Secure Shell (SSH) [Porta TCP 22]</strong>: Protocollo di sicurezza e amministrazione remota crittografato. Sostituisce integralmente il vecchio Telnet (Porta TCP 23), garantendo la totale cifratura delle sessioni interattive CLI e l'autenticazione tramite solidi scambi di chiavi asimmetriche protette.</li>
+                <li style="margin-bottom: 6px;"><strong>HTTPS (HyperText Transfer Protocol Secure) [Porta TCP 443]</strong>: L'estensione sicura del protocollo HTTP (Porta TCP 80) adibita all'interazione web. Fornisce l'ispezione, la cifratura del traffico transazionale del browser ed il mutuo riconoscimento del server web d'origine tramite l'utilizzo sistematico di certificati digitali e suite crittografiche SSL/TLS.</li>
+                <li style="margin-bottom: 6px;"><strong>SFTP (SSH File Transfer Protocol) [Porta TCP 22]</strong>: Protocollo di trasferimento file sicuro studiato per superare lo standard non cifrato FTP (Porte TCP 20/21). Opera interamente canalizzato nel tunnel protetto di SSH, impiegando una singola porta (la porta 22) sia per l'autenticazione sia per il transito asincrono dei dati, semplificando sensibilmente la strutturazione preventiva dei firewall aziendali rispetto a soluzioni come FTPS.</li>
+                <li style="margin-bottom: 6px;"><strong>IMAPS (Internet Message Access Protocol Secure) [Porta TCP 993]</strong>: Protocollo di accesso ai messaggi di posta elettronica protetto da cifratura SSL/TLS. Consente al dipendente di consultare, organizzare e gestire le e-mail memorizzate permanentemente sul server centralizzato in totale riservatezza.</li>
+                <li style="margin-bottom: 6px;"><strong>POP3S (Post Office Protocol 3 Secure) [Porta TCP 995]</strong>: Protocollo crittografato mediante TLS adibito al download sicuro e locale delle e-mail dal mail server d'origine sul client di destinazione, ripulendo l'archivio del cloud dopo il downloading.</li>
+                <li style="margin-bottom: 6px;"><strong>SMTPS (Simple Mail Transfer Protocol Secure) [Porta TCP 465 o STARTTLS sulla porta 587]</strong>: Versione blindata e crittografata del protocollo SMTP (Porta TCP 25). Protegge la trasmissione d'uscita e l'instradamento delle e-mail da client a server o tra diversi gateway di posta da sniffing passivi e corruzioni.</li>
+                <li style="margin-bottom: 6px;"><strong>SNMPS (Simple Network Management Protocol Secure / SNMPv3) [Porte UDP 161/162]</strong>: Protocollo finalizzato alla gestione, monitoraggio e telemetria degli apparati hardware (es. switch, stampanti d'ufficio, router) in piena sicurezza. Sostituisce le versioni legacy insicure SNMPv1/v2 introduce la cifratura crittografica e l'autenticazione ad hash per l'integrità del payload dei messaggi, bloccando le letture arbitrarie di configurazioni basate su chiavi in chiaro.</li>
               </ul>
             </dd>
 

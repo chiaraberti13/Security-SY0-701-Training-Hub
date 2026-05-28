@@ -179,23 +179,103 @@
             Per perseguire questa protezione, l'amministratore esegue il **fingerprinting (impronta digitale o hashing preventivo)** delle tabelle e dei file critici, istruendo l'infrastruttura DLP a sollevare immediatamente un alert qualora questi specifici file tentino di valicare i confini della Intranet.</dd>
             
             <dt>Monitoraggio dell'Integrità dei File / FIM (File Integrity Monitoring)</dt>
-            <dd>Controlla se i file di sistema o database sensibili vengono modificati. Ad esempio, se un istituto bancario implementa un nuovo server adibito alla custodia di PII (Personally Identifiable Information) dei risparmiatori, il metodo strategico d'elezione per **assicurarsi che questi dati sensibili non subiscano alterazioni o modifiche arbitrarie** è l'implementazione del <strong>File Integrity Monitoring (FIM)</strong>. Il FIM ricalcola e convalida costantemente gli hash crittografici dei file, allertando in tempo reale il SOC ad ogni minima variazione non convalidata.</dd>
+            <dd>Controlla se i file di sistema o database sensibili vengono modificati o alterati senza autorizzazione formale. Ad esempio, se un istituto bancario implementa un nuovo server adibito alla custodia di PII (Personally Identifiable Information) dei risparmiatori, il metodo d'elezione per **assicurarsi che questi dati non subiscano modifiche arbitrarie** è l'implementazione del <strong>FIM</strong>. Il FIM ricalcola e convalida costantemente gli hash crittografici dei file rispetto ad una baseline fidata.<br>
+            Un sistema FIM avanzato opera attraverso tre livelli chiave di controllo:
+              <ul style="margin-left: 20px; list-style-type: disc; margin-top: 5px;">
+                <li><strong>Binary monitoring (Monitoraggio dei binari / eseguibili)</strong>: Ispezione continua dei file binari core e degli eseguibili caldi (es: <code>cmd.exe</code>, <code>powershell.exe</code>, driver di sistema e file <code>.dll</code> o <code>.exe</code>) per rilevare tentativi di sovrascrittura, iniezione, installazione di rootkit o modifiche malevole indotte da exploit.</li>
+                <li><strong>System and Application monitoring (Monitoraggio dei sistemi e delle applicazioni)</strong>: Vigilanza periodica di file di sistema sensibili, archivi storici e database applicativi critici per preservarne l'assoluta conformità strutturale.</li>
+                <li><strong>Configuration and Parameter monitoring (Monitoraggio di configurazioni e parametri)</strong>: Monitoraggio dei file di impostazione (es: file <code>.conf</code>, <code>.ini</code>, chiavi XML di parametrizzazione e file di policy) per rilevare deviazioni non autorizzate che potrebbero alterare i vincoli d'hardening e diminuire il livello di postura di sicurezza.</li>
+              </ul>
+            </dd>
           </dl>
         </section>
 
         <!-- ══ COMPORTAMENTO & MONITORAGGIO ENDPOINT ═══════════════ -->
         <section id="behavioral-analytics">
-          <h2>Analisi Comportamentale ed Endpoint Protection</h2>
+          <h2>I Domini di Sicurezza e l'Endpoint Security</h2>
           <p>
-            Molti degli attacchi cyber moderni più temibili non utilizzano malware noti o file dannosi, ma sfruttano credenziali legittime rubate o di dipendenti interni (Insider Threats). In questi casi, i controlli basati sui soli file infetti falliscono, ed è necessario ricorrere all'<strong>Analisi Comportamentale (Behavioral Analytics)</strong>:
+            Per strutturare una difesa in profondità resiliente ed efficace, l'organizzazione suddivide l'infrastruttura in tre **I Domini di Sicurezza (Security Domains)** fondamentali, ciascuno presidiato da controlli tecnologici e protocolli mirati:
           </p>
-          <dl class="termlist">
-            <dt>Analisi del Comportamento degli Utenti / UBA (User Behavior Analytics)</dt>
-            <dd>Si focalizza sullo studio delle abitudini d'uso degli account degli impiegati. Rappresenta la risposta d'elezione per contrastare scenari interni nei quali **i direttori mostrano ansietà circa tentativi perpetrati dai lavoratori di accedere a file, sistemi e cartelle di progetti riservati estranei al proprio ordinario mansionario operativo giornaliero**. L'UBA rileva l'attività insolita e genera alert quando l'utente si discosta improvvisamente dal profilo matematico stabilito.</dd>
-            
-            <dt>Rilevamento e Risposta degli Endpoint / EDR (Endpoint Detection and Response)</dt>
-            <dd>La tecnologia residente sugli endpoint che garantisce visibilità completa sul comportamento di utenti e archivi, agendo come sensore avanzato per **rilevare quando le condotte deviano o registrano scostamenti (deviations) dai parametri comuni della baseline prestabilita**, bloccando e mitigando in tempo reale anomalie locali.</dd>
-          </dl>
+          <ul class="termlist" style="margin-left: 20px; list-style-type: square; margin-bottom: 25px;">
+            <li><strong>Network Security (Sicurezza delle Reti)</strong>: Presidia i flussi in transito sul perimetro o all'interno dell'intranet per bloccare violazioni orizzontali ed esfiltrazioni silenti (es: firewalls, IPS/IDS, NAC, ispezione dei pacchetti).</li>
+            <li><strong>Email Security (Sicurezza della Posta Elettronica)</strong>: Protegge il principale vettore d'infezione della rete reprimendo spam, phishing e truffe e-mail sul nascere prima che raggiungano il personale (es: record SPF/DKIM/DMARC, secure email gateway).</li>
+            <li><strong>Endpoint Security (Sicurezza degli Endpoint)</strong>: Tutela e vigila direttamente sull'integrità interna dell'host d'utente, del tablet o del server (es: antivirus, agenti EDR, FIM, crittografia locali).</li>
+          </ul>
+
+          <h3 id="endpoint-security-deepdrive" style="color: var(--navy); margin-top: 15px;">Endpoint Security: EDR, FIM e XDR</h3>
+          <p>
+            L'<strong>Endpoint Security</strong> moderna supera la debole protezione basata su firme statiche dei classici antivirus commerciali. Si avvale di tecnologie che analizzano continuativamente comportamenti locali, processi attivi ed interconnessioni:
+          </p>
+
+          <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Rilevamento e Risposta degli Endpoint / EDR (Endpoint Detection and Response)</h4>
+          <p>
+            L'<strong>EDR</strong> è una tecnologia residente sull'endpoint che garantisce visibilità completa sul comportamento di utenti e archivi, agendo come sensore avanzato per **rilevare quando le condotte deviano o registrano scostamenti (deviations) dai parametri comuni della baseline prestabilita**, bloccando e mitigando in tempo reale anomalie locali.
+          </p>
+
+          <h5 style="color: var(--navy); margin-top: 10px; font-weight: 600;">Funzionalità Chiave dell'EDR (EDR Functions)</h5>
+          <p>Un agente EDR assolve programmaticamente a sei funzioni cardinali:</p>
+          <ul style="margin-left: 25px; list-style-type: decimal; margin-bottom: 15px;">
+            <li><strong>Data Collection (Raccolta dei Dati)</strong>: Raccolta instancabile e costante di telemetria locale sull'host, come file system modificati, connessioni di rete in uscita, processi eseguiti ed utilizzo delle risorse.</li>
+            <li><strong>Data Consolidation (Consolidamento dei Dati)</strong>: Normalizzazione, aggregazione dei flussi e raccordo strutturale della telemetria locale prima della memorizzazione in database del cloud o convogliamento al SIEM centrale per la correlazione trasversale.</li>
+            <li><strong>Threat Detection (Rilevamento delle Minacce)</strong>: Analisi comportamentale complessa e correlazione in tempo reale tramite motori locali e cloud-based, capaci di riconoscere scostamenti anomali, malware fileless o tattiche hacker (es: enumerazione AD) senza dipendere unicamente da database di firme statiche.</li>
+            <li><strong>Alerts and Threat Response (Allarmistica e Risposta alla Minaccia)</strong>: Generazione tempestiva di avvisi di sicurezza critici inviati al SOC ed attivazione automatica di contromisure immediate quali l'<strong>Host Isolation</strong> (isolamento logico immediato della macchina per bloccare il movimento laterale pur preservando il link verso la console amministrativa dell'EDR).</li>
+            <li><strong>Threat Investigation (Investigazione forense delle Minacce)</strong>: Fornitura ai difensori (Blue Team) di una mappa dei passaggi cronologici e sequenziali percorsi dal malware (process tree), consentendo il tracciamento della root cause dell'infiltrazione.</li>
+            <li><strong>Remediation (Rimediazione)</strong>: Il recupero metodico del sistema per ripristinarlo ad uno stato operativo pulito ed esente da contaminazioni attive.</li>
+          </ul>
+
+          <h5 style="color: var(--navy); margin-top: 10px; font-weight: 600;">Aree di Monitoraggio dell'EDR (EDR Monitoring Areas)</h5>
+          <p>L'EDR presidia costantemente quattro contesti ed aree chiave di runtime sull'host:</p>
+          <ul style="margin-left: 20px; list-style-type: disc; margin-bottom: 15px;">
+            <li><strong>System Processes (Processi di Sistema)</strong>: Controllo dei processi in background, dell'esecuzione di eseguibili o binari (LOLBins) ed eventuali escalation insolite di privilegi.</li>
+            <li><strong>Changes to the Registry (Modifiche al Registro di Sistema)</strong>: Identificazione e blocco immediato di tentativi di scrittura o variazione alle chiavi di registro di Windows, spesso usate per nascondere script abusivi od ottenere la persistenza al riavvio.</li>
+            <li><strong>Memory Usage (Utilizzo della Memoria)</strong>: Analisi dello spazio di RAM fisica assegnato ai processi per evidenziare tecniche di iniezione di codice (process injection), mitigando attacchi fileless e rootkit operanti in memoria.</li>
+            <li><strong>Patterns of Network Traffic (Pattern del Traffico di Rete)</strong>: Monitoraggio dei tentativi del terminale di contattare indirizzi IP insoliti, mappare porte della LAN locale (scansioni orizzontali) o inviare pacchetti periodici verso server Command &amp; Control (C2 Beaconing).</li>
+          </ul>
+
+          <h5 style="color: var(--navy); margin-top: 10px; font-weight: 600;">La Rimediazione dell'EDR: Removing, Reversing, Restoring</h5>
+          <p>Le manovre di rimediazione dell'host in seguito ad un'infezione o allame si strutturano in tre pilastri coordinati:</p>
+          <ul style="margin-left: 20px; list-style-type: square; margin-bottom: 25px;">
+            <li><strong>Removing (Rimozione/Eliminazione)</strong>: L'interruzione forzata (kill) di ogni thread o processo malevolo operante in memoria RAM e l'eliminazione materiale di ogni riga o archivio dannoso scovato sul disco fisso.</li>
+            <li><strong>Reversing (Inversione/Rollback)</strong>: L'annullamento delle modifiche arbitrarie apportate dal malware all'ambiente operativo, inclusa l'eliminazione automatizzata di configurazioni instabili o chiavi di registro abusive ed il rollback a caldo dei file cifrati da ransomware (se supportato da tecnologie di shadow copy dell'agente).</li>
+            <li><strong>Restoring (Ripristino)</strong>: Il recupero di file critici, applicativi o interi volumi logici del sistema operativo attingendo da copie di backup integre o rimettendo la macchina in linea secondo una baseline standard certificata e protetta.</li>
+          </ul>
+
+          <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">La Risposta Estesa / XDR (Extended Detection and Response)</h4>
+          <p>
+            L'<strong>XDR</strong> rappresenta l'evoluzione olistica che unisce e armonizza la telemetria non solo degli endpoint, ma anche dei log di rete, delle identità cloud e della sicurezza email, consentendo indagini proattive di <strong>Threat Hunting</strong> ad ampio spettro integrato. <br>
+            La caratteristica distintiva dell'XDR consiste nel **connettere e far cooperare contemporaneamente cinque ambiti integrati d'azione**:
+          </p>
+          <ul style="margin-left: 20px; list-style-type: disc; margin-bottom: 15px;">
+            <li><strong>Email</strong>: Ispezione e intercettazione dei vettori di phishing o scam in arrivo sui gateway di posta.</li>
+            <li><strong>Endpoint</strong>: Telemetria granulare comportamentale catturata localmente su computer dei dipendenti e workstation operative.</li>
+            <li><strong>Server</strong>: Monitoraggio attivo di server aziendali fisici e macchine operanti on-premise.</li>
+            <li><strong>Cloud Workloads</strong>: Presidio e analisi continuativa di container, microservizi serverless e macchine virtuali su cloud pubblici.</li>
+            <li><strong>Network</strong>: Telemetria derivante da sonde NDR, metadati NetFlow e flussi scambiati lungo il perimetro.</li>
+          </ul>
+
+          <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">User Behavior Analytics (UBA) e User and Entity Behavior Analytics (UEBA)</h4>
+          <p>
+            Per mitigare gli scenari interni nei quali **i direttori mostrano ansietà circa tentativi perpetrati dai lavoratori di accedere a file, sistemi e cartelle di progetti riservati estranei al proprio ordinario mansionario operativo giornaliero**, le organizzazioni dispiegano sistemi avanzati di analisi comportamentale.
+          </p>
+
+          <h5 style="color: var(--navy); margin-top: 10px; font-weight: 600;">User Behavior Analytics (UBA)</h5>
+          <p>
+            La tecnologia <strong>UBA (User Behavior Analytics)</strong> si focalizza specificamente sulla modellizzazione e sul tracciamento continuo delle abitudini e dei pattern comportamentali degli utenti umani all'interno dell'organizzazione. Per farlo in modo efficace, l'UBA adotta un flusso operativo strutturato basato su quattro pilastri:
+          </p>
+          <ul style="margin-left: 20px; list-style-type: disc; margin-bottom: 15px;">
+            <li style="margin-bottom: 6px;"><strong>Collect and analyze data from diverse sources (Raccolta e analisi dei dati da fonti eterogenee)</strong>: Ingestione e normalizzazione costante di flussi informativi eterogenei (es: log di Active Directory / Identity Provider, file system logs, log di accesso ai database, registri dei gateway d'e-mail e connessioni VPN) per ottenere una traccia esaustiva di ciascuna identità d'ufficio.</li>
+            <li style="margin-bottom: 6px;"><strong>Employ advanced analytics methods (Utilizzo di metodi analitici avanzati)</strong>: Applicazione di modelli statistici complessi, algoritmi predittivi e machine learning alla telemetria raccolta, superando i vecchi limiti di allarmistica basata su soglie statiche o regole rigide preimpostate.</li>
+            <li style="margin-bottom: 6px;"><strong>Create a baseline for normal user behavior (Creazione di una baseline del comportamento utente normale)</strong>: Costruzione automatica ed aggiornata di un modello di comportamento tipico quotidiano dell'impiegato (es. orari abituali di ufficio o smart-working, volume medio di cartelle aperte, server tipicamente contattati e flussi in upload/download).</li>
+            <li style="margin-bottom: 6px;"><strong>Continuously monitor user activity to detect anomalies (Monitoraggio continuo dell'attività per rilevare anomalie e scostamenti)</strong>: Vigilanza passiva e costante su ciascun transito o operazione d'utenza per sollevare alert immediati in presenza di comportamenti o scostamenti (deviations) anomali rispetto alla baseline storica, quali tentativi di consultare centinaia di file riservati fuori orario di lavoro.</li>
+          </ul>
+
+          <h5 style="color: var(--navy); margin-top: 10px; font-weight: 600;">User and Entity Behavior Analytics (UEBA)</h5>
+          <p>
+            Mentre l'UBA tradizionale si focalizza strettamente sulle condotte delle persone fisiche, la tecnologia <strong>UEBA (User and Entity Behavior Analytics)</strong> ne rappresenta la naturale evoluzione olistica. L'UEBA amplia l'ispezione inserendo nel motore di analisi comportamentale anche tutte le <strong>entità logiche o fisiche non umane (entities)</strong> del perimetro coperto, quali router, switch, endpoint, server fisici o cloud, database e dispositivi IoT (come badge elettronici o stampanti intelligenti).
+          </p>
+          <p style="margin-bottom: 15px;">
+            L'UEBA incrocia ed unisce la traccia comportamentale umana alle risposte e metriche offerte dagli host non-human, consentendo di smascherare minacce avanzate (APT) o persistenti in cui un aggressore, avendo preso possesso di un endpoint d'host (entity), esegue movimenti laterali silenziosi camuffati da processi legittimi del sistema operativo.
+          </p>
         </section>
 
         <!-- ══ PERFORMANCE, DETECTING & INCIDENT RESPONSE ═══════════ -->

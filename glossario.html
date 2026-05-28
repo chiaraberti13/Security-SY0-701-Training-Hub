@@ -1461,7 +1461,7 @@
     {
       acronym: "BEC",
       name: "Business Email Compromise (BEC)",
-      def: "Tipologia mirata di frode finanziaria online condotta tramite e-mail. L'attaccante acquisisce il controllo abusivo di un account di posta elettronica aziendale reale (es. di un dirigente o fornitore fido) o simula meticolosamente l'indirizzo tramite domini sosia (typosquatting). Sfruttando tale identità, invia messaggi urgenti e confidenziali alla tesoreria per autorizzare trasferimenti bancari o pagamenti di fatture fasulle su conti offshore controllati dal crimine.",
+      def: "Tipologia mirata di frode finanziaria online condotta tramite e-mail. L'attaccante acquisisce il controllo abusivo di un account di posta elettronica aziendale reale (es. di un dirigente o fornitore fido) o simula meticolosamente l'indirizzo tramite domini sosia (typosquatting). Sfruttando tale identità, invia messaggi urgenti e confidenziali alla tesoreria per autorizzare trasferimenti bancari o pagamenti di fatture fasulle su conti offshore controllati dal crimine.<br><strong>• Come si può mitigare:</strong> Configurazione universale di SPF, DKIM e DMARC con policy restrittiva p=reject; integrazione MFA per tutte le utenze d'ufficio; utilizzo di software di analisi linguistica AI sull'e-mail gateway; ed impostazione di procedure formali ed immutabili di convalida 'out-of-band' (canale audio/telefonico dedicato confermato) prima di effettuare grandi transazioni.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -1637,7 +1637,7 @@
     {
       acronym: "Bluebugging",
       name: "Controllo Remoto via Bluetooth (Bluebugging)",
-      def: "Grave e intrusivo attacco Bluetooth in cui l'aggressore si interconnette a un dispositivo adiacente vulnerabile prendendone il controllo totale, consentendogli di fare telefonate a pagamento, inviare SMS e attivare microfono o fotocamera.",
+      def: "Grave e intrusivo attacco Bluetooth in cui l'aggressore si interconnette a un dispositivo adiacente vulnerabile prendendone il controllo totale, consentendogli di fare telefonate a pagamento, inviare SMS e attivare microfono o fotocamera.<br><strong>• Come si può mitigare:</strong> Impedire qualsiasi tentativo di pairing automatico rifiutando connessioni spontanee sconosciute; spegnere l'interfaccia radio Bluetooth se non utilizzata; e installare sistematicamente gli aggiornamenti patch del firmware dispositivo.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -1645,7 +1645,7 @@
     {
       acronym: "Bluejacking",
       name: "Invio Spam via Bluetooth",
-      def: "Sfruttamento innocuo ma invasivo dei canali wireless a corto raggio Bluetooth.<br><strong>• In cosa consiste l'attacco:</strong> Consiste nell'inviare messaggi di testo anonimi ed indesiderati o biglietti da visita elettronici (vCard) verso cellulari terzi scoperti con interfaccia Bluetooth attiva e configurata in modalità rilevabile nelle immediate aree geografiche vicine.<br><strong>• Come si può mitigare:</strong> Disattivare il Bluetooth quando non strettamente necessario, oppure configurare la visibilità logica del dispositivo su 'Non rilevabile' (Hidden/Non-discoverable) escludendo l'accettazione automatica di richieste d'accoppiamento esterne.",
+      def: "Sfruttamento innocuo ma invasivo dei canali wireless a corto raggio Bluetooth.<br><strong>• In cosa consiste l'attacco:</strong> Conseste nell'inviare messaggi di testo anonimi ed indesiderati o biglietti da visita elettronici (vCard) verso cellulari terzi scoperti con interfaccia Bluetooth attiva e configurata in modalità rilevabile nelle immediate aree geografiche vicine.<br><strong>• Come si può mitigare:</strong> Disattivare il Bluetooth quando non strettamente necessario, oppure configurare la visibilità logica del dispositivo su 'Non rilevabile' (Hidden/Non-discoverable) escludendo l'accettazione automatica di richieste d'accoppiamento esterne.",
       category: "ops",
       source_name: "OBJ 2.2",
       source_link: "chapters/obj2_2_threat_vectors.html"
@@ -1653,7 +1653,7 @@
     {
       acronym: "Bluesmack",
       name: "Saturazione DoS via Bluetooth (Bluesmack)",
-      def: "Attacco Denial of Service contro antenne Bluetooth, realizzato trasferendo flussi di pacchetti L2CAP distorti o di dimensioni spropositate per mandare in sovraccarico il buffer, provocando il crash del sistema operativo della vittima.",
+      def: "Attacco Denial of Service contro antenne Bluetooth, realizzato trasferendo flussi di pacchetti L2CAP distorti o di dimensioni spropositate per mandare in sovraccarico il buffer, provocando il crash del sistema operativo della vittima.<br><strong>• Come si può mitigare:</strong> Aggiornare i driver e il firmware dello stack Bluetooth per inibire vulnerabilità di buffer overflow legate all'handling di pacchetti di controllo sovradimensionati; e spegnere il Bluetooth in luoghi pubblici.",
       category: "ops",
       source_name: "OBJ 2.4",
       source_link: "chapters/obj2_4_malicious_activity.html"
@@ -3869,7 +3869,7 @@
     {
       acronym: "EDR",
       name: "Endpoint Detection and Response (EDR)",
-      def: "Strumento di protezione attiva di nuova generazione installato localmente sull'endpoint (host), progettato per monitorare costantemente a basso livello registri, attività del file system, creazione di processi e chiamate di rete.<br><strong>• Differenze con l'Antivirus tradizionale:</strong> Gli antivirus classici rilevano unicamente malware noti confrontando i file con un database statico di firme (signature file). L'EDR, invece, sfrutta motori di analisi euristica e comportamentale per identificare minacce sconosciute o zero-day a runtime.<br><strong>• Funzionalità chiave:</strong> Include il tracciamento forense degli eventi di sistema (telemetria), la rilevazione di comportamenti ransomware ed una capacità immediata di risposta, prima tra tutte l'<strong>Host Isolation</strong> (isolamento logico della macchina compromessa per bloccare il movimento laterale e la propagazione dell'infezione, mantenendo attivo solo il canale verso il server di gestione).",
+      def: "Strumento di protezione attiva installato come agente locale sull'endpoint (host), progettato per rilevare quando le condotte degli utenti o dei sistemi si discostano dai parametri comuni stabiliti nella baseline, bloccando e mitigando in tempo reale le anomalie locali.<br><strong>• Differenze con l'AV tradizionale:</strong> Gli antivirus rilevano malware confrontandoli con un database statico di firme; l'EDR sfrutta motori di analisi euristica/comportamentale per identificare minacce sconosciute zero-day o malware fileless.<br><strong>• Funzioni Core dell'EDR:</strong> (1) <em>Data Collection</em>: raccolta continuativa di telemetria dell'host; (2) <em>Data Consolidation</em>: normalizzazione ed aggregazione dei dati per l'inoltro; (3) <em>Threat Detection</em>: analisi per intercettare anomalie o escalation insolite; (4) <em>Alerts and Threat Response</em>: avvisi ed esecuzione di contromisure come l'<em>Host Isolation</em> (isolamento di rete dell'host); (5) <em>Threat Investigation</em>: analisi forense della catena d'attacco cronologica (process tree); (6) <em>Remediation</em>: bonifica del sistema malfunzionante o infiltrato.<br><strong>• Aree di Monitoraggio:</strong> <em>System Processes</em> (esecuzione di eseguibili/LOLBins), <em>Changes to the Registry</em> (chiavi di registro abusive per la persistenza), <em>Memory Usage</em> (scansione in RAM di process injection), e <em>Patterns of Network Traffic</em> (beaconing, tentativi di movimento laterale della macchina compromessa).<br><strong>• Azioni di Rimediazione (Remediation):</strong> <em>Removing</em> (interruzione/kill dei thread e cancellazione fisica del payload), <em>Reversing</em> (annullamento di chiavi di registro abusive o rollback di file cifrati da ransomware tramite snapshot locali) e <em>Restoring</em> (recupero verso una baseline pulita tramite backup certificati).",
       category: "ops",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
@@ -3899,6 +3899,38 @@
       source_link: "chapters/obj4_4_alerting_monitoring.html"
     },
     {
+      acronym: "Email Compromise Attacks",
+      name: "Attacchi ai Danni della Posta (Email Compromise Attacks / BEC)",
+      def: "Incursioni mirate (Business Email Compromise) volte ad impersonare contatti autorevoli o fornitori di fiducia tramite spoofing del dominio o hacking di account legittimi, spingendo impiegati amministrativi ad ordinare pagamenti urgenti o deviazioni di contratti senza fare ricorso a carichi virali nocivi.",
+      category: "ops",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
+    },
+    {
+      acronym: "Email Gateway Deployment Models",
+      name: "Modelli di Distribuzione Secure Email Gateway (SEG)",
+      def: "Differenti metodologie architetturali di integrazione dei gateway di scansione e-mail: <strong>On-Premise</strong> (appliance fisiche o VM collocate nella DMZ proprietaria per il massimo controllo), <strong>Cloud-Based</strong> (servizio gestito SaaS esterno scalabile, che pre-filtra il traffico off-site in tempo reale) e <strong>Hybrid</strong> (combina il pre-filtraggio cloud con policy e ispezioni di conformità on-site).",
+      category: "net",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
+    },
+    {
+      acronym: "Email Gateway Functions",
+      name: "Funzionalità della Secure Email Gateway (SEG)",
+      def: "I quattro filtri nevralgici attuati da un gateway di sicurezza della posta elettronica: <strong>Email Routing</strong> (intermediario MX per l'instradamento ordinato della posta pulita), <strong>Email Security</strong> (sandboxing di allegati e scansione preventiva degli URL), <strong>Policy Enforcement</strong> (blocco DLP di fuoriuscite di brevetti o dati sensibili) ed <strong>Encryption/Decryption</strong> (cifratura forzata e decifratura dei flussi in transito).",
+      category: "net",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
+    },
+    {
+      acronym: "Email Gateway Protocol",
+      name: "Protocolli di Instradamento Posta (SMTP / SMTPS / STARTTLS)",
+      def: "Insieme di regole logiche di transito dei messaggi. Lo standard SMTP (TCP 25) agisce in chiaro, pertanto i Gateway attivano <strong>STARTTLS</strong> per fare un upgrade opportunistico in tunnel TLS crittografati, oppure esigono canali <strong>SMTPS (SMTP Secure su TCP 465)</strong> per imporre la crittografia end-to-end.",
+      category: "net",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
+    },
+    {
       acronym: "Email Protection",
       name: "Sistemi di Protezione e-mail (Email Protection)",
       def: "Configurazioni sul record DNS (SPF, DKIM, DMARC) accoppiate a gateway di mail sicuri (SEG) con allegata sandbox protetta per ispezionare allegati esotici prima del recapito in posta.",
@@ -3907,12 +3939,36 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "Email Scams",
+      name: "Truffe via E-mail (Email Scams)",
+      def: "Comunicazioni ingannevoli inviate in massa che manipolano psicologicamente la vittima facendo leva su paure, premi inattesi o finte minacce di estorsione, con il mero fine di farsi inviare direttamente capitali liquidi, gift card o agevolare furti d'identità.<br><strong>• Come si può mitigare:</strong> Configurare filtri antispam euristici ed ispezione dei contenuti a livello di Secure Email Gateway (SEG); implementare allarmi visivi per e-mail esterne; e formare i dipendenti tramite percorsi di Security Awareness focalizzati sulle leve psicologiche di urgenza e ricatto.",
+      category: "ops",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
+    },
+    {
       acronym: "Email Security",
       name: "Email Security (Sicurezza della Posta Elettronica)",
       def: "Insieme integrato di moduli protettivi per salvaguardare la messaggistica elettronica aziendale. Opera mediante scansionatori automatici in linea (Secure Email Gateway - SEG) capaci di disarmare spam, phishing e macro di malware negli allegati ordinari. Si consolida mediante la configurazione combinata nel DNS dei record: <strong>SPF</strong> (mittenti autorizzati), <strong>DKIM</strong> (integrità testata con chiave crittografata) e <strong>DMARC</strong> (policy restrittiva di blocco o rigetto).",
       category: "net",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Email Threats",
+      name: "Minacce E-mail (Email Threats)",
+      def: "L'insieme complessivo dei vettori ostili diffusi mediante posta elettronica, classificabili tecnicamente in: <strong>Email Compromise Attacks (BEC)</strong>, <strong>Phishing Emails</strong> e <strong>Email Scams</strong>.<br><strong>• Come si può mitigare:</strong> Protezione a livello DNS con SPF, DKIM e DMARC; implementazione di un Secure Email Gateway (SEG) integrato con URL scanning dinamico e sandboxing degli allegati; e regolazione fine dei programmi di Security Awareness mediante simulazioni d'attacco periodiche per l'intera forza lavoro.",
+      category: "ops",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
+    },
+    {
+      acronym: "Enhanced Domain Reputation",
+      name: "Reputazione del Dominio e-mail (Enhanced Domain Reputation)",
+      def: "Il grado di attendibilità ed integrità che i server di posta globali (es: Gmail, Outlook) assegnano ad un determinato dominio di posta. L'allineamento dei protocolli SPF, DKIM e DMARC aumenta attivamente la reputazione, sventando campagne fraudolente a nome del brand e impedendo che l'IP del server finisca inserito nelle liste di blocco globali (RBL).",
+      category: "net",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
     },
     {
       acronym: "Emanations",
@@ -4532,8 +4588,8 @@
     },
     {
       acronym: "FIM",
-      name: "File Integrity Monitoring",
-      def: "Controllo detective tecnico che esegue costanti controlli hash sui file di configurazione essenziali o di sistema operativo per avvertire di cambiamenti o manomissioni improvvise non approvate.",
+      name: "File Integrity Monitoring (FIM)",
+      def: "Controllo tecnologico di tipo detective che analizza l'integrità dei dati calcolando e monitorando costantemente le impronte (hash) crittografiche dei file critici aziendali e di sistema rispetto a una baseline autorizzata, notificando in tempo reale modifiche o alterazioni non approvate.<br><strong>• Aree d'ispezione chiave:</strong> (1) <em>Binary monitoring</em>: sorveglianza dei file binari core e degli eseguibili caldi (es: <code>cmd.exe</code> o file compilati) per bloccare iniezioni malware o virus; (2) <em>System and Application monitoring</em>: controllo costante di file di libreria e database d'applicazione sensibili; (3) <em>Configuration and Parameter monitoring</em>: monitoraggio dei file di impostazione (come file <code>.conf</code> o <code>.ini</code> e registri di policy) per rilevare deviazioni non autorizzate dai vincoli d'hardening predefiniti.",
       category: "ops",
       source_name: "OBJ 1.1",
       source_link: "chapters/obj1_1_security_controls.html"
@@ -5527,6 +5583,14 @@
       name: "Scambio Iniziale delle Chiavi IPsec (Internet Key Exchange / IKE)",
       def: "Protocollo fondamentale di segnalazione standard appartenente alla suite IPSec (solitamente operante sulla porta UDP 500) preposto a negoziare e configurare in modo dinamico e sicuro le Associazioni di Sicurezza (SA).<br><strong>• Fasi:</strong> Stabilisce una sessione d'accesso cifrata protetta (IKE Fase 1) ed instaura i canali per lo scambio sicuro di materiale legato alle chiavi crittografiche d'accordo per cifrare il tunnel dei dati reali (IKE Fase 2).",
       category: "crypto",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "IMAPS",
+      name: "Internet Message Access Protocol Secure (IMAPS)",
+      def: "Protocollo cifrato a livello applicativo (porta TCP 993) utilizzato dai client di posta elettronica per consultare e gestire i messaggi residenti direttamente sul mail server remoto.<br><strong>• Canale Sicuro:</strong> Si appoggia alla cifratura asimmetrica/simmetrica di TLS, rimpiazzando lo standard insicuro IMAP (porta TCP 143) che trasmetteva in chiaro sia le credenziali sia il testo dei messaggi sul network.",
+      category: "net",
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
     },
@@ -7323,6 +7387,14 @@
       source_link: "chapters/obj2_1_threat_actors.html"
     },
     {
+      acronym: "Network Communication Concepts",
+      name: "Concetti di Comunicazione di Rete (Network Communication Concepts)",
+      def: "L'insieme sistematico delle strutture logiche e degli standard fisici/software che disciplinano l'accoppiamento computazionale, la formattazione e l'instradamento ordinato dei flussi digitali scambiati tra due nodi.<br><strong>• Canali cardinali:</strong> (1) <em>Protocols (Protocolli)</em>: insiemi di regole standardizzate; (2) <em>Ports (Porte)</em>: indirizzi numerici a 16 bit per indirizzare l'interazione logica; (3) <em>Transport Methods (Metodi di Trasporto)</em>: le modalità strutturali di Layer 4 (TCP vs UDP) per il transito e la garanzia di integrità del dato.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
       acronym: "Natural Disasters",
       name: "Catastrofi e Calamità Naturali (Natural Disasters)",
       def: "Fenomeni atmosferici, sismici o geologici del tutto estranei alle infrastrutture IT (come terremoti, mareggiate, esondazioni fluviali improvvise, incendi di sterpaglie) capaci di mettere fuori uso un data center locale. Si affrontano progettando sdoppiamenti ad isolamento geografico (Hot/Warm Site residui) ed attuando rigorosi backup offline.",
@@ -8643,6 +8715,22 @@
       source_link: "chapters/obj5_1_governance.html"
     },
     {
+      acronym: "POP3S",
+      name: "Post Office Protocol 3 Secure (POP3S)",
+      def: "Protocollo di posta elettronica sicuro a livello applicativo (porta TCP 995).<br><strong>• Caratteristiche:</strong> Consente il download sicuro delle e-mail dal server remoto all'host del client locale in modo crittografato mediante una canalizzazione TLS, proteggendo la riservatezza delle e-mail e la sicurezza delle credenziali scambiate nel network rispetto al vecchio POP3 standard non cifrato (porta TCP 110).",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "Ports",
+      name: "Porte di Rete (Network Ports)",
+      def: "Endpoint identificati numericamente a 16 bit (da 0 a 65535) utilizzati dai protocolli di trasporto (Layer 4) per distinguere, smistare e convogliare le sessioni di dati verso specifici processi, applicazioni o demone-software attivi su una macchina.<br><strong>• Categorie:</strong> Suddivise dallo standards IANA in: (1) <em>Well-Known Ports</em> (0-1023) per servizi d'infrastruttura calda (p.es: TCP 22 per SSH, TCP 80 per HTTP); (2) <em>Registered Ports</em> (1024-49151); (3) <em>Dynamic/Ephemeral Ports</em> (49152-65535) per varchi temporanei client.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
       acronym: "Port Scanner",
       name: "Port Scanner (Scansione Porte - es: Nmap)",
       def: "Sonda preposta ad inoltrare segmenti verso le porte TCP/UDP d'host per scoprirne lo stato (Open, Closed, Filtered) e censire i moduli di ascolto attivi.",
@@ -8878,6 +8966,14 @@
       acronym: "Protocol Control",
       name: "Controllo dei Protocolli (Protocol Control)",
       def: "Disabilitazione programmata di vecchi protocolli insicuri e privi di cifratura attiva (FTP, Telnet, HTTP) a favore d'alternative sicure con validazione crittografica (SFTP, SSH, HTTPS).",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "Protocols",
+      name: "Protocolli di Rete (Network Protocols)",
+      def: "Insiemi di regole formali e standardizzate che regolano lo scambio sincrono di pacchetti o segnali digitali tra sistemi logici comunicanti.<br><strong>• Importanza strategica:</strong> Uniformano la sintassi, le strutture, il layout d'intestazione ed il controllo dell'errore. Nelle pratiche di hardening, si impone l'adozione esclusiva di protocolli protetti (cifrati con certificati attivi in TLS, come HTTPS, SSHv2, SNMPS) vietando protocolli legacy che trasmettono dati sensibili in chiaro sul network.",
       category: "net",
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
@@ -9531,6 +9627,14 @@
       source_link: "chapters/obj1_1_security_controls.html"
     },
     {
+      acronym: "Remediation",
+      name: "Rimediazione (Remediation)",
+      def: "L'insieme strutturato delle procedure e delle attività intraprese per eradicare una minaccia attiva da un host o ripristinare i sistemi a uno stato operativo sicuro e conforme.<br><strong>• I Tre Pilastri della Rimediazione:</strong> (1) <em>Removing (Rimozione)</em>: interruzione forzata dei processi malevoli operanti nella memoria RAM ed eliminazione materiale dal disco dei file di payload o di malware; (2) <em>Reversing (Inversione)</em>: annullamento delle variazioni e manipolazioni arbitrarie subite dal sistema (es. eliminazione di chiavi di registro abusive, o rollback di file cifrati da ransomware tramite snapshot locali); (3) <em>Restoring (Ripristino)</em>: recupero sistemico dei file, database o dell'intero ambiente operativo attingendo a copie di backup non contaminate o ripristinando da zero secondo una baseline standard certificata.",
+      category: "ops",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
+    {
       acronym: "Restrict",
       name: "Restringere / Limitare (Restrict)",
       def: "L'atto proattivo di confinare le capacità, l'ambito d'azione o i permessi di esecuzione di un sistema, un utente o un'applicazione. In ambito di system hardening e network security, restringere comporta la limitazione dell'accesso amministrativo, il blocco di indirizzi IP anomali, la chiusura di porte non critiche e il contenimento dei privilegi software per minimizzare la potenziale propagazione laterale di un attacco (blast radius).",
@@ -9593,6 +9697,14 @@
       category: "gov",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Security Domains",
+      name: "Domini di Sicurezza (Security Domains)",
+      def: "La scomposizione olistica dell'architettura aziendale in macro-contesti d'azione e difesa per contrastare e contenere le minacce in profondità.<br><strong>• I Tre Domini Fondamentali:</strong> (1) <em>Network Security (Sicurezza di Rete)</em>: tutela dei canali di transito e perimetri; (2) <em>Email Security (Sicurezza della Posta Elettronica)</em>: contrasto alle esche di ingegneria sociale ed allegati maligni; (3) <em>Endpoint Security (Sicurezza degli Endpoint)</em>: protezione diretta di computer, notebook e infrastrutture host utente o server.",
+      category: "general",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
     },
     {
       acronym: "Revision History",
@@ -10731,6 +10843,14 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "SMTPS",
+      name: "Simple Mail Transfer Protocol Secure (SMTPS)",
+      def: "Estensione sicura del protocollo di posta elettronica SMTP utilizzata per la trasmissione cifrata e l'instradamento delle e-mail (porta TCP 465 o tramite rinegoziazione STARTTLS sulla porta TCP 587).<br><strong>• Vantaggi:</strong> Protegge attivamente da intercettazioni passive in transito, garantendo la riservatezza e l'integrità del mittente e del testo delle e-mail scambiate lungo il network coperto.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
       acronym: "Smurf Attack",
       name: "Attacco DDoS Amplificato Smurf (Smurf Attack)",
       def: "Tipologia di aggressione volumetrica in cui l'attaccante invia pacchetti di richiesta ICMP Echo Request (Ping) camuffando l'indirizzo IP del mittente con quello della vittima prescelta (IP Spoofing) ed instradandoli verso l'indirizzo broadcast di un'ampia rete di transito intermedio.<br><strong>• Effetto:</strong> Tutti gli host attivi della rete di transito replicheranno in massa alla vittima reale saturandone istantaneamente la banda di rete.",
@@ -10758,6 +10878,14 @@
       acronym: "SNMP / SNMP Traps",
       name: "Simple Network Management Protocol (SNMP)",
       def: "Protocollo di livello applicazione (Porte UDP 161/162) standard adibito alla gestione, telemetria e monitoraggio di dispositivi fisici di rete (come switch, router, server, UPS).<br><strong>• SNMP Traps:</strong> Metodo operativo asincrono in cui un dispositivo monitorato invia proattivamente un allarme immediato e non richiesto (Trap) alla console centrale per segnalare un guasto o anomalia critica (es. interruzione di alimentazione, surriscaldamento fisica o superamento soglie), differendo dal classico polling ciclico.<br><strong>• Hardening:</strong> Esigere rigorosamente l'adozione di SNMPv3 per abilitare la cifratura dei pacchetti e la convalida sicura degli accessi, mettendo al bando SNMPv1/v2 che trasmettono credenziali (community strings) in chiaro.",
+      category: "net",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
+    {
+      acronym: "SNMPS",
+      name: "Simple Network Management Protocol Secure (SNMPv3)",
+      def: "Estensione sicura del protocollo di monitoraggio SNMP (Porte UDP 161/162). Scardina i rischi delle versioni legacy SNMPv1/v2 (che scambiavano community strings non cifrate in chiaro) introducendo robusta autenticazione con controllo di integrità ad hash e cifratura simmetrica crittografica per i canali di trasporto e messaggi di notifica (Traps).",
       category: "net",
       source_name: "OBJ 4.4",
       source_link: "chapters/obj4_4_alerting_monitoring.html"
@@ -10897,6 +11025,14 @@
       category: "gov",
       source_name: "OBJ 5.6",
       source_link: "chapters/obj5_6_security_awareness.html"
+    },
+    {
+      acronym: "Spam Filtering",
+      name: "Filtraggio Spam (Spam Filtering)",
+      def: "Il modulo logico o servizio integrato all'interno del Secure Email Gateway (SEG) incaricato di analizzare la posta elettronica in transito per bloccare i messaggi indesiderati ed ostili prima dei client dei destinatari. Sfrutta firme statiche, database reputazionali di IP mondiali, analisi euristiche, reputazione dei link ed ispezione semantica basata su keyword.",
+      category: "net",
+      source_name: "OBJ 4.5",
+      source_link: "chapters/obj4_5_incident_response.html"
     },
     {
       acronym: "Spear Phishing",
@@ -11499,6 +11635,14 @@
       source_link: "chapters/obj4_4_alerting_monitoring.html"
     },
     {
+      acronym: "TCP",
+      name: "Transmission Control Protocol (TCP)",
+      def: "Protocollo di trasporto di rete Layer 4 orientato alla connessione (Connection-oriented), bidirezionale e altamente affidabile.<br><strong>• Handshake a 3 vie (3-way Handshake):</strong> Stabilisce una sessione solida tra client e server mediante scambio di flussi ordinati ed assecondati da flag logici (SYN -> SYN-ACK -> ACK).<br><strong>• Caratteristiche:</strong> Monitora attivamente il traffico e le congestioni, garantisce la consegna ordinata di tutti i passaggi dati senza compromissioni e re-invia autonomamente tutti i frammenti perduti in transito.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
       acronym: "TCP Port 443",
       name: "Porta TCP 443 (HTTPS / SSL-TLS)",
       def: "La porta di rete standardizzata del protocollo TCP adibita alla ricezione ed instradamento del traffico web cifrato HTTPS.<br><strong>• Rilevanza cyber:</strong> Costituisce un varco aperto obbligatorio nei firewall aziendali esterni per erogare servizi transazionali e d'e-commerce web in totale sicurezza.",
@@ -11867,6 +12011,14 @@
       source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
+      acronym: "Transport Methods",
+      name: "Metodi di Trasporto (Transport Methods)",
+      def: "La metodologia di gestione ed indirizzamento del transito di pacchetti a livello del Layer 4 (Trasporto) del modello OSI.<br><strong>• Canali:</strong> Si divide nei due flussi cardinali: (1) <em>Connection-oriented</em> (rappresentato da TCP) che esige negoziazione a handshake a 3 vie, ritrasmissione dei segmenti corrotti/persi e controlli del flusso; (2) <em>Connectionless</em> (rappresentato da UDP) orientato a massimizzare le prestazioni ed il transito istantaneo privo di rassicurazioni ad ACK o ricalcoli sequenziali.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
       acronym: "Trojan",
       name: "Cavallo di Troia",
       def: "Malware camuffato sotto la finta forma visiva di un'utilità applicativa benevola ed autorizzata.<br><strong>• In cosa consiste l'attacco:</strong> Convince l'utente per mezzo di social engineering a scaricare, installare ed eseguire il software. Una volta lanciato nel sistema, avvia silentemente la sua routine occulta (backdoor, keylogging, RAT) eludendo i privilegi per spiare o distruggere file sensibili dall'interno dell'host.<br><strong>• Come si può mitigare:</strong> Adottare solidi antivirus basati sia sulle firme che su analisi euristica dei comportamenti, limitare drasticamente l'installazione di programmi esterni revocando i privilegi amministrativi permanenti (UAC attivo) e formare regolarmente la forza lavoro contro le minacce informatiche (Security Awareness Training).",
@@ -11979,12 +12131,20 @@
       source_link: "chapters/obj2_2_threat_vectors.html"
     },
     {
-      acronym: "UEBA",
-      name: "User and Entity Behavior Analytics (UBA / UEBA)",
-      def: "Tecnologia avanzata di analisi della sicurezza che raccoglie e correla i registri degli eventi per tracciare il comportamento usuale di utenti (User) ed entità di sistema (Entity, quali macchine, account di servizio, server, IP) al fine di mapparne una <strong>baseline di comportamento normale</strong>.<br><strong>• Come opera:</strong> Sfrutta algoritmi di intelligenza artificiale e Machine Learning per monitorare flussi continui. Allerta istantaneamente l'organo SOC in caso di scostamenti critici dalla baseline di routine (es: un dipendente che effettua l'accesso da un paese insolito a pochi minuti di differenza geograficamente impraticabile - <em>impossible travel</em>, o che tenta di asportare terabyte di dati riservati durante orari notturni a lui insoliti). È la difesa principale contro l'abuso di privilegi (Malicious Insider) o il furto silenzioso di credenziali d'accesso aziendali.",
+      acronym: "UBA",
+      name: "User Behavior Analytics (UBA)",
+      def: "Tecnologia di analisi e monitoraggio focalizzata esclusivamente sull'identificazione di pattern anomali riconducibili all'operatività degli utenti umani interni.<br><strong>• Pilastri operativi fondamentali:</strong> (1) <em>Collect and analyze data from diverse sources</em>: Ingestione e consolidamento di registri di log provenienti da identità di rete, VPN, file server e Active Directory; (2) <em>Employ advanced analytics methods</em>: Elaborazione della telemetria tramite modelli di intelligenza artificiale o statistici in luogo di soglie fisse; (3) <em>Create a baseline for normal user behavior</em>: Generazione del profilo d'uso tipico e delle attività autorizzate del dipendente; (4) <em>Continuously monitor user activity to detect anomalies</em>: Vigilanza costante atta a segnalare deviazioni insolite rispetto alla baseline storica per stroncare sul nascere minacce interne o privilege exploitation.",
       category: "ops",
-      source_name: "OBJ 4.1",
-      source_link: "chapters/obj4_1_computing_resources.html"
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
+    },
+    {
+      acronym: "UEBA",
+      name: "User and Entity Behavior Analytics (UEBA)",
+      def: "Evoluzione olistica della tecnologia UBA che unisce lo studio delle anomalie dei dipendenti umani (User) con l'analisi continuativa di tutte le <strong>entità logiche o fisiche analizzabili della rete (Entities)</strong>, quali server, macchine, IP, account di servizio e moduli IoT.<br><strong>• Canale d'analisi:</strong> Rileva scostamenti rispetto a baseline di routine create con il Machine Learning (es. accessi impossibili in termini geografici - <em>impossible travel</em>) assegnando un risk score ai singoli host per mitigare incidenti silenti o abuso di credenziali rubate prima del reale data theft.",
+      category: "ops",
+      source_name: "OBJ 4.4",
+      source_link: "chapters/obj4_4_alerting_monitoring.html"
     },
     {
       acronym: "UEM",
@@ -12933,7 +13093,7 @@
     {
       acronym: "XDR",
       name: "Extended Detection and Response (XDR)",
-      def: "Tecnologia di sicurezza olistica e unificata che raccoglie e correla telemetrie da molteplici vettori difensivi, inclusi gli endpoint (EDR), i flussi di rete, i mail gateway, i server cloud e i sistemi di identità (IdP).<br><strong>• Vantaggi rispetto all'EDR:</strong> Supera la visione frammentaria sul singolo computer, permettendo ai team di sicurezza di rintracciare intere catene d'attacco complesse ad ampio raggio, ottimizzare le attività proattive di Threat Hunting e avviare flussi coordinati di contenimento o quarantena su molteplici piattaforme contemporaneamente.",
+      def: "Tecnologia di sicurezza olistica e unificata che raccoglie, normalizza e correla telemetrie provenienti da molteplici vettori difensivi aziendali differenti.<br><strong>• I Cinque Domini di Integrazione:</strong> (1) <em>Email</em>: rilevamento di attacchi ai danni della posta, phishing o email scam; (2) <em>Endpoint</em>: telemetria granulare comportamentale locale (EDR); (3) <em>Server</em>: monitoraggio di server fisici e macchine virtuali on-premise; (4) <em>Cloud Workloads</em>: presidio dei carichi di lavoro (container, serverless ed istanze cloud); (5) <em>Network</em>: telemetria NDR, traffico di rete o log dei gateway del perimetro.<br><strong>• Vantaggi:</strong> Supera la visione strutturalmente isolata sul singolo computer (silos), consentendo indagini proattive di <em>Threat Hunting</em> ad ampio raggio, correlazione logica intelligente di eventi apparentemente slegati ed avvio di flussi orchestrati e centralizzati di isolamento o mitigazione contemporaneamente su più piattaforme.",
       category: "ops",
       source_name: "OBJ 4.5",
       source_link: "chapters/obj4_5_incident_response.html"
