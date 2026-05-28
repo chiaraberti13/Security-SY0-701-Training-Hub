@@ -56,6 +56,9 @@
 
       <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
       <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Fondamenti</div>
+        <a href="#fondamenti">Automazione vs Orchestrazione</a>
+
         <div class="toc-section">SOAR & SIEM</div>
         <a href="#soar_concept">Funzionamento del SOAR</a>
         <a href="#nextgen_siem">SIEM di Nuova Generazione</a>
@@ -80,6 +83,28 @@
 
       <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
       <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 0 — FONDAMENTI: AUTOMAZIONE VS ORCHESTRAZIONE ══ -->
+        <section id="fondamenti">
+          <h2>Automazione vs Orchestrazione: la distinzione fondamentale</h2>
+          <p>
+            Il titolo di questo obiettivo unisce due concetti distinti che l'esame chiede spesso di separare. Confonderli è uno degli errori più comuni: l'automazione riguarda <em>il singolo compito</em>, l'orchestrazione riguarda <em>il flusso completo</em>.
+          </p>
+          <dl class="termlist">
+            <dt>Scripting (Lo Strumento di Base)</dt>
+            <dd>La scrittura di codice (es. Python, PowerShell, Bash) che esegue un'azione senza intervento umano. È il mattone elementare: una singola istruzione eseguibile a comando o su trigger.</dd>
+
+            <dt>Automation (Automazione — Il Singolo Compito)</dt>
+            <dd>L'esecuzione automatica di <strong>un'attività ripetitiva e ben definita</strong>, dall'inizio alla fine, senza che un operatore la avvii o la sorvegli (es. uno script che disabilita un account ogni volta che scatta un determinato alert). L'automazione risponde alla domanda «come eseguo <em>questo passaggio</em> senza un umano?».</dd>
+
+            <dt>Orchestration (Orchestrazione — Il Flusso Coordinato)</dt>
+            <dd>Il coordinamento di <strong>più compiti automatizzati e strumenti diversi</strong> (SIEM, EDR, firewall, ticketing) in un unico flusso di lavoro end-to-end. L'orchestrazione concatena, condiziona e sincronizza le singole automazioni tra prodotti di vendor differenti. Risponde alla domanda «come faccio collaborare <em>tutti questi pezzi</em> in un'unica risposta?».</dd>
+          </dl>
+          <div class="focused-concept">
+            <strong>Analogia d'esame:</strong><br>
+            L'automazione è il singolo musicista che suona il proprio spartito alla perfezione; l'orchestrazione è il direttore d'orchestra che fa entrare ogni strumento al momento giusto perché insieme producano una sinfonia coerente. La piattaforma <strong>SOAR</strong> è il «direttore d'orchestra» tecnologico del SOC.
+          </div>
+        </section>
 
         <!-- ══ SEZIONE 1 — IL PARADIGMA SOAR ═════════════════════ -->
         <section id="soar_concept">
