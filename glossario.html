@@ -13233,6 +13233,270 @@
       category: "net",
       source_name: "OBJ 3.2",
       source_link: "chapters/obj3_2_infrastructure.html"
+    },
+    {
+      acronym: "Orchestration",
+      name: "Orchestrazione (Security Orchestration)",
+      def: "Coordinamento centralizzato di strumenti, sistemi e flussi di sicurezza eterogenei (SIEM, EDR, firewall, ticketing) affinché operino come un'unica pipeline integrata. A differenza della singola automazione di un compito, l'orchestrazione concatena più azioni e prodotti diversi in un workflow di risposta end-to-end.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Runbook",
+      name: "Runbook (Procedura Tecnica Esecutiva)",
+      def: "Sequenza granulare di comandi, script o passaggi tecnici esatti che eseguono materialmente una porzione di automazione (es. stringhe PowerShell o regole router per bloccare un IP). È la controparte operativa di basso livello del Playbook, che invece descrive la strategia di alto livello.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Automated User Provisioning",
+      name: "Provisioning Automatico degli Utenti",
+      def: "Creazione, profilazione e popolamento automatico di account e gruppi di sicurezza (es. Active Directory o Entra ID) sincronizzati con i sistemi HR di onboarding. Elimina le configurazioni manuali errate e garantisce coerenza nell'assegnazione dei privilegi.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Resource Provisioning",
+      name: "Provisioning delle Risorse",
+      def: "Allocazione programmata e sicura di macchine virtuali, database e storage cloud a partire da template pre-validati di hardening, riducendo le falle introdotte da deploy improvvisati o non standardizzati.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Automated Ticketing",
+      name: "Creazione Automatica dei Ticket (Ticket Creation)",
+      def: "Apertura automatica di incidenti gestionali (es. ServiceNow, Jira) non appena un allarme severo scatta nel SIEM, precompilando i dettagli tecnici dell'IoC (IP, hash, host). Riduce i tempi morti e standardizza la tracciabilità della risposta.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Escalation Automation",
+      name: "Escalation Automatica delle Allarmistiche",
+      def: "Inoltro progressivo e tempestivo di un allarme ad analisti L2/L3 o al team IR se l'incidente non riceve riscontro entro gli SLA concordati o se la gravità dell'IoC supera soglie predefinite. Evita che eventi critici restino non gestiti.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Enabling/Disabling Services",
+      name: "Abilitazione/Disabilitazione automatica di Servizi e Accessi",
+      def: "Azioni automatizzate di risposta che disattivano porte di switch, revocano chiavi API sospette o bloccano account sotto attacco per arrestare tentativi di esfiltrazione o movimento laterale, senza attendere l'intervento manuale dell'analista.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "API Integration",
+      name: "Integrazioni e Interfacce di Programmazione (APIs)",
+      def: "Le API sono il tessuto connettivo dell'orchestrazione: consentono a strumenti di sicurezza diversi di scambiare dati e impartirsi comandi in modo programmatico. Una scarsa governance delle API integrate amplia però la superficie d'attacco e introduce dipendenze critiche.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Security Group Automation",
+      name: "Aggiornamento Dinamico dei Security Group",
+      def: "Modifica automatica delle regole firewall cloud (Security Group) o delle ACL di rete quando un trigger (es. allarme EDR) individua un host anomalo, isolandone i flussi di rete in tempo reale.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Workforce Multiplier",
+      name: "Moltiplicatore della Forza Lavoro",
+      def: "Beneficio cardine dell'automazione SOC: pochi analisti umani possono sovrintendere a migliaia di incidenti simultanei con tempi di reazione sub-secondo, delegando ai motori automatizzati i flussi ripetitivi e di routine.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Enforcing Baselines",
+      name: "Applicazione Forzata delle Baseline",
+      def: "Uso dell'automazione per imporre e ripristinare continuamente le configurazioni di sicurezza approvate (secure baseline) su tutta la flotta. Eventuali derive (configuration drift) vengono rilevate e corrette automaticamente.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Standard Infrastructure Configurations",
+      name: "Configurazioni Standard dell'Infrastruttura",
+      def: "Beneficio dell'automazione che garantisce che ogni risorsa provisionata sia identica e conforme ai template approvati, eliminando i 'snowflake server' configurati a mano e difficili da mantenere o auditare.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Reaction Time",
+      name: "Tempo di Reazione (Reaction Time)",
+      def: "Beneficio dell'automazione che comprime il tempo tra rilevamento e contenimento di una minaccia da minuti/ore a millisecondi, riducendo drasticamente la finestra di opportunità per l'aggressore.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Technical Debt",
+      name: "Debito Tecnico (Technical Debt)",
+      def: "Considerazione critica dell'automazione: script e workflow scritti in fretta o non documentati si accumulano nel tempo, diventando difficili da mantenere, comprendere o modificare. Un debito tecnico elevato erode i benefici dell'automazione e crea fragilità operativa.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Ongoing Supportability",
+      name: "Supportabilità nel Tempo (Ongoing Supportability)",
+      def: "Capacità di mantenere, aggiornare e correggere nel lungo periodo gli script e le pipeline di automazione. Se chi ha scritto l'automazione lascia l'azienda e nessuno la comprende, l'organizzazione resta esposta: la supportabilità va pianificata fin dall'inizio.",
+      category: "ops",
+      source_name: "OBJ 4.7",
+      source_link: "chapters/obj4_7_automation_orchestration.html"
+    },
+    {
+      acronym: "Espionage",
+      name: "Spionaggio (Espionage)",
+      def: "Motivazione dell'attaccante volta a sottrarre segreti industriali, proprietà intellettuale o informazioni strategiche per conto di uno Stato o di un concorrente. Tipica degli attori nation-state e degli APT, privilegia la persistenza furtiva sull'impatto immediato.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Blackmail",
+      name: "Ricatto (Blackmail)",
+      def: "Motivazione in cui l'aggressore minaccia di divulgare dati sottratti o compromettenti a meno che la vittima non paghi o esegua determinate azioni. È il motore della cosiddetta double extortion negli attacchi ransomware moderni.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Financial Gain",
+      name: "Guadagno Finanziario (Financial Gain)",
+      def: "Motivazione predominante del crimine organizzato: monetizzazione diretta dell'attacco tramite ransomware, frodi, furto di carte di credito o rivendita di dati nel dark web. Orienta la scelta dei bersagli verso il massimo profitto col minimo rischio.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Disruption/Chaos",
+      name: "Disturbo e Caos (Disruption/Chaos)",
+      def: "Motivazione tesa a generare interruzione, confusione o danno fine a se stesso, senza un movente economico diretto. Tipica di alcuni hacktivist o di attori che cercano notorietà o desiderano semplicemente provocare disordine.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Revenge",
+      name: "Vendetta (Revenge)",
+      def: "Motivazione spesso associata alla minaccia interna (insider): un dipendente licenziato o insoddisfatto agisce per danneggiare deliberatamente l'organizzazione, sfruttando l'accesso e la conoscenza dei sistemi ancora in suo possesso.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Philosophical/Political Beliefs",
+      name: "Convinzioni Filosofiche o Politiche",
+      def: "Motivazione ideologica che spinge l'attaccante (tipicamente l'hacktivist) a colpire bersagli percepiti come moralmente o politicamente avversi, allo scopo di promuovere una causa o protestare contro un'organizzazione.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "War (Motivation)",
+      name: "Guerra come Movente (Cyberwarfare)",
+      def: "Motivazione nel contesto di conflitti tra Stati: operazioni cibernetiche condotte da attori nation-state per sabotare infrastrutture critiche, raccogliere intelligence o destabilizzare l'avversario nell'ambito di un conflitto geopolitico.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Ethical (Motivation)",
+      name: "Movente Etico (Ethical Hacking)",
+      def: "Motivazione dei ricercatori di sicurezza e dei penetration tester autorizzati: identificare e segnalare le vulnerabilità per migliorare la postura difensiva, operando con consenso esplicito e nel rispetto delle regole d'ingaggio.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Level of Sophistication",
+      name: "Livello di Sofisticazione/Capacità",
+      def: "Attributo che misura la competenza tecnica e le risorse di un attore: dallo script kiddie (basso, usa tool altrui) all'APT nation-state (altissimo, sviluppa exploit zero-day e mantiene persistenza prolungata). Aiuta a stimare la gravità della minaccia.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Resources/Funding",
+      name: "Risorse e Finanziamenti dell'Attore",
+      def: "Attributo che indica i mezzi economici e infrastrutturali a disposizione di un attore. Gli attori nation-state dispongono di budget statali quasi illimitati, mentre gli unskilled attacker hanno risorse minime: il livello di funding determina la persistenza e la portata dell'attacco.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Internal vs External Actor",
+      name: "Attore Interno vs Esterno",
+      def: "Attributo che classifica l'attore in base alla posizione rispetto al perimetro. L'attore interno (insider) gode di accesso e fiducia legittimi, rendendo più difficile il rilevamento; l'attore esterno deve prima superare le difese perimetrali.",
+      category: "general",
+      source_name: "OBJ 2.1",
+      source_link: "chapters/obj2_1_threat_actors.html"
+    },
+    {
+      acronym: "Procurement Process",
+      name: "Processo di Acquisizione/Approvvigionamento",
+      def: "Fase iniziale del ciclo di vita dell'asset in cui hardware e software vengono acquistati da fornitori fidati. Una procurement sicura verifica l'integrità della supply chain ed evita componenti contraffatti o compromessi all'origine.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Asset Assignment",
+      name: "Assegnazione e Contabilizzazione (Assignment/Accounting)",
+      def: "Attribuzione formale di ogni asset a un proprietario (owner) responsabile e registrazione contabile del bene. Senza un'assegnazione chiara non è possibile attribuire responsabilità né applicare le policy di sicurezza corrette.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Asset Classification",
+      name: "Classificazione degli Asset",
+      def: "Etichettatura di ciascun asset in base alla sensibilità dei dati che tratta e alla sua criticità operativa. La classificazione guida l'intensità dei controlli di protezione e le procedure di dismissione applicabili.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Media Sanitization",
+      name: "Sanitizzazione dei Supporti (Sanitization)",
+      def: "Processo di rimozione sicura e irreversibile dei dati da un supporto prima del riuso o della dismissione (es. cryptographic erase, degaussing, overwriting). Impedisce il data remanence, ovvero il recupero di informazioni residue da dispositivi smaltiti.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Physical Destruction",
+      name: "Distruzione Fisica (Destruction)",
+      def: "Metodo di dismissione che distrugge fisicamente il supporto (shredding, incenerimento, pulping, frantumazione) rendendo impossibile qualsiasi recupero dati. È la garanzia più forte, riservata ai supporti contenenti dati altamente sensibili.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Certificate of Destruction",
+      name: "Certificazione della Distruzione (Certification)",
+      def: "Documento formale rilasciato (spesso da un fornitore terzo) che attesta l'avvenuta e corretta distruzione o sanitizzazione di un supporto. Fornisce evidenza di conformità per audit, requisiti legali e catena di responsabilità.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
+    },
+    {
+      acronym: "Asset Data Retention",
+      name: "Conservazione dei Dati nella Dismissione (Data Retention)",
+      def: "Politica che stabilisce per quanto tempo i dati di un asset devono essere conservati prima della distruzione, bilanciando obblighi legali/normativi e minimizzazione del rischio. Eliminare troppo presto viola la compliance; troppo tardi aumenta la superficie di esposizione.",
+      category: "ops",
+      source_name: "OBJ 4.2",
+      source_link: "chapters/obj4_2_asset_management.html"
     }
   ];
 
