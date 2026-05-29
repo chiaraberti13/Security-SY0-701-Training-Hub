@@ -6299,6 +6299,14 @@
       source_link: "chapters/obj4_6_identity_access.html"
     },
     {
+      acronym: "Kerberos",
+      name: "Kerberos (Protocollo d'Autenticazione standard)",
+      def: "Protocollo di autenticazione di rete centralizzato e crittografico progettato per operare su reti non sicure, basato su uno schema del tipo Single Sign-On (SSO) e ampiamente adottato in ambienti Windows Active Directory.<br><strong>• Come opera:</strong> Utilizza una crittografia a chiave simmetrica forte e un'entità terza fidata chiamata KDC (Key Distribution Center) con ruoli di AS (Authentication Server) e TGS (Ticket Granting Server). Invece di inviare password in chiaro sulla rete, Kerberos scambia dei 'ticket' temporanei muniti di timestamp rigorosi per prevenire attacchi di tipo Replay.",
+      category: "iam",
+      source_name: "OBJ 4.6",
+      source_link: "chapters/obj4_6_identity_access.html"
+    },
+    {
       acronym: "Kernel Mode",
       name: "Modalità Kernel (Kernel Mode - Ring 0)",
       def: "L'ambiente operativo della CPU a privilegi massimi e illimitati in cui risiede il nocciolo del sistema operativo (Kernel) ed i relativi driver. Gode dell'accesso diretto all'hardware (RAM, hard disk, scheda video); qualsiasi malfunzionamento in questa modalità inficia e arresta immediatamente l'intero host di sistema.",
@@ -6945,6 +6953,14 @@
       category: "ops",
       source_name: "OBJ 4.1",
       source_link: "chapters/obj4_1_computing_resources.html"
+    },
+    {
+      acronym: "Measured Boot",
+      name: "Avvio Misurato (Measured Boot)",
+      def: "Processo di sicurezza all'avvio che utilizza un chip crittografico hardware (TPM) per misurare e registrare in modo crittograficamente inalterabile l'impronta hash di ogni singolo componente caricato durante il bootstrap della macchina.<br><strong>• Come funziona:</strong> Invece di bloccare l'avvio in caso di anomalie (como fa il Secure Boot), l'Avvio Misurato registra e memorizza i valori di hash di firmware, bootloader e driver nei registri PCR (Platform Configuration Registers) del TPM. Questi dati (attestazione) vengono successivamente trasmessi in modo sicuro a un server di monitoraggio centrale (Attestation Server) per certificare che il sistema non sia stato infettato da malware ostili a basso livello (es. rootkit o bootkit) prima dell'accesso in rete.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
     },
     {
       acronym: "Medical Information",
@@ -8390,6 +8406,14 @@
       acronym: "PEM",
       name: "Privacy Enhanced Mail (PEM Type)",
       def: "Il formato di codifica testuale ASCII più celebre ed utilizzato in assoluto in ambito web, basato sulla conversione in Base64 della struttura binaria DER.<br><strong>• Struttura leggibile:</strong> Si riconosce all'istante all'apertura del testo grazie al tag di inizio e fine: `-----BEGIN CERTIFICATE-----` e `-----END CERTIFICATE-----`. Altamente versatile per i sistemi Linux, server Apache e server Nginx. Supporta anche chiavi private e intere catene di fiducia.<br><strong>• Estensioni tipiche:</strong> .pem, .crt, .key.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "Pepper",
+      name: "Pepper (Password Pepper)",
+      def: "Valore segreto aggiuntivo, costante e casuale, introdotto prima di calcolare l'hashing di una password.<br><strong>• Differenza cruciale con il Salt:</strong> A differenza del Salt (che è univoco per ogni utente e viene memorizzato pubblicamente in chiaro nel database accanto all'hash della password), il Pepper viene tenuto segreto e <em>non viene mai memorizzato nel database</em> delle password. Viene solitamente conservato all'interno del codice sorgente dell'applicazione, in un file di configurazione protetto, o in un modulo hardware HSM.<br><strong>• Valore protettivo:</strong> Se un attaccante esfiltra interamente il database delle password, l'assenza del Pepper gli impedisce di avviare attacchi di brute-force o dizionario offline sugli hash esfiltrati, poiché non può calcolare gli hash corretti senza questo segreto aggiuntivo.",
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
@@ -10235,6 +10259,14 @@
       source_link: "chapters/obj4_1_computing_resources.html"
     },
     {
+      acronym: "Secure Boot",
+      name: "Avvio Sicuro UEFI (Secure Boot)",
+      def: "Standard di sicurezza firmware UEFI progettato per garantire che un sistema informatico si avvii esclusivamente utilizzando software (firmware, bootloader, kernel e driver) firmato digitalmente ed autorizzato dal produttore OEM o dal generatore del sistema.<br><strong>• Funzionamento:</strong> Ad ogni ciclo di boot del computer, il firmware UEFI interroga una serie di database di chiavi di cifratura pubbliche precaricate a livello hardware e verifica la validità delle firme digitali dei file di bootstrap prima di eseguirli. Se le impronte non corrispondono o i certificati di firma appartengono ad elementi revocati (DBX blacklist), il sistema ne blocca immediatamente il caricamento sventando l'esecuzione di bootkit o malware pre-OS.",
+      category: "crypto",
+      source_name: "OBJ 1.4",
+      source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
       acronym: "Secure Containers",
       name: "Contenitori di Custodia Sicuri (Secure Containers)",
       def: "Buste, armadi e sacche sigillate antimanomissione (Chain-of-Custody bags) dotate di numeri di serie univoci stampati e rilevatori di strappo chimici. Servono per archiviare in modo ermetico e inalterabile i supporti di memoria fisici prelevati in sede investigativa.",
@@ -11497,6 +11529,14 @@
       category: "crypto",
       source_name: "OBJ 1.4",
       source_link: "chapters/obj1_4_cryptography.html"
+    },
+    {
+      acronym: "SYN",
+      name: "SYN Flag (Synchronize)",
+      def: "Flag di controllo logico a 1 bit situato nell'header del pacchetto TCP primariamente impiegato per avviare ed orchestrare l'handshake a tre vie (3-way handshake) e sincronizzare i numeri di sequenza iniziale (ISN) tra due host intenzionati ad instaurare una sessione logica bidirezionale.<br><strong>• Rilevanza:</strong> Costituisce il primissimo frame trasmesso dal client verso la porta del server per proporre e concordare una connessione affidabile a livello di trasporto TCP.",
+      category: "net",
+      source_name: "OBJ 3.2",
+      source_link: "chapters/obj3_2_infrastructure.html"
     },
     {
       acronym: "SYN Flood",
@@ -13538,6 +13578,30 @@
     // Event binding
     searchInput.addEventListener('input', function (e) {
       activeSearch = e.target.value.toLowerCase().trim();
+      if (activeSearch.length > 0) {
+        // Reset active filters to 'all' for an uninterrupted global search experience
+        activeLetter = 'all';
+        activeCategory = 'all';
+        
+        // Sincronizza lo stato grafico dei pulsanti categoria
+        catButtons.forEach(btn => {
+          if (btn.getAttribute('data-cat') === 'all') {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        
+        // Sincronizza lo stato grafico dei pulsanti dell'alfabeto
+        const allAlphaBtns = alphaFilterBar.querySelectorAll('.alpha-btn');
+        allAlphaBtns.forEach(btn => {
+          if (btn.getAttribute('data-letter') === 'all') {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
       renderTerms();
     });
 

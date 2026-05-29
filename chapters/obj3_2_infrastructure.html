@@ -331,19 +331,133 @@
     il routing. TLS protegge singole connessioni, non tutto il traffico IP.
   </div>
 
-  <h3 id="protocols">Protocolli sicuri vs non sicuri</h3>
-  <dl class="termlist">
-    <dt>Non sicuri (trasmettono in chiaro)</dt>
-    <dd>Telnet (23), FTP (21), HTTP (80), SNMP v1/v2 — trasmettono credenziali e dati senza cifratura.</dd>
-    <dt>Sostituzioni sicure</dt>
-    <dd>SSH ← Telnet: autenticazione con chiavi asimmetriche + connessione cifrata. SFTP/FTPS ← FTP. HTTPS ← HTTP. SNMPv3 ← SNMPv1/v2.</dd>
+  <h3 id="protocols">Concetti di Comunicazione di Rete e Protocolli Sicuri</h3>
+  <p>
+    La comprensione di come i dati viaggino all'interno di un'infrastruttura d'impresa e di come la crittografia protegga questi flussi è fondamentale per qualsiasi professionista della sicurezza informatica. Questa sezione analizza i concetti cardine, i metodi di trasporto e la distinzione tra protocolli sicuri e insicuri per l'esame CompTIA Security+ SY0-701.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 24px; margin-bottom: 8px; font-weight: 700;">1. Concetti Fondamentali delle Comunicazioni di Rete (Network Communication Concepts)</h4>
+  <p>
+    Qualsiasi interazione all'interno di una rete LAN, WAN o Internet si basa sull'intersezione di tre componenti logico-strutturali essenziali del Layer 4 (Transport) e Layer 3 (Network) del modello OSI:
+  </p>
+  <dl class="termlist" style="margin-bottom: 20px;">
+    <dt>Protocolli (Protocols)</dt>
+    <dd>Insiemi di regole formali e standardizzate che governano il formato, la sintassi, il sequenziamento, il layout dell'header (intestazione) e il controllo degli errori durante lo scambio di pacchetti tra nodi di rete. Senza protocolli comuni, macchine con architetture differenti non potrebbero interpretare il traffico reciproco.</dd>
+    
+    <dt>Porte (Ports)</dt>
+    <dd>Identificatori logici numerati a 16 bit (da 0 a 65535) utilizzati a livello di trasporto per indirizzare e mappare i flussi di dati verso lo specifico processo o servizio software in ascolto su una determinata macchina (Socket = IP + Porta). Lo IANA (Internet Assigned Numbers Authority) suddivide le porte in:
+      <ul style="margin-left: 20px; margin-top: 5px; list-style-type: disc;">
+        <li><strong>Well-Known Ports (0-1023)</strong>: Riservate a servizi di sistema e infrastrutturali fondamentali (es. SSH sulla 22, HTTPS sulla 443).</li>
+        <li><strong>Registered Ports (1024-49151)</strong>: Utilizzate da applicazioni del vendor o database specifici (es. Microsoft SQL Server sulla 1433).</li>
+        <li><strong>Dynamic/Ephemeral Ports (49152-65535)</strong>: Assegnate dinamicamente dal sistema operativo del client come porta sorgente temporanea per gestire le sessioni in uscita.</li>
+      </ul>
+    </dd>
+    
+    <dt>Metodi di Trasporto (Transport Methods)</dt>
+    <dd>La logica operativa utilizzata per convogliare i dati lungo la rete. Le due macro-categorie fondamentali sono:
+      <ul style="margin-left: 20px; margin-top: 5px; list-style-type: disc;">
+        <li><strong>Connection-oriented (Orientato alla connessione)</strong>: Richiede una negoziazione iniziale per stabilire una sessione solida tra client e server, tiene traccia dei pacchetti inviati, ne verifica la consegna integrata e ordina di rispedire eventuali blocchi persi o corrotti (es. TCP).</li>
+        <li><strong>Connectionless (Privo di connessione)</strong>: Invia i pacchetti ("best-effort") verso la destinazione senza stabilire una sessione né attendere conferme di ricezione, riducendo al minimo l'overhead e massimizzando la velocità di trasmissione (es. UDP, ideale per flussi real-time come VoIP o streaming).</li>
+      </ul>
+    </dd>
   </dl>
 
+  <h4 style="color: var(--navy); margin-top: 24px; margin-bottom: 8px; font-weight: 700;">2. Deep Dive: Transmission Control Protocol (TCP)</h4>
+  <p>
+    Il <strong>TCP (Transmission Control Protocol)</strong> è il protocollo di rete standard di livello 4 (Trasporto) orientato alla connessione (Connection-oriented) ed estremamente affidabile. È progettato per garantire che i messaggi siano recapitati senza errori, integralmente e nello stesso esatto ordine dell'invio originale.
+  </p>
+  
+  <h5 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px; font-weight: 600;">L'Handshake a Tre Vie (3-Way Handshake)</h5>
+  <p>
+    Prima di trasmettere qualsiasi dato, il TCP stabilisce una sessione logica bidirezionale sincronizzata tra client e server attraverso una precisa e rigorosa sequenza di messaggi conosciuta come <strong>3-way handshake</strong>:
+  </p>
+  <div style="background-color: var(--bg); border-left: 4px solid var(--teal); padding: 16px; border-radius: 4px; margin: 15px 0;">
+    <ol style="margin-left: 20px; line-height: 1.6;">
+      <li style="margin-bottom: 8px;"><strong>Passo 1: Client → Server (SYN)</strong>: Il client, intenzionato ad aprire la sessione, invia un pacchetto d'inizializzazione impostando il flag logico <code>SYN</code> (Synchronize) e proponendo un proprio numero di sequenza iniziale casuale (<em>Sequence Number = X</em>).</li>
+      <li style="margin-bottom: 8px;"><strong>Passo 2: Server → Client (SYN-ACK)</strong>: Il server riceve il SYN e risponde allocando risorse in memoria. Invia un pacchetto impostando contemporaneamente i flag <code>SYN</code> e <code>ACK</code> (Acknowledgment). Conferma la ricezione del pacchetto del client incrementandone il numero (<em>Ack Number = X + 1</em>) e invia il suo numero iniziale casuale di sequenza (<em>Sequence Number = Y</em>).</li>
+      <li><strong>Passo 3: Client → Server (ACK)</strong>: Il client riceve la risposta del server e invia l'ultimo pacchetto di conferma con il flag <code>ACK</code> attivo. Incrementa il valore di sequenza del server (<em>Ack Number = Y + 1</em>). Da questo momento, la connessione TCP è considerata <strong>Established (Stabilita)</strong> e i dati possono transitare.</li>
+    </ol>
+  </div>
+
+  <h5 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px; font-weight: 600;">TCP Flags ed Elementi di Sicurezza</h5>
+  <p>
+    I flag TCP sono bit di controllo situati nell'header del pacchetto che indicano lo stato logico del flusso o impartiscono comandi urgenti al socket ricevente:
+  </p>
+  <ul style="margin-left: 20px; list-style-type: square; margin-bottom: 15px; line-height: 1.6;">
+    <li><strong>SYN (Synchronize)</strong>: Avvia l'handshake e sincronizza i numeri di sequenza originari.</li>
+    <li><strong>ACK (Acknowledgment)</strong>: Conferma la ricezione sicura di dati precedentemente inoltrati dal mittente.</li>
+    <li><strong>FIN (Finish)</strong>: Conclude in modo ordinato e consensuale la connessione quando non vi sono più dati da inviare.</li>
+    <li><strong>RST (Reset)</strong>: Interrompe bruscamente e forzatamente una sessione causa anomalie o pacchetti rifiutati dal firewall/host.</li>
+    <li><strong>Sequence Numbers (Numeri di Sequenza)</strong>: Strumento cardine per monitorare l'ordine reale dei segmenti e rilevare blocchi duplicati. Obbligare client e server ad assecondare valori numerici incrementali (Sequence numbers) previene attacchi di on-path replay di pacchetti vecchi catturati.</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 24px; margin-bottom: 8px; font-weight: 700;">3. Protocolli Sicuri vs Insicuri (Secure Protocols Mapping)</h4>
+  <p>
+    Il cardine dell'<strong>Hardening di Rete</strong> risiede nel disabilitare in modo sistematico e forzato l'uso di protocolli legacy che trasmettono credenziali e informazioni applicative in chiaro (testo leggibile senza cifratura) sul canale fisico, sostituendoli con equivalenti protocolli moderni dotati di robuste capacità crittografiche (TLS, SSH, IPSec).
+  </p>
+
+  <div style="overflow-x:auto; margin: 20px 0;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+      <thead>
+        <tr style="background-color: var(--navy); color: var(--white); text-align: left;">
+          <th style="padding: 12px; border: 1px solid var(--light-slate);">Servizio / Funzione</th>
+          <th style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEE2E2; color: #991B1B;">❌ Protocollo Insicuro (In chiaro)</th>
+          <th style="padding: 12px; border: 1px solid var(--light-slate); background-color: #D1FAE5; color: #065F46;">✅ Sostituzione Sicura (Cifrato)</th>
+          <th style="padding: 12px; border: 1px solid var(--light-slate);">Caratteristiche &amp; Hardening Meccanismi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Accesso Amministrativo CLI</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>Telnet</strong> (Porta TCP 23)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SSH (Secure Shell)</strong><br>(Porta TCP 22)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">SSH impiega crittografia simmetrica per cifrare interamente il flusso di comando e credenziali, abbinandoli a chiavi asimmetriche per l'autenticazione a prova di spoofing. Telnet espone sessioni intere a sniffing passivi di rete.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Navigazione &amp; API Web</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>HTTP</strong> (Porta TCP 80)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>HTTPS (HTTP Secure)</strong><br>(Porta TCP 443)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">HTTPS incapsula il traffico web standard HTTP entro tunnel cifrati regolati da certificati attivi in <strong>TLS 1.3</strong> per assicurare l'integrità, il non ripudio e la confidenzialità assoluta dei dati.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Trasferimento File</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>FTP</strong> (Porte TCP 20/21)<br><strong>TFTP</strong> (Porta UDP 69)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SFTP (SSH File Transfer)</strong><br>(Porta TCP 22)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">SFTP esegue lo scambio file facendolo passare come sottosistema integrato di SSH (porta 22). Rispetto a FTPS (FTP over TLS, porte 989/990), SFTP è preferito in quanto richiede l'apertura di un'unica porta sul firewall invece di range complessi per il canale di trasmissione ed i dati.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Ricezione E-Mail sul Client</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>IMAP</strong> (Porta TCP 143)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>IMAPS (IMAP Secure)</strong><br>(Porta TCP 993)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">Consente a client locali di recuperare ed organizzare messaggi custoditi permanentemente sul server e-mail aziendale in modo sicuro, schermati e protetti tramite wrap in TLS.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Download Locale E-Mail</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>POP3</strong> (Porta TCP 110)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>POP3S (POP3 Secure)</strong><br>(Porta TCP 995)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">Scarica la casella direttamente nel local storage del computer blindando lo scaricamento e l'autenticazione tramite una connessione cifrata in TLS.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Invio / Relay Posta</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>SMTP</strong> (Porta TCP 25)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SMTPS (SMTP Secure)</strong><br>(Porta TCP 465 o 587 con STARTTLS)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">Asscura il routing e il trasporto e-mail in uscita tra client e gateway o tra mail server autorizzati eludendo falsificazioni d'origine.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Gestione &amp; Monitoraggio Rete</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>SNMPv1/v2</strong> (UDP 161/162)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SNMPS / SNMPv3</strong><br>(Porte UDP 161/162)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">SNMPv1/v2 scambiavano 'Community Strings' (password amministrative d'accesso) in chiaro. SNMPv3 (chiamato anche SNMPS) introduce robuste funzionalità di autenticazione basata su utente, verifiche di integrità crittografica (hashed) e cifratura simmetrica completa (payload encryption) dei log e degli SNMP Traps.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="exam-tip">
-    <strong>EXAM TIP — SSH: i due motivi vs Telnet</strong><br>
-    "Perché passare a SSH?" → <strong>(A) chiavi asimmetriche per autenticazione
-    + (D) connessione cifrata</strong>. Non perché permette comandi superuser
-    (anche Telnet li permette). Non perché non richiede pre-shared key (SSH le usa).
+    <strong>EXAM TIP — SSH vs Telnet &amp; SFTP vs FTP</strong><br>
+    Un amministratore IT ha configurato un server remoto e deve proteggere sia le sessioni di manutenzione (CLI) che il caricamento e scaricamento di grandi quantità di database aziendali in transito. Le due scelte obbligate per l'hardening robusto sono:<br>
+    • Utilizzare <strong>SSH (Porta TCP 22)</strong> al posto di Telnet per l'amministrazione, sfruttando chiavi asimmetriche per l'autenticazione e la connessione cifrata.<br>
+    • Adottare <strong>SFTP (Porta TCP 22)</strong> anziché il vecchio FTP o TFTP, poiché canalizzando tutti i passaggi dati all'interno dello stesso tunnel sicuro monodirezionale di SSH si evita anche di creare fastidiose ed ampie falle nel configurare le ACL dei firewall dell'impresa.
   </div>
 
   <div class="pitfall">

@@ -72,14 +72,24 @@
         <a href="#flashcard">Flashcard di riepilogo</a>
       </nav>
 
-      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
-      <main class="content" id="contenuto-principale">
-
-        <!-- ══ SEZIONE 1 — ATTESTATION ═══════════════════════════════ -->
+      <!-- ══        <!-- ══ SEZIONE 1 — ATTESTATION ═══════════════════════════════ -->
         <section id="attestation">
-          <h2>Attestazione ed Asseverazione (Attestation)</h2>
+          <h2>Attestazione ed Asseverazione (Attestation) &amp; Differenza Audit vs Assessment</h2>
           <p>
-            Nel settore della sicurezza informatica, quando un'organizzazione ha la necessità di dimostrare a terzi (tipicamente clienti o partner commerciali) che i suoi controlli protettivi sono operativi e sani, il metodo più trasparente ed efficiente risiede nel fornire una <strong>Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.
+            Nel settore della governance e della sicurezza informatica, le organizzazioni devono costantemente validare la propria postura protettiva sia per scopi di miglioramento interno sia per dimostrare la dovuta diligenza (Due Diligence) a terzi interessati, come partner d'affari o clienti corporate. A questo scopo si utilizzano due tipologie di attività distinte ma complementari: l'<strong>Audit</strong> e l'<strong>Assessment (Valutazione)</strong>.
+          </p>
+
+          <div class="example-box">
+            <strong>⚖️ DIFFERENZA CHIAVE: AUDIT vs ASSESSMENT (VALUTAZIONE)</strong><br>
+            Per l'esame CompTIA, comprendere il confine metodologico tra queste due attività è vitale:
+            <ul style="margin-top: 5px;">
+              <li><strong>Audit (Processo di Conformità Rigido):</strong> È un esame sistematico, formale e rigorosamente indipendente condotto a fronte di uno standard predeterminato, un quadro regolatorio o una legge nazionale (es: PCI-DSS, ISO/IEC 27001, SOC 2). L'approccio è di tipo formale e binario: l'auditor verifica se i controlli esistano ed operino come prescritto dal regolamento. L'esito finale è un report di "pass/fail" basato sulla conformità pura (Compliance).</li>
+              <li><strong>Assessment / Valutazione (Processo Diagnostico-Consultivo):</strong> È una valutazione più ampia, flessibile e collaborativa incentrata sullo studio attivo dei rischi (Risk-Focused). Non si limita a controllare una check-list rigida di requisiti; mira a comprendere la postura globale di sicurezza, mappare minacce, identificare vulnerabilità tecnologiche ed organizzative (Gap Analysis) e fornire report consultivi raccomandando miglioramenti e contromisure prioritari basati sul business.</li>
+            </ul>
+          </div>
+
+          <p>
+            Quando un'organizzazione deve dimostrare l'efficacia dei propri controlli protettivi a soggetti esterni in modo trasparente e certificato, il metodo preferito consiste nel fornire una <strong>Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.
           </p>
 
           <dl class="termlist">
@@ -91,7 +101,7 @@
 
             <dt>Rapporto di Controllo dei Servizi Organizzativi (SOC 2 Type II)</dt>
             <dd>
-              Un report indipendente emesso da un ente di verifica terzo che certifica l'efficacia operativa dei controlli interni (basati sui Trust Services Criteria: sicurezza, riservatezza, integrità, disponibilità, privacy) <strong>lungo un arco temporale di rilevamento stabilito (solitamente semestrale, pari a 6 mesi)</strong>. Al contrario, un report di <em>Type I</em> attesta l'idoneità del disegno dei controlli in un unico istante temporale specifico (punto nel tempo), rendendo il <strong>SOC 2 Type II</strong> l'unico standard in grado di provare l'efficacia storica continuativa.
+              Un report indipendente emesso da un ente di verifica terzo che certifica l'efficacia operativa dei controlli interni (basati sui Trust Services Criteria: sicurezza, riservatezza, integrità, disponibilità, privacy) <strong>lungo un arco temporale di rilevamento stabilito (solitamente semestrale, pari a min. 6 mesi)</strong>. Al contrario, un report di <em>Type I</em> attesta l'idoneità del disegno dei controlli in un unico istante temporale specifico (punto nel tempo), rendendo il <strong>SOC 2 Type II</strong> l'unico standard in grado di provare l'efficacia storica continuativa.
             </dd>
           </dl>
         </section>
@@ -99,9 +109,9 @@
 
         <!-- ══ SEZIONE 2 — INTERNAL AUDITS ═══════════════════════════ -->
         <section id="internal">
-          <h2>Audit Interni e Autovalutazioni (Internal Audits & Self-Assessments)</h2>
+          <h2>Audit Interni e Autovalutazioni (Internal Audits &amp; Self-Assessments)</h2>
           <p>
-            Gli audit e le verifiche che si svolgono entro i confini perimetrali dell'organizzazione sono finalizzati a verificare in modo continuativo e strutturato la postura difensiva dell'azienda.
+            Gli audit e le verifiche che si svolgono entro i confini perimetrali dell'organizzazione sono finalizzati a monitorare continuativamente e sistematicamente la postura difensiva dell'azienda prima delle ispezioni ufficiali regolatorie delle autorità.
           </p>
 
           <dl class="termlist">
@@ -127,6 +137,18 @@
           </dl>
 
           <div class="critical">
+            <strong>📋 PERFORMING AN INTERNAL ASSESSMENT (Eseguire una Valutazione Interna Step-by-Step)</strong><br>
+            La conduzione formale di un assessment o audit interno segue una metodologia sequenziale rigida suddivisa in cinque fasi operative:
+            <ol style="margin-top: 10px; padding-left: 20px;">
+              <li style="margin-bottom: 8px;"><strong>1. Definizione degli Obiettivi e dello Scopo (Objectives &amp; Scoping):</strong> Il responsabile dell'audit (Lead Auditor) circoscrive con precisione il perimetro d'ispezione (es: "tutti i database contenenti PII della filiale italiana") e seleziona i parametri e i criteri di riferimento contrattuali o normativi.</li>
+              <li style="margin-bottom: 8px;"><strong>2. Pianificazione e Calendario (Assessment Planning):</strong> Si definiscono le tempistiche di esecuzione e si pre-allertano i responsabili delle Business Unit (Asset Owners) interessate, concordando le sessioni d'intervista ed esame al fine di minimizzare l'interruzione dei processi operativi ordinari dell'azienda.</li>
+              <li style="margin-bottom: 8px;"><strong>3. Raccolta di Evidenze e Interviste (Fieldwork &amp; Evidence Gathering):</strong> Gli auditor interni interrogano i sysadmin, esaminano le procedure standard descritte (SOP) e acquisiscono riscontri tecnici oggettivi, quali configurazioni dei server LDAP, estratti dei firewall, e permessi d'accesso alle cartelle di rete sensibili.</li>
+              <li style="margin-bottom: 8px;"><strong>4. Test dei Controlli e Gap Analysis (Control Testing &amp; Reporting):</strong> Gli auditor valutano se i controlli dichiarati sulla carta siano effettivamente applicati e funzionanti nel quotidiano. Per qualsiasi discrepanza riscontrata viene aperta una scheda formale di <strong>Rilievo d'Audit (Audit Finding)</strong> da inserire nel report finale da presentare al Comitato d'Audit.</li>
+              <li style="margin-bottom: 8px;"><strong>5. Remediation Plan e Tracciamento (Remediation &amp; Follow-up):</strong> Le Business Unit interessate sono tenute a predisporre un piano d'azione (Action Plan) correttivo con relativi responsabili e scadenze (milestones). Il team di audit monitorerà e assevererà in via definitiva l'effettivo superamento della criticità nel tempo tramite controlli di follow-up.</li>
+            </ol>
+          </div>
+
+          <div class="critical">
             <strong>RILEVAMENTI D'AUDIT E INFRAZIONI INTERNE</strong><br>
             Nel settore d'esame, la distinzione tra inadempimento rilevato internamente ed esternamente è netta:
             <ul>
@@ -141,19 +163,19 @@
         <section id="external">
           <h2>Audit Esterni e Ispezioni (External Audits)</h2>
           <p>
-            Gli audit esterni hanno rilevanza formale legale e sono eseguiti in modo imparziale da soggetti terzi rispetto alla catena gerarchica aziendale.
+            Gli audit esterni hanno rilevanza formale legale e sono eseguiti in modo imparziale da soggetti terzi e accreditati, interamente indipendenti e scollegati dall'autorità gerarchica dell'azienda sotto scrutinio.
           </p>
 
           <dl class="termlist">
             <dt>Contesto Regolatorio (Regulatory Audit)</dt>
             <dd>
               Un audit forzato e guidato da obblighi di legge o di settore. <br>
-              In ambiti ad altissima criticità (es: sanità o <strong>ambienti bancari/finanziari</strong>), lo svolgimento continuativo di attività di audit completo non è facoltativo o dettato da riorganizzazioni interne, bensì rappresenta un esplicito e imprescindibile <strong>Requisito Regolatorio (Regulatory requirement)</strong> per conservare la licenza bancaria o commerciale d'esercizio.
+              In ambiti ad altissima criticità (es: sanità con HIPAA o <strong>ambienti bancari/finanziari</strong> con normative SEC/EBA), lo svolgimento continuativo di attività di audit completo non è una scelta facoltativa o dettata da riorganizzazioni interne, bensì rappresenta un esplicito e imprescindibile <strong>Requisito Regolatorio (Regulatory requirement)</strong> per conservare la licenza d'esercizio.
             </dd>
 
-            <dt>Esami Formali e Ispezioni (Examinations)</dt>
+            <dt>Esami Formali e Ispezioni (Examinations / Inspections)</dt>
             <dd>
-              Ispezioni investigative condotte ufficialmente da funzionari o esaminatori di agenzie nazionali e federali di vigilanza per certificare aderenza e conformità a tutele legali d'ordine pubblico.
+              Ispezioni investigative condotte ufficialmente da funzionari o esaminatori di agenzie nazionali e federali di vigilanza istituzionale per certificare aderenza e conformità a tutele legali d'ordine pubblico.
             </dd>
 
             <dt>Valutazioni della Sicurezza (External Assessments)</dt>
@@ -166,6 +188,18 @@
               Processo analitico oggettivo e regolato, condotto da enti di certificazione accreditati terzi del tutto svincolati dalle relazioni clientela/fornitore, il cui esito si traduce in relazioni ed asseverazioni standardizzate internazionalmente (es: certificazioni ISO 27001 o report SOC 2).
             </dd>
           </dl>
+
+          <div class="critical">
+            <strong>💼 PERFORMING AN EXTERNAL ASSESSMENT (Eseguire una Valutazione Esterna Step-by-Step)</strong><br>
+            L'esecuzione di un audit o di un assessment di sicurezza esterno da parte di revisori ufficiali terzi (es: Qualified Security Assessor - QSA) segue un protocollo consolidato e standardizzato, essenziale per garantire la validità legale degli esiti:
+            <ol style="margin-top: 10px; padding-left: 20px;">
+              <li style="margin-bottom: 8px;"><strong>1. Pre-Assessment / Audit Readiness (Verifica di Preparazione):</strong> L'azienda cliente svolge audit simulati interni (Mock Audits) per prepararsi all'ispezione ufficiale, raccoglie e archivia ordinatamente la documentazione richiesta dagli standard (policy, schemi di rete, audit trail) e designa un referente di raccordo interno (Audit Liaison).</li>
+              <li style="margin-bottom: 8px;"><strong>2. Riunione di Apertura (Opening Meeting):</strong> Sessione iniziale formale in cui i revisori esterni presentano il proprio team, illustrano formalmente il piano di lavoro, validano preventivamente il perimetro (Scope Validation) e concordano l'accesso fisico e logico ai sistemi target.</li>
+              <li style="margin-bottom: 8px;"><strong>3. Lavoro sul Campo e Prove di Campionamento (Fieldwork &amp; Sampling):</strong> I revisori conducono interviste indipendenti con gli amministratori di sistema ("Asset Owners") ed eseguono test di verifica a campione. Estraggono configurazioni in tempo reale e campioni casuali dei log per verificare se le contromisure siano applicate costantemente e non temporaneamente predisposte per l'ispezione.</li>
+              <li style="margin-bottom: 8px;"><strong>4. Stesura del Draft Report e Risposta del Management (Draft &amp; Management Response):</strong> I revisori redigono una bozza preliminare del report segnalando eventuali scostamenti o non-conformità (Gap Analysis). Al management dell'azienda viene concesso il tempo formale per fornire risposte ufficiali (Management Responses), confutando argomenti inesatti o descrivendo piani strutturati di rimedio con tempistiche chiare.</li>
+              <li style="margin-bottom: 8px;"><strong>5. Riunione di Chiusura e Consegna del Final Report (Closing Meeting &amp; Attestation):</strong> Sessione formale conclusiva in cui vengono discussi i risultati del report finale asseverato (es: rilascio formale di un <strong>AoC (Attestation of Compliance)</strong> o certificazione formale). Se l'ispezione rivela lacune o non-conformità con i requisiti legali dell'autorità di vigilanza, l'outcome immediato si tradurrà in pesanti <strong>Sanzioni Pecuniarie (Fines)</strong>.</li>
+            </ol>
+          </div>
         </section>
 
 
@@ -173,36 +207,70 @@
         <section id="pentest">
           <h2>Test di Penetrazione e Team di Sicurezza (Penetration Testing)</h2>
           <p>
-            Al fine di testare in modo proattivo ed empirico la robustezza dei sistemi d'arma digitali si ricorre ad attacchi simulati controllati, comunemente noti come <em>Penetration Test (Penetration Testing)</em>.
+            Al fine di testare in modo proattivo, empirico e realistico la robustezza dei sistemi d'arma digitali e la resilienza operativa dell'organizzazione si ricorre a tentativi di attacco simulati e pianificati, comunemente noti come <strong>Test di Penetrazione (Penetration Testing)</strong>.
           </p>
 
           <div class="exam-tip">
             <strong>LE REGOLE DI INGAGGIO (RULES OF ENGAGEMENT - ROE)</strong><br>
-            Le <strong>Rules of Engagement (RoE)</strong> costituiscono l'accordo contrattuale formale che definisce capillarmente i confini, i perimetri, gli orari, le modalità, gli indirizzi IP autorizzati e i limiti legali che i penetration tester esterni ed interni <strong>devono rigorosamente seguire e rispettare durante lo svolgimento del test di penetrazione</strong>, sventando danni collaterali accidentali ai sistemi e garantendo il rispetto del diritto all'uso.
+            Le <strong>Rules of Engagement (RoE)</strong> costituiscono l'accordo contrattuale formale vincolante che definisce capillarmente i confini, i perimetri logici e fisici, gli orari, le modalità, gli indirizzi IP autorizzati e i limiti legali che i penetration tester esterni ed interni <strong>devono rigorosamente seguire e rispettare durante lo svolgimento del test di penetrazione</strong>, sventando danni collaterali accidentali ai sistemi di produzione e garantendo il rispetto del diritto all'uso (right to use).
           </div>
 
-          <p>La CompTIA categorizza le specializzazioni offensive e difensive dei test simulati sotto la metafora cooperativa dei "Color Teams":</p>
+          <div class="critical">
+            <strong>🏁 LE 6 FASI FORMALI DI UN PENETRATION TEST ENTERPRISE</strong><br>
+            Un processo di Penetration Testing professionale non è un assalto sconnesso e casuale, bensì una sequenza metodica e rigidamente strutturata:
+            <ol style="margin-top: 10px; padding-left: 20px;">
+              <li style="margin-bottom: 8px;"><strong>1. Pianificazione, Perimetro e Autorizzazione (Planning &amp; Scoping):</strong> Trattasi della fase essenziale e prodromica. Vengono firmati contratti di non divulgazione (NDA), delineate le *Rules of Engagement (RoE)*, e ottenuta la **formale autorizzazione scritta e firmata dal management (Written Authorization)**. Eseguire test di penetrazione senza autorizzazione costituisce una grave violazione penale di accesso abusivo a sistema informatico, indipendentemente dalle intenzioni benefiche dell'hacker etico.</li>
+              <li style="margin-bottom: 8px;"><strong>2. Raccolta di Informazioni e Ricognizione (Information Gathering / Reconnaissance):</strong> Studio approfondito del bersaglio. Può svolgersi in modo interamente silente per ecludere rilevamenti o allertamenti preventivi (Ricognizione Passiva - OSINT, record DNS storici) o tramite tracciamento proattivo (Ricognizione Attiva - interrogazioni e host scanning).</li>
+              <li style="margin-bottom: 8px;"><strong>3. Analisi delle Vulnerabilità (Vulnerability Assessment &amp; Scanning):</strong> I tester scansionano attivamente porte, servizi e applicativi esposti (tramite strumenti come Nessus o Nmap) per catalogare le versioni dei software e identificare la potenziale presenza di vulnerabilità note (CVE). Viene stimato il livello di severità teorica iniziale mappando i dati sulle metriche del Base Score del CVSS.</li>
+              <li style="margin-bottom: 8px;"><strong>4. Sfruttamento e Accesso Iniziale (Exploitation / Gaining Access):</strong> Il tester tenta proattivamente di colpire i punti deboli individuati caricando ed eseguendo exploit mirati, eludendo controlli o conducendo campagne di phishing per conquistare una testa di ponte iniziale (Initial Access) nel perimetro logico del sistema o compromettendo la workstation del dipendente.</li>
+              <li style="margin-bottom: 8px;"><strong>5. Post-Sfruttamento ed Espansione (Post-Exploitation):</strong> Raggiunto l'accesso, si analizza il sistema infiltrato per misurare e concretizzare l'impatto potenziale di un attacco reale. Include tre sotto-fasi operative fondamentali:
+                <ul style="list-style-type: disc; margin-left: 20px; margin-top: 5px;">
+                  <li><strong>Privilege Escalation (Scalata dei Privilegi):</strong> Sfruttamento di falle locali del sistema operativo o configurazioni deboli per elevarsi da utente standard a super-user/root/SYSTEM, sbloccando il controllo amministratore completo dell'host.</li>
+                  <li><strong>Lateral Movement (Movimento Laterale):</strong> Esecuzione di ricognizione logica interna per individuare e aggredire altri server sensibili interconnessi all'interno della medesima Active Directory o LAN, simulando una propagazione laterale.</li>
+                  <li><strong>Persistence (Persistenza):</strong> Installazione di backdoor, agenti di Command &amp; Control (C2) o chiavi di registro silenti volte a garantire che l'accesso dei tester sopravviva a riavvii delle macchine o cambi password di primo livello del bersaglio.</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 8px;"><strong>6. Reportistica e Debriefing (Reporting &amp; Remediation Validation):</strong> Il tester rimuove diligentemente qualsiasi file di test o backdoor (Clean-up) e redige il report finale asseverato. Questo si divide in un *Executive Summary* di alto livello per i C-level (evidenziando rischi strategici, d'immagine e di business) ed un *Technical Report* dettagliato con codice di exploit ed evidenze (PoC) per permettere ai sysadmin di rimediare tempestivamente le falle. Infine, a rimediazione effettuata, si avviano scansioni e verifiche di follow-up per validare l'efficacia del patch management.</li>
+            </ol>
+          </div>
+
+          <p>La CompTIA descrive le specializzazioni e i ruoli nel campo della sicurezza offensiva e difensiva attraverso la metafora dei "Color Teams":</p>
 
           <dl class="termlist">
             <dt>Squadra Offensiva (Red Team)</dt>
             <dd>
-              Il team incaricato di condurre <strong>valutazioni di sicurezza offensive (offensive security assessment)</strong> simulando tecniche, tattiche e procedure (TTP) degli attaccanti reali. Ne sono tipiche attività i tentativi di penetrazione esterni, le infezioni di malware simulati e l'applicazione di tecniche di ingegneria sociale (social engineering) ed attacchi combinati.
+              Il team incaricato di condurre <strong>valutazioni di sicurezza offensive (offensive security assessment)</strong> simulando fedelmente tecniche, tattiche e procedure (TTP) degli aggressori ed APT reali del mondo criminale. Ne sono tipiche attività i tentativi di penetrazione esterni, le infezioni di malware simulati e l'applicazione di tecniche di ingegneria sociale (social engineering) ed attacchi combinati diretti a superare le barriere di sicurezza.
             </dd>
 
             <dt>Squadra Difensiva (Blue Team)</dt>
             <dd>
-              Il personale di sicurezza interno dell'organizzazione (es: Security Operations Center - SOC) preposto a monitorare costantemente le allerte, analizzare il traffico di rete ed arrestare attivamente gli assalti simulati condotti dal Red Team.
+              Il personale di sicurezza interno dell'organizzazione (es: Security Operations Center - SOC, coordinatori di incident response, amministratori di rete e sistemi) preposto a monitorare costantemente le allerte, analizzare la telemetria, mitigare l'allarmistica ed arrestare attivamente gli assalti simulati condotti dal Red Team.
             </dd>
 
             <dt>Test Integrati o Cooperativi (Integrated Testing / Purple Team)</dt>
             <dd>
               Un approccio operativo strutturato che <strong>combina e integra in modo sincrono e trasparente sia le attività tecniche offensive (Red Team) sia quelle difensive (Blue Team)</strong>. Invece di eseguire test in cieco non cooperativi, l'Integrated Testing prevede la condivisione istantanea e continua di riscontri tecnici in tempo reale, aiutando gli ingegneri difensivi a validare, calibrare ed affinare immediatamente le regole del SIEM, del firewall e dei vettori d'allerta per sventare minacce reali in modo congiunto.
             </dd>
+
+            <dt>Arbitri dell'Ingaggio (White Team)</dt>
+            <dd>
+              Gli arbitri o giudici neutrali che organizzano o coordinano il test d'attacco. Definiscono le regole di ingaggio (RoE), monitorano che le attività del Red Team non creino disservizi dannosi permanenti e intervengono nel caso in cui un attacco rischi d'impattare sistemi di produzione mission-critical dell'azienda, autorizzando o interrompendo temporaneamente il test per motivi di operatività del business.
+            </dd>
+
+            <dt>Team dei Progettisti (Yellow Team)</dt>
+            <dd>
+              Gli sviluppatori software, architetti di sistema e programmatori (Developers/Architects) che costruiscono i prodotti applicativi d'impresa. Costituiscono un tassello pilastro poiché integrano i risultati delle valutazioni del Red/Blue team nei flussi di ciclo di vita della codifica sicura (Secure Software Development Lifecycle - SSDLC) per prevenire debolezze sistematiche del codice sorgente alla radice.
+            </dd>
+
+            <dt>Team delle Integrazioni di Hardening (Green Team)</dt>
+            <dd>
+              Rete di supporto tecnico focalizzata sulla configurazione sicura e sull'unione operativa di difese tra sviluppatori e operatori di sicurezza (Hardening integrations). Aiuta a implementare i sistemi e gli host secondo baseline e linee guida approvate (come i CIS Benchmarks), automatizzando l'applicazione delle patch software a livello infrastrutturale.
+            </dd>
           </dl>
 
           <div class="pitfall">
             <strong>TEST DI SICUREZZA FISICA (PHYSICAL TESTING)</strong><br>
-            Le ispezioni offensive del Red Team o di consulenti esterni non si limitano via rete o tramite attacchi informatici (cyber). Un attacco in cui un tester simula una minaccia fisica o <strong>tenta di infiltrarsi materialmente entro aree aziendali sorvegliate o uffici privati abusando di badge d'accesso non autorizzati (access credentials/badge tailgating)</strong> rientra rigorosamente nella famiglia delle <strong>valutazioni fisiche (Physical Testing / Physical Assessments)</strong>.
+            Le ispezioni offensive del Red Team o di consulenti esterni non si limitano via rete o tramite attacchi informatici (cyber). Un attacco in cui un tester simula una minaccia fisica o <strong>tenta di infiltrarsi materialmente entro aree aziendali sorvegliate o uffici privati abusando di badge d'accesso non autorizzati (access credentials o badge tailgating)</strong> rientra rigorosamente nella famiglia delle <strong>valutazioni fisiche (Physical Testing / Physical Assessments)</strong>.
           </div>
         </section>
 
@@ -236,7 +304,7 @@
           <dl class="termlist">
             <dt>Ricognizione Passiva (Passive Reconnaissance)</dt>
             <dd>
-              La catalogazione dettagliata di informazioni senza effettuare alcun tipo di contatto diretto con i server della vittima, garantendo un'operatività silente. Nel caso in cui si voglia <strong>studiare un target con il massimo livello di segretezza possibile sventando sistemi di rilevamento e firewall d'allarme, si ricorre alla Ricognizione Passiva</strong> (es: interrogando Registri DNS storici, eseguendo ricerche OSINT, o leggendo i server Whois pubblici).
+              La catalogazione dettagliata di informazioni senza effettuare alcun tipo di contatto diretto con i server della vittima, garantendo un'operatività silente. Nel caso in cui si voglia <strong>studiare un target con il massimo livello di segretezza possibile sventando sistemi di rilevamento e firewall d'allarme, si ricorre alla Ricognizione Passiva</strong> (es: interrogando Registri DNS storici, eseguendo ricerche OSINT, leggendo i server Whois pubblici, o analizzando informazioni caricate su profili social professionali come LinkedIn).
             </dd>
 
             <dt>Ricognizione Attiva (Active Reconnaissance)</dt>
