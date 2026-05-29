@@ -91,19 +91,52 @@
 <section id="intro">
   <h2>Resilienza: resistere, assorbire, riprendere</h2>
   <p>
-    La <strong>resilienza (resilience)</strong> è la capacità di un sistema di
-    resistere a eventi avversi, assorbirne l'impatto e riprendere le operazioni
-    normali nel minor tempo possibile. Non è una proprietà binaria (resiliente/non
-    resiliente) ma un continuum: quanto tempo per recuperare? Quanti dati si perdono?
-    Quanto costa il recovery? Le risposte a queste domande guidano la progettazione
-    dell'architettura di resilienza di ogni organizzazione.
+    La <strong>Resilienza Cibernetica (Cyber Resilience)</strong> è la capacità di un'organizzazione o di un'infrastruttura IT di <strong>anticipare, resistere, assorbire l'impatto, riprendersi e infine adattarsi</strong> ad eventi avversi, sollecitazioni anomale, disastri ambientali o attacchi informatici distruttivi. 
   </p>
   <p>
-    L'obiettivo 3.4 è fondamentalmente pratico: dato uno scenario (terremoto, tornado,
-    guasto di corrente, data center offline), quali soluzioni architetturali garantiscono
-    la continuità operativa e il recovery? La scelta dipende sempre da un trade-off
-    tra costo e velocità di recovery.
+    Nell'esame CompTIA Security+, la resilienza non viene considerata una proprietà binaria e statica (funzionante vs non funzionante), bensì un continuum aziendale misurato su metriche rigorose: quanto tempo occorre per ripristinare il core business? Quanti dati transazionali siamo disposti a sacrificare? Quanto budget l'azienda intende allocare per ridurre queste metriche? 
   </p>
+
+  <div class="example-box">
+    <strong>🛡️ CYBER RESILIENCE vs DISASTER RECOVERY (DR)</strong><br>
+    Mentre il <strong>Disaster Recovery</strong> si concentra prevalentemente sul ripristino tecnico "post-evento" (ovvero su come rimettere in piedi i server dopo che il desastro è avvenuto), la <strong>Cyber Resilienza</strong> ha una visione olistica e proattiva: include il design architetturale che impedisce all'attacco o al guasto di causare un'interruzione (assorbimento proattivo), i piani di continuità operativa per processi non-IT (Business Continuity) e l'apprendimento continuo finalizzato ad adattare le difese ed evitare il ripetersi di incidenti analoghi.
+  </div>
+
+  <p>
+    L'asse portante che traduce in pratica il concetto di resilienza all'interno dell'architettura di sicurezza è la <strong>Ridondanza di Sistema (System Redundancy)</strong>. Progettare la ridondanza significa implementare duplicazioni strategiche per fare in modo che l'eventuale guasto o compromissione di un singolo elemento non provochi un blackout catastrofico per l'azienda.
+  </p>
+
+  <h3>Le 4 Dimensioni Cardinali della Ridondanza (Redundancy):</h3>
+  <dl class="termlist">
+    <dt>Ridondanza Hardware (Hardware Redundancy)</dt>
+    <dd>
+      Consiste nel duplicare i componenti fisici all'interno di un singolo server o armadio rack. Gli esempi tipici includono l'utilizzo di <strong>Alimentatori Ridondanti Hot-Swappable</strong> (se un alimentatore brucia, il secondo subentra senza spegnere la macchina), schede madri con più socket di CPU indipendenti, e l'aggregazione di più schede di rete (NIC Teaming) per prevenire la rottura di una porta ethernet fisica.
+    </dd>
+
+    <dt>Ridondanza di Rete (Network Redundancy)</dt>
+    <dd>
+      Previene l'interruzione della connettività aziendale. Si realizza implementando percorsi di cablaggio di rete diversificati (ad es. percorsi fisici separati per i cavi in fibra ottica entrando nell'edificio), adottando switch in stack logico ridondante, e stipulando accordi con più fornitori di servizi Internet (<strong>Dual-ISP / Multihoming BGP</strong>) per instradare automaticamente il traffico della filiale su un provider secondario qualora il primario subisca un outage di zona.
+    </dd>
+
+    <dt>Ridondanza dell'Alimentazione (Power Redundancy)</dt>
+    <dd>
+      Fornisce una barriera protettiva contro blackout elettrici della rete di distribuzione nazionale. Si basa sull'integrazione accoppiata di batterie a tampone temporanee (<strong>UPS - Uninterruptible Power Supply</strong>) volte ad assorbire micro-interruzioni e sbalzi di tensione immediati, e di grossi motori di combustione ausiliari (<strong>Generators</strong>) in grado di erogare corrente continua bruciando gasolio per giorni interi in caso di blackout prolungati.
+    </dd>
+
+    <dt>Ridondanza dei Dati (Data Redundancy)</dt>
+    <dd>
+      La protezione assoluta contro il danneggiamento, la corruzione o la perdita permanente dei dati aziendali. Si articola sul piano logico tramite l'archiviazione parallela e distribuita delle informazioni su più dischi (tecnologie <strong>RAID 1, 5, 6, 10</strong>), sulla scrittura transazionale protetta con journal (Journaled Filesystem), e sulla replica continua remota in cloud (<strong>Real-time Synchronous Replication</strong>) geograficamente distante dal sito operativo primario.
+    </dd>
+  </dl>
+
+  <div class="critical">
+    <strong>🧠 LA DISTINZIONE PER L'ESAME: REDUNDANCY vs HIGH AVAILABILITY (HA)</strong><br>
+    Spesso confusi come sinonimi, CompTIA evidenzia un chiaro confine concettuale:
+    <ul style="margin-top: 5px;">
+      <li><strong>Ridondanza:</strong> È lo strumento tecnico (il "mezzo"). Rappresenta la presenza fisica o logica di componenti duplicati tenuti di riserva (es: avere due dischi speculari in RAID 1, avere un secondo generatore, avere un server secondario).</li>
+      <li><strong>Alta Disponibilità (HA):</strong> È il risultato sistemico (il "fine"). È la capacità dell'intera architettura di erogare il servizio in modo continuativo, trasparente e privo di latenze percepibili per l'utente finale mediante meccanismi di failover automatico (es. load balancing attivo-attivo, cluster di database, switchover dei DNS). La ridondanza è un prerequisito fondamentale dell'Alta Disponibilità, ma da sola non basta: serve una logica software in grado di rilevare istantaneamente il guasto sul componente primario e reindirizzare le transazioni sulla risorsa ridondante senza alcun intervento manuale.</li>
+    </ul>
+  </div>
 </section>
 
 

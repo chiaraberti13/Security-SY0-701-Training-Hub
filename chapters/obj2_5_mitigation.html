@@ -346,20 +346,57 @@
 
   <h3 id="mitre">MITRE ATT&amp;CK Framework</h3>
   <p>
-    Il framework <strong>MITRE ATT&amp;CK</strong> (Adversarial Tactics, Techniques
-    &amp; Common Knowledge) è una knowledge base pubblica e sistematica del comportamento
-    degli attaccanti reali: le tattiche (obiettivi ad alto livello), le tecniche (come
-    raggiungono quegli obiettivi) e le procedure specifiche (TTP — Tactics, Techniques
-    and Procedures) osservate in attacchi reali.
+    Il framework <strong>MITRE ATT&amp;CK</strong> (Adversarial Tactics, Techniques &amp; Common Knowledge) è una matrice di riferimento universale, di tipo tassonomico e open-source, sviluppata da MITRE. Documenta in modo sistematico i comportamenti reali degli attori di minaccia (adversaries) osservati sul campo in base a attacchi reali e incidenti storici.
   </p>
   <p>
-    Non è uno strumento di mitigazione diretto, ma il <em>dizionario del linguaggio
-    degli attaccanti</em>: permette ai difensori di mappare le proprie difese rispetto
-    ai comportamenti reali degli avversari, identificare gap di copertura, e prioritizzare
-    i controlli più efficaci contro le minacce più rilevanti per il loro settore.
-    Un security administrator che consulta MITRE ATT&amp;CK per indirizzare le proprie
-    azioni di hardening usa la conoscenza empirica degli attacchi reali.
+    Per superare l'esame CompTIA e applicare questo framework nelle aziende, è essenziale comprendere la gerarchia strutturale delle <strong>TTPs (Tactics, Techniques, and Procedures)</strong> che compongono la matrice:
   </p>
+
+  <dl class="termlist">
+    <dt>Tactics (Tattiche — Il "Perché" / "Why")</dt>
+    <dd>
+      Rappresentano gli <strong>obiettivi operativi immediati di alto livello</strong> dell'attaccante durante un'intrusione. La matrice Enterprise definisce attualmente 14 tattiche ordinate secondo il ciclo di vita logico dello sfruttamento, tra cui:
+      <ul style="margin-top: 5px; margin-left: 15px;">
+        <li><em>Initial Access:</em> Come l'attaccante tenta di fare breccia nel perimetro (es. e-mail di phishing).</li>
+        <li><em>Execution:</em> Far sì che il codice maligno venga eseguito sulla macchina target.</li>
+        <li><em>Persistence:</em> Mantenere l'accesso sul sistema anche dopo riavvii o cambiate di sessione (es. chiavi di registro di avvio).</li>
+        <li><em>Privilege Escalation:</em> Ottenere permessi più elevati (es. passare da utente standard a Local System / Domain Admin).</li>
+        <li><em>Credential Access:</em> Sottrarre password o hash di autenticazione (es. dumping della memoria di LSASS).</li>
+        <li><em>Lateral Movement:</em> Spostarsi all'interno della rete interna aziendale da un PC compromesso ad altri server critici.</li>
+        <li><em>Exfiltration:</em> Trafugare e rubare dati riservati fuori dal perimetro di rete aziendale.</li>
+      </ul>
+    </dd>
+
+    <dt>Techniques (Tecniche — Il "Come" / "How")</dt>
+    <dd>
+      Descrivono i <strong>metodi tecnologici specifici</strong> adoperati dall'attaccante per soddisfare l'obiettivo di una determinata tattica. Ad esempio, per soddisfare la tattica di <em>Credential Access</em>, l'attaccante può usare la tecnica di <strong>Brute Force</strong> (T1110) o di <strong>OS Credential Dumping</strong> (T1003).
+    </dd>
+
+    <dt>Sub-techniques (Sotto-tecniche — La Granularità del "Come")</dt>
+    <dd>
+      Forniscono una descrizione ancora più granulare e specializzata di una tecnica principale. Ad esempio, la tecnica principale <em>OS Credential Dumping</em> si scompone in sotto-tecniche come:
+      <ul style="margin-top: 3px; margin-left: 15px;">
+        <li><code>T1003.001</code> — LSASS Memory (dumping dei segreti in memoria).</li>
+        <li><code>T1003.002</code> — Security Account Manager (SAM) (estrazione del database SAM locale).</li>
+      </ul>
+    </dd>
+
+    <dt>Procedures (Procedure — L'Esecuzione Dettagliata)</dt>
+    <dd>
+      La <strong>particolare implementazione empirica</strong> ed effettiva agita da uno specifico gruppo APT o software di attacco. Le procedure documentano le stringhe di comando esatte, il codice o le API adoperate. Ad esempio, una procedura è: <em>"Il gruppo APT29 (Cozy Bear) ha utilizzato lo strumento Mimikatz per estrarre le password in chiaro dalla memoria di LSASS registrate sulla workstation bersaglio."</em>
+    </dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>📋 CASO D'USO REALE: THREAT HUNTING E MAPPA DEI CONTROLLI (GAP ANALYSIS)</strong><br>
+    Un amministratore della sicurezza non si limita a leggere la matrice: la adopera attivamente per eseguire un <strong>Gap Analysis difensivo</strong>:
+    <ol style="margin-top: 10px; padding-left: 20px;">
+      <li style="margin-bottom: 6px;">L'organizzazione individua quali attori di minaccia (APT) prendono storicamente di mira il loro settore (es: APT38 per il settore Finance).</li>
+      <li style="margin-bottom: 6px;">Il team analizza il profilo delle tecniche (TTP) note adoperate da quel gruppo tramite la banca dati di MITRE ATT&amp;CK.</li>
+      <li style="margin-bottom: 6px;">La Security controlla se i propri strumenti (SIEM, EDR, antivirus, host firewalls) dispongono di regole per rilevare quelle specifiche tecniche (es: la creazione di un servizio di persistenza o l'esecuzione di comandi PowerShell offuscati).</li>
+      <li style="margin-bottom: 6px;">Le tecniche non rilevate costituiscono un <strong>gap di visibilità</strong> (blind spot). Il team prioritizza l'assegnazione di budget e di effort tecnico per creare nuove regole di rilevamento e rimediare alle lacune prima che avvenga un attacco reale.</li>
+    </ol>
+  </div>
 </section>
 
 
@@ -403,40 +440,139 @@
 
   <h3 id="hips">HIPS — Host-based Intrusion Prevention System</h3>
   <p>
-    Un <strong>HIPS (Host-based Intrusion Prevention System)</strong> monitora
-    l'attività del sistema operativo — chiamate di sistema, accessi al filesystem,
-    modifiche al registro, traffico di rete — e blocca automaticamente i comportamenti
-    che corrispondono a pattern di attacco noti o che violano le policy di sicurezza
-    configurate. A differenza dell'HIDS (Detection only), l'HIPS può agire in tempo
-    reale bloccando l'azione malevola prima che causi danno.
+    Un <strong>HIPS (Host-based Intrusion Prevention System)</strong> è un software di agente di sicurezza installato direttamente sull'endpoint (host) deputato a proteggere il nucleo del sistema operativo da manomissioni e attacchi logici in tempo reale. Agisce ad un livello molto più profondo rispetto a un comune software antivirus signature-based.
   </p>
+  <p>
+    <strong>• Come funziona e rileva le minacce (Architettura Intrinseca):</strong><br>
+    HIPS agisce inserendo intercettori di chiamata sistemici (chiamati <strong>API Hooks / Hooking di sistema</strong>) direttamente all'interno delle API critiche del sistema operativo. Nel momento in cui un processo compie un'azione, l'HIPS analizza se tale comportamento viola la baseline o le policy e blocca l'azione <em>prima</em> che venga effettivamente completata. I monitoraggi chiave comprendono:
+    <ul style="margin-top: 5px; margin-left: 20px;">
+      <li><strong>Integrità del Filesystem:</strong> Tentativi di riscrittura o cancellazione massiva di file in cartelle protette di sistema (es. <code>C:\Windows\System32</code> o <code>/etc/</code>), tipico comportamento da ransomware o worm.</li>
+      <li><strong>Modifiche al Registro di Configurazione (o file .conf):</strong> Blocca tentativi non autorizzati di registrare nuove chiavi d'avvio (es. chiavi <code>Run/RunOnce</code> in Windows) che verrebbero sfruttate per ottenere <em>Persistence</em>.</li>
+      <li><strong>Memory Injection / Escapology:</strong> Intercettazione di comportamenti in cui un processo tenta di allocare o mappare spazio di memoria virtuale dentro un altro processo fidato (es. usando <code>VirtualAllocEx</code> o <code>WriteProcessMemory</code> su <code>explorer.exe</code> o <code>lsass.exe</code>), sventando tentativi di <em>Process Injection</em>.</li>
+      <li><strong>Traffico di Rete Locale:</strong> Analisi dei pacchetti inviati/ricevuti dall'host singolo per intercettare pattern di worm interni in cerca di scansione porte o propagazione laterale.</li>
+    </ul>
+  </p>
+
+  <div class="critical">
+    <strong>🧠 LA DIFFERENZA CHIAVE SECONDO COMPTIA: HIPS vs HIDS vs EDR</strong><br>
+    All'esame, capire quale strumento consigliare nello scenario dipende dal tipo di controllo richiesto:
+    <ul style="margin-top: 5px;">
+      <li><strong>HIDS (Detection-only / Detective):</strong> Monitora i file log, i filesystem ed i registri cercando tracce di intrusione avvenuta. Genera alert e record di audit, ma <strong>NON blocca</strong> l'attacco. È un controllo puramente investigativo.</li>
+      <li><strong>HIPS (Prevention / Preventive):</strong> Intercetta attivamente l'azione dannosa e la <strong>blocherebbe istantaneamente</strong> (es: spegne il processo sospetto, nega la scrittura sul disco o chiude la connessione socket). È un controllo preventivo/reattivo locale.</li>
+      <li><strong>EDR (Advanced Behavioral Analytics &amp; Correction):</strong> Registra telemetria continua in cloud, applica logiche di intelligenza artificiale per rilevare attacchi sconosciuti o privi di file (Fileless malware) e permette all'analista del SOC di compiere azioni correttive remote centralizzate, come l'<strong>isolamento logico dell'host</strong> dalla rete per contenere l'infezione.</li>
+    </ul>
+  </div>
 
   <table>
     <thead>
-      <tr><th>Strumento</th><th>Ambito</th><th>Funzione</th><th>Tipo controllo</th></tr>
+      <tr><th>Strumento</th><th>Ambito</th><th>Funzione Principale</th><th>Tipo di Controllo</th></tr>
     </thead>
     <tbody>
-      <tr><td class="label">Host-based Firewall</td><td>Traffico di rete del singolo host</td><td>Filtra traffico in/out per porta e IP</td><td>Preventive</td></tr>
-      <tr><td class="label">HIDS</td><td>Sistema operativo, filesystem, log</td><td>Rileva anomalie e intrusioni</td><td>Detective</td></tr>
-      <tr><td class="label">HIPS</td><td>Sistema operativo, filesystem, rete</td><td>Rileva E blocca comportamenti malevoli</td><td>Preventive + Detective</td></tr>
-      <tr><td class="label">EDR</td><td>Comportamento endpoint in tempo reale</td><td>Rileva, blocca e risponde incluso isolamento</td><td>Detective + Corrective</td></tr>
+      <tr><td class="label">Host-based Firewall</td><td>Traffico di rete del singolo host</td><td>Filtra pacchetti logici per porta ed IP sorgente/destinatario</td><td>Preventive</td></tr>
+      <tr><td class="label">HIDS</td><td>Sistema operativo, filesystem, log</td><td>Analizza i dati passati per generare report di violazione</td><td>Detective</td></tr>
+      <tr><td class="label">HIPS</td><td>Sistema operativo, filesystem, interfacce</td><td>Intercetta le API di sistema e blocca la transazione dannosa in tempo reale</td><td>Preventive</td></tr>
+      <tr><td class="label">EDR</td><td>Infrastruttura globale, telemetrie in cloud</td><td>Mappa comportamenti anomali, esegue threat hunting e isola l'endpoint</td><td>Detective + Corrective</td></tr>
     </tbody>
   </table>
 
-  <h3 id="disable-ports">Disabling ports/protocols (Disabilitazione di porte e protocolli)</h3>
+  <h3 id="disable-ports">Hardening delle Porte: Porte Fisiche vs Porte Logiche</h3>
   <p>
-    Ogni servizio in ascolto su una porta è una potenziale superficie di attacco.
-    La <strong>disabilitazione di porte e protocolli</strong> non necessari riduce
-    questa superficie al minimo: se un servizio non è necessario, non deve essere
-    in esecuzione. Ogni porta aperta non necessaria è un vettore di attacco potenziale
-    — per exploit diretti, per reconnaissance (informazioni sulla versione del servizio),
-    o per movimenti laterali.
+    Il principio del <strong>Least Functionality (Funzionalità Minima)</strong> afferma che un computer deve eseguire esclusivamente i servizi indispensabili a supportare le facoltà di business. Ridurre la superficie di attacco significa blindare sia le porte fisiche (hardware) che quelle logiche (software).
+  </p>
+
+  <h4>1. Hardening e Disabilitazione delle Porte Fisiche (Physical Port Hardening)</h4>
+  <p>
+    Previene l'accesso non autorizzato e la compromissione hardware derivante dalla presenza fisica di un potenziale attaccante o di un insider malizioso:
   </p>
   <dl class="termlist">
-    <dt>Protocolli da disabilitare (esempi)</dt>
-    <dd>Telnet (porta 23): usa testo in chiaro, sostituire con SSH. FTP (21): usa testo in chiaro, sostituire con SFTP. SMBv1 (porta 445): vulnerabile a EternalBlue/WannaCry. RDP esposto su internet (3389): vettore primario per brute-force e ransomware.</dd>
-    <dt>Port scanning come strumento di hardening</dt>
-    <dd>Dopo l'hardening, eseguire un port scan (nmap) contro il proprio sistema dalla prospettiva di un attaccante esterno per verificare che solo le porte necessarie siano aperte e che nessun servizio non atteso sia in ascolto.</dd>
+    <dt>Disattivazione dei Jack di Rete RJ-45 inutilizzati (Wall Jack Disablement)</dt>
+    <dd>
+      Ogni presa ethernet a parete situata negli uffici comuni, sale d'attesa o corridoi che non è attivamente connessa a una workstation aziendale deve essere fisicamente scollegata dagli switch di distribuzione o spenta a livello software sullo switch (porta in stato <code>Administrative Down</code>). Impedisce a visitatori o intrusi di collegare un laptop abusivo (Rogue Device) della propria rete interna.
+    </dd>
+    <dt>Limitazione dei Portali USB (USB Port Blocking &amp; DLP)</dt>
+    <dd>
+      I controller USB logici sulle workstation dei dipendenti standard vengono disattivati o messi in stato di sola lettura tramite criteri di gruppo (GPO/MDM). Questa misura mitiga:
+      <ul style="margin-top: 3px; margin-left: 15px;">
+        <li><em>Data Exfiltration (DLP):</em> Copia abusiva di dati segreti aziendali su pen-drive terze.</li>
+        <li><em>BadUSB / Rubber Ducky:</em> Chiavette USB modificate hardware che emulano tastiere ultraveloci e iniettano malware nell'istante in cui vengono connesse.</li>
+      </ul>
+    </dd>
+  </dl>
+
+  <h4>2. Hardening delle Porte Logiche e Disabilitazione dei Protocolli (Logical Port/Protocol Hardening)</h4>
+  <p>
+    Ogni servizio software in ascolto (Listening State) su un computer è un server potenziale che attende transazioni. Se quel servizio contiene un bug di programmazione, l'attaccante può inviare un pacchetto web modificato ed eseguire codice da remoto (Remote Code Execution).
+  </p>
+  <p>
+    <strong>• Sostituzione dei Protocolli Insicuri e Legacy:</strong><br>
+    Un pilastro critico consiste nel disabilitare i protocolli storici che trasmettono dati in chiaro (Plaintext) sostituiti obbligatoriamente con alternative crittografate (Tavola di riferimento d'esame CompTIA):
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px;">
+    <thead>
+      <tr style="background-color: var(--navy); color: white;">
+        <th style="padding: 6px; border: 1px solid var(--border-color);">Protocollo Insicuro (Plaintext)</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color);">Porta Legata</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color);">Rischio Associato</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color); background-color: #16a34a;">Alternativa Sicura (Cifrata)</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color); background-color: #16a34a;">Porta Protetta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Telnet</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">23</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Credenziali trasmesse in chiaro; intercettabili con wiretaps/sniffing.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SSH</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">22</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">HTTP</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">80</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Traffico non protetto; violazione di confidenzialità (MitM).</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">HTTPS (TLS)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">443</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">FTP</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">20 / 21</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">File e comandi di amministrazione visibili sulla linea.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SFTP (SSH) / FTPS</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">22 / 989-990</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">LDAP</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">389</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Interrogazione del database degli utenti di dominio in chiaro.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">LDAPS (TLS)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">636</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">SNMPv1 / SNMPv2</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">161 / 162</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Password comunitari in chiaro; interruzione di apparati di rete.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SNMPv3 (AuthPriv)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">161 / 162</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">SMBv1</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">445</td>
+        <td style="padding: 1x; border: 1px solid var(--border-color);">Protocollo obsoleto vulnerabile a bug catastrofici (WannaCry).</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SMBv3 (Signed)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">445</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <dl class="termlist" style="margin-top: 15px;">
+    <dt>Disattivazione dei Demoni di Servizio inattesi (De-provisioning of Daemons)</dt>
+    <dd>
+      Hardening significa fermare e rimuovere l'eseguibile di base. Ad esempio, se un server Linux funge da database, si compiono comandi per interrompere e mascherare servizi come il server web integrato Apache (<code>systemctl disable --now httpd</code>).
+    </dd>
+    <dt>Rilevamento e verifica tramite Port Scanning proattivo (Nmap)</dt>
+    <dd>
+      La verifica finale non negoziabile. Il Security Specialist lancia scansioni sistematiche (es: <code>nmap -sT -p- &lt;target_IP&gt;</code>) contro la baseline approvata per assicurarsi che i firewall d'host e le politiche centrali abbiano bloccato ogni porta eccetto quelle indispensabili.
+    </dd>
   </dl>
 
   <h3 id="default-pwd">Default password changes (Cambio delle password predefinite)</h3>

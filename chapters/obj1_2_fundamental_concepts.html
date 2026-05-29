@@ -294,6 +294,54 @@
               </tr>
             </tbody>
           </table>
+          
+          <div class="example-box" id="comparativa-protocolli-aaa">
+            <strong>⚙️ CONFRONTO COMPARATIVO DEI 3 MODELLI / PROTOCOLLI AAA</strong><br>
+            La gestione e l'implementazione tecnica dei servizi AAA (Authentication, Authorization, Accounting) nei sistemi aziendali e di rete fa storicamente riferimento a tre modelli e protocolli standard di settore:
+            
+            <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 0.9em;">
+              <thead>
+                <tr style="background-color: var(--navy); color: white;">
+                  <th style="padding: 6px; text-align: left; border: 1px solid var(--border-color);">Caratteristica</th>
+                  <th style="padding: 6px; text-align: left; border: 1px solid var(--border-color);">1. RADIUS (Remote Authentication)</th>
+                  <th style="padding: 6px; text-align: left; border: 1px solid var(--border-color);">2. TACACS+ (Terminal Access Controller)</th>
+                  <th style="padding: 6px; text-align: left; border: 1px solid var(--border-color);">3. DIAMETER (The Successor)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Standard e Origine</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);">Standard aperto (IETF), ampiamente supportato da router, switch e VPN.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);">Proprietario Cisco (ora standard aperto), nato per l'amministrazione dei device di rete.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);">Standard aperto (IETF RFC 6733), progettato per rimediare alle lacune di RADIUS.</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Protocollo di Trasporto</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); color: #d97706; font-weight: bold;">UDP (Più veloce, non garantito)</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">TCP (Affidabile, orientato alla connessione)</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">TCP / SCTP (Massima affidabilità di recapito)</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Cifratura / Sicurezza</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);"><strong>Parziale:</strong> Cifra solo il campo password. Chi ascolta in transito può vedere username, attributi e comandi inviati.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);"><strong>Totale:</strong> Cifra l'intero pacchetto della comunicazione logica, criptando credenziali, comandi impartiti e attributi.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);"><strong>Totale (Nativa):</strong> Supporta IPSec e TLS nativamente a livello di trasporto per proteggere l'intera sessione di comunicazione.</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Separazione Autenticazione &amp; Autorizzazione</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);"><strong>Nessuna:</strong> Combina i processi di Autenticazione e Autorizzazione in un'unica transazione di risposta.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);"><strong>Completa e Separata:</strong> Permette di definire l'identità dell'utente su un server ed autorizzare l'esecuzione di specifici comandi su un altro server indipendente.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);"><strong>Completa:</strong> Separazione modulare dei flussi logici, garantendo eccezionale flessibilità in architetture cloud scalabili.</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Caso d'Uso Tipico</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);">Gestione degli accessi utente per connessioni VPN, reti wireless aziendali (802.1X) e accessi dial-up storici.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);">Amministrazione dei dispositivi host dell'infrastruttura di rete (switch, router, firewall) per tracciare i comandi digitati dai sysadmin.</td>
+                  <td style="padding: 6px; border: 1px solid var(--border-color);">Reti cellulari LTE/5G, roaming internazionale di massa dei dati, grandi infrastrutture cloud ad alta densità transazionale.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <h3 id="authn-people">Autenticare le persone (Authenticating People)</h3>
           <p>

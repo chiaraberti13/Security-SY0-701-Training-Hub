@@ -116,16 +116,18 @@
     
     /* Stats banner */
     .stats-banner {
-      background: linear-gradient(135deg, var(--navy) 0%, #00324d 100%);
-      color: var(--white);
-      border-radius: 12px;
-      padding: 24px;
+      background: var(--white);
+      color: var(--ink);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
       margin-bottom: 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 20px;
+      border: 1.5px solid var(--light-slate);
+      box-shadow: var(--shadow-1);
     }
     .stats-main {
       flex: 1;
@@ -133,35 +135,42 @@
     }
     .stats-main h2 {
       margin: 0 0 6px;
-      color: var(--white);
+      color: var(--navy);
       border: none;
       padding: 0;
       font-size: 1.4rem;
+      font-weight: 700;
     }
     .stats-main p {
       margin: 0;
       font-size: 0.9rem;
-      color: var(--light-slate);
+      color: var(--slate);
     }
     .stats-numbers {
       display: flex;
-      gap: 24px;
+      gap: 16px;
     }
     .stat-box {
       text-align: center;
+      background: var(--surface-alt);
+      border: 1px solid var(--light-slate);
+      border-radius: 8px;
+      padding: 10px 18px;
+      min-width: 90px;
     }
     .stat-val {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
-      color: var(--white);
-      line-height: 1;
+      color: var(--teal);
+      line-height: 1.1;
     }
     .stat-lbl {
-      font-size: 0.75rem;
-      color: var(--light-slate);
+      font-size: 0.72rem;
+      color: var(--slate);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-top: 4px;
+      font-weight: 600;
     }
     
     /* Accordion in Quizzes list */
@@ -192,6 +201,113 @@
       border: 1.5px dashed var(--light-slate);
       border-radius: 8px;
       display: none;
+    }
+
+    /* Exam Simulation specific styles */
+    .exam-simulation-section {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+    .exam-sim-card {
+      background: var(--white);
+      color: var(--ink);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-1);
+      border: 1.5px solid var(--light-slate);
+      position: relative;
+      overflow: hidden;
+    }
+    .exam-sim-header-badge {
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .exam-sim-title {
+      color: var(--ink) !important;
+      border: none !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
+      font-size: 1.4rem !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.01em !important;
+    }
+    .exam-sim-descr {
+      color: var(--slate);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .exam-sim-btn {
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+      width: 100%;
+      text-align: center;
+      display: inline-block;
+    }
+    .exam-sim-btn:hover {
+      background: #1d4ed8;
+    }
+    .exam-sim-btn:active {
+      transform: scale(0.98);
+    }
+    .exam-sim-btn.loading {
+      background: var(--slate);
+      color: var(--white);
+      pointer-events: none;
+    }
+    .domain-pills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      border-top: 1px solid var(--light-slate);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .domain-pill-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--light-slate);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      transition: border-color 0.15s;
+    }
+    .domain-pill-box:hover {
+      border-color: var(--teal);
+    }
+    .domain-pill-val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    .domain-pill-lbl {
+      font-size: 0.75rem;
+      color: var(--ink);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    .domain-pill-sub {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -644,11 +760,142 @@
 
   </main>
   
+  <!-- SEZIONE SIMULAZIONE ESAME COMPTIA SECURITY+ -->
+  <div class="exam-simulation-section" id="exam-sim-anchor">
+    <div class="exam-sim-card">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px;">
+        <div style="flex: 2; min-width: 280px;">
+          <span class="exam-sim-header-badge">Simulatore Completo</span>
+          <h2 class="exam-sim-title">Simulazione d'Esame — 90 Domande</h2>
+          <p class="exam-sim-descr">
+            Mettiti alla prova con un test completo conforme alle specifiche d'esame <strong>CompTIA Security+ (SY0-701)</strong>. Il sistema estrarrà casualmente <strong>90 quesiti reali</strong> dal nostro database complessivo (730 domande), rispettando rigorosamente i pesi percentuali ufficiali di ogni dominio. Riuscirai a raggiungere l'85%?
+          </p>
+        </div>
+        <div style="flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: flex-end; align-self: center;">
+          <button id="launch-exam-sim-btn" class="exam-sim-btn">
+            Inizia Simulazione d'Esame →
+          </button>
+        </div>
+      </div>
+
+      <!-- Pesi Ufficiali dei Domini -->
+      <div class="domain-pills-container">
+        <div class="domain-pill-box">
+          <div class="domain-pill-val">12%</div>
+          <div class="domain-pill-lbl">Dominio 1</div>
+          <div class="domain-pill-sub">11 Quesiti</div>
+        </div>
+        <div class="domain-pill-box">
+          <div class="domain-pill-val">22%</div>
+          <div class="domain-pill-lbl">Dominio 2</div>
+          <div class="domain-pill-sub">20 Quesiti</div>
+        </div>
+        <div class="domain-pill-box">
+          <div class="domain-pill-val">18%</div>
+          <div class="domain-pill-lbl">Dominio 3</div>
+          <div class="domain-pill-sub">16 Quesiti</div>
+        </div>
+        <div class="domain-pill-box">
+          <div class="domain-pill-val">28%</div>
+          <div class="domain-pill-lbl">Dominio 4</div>
+          <div class="domain-pill-sub">25 Quesiti</div>
+        </div>
+        <div class="domain-pill-box">
+          <div class="domain-pill-val">20%</div>
+          <div class="domain-pill-lbl">Dominio 5</div>
+          <div class="domain-pill-sub">18 Quesiti</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="no-results-msg" class="no-results">
     Scrittura non corrispondente. Nessun quiz d'esame trovato con questi termini. Prova con un'altra ricerca.
   </div>
 
 </div>
+</div>
+
+<!-- ══ QUIZ MODAL (SIMULATORE) ════════════════════════════════════════ -->
+<div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
+  <div class="quiz-modal" style="max-width: 680px;">
+    <div class="quiz-modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px;">
+      <span id="quiz-counter" class="quiz-counter" style="font-size: 0.95rem; font-weight: 700; color: var(--navy);"></span>
+      <div id="quiz-timer-container" style="display: none; align-items: center; gap: 6px; margin-left: auto; margin-right: 16px;">
+        <span style="font-size: 0.72rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.5px;">TEMPO:</span>
+        <span id="quiz-timer" style="font-family: monospace; font-size: 0.95rem; font-weight: 700; color: var(--navy); background: var(--teal-soft); padding: 2px 8px; border-radius: 4px;">90:00</span>
+      </div>
+      <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
+    </div>
+    <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
+
+    <!-- Scegli lingua / setup -->
+    <div id="quiz-setup" class="quiz-setup" style="padding: 32px 24px; text-align: center;">
+      <!-- Stato di Caricamento -->
+      <div id="quiz-setup-loading">
+        <p style="font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 8px;">Caricamento del Simulatore...</p>
+        <p style="font-size: 0.88rem; color: var(--slate); margin-bottom: 24px;">Configurazione del database dei quesiti (714 domande)...</p>
+        <div style="width: 48px; height: 48px; border: 4px solid var(--light-slate); border-top: 4px solid var(--teal); border-radius: 50%; margin: 20px auto; animation: spin 1s linear infinite;"></div>
+      </div>
+
+      <!-- Errore Caricamento -->
+      <div id="quiz-setup-error" style="display: none;">
+        <p style="font-size: 1.15rem; font-weight: 700; color: #ef4444; margin-bottom: 8px;">Impossibile caricare il database</p>
+        <p style="font-size: 0.88rem; color: var(--slate); margin-bottom: 24px;">Si è verificato un errore durante l'inizializzazione del test. Verifica la tua connessione e riprova.</p>
+        <button id="quiz-reload-db-btn" class="exam-sim-btn" style="width: auto; padding: 10px 24px;">Riprova caricamento</button>
+      </div>
+
+      <!-- Contenuto Reale Istruzioni -->
+      <div id="quiz-setup-inner" style="display: none;">
+        <p class="quiz-setup-title" style="font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 8px;">Simulatore d'Esame Ufficiale</p>
+        <p class="quiz-setup-sub" style="font-weight: 500; font-size: 0.95rem; color: var(--muted); margin-bottom: 24px;">90 Quesiti con distribuzione proporzionale Security+</p>
+        
+        <div style="text-align: left; background: var(--bg); border: 1.5px solid var(--light-slate); border-radius: 8px; padding: 20px; margin-bottom: 28px; font-size: 0.9rem; line-height: 1.6; color: var(--ink);">
+          <strong style="color: var(--navy); display: block; margin-bottom: 8px; font-size: 0.95rem;">Regole della simulazione:</strong>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="margin-bottom: 6px;">Il test è composto da <strong>90 quesiti a risposta multipla</strong> estratti casualmente.</li>
+            <li style="margin-bottom: 6px;">La composizione rispetta i pesi ufficiali CompTIA SY0-701 per darti una simulazione reale.</li>
+            <li style="margin-bottom: 6px;">La soglia d'esame ufficiale richiede di rispondere correttamente ad almeno l'<strong>75% (68/90)</strong> dei quesiti.</li>
+            <li style="margin-bottom: 6px;">Durata massima consentita: <strong>90 minuti</strong> (un timer in alto monitorerà il tempo rimanente).</li>
+            <li style="margin-bottom: 6px;">Tutte le domande includono la correzione in tempo reale e una dettagliata spiegazione in lingua italiana.</li>
+            <li style="margin-bottom: 0;">Puoi chiudere e riprendere i tuoi studi in qualsiasi momento cliccando sulla "✕".</li>
+          </ul>
+        </div>
+
+        <div class="quiz-setup-options" style="display: flex; gap: 16px; justify-content: center;">
+          <button id="start-simulation-btn" class="exam-sim-btn" style="padding: 12px 36px; font-size: 1.05rem; box-shadow: none; width: auto;">
+            Avvia Simulazione d'Esame →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenuto del Quiz -->
+    <div id="quiz-content" style="padding: 24px; display: none;">
+      <p id="quiz-question-text" class="quiz-question" style="font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 18px; line-height: 1.45;"></p>
+      <div id="quiz-options" class="quiz-options" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;"></div>
+      <p id="quiz-explanation" class="quiz-explanation" style="display: none; padding: 14px 18px; background: #F1F5F9; border-left: 4px solid var(--teal); border-radius: 4px; font-size: 0.88rem; line-height: 1.5; color: var(--navy); margin-bottom: 20px;"></p>
+      
+      <!-- Sezione Feedback d'Esame -->
+      <div class="quiz-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--light-slate); padding-top: 16px;">
+        <span id="quiz-domain-tag" style="font-size: 0.72rem; font-weight: 700; color: var(--navy); background: #E2E8F0; border: 1px solid #CBD5E1; padding: 3px 8px; border-radius: 4px; display: inline-block; max-width: 70%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
+        <button id="quiz-next-btn" class="quiz-btn primary" style="padding: 10px 24px; font-weight: 700; cursor: pointer;" disabled>Avanti →</button>
+      </div>
+    </div>
+
+    <!-- Schermata Risultati -->
+    <div id="quiz-result" class="quiz-result" style="padding: 40px 24px; text-align: center; display: none;">
+      <div class="quiz-result-label" style="font-size: 1.15rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Punteggio Finale</div>
+      <div id="result-score" class="quiz-result-score" style="font-size: 3.2rem; font-weight: 800; color: var(--navy); margin-bottom: 6px;"></div>
+      <div id="result-pct" class="quiz-result-pct" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;"></div>
+      <div id="result-text" style="font-size: 0.95rem; line-height: 1.6; color: var(--ink); max-width: 440px; margin: 0 auto 32px;"></div>
+      
+      <div class="quiz-result-actions" style="display: flex; gap: 12px; justify-content: center;">
+        <button id="quiz-retry-btn" class="quiz-btn" style="padding: 10px 20px; font-weight: 600; border: 1px solid var(--light-slate); border-radius: 6px; cursor: pointer; background: var(--white);">Ripeti Test</button>
+        <button id="quiz-done-btn" class="quiz-btn primary" style="padding: 10px 24px; font-weight: 700; border-radius: 6px; cursor: pointer;">Chiudi</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -695,6 +942,358 @@
   });
 })();
 </script>
+
+<script src="script/quiz-database.js"></script>
+
+<script>
+(function() {
+  'use strict';
+  
+  let quizDatabase = window.quizDatabase || null;
+  let quiz = null;
+  let timerInterval = null;
+  let timeRemaining = 5400; // 90 minutes in seconds
+  
+  const launchBtn = document.getElementById('launch-exam-sim-btn');
+  const overlay = document.getElementById('quiz-overlay');
+  const setupEl = document.getElementById('quiz-setup');
+  const contentEl = document.getElementById('quiz-content');
+  const resultEl = document.getElementById('quiz-result');
+  const counterEl = document.getElementById('quiz-counter');
+  const progressEl = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question-text');
+  const optionsEl = document.getElementById('quiz-options');
+  const explanEl = document.getElementById('quiz-explanation');
+  const domainTagEl = document.getElementById('quiz-domain-tag');
+  const nextBtn = document.getElementById('quiz-next-btn');
+  const resultScoreEl = document.getElementById('result-score');
+  const resultPctEl = document.getElementById('result-pct');
+  const resultTextEl = document.getElementById('result-text');
+  
+  const setupLoading = document.getElementById('quiz-setup-loading');
+  const setupError = document.getElementById('quiz-setup-error');
+  const setupInner = document.getElementById('quiz-setup-inner');
+  const reloadDbBtn = document.getElementById('quiz-reload-db-btn');
+  
+  const startBtn = document.getElementById('start-simulation-btn');
+  const closeBtn = document.getElementById('quiz-close-btn');
+  const retryBtn = document.getElementById('quiz-retry-btn');
+  const doneBtn = document.getElementById('quiz-done-btn');
+  
+  // Weights target count:
+  // Domain 1: 11 questions (12% of 90)
+  // Domain 2: 20 questions (22% of 90)
+  // Domain 3: 16 questions (18% of 90)
+  // Domain 4: 25 questions (28% of 90)
+  // Domain 5: 18 questions (20% of 90)
+  const DOMAIN_TARGETS = {
+    1: 11,
+    2: 20,
+    3: 16,
+    4: 25,
+    5: 18
+  };
+  
+  function shuffle(a) {
+    return a.slice().sort(() => Math.random() - 0.5);
+  }
+  
+  function getRandomSample(arr, quantity) {
+    const shuffled = shuffle(arr);
+    return shuffled.slice(0, Math.min(quantity, arr.length));
+  }
+  
+  async function loadQuizDatabase() {
+    if (quizDatabase) return quizDatabase;
+    if (window.quizDatabase) {
+      quizDatabase = window.quizDatabase;
+      return quizDatabase;
+    }
+    let res = null;
+    let errToThrow = null;
+    
+    // Try fetching with absolute path first, then relative path as fallback
+    const urls = ['/script/quiz-database.json', 'script/quiz-database.json'];
+    for (let url of urls) {
+      try {
+        res = await fetch(url);
+        if (res && res.ok) {
+          quizDatabase = await res.json();
+          return quizDatabase;
+        }
+      } catch (e) {
+        errToThrow = e;
+      }
+    }
+    
+    throw errToThrow || new Error('Database loading failed');
+  }
+  
+  async function onLaunchClick() {
+    // Open modal immediately in loading view
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    setupEl.style.display = 'block';
+    setupLoading.style.display = 'block';
+    setupError.style.display = 'none';
+    setupInner.style.display = 'none';
+    contentEl.style.display = 'none';
+    resultEl.style.display = 'none';
+    counterEl.textContent = 'SIMULAZIONE ESAME';
+    progressEl.style.width = '0%';
+    
+    // Hide timer inside setup
+    const timerContainer = document.getElementById('quiz-timer-container');
+    if (timerContainer) timerContainer.style.display = 'none';
+    
+    try {
+      await loadQuizDatabase();
+      setupLoading.style.display = 'none';
+      setupInner.style.display = 'block';
+    } catch (err) {
+      console.error('Error fetching quiz database:', err);
+      setupLoading.style.display = 'none';
+      setupError.style.display = 'block';
+    }
+  }
+  
+  function generateExamPool() {
+    let pool = [];
+    Object.keys(DOMAIN_TARGETS).forEach(domainStr => {
+      const domainNum = parseInt(domainStr, 10);
+      const targetCount = DOMAIN_TARGETS[domainNum];
+      const domainQuestions = quizDatabase.filter(q => q.domain === domainNum);
+      const selected = getRandomSample(domainQuestions, targetCount);
+      pool = pool.concat(selected);
+    });
+    // Finally, shuffle the entire integrated list of 90 questions
+    return shuffle(pool);
+  }
+  
+  function startSimulation() {
+    const pool = generateExamPool();
+    quiz = {
+      pool: pool,
+      idx: 0,
+      score: 0,
+      locked: false,
+      selections: [],
+      requiredSelections: 1
+    };
+    setupEl.style.display = 'none';
+    contentEl.style.display = 'block';
+    resultEl.style.display = 'none';
+    renderQuestion();
+    startTimer();
+  }
+  
+  function startTimer() {
+    clearInterval(timerInterval);
+    timeRemaining = 5400; // 90 minutes
+    updateTimerDisplay();
+    const timerContainer = document.getElementById('quiz-timer-container');
+    if (timerContainer) timerContainer.style.display = 'flex';
+    
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        showResults();
+      }
+    }, 1000);
+  }
+  
+  function stopTimer() {
+    clearInterval(timerInterval);
+    const timerContainer = document.getElementById('quiz-timer-container');
+    if (timerContainer) timerContainer.style.display = 'none';
+  }
+  
+  function updateTimerDisplay() {
+    const min = Math.floor(timeRemaining / 60);
+    const sec = timeRemaining % 60;
+    const minStr = min < 10 ? '0' + min : min;
+    const secStr = sec < 10 ? '0' + sec : sec;
+    const timerEl = document.getElementById('quiz-timer');
+    if (timerEl) {
+      timerEl.textContent = minStr + ':' + secStr;
+      if (timeRemaining < 600) { // under 10 minutes (warning in amber-red)
+        timerEl.style.color = '#dc2626';
+        timerEl.style.background = '#fee2e2';
+      } else {
+        timerEl.style.color = 'var(--navy)';
+        timerEl.style.background = 'var(--teal-soft)';
+      }
+    }
+  }
+  
+  function renderQuestion() {
+    const q = quiz.pool[quiz.idx];
+    const n = quiz.pool.length;
+    
+    // Domain text labels mapping
+    const DOMAIN_LABELS = {
+      1: 'Dominio 1 — Concetti generali di sicurezza (D1)',
+      2: 'Dominio 2 — Minacce, vulnerabilità e mitigazioni (D2)',
+      3: 'Dominio 3 — Architettura di sicurezza (D3)',
+      4: 'Dominio 4 — Operazioni di sicurezza (D4)',
+      5: 'Dominio 5 — Governance, rischio e conformità (D5)'
+    };
+    
+    counterEl.innerHTML = 'Quesito ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
+    progressEl.style.width = ((quiz.idx / n) * 100) + '%';
+    questionEl.textContent = q.text;
+    explanEl.style.display = 'none';
+    nextBtn.disabled = true;
+    quiz.locked = false;
+    quiz.selections = [];
+    
+    domainTagEl.textContent = 'OBJ ' + q.objective + ' — ' + (q.domain ? (DOMAIN_LABELS[q.domain] || `Dominio ${q.domain}`) : '');
+    
+    const optionsArray = q.opts || [];
+    
+    var correctCount = optionsArray.filter(function(o){ return o.c; }).length;
+    if (correctCount === 0) correctCount = 1;
+    quiz.requiredSelections = correctCount;
+    
+    if (quiz.requiredSelections > 1) {
+      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    } else {
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    }
+    
+    optionsEl.innerHTML = '';
+    shuffle(optionsArray).forEach(function(o){
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.dataset.oid = o.id;
+      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
+      
+      btn.addEventListener('click', function(){
+        if (quiz.locked) return;
+        
+        if (quiz.requiredSelections > 1) {
+          var index = quiz.selections.indexOf(o.id);
+          if (index > -1) {
+            quiz.selections.splice(index, 1);
+            btn.classList.remove('selected');
+          } else {
+            if (quiz.selections.length < quiz.requiredSelections) {
+              quiz.selections.push(o.id);
+              btn.classList.add('selected');
+            }
+          }
+          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+        } else {
+          quiz.selections = [o.id];
+          submitAnswer(q);
+        }
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+  
+  function submitAnswer(q) {
+    if (quiz.locked) return;
+    quiz.locked = true;
+    
+    const optionsArray = q.opts || [];
+    var correctOpts = optionsArray.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
+    var allCorrectSelected = correctOpts.every(function(id){
+      return quiz.selections.indexOf(id) > -1;
+    });
+    
+    if (allCorrectSelected && quiz.selections.length === correctOpts.length) {
+      quiz.score++;
+    }
+    
+    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
+      var o = optionsArray.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+      btn.disabled = true;
+      var isCorrect = o.c;
+      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+      
+      if (isCorrect) {
+        btn.classList.add('correct');
+      } else if (isSelected) {
+        btn.classList.add('wrong');
+      }
+    });
+    
+    if (q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
+    
+    const n = quiz.pool.length;
+    nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+    nextBtn.disabled = false;
+  }
+  
+  function showResults() {
+    stopTimer();
+    const n = quiz.pool.length;
+    const pct = Math.round((quiz.score / n) * 100);
+    contentEl.style.display = 'none';
+    resultEl.style.display = 'block';
+    counterEl.textContent = 'Risultato finale';
+    progressEl.style.width = '100%';
+    
+    resultScoreEl.textContent = quiz.score + ' / ' + n;
+    resultPctEl.textContent = pct + '%';
+    resultPctEl.className = 'quiz-result-pct ' + (pct >= 75 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
+    
+    let feedText = '';
+    if (pct >= 75) {
+      feedText = 'Eccellente! Hai completato la simulazione d\'esame superandola con il ' + pct + '% (soglia di superamento ' + quiz.score + '/' + n + '). Sei perfettamente pronto e preparato per l\'esame ufficiale CompTIA Security+!';
+    } else if (pct >= 60) {
+      feedText = 'Buona prova! Hai totalizzato il ' + pct + '%, ma l\'esame Security+ reale richiede una precisione minima del 75% per garantire il superamento. Rivedi i capitoli in cui hai riscontrato incertezze.';
+    } else {
+      feedText = 'Hai totalizzato il ' + pct + '%. C\'è ancora del lavoro da fare. Ti consigliamo di ripetere i singoli quiz per capitolo prima di tentare nuovamente il simulatore d\'esame.';
+    }
+    resultTextEl.textContent = feedText;
+  }
+  
+  function closeQuiz() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    stopTimer();
+    quiz = null;
+  }
+  
+  launchBtn.addEventListener('click', onLaunchClick);
+  startBtn.addEventListener('click', startSimulation);
+  closeBtn.addEventListener('click', closeQuiz);
+  retryBtn.addEventListener('click', () => {
+    startSimulation();
+  });
+  doneBtn.addEventListener('click', closeQuiz);
+  
+  if (reloadDbBtn) {
+    reloadDbBtn.addEventListener('click', onLaunchClick);
+  }
+  
+  nextBtn.addEventListener('click', function(){
+    if (quiz.requiredSelections > 1 && !quiz.locked) {
+      submitAnswer(quiz.pool[quiz.idx]);
+    } else {
+      quiz.idx++;
+      if (quiz.idx < quiz.pool.length) renderQuestion();
+      else showResults();
+    }
+  });
+  
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
+  });
+  
+})();
+</script>
+
 <script src="script/global-search.js" defer></script>
 </body>
 </html>

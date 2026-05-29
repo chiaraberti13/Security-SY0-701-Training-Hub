@@ -261,30 +261,123 @@
 
 <!-- FIREWALL -->
 <section id="firewall-types">
-  <h2>Tipi di firewall</h2>
+  <h2>Tipi di firewall ed Evoluzione Tecnologica</h2>
+  <p>
+    Il <strong>firewall</strong> rappresenta la barriera logica e il punto di controllo perimetrale d'eccellenza per la segmentazione e la difesa della rete. Per l'esame CompTIA, è cruciale non solo distinguere tra le diverse tipologie di appliance sul mercato, ma confrontare nel dettaglio i livelli di funzionamento logici ed i modelli di deployment architetturali.
+  </p>
 
+  <h3>Confronto Architetturale: Layer 4 vs Layer 7</h3>
+  <p>
+    La distinzione tra difese operanti al <strong>Livello di Trasporto (Layer 4)</strong> e al <strong>Livello Applicativo (Layer 7)</strong> del modello OSI delinea un solco profondo in termini di visibilità del traffico, consumo di risorse CPU e capacità protettive:
+  </p>
+
+  <div style="overflow-x:auto; margin: 15px 0;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+      <thead>
+        <tr style="background-color: var(--navy); color: white;">
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Caratteristica</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Layer 4 (Stateful Packet Inspection)</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Layer 7 (Application-Aware / DPI)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Visibilità del Pacchetto</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Limitata all'intestazione (Header):</strong> Indirizzi IP sorgente/destinazione, Porte TCP/UDP, flag TCP (SYN, ACK, FIN) e stato della sessione.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Totale (Payload &amp; Canale):</strong> Analizza l'intero payload applicativo, decodifica il protocollo specifico, identifica comandi, moduli e dati interni.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Comprensione del Protocollo</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Nessuna:</strong> Se la porta 80 è aperta, permette il transito di qualsiasi traffico, anche se si tratta di SSH o malware camuffato su quella porta.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Profonda:</strong> Distingue l'applicazione reale (es. riconosce che è un tunnel BitTorrent o un traffico Skype in esecuzione sulla porta HTTP standard 80).</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Sovraccarico Hardware (Overhead)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">Basso</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #dc2626; font-weight: bold;">Elevato</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Decrittazione del Traffico SSL/TLS</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Impossibile:</strong> Vede solo flussi indistinti e imperscrutabili diretti alla porta TCP 443 del server.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Supportata (SSL/TLS Inspection):</strong> Agisce da proxy intermedio, decifra il flusso TLS, ispeziona il payload e lo ricifra prima di spedirlo.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Regole di Accesso (Rules)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Basate esclusivamente su Tuple IP/Porta (es. "Permetti da 10.0.0.5 a port 443").</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Basate sulle identità dell'utente o su singoli comandi (es. "Permetti a Chiara di vedere Facebook, ma vietale di postare").</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Mitigazione degli Attacchi</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Blocca attacchi di connessione elementari, port scan e pacchetti illegittimi (out-of-state).</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Intercetta attacchi complessi al codice: injection (SQLi, XSS), tentativi di malware injection, comandi dannosi o exploit applicativi.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Confronto Filosofico ed Operativo: UTM vs NGFW</h3>
+  <p>
+    Nel definire l'architettura perimetrale di una rete aziendale, la scelta tra un dispositivo <strong>UTM (Unified Threat Management)</strong> e un <strong>NGFW (Next-Generation Firewall)</strong> è determinata primariamente dalla complessità organizzativa e dai requisiti di throughput prestazionali:
+  </p>
+
+  <div style="overflow-x:auto; margin: 15px 0;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+      <thead>
+        <tr style="background-color: var(--navy); color: white;">
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Dimensione d'Analisi</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">UTM (Unified Threat Management)</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">NGFW (Next-Generation Firewall)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Architettura Interna ed Esecuzione</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Esecuzione Sequenziale Multi-Modulo:</strong> Costruito aggregando insieme moduli software differenti (un firewall L4, un client antivirus delegato, un modulo di content filtering). Spesso il pacchetto passa in sequenza attraverso ciascun modulo separato, rallentando la trasmissione.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Esecuzione a Motore Unico Parallelo (Single-Pass Architecture):</strong> Progettato fin dall'inizio per ispezionare il traffico a livello applicativo in un unico passaggio hardware integrato, identificando simultaneamente applicazione, utente e minaccia.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Integrazione con Infrastrutture Enterprise</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Base:</strong> Gestione interna locale tramite pannello integrato semplificato, adatta a chi non dispone di specialisti dedicati.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Avanzata:</strong> Supporto massivo a server LDAP/Active Directory di grandi dimensioni, orchestratori cloud, integrazione API con SOC, e console di aggregazione dei log globali (SIEM).</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Rilevamento delle Minacce (Features)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Garantisce un ventaglio amplissimo di servizi "all-in-one" inclusi: anti-spam, filtro url di base, antivirus di gateway (signature-based) ed IPS integrato.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Si concentra su funzionalità d'elite: Deep Packet Inspection (DPI) avanzata, analisi dinamica di minacce in sandbox protette (Zero-day detection), SSL/TLS offloading dedicated chips e threat intelligence globale integrata.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Destinazione d'Uso (Target)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #d97706; font-weight: bold;">PMI (Piccole e Medie Imprese) ed Uffici Periferici (Branches)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #1e40af; font-weight: bold;">Grandi Organizzazioni Enterprise, Data Center e Sedi Centrali</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Punti di Debolezza (Trade-offs)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Single Point of Failure ed Effetto Collo di Bottiglia:</strong> Abilitare tutte le funzioni contemporaneamente può dimezzare il throughput della linea a causa dell'ingente carico computazionale dei motori separati.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Costo di acquisizione e gestione:</strong> Richiede licensing separati costosi per ciascuna feature avanzata e un team IT o SOC qualificato per la manutenzione delle policy.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Mappatura sintetica dei concetti (Tolleranza all'esame)</h3>
   <dl class="termlist">
     <dt>WAF (Web Application Firewall)</dt>
-    <dd>L7 HTTP/HTTPS. Filtra attacchi web: SQLi, XSS, CSRF, buffer overflow su parametri HTTP. Prima linea di difesa per applicazioni web pubbliche. Scenario attacco web app → WAF, non NGFW.</dd>
-    <dt>UTM (Unified Threat Management)</dt>
-    <dd>All-in-one: firewall + IPS + VPN + AV gateway + web filtering + anti-spam. Per PMI con risorse limitate. Semplicità di gestione ma single point of failure.</dd>
-    <dt>NGFW (Next-Generation Firewall)</dt>
-    <dd>Estende il firewall tradizionale con DPI applicativa, identificazione applicazioni (non solo porta), user identity awareness, TLS inspection, threat intelligence integration.</dd>
-    <dt>Layer 4 vs Layer 7</dt>
-    <dd>L4 (stateful): IP, porta, stato TCP. Veloce, non capisce il payload applicativo. L7 (applicativo): ispeziona il contenuto, distingue le applicazioni, policy per utente. Più lento ma molto più granulare.</dd>
+    <dd>L7 HTTP/HTTPS. Filtra attacchi web: SQLi, XSS, CSRF, buffer overflow su parametri HTTP. Prima linea di difesa per applicazioni web pubbliche. Scenario d'esame: attacco specifico alle web application o chiamate API web → si risponde implementando il WAF, mai il NGFW o UTM.</dd>
+    <dt>Stateful Packet Inspection (L4 Firewall)</dt>
+    <dd>Conserva in una tabella interna dinamica (State Table) lo stato delle connessioni attive (es. se la stretta di mano TCP a tre vie è stata completata). È in grado di mappare se un pacchetto ACK in ingresso appartiene a una sessione legittima nata dall'interno permettendone il passaggio senza necessità di configurare regole statiche di ritorno.</dd>
   </dl>
 
-  <div style="overflow-x:auto">
+  <div style="overflow-x:auto; margin-top: 15px;">
   <table>
     <thead>
-      <tr><th>Tipo</th><th>Livello OSI</th><th>Visibilità</th><th>Uso tipico</th></tr>
+      <tr><th>Tipo</th><th>Livello OSI</th><th>Visibilità Principale</th><th>Uso tipico consigliato</th></tr>
     </thead>
     <tbody>
-      <tr><td class="label">Packet filter</td><td>L3-L4</td><td>IP, porta</td><td>Router ACL base</td></tr>
-      <tr><td class="label">Stateful</td><td>L4</td><td>IP, porta, stato TCP</td><td>Firewall perimetrale tradizionale</td></tr>
-      <tr><td class="label">NGFW</td><td>L4-L7</td><td>Applicazione, utente, contenuto</td><td>Firewall enterprise moderno</td></tr>
-      <tr><td class="label">WAF</td><td>L7 HTTP</td><td>Payload HTTP, parametri</td><td>Protezione web app</td></tr>
-      <tr><td class="label">UTM</td><td>L3-L7</td><td>Multi-funzione integrato</td><td>PMI, branch office</td></tr>
+      <tr><td class="label">Packet Filter (Stateless)</td><td>L3</td><td>IP mittente/destinatario</td><td>Router ACL base e pre-routing veloci</td></tr>
+      <tr><td class="label">Stateful Inspection</td><td>L4</td><td>IP, porta, tabelle di stato TCP</td><td>Protezione perimetrale di rete classica</td></tr>
+      <tr><td class="label">NGFW</td><td>L4-L7</td><td>Payload completo, firme applicative, utenti</td><td>Grandi reti aziendali ad alte prestazioni</td></tr>
+      <tr><td class="label">WAF</td><td>L7 HTTP</td><td>Intestazioni HTTP, query string, cookie, body JSON/XML</td><td>Fronteggiamento di web server ed e-commerce pubblici</td></tr>
+      <tr><td class="label">UTM</td><td>L3-L7</td><td>Tutto-in-uno (routing, anti-spam, VPN, AV)</td><td>Sedi commerciali secondarie e piccole imprese</td></tr>
     </tbody>
   </table>
   </div>

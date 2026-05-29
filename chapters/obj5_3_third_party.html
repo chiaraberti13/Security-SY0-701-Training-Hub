@@ -131,9 +131,29 @@
           <dl class="termlist">
             <dt>Distinta Base del Software (SBOM — Software Bill of Materials)</dt>
             <dd>
-              È un inventario formale, strutturato e nidificato (solitamente redatto in formati machine-readable come CycloneDX o SPDX) che elenca dettagliatamente **ogni singolo componente, libreria open-source d'esterno, dipendenza o modulo integrati nel codice o applicativo di terze parti** in uso all'azienda. 
+              La <strong>Software Bill of Materials (SBOM)</strong> costituisce l'equivalente digitale della distinta base o elenco degli ingredienti per un prodotto software. È un inventario formale, altamente strutturato, gerarchico e nidificato che dichiara la provenienza, la versione e il codice identificativo di <strong>ogni singolo componente, modulo, framework e libreria di terze parti</strong> (commerciali o open-source) utilizzati per compilare o far funzionare un'applicazione aziendale.
               <br><br>
-              In ottemperanza alla sicurezza dell'ecosistema, avere una SBOM sempre aggiornata permette al team di sicurezza di verificare immediatamente, in pochissimi secondi, se una nuova vulnerabilità critica zero-day divulgata a livello pubblico (es. Log4j o vulnerabilità su specifiche versioni di OpenSSL) affetti l'infrastruttura d'impresa semplicemente interrogando l'inventario SBOM, escludendo laboriosi scans manuali delle macchine o analisi forensi del codice.
+              <strong>• Le 3 Dimensioni Critiche della SBOM nella Supply Chain Security (Catena di Fornitura):</strong>
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>Tracciamento delle Dipendenze Transitive (Transitive Dependencies):</strong> Una vulnerabilità non risiede quasi mai nel codice scritto direttamente dagli sviluppatori aziendali, bensì nelle librerie incorporate passivamente da altre librerie esterne (es. l'applicazione interna usa la libreria "A", che richiama a sua volta "B", che importa "C" in cui dimora lo zero-day). La SBOM documenta l'intero <strong>albero gerarchico delle dipendenze</strong> di profondità, portando alla luce i rischi annidati e altrimenti invisibili (Blind Spots).</li>
+                <li><strong>I due Standard Machine-Readable di Settore:</strong> Per consentire ai sistemi logici e di monitoraggio di consumare i dati senza passaggi manuali, le SBOM vengono compilate e scambiate esclusivamente in formati automatici standardizzati:
+                  <ul style="margin-top: 3px; margin-left: 15px;">
+                    <li><strong>CycloneDX (OWASP):</strong> Uno standard leggero e moderno, concepito nativamente per scopi di cyber-security, audit continuo delle vulnerabilità ed integrazione rapida nei flussi di CI/CD.</li>
+                    <li><strong>SPDX (Software Package Data Exchange - Linux Foundation):</strong> Uno standard standardizzato ISO (ISO/IEC 5962:2021) robusto, eccellente per mappare sia la cyber-security sia gli aspetti legali di compliance, copyright e licenze d'uso del software.</li>
+                  </ul>
+                </li>
+                <li><strong>Integrazione nel Ciclo CI/CD (DevSecOps):</strong> Le SBOM non sono documenti statici scritti su fogli di calcolo. Vengono generate automaticamente e dinamicamente ad ogni compilazione (Build Phase) del software tramite plug-in integrati nella pipeline (es. plugin Maven, Gradle o npm). Successivamente, la SBOM viene firmata digitalmente con chiavi crittografiche per certificarne l'integrità e accoppiata al pacchetto finale che viene distribuito.</li>
+              </ul>
+              <strong>• Scenari d'Uso Analitici (Analisi d'Impatto & Compliance):</strong>
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>Incident Response e Triage Zero-Day Istantaneo:</strong> Quando viene resa pubblica una vulnerabilità ad altissimo impatto strategico (es: una falla critica RCE in una determinata versione del parser log4j), gli analisti di sicurezza aziendali non devono avviare scansioni penetranti e distruttive su tutti i server di produzione. È sufficiente <strong>eseguire una semplice query di ricerca centralizzata sul repository delle SBOM aziendali</strong> per verificare in pochissimi secondi quali software in uso contengano quel componente e procedere tempestivamente con il de-provisioning o l'hot-patching.</li>
+                <li><strong>Valutazione di Diligenza dei Vendor (Due Diligence):</strong> Prima di stipulare contratti di acquisto di software commerciali, l'acquirente esige contrattualmente la consegna di una SBOM formalizzata per condurre analisi statiche ed assicurarsi di non installare programmi basati su librerie obsolete o affette da vulnerabilità critiche note non risolte.</li>
+                <li><strong>Gestione del Rischio Legale e Proprietà Intellettuale:</strong> Identifica l'uso inconsapevole di porzioni di codice open-source protette da licenze "copyleft" virali (es: GPLv3). L'integrazione di tali licenze in pacchetti commerciali proprietari esporrebbe l'azienda al rischio legale di dover divulgare pubblicamente il proprio codice sorgente brevettato.</li>
+              </ul>
+              <div class="exam-tip">
+                <strong>🎯 SCENARIO D'ESAME CLASSICO</strong><br>
+                Se una domanda d'esame CompTIA chiede quale risorsa o documento consenta di identificare istantaneamente se una <strong>nuova vulnerabilità appena pubblicata su una specifica libreria open-source d'esterno</strong> (terze parti/fornitore) metta a rischio le applicazioni possedute o vendute dall'azienda, la risposta corretta è l'inventario <strong>Software Bill of Materials (SBOM)</strong>.
+              </div>
             </dd>
 
             <dt>Interconnection Security Agreement (ISA)</dt>

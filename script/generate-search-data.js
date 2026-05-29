@@ -115,3 +115,81 @@ try {
   console.error('Error writing search-data.json:', err);
   process.exit(1);
 }
+
+// Helper to extract questions from file content parsed via matching bracket evaluation
+function extractQuestionsFromHtml(fileContent) {
+  const match = /(?:const|var|let)\s+Q\s*=\s*\[/.exec(fileContent);
+  if (!match) return null;
+  
+  const startIndex = match.index + match[0].length - 1; // opening '['
+  
+  let depth = 1;
+  let curr = startIndex + 1;
+  let inString = false;
+  let stringQuote = '';
+  
+  while (curr < fileContent.length && depth > 0) {
+    const char = fileContent[curr];
+    if ((char === "'" || char === '"' || char === '`') && fileContent[curr - 1] !== '\\') {
+      if (!inString) {
+        inString = true;
+        stringQuote = char;
+      } else if (stringQuote === char) {
+        inString = false;
+      }
+    }
+    if (!inString) {
+      if (char === '[') depth++;
+      else if (char === ']') depth--;
+    }
+    curr++;
+  }
+  
+  const arraySource = fileContent.substring(startIndex, curr);
+  try {
+    return vm.runInNewContext(arraySource);
+  } catch (err) {
+    console.error("Error evaluating extracted Q array with VM context:", err);
+    return null;
+  }
+}
+
+// 4. Parse all chapter files to build quiz-database.json
+console.log('Generating central quiz database...');
+const chaptersDir = path.join(rootDir, 'chapters');
+const allQuestions = [];
+
+try {
+  const chapterFiles = fs.readdirSync(chaptersDir).filter(f => f.endsWith('.html'));
+  chapterFiles.forEach(file => {
+    const filePath = path.join(chaptersDir, file);
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    // Parse objective and domain from filename, e.g. "obj1_2_fundamental_concepts.html"
+    const objMatch = /obj(\d+)_(\d+)/.exec(file);
+    if (!objMatch) return;
+    const domainNum = parseInt(objMatch[1], 10);
+    const objectiveStr = `${objMatch[1]}.${objMatch[2]}`;
+    
+    const questions = extractQuestionsFromHtml(content);
+    if (questions && Array.isArray(questions)) {
+      questions.forEach(q => {
+        // Enrich each question with meta fields
+        q.domain = domainNum;
+        q.objective = objectiveStr;
+        allQuestions.push(q);
+      });
+      console.log(`- Extracted ${questions.length} questions from ${file}`);
+    } else {
+      console.warn(`- Warning: No questions found in ${file}`);
+    }
+  });
+
+  const quizDatabasePath = path.join(rootDir, 'script', 'quiz-database.json');
+  fs.writeFileSync(quizDatabasePath, JSON.stringify(allQuestions, null, 2), 'utf8');
+  console.log(`Successfully generated central quiz database at ${quizDatabasePath} with ${allQuestions.length} total questions.`);
+} catch (err) {
+  console.error('Error generating quiz-database.json:', err);
+  process.exit(1);
+}
+

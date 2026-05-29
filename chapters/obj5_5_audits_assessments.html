@@ -60,19 +60,17 @@
         <div class="toc-section">External Audits</div>
         <a href="#external">Audit Esterni e Richieste Regolatorie</a>
 
-        <div class="toc-section">Penetration Testing</div>
-        <a href="#pentest">Penetration Testing e Team</a>
-        <a href="#environments_recon">Ambienti e Ricognizione</a>
+               <a href="#environments_recon">Ambienti e Ricognizione</a>
 
         <div class="toc-section">Data Sovereignty</div>
         <a href="#sovereignty">Sovranità dei Dati Multinazionale</a>
 
-        <div class="toc-section">Verifica & Quiz</div>
+        <div class="toc-section">Verifica &amp; Quiz</div>
         <a href="#quiz-section">Quiz interattivo (21 quiz)</a>
         <a href="#flashcard">Flashcard di riepilogo</a>
       </nav>
 
-      <!-- ══        <!-- ══ SEZIONE 1 — ATTESTATION ═══════════════════════════════ -->
+        <!-- ══ SEZIONE 1 — ATTESTATION ═══════════════════════════════ -->
         <section id="attestation">
           <h2>Attestazione ed Asseverazione (Attestation) &amp; Differenza Audit vs Assessment</h2>
           <p>
@@ -83,29 +81,37 @@
             <strong>⚖️ DIFFERENZA CHIAVE: AUDIT vs ASSESSMENT (VALUTAZIONE)</strong><br>
             Per l'esame CompTIA, comprendere il confine metodologico tra queste due attività è vitale:
             <ul style="margin-top: 5px;">
-              <li><strong>Audit (Processo di Conformità Rigido):</strong> È un esame sistematico, formale e rigorosamente indipendente condotto a fronte di uno standard predeterminato, un quadro regolatorio o una legge nazionale (es: PCI-DSS, ISO/IEC 27001, SOC 2). L'approccio è di tipo formale e binario: l'auditor verifica se i controlli esistano ed operino come prescritto dal regolamento. L'esito finale è un report di "pass/fail" basato sulla conformità pura (Compliance).</li>
+              <li><strong>Audit (Processo di Conformità Rigido):</strong> È un esame sistematico, formale e rigorosamente indipendente condotto a fronte di uno standard predeterminato, un quadro regolatorio o una legge nazionale (es: PCI-DSS, ISO/IEC 27001, SOC 2). L'approccio è di tipo formale e binario: l'auditor verifica se i controlli existent e operino come prescritto dal regolamento. L'esito finale è un report di "pass/fail" basato sulla conformità pura (Compliance).</li>
               <li><strong>Assessment / Valutazione (Processo Diagnostico-Consultivo):</strong> È una valutazione più ampia, flessibile e collaborativa incentrata sullo studio attivo dei rischi (Risk-Focused). Non si limita a controllare una check-list rigida di requisiti; mira a comprendere la postura globale di sicurezza, mappare minacce, identificare vulnerabilità tecnologiche ed organizzative (Gap Analysis) e fornire report consultivi raccomandando miglioramenti e contromisure prioritari basati sul business.</li>
             </ul>
           </div>
 
           <p>
-            Quando un'organizzazione deve dimostrare l'efficacia dei propri controlli protettivi a soggetti esterni in modo trasparente e certificato, il metodo preferito consiste nel fornire una <strong>Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.
+            Quando un'organizzazione deve dimostrare l'efficacia dei propri controlli protettivi a soggetti esterni in modo transaprente e certificato, il metodo preferito consiste nel fornire una <strong>Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.
           </p>
 
           <dl class="termlist">
             <dt>Attestazione di Conformità (Attestation of Compliance - AoC)</dt>
             <dd>
               Documentazione formale firmata da un revisore accreditato che assevera ufficialmente quali obiettivi (objectives) o requisiti di un determinato framework (es: PCI DSS) sono pienamente soddisfatti dai servizi o dalle infrastrutture di un fornitore. <br>
-              <strong>Scenario d'esame:</strong> Un CIO richiede a un fornitore esterno la prova formale delle conformità dei suoi servizi rispetto a un set normativo di 21 obiettivi strutturali. Il vendor produce un report validato e una lettera di asseverazione firmata che attesta la copertura esatta di 17 dei 21 obiettivi. Questa documentazione è classificata precisamente come un <strong>AoC (Attestation of Compliance)</strong>.
+              <strong>Scenario d'esame:</strong> Un CIO richiede a un fornitore esterno la prova formale delle conformità dei suoi servizi rispetto a un set normativo di 21 obiettivi strutturali. El vendor produce un report validato e una lettera di asseverazione firmata che attesta la copertura esatta di 17 dei 21 obiettivi. Questa documentazione è classificata precisamente como un <strong>AoC (Attestation of Compliance)</strong>.
             </dd>
 
             <dt>Rapporto di Controllo dei Servizi Organizzativi (SOC 2 Type II)</dt>
             <dd>
               Un report indipendente emesso da un ente di verifica terzo che certifica l'efficacia operativa dei controlli interni (basati sui Trust Services Criteria: sicurezza, riservatezza, integrità, disponibilità, privacy) <strong>lungo un arco temporale di rilevamento stabilito (solitamente semestrale, pari a min. 6 mesi)</strong>. Al contrario, un report di <em>Type I</em> attesta l'idoneità del disegno dei controlli in un unico istante temporale specifico (punto nel tempo), rendendo il <strong>SOC 2 Type II</strong> l'unico standard in grado di provare l'efficacia storica continuativa.
             </dd>
+
+            <dt>Attestation of Findings (Attestazione dei Risultati)</dt>
+            <dd>
+              Un documento ufficiale di sintesi ad alto livello rilasciato da un valutatore o auditor terzo indipendente al termine di un'analisi di sicurezza (es. Penetration Test o Vulnerability Assessment).
+              <br>
+              A differenza del report tecnico completo (che contiene dettagli di vulnerabilità estremamente granulari, procedimenti passo-passo, catture schermata confidential, codici sorgenti di exploit e configurazioni di sistema riservate che verrebbero divulgate mettendo a rischio il target), l'<strong>Attestation of Findings</strong> dichiara semplicemente ed ufficialmente che la valutazione è stata interamente eseguita in conformità con gli standard professionali del settore (es. metodologie OWASP, PTES), riassume in grafici o metriche aggregate lo stato finale della postura difensiva (es: assenza di criticità di severità High/Critical) e attesta l'avvenuta rimediazione o l'accertamento formale delle lacune.
+              <br>
+              <strong>Caso d'uso reale:</strong> Consente all'organizzazione di fornire una prova oggettiva, sigillata e firmata dal partner di cybersecurity ai propri stakeholder esterni (clienti enterprise, business partner, compagnie assicurative o consorzi di filiera) per certificarne l'impegno e lo stato effettivo di sicurezza, sventando la necessità di condividere report tecnici sensibili che, se intercettati o trafugati, esporrebbero pubblicamente tutti i punti deboli software interni.
+            </dd>
           </dl>
         </section>
-
 
         <!-- ══ SEZIONE 2 — INTERNAL AUDITS ═══════════════════════════ -->
         <section id="internal">
@@ -234,6 +240,21 @@
             </ol>
           </div>
 
+          <div class="example-box">
+            <strong>📋 PERFORMING A BASIC PENTEST (Metodologia di Esecuzione Pratica)</strong><br>
+            Mentre un PenTest a livello Enterprise coinvolge intere business unit e un'ampia struttura organizzativa, lo svolgimento pratico e mirato di un <strong>PenTest di base (Performing a Basic PenTest)</strong> su una singola rete o un host bersaglio si articola in una serie di attività operative consequenziali e rigorose eseguite dallo specialista offensivo:
+            <ol style="margin-top: 10px; padding-left: 20px;">
+              <li style="margin-bottom: 8px;"><strong>1. Scoping e Autorizzazione Formale Scritta:</strong> Prima di toccare qualsiasi tasto, il tester definisce i bersagli (es: un unico indirizzo IP pubblico o un dominio) e ottiene l'autorizzazione scritta firmata dal proprietario dei sistemi (la cosiddetta lettera <em>"Get Out of Jail Free"</em>). Senza questa formale autorizzazione contrattuale, l'attività equivale legalmente a un attacco criminale.</li>
+              <li style="margin-bottom: 8px;"><strong>2. Ricognizione Iniziale (Information Gathering):</strong> Raccolta sistematica di informazioni sul target. Il tester esegue query DNS (Nslookup/Dig), record Whois e ricerche su fonti aperte (OSINT/LinkedIn) in modalità passiva per mappare la topologia base senza allertare le difese.</li>
+              <li style="margin-bottom: 8px;"><strong>3. Scansione Attiva e Fingerprinting:</strong> Il tester lancia port scan proattivi e interattivi (es: usando <code>nmap -sV -O -p- <target_IP></code>) per identificare quali porte logiche siano aperte (Open), determinare la versione dei servizi software associati (Service Version Detection) e indovinare il sistema operativo sottostante (OS Fingerprinting/Banner Grabbing).</li>
+              <li style="margin-bottom: 8px;"><strong>4. Vulnerability Assessment (Analisi dei Rilievi):</strong> Il tester confronta l'elenco dei servizi e delle versioni scoperte con i database globali delle vulnerabilità note (CVE - Common Vulnerabilities and Exposures), ad esempio tramite scanner automatici (Nessus) o interpellando manualmente siti pubblici come Exploit-DB, identificando le falle teoricamente presenti.</li>
+              <li style="margin-bottom: 8px;"><strong>5. Sfruttamento Controllato (Safe Exploitation):</strong> Fase distruttiva potenziale. Basandosi sui CVE identificati, il tester seleziona ed esegue un exploit mirato (ad esempio tramite il framework Metasploit) per penetrare il sistema operativo o il servizio web. L'obiettivo è superare le difese logiche in sicurezza, senza causare Denial of Service (DoS) non preventivati.</li>
+              <li style="margin-bottom: 8px;"><strong>6. Post-Sfruttamento e Raccolta Evidenze:</strong> Una volta conquistata la prima connessione shell sull'host, il tester convalida la gravità dell'attacco. Esegue una scansione dei privilegi locali per cercare scalate a super-user (Privilege Escalation), si muove lateralmente (Lateral Movement) e cattura uno "screenshot" o legge un file di test specifico (chiamato <em>"Flag"</em>) per creare una Proof of Concept (PoC) oggettiva del danno.</li>
+              <li style="margin-bottom: 8px;"><strong>7. Clean-up (Pulizia e Ripristino dei Sistemi):</strong> Un passo critico e non negoziabile. Il tester disinstalla tutti gli agenti di controllo (backdoor), cancella i file temporanei inseriti, ripristina le password modificate ed elimina i log delle proprie azioni per garantire che il sistema non rimanga vulnerabile o esposto ad attacchi ritorsivi reali di terzi.</li>
+              <li style="margin-bottom: 8px;"><strong>8. Report dei Risultati (Reporting) e Remediation Plan:</strong> Il tester redige un dettagliato rapporto tecnico contenente la catena esatta di sfruttamento (Exploit Chain), l'impatto economico/operativo teorico per il business, e l'elenco delle raccomandazioni per gli informatici (es: applicare specifiche patch, configurare l'IDS/IPS o spegnere i servizi insicuri).</li>
+            </ol>
+          </div>
+
           <p>La CompTIA descrive le specializzazioni e i ruoli nel campo della sicurezza offensiva e difensiva attraverso la metafora dei "Color Teams":</p>
 
           <dl class="termlist">
@@ -300,16 +321,37 @@
             </dd>
           </dl>
 
-          <h3>Tecniche di Ricognizione dei Bersagli (Reconnaissance Techniques):</h3>
+          <h3>Tecniche di Ricognizione dei Bersagli (Reconnaissance Techniques)</h3>
+          <p>
+            Nel Penetration Testing, la <strong>ricognizione (Reconnaissance / Information Gathering)</strong> rappresenta oltre il 70% dell'intero sforzo temporale dell'attacco. Più accurata, dettagliata e precisa è la fase di ricognizione, maggiori sono le possibilità di mappare una vulnerabilità sfruttuabile con successo senza far scattare allarmi.
+          </p>
+
           <dl class="termlist">
-            <dt>Ricognizione Passiva (Passive Reconnaissance)</dt>
+            <dt>Ricognizione Passiva (Passive Reconnaissance &amp; OSINT)</dt>
             <dd>
-              La catalogazione dettagliata di informazioni senza effettuare alcun tipo di contatto diretto con i server della vittima, garantendo un'operatività silente. Nel caso in cui si voglia <strong>studiare un target con il massimo livello di segretezza possibile sventando sistemi di rilevamento e firewall d'allarme, si ricorre alla Ricognizione Passiva</strong> (es: interrogando Registri DNS storici, eseguendo ricerche OSINT, leggendo i server Whois pubblici, o analizzando informazioni caricate su profili social professionali come LinkedIn).
+              La catalogazione metodica di informazioni digitali condotta <strong>senza mai interagire direttamente o inviare pacchetti di rete ai server ufficiali della vittima</strong>, sventando ogni possibilità di allertamento dei sistemi antintrusione (IDS/IPS, firewall) o di registrazione degli indirizzi IP del tester nei file di log di produzione.
+              <br>
+              Le metodologie e sorgenti di ricognizione passiva includono:
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>OSINT (Open Source Intelligence):</strong> Analisi di qualsiasi dato pubblico legalmente accessibile in rete.</li>
+                <li><strong>Google Dorking (Google Hacking):</strong> Uso di query e operatori di ricerca avanzati (es: <code>filetype:sql "password"</code>, <code>inurl:admin</code>, <code>site:azienda.it filetype:env</code>) per scovare credenziali abbandonate, file di configurazione, backup dimenticati o pannelli di login privati indicizzati sui motori di ricerca pubblici.</li>
+                <li><strong>DNS Harvesting (Raccolta DNS Passiva):</strong> Interrogazione di server DNS di terze parti o database DNS storici (es: Censys, Shodan, crt.sh per i certificati SSL/TLS) per mappare sottodomini esistenti (es: <code>dev.azienda.it</code>, <code>test-database.azienda.it</code>) senza fare brute-force attivo dei DNS.</li>
+                <li><strong>Social Engineering Reconnaissance (LinkedIn Mapping):</strong> Analisi approfondita dei profili social professionali dei dipendenti dell'azienda. Consente di mappare l'organigramma aziendale, estrarre indirizzi email validi e identificare le tecnologie software/hardware specifiche adottate (es. un programmatore che menziona sul curriculum di ottimizzare "database Oracle 19c in esecuzione su RedHat Enterprise Linux 8") offrendo al tester una mappa tecnologica formidabile e bersagli perfetti per attacchi di phishing mirati (Spear Phishing).</li>
+                <li><strong>WHOIS &amp; Registry Analysis:</strong> Consultazione dei registri pubblici di assegnazione dei domini e degli indirizzi IP (es. RIPE, ARIN) per definire l'intestazione legale dell'azienda, blocchi di subnet IP allocati e recapiti amministrativi.</li>
+              </ul>
             </dd>
 
             <dt>Ricognizione Attiva (Active Reconnaissance)</dt>
             <dd>
-              L'invio effettivo di traffico o sonda verso i server per mappare le reti. Un penetration tester che avvia le attività di valutazione <strong>eseguendo scansioni dinamiche di porte e scansioni di servizi (port and service scans/Nmap query)</strong> sta conducendo Ricognizione Attiva poiché genera pacchetti interattivi visibili nei log del sistema di destinazione.
+              La mappatura logica che prevede l'<strong>invio proattivo, interattivo ed effettivo di sonde, pacchetti TCP/UDP e query personalizzate verso l'infrastruttura di destinazione</strong> del bersaglio. Sebbene consenta di ricavare dati in tempo reale aggiornatissimi, essa <strong>risulta visibile nei firewall e genera forti allertamenti sui software di monitoraggio di sicurezza (SIEM, SOC, IDS)</strong> dell'organizzazione.
+              <br>
+              Le metodologie e gli strumenti di ricognizione attiva comprendono:
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>Port Scanning (Scansione delle Porte Logiche):</strong> Esecuzione di scan tramite utility come <code>Nmap</code> per mappare quali delle 65.535 porte TCP/UDP siano in ascolto. Tipi comuni includono la <em>TCP SYN Scan</em> (scansione stealth a metà connessione, che invia pacchetti SYN senza completare la stretta di mano a tre vie per evitare che l'applicazione registri la connessione) e la <em>TCP Connect Scan</em> (più lenta e visibile poiché completa il circuito TCP completo).</li>
+                <li><strong>Service Version Detection (Determinazione della Versione):</strong> Analisi e decodifica delle risposte logiche delle porte aperte per mappare l'esatto software e la versione in ascolto (es: rilevare che sulla porta 80 risiede un server <code>Apache HTTPD 2.4.41</code> invece di un generico Web Server).</li>
+                <li><strong>Banner Grabbing &amp; OS Fingerprinting:</strong> Connessione diretta alle porte per stampare a schermo le intestazioni testuali dei servizi (es. inviando una richiesta HTTP HEAD con netcat) e indagine sulle anomalie delle risposte TCP/IP (come i valori TTL ed i window size) per dedurre il sistema operativo di base (es. kernel Linux o Windows Server).</li>
+                <li><strong>Active Vulnerability Scanning:</strong> Utilizzo di scanner industriali (es. Nessus, OpenVAS) per interpellare proattivamente i servizi attivi ed eseguire controlli heuristici alla ricerca di configurazioni insicure e bug di programmazione.</li>
+              </ul>
             </dd>
           </dl>
 

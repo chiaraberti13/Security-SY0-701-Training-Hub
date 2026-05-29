@@ -414,11 +414,26 @@
             Al fine di automatizzare e armonizzare il governo delle operazioni di sicurezza, l'industria adotta protocolli e standard internazionali consolidati:
           </p>
           <dl class="termlist">
-            <dt>SCAP (Security Content Automation Protocol)</dt>
-            <dd>Una suite definita dal NIST che standardizza il formato per scambiare e rappresentare informazioni di sicurezza, vulnerabilità note e configurazioni d'hardening. Include indici e linguaggi standardizzati (es. CVE, CVSS, CCE, OVAL) che agevolano l'interoperabilità automatica di molteplici strumenti di scansione di vendor differenti.</dd>
+            <dt>SCAP (Security Content Automation Protocol — Protocollo di Automazione del Contenuto di Sicurezza)</dt>
+            <dd>
+              Una suite standardizzata e integrata di specifiche creata e mantenuta dal <strong>NIST (National Institute of Standards and Technology)</strong>. È progettata per automatizzare il monitoraggio della conformità (compliance monitoring), la misurazione della sicurezza e la gestione delle vulnerabilità dell'intera flotta aziendale in modo standardizzato e indipendente dal vendor.
+              <br><br>
+              <strong>• I 6 Componenti Chiave del Framework SCAP (Tassonomia Ufficiale):</strong><br>
+              SCAP non è un singolo software, ma un linguaggio e un protocollo comune che armonizza sei distinti standard aperti per raccogliere, analizzare e verificare i sistemi informativi:
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>1. CVE (Common Vulnerabilities and Exposures):</strong> Il dizionario standardizzato di riferimento universale che registra ed etichetta in modo univoco le vulnerabilità note della sicurezza nei software (es. <code>CVE-2021-44228</code> per Log4Shell).</li>
+                <li><strong>2. CCE (Common Configuration Enumeration):</strong> Un indice comune che assegna identificatori univoci a impostazioni e configurazioni di sistema specifiche (es: parametri del registro, regole di password policy, timeout dei token) per facilitarne l'audit, consentendo di misurare l'hardening di un asset.</li>
+                <li><strong>3. CPE (Common Platform Enumeration):</strong> Uno schema strutturato di denominazione basato su URI per identificare in modo univoco ed esatto la piattaforma hardware, il sistema operativo o il pacchetto software installato (es: <code>cpe:2.3:o:microsoft:windows_10:20h2:*:*:*:*:*:x64:*</code>).</li>
+                <li><strong>4. CVSS (Common Vulnerability Scoring System):</strong> Il sistema numerico standardizzato che calcola e quantifica la gravità oggettiva delle vulnerabilità software in base a metriche fondamentali (es: facilità di exploit, impatto sulla riservatezza, requisiti di privilegi), traducendola in uno score compreso tra 0 e 10.</li>
+                <li><strong>5. OVAL (Open Vulnerability and Assessment Language):</strong> Un linguaggio XML-standardizzato adibito a descrivere lo stato effettivo di una macchina da scansionare. OVAL specifica i test esatti che uno strumento deve compiere sul sistema operativo (es. verificare l'esistenza di una chiave di registro o la versione di una libreria DLL) per determinare se una vulnerabilità o una configurazione errata sia presente.</li>
+                <li><strong>6. XCCDF (Extensible Configuration Checklist Description Format):</strong> Una sintassi XML per definire checklist, guide di hardening e benchmark di sicurezza strutturati (es. i profili CIS Benchmarks). Consente di redigere standard normativi che illustrano le regole tecniche di hardening che i sistemi aziendali devono obbligatoriamente implementare per superare un audit di sicurezza.</li>
+              </ul>
+              <strong>• Funzionamento dei Benchmark SCAP e degli Scanner di Conformità:</strong><br>
+              Un amministratore della sicurezza utilizza uno <strong>SCAP Assessment Scanner</strong> (es. OpenSCAP o moduli di scanner come Nessus) e vi carica un file XML contenente lo <strong>SCAP Benchmark</strong> certificato per la propria infrastruttura (es. la baseline d'hardening NIST o CIS). Lo scanner interroga il sistema locale utilizzando le definizioni <em>OVAL</em> per estrarre la telemetria reale e raffrontarla con i requisiti del benchmark <em>XCCDF</em>. All'esito dell'ispezione automatica strutturata, viene generato un report di conformità formale (Pass/Fail) utilizzabile direttamente per attestare legalmente la compliance (es. PCI-DSS, SOC 2, HIPAA).
+            </dd>
 
-            <dt>Benchmarks (Baseline di Hardening)</dt>
-            <dd>Documenti normativi e linee guida rigorose di configurazione approvate dal settore (es. i famosi benchmarks del **Center for Internet Security - CIS**) atti ad accertare e verificare scientificamente se un determinato server o applicativo sia configurato secondo i massimi requisiti di resistenza agli exploit.</dd>
+            <dt>Benchmarks di Hardening (Baseline e Standard CIS)</dt>
+            <dd>Documenti normativi e linee guida rigorose di configurazione approvate e scritte da consorzi di esperti del settore (es. i famosi benchmarks del **Center for Internet Security - CIS**) atti ad accertare e verificare scientificamente se un determinato server o applicativo sia configurato secondo i massimi requisiti di resistenza agli exploit.</dd>
 
             <dt>SNMP (Simple Network Management Protocol) e SNMP Traps</dt>
             <dd>
@@ -452,8 +467,42 @@
               </div>
             </dd>
 
-            <dt>NetFlow</dt>
-            <dd>Protocollo e tecnologia proprietaria Cisco (Standardizzata poi come IPFIX) operante sui router e switch per raggruppare visibilità sui flussi di rete. NetFlow <strong>non cattura e non memorizza il payload (il contenuto effettivo) dei pacchetti</strong>; al contrario, registra meticolosamente i soli <strong>metadati di transito (metadata)</strong> quali: IP sorgente e destinazione, porte di trasporto e byte scambiati. Questa telemetria leggera permette agli investigatori del SOC di mappare interamente le rotte e scovare esfiltrazioni dati massicce o scansioni orizzontali interne senza saturare lo storage di rete.</dd>
+            <dt>NetFlow &amp; IPFIX (Telemetria di Flusso di Rete senza Payload)</dt>
+            <dd>
+              Un protocollo di rete standardizzato originariamente sviluppato da Cisco (e successivamente formalizzato in sede IETF nello standard aperto <strong>IPFIX — Internet Protocol Flow Information Export</strong>) concepito per estrarre, raggruppare e analizzare le informazioni sui flussi di traffico che attraversano gli switch, i router e i firewall dell'infrastruttura.
+              <br><br>
+              <strong>• Il Principio Fondamentale: Metadati vs Payload:</strong><br>
+              A differenza della cattura integrale dei pacchetti (FPC — Full Packet Capture) operata da sniffer di rete come Wireshark, **NetFlow non cattura né memorizza il payload (ovvero il contenuto interno dei file, il testo delle e-mail, o i dati applicativi)**. Funziona in modo analogo a un <strong>registro dei dettagli delle chiamate telefoniche (tabulato telefonico)</strong>: non registra la voce delle persone, ma memorizza chi ha chiamato chi (IP sorgente/destinatario), a che ora è iniziata la chiamata, quanto è durata e quanti byte sono stati trasferiti. Questo abbassa drasticamente i requisiti di archiviazione hardware e permette di monitorare flussi gigabit ad altissima velocità senza degradare le prestazioni di rete.
+              <br><br>
+              <strong>• La Tupla a 7 Chiavi (Come si definisce un "Flusso"):</strong><br>
+              In NetFlow, un flusso (Flow) è definito come un insieme unidirezionale di pacchetti IP che condividono esattamente la medesima combinazione di <strong>sette attributi cardine (7-tuple key attributes)</strong>. Se un solo attributo differisce, viene generato un flusso separato nella cache del router:
+              <ol style="margin-top: 5px; padding-left: 20px;">
+                <li><strong>Indirizzo IP Sorgente:</strong> Da dove proviene il traffico.</li>
+                <li><strong>Indirizzo IP Destinatario:</strong> Dove è diretto il traffico.</li>
+                <li><strong>Porta Sorgente di Trasporto:</strong> Porta del mittente (TCP/UDP).</li>
+                <li><strong>Porta Destinataria di Trasporto:</strong> Porta del destinatario (TCP/UDP, es. 443, 80, 22).</li>
+                <li><strong>Protocollo di Livello 3:</strong> Tipologia di protocollo adoperato (TCP, UDP, ICMP, GRE).</li>
+                <li><strong>Type of Service (ToS) / DSCP:</strong> Parametri di qualità del servizio (QoS) configurati.</li>
+                <li><strong>Interfaccia Fisica di Ingresso:</strong> La porta o lo slot fisico del router/switch in cui è entrato il traffico.</li>
+              </ol>
+              <strong>• L'Architettura Cluny di Funzionamento NetFlow:</strong><br>
+              L'implementazione richiede tre elementi strutturali:
+              <ul style="margin-top: 5px; list-style-type: circle; margin-left: 20px;">
+                <li><strong>NetFlow Exporter:</strong> L'hardware di rete (un router Cisco, uno switch L3, o una sonda adibita) che analizza i pacchetti in transito nella memoria cache e riassume i flussi attivi, inviandoli periodicamente (exporting) verso una destinazione remota.</li>
+                <li><strong>NetFlow Collector:</strong> Un server centrale adibito a ricevere i report grezzi di flusso esportati da tutti gli Exporters della flotta aziendale, archiviandoli in un database temporaneo ad alte prestazioni.</li>
+                <li><strong>NetFlow Analyzer:</strong> Un software d'analisi basato su interfaccia grafica (integrato in NDR o SIEM) che indicizza e correla i metadati accumulati dal Collector per condurre analisi di traffico avanzate.</li>
+              </ul>
+              <strong>• Scenari di Analisi e Threat Hunting con NetFlow (Cosa rileva negli Audit):</strong>
+              <ul style="margin-top: 5px; list-style-type: square; margin-left: 20px;">
+                <li><strong>Datacenter Exfiltration (Esfiltrazione Dati):</strong> L'analista nota un flusso singolo insolito dal database aziendale interno verso un indirizzo IP pubblico mai registrato prima, caratterizzato dal transito continuo di svariati gigabyte di dati fuori orario lavorativo. Non vedendo il payload, individua l'accaduto osservando esclusivamente l'ingente numero di byte scambiati e l'IP sorgente/destinatario.</li>
+                <li><strong>Lateral Movement (Movimento Laterale e Scansioni):</strong> Un PC dell'ufficio contabile (che normalmente compie traffico leggero solo verso server Web aziendali) inizia repentinamente a stabilire brevi contatti sequenziali verso porte di trasporto 22 o 3389 di centinaia di server interni diversi e adiacenti (Internal Port Scanning / Network Sweep).</li>
+                <li><strong>Distributed Denial of Service (DDoS):</strong> L'analista rileva una anomala e gigantesca esplosione nel numero di flussi distinti generati contemporaneamente all'esterno ed indirizzati verso la porta 80 del server web principale, esaurendone le tabelle di connessione.</li>
+              </ul>
+              <div class="exam-tip">
+                <strong>🎯 RIFERIMENTO VELOCE PER L'ESAME</strong><br>
+                Nello scenario di un attacco, se viene richiesto uno strumento in grado di **identificare comportamenti di rete anomali, esfiltrazioni dati (bulk data transfer) o scansioni del perimetro interno (lateral movement scans)** senza compiere cattura integrale del traffico (FPC) e **senza analizzare il payload cifrato** della transazione, la risposta è tassativamente l'utilizzo di <strong>NetFlow</strong> o <strong>IPFIX</strong>.
+              </div>
+            </dd>
 
             <dt>Vulnerability Scanners (Scansione delle Vulnerabilità)</dt>
             <dd>Strumenti specializzati (es. Nessus, Qualys) adibiti a ispezionare l'infrastruttura d'impresa per scovare porte lasciate aperte, software legacy orfani e bug non patchati confrontando i banner di risposta con i database di vulnerabilità noti.</dd>
