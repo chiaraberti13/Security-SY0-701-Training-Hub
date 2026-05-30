@@ -19,16 +19,14 @@
     }
   }
 
-  // Apply theme immediately on script parsing to minimize flicker
+  // Always enforce clean light mode to prevent any flickering or dark-mode state
   (function () {
-    var savedTheme = safeGetItem('theme');
-    var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    var theme = savedTheme || systemTheme;
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
+    try {
+      localStorage.removeItem('theme');
+    } catch (err) {
+      console.warn('localStorage purge error:', err);
     }
+    document.documentElement.removeAttribute('data-theme');
   })();
 
   // 1. Unified translation dictionary for the complete web application UI (T-B6)
@@ -185,7 +183,8 @@
 
     nav.innerHTML = `
       <a href="${prefix}index.html" class="global-nav-brand">
-        <span>🛡️ CompTIA Security+ SY0-701</span>
+        <svg class="nav-brand-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: text-bottom; margin-right: 6px; flex-shrink: 0; color: var(--teal);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>CompTIA Security+ SY0-701</span>
       </a>
       <div class="global-nav-links">
         <a href="${prefix}index.html" class="global-nav-link ${activePage === 'home' ? 'active' : ''}">${dict.nav_home}</a>
@@ -193,9 +192,6 @@
         <a href="${prefix}quizzes.html" class="global-nav-link ${activePage === 'quiz' ? 'active' : ''}">${dict.nav_quiz}</a>
         <a href="${prefix}glossario.html" class="global-nav-link ${activePage === 'glossario' ? 'active' : ''}">${dict.nav_glossario}</a>
         <a href="${prefix}checklist.html" class="global-nav-link ${activePage === 'checklist' ? 'active' : ''}">${dict.nav_checklist}</a>
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema (Chiaro/Scuro)" title="Cambia tema" style="background: none; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 6px; border-radius: var(--radius-sm); color: var(--muted); margin-left: 6px; vertical-align: middle;">
-          <!-- SVG loads via JS -->
-        </button>
         <button id="lang-toggle" class="lang-toggle-btn" aria-label="Cambia lingua (IT/EN)" title="Cambia lingua" style="background: none; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 6px; font-weight: 700; font-size: 0.82rem; color: var(--muted); margin-left: 8px; vertical-align: middle; font-family: var(--font-sans);">
           <!-- Lang text loads via JS -->
         </button>
@@ -203,33 +199,9 @@
     `;
   }
 
-  // 2.1 Initialise Dark Theme Toggle Button
+  // Theme Toggle disabled to force pure light mode
   function initThemeToggle() {
-    var toggleBtn = document.getElementById('theme-toggle');
-    if (!toggleBtn) return;
-
-    var sunIcon = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="theme-icon-sun" style="display: block;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
-    
-    var moonIcon = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="theme-icon-moon" style="display: block;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-
-    function updateToggleIcon() {
-      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      toggleBtn.innerHTML = isDark ? sunIcon : moonIcon;
-    }
-
-    updateToggleIcon();
-
-    toggleBtn.addEventListener('click', function () {
-      var currentTheme = document.documentElement.getAttribute('data-theme');
-      if (currentTheme === 'dark') {
-        document.documentElement.removeAttribute('data-theme');
-        safeSetItem('theme', 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        safeSetItem('theme', 'dark');
-      }
-      updateToggleIcon();
-    });
+    // Left empty since dark/night mode is fully removed (always light mode)
   }
 
   // 2.2 Initialise Language Translation Engine
@@ -293,7 +265,7 @@
     footer.setAttribute('style', 'text-align: center; padding: 24px 16px; margin-top: 48px; border-top: 1px solid var(--light-slate); font-size: 0.85rem; color: var(--muted);');
     footer.innerHTML = `
       <p style="margin: 0; line-height: 1.5;">© 2026 Chiara Berti · CompTIA Security+ SY0-701 Study Guide. All rights reserved.</p>
-      <p style="margin: 4px 0 0 0; font-style: italic; font-size: 0.8rem; line-height: 1.5;">“Stay safe, harden your endpoints, and clear your exam on the first attempt!” 🛡️</p>
+      <p style="margin: 4px 0 0 0; font-style: italic; font-size: 0.8rem; line-height: 1.5;">“Stay safe, harden your endpoints, and clear your exam on the first attempt!” <svg class="footer-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: text-top; margin-left: 4px; color: var(--muted);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></p>
     `;
 
     container.appendChild(footer);

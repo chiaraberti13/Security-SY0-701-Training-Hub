@@ -7,19 +7,12 @@
   <link rel="stylesheet" href="style/style.css" />
   <script>
     (function() {
-      var savedTheme = null;
       try {
-        savedTheme = localStorage.getItem('theme');
+        localStorage.removeItem('theme');
       } catch (e) {
         console.warn('localStorage access denied:', e);
       }
-      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      var theme = savedTheme || systemTheme;
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
+      document.documentElement.removeAttribute('data-theme');
     })();
   </script>
   <style>

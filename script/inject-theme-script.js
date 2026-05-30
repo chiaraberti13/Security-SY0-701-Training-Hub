@@ -12,23 +12,16 @@ const files = fs.readdirSync(chaptersDir);
 
 const themeScript = `  <script>
     (function() {
-      var savedTheme = null;
       try {
-        savedTheme = localStorage.getItem('theme');
+        localStorage.removeItem('theme');
       } catch (e) {
         console.warn('localStorage access denied:', e);
       }
-      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      var theme = savedTheme || systemTheme;
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
+      document.documentElement.removeAttribute('data-theme');
     })();
   </script>`;
 
-const oldThemeScriptRegex = /<script>\s*\(function\(\)\s*\{\s*var\s+savedTheme\s*=\s*localStorage\.getItem\('theme'\);[\s\S]*?\}\)\(\);\s*<\/script>/gi;
+const oldThemeScriptRegex = /<script>\s*\(function\(\)\s*\{\s*var\s+savedTheme[\s\S]*?\}\)\(\);\s*<\/script>/gi;
 
 let updateCount = 0;
 files.forEach((file) => {
@@ -38,13 +31,14 @@ files.forEach((file) => {
 
     let modified = false;
 
-    // 1. If old style is present, replace with new safe script
     if (oldThemeScriptRegex.test(content)) {
       content = content.replace(oldThemeScriptRegex, themeScript);
       modified = true;
-    } 
-    // 2. If neither is present, inject right after <head>
-    else if (!content.includes("localStorage.getItem('theme')")) {
+    } else if (content.includes("localStorage.getItem('theme')")) {
+      // General match
+      content = content.replace(/<script>\s*\(function\(\)[\s\S]*?savedTheme[\s\S]*?<\/script>/gi, themeScript);
+      modified = true;
+    } else if (!content.includes("removeItem('theme')")) {
       content = content.replace(/<head>/i, `<head>\n${themeScript}`);
       modified = true;
     }
