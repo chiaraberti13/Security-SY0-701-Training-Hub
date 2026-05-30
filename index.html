@@ -876,9 +876,18 @@
   async function initSync() {
     try {
       setSyncStatus('syncing', 'caricamento checklist…');
-      var response = await fetch('/checklist.html');
+      var response;
+      try {
+        response = await fetch('./checklist.html');
+      } catch (err) {
+        response = await fetch('checklist.html');
+      }
       if (!response.ok) throw new Error('Contatto fallito');
       var text = await response.text();
+
+      if (!text.includes('class="cb-box"') && !text.includes('class=\'cb-box\'') && !text.includes('cb-box') && (text.trim().startsWith('<') || text.includes('<!DOCTYPE'))) {
+        throw new Error('Il server ha restituito un re-routing/errore HTML invece del file checklist.html reale.');
+      }
 
       // Estrae la configurazione JSONBin
       var apiKeyMatch = text.match(/JSONBIN_API_KEY\s*=\s*['"]([^'"]+)['"]/);

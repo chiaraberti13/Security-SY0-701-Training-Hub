@@ -836,11 +836,10 @@
     diagnosticBanner.style.display = 'block';
 
     const fetchUrls = [
-      'script/glossario_db.json?v=' + Date.now(),
       './script/glossario_db.json?v=' + Date.now(),
-      '/script/glossario_db.json?v=' + Date.now(),
-      'script/glossario_db.json',
-      './script/glossario_db.json'
+      'script/glossario_db.json?v=' + Date.now(),
+      './script/glossario_db.json',
+      'script/glossario_db.json'
     ];
 
     let urlIndex = 0;
@@ -867,9 +866,17 @@
           if (!response.ok) {
             throw new Error(`Server status: ${response.status}`);
           }
-          return response.json();
+          const contentType = response.headers.get('content-type') || '';
+          if (contentType.toLowerCase().indexOf('text/html') !== -1) {
+            throw new Error('Il server ha restituito HTML anziché JSON.');
+          }
+          return response.text();
         })
-        .then(data => {
+        .then(text => {
+          if (text.trim().indexOf('<') === 0 || text.indexOf('<!DOCTYPE') !== -1) {
+            throw new Error('Contenuto HTML non valido per dati JSON.');
+          }
+          const data = JSON.parse(text);
           if (!Array.isArray(data)) {
             throw new Error('Dati JSON non strutturati ad array.');
           }
@@ -881,7 +888,7 @@
           // Display success status banner briefly then fade out
           diagnosticBanner.innerHTML = `
             <div style="background: rgba(16, 185, 129, 0.08); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
-              <span>✔ Database completo sincronizzato correttamente! <strong>${data.length} vocaboli ed acronimi caricati</strong> ed ottimizzati.</span>
+              <span><strong>✔ Database completo sincronizzato correttamente!</strong> ${data.length} vocaboli ed acronimi caricati ed ottimizzati.</span>
             </div>
           `;
           setTimeout(() => {
@@ -912,12 +919,18 @@
     isUsingFallback = true;
     
     diagnosticBanner.innerHTML = `
-      <div class="offline-banner">
-        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-          <span class="offline-badge">Offline / Fallback</span>
-          <span>Caricati i <strong>${FallbackDatabase.length} termini d'esame principali</strong> di emergenza. Clicca su "Riprova" per riattivare il glossario completo da 1500+ voci.</span>
+      <div class="offline-banner" style="background: #fef2f2; border: 1px solid #fecaca; padding: 16px; border-radius: var(--radius-md); margin-bottom: 24px; color: #991b1b; display: flex; flex-direction: column; gap: 12px; font-family: var(--font-sans);">
+        <div style="display: flex; align-items: start; gap: 10px; flex-wrap: wrap;">
+          <span class="offline-badge" style="background: #ef4444; color: white; font-weight: bold; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px;">Errore caricamento</span>
+          <div>
+            <strong style="display:block; margin-bottom:4px;">Impossibile scaricare l'intero database da 1500+ termini (caricati solo ${FallbackDatabase.length} termini d'emergenza).</strong>
+            <p style="margin: 0; font-size: 0.85rem; line-height:1.5; color: #7f1d1d;">
+              Se hai caricato l'applicazione sul tuo server web, assicurati di aver copiato tutta la cartella <strong>script/</strong> con i file <strong>glossario_db.js</strong> e <strong>glossario_db.json</strong>.<br>
+              Inoltre, verifica che la configurazione del tuo server consenta il download del file <strong>.json</strong> (molti server, es. IIS o vecchi Apache, bloccano i file JSON di default o re-instradano le risorse mancanti alla pagina principale index.html, causando l'errore "Unexpected token &lt;").
+            </p>
+          </div>
         </div>
-        <button id="retry-full-load-btn">Riprova Caricamento</button>
+        <button id="retry-full-load-btn" style="align-self: flex-start; background: #dc2626; color: white; border: none; padding: 6px 14px; font-size: 0.85rem; border-radius: 4px; cursor: pointer; transition: background 0.2s;">Riprova Caricamento</button>
       </div>
     `;
     diagnosticBanner.style.display = 'block';

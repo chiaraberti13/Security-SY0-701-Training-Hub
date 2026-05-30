@@ -1392,12 +1392,20 @@
     let res = null;
     let errToThrow = null;
     
-    const urls = ['/script/quiz-database.json', 'script/quiz-database.json'];
+    const urls = ['./script/quiz-database.json', 'script/quiz-database.json'];
     for (let url of urls) {
       try {
         res = await fetch(url);
         if (res && res.ok) {
-          quizDatabase = await res.json();
+          const contentType = res.headers.get('content-type') || '';
+          if (contentType.toLowerCase().includes('text/html')) {
+            throw new Error('Il server ha restituito una pagina HTML invece del JSON.');
+          }
+          const text = await res.text();
+          if (text.trim().startsWith('<') || text.includes('<!DOCTYPE')) {
+            throw new Error('Risposta HTML rilevata invece di JSON.');
+          }
+          quizDatabase = JSON.parse(text);
           window.quizDatabase = quizDatabase; // Cache globally
           return quizDatabase;
         }

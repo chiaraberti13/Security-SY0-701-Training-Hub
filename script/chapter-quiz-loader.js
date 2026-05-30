@@ -57,12 +57,20 @@
       return quizDatabase;
     }
     // Try to load via fetch if not preloaded
-    var urls = ['../script/quiz-database.json', 'script/quiz-database.json', '/script/quiz-database.json'];
+    var urls = ['../script/quiz-database.json', 'script/quiz-database.json'];
     for (var i = 0; i < urls.length; i++) {
       try {
         var res = await fetch(urls[i]);
         if (res && res.ok) {
-          quizDatabase = await res.json();
+          var contentType = res.headers.get('content-type') || '';
+          if (contentType.toLowerCase().indexOf('text/html') !== -1) {
+            continue;
+          }
+          var text = await res.text();
+          if (text.trim().indexOf('<') === 0 || text.indexOf('<!DOCTYPE') !== -1) {
+            continue;
+          }
+          quizDatabase = JSON.parse(text);
           window.quizDatabase = quizDatabase; // cache globally
           return quizDatabase;
         }
