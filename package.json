@@ -5,11 +5,16 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "node script/generate-search-data.js && mkdir -p dist && cp -r index.html checklist.html style script chapters dist/",
-    "lint": "echo 'No lint needed for static site'"
+    "build": "node script/inject-theme-script.js && node script/sync-quiz-sources.js && node script/extract-glossary.js && node script/generate-search-data.js && mkdir -p dist && cp -r index.html checklist.html quizzes.html glossario.html quiz_database.xml sw.js style script chapters dist/",
+    "lint": "eslint script/*.js server.js",
+    "test": "vitest run",
+    "test:coverage": "node script/check_comptia_coverage.js"
   },
   "devDependencies": {
-    "pdf-parse": "^2.4.5"
+    "eslint": "^10.4.0",
+    "pdf-parse": "^2.4.5",
+    "prettier": "^3.8.3",
+    "vitest": "^4.1.7"
   },
   "dependencies": {
     "pdfreader": "^3.0.8"

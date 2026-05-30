@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SY0-701 — Checklist</title>
 <link rel="stylesheet" href="style/style.css" />
+<script>
+  (function() {
+    var savedTheme = null;
+    try {
+      savedTheme = localStorage.getItem('theme');
+    } catch (e) {
+      console.warn('localStorage access denied:', e);
+    }
+    var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var theme = savedTheme || systemTheme;
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  })();
+</script>
 <style>
   :root {
     --navy:   #01496e;
@@ -730,18 +747,7 @@
 </style>
 </head>
 <body>
-<nav class="global-nav" aria-label="Navigazione principale">
-  <a href="index.html" class="global-nav-brand">
-    <span>🛡️ CompTIA Security+ SY0-701</span>
-  </a>
-  <div class="global-nav-links">
-    <a href="index.html" class="global-nav-link">Home</a>
-    <a href="index.html#capitoli" class="global-nav-link">Guida</a>
-    <a href="quizzes.html" class="global-nav-link">Quiz</a>
-    <a href="glossario.html" class="global-nav-link">Glossario</a>
-    <a href="checklist.html" class="global-nav-link active">Checklist</a>
-  </div>
-</nav>
+<nav class="global-nav" aria-label="Navigazione principale"></nav>
 
 <div class="container">
 <div class="page" style="max-width: 960px; margin: 0 auto; padding: 32px;">
@@ -750,8 +756,8 @@
   <div class="ig-header" style="margin-bottom: 24px;">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
       <div>
-        <h1 style="font-size: 1.75rem; color: var(--ink); margin-bottom: 6px;">Checklist di Studio SY0-701</h1>
-        <p style="color: var(--slate); font-size: 0.95rem;">Il tuo piano di marcia giornaliero personalizzato dal 18 maggio al 5 giugno 2026.</p>
+        <h1 data-i18n="checklist_header" style="font-size: 1.75rem; color: var(--ink); margin-bottom: 6px;">Checklist di Studio SY0-701</h1>
+        <p data-i18n="checklist_sub" style="color: var(--slate); font-size: 0.95rem;">Il tuo piano di marcia giornaliero personalizzato dal 18 maggio al 5 giugno 2026.</p>
       </div>
       <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
         <button class="btn-reset" onclick="resetAll()">Azzera progressi</button>
@@ -1556,6 +1562,7 @@
     }
   });
 </script>
+<script src="script/global-nav-footer.js" defer></script>
 <script src="script/global-search.js" defer></script>
 </body>
 </html>

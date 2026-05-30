@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CompTIA Security+ SY0-701 — Riepilogo Quiz</title>
   <link rel="stylesheet" href="style/style.css" />
+  <script>
+    (function() {
+      var savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem('theme');
+      } catch (e) {
+        console.warn('localStorage access denied:', e);
+      }
+      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var theme = savedTheme || systemTheme;
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    })();
+  </script>
   <style>
     /* Styling dedicati alla pagina quiz_overview */
     .search-container {
@@ -195,12 +212,227 @@
     .no-results {
       text-align: center;
       padding: 40px;
-      color: var(--slate);
-      font-size: 1rem;
-      background: var(--white);
-      border: 1.5px dashed var(--light-slate);
       border-radius: 8px;
       display: none;
+    }
+
+    /* Study Dashboard and Statistics T-D1, T-D2, T-D3, T-D5, T-D6 */
+    .study-dashboard {
+      background: var(--surface-alt);
+      border: 1.5px solid var(--light-slate);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+    .study-dashboard-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 0 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .study-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .study-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .study-col-card {
+      background: var(--white);
+      border: 1px solid var(--light-slate);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: var(--shadow-1);
+    }
+    .study-card-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 0 0 14px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--hairline);
+      padding-bottom: 8px;
+    }
+    .db-domain-row {
+      margin-bottom: 11px;
+    }
+    .db-domain-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--slate);
+      margin-bottom: 4px;
+    }
+    .db-domain-pct {
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+    .db-progress-bg {
+      height: 8px;
+      background: var(--surface-alt);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+    }
+    .db-progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .study-advice-box {
+      margin-top: 14px;
+      background: var(--tip-bg);
+      border-left: 3px solid var(--teal);
+      padding: 10px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.82rem;
+      color: var(--slate);
+    }
+    .study-advice-box strong {
+      color: var(--navy);
+    }
+    .tool-box-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .tool-box-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--light-slate);
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: var(--surface-alt);
+    }
+    .tool-box-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .tool-box-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .tool-box-desc {
+      font-size: 0.76rem;
+      color: var(--slate);
+    }
+    .history-scroller {
+      max-height: 110px;
+      overflow-y: auto;
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      padding: 6px;
+      background: var(--surface-alt);
+      margin-top: 8px;
+    }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--hairline);
+      font-size: 0.76rem;
+    }
+    .history-item:last-child {
+      border-bottom: none;
+    }
+    .history-status {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .history-status.pass { background: var(--green-bg); color: var(--green); }
+    .history-status.fail { background: var(--crit-bg); color: var(--critical); }
+    
+    /* Exam map navigation grid T-D6 */
+    .quiz-nav-panel {
+      background: var(--surface-alt);
+      border-radius: 6px;
+      padding: 12px;
+      border: 1px solid var(--light-slate);
+      margin-top: 20px;
+    }
+    .quiz-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+      gap: 5px;
+      max-height: 120px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .quiz-nav-bubble {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      border-radius: 4px;
+      background: var(--white);
+      border: 1px solid var(--light-slate);
+      color: var(--slate);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .quiz-nav-bubble:hover {
+      background: var(--teal-soft);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .quiz-nav-bubble.active {
+      border-width: 2px;
+      border-color: var(--navy);
+      color: var(--navy);
+      transform: scale(1.08);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .quiz-nav-bubble.viewed {
+      border-color: var(--teal-border);
+      background: var(--teal-soft);
+      color: var(--teal);
+    }
+    .quiz-nav-bubble.answered {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--white) !important;
+    }
+    .quiz-nav-bubble.flagged {
+      border-color: #f59e0b;
+      position: relative;
+    }
+    .quiz-nav-bubble.flagged::after {
+      content: '⚑';
+      position: absolute;
+      top: -1px;
+      right: 1px;
+      font-size: 0.5rem;
+      color: #d97706;
+    }
+    /* Post exam review statuses */
+    .quiz-nav-bubble.correct-review {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white) !important;
+    }
+    .quiz-nav-bubble.wrong-review {
+      background: var(--critical);
+      border-color: var(--critical);
+      color: var(--white) !important;
     }
 
     /* Exam Simulation specific styles */
@@ -312,18 +544,7 @@
   </style>
 </head>
 <body>
-<nav class="global-nav" aria-label="Navigazione principale">
-  <a href="index.html" class="global-nav-brand">
-    <span>🛡️ CompTIA Security+ SY0-701</span>
-  </a>
-  <div class="global-nav-links">
-    <a href="index.html" class="global-nav-link">Home</a>
-    <a href="index.html#capitoli" class="global-nav-link">Guida</a>
-    <a href="quizzes.html" class="global-nav-link active">Quiz</a>
-    <a href="glossario.html" class="global-nav-link">Glossario</a>
-    <a href="checklist.html" class="global-nav-link">Checklist</a>
-  </div>
-</nav>
+<nav class="global-nav" aria-label="Navigazione principale"></nav>
 
 <div class="container">
 <div class="page">
@@ -351,6 +572,105 @@
       <div class="stat-box">
         <div class="stat-val">100%</div>
         <div class="stat-lbl">Copertura</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pannello di Controllo & Statistiche Personalizzate T-D1, T-D2, T-D3, T-D5 -->
+  <div id="study-dashboard" class="study-dashboard">
+    <h3 class="study-dashboard-title" style="margin-top: 0;">
+      <span>📊 Cruscotto di Studio Personale</span>
+    </h3>
+    <div class="study-grid">
+      <!-- Colonna Sinistra: Statistiche Domini -->
+      <div class="study-col-card">
+        <h4 class="study-card-title">Performance per Dominio d'Esame</h4>
+        
+        <div class="db-domain-row">
+          <div class="db-domain-info">
+            <span>Dominio 1: Concetti Generali (D1)</span>
+            <span class="db-domain-pct" id="db-dom1-pct">0%</span>
+          </div>
+          <div class="db-progress-bg">
+            <div class="db-progress-fill" id="db-dom1-fill" style="background-color: var(--dom1-fg); width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="db-domain-row">
+          <div class="db-domain-info">
+            <span>Dominio 2: Minacce e Mitigazioni (D2)</span>
+            <span class="db-domain-pct" id="db-dom2-pct">0%</span>
+          </div>
+          <div class="db-progress-bg">
+            <div class="db-progress-fill" id="db-dom2-fill" style="background-color: var(--dom2-fg); width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="db-domain-row">
+          <div class="db-domain-info">
+            <span>Dominio 3: Architettura di Sicurezza (D3)</span>
+            <span class="db-domain-pct" id="db-dom3-pct">0%</span>
+          </div>
+          <div class="db-progress-bg">
+            <div class="db-progress-fill" id="db-dom3-fill" style="background-color: var(--dom3-fg); width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="db-domain-row">
+          <div class="db-domain-info">
+            <span>Dominio 4: Operazioni di Sicurezza (D4)</span>
+            <span class="db-domain-pct" id="db-dom4-pct">0%</span>
+          </div>
+          <div class="db-progress-bg">
+            <div class="db-progress-fill" id="db-dom4-fill" style="background-color: var(--dom4-fg); width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="db-domain-row">
+          <div class="db-domain-info">
+            <span>Dominio 5: Governance, Rischio e Conformità (D5)</span>
+            <span class="db-domain-pct" id="db-dom5-pct">0%</span>
+          </div>
+          <div class="db-progress-bg">
+            <div class="db-progress-fill" id="db-dom5-fill" style="background-color: var(--dom5-fg); width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="study-advice-box" id="study-advice-text">
+          Nessun quesito risposto nei quiz. Rispondi alle domande per ricevere consigli personalizzati di studio d'esame.
+        </div>
+      </div>
+
+      <!-- Colonna Destra: Strumenti di Ripasso e Storico -->
+      <div class="study-col-card">
+        <h4 class="study-card-title">Strumenti di Ripasso &amp; Storico</h4>
+        
+        <div class="tool-box-row">
+          <div class="tool-box-item">
+            <div class="tool-box-info">
+              <span class="tool-box-title">Revisione Errori ❌</span>
+              <span class="tool-box-desc" id="incorrect-pool-desc">Nessuna domanda nel pool errori.</span>
+            </div>
+            <button id="launch-incorrect-quiz-btn" class="quiz-btn primary small exam-sim-btn" style="padding: 6px 12px; font-size: 0.78rem;" disabled>Avvia Ripasso</button>
+          </div>
+
+          <div class="tool-box-item">
+            <div class="tool-box-info">
+              <span class="tool-box-title">Preferiti &amp; Segnalibri 🔖</span>
+              <span class="tool-box-desc" id="bookmarks-pool-desc">Nessuna domanda salvata.</span>
+            </div>
+            <button id="launch-bookmarks-quiz-btn" class="quiz-btn primary small exam-sim-btn" style="padding: 6px 12px; font-size: 0.78rem;" disabled>Rivedi Preferiti</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; font-size: 0.82rem; font-weight: 700; color: var(--navy); display: flex; justify-content: space-between; align-items: center;">
+          <span>Storico Simulazioni d'Esame</span>
+          <button id="clear-history-btn" style="background: none; border: none; color: var(--critical); font-size: 0.74rem; cursor: pointer; text-decoration: underline; font-weight: 600;">Svuota storico</button>
+        </div>
+        
+        <div class="history-scroller" id="history-attempts-container">
+          <p style="text-align: center; color: var(--muted); font-size: 0.75rem; margin: 12px 0;">Nessun tentativo d'esame registrato finora.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -818,52 +1138,77 @@
 
 <!-- ══ QUIZ MODAL (SIMULATORE) ════════════════════════════════════════ -->
 <div id="quiz-overlay" class="quiz-overlay" role="dialog" aria-modal="true" aria-labelledby="quiz-counter">
-  <div class="quiz-modal" style="max-width: 680px;">
-    <div class="quiz-modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px;">
-      <span id="quiz-counter" class="quiz-counter" style="font-size: 0.95rem; font-weight: 700; color: var(--navy);"></span>
-      <div id="quiz-timer-container" style="display: none; align-items: center; gap: 6px; margin-left: auto; margin-right: 16px;">
-        <span style="font-size: 0.72rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.5px;">TEMPO:</span>
-        <span id="quiz-timer" style="font-family: monospace; font-size: 0.95rem; font-weight: 700; color: var(--navy); background: var(--teal-soft); padding: 2px 8px; border-radius: 4px;">90:00</span>
+  <div class="quiz-modal">
+    <div class="quiz-modal-header" style="align-items: center; display: flex; gap: 8px;">
+      <span id="quiz-counter" class="quiz-counter"></span>
+      <div id="quiz-timer-container">
+        <span class="quiz-timer-label">TEMPO:</span>
+        <span id="quiz-timer">90:00</span>
       </div>
+      
+      <button id="quiz-bookmark-btn" class="quiz-bookmark-btn" title="Salva nei segnalibri 🔖" style="background:none; border:none; color:var(--muted); font-size:1.25rem; cursor:pointer; padding:4px; margin-left: auto; transition: color 0.15s; line-height: 1;">🔖</button>
+      <button id="quiz-flag-review-btn" class="quiz-flag-review-btn" title="Contrassegna per revisione d'esame ⚑" style="display:none; background:none; border:none; color:var(--muted); font-size:1.25rem; cursor:pointer; padding:4px; margin-left: 4px; margin-right: 8px; transition: color 0.15s; line-height: 1;">⚑</button>
+      
       <button id="quiz-close-btn" class="quiz-close-btn" aria-label="Chiudi quiz">✕</button>
     </div>
     <div class="quiz-progress"><div id="quiz-progress-fill" class="quiz-progress-fill"></div></div>
 
     <!-- Scegli lingua / setup -->
-    <div id="quiz-setup" class="quiz-setup" style="padding: 32px 24px; text-align: center;">
+    <div id="quiz-setup" class="quiz-setup">
       <!-- Stato di Caricamento -->
       <div id="quiz-setup-loading">
-        <p style="font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 8px;">Caricamento del Simulatore...</p>
-        <p style="font-size: 0.88rem; color: var(--slate); margin-bottom: 24px;">Configurazione del database dei quesiti (714 domande)...</p>
-        <div style="width: 48px; height: 48px; border: 4px solid var(--light-slate); border-top: 4px solid var(--teal); border-radius: 50%; margin: 20px auto; animation: spin 1s linear infinite;"></div>
+        <p class="quiz-setup-loading-title">Caricamento del Simulatore...</p>
+        <p class="quiz-setup-loading-sub">Configurazione del database dei quesiti (714 domande)...</p>
+        <div class="quiz-spinner"></div>
       </div>
 
       <!-- Errore Caricamento -->
       <div id="quiz-setup-error" style="display: none;">
-        <p style="font-size: 1.15rem; font-weight: 700; color: #ef4444; margin-bottom: 8px;">Impossibile caricare il database</p>
-        <p style="font-size: 0.88rem; color: var(--slate); margin-bottom: 24px;">Si è verificato un errore durante l'inizializzazione del test. Verifica la tua connessione e riprova.</p>
-        <button id="quiz-reload-db-btn" class="exam-sim-btn" style="width: auto; padding: 10px 24px;">Riprova caricamento</button>
+        <p class="quiz-setup-error-title" data-i18n="quizzes_error_db">Impossibile caricare il database</p>
+        <p class="quiz-setup-error-sub" data-i18n="quizzes_error_sub">Si è verificato un errore durante l'inizializzazione del test. Verifica la tua connessione e riprova.</p>
+        <button id="quiz-reload-db-btn" class="exam-sim-btn" data-i18n="quizzes_reload_btn">Riprova caricamento</button>
       </div>
 
       <!-- Contenuto Reale Istruzioni -->
       <div id="quiz-setup-inner" style="display: none;">
-        <p class="quiz-setup-title" style="font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 8px;">Simulatore d'Esame Ufficiale</p>
-        <p class="quiz-setup-sub" style="font-weight: 500; font-size: 0.95rem; color: var(--muted); margin-bottom: 24px;">90 Quesiti con distribuzione proporzionale Security+</p>
+        <p class="quiz-setup-title" data-i18n="quizzes_heading">Simulatore d'Esame Ufficiale</p>
+        <p class="quiz-setup-sub" id="quiz-setup-subtitle-desc" data-i18n="quizzes_subheading">90 Quesiti con distribuzione proporzionale Security+</p>
         
-        <div style="text-align: left; background: var(--bg); border: 1.5px solid var(--light-slate); border-radius: 8px; padding: 20px; margin-bottom: 28px; font-size: 0.9rem; line-height: 1.6; color: var(--ink);">
-          <strong style="color: var(--navy); display: block; margin-bottom: 8px; font-size: 0.95rem;">Regole della simulazione:</strong>
-          <ul style="margin: 0; padding-left: 20px;">
-            <li style="margin-bottom: 6px;">Il test è composto da <strong>90 quesiti a risposta multipla</strong> estratti casualmente.</li>
-            <li style="margin-bottom: 6px;">La composizione rispetta i pesi ufficiali CompTIA SY0-701 per darti una simulazione reale.</li>
-            <li style="margin-bottom: 6px;">La soglia d'esame ufficiale richiede di rispondere correttamente ad almeno l'<strong>75% (68/90)</strong> dei quesiti.</li>
-            <li style="margin-bottom: 6px;">Durata massima consentita: <strong>90 minuti</strong> (un timer in alto monitorerà il tempo rimanente).</li>
-            <li style="margin-bottom: 6px;">Tutte le domande includono la correzione in tempo reale e una dettagliata spiegazione in lingua italiana.</li>
-            <li style="margin-bottom: 0;">Puoi chiudere e riprendere i tuoi studi in qualsiasi momento cliccando sulla "✕".</li>
+        <div class="quiz-rules-box">
+          <strong class="quiz-rules-title" data-i18n="quizzes_rules_header">Regole della simulazione:</strong>
+          <ul class="quiz-rules-list">
+            <li data-i18n="quizzes_rule_1">Il test è composto da <strong>90 quesiti a risposta multipla</strong> estratti casualmente.</li>
+            <li data-i18n="quizzes_rule_2">La composizione rispetta i pesi ufficiali CompTIA SY0-701 per darti una simulazione reale.</li>
+            <li data-i18n="quizzes_rule_3">La soglia d'esame ufficiale richiede di rispondere correttamente ad almeno l'<strong>75% (68/90)</strong> dei quesiti.</li>
+            <li data-i18n="quizzes_rule_4">Durata massima consentita: <strong>90 minuti</strong> (un timer in alto monitorerà il tempo rimanente).</li>
+            <li id="quiz-rule-explain-msg" data-i18n="quizzes_rule_5">Tutte le domande includono la correzione in tempo reale e una dettagliata spiegazione in lingua italiana.</li>
+            <li data-i18n="quizzes_rule_6">Puoi chiudere e riprendere i tuoi studi in qualsiasi momento cliccando sulla "✕".</li>
           </ul>
         </div>
+        
+        <!-- Opzioni di Modalità d'Esame T-D6 -->
+        <div id="quiz-mode-selector-container" style="margin-top:20px; margin-bottom: 20px;">
+          <p style="font-size:0.9rem; font-weight:700; color:var(--navy); margin-bottom:10px;">Opzioni di Esecuzione:</p>
+          <div class="exam-options-grid" style="display:flex; gap:16px; flex-wrap: wrap;">
+            <label style="flex:1; min-width: 200px; display:flex; flex-direction:column; background:var(--white); border:1.5px solid var(--teal); border-radius:8px; padding:12px; cursor:pointer; font-size:0.82rem;">
+              <span style="display:flex; align-items:center; gap:6px;">
+                <input type="radio" name="exam_mode_setting" value="study" checked />
+                <strong style="color:var(--navy);">Modalità Studio 📖</strong>
+              </span>
+              <span style="color:var(--slate); margin-top:4px;">Ideale per esercitarsi: correzioni immediate, spiegazioni d'esame e rimozione automatica dagli errori.</span>
+            </label>
+            <label style="flex:1; min-width: 200px; display:flex; flex-direction:column; background:var(--white); border:1.5px solid var(--light-slate); border-radius:8px; padding:12px; cursor:pointer; font-size:0.82rem;">
+              <span style="display:flex; align-items:center; gap:6px;">
+                <input type="radio" name="exam_mode_setting" value="real_exam" />
+                <strong style="color:var(--navy);">Simulatore Reale ⏱️</strong>
+              </span>
+              <span style="color:var(--slate); margin-top:4px;">Nessun feedback in tempo reale, navigazione libera tra i quesiti (mappa d'esame) e revisione completa alla fine.</span>
+            </label>
+          </div>
+        </div>
 
-        <div class="quiz-setup-options" style="display: flex; gap: 16px; justify-content: center;">
-          <button id="start-simulation-btn" class="exam-sim-btn" style="padding: 12px 36px; font-size: 1.05rem; box-shadow: none; width: auto;">
+        <div class="quiz-setup-options">
+          <button id="start-simulation-btn" class="exam-sim-btn" data-i18n="quizzes_start_btn">
             Avvia Simulazione d'Esame →
           </button>
         </div>
@@ -871,32 +1216,48 @@
     </div>
 
     <!-- Contenuto del Quiz -->
-    <div id="quiz-content" style="padding: 24px; display: none;">
-      <p id="quiz-question-text" class="quiz-question" style="font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 18px; line-height: 1.45;"></p>
-      <div id="quiz-options" class="quiz-options" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;"></div>
-      <p id="quiz-explanation" class="quiz-explanation" style="display: none; padding: 14px 18px; background: #F1F5F9; border-left: 4px solid var(--teal); border-radius: 4px; font-size: 0.88rem; line-height: 1.5; color: var(--navy); margin-bottom: 20px;"></p>
+    <div id="quiz-content" style="display: none;">
+      <p id="quiz-question-text" class="quiz-question"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-explanation" class="quiz-explanation"></p>
       
       <!-- Sezione Feedback d'Esame -->
-      <div class="quiz-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--light-slate); padding-top: 16px;">
-        <span id="quiz-domain-tag" style="font-size: 0.72rem; font-weight: 700; color: var(--navy); background: #E2E8F0; border: 1px solid #CBD5E1; padding: 3px 8px; border-radius: 4px; display: inline-block; max-width: 70%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
-        <button id="quiz-next-btn" class="quiz-btn primary" style="padding: 10px 24px; font-weight: 700; cursor: pointer;" disabled>Avanti →</button>
+      <div class="quiz-footer" style="padding-top:12px; border-top:1px solid var(--light-slate); display:flex; flex-wrap:wrap; align-items:center; gap:12px;">
+        <span id="quiz-domain-tag" style="flex: 1; min-width: 200px;"></span>
+        
+        <div class="quiz-footer-actions" style="display:flex; gap:10px; margin-left:auto; align-items:center;">
+          <button id="quiz-prev-btn" class="quiz-btn secondary" style="margin: 0; min-width: 90px; text-align: center;">← Indietro</button>
+          <button id="quiz-next-btn" class="quiz-btn primary" disabled data-i18n="quizzes_next_btn" style="margin: 0; min-width: 140px; text-align: center;">Avanti →</button>
+        </div>
+      </div>
+
+      <!-- Mappa Domande Collapsible Panel per simulazione reale T-D6 -->
+      <div id="quiz-navigation-panel" class="quiz-nav-panel" style="display:none; margin-top: 16px;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--slate); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+          <span>Mappa delle risposte d'esame (Clicca per saltare):</span>
+          <span id="quiz-nav-summary" style="font-family:var(--font-mono); font-size:0.75rem; color: var(--teal);">0 / 90 risposte</span>
+        </div>
+        <div id="quiz-navigation-grid" class="quiz-nav-grid"></div>
       </div>
     </div>
 
     <!-- Schermata Risultati -->
-    <div id="quiz-result" class="quiz-result" style="padding: 40px 24px; text-align: center; display: none;">
-      <div class="quiz-result-label" style="font-size: 1.15rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Punteggio Finale</div>
-      <div id="result-score" class="quiz-result-score" style="font-size: 3.2rem; font-weight: 800; color: var(--navy); margin-bottom: 6px;"></div>
-      <div id="result-pct" class="quiz-result-pct" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;"></div>
-      <div id="result-text" style="font-size: 0.95rem; line-height: 1.6; color: var(--ink); max-width: 440px; margin: 0 auto 32px;"></div>
+    <div id="quiz-result" class="quiz-result" style="display: none;">
+      <div class="quiz-result-label" data-i18n="quizzes_score_label">Punteggio Finale</div>
+      <div id="result-score" class="quiz-result-score"></div>
+      <div id="result-pct" class="quiz-result-pct"></div>
+      <div id="result-text" class="quiz-result-text" style="max-height: 120px; overflow-y: auto; margin-bottom: 20px; padding: 10px; background: var(--surface-alt); border-radius: 6px; font-size: 0.85rem;"></div>
       
-      <div class="quiz-result-actions" style="display: flex; gap: 12px; justify-content: center;">
-        <button id="quiz-retry-btn" class="quiz-btn" style="padding: 10px 20px; font-weight: 600; border: 1px solid var(--light-slate); border-radius: 6px; cursor: pointer; background: var(--white);">Ripeti Test</button>
-        <button id="quiz-done-btn" class="quiz-btn primary" style="padding: 10px 24px; font-weight: 700; border-radius: 6px; cursor: pointer;">Chiudi</button>
+      <div class="quiz-result-actions" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button id="quiz-review-responses-btn" class="quiz-btn secondary" style="display:none; margin:0;">🔍 Rivedi Risposte Spiegate</button>
+        <button id="quiz-retry-btn" class="quiz-btn" style="margin:0;" data-i18n="quizzes_retry_btn">Ripeti Test</button>
+        <button id="quiz-done-btn" class="quiz-btn primary" style="margin:0;" data-i18n="quizzes_done_btn">Chiudi</button>
       </div>
     </div>
   </div>
 </div>
+</div>
+
 
 <script>
 (function() {
@@ -943,6 +1304,7 @@
 })();
 </script>
 
+<script src="script/comptia-study-core.js"></script>
 <script src="script/quiz-database.js"></script>
 
 <script>
@@ -950,10 +1312,11 @@
   'use strict';
   
   let quizDatabase = window.quizDatabase || null;
-  let quiz = null;
+  let quiz = null; // Contains current quiz session state
   let timerInterval = null;
   let timeRemaining = 5400; // 90 minutes in seconds
   
+  // DOM element selectors for the modal
   const launchBtn = document.getElementById('launch-exam-sim-btn');
   const overlay = document.getElementById('quiz-overlay');
   const setupEl = document.getElementById('quiz-setup');
@@ -965,10 +1328,20 @@
   const optionsEl = document.getElementById('quiz-options');
   const explanEl = document.getElementById('quiz-explanation');
   const domainTagEl = document.getElementById('quiz-domain-tag');
+  
+  const prevBtn = document.getElementById('quiz-prev-btn');
   const nextBtn = document.getElementById('quiz-next-btn');
+  const bookmarkBtn = document.getElementById('quiz-bookmark-btn');
+  const flagBtn = document.getElementById('quiz-flag-review-btn');
+  
+  const navPanel = document.getElementById('quiz-navigation-panel');
+  const navGrid = document.getElementById('quiz-navigation-grid');
+  const navSummary = document.getElementById('quiz-nav-summary');
+  
   const resultScoreEl = document.getElementById('result-score');
   const resultPctEl = document.getElementById('result-pct');
   const resultTextEl = document.getElementById('result-text');
+  const reviewResponsesBtn = document.getElementById('quiz-review-responses-btn');
   
   const setupLoading = document.getElementById('quiz-setup-loading');
   const setupError = document.getElementById('quiz-setup-error');
@@ -980,12 +1353,16 @@
   const retryBtn = document.getElementById('quiz-retry-btn');
   const doneBtn = document.getElementById('quiz-done-btn');
   
-  // Weights target count:
-  // Domain 1: 11 questions (12% of 90)
-  // Domain 2: 20 questions (22% of 90)
-  // Domain 3: 16 questions (18% of 90)
-  // Domain 4: 25 questions (28% of 90)
-  // Domain 5: 18 questions (20% of 90)
+  // Dashboard Elements T-D1, T-D2, T-D3, T-D5
+  const launchIncorrectBtn = document.getElementById('launch-incorrect-quiz-btn');
+  const launchBookmarksBtn = document.getElementById('launch-bookmarks-quiz-btn');
+  const clearHistoryBtn = document.getElementById('clear-history-btn');
+  const incorrectDesc = document.getElementById('incorrect-pool-desc');
+  const bookmarksDesc = document.getElementById('bookmarks-pool-desc');
+  const historyContainer = document.getElementById('history-attempts-container');
+  const adviceTextEl = document.getElementById('study-advice-text');
+  
+  // Domain Official Weights Target Count for 90-questions simulator
   const DOMAIN_TARGETS = {
     1: 11,
     2: 20,
@@ -996,6 +1373,16 @@
   
   function shuffle(a) {
     return a.slice().sort(() => Math.random() - 0.5);
+  }
+  
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
   
   function getRandomSample(arr, quantity) {
@@ -1012,13 +1399,13 @@
     let res = null;
     let errToThrow = null;
     
-    // Try fetching with absolute path first, then relative path as fallback
     const urls = ['/script/quiz-database.json', 'script/quiz-database.json'];
     for (let url of urls) {
       try {
         res = await fetch(url);
         if (res && res.ok) {
           quizDatabase = await res.json();
+          window.quizDatabase = quizDatabase; // Cache globally
           return quizDatabase;
         }
       } catch (e) {
@@ -1028,9 +1415,121 @@
     
     throw errToThrow || new Error('Database loading failed');
   }
+
+  // T-D3: Update Dashboard Values & Charts live from LocalStorage
+  function updateStudyDashboard() {
+    if (!window.ComptiaCore) return;
+    
+    // 1. Domain Stats Percentage Bars
+    const stats = window.ComptiaCore.getDomainStats();
+    let totalAnswered = 0;
+    
+    const colors = {
+      1: 'var(--dom1-fg)',
+      2: 'var(--dom2-fg)',
+      3: 'var(--dom3-fg)',
+      4: 'var(--dom4-fg)',
+      5: 'var(--dom5-fg)'
+    };
+    
+    let weakDomain = -1;
+    let minPct = 101;
+    
+    for (let d = 1; d <= 5; d++) {
+      const dStat = stats[d] || { correct: 0, total: 0 };
+      const pctEl = document.getElementById(`db-dom${d}-pct`);
+      const fillEl = document.getElementById(`db-dom${d}-fill`);
+      
+      totalAnswered += dStat.total;
+      
+      if (dStat.total > 0) {
+        const pct = Math.round((dStat.correct / dStat.total) * 100);
+        pctEl.textContent = `${pct}% (${dStat.correct}/${dStat.total})`;
+        fillEl.style.width = `${pct}%`;
+        fillEl.style.backgroundColor = colors[d];
+        
+        // Track lowest accuracy domain
+        if (pct < minPct) {
+          minPct = pct;
+          weakDomain = d;
+        }
+      } else {
+        pctEl.textContent = `0% (0/0)`;
+        fillEl.style.width = `0%`;
+      }
+    }
+    
+    // Advice generation T-D3
+    const domainLabelsLong = {
+      1: 'Dominio 1 (Concetti generali di sicurezza)',
+      2: 'Dominio 2 (Minacce, vulnerabilità e mitigazioni)',
+      3: 'Dominio 3 (Architettura di sicurezza)',
+      4: 'Dominio 4 (Operazioni di sicurezza)',
+      5: 'Dominio 5 (Governance, rischio e conformità)'
+    };
+    
+    if (totalAnswered === 0) {
+      adviceTextEl.innerHTML = `Nessun quesito risposto finora. Compila test d'esame per ricevere consigli e analisi di studio mirate.`;
+    } else {
+      if (weakDomain !== -1 && minPct < 75) {
+        adviceTextEl.innerHTML = `<strong>💡 Consiglio Personalizzato:</strong> Le tue statistiche indicano debolezza nel <strong>${domainLabelsLong[weakDomain]}</strong> con una precisione del <strong>${minPct}%</strong>. Ti consigliamo di ripassare i relativi capitoli teorici e di eseguire i quiz mirati per quegli obiettivi prima di ripetere il simulatore completo.`;
+      } else {
+        adviceTextEl.innerHTML = `<strong>✨ Consigli di Studio:</strong> Ottimo ritmo complessivo! La tua precisione minima per dominio è del <strong>${minPct}%</strong>. Continua così ed esegui simulazioni complete d'esame regolari per affinare la gestione dei tempi.`;
+      }
+    }
+    
+    // 2. Incorrect Pool Controls T-D2
+    const incorrectPool = window.ComptiaCore.getIncorrectPool();
+    if (incorrectPool.length > 0) {
+      incorrectDesc.textContent = `Hai ${incorrectPool.length} quesiti da rivedere nel pool errori.`;
+      launchIncorrectBtn.disabled = false;
+      launchIncorrectBtn.style.opacity = '1';
+    } else {
+      incorrectDesc.textContent = `Pool errori vuoto. Ottimo lavoro d'esame!`;
+      launchIncorrectBtn.disabled = true;
+      launchIncorrectBtn.style.opacity = '0.5';
+    }
+    
+    // 3. Bookmarks Controls T-D5
+    const bookmarksList = window.ComptiaCore.getQuestionBookmarks();
+    if (bookmarksList.length > 0) {
+      bookmarksDesc.textContent = `Hai ${bookmarksList.length} domande salvate nei preferiti.`;
+      launchBookmarksBtn.disabled = false;
+      launchBookmarksBtn.style.opacity = '1';
+    } else {
+      bookmarksDesc.textContent = `Nessuna domanda contrassegnata preferita.`;
+      launchBookmarksBtn.disabled = true;
+      launchBookmarksBtn.style.opacity = '0.5';
+    }
+    
+    // 4. Past Attempts History T-D1
+    const attempts = window.ComptiaCore.getQuizHistory();
+    historyContainer.innerHTML = '';
+    
+    if (attempts.length === 0) {
+      historyContainer.innerHTML = `<p style="text-align: center; color: var(--muted); font-size: 0.75rem; margin: 12px 0;">Nessun tentativo d'esame registrato finora.</p>`;
+    } else {
+      attempts.slice(0, 8).forEach(attempt => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        
+        const dateStr = new Date(attempt.timestamp).toLocaleDateString();
+        const badgeClass = attempt.pct >= 75 ? 'history-status pass' : 'history-status fail';
+        const badgeLabel = attempt.pct >= 75 ? 'SUPERATO' : 'N.S.';
+        
+        item.innerHTML = `
+          <div style="display: flex; flex-direction: column;">
+            <strong style="color: var(--navy); font-size: 0.8rem;">${attempt.title}</strong>
+            <span style="color: var(--slate); font-size: 0.72rem;">${dateStr} · ${attempt.score}/${attempt.total} quesiti</span>
+          </div>
+          <span class="${badgeClass}">${attempt.pct}% ${badgeLabel}</span>
+        `;
+        historyContainer.appendChild(item);
+      });
+    }
+  }
   
   async function onLaunchClick() {
-    // Open modal immediately in loading view
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     
@@ -1043,7 +1542,21 @@
     counterEl.textContent = 'SIMULAZIONE ESAME';
     progressEl.style.width = '0%';
     
-    // Hide timer inside setup
+    reviewResponsesBtn.style.display = 'none';
+    
+    const modeContainer = document.getElementById('quiz-mode-selector-container');
+    if (modeContainer) modeContainer.style.display = 'block';
+    
+    const ruleExplain = document.getElementById('quiz-rule-explain-msg');
+    if (ruleExplain) {
+      ruleExplain.innerHTML = `Scegli la modalità d'esecuzione sotto prima di avviare il simulatore d'esame.`;
+    }
+    
+    const subtitleDesc = document.getElementById('quiz-setup-subtitle-desc');
+    if (subtitleDesc) {
+      subtitleDesc.textContent = `90 Quesiti distribuiti proporzionalmente secondo lo standard Security+`;
+    }
+    
     const timerContainer = document.getElementById('quiz-timer-container');
     if (timerContainer) timerContainer.style.display = 'none';
     
@@ -1057,6 +1570,55 @@
       setupError.style.display = 'block';
     }
   }
+
+  // Launch a custom pool test (Incorrect pool or Bookmark list) T-D2, T-D5
+  async function launchCustomPoolQuiz(type, title) {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    setupEl.style.display = 'none';
+    contentEl.style.display = 'none';
+    resultEl.style.display = 'none';
+    
+    try {
+      await loadQuizDatabase();
+      
+      let targetIds = [];
+      if (type === 'incorrect') {
+        targetIds = window.ComptiaCore.getIncorrectPool();
+      } else if (type === 'bookmarks') {
+        targetIds = window.ComptiaCore.getQuestionBookmarks();
+      }
+      
+      const pool = quizDatabase.filter(q => targetIds.includes(q.id));
+      if (pool.length === 0) {
+        closeQuiz();
+        return;
+      }
+      
+      quiz = {
+        pool: shuffle(pool),
+        idx: 0,
+        score: 0,
+        locked: false,
+        selections: [],
+        requiredSelections: 1,
+        mode: 'study', // Custom pools are always study mode for instant correction
+        resultsMap: {},
+        flagsMap: {}
+      };
+      
+      const timerContainer = document.getElementById('quiz-timer-container');
+      if (timerContainer) timerContainer.style.display = 'none';
+      
+      contentEl.style.display = 'block';
+      renderQuestion();
+      
+    } catch (err) {
+      console.error('Failed to launch custom pool quiz:', err);
+      closeQuiz();
+    }
+  }
   
   function generateExamPool() {
     let pool = [];
@@ -1067,23 +1629,35 @@
       const selected = getRandomSample(domainQuestions, targetCount);
       pool = pool.concat(selected);
     });
-    // Finally, shuffle the entire integrated list of 90 questions
     return shuffle(pool);
   }
   
   function startSimulation() {
     const pool = generateExamPool();
+    
+    // Find selected mode in setup radio setting T-D6
+    let selectedMode = 'study';
+    const modeSetting = document.querySelector('input[name="exam_mode_setting"]:checked');
+    if (modeSetting) {
+      selectedMode = modeSetting.value;
+    }
+    
     quiz = {
       pool: pool,
       idx: 0,
       score: 0,
       locked: false,
       selections: [],
-      requiredSelections: 1
+      requiredSelections: 1,
+      mode: selectedMode, // 'study' or 'real_exam'
+      resultsMap: {}, // Holds choices made in real exam: { questionId: [selectedIds] }
+      flagsMap: {} // Holds flags for review: { questionId: boolean }
     };
+    
     setupEl.style.display = 'none';
     contentEl.style.display = 'block';
     resultEl.style.display = 'none';
+    
     renderQuestion();
     startTimer();
   }
@@ -1100,7 +1674,7 @@
       updateTimerDisplay();
       if (timeRemaining <= 0) {
         clearInterval(timerInterval);
-        showResults();
+        submitFullRealExam();
       }
     }, 1000);
   }
@@ -1119,7 +1693,7 @@
     const timerEl = document.getElementById('quiz-timer');
     if (timerEl) {
       timerEl.textContent = minStr + ':' + secStr;
-      if (timeRemaining < 600) { // under 10 minutes (warning in amber-red)
+      if (timeRemaining < 600) {
         timerEl.style.color = '#dc2626';
         timerEl.style.background = '#fee2e2';
       } else {
@@ -1130,10 +1704,11 @@
   }
   
   function renderQuestion() {
+    if (!quiz || !quiz.pool || quiz.pool.length === 0) return;
+    
     const q = quiz.pool[quiz.idx];
     const n = quiz.pool.length;
     
-    // Domain text labels mapping
     const DOMAIN_LABELS = {
       1: 'Dominio 1 — Concetti generali di sicurezza (D1)',
       2: 'Dominio 2 — Minacce, vulnerabilità e mitigazioni (D2)',
@@ -1142,58 +1717,170 @@
       5: 'Dominio 5 — Governance, rischio e conformità (D5)'
     };
     
-    counterEl.innerHTML = 'Quesito ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span style="font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;">' + q.source + '</span>' : '');
+    const safeSource = q.source ? escapeHTML(q.source) : '';
+    counterEl.innerHTML = 'Quesito ' + (quiz.idx + 1) + ' / ' + n + (safeSource ? ' <span class="quiz-source-tag">' + safeSource + '</span>' : '');
     progressEl.style.width = ((quiz.idx / n) * 100) + '%';
     questionEl.textContent = q.text;
     explanEl.style.display = 'none';
-    nextBtn.disabled = true;
-    quiz.locked = false;
-    quiz.selections = [];
     
     domainTagEl.textContent = 'OBJ ' + q.objective + ' — ' + (q.domain ? (DOMAIN_LABELS[q.domain] || `Dominio ${q.domain}`) : '');
     
     const optionsArray = q.opts || [];
-    
-    var correctCount = optionsArray.filter(function(o){ return o.c; }).length;
-    if (correctCount === 0) correctCount = 1;
+    const correctCount = optionsArray.filter(o => o.c).length || 1;
     quiz.requiredSelections = correctCount;
     
-    if (quiz.requiredSelections > 1) {
-      nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+    // Bookmarking toggle setup T-D5
+    if (bookmarkBtn) {
+      const isBookmarked = window.ComptiaCore.isQuestionBookmarked(q.id);
+      bookmarkBtn.style.color = isBookmarked ? '#eab308' : 'var(--muted)';
+      bookmarkBtn.title = isBookmarked ? 'Rimuovi dai segnalibri' : 'Salva nei segnalibri';
+    }
+    
+    // Back button visibility T-D6
+    if (quiz.idx > 0) {
+      prevBtn.style.display = 'block';
     } else {
-      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+      prevBtn.style.display = 'none';
+    }
+    
+    // Modal states depends on modes T-D6
+    if (quiz.mode === 'real_exam') {
+      // Real exam mode: support skipped queries, multi selections, review flags, map grid
+      flagBtn.style.display = 'block';
+      const isFlagged = quiz.flagsMap[q.id] || false;
+      flagBtn.style.color = isFlagged ? '#f59e0b' : 'var(--muted)';
+      
+      navPanel.style.display = 'block';
+      renderNavigationGrid();
+      
+      quiz.locked = false;
+      quiz.selections = quiz.resultsMap[q.id] || [];
+      nextBtn.disabled = false; // Next is always enabled in free navigation, lets you skip!
+      
+      if (quiz.idx === n - 1) {
+        nextBtn.textContent = 'Termina ed Invia ✔';
+      } else {
+        nextBtn.textContent = 'Avanti →';
+      }
+      
+    } else if (quiz.mode === 'review') {
+      // Post exam review: browse explanations, locked choices
+      flagBtn.style.display = 'none';
+      navPanel.style.display = 'block';
+      renderNavigationGrid();
+      
+      quiz.locked = true;
+      quiz.selections = quiz.resultsMap[q.id] || [];
+      nextBtn.disabled = false;
+      nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti →' : 'Chiudi Revisione';
+      
+    } else {
+      // Study mode (Practice): instant corrections
+      flagBtn.style.display = 'none';
+      navPanel.style.display = 'none';
+      
+      quiz.locked = false;
+      quiz.selections = [];
+      nextBtn.disabled = true;
+      
+      if (quiz.requiredSelections > 1) {
+        nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+      } else {
+        nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
+      }
     }
     
     optionsEl.innerHTML = '';
-    shuffle(optionsArray).forEach(function(o){
-      var btn = document.createElement('button');
+    
+    // Build options list
+    optionsArray.forEach(o => {
+      const btn = document.createElement('button');
       btn.className = 'quiz-option';
       btn.dataset.oid = o.id;
-      btn.innerHTML = '<span class="quiz-opt-letter">' + o.id + '</span><span>' + o.t + '</span>';
       
-      btn.addEventListener('click', function(){
+      const optLetter = document.createElement('span');
+      optLetter.className = 'quiz-opt-letter';
+      optLetter.textContent = o.id;
+      
+      const optText = document.createElement('span');
+      optText.textContent = o.t;
+      
+      btn.appendChild(optLetter);
+      btn.appendChild(optText);
+      
+      // Paint standard/completed visual states depending on modes
+      if (quiz.mode === 'real_exam') {
+        if (quiz.selections.includes(o.id)) {
+          btn.classList.add('selected');
+        }
+      } else if (quiz.mode === 'review') {
+        const isCorrect = o.c;
+        const isSelected = quiz.selections.includes(o.id);
+        btn.disabled = true;
+        
+        if (isCorrect) {
+          btn.classList.add('correct');
+        } else if (isSelected) {
+          btn.classList.add('wrong');
+        }
+      }
+      
+      btn.addEventListener('click', () => {
         if (quiz.locked) return;
         
-        if (quiz.requiredSelections > 1) {
-          var index = quiz.selections.indexOf(o.id);
-          if (index > -1) {
-            quiz.selections.splice(index, 1);
-            btn.classList.remove('selected');
-          } else {
-            if (quiz.selections.length < quiz.requiredSelections) {
-              quiz.selections.push(o.id);
-              btn.classList.add('selected');
+        if (quiz.mode === 'real_exam') {
+          // Real exam triggers toggle states of answers map instead of instant corrections
+          const index = quiz.selections.indexOf(o.id);
+          if (quiz.requiredSelections > 1) {
+            if (index > -1) {
+              quiz.selections.splice(index, 1);
+              btn.classList.remove('selected');
+            } else {
+              if (quiz.selections.length < quiz.requiredSelections) {
+                quiz.selections.push(o.id);
+                btn.classList.add('selected');
+              }
             }
+          } else {
+            // Single choice
+            quiz.selections = [o.id];
+            optionsEl.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
           }
-          nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
-          nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+          
+          quiz.resultsMap[q.id] = quiz.selections;
+          updateNavigationSummary();
+          renderNavigationGrid();
+          
         } else {
-          quiz.selections = [o.id];
-          submitAnswer(q);
+          // Study mode instant handling
+          if (quiz.requiredSelections > 1) {
+            const index = quiz.selections.indexOf(o.id);
+            if (index > -1) {
+              quiz.selections.splice(index, 1);
+              btn.classList.remove('selected');
+            } else {
+              if (quiz.selections.length < quiz.requiredSelections) {
+                quiz.selections.push(o.id);
+                btn.classList.add('selected');
+              }
+            }
+            nextBtn.textContent = 'Invia risposta (' + quiz.selections.length + '/' + quiz.requiredSelections + ')';
+            nextBtn.disabled = (quiz.selections.length < quiz.requiredSelections);
+          } else {
+            quiz.selections = [o.id];
+            submitAnswer(q);
+          }
         }
       });
       optionsEl.appendChild(btn);
     });
+    
+    // In review mode, show the explanation box right away
+    if (quiz.mode === 'review' && q.expl) {
+      explanEl.textContent = q.expl;
+      explanEl.style.display = 'block';
+    }
   }
   
   function submitAnswer(q) {
@@ -1201,24 +1888,26 @@
     quiz.locked = true;
     
     const optionsArray = q.opts || [];
-    var correctOpts = optionsArray.filter(function(o){ return o.c; }).map(function(o){ return o.id; });
-    var allCorrectSelected = correctOpts.every(function(id){
-      return quiz.selections.indexOf(id) > -1;
-    });
+    const correctOpts = optionsArray.filter(o => o.c).map(o => o.id);
+    const allCorrectSelected = correctOpts.every(id => quiz.selections.includes(id));
+    const isCorrect = allCorrectSelected && quiz.selections.length === correctOpts.length;
     
-    if (allCorrectSelected && quiz.selections.length === correctOpts.length) {
+    if (isCorrect) {
       quiz.score++;
     }
     
-    optionsEl.querySelectorAll('.quiz-option').forEach(function(btn){
-      var o = optionsArray.filter(function(x){ return x.id === btn.dataset.oid; })[0] || {};
+    // T-D2, T-D3: Sync stats & Incorrect pool live
+    window.ComptiaCore.trackQuestionAnswer(q.id, q.domain, q.objective, isCorrect);
+    
+    optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+      const o = optionsArray.filter(x => x.id === btn.dataset.oid)[0] || {};
       btn.disabled = true;
-      var isCorrect = o.c;
-      var isSelected = quiz.selections.indexOf(btn.dataset.oid) > -1;
+      const isOCorrect = o.c;
+      const isOSelected = quiz.selections.includes(btn.dataset.oid);
       
-      if (isCorrect) {
+      if (isOCorrect) {
         btn.classList.add('correct');
-      } else if (isSelected) {
+      } else if (isOSelected) {
         btn.classList.add('wrong');
       }
     });
@@ -1232,9 +1921,41 @@
     nextBtn.textContent = quiz.idx < n - 1 ? 'Avanti \u2192' : 'Vedi risultato';
     nextBtn.disabled = false;
   }
+
+  // T-D6: Real exam delayed core submission handler
+  function submitFullRealExam() {
+    stopTimer();
+    
+    let finalScore = 0;
+    const n = quiz.pool.length;
+    
+    quiz.pool.forEach(q => {
+      const chosen = quiz.resultsMap[q.id] || [];
+      const correctOpts = q.opts.filter(o => o.c).map(o => o.id);
+      const isCorrect = correctOpts.every(id => chosen.includes(id)) && chosen.length === correctOpts.length;
+      
+      if (isCorrect) {
+        finalScore++;
+      }
+      
+      // Log question data
+      window.ComptiaCore.trackQuestionAnswer(q.id, q.domain, q.objective, isCorrect);
+    });
+    
+    quiz.score = finalScore;
+    
+    // Save history session T-D1
+    window.ComptiaCore.saveQuizAttempt('exam', 'Simulazione Reale d\'Esame', quiz.score, n);
+    
+    showResults();
+    
+    // Enable review mode button for navigation browses
+    reviewResponsesBtn.style.display = 'block';
+  }
   
   function showResults() {
     stopTimer();
+    
     const n = quiz.pool.length;
     const pct = Math.round((quiz.score / n) * 100);
     contentEl.style.display = 'none';
@@ -1242,19 +1963,97 @@
     counterEl.textContent = 'Risultato finale';
     progressEl.style.width = '100%';
     
+    // Hide navigation grid on scorecard page to focus attention
+    navPanel.style.display = 'none';
+    flagBtn.style.display = 'none';
+    
     resultScoreEl.textContent = quiz.score + ' / ' + n;
     resultPctEl.textContent = pct + '%';
     resultPctEl.className = 'quiz-result-pct ' + (pct >= 75 ? 'pass' : pct >= 60 ? 'warn' : 'fail');
     
     let feedText = '';
-    if (pct >= 75) {
-      feedText = 'Eccellente! Hai completato la simulazione d\'esame superandola con il ' + pct + '% (soglia di superamento ' + quiz.score + '/' + n + '). Sei perfettamente pronto e preparato per l\'esame ufficiale CompTIA Security+!';
-    } else if (pct >= 60) {
-      feedText = 'Buona prova! Hai totalizzato il ' + pct + '%, ma l\'esame Security+ reale richiede una precisione minima del 75% per garantire il superamento. Rivedi i capitoli in cui hai riscontrato incertezze.';
+    if (quiz.mode === 'real_exam') {
+      if (pct >= 75) {
+        feedText = 'Eccellente! Hai superato la simulazione ufficiale d\'esame (Real-Test) con il ' + pct + '% (' + quiz.score + '/' + n + '). La tua preparazione per l\'esame CompTIA Security+ è solida e matura!';
+      } else {
+        feedText = 'Hai totalizzato il ' + pct + '% in modalità simulazione d\'esame. La riserva minima richiesta è dell\'75% per garantire il superamento. Clicca su "Rivedi Risposte" per consultare tutte le tue risposte ed i relativi dettagli.';
+      }
     } else {
-      feedText = 'Hai totalizzato il ' + pct + '%. C\'è ancora del lavoro da fare. Ti consigliamo di ripetere i singoli quiz per capitolo prima di tentare nuovamente il simulatore d\'esame.';
+      // Study or custom modes results
+      if (pct >= 75) {
+        feedText = 'Ottima sessione di studio! Hai completato la sessione con la precisione del ' + pct + '% (' + quiz.score + '/' + n + '). Continua così!';
+      } else {
+        feedText = 'Hai completato la sessione di studio con il ' + pct + '%. Rivedi le risposte nel cruscotto per rafforzare i tuoi progressi d\'esame!';
+      }
+      
+      // Save stats attempt for chapter quizzes or studies as well T-D1
+      window.ComptiaCore.saveQuizAttempt('study', 'Esercitazione Guidata', quiz.score, n);
     }
+    
     resultTextEl.textContent = feedText;
+    
+    // Refresh parent page dashboard live
+    updateStudyDashboard();
+  }
+  
+  // Custom navigation grid painting T-D6
+  function renderNavigationGrid() {
+    if (!quiz || !quiz.pool) return;
+    navGrid.innerHTML = '';
+    
+    quiz.pool.forEach((q, i) => {
+      const bubble = document.createElement('div');
+      bubble.className = 'quiz-nav-bubble';
+      bubble.textContent = i + 1;
+      
+      const isCurrent = (quiz.idx === i);
+      const isFlagged = quiz.flagsMap[q.id] || false;
+      const selections = quiz.resultsMap[q.id] || [];
+      const hasAnswer = selections.length > 0;
+      
+      if (isCurrent) bubble.classList.add('active');
+      if (isFlagged) bubble.classList.add('flagged');
+      
+      if (quiz.mode === 'review') {
+        // Review colors (green/red)
+        const correctOpts = q.opts.filter(o => o.c).map(o => o.id);
+        const isCorrect = correctOpts.every(id => selections.includes(id)) && selections.length === correctOpts.length;
+        if (isCorrect) {
+          bubble.classList.add('correct-review');
+        } else {
+          bubble.classList.add('wrong-review');
+        }
+      } else {
+        // Normal state colorings
+        if (hasAnswer) {
+          bubble.classList.add('answered');
+        } else if (hasAnswer === false && isCurrent === false) {
+          // If we want to show styled visited or neutral
+        }
+      }
+      
+      bubble.addEventListener('click', () => {
+        quiz.idx = i;
+        renderQuestion();
+      });
+      
+      navGrid.appendChild(bubble);
+    });
+    
+    updateNavigationSummary();
+  }
+  
+  function updateNavigationSummary() {
+    if (!quiz || !quiz.pool) return;
+    const n = quiz.pool.length;
+    let answered = 0;
+    
+    quiz.pool.forEach(q => {
+      const selections = quiz.resultsMap[q.id] || [];
+      if (selections.length > 0) answered++;
+    });
+    
+    navSummary.textContent = `${answered} / ${n} risposte complete`;
   }
   
   function closeQuiz() {
@@ -1262,38 +2061,140 @@
     document.body.style.overflow = '';
     stopTimer();
     quiz = null;
+    
+    // Always refresh stats dashboard on close
+    updateStudyDashboard();
   }
   
+  // Set up event hook bindings
   launchBtn.addEventListener('click', onLaunchClick);
   startBtn.addEventListener('click', startSimulation);
   closeBtn.addEventListener('click', closeQuiz);
+  
   retryBtn.addEventListener('click', () => {
-    startSimulation();
+    onLaunchClick();
   });
+  
   doneBtn.addEventListener('click', closeQuiz);
   
   if (reloadDbBtn) {
     reloadDbBtn.addEventListener('click', onLaunchClick);
   }
   
+  // Bookmarks toggle hook T-D5
+  if (bookmarkBtn) {
+    bookmarkBtn.addEventListener('click', () => {
+      if (!quiz || !quiz.pool || !quiz.pool[quiz.idx]) return;
+      const q = quiz.pool[quiz.idx];
+      const isB = window.ComptiaCore.toggleQuestionBookmark(q.id);
+      bookmarkBtn.style.color = isB ? '#eab308' : 'var(--muted)';
+      bookmarkBtn.title = isB ? 'Rimuovi dai segnalibri' : 'Salva nei segnalibri';
+      
+      updateStudyDashboard();
+    });
+  }
+  
+  // Exam flags toggle hook T-D6
+  if (flagBtn) {
+    flagBtn.addEventListener('click', () => {
+      if (!quiz || !quiz.pool || !quiz.pool[quiz.idx]) return;
+      const q = quiz.pool[quiz.idx];
+      quiz.flagsMap[q.id] = !(quiz.flagsMap[q.id] || false);
+      flagBtn.style.color = quiz.flagsMap[q.id] ? '#f59e0b' : 'var(--muted)';
+      
+      renderNavigationGrid();
+    });
+  }
+  
+  // Back navigation hook T-D6
+  prevBtn.addEventListener('click', () => {
+    if (!quiz || quiz.idx <= 0) return;
+    quiz.idx--;
+    renderQuestion();
+  });
+  
+  // Next / Action flow navigation core
   nextBtn.addEventListener('click', function(){
-    if (quiz.requiredSelections > 1 && !quiz.locked) {
-      submitAnswer(quiz.pool[quiz.idx]);
+    if (quiz.mode === 'real_exam') {
+      if (quiz.idx < quiz.pool.length - 1) {
+        quiz.idx++;
+        renderQuestion();
+      } else {
+        submitFullRealExam();
+      }
+    } else if (quiz.mode === 'review') {
+      if (quiz.idx < quiz.pool.length - 1) {
+        quiz.idx++;
+        renderQuestion();
+      } else {
+        closeQuiz();
+      }
     } else {
-      quiz.idx++;
-      if (quiz.idx < quiz.pool.length) renderQuestion();
-      else showResults();
+      // Study mode single handling
+      if (quiz.requiredSelections > 1 && !quiz.locked) {
+        submitAnswer(quiz.pool[quiz.idx]);
+      } else {
+        quiz.idx++;
+        if (quiz.idx < quiz.pool.length) renderQuestion();
+        else showResults();
+      }
     }
   });
+  
+  // Review browse button T-D6
+  reviewResponsesBtn.addEventListener('click', () => {
+    if (!quiz || !quiz.pool) return;
+    quiz.idx = 0;
+    quiz.mode = 'review';
+    
+    resultEl.style.display = 'none';
+    contentEl.style.display = 'block';
+    
+    renderQuestion();
+  });
+  
+  // Register dashboard launcher listeners T-D2, T-D5
+  if (launchIncorrectBtn) {
+    launchIncorrectBtn.addEventListener('click', () => {
+      launchCustomPoolQuiz('incorrect', 'Test di Revisione Errori d\'Esame');
+    });
+  }
+  if (launchBookmarksBtn) {
+    launchBookmarksBtn.addEventListener('click', () => {
+      launchCustomPoolQuiz('bookmarks', 'Test dei Preferiti d\'Esame 🔖');
+    });
+  }
+  if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener('click', () => {
+      if (confirm('Sei sicuro di voler ripulire tutto lo storico dei tentativi d\'esame? Questa azione è irreversibile.')) {
+        window.ComptiaCore.clearQuizHistory();
+      }
+    });
+  }
   
   overlay.addEventListener('click', e => { if (e.target === overlay) closeQuiz(); });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && overlay.classList.contains('active')) closeQuiz();
   });
   
+  // Auto sync on events
+  window.addEventListener('comptia_stats_changed', updateStudyDashboard);
+  window.addEventListener('comptia_bookmarks_changed', updateStudyDashboard);
+  
+  // Initial page load triggers
+  document.addEventListener('DOMContentLoaded', () => {
+    updateStudyDashboard();
+  });
+  
+  // Safe instant call if document completed
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    updateStudyDashboard();
+  }
+  
 })();
 </script>
 
+<script src="script/global-nav-footer.js" defer></script>
 <script src="script/global-search.js" defer></script>
 </body>
 </html>

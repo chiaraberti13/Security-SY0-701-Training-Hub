@@ -64,41 +64,20 @@ try {
   process.exit(1);
 }
 
-// 2. Parse glossario.html to extract the glossary database
+// 2. Load glossario_db.json to extract the glossary database
 let glossary = [];
 try {
-  const glossarioContent = fs.readFileSync(glossarioHtmlPath, 'utf8');
-  const match = /const\s+database\s*=\s*\[/i.exec(glossarioContent);
-  if (!match) {
-    console.error('Database array not found inside glossario.html!');
+  const glossarioDbPath = path.join(rootDir, 'script', 'glossario_db.json');
+  if (fs.existsSync(glossarioDbPath)) {
+    const rawData = fs.readFileSync(glossarioDbPath, 'utf8');
+    glossary = JSON.parse(rawData);
+    console.log(`Successfully indexed ${glossary.length} glossary terms from glossario_db.json.`);
+  } else {
+    console.error(`Database file not found: ${glossarioDbPath}`);
     process.exit(1);
   }
-  
-  const startIndex = match.index + match[0].length - 1; // opening '['
-  
-  let depth = 1;
-  let curr = startIndex + 1;
-  let inString = false;
-  let stringQuote = '';
-  
-  while (curr < glossarioContent.length && depth > 0) {
-    const char = glossarioContent[curr];
-    if ((char === "'" || char === '"' || char === '`') && glossarioContent[curr - 1] !== '\\') {
-      if (!inString) { inString = true; stringQuote = char; }
-      else if (stringQuote === char) { inString = false; }
-    }
-    if (!inString) {
-      if (char === '[') depth++;
-      else if (char === ']') depth--;
-    }
-    curr++;
-  }
-  
-  const arraySource = glossarioContent.substring(startIndex, curr);
-  glossary = vm.runInNewContext(arraySource);
-  console.log(`Successfully indexed ${glossary.length} glossary terms.`);
 } catch (err) {
-  console.error('Error parsing glossario.html glossary:', err);
+  console.error('Error reading glossario_db.json:', err);
   process.exit(1);
 }
 

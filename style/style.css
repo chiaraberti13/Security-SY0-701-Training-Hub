@@ -1974,3 +1974,249 @@ svg:not(:root) {
   stroke-width: 1.5;
   fill: none;
 }
+
+.quiz-source-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #475569;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#quiz-timer-container {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  margin-right: 16px;
+}
+.quiz-timer-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+#quiz-timer {
+  font-family: monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--teal-soft);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.quiz-setup-loading-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.quiz-setup-loading-sub, .quiz-setup-error-sub {
+  font-size: 0.88rem;
+  color: var(--slate);
+  margin-bottom: 24px;
+}
+.quiz-setup-error-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ef4444;
+  margin-bottom: 8px;
+}
+.quiz-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--light-slate);
+  border-top: 4px solid var(--teal);
+  border-radius: 50%;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
+}
+.quiz-rules-box {
+  text-align: left;
+  background: var(--bg);
+  border: 1.5px solid var(--light-slate);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 28px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.quiz-rules-title {
+  color: var(--navy);
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+.quiz-rules-list {
+  margin: 0;
+  padding-left: 20px;
+}
+.quiz-rules-list li {
+  margin-bottom: 6px;
+}
+.quiz-rules-list li:last-child {
+  margin-bottom: 0;
+}
+#quiz-domain-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: #E2E8F0;
+  border: 1px solid #CBD5E1;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.quiz-result-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 440px;
+  margin: 0 auto 32px;
+}
+
+/* ================================================================
+   T-B2: Tema Scuro (Dark Mode System)
+   ================================================================ */
+:root[data-theme="dark"] {
+  --ink:         #F1F5F9; /* Off-white / zinc 100 */
+  --navy:        #F1F5F9;
+  --slate:       #94A3B8; /* zinc 400 */
+  --muted:       #64748B; /* zinc 500 */
+  --light-slate: #334155; /* zinc 700 */
+  --hairline:    #1E293B; /* zinc 800 */
+  --white:       #1E293B; /* zinc 800 blockbg / surface */
+  --bg:          #0F172A; /* Deep slate background */
+  --surface:     #1E293B; /* zinc 800 */
+  --surface-alt: #101726; /* deep slate */
+
+  --teal:        #3B82F6; /* Bright accessible tech blue */
+  --teal-soft:   #172554; /* Slate blue hover soft bg */
+  --teal-border: #1E3A8A;
+
+  --tip-bg:      #1E293B;
+  --warn:        #F59E0B;
+  --warn-bg:     #2D2310;
+  --critical:    #EF4444;
+  --crit-bg:     #311C1C;
+  --code-bg:     #0F172A;
+  --green:       #10B981;
+  --green-bg:    #064E3B;
+
+  /* Colori dei 5 domini d'esame ricalibrati per il dark-mode */
+  --dom1-bg:     #1E1B4B; --dom1-fg: #A5B4FC; --dom1-border: #4338CA;
+  --dom2-bg:     #4C0519; --dom2-fg: #FDA4AF; --dom2-border: #9F1239;
+  --dom3-bg:     #451A03; --dom3-fg: #FCD34D; --dom3-border: #78350F;
+  --dom4-bg:     #022C22; --dom4-fg: #6EE7B7; --dom4-border: #064E3B;
+  --dom5-bg:     #164E63; --dom5-fg: #67E8F9; --dom5-border: #155E75;
+}
+
+/* Overriding navigation blur background transparency in dark mode */
+:root[data-theme="dark"] .global-nav {
+  background: rgba(30, 41, 59, 0.85) !important;
+}
+
+/* Adjustments for custom icons, tags, buttons in dark mode */
+:root[data-theme="dark"] code, :root[data-theme="dark"] pre {
+  background: #0F172A;
+}
+
+/* Flashcard helper in dark mode */
+:root[data-theme="dark"] .flashcard-blur {
+  background-color: #0F172A;
+}
+:root[data-theme="dark"] .flashcard-blur:hover {
+  background-color: #1E293B;
+}
+
+/* ================================================================
+   T-B3: Accessbilità (A11y & Contrast Enhancements)
+   ================================================================ */
+/* Keyboard focus visual indicators */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--teal) !important;
+  outline-offset: 2px !important;
+}
+
+/* Improve minimum color contrast requirements for screen readers & reading comfort */
+.global-nav-link:hover, .global-nav-link.active, .alpha-btn:hover, .alpha-btn.active {
+  color: var(--teal) !important;
+}
+
+/* Screen reader visible only utility class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Active buttons and clickable cards feedback active states */
+.term-card:active {
+  transform: scale(0.99);
+}
+
+/* ================================================================
+   T-B4: breakpoints mobile aggiuntivi e touch target
+   ================================================================ */
+/* Touch targets should feel generous on handheld devices (minimum 44px tap target) */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.95rem;
+  }
+  .container {
+    padding: 0 12px;
+    margin: 12px auto;
+  }
+  .page {
+    padding: 24px 16px;
+  }
+  .global-nav {
+    padding: 12px 16px;
+  }
+  .global-nav-brand {
+    font-size: 0.9rem;
+  }
+  /* Buttons and clickable components tap targets */
+  .filter-tab, .alpha-btn, .theme-toggle-btn, .quiz-mode-btn, .exam-sim-btn, .quiz-btn, .term-meta .source-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .filter-tabs {
+    gap: 6px;
+  }
+  .filter-tab {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    flex-grow: 1; /* allow spreading on mobile */
+    text-align: center;
+  }
+  .alpha-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+  }
+}
+
+
+
+

@@ -1,92 +1,86 @@
 const fs = require('fs');
 const path = require('path');
 
+const jsPath = path.join(__dirname, 'quiz-database.js');
+const jsonPath = path.join(__dirname, 'quiz-database.json');
 const xmlPath = path.join(__dirname, '..', 'quiz_database.xml');
-if (!fs.existsSync(xmlPath)) {
-  console.error('quiz_database.xml not found at:', xmlPath);
-  process.exit(1);
-}
 
-const xmlContent = fs.readFileSync(xmlPath, 'utf8');
-const qMap = {};
-// Quick regex based extractor for <question id="...">...</question>
-const questionRegex = /<question\s+id="([^"]+)"[^>]*>([\s\S]*?)<\/question>/g;
-let qm;
-while ((qm = questionRegex.exec(xmlContent)) !== null) {
-  const id = qm[1];
-  const body = qm[2];
-  const sourceMatch = /<source>([\s\S]*?)<\/source>/.exec(body);
-  if (sourceMatch) {
-    qMap[id] = sourceMatch[1].trim();
-  }
-}
-
-console.log(`Loaded ${Object.keys(qMap).length} questions with source from XML.`);
-
-const chFolder = path.join(__dirname, '..', 'chapters');
-if (!fs.existsSync(chFolder)) {
-  console.error('chapters directory not found at:', chFolder);
-  process.exit(1);
-}
-
-const files = fs.readdirSync(chFolder).filter(f => f.endsWith('.html'));
-console.log(`Processing ${files.length} HTML files...`);
-
-let totalModifiedQuestions = 0;
-let totalModifiedFiles = 0;
-
-files.forEach(file => {
-  const filePath = path.join(chFolder, file);
-  let content = fs.readFileSync(filePath, 'utf8');
-  let isModified = false;
-
-  // 1. Strip existing source: '...' properties if any (idempotency step)
-  // Match forms like source:'TL', or source:"TL", or source: 'TL',
-  const stripped = content.replace(/(\{\s*id\s*:\s*['"]SCREEN_\d+['"])\s*,\s*source\s*:\s*['"][^'"]*['"]\s*,/g, '$1,');
-  if (stripped !== content) {
-    content = stripped;
-    isModified = true;
-  }
-
-  // 2. Inject source: '...' properties
-  let modifiedQuestionsInFile = 0;
-  const updatedContent = content.replace(/(id\s*:\s*['"](SCREEN_\d+)['"]\s*,)/g, (match, prefix, id) => {
-    if (qMap[id]) {
-      modifiedQuestionsInFile++;
-      totalModifiedQuestions++;
-      return `id:'${id}', source:'${qMap[id]}',`;
+function escapeXml(unsafe) {
+  if (!unsafe) return '';
+  return unsafe.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+      default: return c;
     }
-    return match;
+  });
+}
+
+function syncAllQuizSources() {
+  if (!fs.existsSync(jsPath)) {
+    console.error('Source JS database not found at:', jsPath);
+    process.exit(1);
+  }
+
+  // 1. Read and parse script/quiz-database.js
+  const jsContent = fs.readFileSync(jsPath, 'utf8');
+  console.log(`Successfully read JS source from: ${jsPath}`);
+
+  let quizDatabase = null;
+  try {
+    const sandbox = { window: {} };
+    const runInSandbox = new Function('window', jsContent);
+    runInSandbox(sandbox.window);
+    quizDatabase = sandbox.window.quizDatabase;
+  } catch (err) {
+    console.error('Error executing/parsing quiz-database.js in sandbox:', err);
+    process.exit(1);
+  }
+
+  if (!Array.isArray(quizDatabase)) {
+    console.error('Error: window.quizDatabase is not a valid array.');
+    process.exit(1);
+  }
+
+  console.log(`Successfully parsed ${quizDatabase.length} questions from quiz-database.js.`);
+
+  // 2. Write script/quiz-database.json (pretty-printed with 2 spaces)
+  fs.writeFileSync(jsonPath, JSON.stringify(quizDatabase, null, 2), 'utf8');
+  console.log(`Successfully generated and wrote JSON fallback to: ${jsonPath}`);
+
+  // 3. Write quiz_database.xml
+  let xml = '<quiz>\n';
+
+  quizDatabase.forEach((q) => {
+    const objective = escapeXml(q.objective || '');
+    const id = escapeXml(q.id || '');
+    xml += `  <question id="${id}" objective="${objective}">\n`;
+    xml += `    <text>${escapeXml(q.text)}</text>\n`;
+    xml += `    <options>\n`;
+    (q.opts || []).forEach((opt) => {
+      const optId = escapeXml(opt.id || '');
+      const isCorrect = opt.c ? 'true' : 'false';
+      xml += `      <option id="${optId}" correct="${isCorrect}">${escapeXml(opt.t)}</option>\n`;
+    });
+    xml += `    </options>\n`;
+    if (q.expl) {
+      xml += `    <explanation>${escapeXml(q.expl)}</explanation>\n`;
+    } else {
+      xml += `    <explanation/>\n`;
+    }
+    if (q.source) {
+      xml += `    <source>${escapeXml(q.source)}</source>\n`;
+    }
+    xml += `  </question>\n`;
   });
 
-  if (modifiedQuestionsInFile > 0) {
-    content = updatedContent;
-    isModified = true;
-  }
+  xml += '</quiz>\n';
 
-  // 3. Update the counter UI line to render the source subtly in counterEl
-  const beforeStr = "counterEl.textContent = 'Domanda ' + (quiz.idx + 1) + ' / ' + n;";
-  const afterStr = "counterEl.innerHTML = 'Domanda ' + (quiz.idx + 1) + ' / ' + n + (q.source ? ' <span class=\"quiz-source-tag\" style=\"font-size: 0.72rem; font-weight: 500; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; margin-left: 8px; display: inline-block; vertical-align: middle;\">' + q.source + '</span>' : '');";
+  fs.writeFileSync(xmlPath, xml, 'utf8');
+  console.log(`Successfully generated and synchronized ${quizDatabase.length} questions to: ${xmlPath}!`);
+}
 
-  if (content.includes(beforeStr)) {
-    content = content.split(beforeStr).join(afterStr);
-    isModified = true;
-  } else {
-    // Spacer/regex fallback if literal string fails
-    const counterRegex = /counterEl\s*\.\s*textContent\s*=\s*['"]Domanda\s*['"]\s*\+\s*\(\s*quiz\s*\.\s*idx\s*\+\s*1\s*\)\s*\+\s*['"]\s*\/\s*['"]\s*\+\s*n\s*;/g;
-    if (counterRegex.test(content)) {
-      content = content.replace(counterRegex, afterStr);
-      isModified = true;
-    }
-  }
-
-  if (isModified) {
-    fs.writeFileSync(filePath, content, 'utf8');
-    totalModifiedFiles++;
-    console.log(`- Updated ${file} (${modifiedQuestionsInFile} questions updated with source)`);
-  }
-});
-
-console.log(`\nSync complete!`);
-console.log(`Total HTML files modified: ${totalModifiedFiles}`);
-console.log(`Total question objects enriched: ${totalModifiedQuestions}`);
+syncAllQuizSources();

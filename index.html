@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CompTIA Security+ SY0-701 — Guida interattiva</title>
   <link rel="stylesheet" href="style/style.css" />
+  <script>
+    (function() {
+      var savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem('theme');
+      } catch (e) {
+        console.warn('localStorage access denied:', e);
+      }
+      var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var theme = savedTheme || systemTheme;
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    })();
+  </script>
   <style>
     /* Sincronizzazione con checklist cloud */
     .sync-status {
@@ -20,18 +37,7 @@
   </style>
 </head>
 <body>
-<nav class="global-nav" aria-label="Navigazione principale">
-  <a href="index.html" class="global-nav-brand">
-    <span>🛡️ CompTIA Security+ SY0-701</span>
-  </a>
-  <div class="global-nav-links">
-    <a href="index.html" class="global-nav-link active">Home</a>
-    <a href="index.html#capitoli" class="global-nav-link">Guida</a>
-    <a href="quizzes.html" class="global-nav-link">Quiz</a>
-    <a href="glossario.html" class="global-nav-link">Glossario</a>
-    <a href="checklist.html" class="global-nav-link">Checklist</a>
-  </div>
-</nav>
+<nav class="global-nav" aria-label="Navigazione principale"></nav>
 
 <a class="skip-link" href="#main">Salta al contenuto principale</a>
 
@@ -44,8 +50,8 @@
   </div>
 
   <div class="ig-header">
-    <h1>Guida interattiva — CompTIA Security+ SY0-701</h1>
-    <p>La piattaforma completa per organizzare lo studio, verificare le tue competenze e prepararti al superamento dell'esame ufficiale.</p>
+    <h1 data-i18n="index_heading">Guida di studio & Risorse d'esame</h1>
+    <p data-i18n="index_subtitle">Benvenuto nella piattaforma di studio interattiva per la certificazione CompTIA Security+ (SY0-701). Segui i moduli, esercitati con i quiz e tieni traccia dei tuoi progressi.</p>
   </div>
 
   <!-- Sottonavigazione a schede della Home -->
@@ -1271,6 +1277,7 @@
 })();
 </script>
 
+<script src="script/global-nav-footer.js" defer></script>
 <script src="script/global-search.js" defer></script>
 </body>
 </html>
