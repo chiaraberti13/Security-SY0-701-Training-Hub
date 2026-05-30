@@ -1,0 +1,15 @@
+# === CompTIA Security+ Training Hub - configurazione Apache ===
+
+# 1. Servi i .json con il MIME type corretto (alcuni Apache datati non lo fanno)
+<IfModule mod_mime.c>
+  AddType application/json .json
+</IfModule>
+
+# 2. Non reindirizzare mai le richieste di file/cartelle realmente esistenti
+#    (evita l'errore "Unexpected token <" dovuto al re-routing verso index.html)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+</IfModule>
