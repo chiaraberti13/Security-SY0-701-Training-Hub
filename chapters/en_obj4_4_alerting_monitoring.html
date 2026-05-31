@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="it" data-lang="it">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OBJ 4.4 — Allarmistica e Monitoraggio di Sicurezza · Security+ SY0-701</title>
+  <title>OBJ — Alerting and Security Monitoring · Security+ SY0-701</title>
   <link rel="stylesheet" href="../style/style.css" />
 </head>
 <body>
 <nav class="global-nav" aria-label="Navigazione principale">
-  <a href="../index.html" class="global-nav-brand">
+  <a href="../index_en.html" class="global-nav-brand">
     <span>🛡️ CompTIA Security+ SY0-701</span>
   </a>
   <div class="global-nav-links">
-    <a href="../index.html" class="global-nav-link">Home</a>
+    <a href="../index_en.html" class="global-nav-link">Home</a>
     <a href="../quizzes.html" class="global-nav-link">Quiz</a>
     <a href="../glossario.html" class="global-nav-link">Glossario</a>
   </div>
@@ -24,32 +24,32 @@
   <div class="page">
 
     <div class="breadcrumb">
-      <a href="../index.html">Indice generale</a>
+      <a href="../index_en.html">General Index</a>
       <span>Dominio 4 — Security Operations</span>
       <span>OBJ 4.4 — Allarmistica e Monitoraggio</span>
     </div>
 
     <header>
-      <h1>OBJ 4.4 — Concetti e Strumenti di Allarmistica e Monitoraggio di Sicurezza (Security Alerting and Monitoring)</h1>
+      <h1>OBJ 4.4 — Alerting and Security Monitoring</h1>
     </header>
 
     <div class="chapter-meta">
-  <p class="manual-reference-line"><span>📖</span> <strong>Riferimento Manuale:</strong> Capitolo 14: Monitoraggio e risposta agli incidenti</p>
-      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Peso esame: 28%</p>
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 14: Monitoraggio e risposta agli incidenti</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
       <p>
-        <strong>Obiettivo ufficiale (CompTIA):</strong>
+        <strong>Official Objective (CompTIA):</strong>
         <em>Explain security alerting and monitoring concepts and tools.</em>
       </p>
       <p>
-        <strong>Obiettivi coperti:</strong>
+        <strong>Objectives covered:</strong>
         <span class="objectives-tag">4.4</span>
         <span class="weight-badge">D4 = 28%</span>
       </p>
       <p>
-        <strong>Prerequisiti:</strong>
-        <a href="obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
-        <a href="obj4_2_asset_management.html">OBJ 4.2 — Gestione degli asset</a> ·
-        <a href="obj4_3_vulnerability_management.html">OBJ 4.3 — Gestione delle vulnerabilità</a>
+        <strong>Prerequisites:</strong>
+        <a href="en_obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
+        <a href="en_obj4_2_asset_management.html">OBJ 4.2 — Gestione degli asset</a> ·
+        <a href="en_obj4_3_vulnerability_management.html">OBJ 4.3 — Gestione delle vulnerabilità</a>
       </p>
     </div>
 
@@ -83,9 +83,9 @@
         <a href="#monitoring-activities">Attività di Monitoraggio</a>
         <a href="#advanced-tools">Strumenti: SCAP, SNMP, NetFlow</a>
 
-        <div class="toc-section">Verifica &amp; Norme</div>
+        <div class="toc-section">Verify &amp; Norme</div>
         <a href="#compliance-updates">Conformità e Rischi</a>
-        <a href="#quiz-section">Quiz interattivo (19 quiz)</a>
+        <a href="#quiz-section">Interactive Quiz (19 quiz)</a>
         <a href="#flashcard">Flashcard di riepilogo</a>
       </nav>
 
@@ -414,19 +414,19 @@
             Al fine di automatizzare e armonizzare il governo delle operazioni di sicurezza, l'industria adotta protocolli e standard internazionali consolidati:
           </p>
 
-          <!-- ════ Mappatura ed Approfondimento Fasi e Strumenti di Sicurezza ════ -->
+          <!-- ════ Mappatura ed Approfondimento Fasi e Strumenti di Sicurezza (ENG) ════ -->
           <div style="background: var(--surface-alt); border: 1.5px solid var(--light-slate); border-radius: var(--radius-lg); padding: 20px; margin: 20px 0 24px 0; box-shadow: var(--shadow-1);">
-            <h3 style="color: var(--navy); border-bottom: 2px solid var(--teal-soft); padding-bottom: 6px; margin: 0 0 12px 0; font-size: 1.05rem; font-weight: 700;">💡 Mappatura delle Fasi Operative di Sicurezza e relativi Strumenti</h3>
+            <h3 style="color: var(--navy); border-bottom: 2px solid var(--teal-soft); padding-bottom: 6px; margin: 0 0 12px 0; font-size: 1.05rem; font-weight: 700;">💡 Mapping of Operational Security Phases and Corresponding Tools</h3>
             <p style="margin: 0 0 14px 0; font-size: 0.9em; line-height: 1.5; color: var(--slate);">
-              La tabella sottostante schematizza la correlazione tra fasi operative dei controlli tecnici (da Reconnaissance fino a Forensics e Compliance auditing) e i relativi standard e tool descritti negli obiettivi CompTIA Security+:
+              This table summarizes the correlation between operational technical control phases (from Reconnaissance up to Forensics and Compliance Auditing) and the relevant standards and tools described in the CompTIA Security+ objectives:
             </p>
             <div style="overflow-x: auto; border: 1px solid var(--light-slate); border-radius: var(--radius-md);">
               <table style="width: 100%; border-collapse: collapse; font-size: 0.88em; text-align: left; background: var(--white);">
                 <thead>
                   <tr style="background: var(--surface-alt); border-bottom: 2px solid var(--light-slate);">
-                    <th style="padding: 10px 12px; font-weight: 700; color: var(--ink);">Fase Operativa</th>
-                    <th style="padding: 10px 12px; font-weight: 700; color: var(--ink);">Tecnologia / Standard</th>
-                    <th style="padding: 10px 12px; font-weight: 700; color: var(--ink);">Strumenti Principali</th>
+                    <th style="padding: 10px 12px; font-weight: 700; color: var(--ink);">Operational Phase</th>
+                    <th style="padding: 10px 12px; font-weight: 700; color: var(--ink);">Technology / Standard</th>
+                    <th style="padding: 10px 12px; font-weight: 700; color: var(--ink);">Primary Sample Tools</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -541,72 +541,71 @@
                 <li><strong>6. XCCDF (Extensible Configuration Checklist Description Format):</strong> Una sintassi XML per definire checklist, guide di hardening e benchmark di sicurezza strutturati (es. i profili CIS Benchmarks). Consente di redigere standard normativi che illustrano le regole tecniche di hardening che i sistemi aziendali devono obbligatoriamente implementare per superare un audit di sicurezza.</li>
               </ul>
               <br>
-              <strong>• Approfondimento SCAP: Tabella dei Componenti e delle Funzioni d'Esame:</strong>
+              <strong>• SCAP In-Depth: Table of SCAP Components &amp; Exam Functions:</strong>
               <div style="overflow-x: auto; margin: 12px 0 16px 0; border: 1px solid var(--light-slate); border-radius: var(--radius-md);">
                 <table style="width: 100%; border-collapse: collapse; font-size: 0.9em; text-align: left;">
                   <thead>
                     <tr style="background: var(--surface-alt); border-bottom: 2px solid var(--light-slate);">
-                      <th style="padding: 10px 14px; font-weight: 700; color: var(--ink);">Componente SCAP</th>
-                      <th style="padding: 10px 14px; font-weight: 700; color: var(--ink);">Funzione</th>
+                      <th style="padding: 10px 14px; font-weight: 700; color: var(--ink);">SCAP Component</th>
+                      <th style="padding: 10px 14px; font-weight: 700; color: var(--ink);">Function</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">XCCDF</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Definisce benchmark e checklist di sicurezza strutturate sui parametri dei sistemi</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">Defines structured security benchmarks, hardening guides, and profiles (e.g., CIS Benchmarks)</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">OVAL</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Definisce i controlli ed i passaggi tecnici millimetrici da eseguire localmente</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">Defines precise technical checks, scripts, and system tests to run locally to assert compliance</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">ARF</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Formato XML standardizzato dei risultati finali della scansione compiuta</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">Standardized XML format for saving and sharing the final results of security assessments</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">CPE</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Identifica in modo univoco ed esatto sistemi e pacchetti software (CPE URI)</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">Uniquely and accurately identifies hardware platforms, OS, and installed software packages (CPE URI)</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">CVE</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Dizionario internazionale per referenziare e catalogare in modo univoco le vulnerabilità note</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">International dictionary to uniquely reference and catalogue known software vulnerabilities</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">CVSS</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Assegna il punteggio numerico di gravità e rischio associato all'anomalia da 0 a 10</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">Assigns an objective gravity score and risk metrics from 0 to 10 for each known bug</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--light-slate);">
                       <td style="padding: 10px 14px; font-weight: 600; color: var(--teal);">CCE</td>
-                      <td style="padding: 10px 14px; color: var(--slate);">Identifica configurazioni di sistema errate o violazioni delle baseline stabilite</td>
+                      <td style="padding: 10px 14px; color: var(--slate);">Identifies specific system misconfigurations or violations of hardening security policies</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <strong>• Gerarchia e Relazioni Inter-Componenti nell'Ecosistema OpenSCAP:</strong>
+              <strong>• Hierarchy &amp; Component Relations in the OpenSCAP Ecosystem:</strong>
               <div style="background: var(--surface-alt); border: 1.5px dashed var(--teal-soft); border-radius: var(--radius-md); padding: 16px; margin: 12px 0; font-family: monospace; font-size: 0.9em; line-height: 1.5; color: var(--ink); white-space: pre; overflow-x: auto;">OpenSCAP
 │
 ├── XCCDF
-│     └── "Cosa controllare"
+│     └── "What to check"
 │
 ├── OVAL
-│     └── "Come controllarlo"
+│     └── "How to check it"
 │
 ├── CPE
-│     └── "Su quale sistema"
+│     └── "On what system"
 │
 ├── CVE
-│     └── "Quale vulnerabilità"
+│     └── "Which vulnerability"
 │
 ├── CVSS
-│     └── "Quanto è grave"
+│     └── "How severe it is"
 │
 └── ARF
-      └── "Risultato finale"</div>
+      └── "Final report"</div>
 
-              <strong>• Funzionamento dei Benchmark SCAP e degli Scanner di Conformità:</strong><br>
-              Un amministratore della sicurezza utilizza uno <strong>SCAP Assessment Scanner</strong> (es. OpenSCAP o moduli di scanner come Nessus) e vi carica un file XML contenente lo <strong>SCAP Benchmark</strong> certificato per la propria infrastruttura (es. la baseline d'hardening NIST o CIS). Lo scanner interroga il sistema locale utilizzando le definizioni <em>OVAL</em> per estrarre la telemetria reale e raffrontarla con i requisiti del benchmark <em>XCCDF</em>. All'esito dell'ispezione automatica strutturata, viene generato un report di conformità formale (Pass/Fail) utilizzabile direttamente per attestare legalmente la compliance (es. PCI-DSS, SOC 2, HIPAA).
-            </dd>sus) e vi carica un file XML contenente lo <strong>SCAP Benchmark</strong> certificato per la propria infrastruttura (es. la baseline d'hardening NIST o CIS). Lo scanner interroga il sistema locale utilizzando le definizioni <em>OVAL</em> per estrarre la telemetria reale e raffrontarla con i requisiti del benchmark <em>XCCDF</em>. All'esito dell'ispezione automatica strutturata, viene generato un report di conformità formale (Pass/Fail) utilizzabile direttamente per attestare legalmente la compliance (es. PCI-DSS, SOC 2, HIPAA).
+              <strong>• How SCAP Benchmarks and Assessment Scanners Work:</strong><br>
+              A security administrator uses an <strong>SCAP Assessment Scanner</strong> (such as OpenSCAP or scanner modules like Nessus) and loads an XML file containing the certified <strong>SCAP Benchmark</strong> for their infrastructure (e.g., the NIST or CIS hardening baseline). The scanner queries the local system using <em>OVAL</em> definitions to extract raw configuration data and telemetry, validating them against the <em>XCCDF</em> benchmark rules. Upon completion of this automated structured audit, a formal reporting file (Pass/Fail) is produced, which can be legally leveraged to attest regulatory compliance (e.g., PCI-DSS, SOC 2, HIPAA).
             </dd>
 
             <dt>Benchmarks di Hardening (Baseline e Standard CIS)</dt>
@@ -825,7 +824,7 @@
           <h2>Test di verifica — OBJ 4.4</h2>
           <div class="chapter-meta">
             <p>
-              <strong>19 domande d'esame</strong> su SIEM, correlazione dei log, DLP, FIM, Agentless, EDR, UBA, catture dei pacchetti forensi e fasi di Incident Response, con feedback immediato e spiegazione in italiano per ogni risposta.
+              <strong>19 questions d'esame</strong> su SIEM, correlazione dei log, DLP, FIM, Agentless, EDR, UBA, catture dei pacchetti forensi e fasi di Incident Response, con feedback immediato e spiegazione in italiano per ogni risposta.
             </p>
             <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.4 →</button>
           </div>

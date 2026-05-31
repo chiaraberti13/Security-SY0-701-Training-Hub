@@ -62,4 +62,10 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Development server running at http://localhost:${PORT}`);
+  // Run high-fidelity translation in the background on startup
+  try {
+    require('./script/run-translation.js');
+  } catch (err) {
+    console.error('Failed to trigger background translation:', err);
+  }
 });

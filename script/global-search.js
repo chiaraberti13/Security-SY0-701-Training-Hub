@@ -22,6 +22,11 @@
     general: 'Concetti Generali'
   };
 
+  const navDict = {
+    it: { home: 'Home', guida: 'Guida', quiz: 'Quiz', glossario: 'Glossario', checklist: 'Checklist', search: 'Cerca...' },
+    en: { home: 'Home', guida: 'Guide', quiz: 'Quiz', glossario: 'Glossary', checklist: 'Checklist', search: 'Search...' }
+  };
+
   // Resolve page links relative to the current folder depth
   function resolveLink(link) {
     if (!link) return '#';
@@ -41,22 +46,77 @@
     // Check if search button already exists
     if (document.getElementById('global-search-trigger')) return;
 
+    const savedLang = (localStorage.getItem('lang') || 'it').trim().toLowerCase();
+    const currentLang = (savedLang === 'en' || savedLang === 'it') ? savedLang : 'it';
+    const isEn = currentLang === 'en';
+
+    // 1. Create and inject Language Toggle Button
+    const langBtn = document.createElement('button');
+    langBtn.id = 'lang-toggle';
+    langBtn.className = 'global-nav-toggle-btn';
+    langBtn.setAttribute('aria-label', currentLang === 'it' ? 'Switch to English' : 'Passa all\'Italiano');
+    langBtn.setAttribute('title', currentLang === 'it' ? 'Switch to English' : 'Passa all\'Italiano');
+    langBtn.innerHTML = `
+      <svg class="nav-lang-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      <span>${isEn ? 'IT' : 'EN'}</span>
+    `;
+
+    langBtn.addEventListener('click', function () {
+      const nextLang = currentLang === 'it' ? 'en' : 'it';
+      try {
+        localStorage.setItem('lang', nextLang);
+      } catch (e) {}
+
+      var path = window.location.pathname;
+      var url = new URL(window.location.href);
+      var redirectUrl = null;
+
+      if (nextLang === 'en') {
+        if (/\/chapters\/(?!en\/)([^/]+\.html)$/i.test(path)) {
+          redirectUrl = path.replace(/\/chapters\/([^/]+\.html)$/i, '/chapters/en/$1');
+        } else if (/\/index\.html$/i.test(path) || path.endsWith('/')) {
+          redirectUrl = path.replace(/\/index\.html$/i, '/index_en.html');
+          if (path.endsWith('/')) {
+            redirectUrl = path + 'index_en.html';
+          }
+        }
+      } else if (nextLang === 'it') {
+        if (/\/chapters\/en\/([^/]+\.html)$/i.test(path)) {
+          redirectUrl = path.replace(/\/chapters\/en\/([^/]+\.html)$/i, '/chapters/$1');
+        } else if (/\/index_en\.html$/i.test(path)) {
+          redirectUrl = path.replace(/\/index_en\.html$/i, '/index.html');
+        }
+      }
+
+      if (redirectUrl) {
+        window.location.replace(redirectUrl + url.search + url.hash);
+      } else {
+        window.location.reload();
+      }
+    });
+
+    // 2. Create and inject Search Button
     const btn = document.createElement('button');
     btn.id = 'global-search-trigger';
     btn.className = 'global-nav-search-btn';
-    btn.setAttribute('aria-label', 'Cerca argomenti nella guida');
-    btn.setAttribute('title', 'Cerca (Ctrl+K o /)');
+    btn.setAttribute('aria-label', currentLang === 'it' ? 'Cerca argomenti nella guida' : 'Search topics in guide');
+    btn.setAttribute('title', currentLang === 'it' ? 'Cerca (Ctrl+K o /)' : 'Search (Ctrl+K or /)');
     btn.innerHTML = `
       <svg class="search-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-      <span class="search-btn-text">Cerca...</span>
+      <span class="search-btn-text">${currentLang === 'it' ? 'Cerca...' : 'Search...'}</span>
       <kbd class="search-btn-kbd">Ctrl+K</kbd>
     `;
 
-    // Append to the end of the navigation list
+    // Append both to the navigation list, putting the language selector after the search button
     navLinksContainer.appendChild(btn);
+    navLinksContainer.appendChild(langBtn);
     searchTriggerBtn = btn;
 
     // Hook click listener
@@ -542,7 +602,7 @@
     // Detect active page based on current filename
     const path = window.location.pathname.toLowerCase();
     
-    const isRootHome = path.endsWith('index.html') || path.endsWith('/') || (!path.includes('.html') && !path.includes('/chapters/'));
+    const isRootHome = path.endsWith('index.html') || path.endsWith('index_en.html') || path.endsWith('/') || (!path.includes('.html') && !path.includes('/chapters/'));
     const isHome = isRootHome && !window.location.hash.includes('capitoli');
     const isGuidaMenu = isRootHome && window.location.hash.includes('capitoli');
     const isQuiz = path.includes('quizzes.html');
@@ -555,12 +615,20 @@
     const glossarioUrl = resolveLink('glossario.html');
     const checklistUrl = resolveLink('checklist.html');
 
+    const savedLang = (localStorage.getItem('lang') || 'it').trim().toLowerCase();
+    const currentLang = (savedLang === 'en' || savedLang === 'it') ? savedLang : 'it';
+    const dict = navDict[currentLang];
+
+    // Ensure link targets also respect translation
+    const adjustedHomeUrl = currentLang === 'en' ? resolveLink('index_en.html') : homeUrl;
+    const adjustedGuidaMenuUrl = currentLang === 'en' ? resolveLink('index_en.html#capitoli') : guidaMenuUrl;
+
     navLinksContainer.innerHTML = `
-      <a href="${homeUrl}" class="global-nav-link${isHome ? ' active' : ''}">Home</a>
-      <a href="${guidaMenuUrl}" class="global-nav-link${isGuidaMenu ? ' active' : ''}">Guida</a>
-      <a href="${quizUrl}" class="global-nav-link${isQuiz ? ' active' : ''}">Quiz</a>
-      <a href="${glossarioUrl}" class="global-nav-link${isGlossario ? ' active' : ''}">Glossario</a>
-      <a href="${checklistUrl}" class="global-nav-link${isChecklist ? ' active' : ''}">Checklist</a>
+      <a href="${adjustedHomeUrl}" class="global-nav-link${isHome ? ' active' : ''}">${dict.home}</a>
+      <a href="${adjustedGuidaMenuUrl}" class="global-nav-link${isGuidaMenu ? ' active' : ''}">${dict.guida}</a>
+      <a href="${quizUrl}" class="global-nav-link${isQuiz ? ' active' : ''}">${dict.quiz}</a>
+      <a href="${glossarioUrl}" class="global-nav-link${isGlossario ? ' active' : ''}">${dict.glossario}</a>
+      <a href="${checklistUrl}" class="global-nav-link${isChecklist ? ' active' : ''}">${dict.checklist}</a>
     `;
   }
 

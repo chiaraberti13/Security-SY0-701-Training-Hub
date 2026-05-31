@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "node script/inject-theme-script.js && node script/sync-quiz-sources.js && node script/extract-glossary.js && node script/generate-search-data.js && mkdir -p dist && cp -r index.html checklist.html quizzes.html glossario.html quiz_database.xml sw.js style script chapters dist/",
+    "translate-index": "node script/translate.js",
+    "translate-chapters": "node script/translate-sections.js",
+    "build": "node script/inject-theme-script.js && node script/sync-quiz-sources.js && node script/extract-glossary.js && node script/generate-search-data.js && mkdir -p dist && cp -r index.html index_en.html checklist.html quizzes.html glossario.html quiz_database.xml sw.js style script chapters dist/",
     "lint": "eslint script/*.js server.js",
     "test": "vitest run",
     "test:coverage": "node script/check_comptia_coverage.js"
@@ -17,6 +19,7 @@
     "vitest": "^4.1.7"
   },
   "dependencies": {
+    "@google/genai": "^2.7.0",
     "pdfreader": "^3.0.8"
   }
 }

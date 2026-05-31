@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Investigation Data Sources · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index_en.html">General Index</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.9 — Data Sources in Investigations</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.9 — Investigation Data Sources</h1>
+    </header>
+
+    <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 15: Analisi forense digitale</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
+      <p>
+        <strong>Official Objective (CompTIA):</strong>
+        <em>Given a scenario, use data sources to support an investigation.</em>
+      </p>
+      <p>
+        <strong>Objectives covered:</strong>
+        <span class="objectives-tag">4.9</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisites:</strong>
+        <a href="en_obj4_5_incident_response.html">OBJ 4.5 — Configurare le capacità enterprise</a> ·
+        <a href="en_obj4_8_incident_response.html">OBJ 4.8 — Attività di Incident Response (IR)</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Sorgenti di Rete</div>
+        <a href="#network_firewall_logs">Log di Firewall e di Rete</a>
+        <a href="#ips_packet_captures">IPS/IDS e Packet Captures (PCAP)</a>
+        <a href="#vpn_impossible_travel">VPN e Impossible Travel</a>
+        <a href="#waf_injection">WAF e Logic Bomb / Command Injection</a>
+
+        <div class="toc-section">Sorgenti Organizzative</div>
+        <a href="#siem_aggregation">Sistemi SIEM ed Alerting</a>
+        <a href="#agent_vs_agentless">Monitoraggio Agentless ed Endpoint</a>
+        <a href="#dashboards_metrics">Dashboard e Report Automatizzati</a>
+        <a href="#vuln_scans_investigation">Scansioni di Vulnerabilità nell'Istruttoria</a>
+
+        <div class="toc-section">Investigazioni e Forensics</div>
+        <a href="#brute_force_failure">Log di Autenticazione (Event ID 4625)</a>
+        <a href="#metadata_exif">Metadati e coordinate geografiche</a>
+        <a href="#digital_forensics_acq">Fasi Forensi e Volatilità della RAM</a>
+
+        <div class="toc-section">Verify & Quiz</div>
+        <a href="#quiz-section">Interactive Quiz (23 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — LOG DI FIREWALL E SORGENTI DI RETE ═════ -->
+        <section id="network_firewall_logs">
+          <h2>Log di Firewall e di Rete nelle Investigazioni</h2>
+          <p>
+            Quando un'organizzazione si confronta con un potenziale attacco informatico, i log di rete e di frontiera costituiscono l'ancora di salvezza. Ad esempio, a fronte di un'infezione da malware di tipo <strong>Command and Control (C2)</strong>, i canali di comunicazione locali potrebbero essere oscurati, ma il traffico in transito rimane tracciato sui dispositivi centrali.
+          </p>
+
+          <div class="critical">
+            <strong>Analisi di Scenario — Log dell'Endpoint Cancellati:</strong><br>
+            Se l'attaccante riesce a penetrare su una workstation Windows e provvede sistematicamente a **cancellare i registri degli eventi locali** (OS logs o endpoint alerts) per nascondere le prove del malware C2, l'analista del SOC deve consultare i log del <strong>Firewall</strong> e della <strong>Rete (Network logs)</strong>.
+            <br><br>
+            Queste sorgenti centralizzate consentono di:
+            <ul>
+              <li>Identificare la destinazione esterna (indirizzi IP o domini) del traffico C2 originato dal dispositivo compromesso.</li>
+              <li>Estrarre gli indirizzi IP sorgente di chi sta conducendo scansioni di porte esterne (Port scan) contro il perimetro aziendale.</li>
+              <li>Rilevare il momento esatto in cui è sul perimetro l'exploit iniziale di un dispositivo IoT integrato.</li>
+            </ul>
+          </div>
+
+          <div class="example-box">
+            <strong>Individuazione di Esfiltrazioni Massive:</strong><br>
+            Se l'azienda soffre una massiccia esfiltrazione di dati pari ad esempio a 30 GB, l'approccio più celere ed efficace per scoprire da quale server interno la fuga sia partita e quale server esterno la stia ricevendo consiste nell'**analizzare i log dei Firewall e della Rete** alla ricerca di picchi (data spikes) di traffico in uscita diretti all'esterno della infrastruttura aziendale.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 2 — IPS/IDS E PACKET CAPTURES ═══════════════ -->
+        <section id="ips_packet_captures">
+          <h2>Sorgenti di Rete Avanzate: Log di IPS/IDS e Packet Captures (PCAP)</h2>
+          <p>
+            Mentre i firewall approvano o rigettano i transiti basandosi principalmente su porte e indirizzi IP, altre fonti di rete avanzate offrono visibilità sul payload e sul comportamento interno del traffico:
+          </p>
+          <dl class="termlist">
+            <dt>IPS/IDS Logs (Registri dei Sistemi di Intrusione)</dt>
+            <dd>Catturano gli allarmi emessi quando i pacchetti di rete corrispondono a firme di pattern dannosi (Signature-based) o deviano dai comportamenti attesi (Anomaly-based). Riportano la regola infranta, la gravità del pericolo e l'eventuale reazione di blocco istantaneo intrapresa dall'Intrusion Prevention System (IPS).</dd>
+
+            <dt>Packet Captures (Cattura dei Pacchetti / file PCAP)</dt>
+            <dd>La registrazione fedele e a livello più profondo del traffico raw di rete passante da un'interfaccia o switch (tramite port mirroring o TAP). L'analista forense analizza i file di cattura (PCAP) con software come Wireshark per compiere la <strong>Deep Packet Inspection (DPI)</strong>.
+              <ul>
+                <li><strong>Utilità Investigativa</strong>: Permette di ricostruire intere sessioni TCP, estrarre file binari e allegati in transito o ispezionare le stringhe esatte di testo scambiate, benché richieda imponenti risorse di archiviazione (Storage cost).</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 3 — VPN E IMPOSSIBLE TRAVEL ════════════════ -->
+        <section id="vpn_impossible_travel">
+          <h2>Indicatori VPN e Allarmi di "Impossible Travel"</h2>
+          <p>
+            Le connessioni remote e i profili di accesso remoto (VPN) offrono un'infinità di record utilizzabili negli accertamenti. Uno dei segnali di abuso o furto credenziali più critici è legato alla logistica geografica.
+          </p>
+          <div class="focused-concept">
+            <strong>Log VPN e Impossible Travel:</strong><br>
+            Se l'analisi di un alert per connessione VPN sospetta rileva due autenticazioni andate a buon fine con lo stesso account in un lasso di tempo ridotto (es. alle 09:43 da Chicago, USA e un'ora dopo da Roma, Italia), siamo dinanzi a un indicatore di comportamento malevolo noto come <strong>Impossible travel (Viaggio impossibile)</strong>. 
+            <br><br>
+            Ciò prova che una terza parte possiede sgradevolmente le chiavi o credenziali di sessione legittime dell'utente, obbligando la procedura tecnica a congelare l'account e imporne il reset immediato.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 3 — WAF E LOGIC BOMB ═══════════════════════ -->
+        <section id="waf_injection">
+          <h2>Filtrare attacchi applicativi: WAF e Logic Bomb</h2>
+          <p>
+            Le applicazioni web sono tutelate a livello di istruzioni applicative da firewall di livello 7 (Web Application Firewall - WAF). Supponiamo che l'analista si imbatta in codice anomalo depositato all'interno di routine di amministrazione o di backup:
+          </p>
+          <div class="example-box">
+            <strong>Analisi del codice di backup malevolo:</strong><br>
+            Nell'analizzare un database andato offline allo scoccare di una specifica data, l'analista constata l'istruzione:<br>
+            <code class="font-mono text-xs block py-1 my-1 bg-[var(--card-edge)] px-2 rounded">IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END.</code>
+            <br>
+            Questo frammento di codice costituisce una <strong>Logic Bomb (Bomba logica)</strong>. Il passo investigativo immediato deve focalizzarsi sul **ricevere ed esaminare i log del WAF (Web Application Firewall)** alla ricerca di tentativi di **Command Injection**, la tecnica tipica d'attacco web che potrebbe essere stata impiegata dall'attaccante esterno per alterare le routine d'amministrazione del database.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 4 — SIEM ED ALLARMI ════════════════════════ -->
+        <section id="siem_aggregation">
+          <h2>Aggregazione e Correlazione: Sistemi SIEM</h2>
+          <p>
+            Il volume di log generato quotidianamente da router, switch, endpoint, server e applicazioni è ingestibile senza uno strumento preposto a raggrupparli strutturalmente.
+          </p>
+          <dl class="termlist">
+            <dt>SIEM (Security Information and Event Management)</dt>
+            <dd>È la combinazione hardware e software in grado di **classificare ed analizzare dati legati e slegati provenienti da numerose fonti**, consentendo correla-analitiche, normalizzazione delle anomalie e configurazione centralizzata degli allarmi.</dd>
+            
+            <dt>False Positive (Falso Positivo)</dt>
+            <dd>Costituisce una segnalazione di minaccia generata dal SIEM o dai sistemi di intrusion prevention a fronte di un comportamento in realtà legittimo. Gli allarmi catalogati come falsi positivi rappresentano l'elemento con la **maggior probabilità di essere ignorato o trascurato dagli specialisti nel tempo** (alert fatigue).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 5 — AGENT VS AGENTLESS ED ENDPOINT ═════════ -->
+        <section id="agent_vs_agentless">
+          <h2>Monitoraggio Cloud e Host: Sistemi Agentless</h2>
+          <p>
+            L'introduzione di software di sicurezza sui dispositivi utenti finali può comportare pesanti carichi organizzativi e manutenzione sistematica di script.
+          </p>
+          <ul>
+            <li>
+              <strong>Sistemi Agentless (Senza agente)</strong>: Ideale per ridisporre una scansione e query centralizzata on-demand senza gravare di software permanente le workstation degli impiegati. Riducono notevolmente il carico di Configuration Management pur offrendo visibilità di sicurezza discreta su richiesta.
+            </li>
+            <li>
+              <strong>Endpoint Logs (Log dell'Host)</strong>: Se il SIEM riporta traffico internet anomalo generato da un terminale e l'analista desidera verificare quale specifico eseguibile (Process Name, MD5 Hash, PID) l'abbia innescato, la sorgente d'elezione sono appunto i <strong>Log di Endpoint</strong>, in quanto l'IPS o i log di rete generici catturano l'IP e la porta ma non i dettagli del binario locale dell'OS.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 6 — DASHBOARD E REPORT AUTOMATIZZATI ══════ -->
+        <section id="dashboards_metrics">
+          <h2>Dashboard e Report Automatizzati nelle Investigazioni</h2>
+          <p>
+            Il reporting e lo scambio dati assumono forme differenziate a seconda del pubblico di destinazione all'interno dell'organizzazione aziendale:
+          </p>
+          <dl class="termlist">
+            <dt>Dashboard (Cruscotti di sintesi visiva)</dt>
+            <dd>Fornisce dati in tempo reale aggregati sotto forma di grafici, diagrammi e trend storici. È lo strumento ideale utilizzato dagli analisti senior per <strong>presentare trimestralmente al consiglio di amministrazione (Board of Directors)</strong> l'andamento globale della cyber security e l'impatto degli incidenti, escludendo minuzie tecniche incomprensibili per il management.</dd>
+
+            <dt>Automated Reports (Reportistica periodica automatizzata)</dt>
+            <dd>Documenti schedulati inviati automaticamente a intervalli regolari (giornalieri o settimanali) ai vari responsabili di sistema. Riassumono metriche, elenchi di alert insoluti, performance di patching e allineamento di compliance, consentendo di monitorare continuativamente lo stato dell'infrastruttura.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 7 — SCANSIONI DI VULNERABILITÀ NELLE INDAGINI ════ -->
+        <section id="vuln_scans_investigation">
+          <h2>Scansioni di Vulnerabilità nell'Istruttoria</h2>
+          <p>
+            L'analisi forense e l'investigazione degli incidenti traggono immensa utilità dai dati di scansione preventiva e consultiva delle debolezze del sistema:
+          </p>
+          <dl class="termlist">
+            <dt>Vulnerability Scans (Scansione delle Vulnerabilità)</dt>
+            <dd>L'ispezione periodica d'infrastruttura (scansioni delle vulnerabilità di rete o scansioni antivirus) volta a mappare attivamente host, porte aperte ed elementi orfani.
+              <ul>
+                <li><strong>Utilità Investigativa</strong>: Quando si verifica un attacco Cyber, l'analista consulta i log degli scanner di vulnerabilità (es: Nessus) per determinare se il server compromesso ospitasse difetti descritti o non patchati prima dell'evento. Questo permette di mappare il probabile percorso d'ingresso (Vettore d'attacco) adoperato dall'attaccante e ricostruire scientificamente la "root cause".</li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 8 — EVENT ID E DIGITAL FORENSICS ═══════════ -->
+        <section id="brute_force_failure">
+          <h2>Event ID Windows, Metadati e Fasi Forensi</h2>
+          
+          <div class="focused-concept">
+            <strong>Analisi dell'Event ID 4625:</strong><br>
+            Nella revisione dei log di sicurezza di un server Microsoft Windows, l'insorgenza ripetuta dello storico <strong>Event ID 4625 (Logon Failure)</strong> in una sequenza rapida indica tentativi sistematici falliti di autenticazione, riconducibili a un attacco di tipo <strong>Forza Bruta (Brute-force)</strong>. Ispezionare i <strong>User activity logs</strong> è primario per svelare l'azione abusiva d'accesso a profili d'amministrazione.
+          </div>
+
+          <dl class="termlist">
+            <dt>Metadata (Metadati)</dt>
+            <dd>Contengono attributi incorporati nei file (come foto o video) che riportano data di scatto-creazione, coordinate geografiche GPS, autore e macchina d'origine. Estrarre i metadati è il metodo d'elezione per ricavare tali informazioni senza alterare il reperto.</dd>
+            
+            <dt>Forensic Acquisition (Acquisizione Forense)</dt>
+            <dd>La sottofase dello studio investigativo volta all'ottenimento vero e proprio dell'immagine conforme (Bit-stream image) dai dischi rigidi o dai supporti fisici. Consente l'analisi offline dettagliata preservando il sistema originale.</dd>
+
+            <dt>Order of Volatility (Ordine di volatilità delle prove)</dt>
+            <dd>Principio metodologico fondamentale che definisce la sequenza di raccolta e conservazione dei reperti digitali a caldo. L'analista deve estrarre prioritariamente le informazioni a deterioramento rapido o evaporazione elettrica prima che si spenga l'host, seguendo questa gerarchia standard decrescente:
+              <ol>
+                <li><strong>Memoria CPU e Cache Memory</strong>: Registri del processore, cache di hardware L1/L2/L3 (le più labili in assoluto).</li>
+                <li><strong>Tabella di stato e Cache di Rete</strong>: Tabelle di routing, connessioni TCP/UDP attive, e la <strong>ARP Cache</strong> (che associa indirizzi IP locali a MAC fisici).</li>
+                <li><strong>Memoria di Sistema (RAM)</strong>: Mappatura complessiva delle esecuzioni interattive a caldo (tramite <strong>Memory Dump</strong>).</li>
+                <li><strong>Memoria Virtuale Ausiliaria</strong>: File temporanei e porzioni di accumulo su disco (como lo <strong>Swap File / Pagefile.sys</strong>).</li>
+                <li><strong>Supporti Fissi di Archiviazione</strong>: I dati persistenti conservati nei dischi rigidi integrati (<strong>Hard Disk</strong> / SSD).</li>
+                <li><strong>Supporti di Memoria Rimovibili (Removable Storage Media)</strong>: Unità Flash esterne USB o schede SD scoperte.</li>
+                <li><strong>Tracce Logiche Remote</strong>: Record e telemetria trasmessi a server SIEM esterni o repository centralizzate.</li>
+                <li><strong>Optical Discs</strong>: Supporti laser non volatili offline (CD-ROM, DVD, Blu-Ray), in fondo alla gerarchia.</li>
+              </ol>
+            </dd>
+
+            <dt>Write Protection e Write Blocker (Inibitori di Scrittura)</dt>
+            <dd>L'adozione di protezioni fisiche (Write Protection abilitata da selettori hardware) o logiche. Un diodo d'inibizione hardware (<strong>Write Blocker</strong>) funge da guardiano elettronico frapposto tra la memoria sequestrata e la <strong>Forensics Workstation</strong> del perito, bloccando comandi intesi a scrivere sul disco originario e lasciando fluire solo comandi di lettura per l'imaging. Impedisce tassativamente qualsiasi modifica accidentale o alterazione dei timestamp del reperto.</dd>
+
+            <dt>Disk Image e Copia Fisica (Sector-by-Sector / Bit-level Copy)</dt>
+            <dd>Una copia bit-a-bit (bit-stream image o clone) speculare esatta di un intero supporto d'archiviazione (es: HDD o SSD) redatta a basso livello settore per settore. Include non solo i file visibili logici, ma anche la tabella delle partizioni, i file di sistema nascosti, lo spazio non allocato (unallocated space) e lo <em>slack space</em> dove risiedono i <strong>Deleted Files</strong> (file rimossi logicamente dall'utente i cui dati binari rimangono fisicamente intatti sulla superficie magnetica fino a successiva sovrascrittura).</dd>
+
+            <dt>Strumenti Software di Digital Forensics (FTK, EnCase, Autopsy, CAINE)</dt>
+            <dd>Piattaforme standard validate necessarie per l'esame analitico, la classificatione e il reporting dibattimentale:
+              <ul>
+                <li><strong>FTK (Forensic Toolkit)</strong> ed <strong>FTK Imager</strong>: Suite commerciali e utility freeware note per compiere calcoli istantanei di funzioni hash integrali (<strong>MD5</strong> e <strong>SHA</strong>) e per l'imaging rapido conforme dei supporti.</li>
+                <li><strong>EnCase Forensic</strong>: Software analitico commerciale d'elezione consolidato nei tribunali globali per l'indicizzazione estesa e l'analisi dei file system.</li>
+                <li><strong>Autopsy</strong>: Eccezionale suite grafica open source intuitiva (basata sul motore Sleuth Kit) ideale per investigazioni rapide e file carving.</li>
+                <li><strong>CAINE (Computer Aided Investigative Environment)</strong>: Distribuzione Live Linux italiana che monta di default in sola lettura i dischi innestati, proteggendo l'integrità giuridica originaria.</li>
+              </ul>
+            </dd>
+
+            <dt>KFF (Known File Filter) e File Filtering</dt>
+            <dd>Tecnologia avanzata integrata nelle suite forensi per il filtraggio intelligente (<strong>File Filtering</strong>). Sfruttando un database centrale di firme hash (quali quelle del NIST), il Known File Filter (KFF) isola ed esclude automaticamente i file noti integri di sistema (es: dll native di Windows) riducendo i tempi di analisi, o allerta istantaneamente l'analista al rilevamento di hash noti nocivi come i malware censiti.</dd>
+
+            <dt>Strumenti a Riga di Comando in Ambito Unix (dd, ddrescue e Netcat)</dt>
+            <dd>Nelle investigazioni su kernel standard (<strong>Linux Forensics</strong>), si utilizzano utility fondamentali:
+              <ul>
+                <li><strong>dd</strong>: Comando universale adatto alla copia a basso livello di blocchi fisici per generare file immagine grezzi esenti da alterazioni.</li>
+                <li><strong>ddrescue</strong>: Strumento avanzato per estrarre copie conformi da supporti fisici logorati o aventi settori danneggiati, saltando le aree illeggibili in sicurezza.</li>
+                <li><strong>Netcat (nc)</strong>: Il coltellino svizzero per incanalare a caldo lo stream crudo dell'acquisizione volatile (es: dump di RAM) via cavo di rete Ethernet direttamente alla macchina forense di raccolta.</li>
+              </ul>
+            </dd>
+
+            <dt>Artefatti di Sistema e Investigazione (Registry Keys ed Event Logs)</dt>
+            <dd>La telemetria e i log locali conservati nei sistemi d'endpoint che evidenziano le azioni d'attacco:
+              <ul>
+                <li><strong>Registry Keys (Chiavi di Registro Windows)</strong>: Un database che conserva frammenti storici di file recenti aperti, configurazioni di persistenza malware, esecuzioni di programmi e cronologia delle periferiche USB agganciate.</li>
+                <li><strong>Event Logs (Registri Eventi)</strong>: Registrazioni centralizzate dei messaggi del sistema, per esempio ispezionabili per riscontrare tentativi ripetuti falliti di login (Event ID 4625 per forza bruta).</li>
+                <li><strong>Ricerche Internet (Internet Searches)</strong>: File di cronologia browser, cache web e cookie di sessione residui che attestano il punto d'approdo iniziale dell'attaccante.</li>
+              </ul>
+            </dd>
+
+            <dt>Metodiche di Duplicazione: Disk-to-Image, Disk-to-Disk, Image-to-Disk</dt>
+            <dd>Le procedure fisiche di trasfusione del dato:
+              <ul>
+                <li><strong>Disk-to-Image (Da disco a file immagine)</strong>: Riversa l'intera superficie del disco originale in un file contenitore compresso protetto da firme hash (es: formato .E01 o file raw).</li>
+                <li><strong>Disk-to-Disk (Da disco a disco)</strong>: Duplica i settori crudi bit-a-bit direttamente da un disco originario ad un secondo disco fisico sterile di laboratorio.</li>
+                <li><strong>Image-to-Disk (Da file immagine a disco fisico)</strong>: L'operazione speculare di scrittura e scompattamento di un'immagine forense validata su disco fisico per riprodurre un sistema speculare avviabile in sandbox.</li>
+              </ul>
+            </dd>
+
+            <dt>Live Forensics (Analisi a Caldo) e Live Acquisition</dt>
+            <dd>La conduzione di indagini ed estrazione delle informazioni direttamente su un <strong>sistema operativo acceso e attivo</strong>. È indispensabile per catturare la memoria RAM prima dello spegnimento dell'alimentatore fisico, consentendo all'analista forense di conservare l'offuscamento di malware fileless, processi attivi in background e chiavi di cifratura attive.</dd>
+
+            <dt>Dead Forensics (Analisi a Freddo) e Static Acquisition</dt>
+            <dd>La conduzione di indagini informatiche e l'estratto forense su un <strong>sistema spento (powered off)</strong>, asportandone fisicamente i supporti di memorizzazione per connetterli offline a un inibitore di scrittura. Annulla e azzera il rischio di iniezione di codice distruttivo e assicura l'immobilità e la ripetibilità assoluta degli indici d'analisi.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.9</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>23 questions reali memorizzate</strong> mirate allo svisceramento dei log di Firewall, SIEM ed Endpoint, RAM, impossible travel e metadati d'esame.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.9 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.9</h2>
+          <p>Metti alla prova la tua capacità di associazione logica degli elementi.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Dove si cercano le prove se l'attaccante cancella i log dell'endpoint?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Nei log del <strong>Firewall</strong> centralizzato o dei flussi di rete, in quanto elementi residenti al di fuori del controllo diretto della workstation violata.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è l'Event ID Windows associato a un Brute-force?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>L'<strong>Event ID 4625</strong>, indicante un tentativo fallito di autenticazione ripetuto nel registro eventi Windows.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è l'elemento più volatile di un computer?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La **RAM** (Random Access Memory), che perde tutti i dati archiviati quando l'alimentazione del sistema viene interrotta.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

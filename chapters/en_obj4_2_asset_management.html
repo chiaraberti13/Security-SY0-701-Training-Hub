@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Asset Management · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index_en.html">General Index</a>
+  <span>Dominio 4 — Security Operations</span>
+  <span>OBJ 4.2 — Gestione degli Asset</span>
+</div>
+
+<header>
+  <h1>OBJ 4.2 — Asset Management</h1>
+</header>
+
+<div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 11: Sicurezza degli endpoint &amp; Chapter 16: Governance e conformità della sicurezza</p>
+  <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
+  <p><strong>Objective ufficiale:</strong> <em>Explain the security implications of proper hardware, software, and data asset management.</em></p>
+  <p><strong>Objectives covered:</strong> <span class="objectives-tag">4.2</span> <span class="weight-badge">D4 = 28%</span></p>
+  <p><strong>Prerequisites:</strong> <a href="en_obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> · <a href="en_obj1_2_fundamental_concepts.html">OBJ 1.2 — Concetti fondamentali</a></p>
+  <p><strong>Correlati:</strong> <span class="hint-tag">OBJ 4.1 — Tecniche di sicurezza sulle risorse di calcolo</span> · <span class="hint-tag">OBJ 4.3 — Vulnerability Management</span></p>
+</div>
+
+<div class="layout">
+
+  <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+  <nav class="toc-sticky" aria-label="Indice del capitolo">
+    <div class="toc-section">Ciclo di Vita</div>
+    <a href="#lifecycle">EOL vs EOSL</a>
+    <a href="#decommissioning">Decommissioning & Hardening</a>
+
+    <div class="toc-section">Tracciamento</div>
+    <a href="#tracking">Asset Tracking</a>
+    <a href="#offboarding">Offboarding Dipendenti</a>
+
+    <div class="toc-section">Modelli Mobile</div>
+    <a href="#mobile-deploy">BYOD vs COBO vs COPE</a>
+
+    <div class="toc-section">Automazione</div>
+    <a href="#automation">User Provisioning & IaC</a>
+
+    <div class="toc-section">Sanitizzazione</div>
+    <a href="#sanitization">Sanitizzazione fisica e dati</a>
+
+    <div class="toc-section">Verify</div>
+    <a href="#quiz-section">Interactive Quiz (18 quiz)</a>
+    <a href="#flashcard">Flashcard di riepilogo</a>
+  </nav>
+
+  <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+  <main class="content" id="main">
+
+    <!-- ══ INTRO ════════════════════════════════════════════════════ -->
+    <section id="intro">
+      <h2>L'importanza cruciale della Gestione degli Asset</h2>
+      <p>
+        Non è possibile proteggere ciò di cui non si conosce l'esistenza. La <strong>Gestione degli Asset (Asset Management)</strong> rappresenta un pilastro fondamentale dell'intera architettura di sicurezza aziendale. Un inventario non aggiornato o la mancata classificazione degli asset compromette tutti gli altri sforzi difensivi di controllo degli accessi, vulnerabilità e monitoraggio delle minacce.
+      </p>
+      <p>
+        In questo capitolo esamineremo le implicazioni di sicurezza legate alla gestione dei tre tipi fondamentali di asset aziendali:
+      </p>
+      <ul>
+        <li><strong>Asset Hardware (Hardware Assets)</strong>: Server, workstation, router, switch, dispositivi IoT, dispositivi mobili.</li>
+        <li><strong>Asset Software (Software Assets)</strong>: Sistemi operativi, suite applicative corporative, strumenti middleware, database.</li>
+        <li><strong>Asset di Dati (Data Assets)</strong>: Archivi di file, database, dati proprietari protetti e registri delle transazioni.</li>
+      </ul>
+
+      <h3 id="asset-phases">Le Fasi Chiave della Gestione degli Asset (SY0-701 Syllabus)</h3>
+      <p>
+        La gestione degli asset copre l'intero ciclo vitale delle risorse ed è governata da quattro macro-attività imposte dagli standard d'esame:
+      </p>
+      
+      <dl class="termlist">
+        <dt>1. Acquisizione e Approvvigionamento (Acquisition / Procurement Process)</dt>
+        <dd>Il processo formale di selezione, convalida e acquisto degli asset hardware e software. Durante la fase di approvvigionamento, la sicurezza deve valutare l'affidabilità dei fornitori (Supply Chain Trust), verificare la presenza di moduli hardware di sicurezza nativi (come il firmware TPM - Trusted Platform Module) e definire i requisiti di autenticazione del software prescelto per escludere malware silenti inseriti nel percorso logistico.</dd>
+        
+        <dt>2. Assegnazione e Accountabilità (Assignment / Accounting)</dt>
+        <dd>La fase operativa legata all'attribuzione formale delle responsabilità d'uso e protezione:
+          <ul>
+            <li><strong>Proprietà degli Asset (Asset Ownership)</strong>: Identifica formalmente un <em>Asset Owner</em> (proprietario dell'asset, solitamente un manager della linea di business) che ha la responsabilità ultima di classificarlo, approvare i diritti di acesso e condurre revisioni periodiche di idoneità.</li>
+            <li><strong>Classificazione (Classification)</strong>: Consiste nel classificare logica e fisicamente l'asset (es. Pubblico, Privato, Proprietario, Altamente Confidenziale) al fine di applicarvi automaticamente le difese strutturali corrispondenti alla classe di sensitività.</li>
+          </ul>
+        </dd>
+        
+        <dt>3. Monitoraggio e Tracciamento (Monitoring / Asset Tracking)</dt>
+        <dd>Assicura visibilità continua e controllo sui dispositivi in esercizio:
+          <ul>
+            <li><strong>Inventario Sistematico (Inventory)</strong>: La compilazione automatizzata e manuale di tutti i tag descrittivi (serial number, IP, OS, sticker number) dei dispositivi autorizzati.</li>
+            <li><strong>Enumerazione e Scoperta (Enumeration)</strong>: Le attività continuative condotte tramite scanner di rete attivi o sonde passive per intercettare host orfani o abusivi. L'enumerazione ostacola in via preventiva la proliferazione della <strong>Shadow IT</strong> (dispositivi e software integrati dai dipendenti senza formale approvazione del reparto di sicurezza).</li>
+          </ul>
+        </dd>
+        
+        <dt>4. Dismissione e Smaltimento (Disposal / Decommissioning)</dt>
+        <dd>La rimozione sicura delle risorse al termine del ciclo operativo:
+          <ul>
+            <li><strong>Sanitizzazione (Data Sanitization)</strong>: Cancellazione sicura delle memorie per impedire l'esfiltrazione postuma (es. purificazione/purging, azzeramento magnetico o crittografico).</li>
+            <li><strong>Distruzione Fisica (Destruction)</strong>: Demolizione irreversibile tramite incenerimento, triturazione fisica o degaussing avanzato di storage contenenti dati riservati.</li>
+            <li><strong>Certificazione di Distruzione (Certificate of Destruction)</strong>: Un documento vincolante rilasciato da un fornitore terzo certificato che attesta la distruzione definitiva ed ecologica dello storage array. È indispensabile per scopi di conformità e per scagionare l'azienda da eventuali perdite postume.</li>
+            <li><strong>Conservazione dei Dati (Data Retention)</strong>: Le leggi o policy interne che impongono la conservazione d'archivio protetta per un determinato numero di anni prima dello smaltimento totale.</li>
+          </ul>
+        </dd>
+      </dl>
+    </section>
+
+    <!-- ══ CICLO DI VITA: EOL vs EOSL ══════════════════════════════ -->
+    <section id="lifecycle">
+      <h2>Il Ciclo di Vita delle Risorse: EOL ed EOSL</h2>
+      <p>
+        Tutto l'hardware e il software industriale segue una curva temporale che si conclude inevitabilmente con la perdita di manutenzione dal produttore. Comprendere queste sigle è un requisito fondamentale per le questions del Security+:
+      </p>
+      <dl class="termlist">
+        <dt>Fine Vita commerciale / EOL (End of Life)</dt>
+        <dd>Indica il punto in cui un costruttore/vendor cessa la pubblicazione, la commercializzazione e la vendita sul mercato di uno specifico modello hardware o di una versione software. Tipicamente viene ancora offerta manutenzione reattiva o supporto esteso a pagamento, ma non viene più promosso attivamente.</dd>
+        <dt>Fine del Supporto / EOSL (End of Service Life o End of Support)</dt>
+        <dd>Rappresenta il momento in cui l'OEM (Original Equipment Manufacturer) dismette definitivamente ogni tipo di supporto o assistenza per il prodotto. Da questo punto in poi:
+          <ul>
+            <li>Non vengono più distribuiti pacchetti di aggiornamento o patch per nuove vulnerabilità ed exploit scoperti.</li>
+            <li>Non vi è assistenza remota ufficiale o supporto telefonico del vendor.</li>
+            <li>Il prodotto diventa un rischio di conformità colossale per la sicurezza globale dell'infrastruttura.</li>
+          </ul>
+        </dd>
+      </dl>
+
+      <div class="critical">
+        <strong>NODO CRITICO — Disponibilità delle Patch (Patch Availability)</strong><br>
+        L'implicazione di sicurezza primaria nell'utilizzare sistemi operativi o software giunti alla fine del supporto (EOSL/EOL) è la **Disponibilità delle Patch (Patch Availability)**. Chi progetta l'architettura aziendale deve documentare questo rischio come primario: ogni vulnerabilità zero-day esposta pubblicamente rimarrà permanentemente non patchabile, lasciando il dispositivo costantemente indifeso.
+      </div>
+
+      <h3 id="decommissioning">Dismissione degli Asset Obsoleti (Decommissioning)</h3>
+      <p>
+        Per risolvere proattivamente le minacce associate ai dispositivi non più patchabili o non conformi, l'unica ed ottimale misura raccomandata all'amministrazione di rete è il **Decommissioning (Dismissione)**. 
+      </p>
+      <div class="exam-tip">
+        <strong>EXAM TIP — Quando raccomandare il Decommissioning?</strong><br>
+        Un ingegnere della sicurezza deve raccomandare la dismissione all'amministrazione del network primariamente in due scenari ben definiti:
+        <ul>
+          <li><strong>Mancanza di aggiornamenti</strong>: Il dispositivo hardware di rete è giunto ad un punto in cui non è più in grado di accogliere e ricevere aggiornamenti e patch ufficiali di sicurezza.</li>
+          <li><strong>Limiti crittografici</strong>: Il livello di cifratura software o hardware supportato dal dispositivo è nativamente limitato e obsoleto e non può soddisfare i requisiti minimi degli standard e policy della sicurezza corporativa attuale.</li>
+        </ul>
+      </div>
+      <p>
+        Per ridurre in modo rapido la superficie di attacco complessiva dei moderni data center, il rimedio essenziale per salvaguardare la rete da intrusi resta dunque l'aggiornamento e la sostituzione dei sistemi operativi fuori supporto (End-of-Support OS).
+      </p>
+    </section>
+
+    <!-- ══ ASSET TRACKING & OFFBOARDING ═══════════════════════════ -->
+    <section id="tracking">
+      <h2>Tracciamento degli Asset e Offboarding Aziendale</h2>
+      <p>
+        Il tracciamento fisico e sistematico delle risorse (Asset Tracking) garantisce il controllo logistico dell'hardware. Pratiche ordinarie includono l'applicazione di **Targhette e codici identificativi (Asset inventory stickers / serial numbers)** abbinandoli alle credenziali dello specifico ID dipendente.
+      </p>
+      <p>
+        Questo meticoloso abbinamento tra hardware e dipendente implementa due benefici vitali:
+      </p>
+      <div class="example-box">
+        <strong>Vantaggi di Sicurezza del tracciamento incrociato:</strong><br>
+        <ol>
+          <li><strong>Notifica rapida post-incidente</strong>: Se un sensore d'allarme o un tool Endpoint Detection & Response (EDR) rileva un comportamento malevolo su una workstation, l'ammistrazione può risalire immediatamente al dipendente associato per notificare l'incidente, esigere il cambio della password o isolare la macchina corretta.</li>
+          <li><strong>Prevenzione delle perdite di dati all'Offboarding (Company data accounting)</strong>: Al momento in cui il dipendente si dimette o conclude la collaborazione (deprovisioning/offboarding), il catalogo elettronico dei codici stickers associati all'utente permette di rendersi conto di quali e quanti notebook, smartphone e hard disk USB esterni siano stati posseduti dal lavoratore. Questo garantisce il totale recupero e la bonifica ufficiale delle informazioni sensibili aziendali prima del distacco definitivo.</li>
+        </ol>
+      </div>
+
+      <h3 id="software-inventory">Software Inventory (Inventario Software)</h3>
+      <p>
+        Mentre l'asset tracking si concentra generalmente sull'hardware fisico, il <strong>Software Inventory (Inventario Software)</strong> è il catalogo completo, centralizzato e costantemente aggiornato di tutti gli asset logici: sistemi operativi, applicazioni commerciali, software open source, librerie di sviluppo, versioni di firmware, licenze d'uso e configurazioni attive all'interno della rete aziendale.
+      </p>
+      <dl class="termlist">
+        <dt>Rilevamento della Shadow IT</dt>
+        <dd>Permette di identificare istantaneamente installazioni di programmi non autorizzati o non approvati dal dipartimento IT (come software di file sharing torrent, VPN personali, o strumenti di sviluppo a rischio).</dd>
+        <dt>Vulnerability Mapping (Mappatura delle vulnerabilità)</dt>
+        <dd>Incrociando l'inventario del software con i feed pubblici di minaccia (CVE), il team di sicurezza può mappare immediatamente quali workstation o server ospitano versioni vulnerabili o non patchate di un applicativo (es. una versione deprecata di Java o Apache).</dd>
+        <dt>Audit di conformità e licenze</dt>
+        <dd>Garantisce che l'azienda sia in regola con i contratti di licenza d'uso ed evita l'esecuzione di software non approvato o potenzialmente dannoso.</dd>
+      </dl>
+    </section>
+
+    <!-- ══ STRATEGIE MOBILE: INVENTARIO & DEPLOYMENT ═══════════════ -->
+    <section id="mobile-deploy">
+      <h2>Modelli di Deployment Mobile (Mobile Policy Frameworks)</h2>
+      <p>
+        La scelta della policy sull'uso degli smartphone o dei tablet aziendali impatta pesantemente sulla visibilità logistica e la sicurezza dei dati:
+      </p>
+      <dl class="termlist">
+        <dt>BYOD (Bring Your Own Device)</dt>
+        <dd>Il dipendente usa il proprio apparato personale per connettersi alle risorse dell'ufficio. Consente costi hardware nulli all'azienda, ma espone a rischi massicci di infezioni malware e impedisce la corretta ispezione e controllo centralizzato della corporazione.</dd>
+        <dt>COBO (Corporate-Owned, Business-Only)</dt>
+        <dd>I telefoni o i tablet sono interamente acquistati e controllati dal reparto IT aziendale e l'uso è rigorosamente confinato alle sole mansioni d'ufficio (nessuna applicazione personale, social o file personali installabili). Rappresenta il modello più sicuro e controllabile in assoluto perché riduce al minimo l'attack surface e abilita un hardening profondo e preventivo.</dd>
+        <dt>COPE (Corporate-Owned, Personally Enabled)</dt>
+        <dd>Il terminale è aziendale, ma all'utente viene concesso un profilo o uno spazio applicativo isolato destinato ad usi personali non d'ufficio.</dd>
+        <dt>CYOD (Choose Your Own Device)</dt>
+        <dd>L'utente può scegliere lo smartphone preferito da una lista fissa e ristretta di modelli pre-approvati e preventivamente hardenizzati compilata dal reparto di sicurezza.</dd>
+      </dl>
+      
+      <div class="critical">
+        <strong>REQUISITI DI SCENARIO — Quando preferire COBO</strong><br>
+        Se lo scenario dell'esame richiede che le macchine debbano essere: (1) di proprietà aziendale (Company-owned), (2) configurabili con robusti standard di hardening, (3) con rischio di leak ridotto al minimo e (4) dotati di massima compatibilità e integrazione con le risorse IT interne, la soluzione da implementare è indiscutibilmente <strong>COBO</strong>.
+      </div>
+    </section>
+
+    <!-- ══ UTILITY DI RETE E ATTACK SURFACE REDUCTION ══════════════ -->
+    <section id="network-hardening">
+      <h2>Riduzione della Superficie e Protezione delle Interfacce</h2>
+      <p>
+        Il controllo e il tracciamento dei servizi attivi si estendono agli apparati infrastrutturali come switch o router.
+        Per limitare la superficie di attacco applicando l'indurimento di rete (hardening) a seguito di un vulnerabilty scan,
+        è imperativo spegnere le funzionalità e le interfacce non necessarie per evitare exploit remoti.
+      </p>
+      <div class="example-box">
+        <strong>Hardening delle Amministrazioni — Disattivare Amministrazione Web</strong><br>
+        Molti router gestiscono una console grafica web (interfaccia HTTP o HTTPS) che permette modifiche visuali amichevoli, ma che costituisce un punto critico aggredibile da intrusi. 
+        <br><br>
+        Una misura d'elezione per irrobustire (harden) l'infrastruttura router è **Disabilitare l'amministrazione web (Web-based administration)**, forzando gli ingegneri a utilizzare esclusivamente amministrazione testuale via console diretta (porta seriale fisica) o terminali crittografati sicuri come SSH per modifiche critiche.
+      </div>
+    </section>
+
+    <!-- ══ AUTOMAZIONE E PROVISIONING DI ACCOUNT E RISORSE ══════════ -->
+    <section id="automation">
+      <h2>Sistemi di Automazione: Provisoning, Orchestrazione e IaC</h2>
+      <p>
+        La manualità porta con sé il rischio derivante dall'errore umano. Se gli account utente o i server vengono erogati manualmente tramite lunghe procedure da amministrare di persona, è probabile che prima o poi vengano commessi errori che lasciano trapelare privilegi non conformi.
+      </p>
+      <dl class="termlist">
+        <dt>Script di User Provisioning (User Provisioning Script)</dt>
+        <dd>L'uso di script automatizzati per la creazione degli account nuovi utenti normalizza l'uniformità dei gruppi di sicurezza, mappando con costanza matematica i permessi e precludendo la non-conformità indotta dall'inserimento di parametri manuali errati.</dd>
+        <dt>Orchestrare i Flussi (Orchestration)</dt>
+        <dd>Mentre un semplice script compie modifiche elementari, l'<strong>Orchestrazione (Orchestration)</strong> coordina intere catene complesse di procedure, sistemi informatici e provisioning simultanei ad alta scala temporale senza l'errore dell'analista.</dd>
+        <dt>Infrastruttura come Codice / IaC (Infrastructure as Code)</dt>
+        <dd>Dichiarare topologie, interfacce, firewall e infrastrutture cloud descrivendole in testi elettronici standard (come Terraform o Kubernetes config). Permette all'amministratore di sistema di implementare distribuzioni nei cloud provider in modo istantaneo, sicuro, replicabile ed indurito nativamente contro l'errore manuale dei singoli analisti di storage.</dd>
+      </dl>
+    </section>
+
+    <!-- ══ DATA SANITIZATION AND DESTRUCTION ══════════════════════ -->
+    <section id="sanitization">
+      <h2>Sanitizzazione e Distruzione dei Dati (Data Sanitization)</h2>
+      <p>
+        I dati archiviati che non servono più o risiedono all'interno di hard drive dismessi di vecchie workstation mandati al riciclo in ditte esterne continuano a costituire un fattore di rischio. Se i dischi vengono buttati o rivenduti così come sono, i contenuti residui (Data Remanence) potrebbero essere facilmente estratti dagli estranei.
+      </p>
+      <dl class="termlist">
+        <dt>Sanitizzazione (Data Sanitization)</dt>
+        <dd>La bonifica controllata o sovrascrittura logica sicura dei file e dei dischi fissi per pulirli irrevocabilmente (wiping / zeroing / degaussing) affinché non residui alcuna informazione interpretabile o scindibile all'esterno. Previene ed inibisce attivamente la capacità dei malintenzionati ed hacker di ottenere dati estratti dai dischi usati.</dd>
+        <dt>Certificato di Distruzione / Sanitizzazione (Certification)</dt>
+        <dd>Quando i supporti di storage classificati o protetti della corporazione vengono affidati ad uno smaltitore esterno specializzato per distruggere físicamente le memorie obsolete, l'azienda committente deve raccomandare e pretendere il rilascio di una formale **Certificazione di Distruzione (Certification / Certificate of Destruction)** firmata dal vendor per attestare legalmente la purificazione dei supporti storici nel pieno rispetto della legge.</dd>
+      </dl>
+    </section>
+
+    <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+    <section id="quiz-section">
+      <h2>Test di verifica — OBJ 4.2</h2>
+      <div class="chapter-meta">
+        <p>
+          <strong>18 questions d'esame</strong> su ciclo di vita hardware, decommissioning, tracciamento, sanitizzazione e smaltimento sicuro dei dati, con feedback immediato e spiegazione in italiano per ogni risposta.
+        </p>
+        <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.2 →</button>
+      </div>
+    </section>
+
+    <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+    <section id="flashcard" class="card">
+      <h2>Flashcard rapide OBJ 4.2</h2>
+      <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame.</p>
+      <div class="flashcard-deck">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span>Cosa differenzia EOL da EOSL?</span>
+              <small>Clicca per girare</small>
+            </div>
+            <div class="flashcard-back">
+              <p><strong>EOL (End of Life)</strong>: Il prodotto non è più venduto né pubblicizzato, ma potrebbe ricevere del supporto. <br><strong>EOSL (End of Service Life)</strong>: Cessa completamente assistenza e aggiornamento software del produttore.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span>A cosa serve l'Asset Stickers (Targhettizzazione)?</span>
+              <small>Clicca per girare</small>
+            </div>
+            <div class="flashcard-back">
+              <p>Tracciare il possesso, contattare il proprietario corretto in caso di allarmi incidenti, e rendicontare (account for) la restituzione totale del materiale aziendale dei dipendenti deprovisionati.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span>Perché richiedere la Certificazione al vendor di distruzione hard disk?</span>
+              <small>Clicca per girare</small>
+            </div>
+            <div class="flashcard-back">
+              <p>Rappresenta la prova legale (audit trial compliance) dell'avvenuta purificazione e distruzione hardware irrevocabile per i dischi classificati dismessi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div></div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

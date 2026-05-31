@@ -7547,4 +7547,226 @@ Which of the following should the analyst do first?</text>
     </options>
     <explanation>Comportamenti fisici fallaci come l&apos;accettare passaggi fisici (tailgating) o non mostrare i badge di sicurezza rientrano direttamente sotto il cappello e la categoria di Consapevolezza Situazionale (Situational awareness) ed ambientale.</explanation>
   </question>
+  <question id="SCREEN_IMG_Q1" objective="2.4">
+    <text>A security analyst is monitoring network traffic and observes an excessive number of TCP connections to a web server, all in the SYN_SENT state without receiving corresponding ACKs. The traffic log shows the following pattern:
+
+TCP 192.168.2.10:5070 -&gt; 10.0.0.3:80 SYN_SENT
+TCP 192.168.2.10:5071 -&gt; 10.0.0.3:80 SYN_SENT
+TCP 192.168.2.10:5072 -&gt; 10.0.0.3:80 SYN_SENT
+TCP 192.168.2.10:5073 -&gt; 10.0.0.3:80 SYN_SENT
+TCP 192.168.2.10:5074 -&gt; 10.0.0.3:80 SYN_SENT
+
+Which of the following is MOST likely being observed in this network traffic capture?</text>
+    <options>
+      <option id="A" correct="true">SYN Flood Attack</option>
+      <option id="B" correct="false">ARP Spoofing</option>
+      <option id="C" correct="false">ICMP Redirection</option>
+      <option id="D" correct="false">TCP Session Hijacking</option>
+    </options>
+    <explanation>Un attacco SYN Flood consiste nell&apos;invio massivo di pacchetti TCP SYN senza completare l&apos;handshake a tre vie (mancano i pacchetti ACK di ritorno), lasciando le connessioni nello stato SYN_SENT e portando all&apos;esaurimento delle risorse del server. ARP Spoofing riguarda la manipolazione della tabella ARP; ICMP Redirection devia l&apos;instradamento; TCP Session Hijacking dirotta una sessione attiva.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q2" objective="4.6">
+    <text>Robert, a security analyst at a global company, observes peculiar login patterns for a user account. Logins from multiple cities around the world are occurring within hours, which is physically impossible:
+
+8:00 AM - Successful login from London
+8:30 AM - Successful login from Dubai
+9:00 AM - Successful login from Tokyo
+9:30 AM - Successful login from New York
+
+Robert is tasked with recommending a security policy to safeguard against such suspicious activity.
+
+Task: Choose the account policy that would best safeguard against this type of threat.</text>
+    <options>
+      <option id="A" correct="true">Anomaly detection with impossible travel time enforcement</option>
+      <option id="B" correct="false">IP address whitelisting for logins</option>
+      <option id="C" correct="false">Regular password changes</option>
+      <option id="D" correct="false">Account lockout after failed attempts</option>
+    </options>
+    <explanation>La policy di &quot;Impossible Travel Time&quot; (tempo di viaggio impossibile) rileva attività anomale analizzando la distanza geografica tra due login consecutivi in rapporto al tempo trascorso; se fisicamente impossibile senza superare i limiti di velocità realistici, blocca l&apos;accesso. IP whitelisting bloccherebbe i viaggiatori legittimi; cambi password o lockout non fermano i login riusciti con credenziali sottratte.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q3" objective="4.9">
+    <text>You are a SOC analyst reviewing a daily security summary from your SIEM. The logs show suspicious events on PC-Admin1 involving unusual authentication attempts, file access, process starts, and data transfers.
+
+Which of the following best represents the sequence in which the attacker compromised the system and exfiltrated data? (Choose the correct sequence.)</text>
+    <options>
+      <option id="A" correct="false">Successful login from foreign IP / Unknown process started / Multiple failed logins / File access to sensitive data / Data transfer to FTP server</option>
+      <option id="B" correct="false">Unknown process started / Successful login from foreign IP / Multiple failed logins / Data transfer to FTP server / File access to sensitive data</option>
+      <option id="C" correct="false">Multiple failed logins / File access to sensitive data / Successful login from foreign IP / Data transfer to FTP server / Unknown process started</option>
+      <option id="D" correct="false">File access to sensitive data / Multiple failed logins / Data transfer to FTP server / Successful login from foreign IP / Unknown process started</option>
+      <option id="E" correct="true">Multiple failed logins / Successful login from foreign IP / File access to sensitive data / Unknown process started / Data transfer to FTP server</option>
+    </options>
+    <explanation>La sequenza segue la logica temporale ed operativa del tipico ciclo di vita di un attacco (Attack Lifecycle): 1) Tentativi falliti multipli (Brute-force); 2) Login riuscito da IP esterno (Accesso iniziale ottenuto); 3) Accesso a file sensibili (Raccolta dati); 4) Avvio di processo sconosciuto (Preparazione esfoliazione); 5) Trasferimento dati via FTP (Esfiltrazione finale).</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q4" objective="4.2">
+    <text>Ron has a hard disk that contains sensitive information. He tried connecting the drive to a computer but a component failure will not allow him to access the drive. Which one of the following destruction techniques would be most effective?</text>
+    <options>
+      <option id="A" correct="false">Wiping</option>
+      <option id="B" correct="true">Degaussing</option>
+      <option id="C" correct="false">Pulping</option>
+      <option id="D" correct="false">Purging</option>
+    </options>
+    <explanation>Il degaussing (smagnetizzazione) impiega forti campi magnetici per distruggere permanentemente i magnetismi sul supporto, rendendo i dati illeggibili e la memoria inutilizzabile. È ideale in caso di guasto hardware poiché metodi software quali wiping o purging richiedono che il disco sia funzionante ed accessibile in scrittura.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q5" objective="4.6">
+    <text>A global corporation is confronting security issues with its email system, evidenced by several instances of unusual login activities. Specifically, an incident involved an email account logging in from the company&apos;s headquarters in Germany, followed by a login attempt from Japan using the same account within an hour. Which of the following security policies would be MOST effective in preventing such suspicious activities?</text>
+    <options>
+      <option id="A" correct="false">Account Lockout Policy</option>
+      <option id="B" correct="true">Impossible Travel Time</option>
+      <option id="C" correct="false">Multi-Factor Authentication (MFA)</option>
+      <option id="D" correct="false">Password Expiration Policy</option>
+    </options>
+    <explanation>La regola di &quot;Impossible Travel Time&quot; (Tempo di viaggio impossibile) rileva sessioni o tentativi login provenienti da paesi geograficamente distanti in finestre temporali troppo strette per permettere uno spostamento fisico reale. L&apos;MFA respinge login non autorizzati ma non rileva l&apos;anomalia di viaggio nel log di monitoraggio; lockout o password expiration non prevengono login simultanei distanti.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q6" objective="5.5">
+    <text>Paul has made plans for the day&apos;s penetration testing. First he will attempt to tailgate and gain entrance into the lobby of the main building. Then he will attempt to pick the locks of the server room. Finally, he will attempt to gain access to the CEO&apos;s office. What type of penetration testing does Paul have planned for the day?</text>
+    <options>
+      <option id="A" correct="false">Blue team</option>
+      <option id="B" correct="false">Known environment</option>
+      <option id="C" correct="false">Network</option>
+      <option id="D" correct="true">Physical</option>
+    </options>
+    <explanation>Un physical penetration test (pentest fisico) simula tentativi degli attaccanti di superare le barriere fisiche ed entrare nell&apos;infrastruttura dell&apos;organizzazione (es. tailgating per entrare nella lobby, forzare serrature della sala server, entrare nell&apos;ufficio del CEO). Il Blue team si occupa della difesa attiva; Known environment si riferisce al livello di conoscenza (white-box) ma non definisce l&apos;ambito logistico dell&apos;attacco; Network si riferisce ad indagini condotte via IP per violare sistemi informatici e non barriere fisiche.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q7" objective="2.1">
+    <text>Which group is MOST likely to possess the funding and resources to recruit top talent, including skilled strategists, designers, coders, and hackers?</text>
+    <options>
+      <option id="A" correct="false">An open-source development community</option>
+      <option id="B" correct="false">A security researcher</option>
+      <option id="C" correct="true">A criminal syndicate</option>
+      <option id="D" correct="false">An independent black hat hacker</option>
+    </options>
+    <explanation>Un sindacato criminale (criminal syndicate o criminal enterprise) possiede imponenti somme liquide accumulate con attività delittuose sistematiche (cyberestorsioni, ransomware) che gli consentono di reclutare talenti qualificati e specialisti (coder, hacker, strategist) a libro paga. Ricercatori o hacker indipendenti non dispongono di dotazioni monetarie paragonabili; l&apos;open-source lavora sulla collaborazione aperta e trasparente.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q8" objective="4.5">
+    <text>Which of the following sets of protocols is MOST effective in achieving ALL of the following for email security:
+
+Verifying the email content has not been altered during transit.
+Authenticating the domain the email claims to be from.
+Ensuring the email originates from a server authorized by the owner of the claimed domain.</text>
+    <options>
+      <option id="A" correct="false">TLS (Transport Layer Security) and SSL (Secure Sockets Layer)</option>
+      <option id="B" correct="false">IPSec (Internet Protocol Security) and VPN (Virtual Private Network)</option>
+      <option id="C" correct="false">PGP (Pretty Good Privacy) and S/MIME (Secure/Multipurpose Internet Mail Extensions)</option>
+      <option id="D" correct="true">DMARC (Domain-based Message Authentication, Reporting, and Conformance), DKIM (DomainKeys Identified Mail), SPF (Sender Policy Framework)</option>
+    </options>
+    <explanation>SPF autorizza i server autorizzati all&apos;invio per un dominio; DKIM appone una firma crittografica che assicura che il contenuto non sia stato alterato; DMARC unifica questi due controlli ed indica come trattare i messaggi falliti. TLS/SSL proteggono il canale in transito ma non autenticano l&apos;origine email finale; IPSec opera a livello di rete IP; PGP e S/MIME cifrano/firmano end-to-end ma non gestiscono l&apos;autorizzazione all&apos;invio dei mail server per conto del dominio (ruolo di SPF/DMARC).</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q9" objective="4.5">
+    <text>At Dion Training Solutions, Susan needs to allow only Jamario and Sasha to access the company&apos;s internal web application on port 8080. Jamario has an IP of 10.0.0.5, and Sasha has an IP of 10.0.0.6. After the configuration, Reed, with an IP of 10.0.0.7, is still able to access the application. Which of the following access list entries could have caused this?</text>
+    <options>
+      <option id="A" correct="false">permit tcp host 10.0.0.6 eq 8080 any</option>
+      <option id="B" correct="true">permit tcp any host 10.0.0.0 0.0.0.255 eq 8080</option>
+      <option id="C" correct="false">deny tcp host 10.0.0.7 eq 8080 any</option>
+      <option id="D" correct="false">permit tcp host 10.0.0.5 eq 8080 any</option>
+    </options>
+    <explanation>La regola &quot;permit tcp any host 10.0.0.0 0.0.0.255 eq 8080&quot; presenta una wildcard mask (0.0.0.255) applicata all&apos;indirizzo di rete 10.0.0.0. Questo permette a chiunque nell&apos;intera sottorete Class-C (da 10.0.0.1 a 10.0.0.254, che include l&apos;IP 10.0.0.7 di Reed) di connettersi sulla porta 8080. Le regole specifiche per singoli host (permit tcp host ...) avrebbero circoscritto l&apos;accesso ai soli utenti autorizzati.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q10" objective="2.3">
+    <text>A security audit of a virtualized environment reveals a critical vulnerability. An attacker exploiting this vulnerability could potentially:
+
+Access files and data on the host operating system.
+Gain control of other virtual machines running on the same host.
+Compromise the hypervisor itself.
+
+Which of the following best describes this type of vulnerability?</text>
+    <options>
+      <option id="A" correct="false">Resource exhaustion</option>
+      <option id="B" correct="false">Privilege escalation within a guest OS</option>
+      <option id="C" correct="true">VM escape</option>
+      <option id="D" correct="false">Hypervisor spoofing</option>
+    </options>
+    <explanation>Il VM escape (fuga dalla macchina virtuale) è una vulnerabilità critica che consente a un attaccante di spezzare la sandbox isolante della macchina virtuale guest per eseguire codice direttamente sull&apos;host fisico o sul gestore ipervisore (hypervisor). Da lì, l&apos;attaccante può controllare le altre VM co-locate sullo stesso server. Resource exhaustion o privilege escalation su guest OS rimangono invece confinati dentro la singola macchina virtuale.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q11" objective="4.5">
+    <text>Reed, a network engineer at Kelly Innovations LLC, configured an access list to restrict SSH access to the company&apos;s internal server. Only Susan, who has an IP address of 192.168.1.100, should be able to SSH into the server. After the configuration, Sasha, with an IP address of 192.168.1.101, reports she can still access the server via SSH. Which of the following access list entries might Reed have mistakenly added?</text>
+    <options>
+      <option id="A" correct="false">deny tcp any any eq 22</option>
+      <option id="B" correct="false">permit tcp host 192.168.1.100 eq 22 any</option>
+      <option id="C" correct="false">permit tcp any eq 22 host 192.168.1.100</option>
+      <option id="D" correct="true">permit tcp any host 192.168.1.0 0.0.0.255 eq 22</option>
+    </options>
+    <explanation>La regola &apos;permit tcp any host 192.168.1.0 0.0.0.255 eq 22&apos; consente a qualsiasi sorgente (any) di inviare traffico SSH (porta dest. 22) verso qualsiasi host all&apos;interno dell&apos;intera subnet 192.168.1.0/24 (definita dalla wildcard mask 0.0.0.255). Poiché l&apos;IP di Sasha (192.168.1.101) appartiene a questo range, l&apos;accesso le viene erroneamente consentito. La risposta corretta è quindi questa regola troppo estesa. &apos;deny tcp any any eq 22&apos; bloccherebbe tutto; &apos;permit tcp host 192.168.1.100 eq 22 any&apos; definisce l&apos;IP di Susan come sorgente ma con porta sorgente 22, il che non influirebbe su Sasha.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q12" objective="1.2">
+    <text>Scenario:
+As a security engineer, you are tasked with implementing secure storage for sensitive user passwords. Your goal is to choose hashing techniques that incorporate computational delay and memory-hard functions to protect against brute-force attacks.
+
+Task:
+Identify the algorithms that are specifically designed to provide secure password hashing with resistance to brute-force attacks. (Select all that apply.)</text>
+    <options>
+      <option id="A" correct="false">DES</option>
+      <option id="B" correct="true">PBKDF2</option>
+      <option id="C" correct="true">Argon2</option>
+      <option id="D" correct="true">bcrypt</option>
+      <option id="E" correct="false">SHA-512</option>
+      <option id="F" correct="true">scrypt</option>
+    </options>
+    <explanation>Gli algoritmi appositamente progettati per l&apos;hashing sicuro delle password (password hashing) che includono costosi meccanismi di stretching temporale (computational delay) o requisiti pesanti di memoria (memory-hard) per contrastare attacchi di forza bruta (inclusi quelli accelerati via hardware GPU/ASIC) sono: PBKDF2, bcrypt, scrypt e Argon2. SHA-512 è una funzione di hashing standard estremamente veloce all&apos;elaborazione e priva di parametri di costo ritardanti, risultando quindi vulnerabile ad attacchi di forza bruta massivi. DES è un vecchio algoritmo di cifratura simmetrico (non di hashing delle password) ormai debole e deprecato.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q13" objective="4.5">
+    <text>A penetration tester has been asked to test a company&apos;s physical and logical security systems. Which of the following might he use to ensure that the alarm company doesn&apos;t get notified if he breaks into one of the company&apos;s facilities?</text>
+    <options>
+      <option id="A" correct="true">Jamming</option>
+      <option id="B" correct="false">Brute force</option>
+      <option id="C" correct="false">Injection</option>
+      <option id="D" correct="false">Hijacking</option>
+    </options>
+    <explanation>Molti sistemi di allarme moderni utilizzano le reti cellulari come canale principale di reporting o come backup se la linea fisica viene manomessa. L&apos;uso di un dispositivo di &apos;Jamming&apos; (disturbo radiofrequenza) crea intenzionalmente del rumore nello spettro elettromagnetico delle frequenze RF usate dai cellulari, impedendo loro di attivare la chiamata o inviare la notifica alla centrale di sorveglianza. Brute force è usato per indovinare credenziali; Injection inietta comandi/codice; Hijacking dirotta sessioni.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q14" objective="2.4">
+    <text>Warren is conducting a penetration test and has gained access to a critical file server containing sensitive information. He is now installing a rootkit on that server. What phase of the penetration test is Warren conducting?</text>
+    <options>
+      <option id="A" correct="false">Persistence</option>
+      <option id="B" correct="false">Pivot</option>
+      <option id="C" correct="false">Active reconnaissance</option>
+      <option id="D" correct="true">Escalation of privilege</option>
+    </options>
+    <explanation>Installando un rootkit sul server, Warren sta verosimilmente cercando di garantirsi privilegi amministrativi di root o di livello superiore per nascondere le proprie attività malevole ed eludere i controlli di sicurezza, il che rappresenta esattamente la fase di Privilege Escalation (Innalzamento dei privilegi). Sebbene un rootkit possa contribuire alla persistenza futura (Persistence), l&apos;azione diretta descritta è specificamente tesa all&apos;ottenimento e al consolidamento dell&apos;accesso amministrativo. Pivot descrive lo spostamento laterale verso altri sistemi; Active reconnaissance è la ricognizione iniziale attiva.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q15" objective="2.3">
+    <text>During a penetration test, a tester reviews the API used by a company&apos;s customer portal. After logging in with their own account (user_id: 5150), the tester observes a profile update request in the browser developer tools:
+
+POST /api/v1/updateProfile
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  &quot;user_id&quot;: 5150,
+  &quot;email&quot;: &quot;tester@email.com&quot;,
+  &quot;phone&quot;: &quot;123-456-7890&quot;
+}
+
+The tester changes &quot;user_id&quot;: 5150 to &quot;user_id&quot;: 1001 (the CEO&apos;s user ID) and successfully updates the CEO&apos;s profile information. The server accepts the modified request without checking whether the authenticated user is authorized to perform this action.
+
+Which API vulnerability does this scenario BEST illustrate?</text>
+    <options>
+      <option id="A" correct="false">Excessive Data Exposure</option>
+      <option id="B" correct="false">Injection Flaw (e.g., SQL Injection)</option>
+      <option id="C" correct="true">Broken Object Level Authorization (BOLA)</option>
+      <option id="D" correct="false">Security Misconfiguration</option>
+    </options>
+    <explanation>Broken Object Level Authorization (BOLA), noto anche come Insecure Direct Object Reference (IDOR) nel contesto API, si verifica quando un&apos;applicazione non convalida se l&apos;utente che effettua la richiesta dispone dei diritti necessari per accedere o modificare uno specifico &apos;oggetto&apos; (in questo caso l&apos;ID utente 1001 del CEO). Modificando semplicemente l&apos;identificativo nel corpo della richiesta, l&apos;utente non autorizzato ottiene il controllo sull&apos;oggetto altrui. Excessive Data Exposure si riferisce alla restituzione di troppe informazioni nella risposta; un Injection Flaw riguarda l&apos;iniezione sintattica di codice non validato; Security Misconfiguration riguarda impostazioni errate del server.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q16" objective="4.5">
+    <text>You need to configure a firewall to allow only the trusted subnet 192.168.5.0/24 to access a MySQL database hosted at 10.0.0.10 on port 3306. You are given four possible firewall rules.
+
+Which TWO rules should be included to enforce this policy correctly? (Select two options)</text>
+    <options>
+      <option id="A" correct="true">permit tcp 192.168.5.0 0.0.0.255 host 10.0.0.10 eq 3306</option>
+      <option id="B" correct="false">deny ip any any</option>
+      <option id="C" correct="false">permit udp any any eq 3306</option>
+      <option id="D" correct="true">deny tcp any any eq 3306</option>
+    </options>
+    <explanation>Per proteggere il database MySQL (che utilizza tipicamente il protocollo TCP sulla porta standard 3306) in modo granulare e sicuro, è necessario: 1) Consentire esplicitamente il traffico TCP proveniente dalla subnet fidata (192.168.5.0/24, indicata tramite wildcard mask 0.0.0.255) diretto all&apos;IP host del database (10.0.0.10) sulla porta 3306; 2) Bloccare (deny) qualsiasi altro traffico TCP diretto alla porta 3306 da qualsiasi altra sorgente. La combinazione di queste due regole applica il principio del minimo privilegio. L&apos;uso di UDP (permit udp ...) non ha effetto poiché MySQL impiega TCP; la regola &apos;deny ip any any&apos; è eccessivamente generica e interromperebbe qualsiasi comunicazione di rete, non solo quella verso la porta MySQL.</explanation>
+  </question>
+  <question id="SCREEN_IMG_Q17" objective="4.7">
+    <text>In regards to automation and orchestration, which of the following terms accurately captures the challenges faced when dealing with a system characterized by its intricate web of interconnected components and varied functionalities, potentially hindering seamless integration, effortless management, and straightforward comprehension?</text>
+    <options>
+      <option id="A" correct="false">Cost</option>
+      <option id="B" correct="true">Complexity</option>
+      <option id="C" correct="false">Technical debt</option>
+      <option id="D" correct="false">Ongoing supportability</option>
+    </options>
+    <explanation>Nelle discipline di automazione e orchestrazione, la complessità (Complexity) indica il livello d&apos;intrico, interconnessione e accoppiamento stretto di componenti disparati e funzionalità eterogenee. Un&apos;elevata complessità rappresenta un ostacolo primario alla visibilità, alla comprensione lineare e alla gestione semplificata del sistema. Sebbene possa comportare un aumento dei costi (Cost), alimentare il debito tecnico (Technical debt) o minacciare la manutenibilità futura (Ongoing supportability), il termine accademico e tecnico specifico definito per questa intricata matassa strutturale è la complessità.</explanation>
+  </question>
 </quiz>

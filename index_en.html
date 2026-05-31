@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompTIA Security+ SY0-701 — Interactive Guide</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <script>
+    (function() {
+      try {
+        localStorage.removeItem('theme');
+      } catch (e) {
+        console.warn('localStorage access denied:', e);
+      }
+      document.documentElement.removeAttribute('data-theme');
+    })();
+  </script>
+  <style>
+    /* Sincronizzazione con checklist cloud */
+    .sync-status {
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: .78rem;
+      color: #64748B;
+      white-space: nowrap;
+      transition: color .3s;
+    }
+    .sync-status.syncing { color: #D97706; }
+    .sync-status.saved   { color: #15803D; }
+    .sync-status.error   { color: #DC2626; }
+  </style>
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale"></nav>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="container">
+<div class="page">
+
+  <div class="breadcrumb">
+    <a href="#">CompTIA Security+ SY0-701</a>
+    <span>Interactive Guide</span>
+  </div>
+
+  <div class="ig-header">
+    <h1 data-i18n="index_heading">Study Guide & Exam Resources</h1>
+    <p data-i18n="index_subtitle">Welcome to the interactive study guide platform for the CompTIA Security+ (SY0-701) certification. Study the modules, practice with quizzes, and keep track of your progress.</p>
+  </div>
+
+  <!-- Sottonavigazione a schede della Home -->
+  <div class="index-tabs" role="tablist">
+    <button class="index-tab active" id="tab-btn-intro" role="tab" aria-selected="true" aria-controls="view-intro">
+      <svg class="tab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      Introduction &amp; Exam Info
+    </button>
+    <button class="index-tab" id="tab-btn-capitoli" role="tab" aria-selected="false" aria-controls="view-chapters">
+      <svg class="tab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      </svg>
+      Chapters &amp; Progress (28 Objectives)
+    </button>
+  </div>
+
+  <!-- VISTA 1: INTRODUZIONE ALL'APP E ALL'ESAME -->
+  <div id="view-intro" class="tab-view active" role="tabpanel" aria-labelledby="tab-btn-intro">
+    <div class="intro-welcome-card">
+      <h2>Welcome to your Interactive Study Portal!</h2>
+      <p>This application was designed to give you the best possible preparation for the <strong>CompTIA Security+ SY0-701</strong> exam. Track your study progress chapter by chapter, tackle realistic exam simulations, and instantly consult the integrated terminology glossary.</p>
+    </div>
+
+    <h3 class="section-title">Official Exam Overview</h3>
+    <div class="intro-grid">
+      <div class="intro-card dom-1">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h4>90 Minutes</h4>
+        <p>Total time available in the official exam session.</p>
+      </div>
+      <div class="intro-card dom-2">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <h4>Max 90 Questions</h4>
+        <p>Multiple-choice and complex Performance-Based Questions (PBQs).</p>
+      </div>
+      <div class="intro-card dom-3">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h4>750 / 900</h4>
+        <p>The minimum score required to pass and obtain the certification.</p>
+      </div>
+      <div class="intro-card dom-4">
+        <div class="intro-card-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+        <h4>Weight Ratio</h4>
+        <p>The 28 exam objectives are strictly divided into five broad professional domains.</p>
+      </div>
+    </div>
+
+    <h3 class="section-title">Ripartizione dei 5 Domini d'Esame</h3>
+    <div class="domains-overview-grid">
+      <div class="domain-info-row dom-1">
+        <span class="domain-info-badge">Dom 1</span>
+        <div class="domain-info-content">
+          <strong>General security concepts (12% of exam weight)</strong>
+          <p>In-depth understanding of security controls, risk triage, and baseline change-driven architectures.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-2">
+        <span class="domain-info-badge">Dom 2</span>
+        <div class="domain-info-content">
+          <strong>Threats, vulnerabilities, and mitigations (22% of exam weight)</strong>
+          <p>Hacker profiles (Threat Actors), structured malware types, and proactive cyber-hardening methodologies.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-3">
+        <span class="domain-info-badge">Dom 3</span>
+        <div class="domain-info-content">
+          <strong>Security architecture (18% of exam weight)</strong>
+          <p>Zero Trust principles, enterprise cloud models, advanced encryption, and resilient Disaster Recovery strategies.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-4">
+        <span class="domain-info-badge">Dom 4</span>
+        <div class="domain-info-content">
+          <strong>Security operations (28% of exam weight)</strong>
+          <p>Ongoing asset management, network monitoring, emergency Incident Response, and application log audits.</p>
+        </div>
+      </div>
+      <div class="domain-info-row dom-5">
+        <span class="domain-info-badge">Dom 5</span>
+        <div class="domain-info-content">
+          <strong>Governance, risk, and compliance (20% of exam weight)</strong>
+          <p>Privacy regulatory frameworks (GDPR, PCI-DSS, HIPAA), continuous risk assessment, and vendor contract monitoring.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-title">
+      <svg class="tab-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5.5 5.5 0 0 0 12 2.5 5.5 5.5 0 0 0 6.5 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
+        <path d="M9 18h6"></path>
+        <path d="M10 22h4"></path>
+      </svg>
+      How to utilize the integrated tools
+    </h3>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div>
+          <strong>Use the Chapters Checklist to direct your study</strong>
+          <p>Visit the "Chapters & Progress" tab to view all domain sections. Study the details and check off chapters as completed: your overall and domain-specific progress will be calculated and saved in real time.</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div>
+          <strong>Take Quizzes on the Interactive Simulator</strong>
+          <p>Access in-depth quizzes for each exam chapter or visit the <strong>"Quiz"</strong> tab from the main menu to simulate real questions with reasoned answers and immediate feedback.</p>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div>
+          <strong>Overcome the Acronym Obstacle with the Glossary</strong>
+          <p>Access an incredible library from the <strong>"Glossary"</strong> tab in the main application menu. Use the optional "Flashcards" Study Mode to hide definitions and rapidly train your objective memory.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-actions">
+      <button class="cta-btn cta-btn-dom1" id="btn-start-studying">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        Start Studying (Browse Chapters)
+        <svg class="btn-icon-svg arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+      <a href="quizzes.html" class="cta-btn cta-btn-dom4">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Exam Simulator (Quizzes)
+      </a>
+      <a href="glossario.html" class="cta-btn cta-btn-dom5">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        Dictionary &amp; Flashcards (Glossary)
+      </a>
+    </div>
+  </div>
+
+  <!-- VISTA 2: CAPITOLI & PROGRESSI (Inizialmente nascosta) -->
+  <div id="view-chapters" class="tab-view" role="tabpanel" aria-labelledby="tab-btn-capitoli">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <strong>Study progress</strong>
+        <span id="prog-text">0 / 12 chapters completed</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+      <p class="progress-note" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <span>
+          Progress is saved automatically in your browser.
+          <button class="reset-btn" id="reset-btn">Reset progress</button>
+        </span>
+        <span id="syncStatusIndex" class="sync-status">⬤ --</span>
+      </p>
+    </div>
+
+    <main id="main">
+
+    <!-- DOMINIO 1 -->
+    <div class="domain-block dom-1" id="d1-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d1-body">
+        <div class="domain-color"></div>
+        <div class="domain-info">
+          <strong>Domain 1 — General Security Concepts</strong>
+          <small>Obiettivi 1.1 · 1.2 · 1.3 &nbsp;·&nbsp; 4 chapters available</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="1"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">12%</span>
+          <span class="badge">~11 questions</span>
+        </div>
+        <span class="domain-chevron">▾</span>
+      </button>
+
+      <div class="domain-body" id="d1-body">
+
+        <div class="ch-cards">
+
+          <div class="ch-card" id="card-obj11">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 1.1 — Security controls</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj11" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">1.1</span>
+              <span class="manual-ref-tag">Cap. 1</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj1_1_security_controls.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj1_1_security_controls.html#quiz-section">Quiz · 28 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj12">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 1.2 — Fundamental concepts</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj12" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">1.2</span>
+              <span class="manual-ref-tag">Cap. 1 &amp; 9</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj1_2_fundamental_concepts.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj1_2_fundamental_concepts.html#quiz-section">Quiz · 16 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj13">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 1.3 — Change Management</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj13" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">1.3</span>
+              <span class="manual-ref-tag">Cap. 16</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj1_3_change_management.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj1_3_change_management.html#quiz-section">Quiz · 15 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj14">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 1.4 — Cryptographical solutions</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj14" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">1.4</span>
+              <span class="manual-ref-tag">Cap. 7</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj1_4_cryptography.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj1_4_cryptography.html#quiz-section">Quiz · 46 questions</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 2 -->
+    <div class="domain-block dom-2" id="d2-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d2-body">
+        <div class="domain-color"></div>
+        <div class="domain-info">
+          <strong>Domain 2 — Threats, Vulnerabilities, and Mitigations</strong>
+          <small>Obiettivi 2.1 – 2.5 &nbsp;·&nbsp; 5 chapters available</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="2"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">22%</span>
+          <span class="badge">~20 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d2-body">        <div class="ch-cards">
+          <div class="ch-card" id="card-obj21">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 2.1 — Threat Actors and Motivations</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj21" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.1</span>
+              <span class="manual-ref-tag">Cap. 2</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj2_1_threat_actors.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj2_1_threat_actors.html#quiz-section">Quiz · 15 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj22">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 2.2 — Threat types and vectors</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj22" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.2</span>
+              <span class="manual-ref-tag">Cap. 4 &amp; Cap. 13</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj2_2_threat_vectors.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj2_2_threat_vectors.html#quiz-section">Quiz · 42 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj23">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 2.3 — Vulnerability types</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj23" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.3</span>
+              <span class="manual-ref-tag">Cap. 3, 5 &amp; 6</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj2_3_vulnerabilities.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj2_3_vulnerabilities.html#quiz-section">Quiz · 35 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj24">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 2.4 — Malicious activity indicators</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj24" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.4</span>
+              <span class="manual-ref-tag">Cap. 3</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj2_4_malicious_activity.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj2_4_malicious_activity.html#quiz-section">Quiz · 25 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj25">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 2.5 — Mitigation techniques</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj25" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">2.5</span>
+              <span class="manual-ref-tag">Cap. 11</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj2_5_mitigation.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj2_5_mitigation.html#quiz-section">Quiz · 11 questions</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 3 -->
+    <div class="domain-block dom-3" id="d3-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d3-body">
+        <div class="domain-color"></div>
+        <div class="domain-info">
+          <strong>Domain 3 — Security Architecture</strong>
+          <small>Obiettivi 3.1 – 3.4 &nbsp;·&nbsp; 4 chapters available</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="3"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">18%</span>
+          <span class="badge">~16 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d3-body">
+        <div class="ch-cards">
+          <div class="ch-card" id="card-obj31">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 3.1 — Architectural models</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj31" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.1</span>
+              <span class="manual-ref-tag">Cap. 10</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj3_1_architecture.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj3_1_architecture.html#quiz-section">Quiz · 36 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj32">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 3.2 — Secure enterprise infrastructure</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj32" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.2</span>
+              <span class="manual-ref-tag">Cap. 12 &amp; 13</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj3_2_infrastructure.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj3_2_infrastructure.html#quiz-section">Quiz · 29 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj33">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 3.3 — Protecting data</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj33" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.3</span>
+              <span class="manual-ref-tag">Cap. 17</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj3_3_data_protection.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj3_3_data_protection.html#quiz-section">Quiz · 31 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj34">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 3.4 — Resilience and recovery</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj34" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">3.4</span>
+              <span class="manual-ref-tag">Cap. 9</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj3_4_resilience.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj3_4_resilience.html#quiz-section">Quiz · 30 questions</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 4 -->
+    <div class="domain-block dom-4" id="d4-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d4-body">
+        <div class="domain-color"></div>
+        <div class="domain-info">
+          <strong>Domain 4 — Security Operations</strong>
+          <small>Obiettivi 4.1 – 4.9 &nbsp;·&nbsp; 9 chapters available</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="4"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">28%</span>
+          <span class="badge">~25 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d4-body">
+        <div class="ch-cards">
+          <div class="ch-card" id="card-obj41">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.1 — Security on computing resources</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj41" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.1</span>
+              <span class="manual-ref-tag">Cap. 6, Cap. 11 &amp; 13</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_1_computing_resources.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_1_computing_resources.html#quiz-section">Quiz · 36 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj42">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.2 — Asset management (Hardware, Software, and Data)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj42" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.2</span>
+              <span class="manual-ref-tag">Cap. 11 &amp; 16</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_2_asset_management.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_2_asset_management.html#quiz-section">Quiz · 18 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj43">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.3 — Vulnerability Management</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj43" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.3</span>
+              <span class="manual-ref-tag">Cap. 5</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_3_vulnerability_management.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_3_vulnerability_management.html#quiz-section">Quiz · 41 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj44">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.4 — Alerting and Monitoring</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj44" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.4</span>
+              <span class="manual-ref-tag">Cap. 14</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_4_alerting_monitoring.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_4_alerting_monitoring.html#quiz-section">Quiz · 19 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj45">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.5 — Modify Enterprise Security Capabilities</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj45" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.5</span>
+              <span class="manual-ref-tag">Cap. 12</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_5_incident_response.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_5_incident_response.html#quiz-section">Quiz · 35 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj46">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.6 — Gestione Identità e Accessi (Identity & Access Management)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj46" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.6</span>
+              <span class="manual-ref-tag">Cap. 8</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_6_identity_access.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_6_identity_access.html#quiz-section">Quiz · 38 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj47">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.7 — Automazione e Orchestrazione (Automation & Orchestration)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj47" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.7</span>
+              <span class="manual-ref-tag">Cap. 14</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_7_automation_orchestration.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_7_automation_orchestration.html#quiz-section">Quiz · 8 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj48">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.8 — Incident Response Activities</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj48" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.8</span>
+              <span class="manual-ref-tag">Cap. 14</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_8_incident_response.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_8_incident_response.html#quiz-section">Quiz · 23 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj49">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 4.9 — Fonti di Dati e Investigazione (Data Sources & Investigations)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj49" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">4.9</span>
+              <span class="manual-ref-tag">Cap. 15</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj4_9_data_sources.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj4_9_data_sources.html#quiz-section">Quiz · 23 questions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOMINIO 5 -->
+    <div class="domain-block dom-5" id="d5-block">
+      <button class="domain-toggle" aria-expanded="false" aria-controls="d5-body">
+        <div class="domain-color"></div>
+        <div class="domain-info">
+          <strong>Dominio 5 — Governance e supervisione</strong>
+          <small>Obiettivi 5.1 – 5.6 &nbsp;·&nbsp; 6 chapters available</small>
+          <div class="domain-prog"><div class="domain-prog-fill" data-domain="5"></div></div>
+        </div>
+        <div class="domain-badges">
+          <span class="badge teal">20%</span>
+          <span class="badge">~18 questions</span>
+        </div>
+        <span class="domain-chevron">▸</span>
+      </button>
+      <div class="domain-body" id="d5-body">
+        <div class="ch-cards">
+          <div class="ch-card" id="card-obj51">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.1 — Elementi della Governance (Security Governance)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj51" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.1</span>
+              <span class="manual-ref-tag">Cap. 16</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj5_1_governance.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj5_1_governance.html#quiz-section">Quiz · 29 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj52">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.2 — Processo di Gestione del Rischio (Risk Management Process)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj52" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.2</span>
+              <span class="manual-ref-tag">Cap. 17</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj5_2_risk_management.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj5_2_risk_management.html#quiz-section">Quiz · 25 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj53">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.3 — Gestione del Rischio delle Terze Parti (Third-Party Risk)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj53" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.3</span>
+              <span class="manual-ref-tag">Cap. 17</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj5_3_third_party.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj5_3_third_party.html#quiz-section">Quiz · 21 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj54">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.4 — Elementi di Conformità della Sicurezza (Security Compliance)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj54" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.4</span>
+              <span class="manual-ref-tag">Cap. 16 &amp; 17</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj5_4_security_compliance.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj5_4_security_compliance.html#quiz-section">Quiz · 19 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj55">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.5 — Tipi e Scopi di Audit e Valutazioni (Audits & Assessments)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj55" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.5</span>
+              <span class="manual-ref-tag">Cap. 5 &amp; Cap. 16</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj5_5_audits_assessments.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj5_5_audits_assessments.html#quiz-section">Quiz · 21 questions</a>
+          </div>
+
+          <div class="ch-card" id="card-obj56">
+            <div class="ch-card-top">
+              <span class="ch-card-title">OBJ 5.6 — Pratiche di Consapevolezza della Sicurezza (Security Awareness)</span>
+              <label class="ch-card-check">
+                <input type="checkbox" data-ch="obj56" />
+                <span>Completed</span>
+              </label>
+            </div>
+            <div class="ch-card-tags">
+              <span class="objectives-tag">5.6</span>
+              <span class="manual-ref-tag">Cap. 16</span>
+            </div>
+            <a class="ch-card-link" href="chapters/en_obj5_6_security_awareness.html">Open chapter</a>
+            <a class="ch-card-link" href="chapters/en_obj5_6_security_awareness.html#quiz-section">Quiz · 15 questions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  </div> <!-- chiusura div view-chapters -->
+</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var STOR_KEY = 'sy0701_progress_v2';
+  var CHECK_STOR_KEY = 'sy0701_checks';
+  var apiBase = 'https://api.jsonbin.io/v3/b';
+  
+  var apiConfig = {
+    key: '',
+    binId: ''
+  };
+
+  var mapping = {};
+  var checklistState = {};
+  var saveTimer = null;
+
+  // Elemento di sincronizzazione
+  var syncEl = document.getElementById('syncStatusIndex');
+
+  function setSyncStatus(state, text) {
+    if (!syncEl) return;
+    syncEl.className = 'sync-status ' + state;
+    syncEl.textContent = '⬤ ' + text;
+  }
+
+  function getCheckboxCount() {
+    return document.querySelectorAll('.ch-card-check input[type="checkbox"]').length;
+  }
+
+  function loadProgress() {
+    try { return JSON.parse(localStorage.getItem(STOR_KEY) || '{}'); } catch (e) { return {}; }
+  }
+  
+  function saveProgress(data) {
+    try { localStorage.setItem(STOR_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  function loadChecksLocal() {
+    try { return JSON.parse(localStorage.getItem(CHECK_STOR_KEY) || '{}'); } catch (e) { return {}; }
+  }
+
+  function saveChecksLocal(data) {
+    try { localStorage.setItem(CHECK_STOR_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  var progFill = document.getElementById('prog-fill');
+  var progText = document.getElementById('prog-text');
+
+  function updateProgress() {
+    var total = getCheckboxCount();
+    var data = loadProgress();
+    var done = Object.keys(data).filter(function (k) { return data[k]; }).length;
+    var pct  = total > 0 ? Math.round((done / total) * 100) : 0;
+    if (progFill) progFill.style.width = pct + '%';
+    if (progText) progText.textContent = done + ' / ' + total + ' chapters completed';
+    
+    // Aggiorna la barra di progresso di ciascun dominio individualmente
+    [1, 2, 3, 4, 5].forEach(function(dNum) {
+      var dCbs = document.querySelectorAll('#d' + dNum + '-body .ch-card-check input[type="checkbox"]');
+      if (dCbs.length > 0) {
+        var dDone = Array.prototype.filter.call(dCbs, function(cb) { return cb.checked; }).length;
+        var dPct = Math.round((dDone / dCbs.length) * 100);
+        var dFill = document.querySelector('[data-domain="' + dNum + '"]');
+        if (dFill) dFill.style.width = dPct + '%';
+      }
+    });
+  }
+
+  function markCard(card, done) {
+    if (!card) return;
+    card.classList.toggle('done', done);
+  }
+
+  // Estrae la configurazione da checklist.html e costruisce la mappatura
+  async function initSync() {
+    try {
+      setSyncStatus('syncing', 'caricamento checklist…');
+      var response;
+      try {
+        response = await fetch('./checklist.html');
+      } catch (err) {
+        response = await fetch('checklist.html');
+      }
+      if (!response.ok) throw new Error('Contatto fallito');
+      var text = await response.text();
+
+      if (!text.includes('class="cb-box"') && !text.includes('class=\'cb-box\'') && !text.includes('cb-box') && (text.trim().startsWith('<') || text.includes('<!DOCTYPE'))) {
+        throw new Error('Il server ha restituito un re-routing/errore HTML invece del file checklist.html reale.');
+      }
+
+      // Estrae la configurazione JSONBin
+      var apiKeyMatch = text.match(/JSONBIN_API_KEY\s*=\s*['"]([^'"]+)['"]/);
+      var binIdMatch = text.match(/JSONBIN_BIN_ID\s*=\s*['"]([^'"]+)['"]/);
+      if (apiKeyMatch && binIdMatch) {
+        apiConfig.key = apiKeyMatch[1];
+        apiConfig.binId = binIdMatch[1];
+      }
+
+      // Parsea la mappatura
+      var doc = new DOMParser().parseFromString(text, 'text/html');
+      var boxes = doc.querySelectorAll('.cb-box');
+      
+      // Inizializza la mappatura per ogni obiettivo
+      var allObjs = [
+        'obj11','obj12','obj13','obj14',
+        'obj21','obj22','obj23','obj24','obj25',
+        'obj31','obj32','obj33','obj34',
+        'obj41','obj42','obj43','obj44','obj45','obj46','obj47','obj48','obj49',
+        'obj51','obj52','obj53','obj54','obj55','obj56'
+      ];
+      allObjs.forEach(function (o) { mapping[o] = []; });
+
+      boxes.forEach(function (box, index) {
+        var li = box.closest('li');
+        if (!li) return;
+        var textContent = li.textContent.trim();
+        var lcText = textContent.toLowerCase();
+
+        // 1. Match regex per codice obiettivo
+        var quizMatch = textContent.match(/Quiz\s+([1-5]\.[1-6])/i);
+        if (quizMatch) {
+          var oKey = 'obj' + quizMatch[1].replace('.', '');
+          if (mapping[oKey]) mapping[oKey].push(index);
+          return;
+        }
+
+        var objMatch = textContent.match(/(?:obj|obiettivo|governance|\()?\s*([1-5]\.[1-6])\b/i);
+        if (objMatch) {
+          var oKey = 'obj' + objMatch[1].replace('.', '');
+          if (mapping[oKey]) mapping[oKey].push(index);
+          return;
+        }
+
+        // 2. Parola chiave fallback per associare gli elementi di studio generali
+        if (lcText.includes("controllo:") || lcText.includes("correttivo") || lcText.includes("preventivo")) {
+          mapping['obj11'].push(index);
+        } else if (lcText.includes("cia triad") || lcText.includes("non-repudiation") || lcText.includes("zero trust model")) {
+          mapping['obj12'].push(index);
+        } else if (lcText.includes("change management") || lcText.includes("approval board")) {
+          mapping['obj13'].push(index);
+        } else if (lcText.includes("gerarchia documentale") || lcText.includes("policy → standard")) {
+          mapping['obj13'].push(index);
+        } else if (
+          lcText.includes("crittografia simmetrica") || lcText.includes("aes-128") || 
+          lcText.includes("hashing:") || lcText.includes("salting") || 
+          lcText.includes("firme digitali") || lcText.includes("pki:") || 
+          lcText.includes("revoca: crl") || lcText.includes("key escrow") || 
+          lcText.includes("tls handshake") || lcText.includes("algoritmo → scopo")
+        ) {
+          mapping['obj14'].push(index);
+        } else if (lcText.includes("threat actors") || lcText.includes("nation-state") || lcText.includes("motivazioni")) {
+          mapping['obj21'].push(index);
+        } else if (
+          lcText.includes("vettori d'attacco") || lcText.includes("vettori umani") || 
+          lcText.includes("phishing") || lcText.includes("impersonation") || 
+          lcText.includes("misinformation") || lcText.includes("mappa mentale:")
+        ) {
+          mapping['obj22'].push(index);
+        } else if (lcText.includes("password attacks") || lcText.includes("brute force") || lcText.includes("dictionary")) {
+          mapping['obj24'].push(index);
+        } else if (lcText.includes("zero-day") || lcText.includes("vulnerabilità (")) {
+          mapping['obj23'].push(index);
+        } else if (
+          lcText.includes("malware") || lcText.includes("ransomware") || 
+          lcText.includes("trojan") || lcText.includes("rootkit") || 
+          lcText.includes("c2 traffic") || lcText.includes("indicatore caratteristico")
+        ) {
+          mapping['obj24'].push(index);
+        } else if (lcText.includes("mitigazioni enterprise") || lcText.includes("network segmentation")) {
+          mapping['obj25'].push(index);
+        } else if (
+          lcText.includes("lifecycle: identify") || lcText.includes("scan types") || 
+          lcText.includes("cvss v3") || lcText.includes("false positive") || 
+          lcText.includes("penetration testing") || lcText.includes("bug bounty") ||
+          lcText.includes("cvss score")
+        ) {
+          mapping['obj43'].push(index);
+        } else if (
+          lcText.includes("secure sdlc") || lcText.includes("owasp") || 
+          lcText.includes("input validation") || lcText.includes("sast") || 
+          lcText.includes("code signing")
+        ) {
+          mapping['obj41'].push(index);
+        } else if (
+          lcText.includes("classificazioni dati") || lcText.includes("stati dei dati") || 
+          lcText.includes("tecniche di protezione") || lcText.includes("dlp") || 
+          lcText.includes("data sovereignty")
+        ) {
+          mapping['obj33'].push(index);
+        } else if (
+          lcText.includes("alta disponibilità") || lcText.includes("siti dr:") || 
+          lcText.includes("rto") || lcText.includes("backup:") || 
+          lcText.includes("platform diversity") || lcText.includes("rto / rpo")
+        ) {
+          mapping['obj34'].push(index);
+        } else if (
+          lcText.includes("shared responsibility") || lcText.includes("deployment models") || 
+          lcText.includes("containerization") || lcText.includes("microservices") || 
+          lcText.includes("serverless") || lcText.includes("infrastructure as code") || 
+          lcText.includes("virtualizzazione") || lcText.includes("responsabilità compilata")
+        ) {
+          mapping['obj31'].push(index);
+        } else if (
+          lcText.includes("modelli architetturali") || lcText.includes("vlan") || 
+          lcText.includes("schema traffico")
+        ) {
+          mapping['obj32'].push(index);
+        } else if (
+          lcText.includes("firewall") || lcText.includes("ipsec") || 
+          lcText.includes("sd-wan") || lcText.includes("proxy")
+        ) {
+          mapping['obj45'].push(index);
+        } else if (
+          lcText.includes("identity") || lcText.includes("authentication factors") || 
+          lcText.includes("modelli autorizzazione") || lcText.includes("least privilege") || 
+          lcText.includes("federation") || lcText.includes("pam/pim") || 
+          lcText.includes("password policy") || lcText.includes("conditional access") ||
+          lcText.includes("saml vs oauth2")
+        ) {
+          mapping['obj46'].push(index);
+        } else if (
+          lcText.includes("baseline") || lcText.includes("hardening") || 
+          lcText.includes("mdm") || lcText.includes("standard wireless") ||
+          lcText.includes("wps vulnerabilità") || lcText.includes("bluetooth") ||
+          lcText.includes("site survey") || lcText.includes("dispositivo → rischio")
+        ) {
+          mapping['obj41'].push(index);
+        } else if (lcText.includes("asset management") || lcText.includes("inventario")) {
+          mapping['obj42'].push(index);
+        } else if (
+          lcText.includes("ir lifecycle") || lcText.includes("containment") || 
+          lcText.includes("playbook") || lcText.includes("siem") || 
+          lcText.includes("soar") || lcText.includes("monitoring tools") || 
+          lcText.includes("data sources") || lcText.includes("automazione") ||
+          lcText.includes("timeline: dato un incidente")
+        ) {
+          mapping['obj44'].push(index);
+        } else if (
+          lcText.includes("forensics") || lcText.includes("volatilità") || 
+          lcText.includes("acquisizione:") || lcText.includes("analisi: timeline")
+        ) {
+          mapping['obj48'].push(index);
+        } else if (lcText.includes("due diligence") || lcText.includes("sla")) {
+          mapping['obj53'].push(index);
+        } else if (lcText.includes("hipaa") || lcText.includes("gdpr")) {
+          mapping['obj54'].push(index);
+        } else if (lcText.includes("audit e assessment")) {
+          mapping['obj55'].push(index);
+        } else if (
+          lcText.includes("risk management") || lcText.includes("risk treatment") || 
+          lcText.includes("calcolo quantitativo") || lcText.includes("qualitative risk") || 
+          lcText.includes("appetite") || lcText.includes("bia") || 
+          lcText.includes("scenari d'impatto") || lcText.includes("av, ef, aro")
+        ) {
+          mapping['obj52'].push(index);
+        } else if (lcText.includes("awareness") || lcText.includes("simulation")) {
+          mapping['obj56'].push(index);
+        }
+      });
+
+      // Carica i dati remoti
+      var hasRemote = apiConfig.key && apiConfig.binId && !apiConfig.key.includes('INCOLLA') && !apiConfig.binId.includes('INCOLLA');
+      var checks = loadChecksLocal();
+
+      if (hasRemote) {
+        setSyncStatus('syncing', 'caricamento…');
+        try {
+          var res = await fetch(apiBase + '/' + apiConfig.binId + '/latest', {
+            headers: { 'X-Master-Key': apiConfig.key }
+          });
+          if (res.ok) {
+            var resData = await res.json();
+            if (resData.record) {
+              checks = resData.record;
+              saveChecksLocal(checks);
+              setSyncStatus('saved', 'sync cloud attivo ✓');
+            }
+          } else {
+            setSyncStatus('error', 'offline — locale');
+          }
+        } catch (e) {
+          setSyncStatus('error', 'offline — locale');
+        }
+      } else {
+        setSyncStatus('error', 'no cloud sync');
+      }
+
+      checklistState = checks;
+
+      // Sincronizza i checkbox principali della pagina in base ai valori caricati
+      var progData = loadProgress();
+      allObjs.forEach(function (objKey) {
+        var indices = mapping[objKey] || [];
+        if (indices.length > 0) {
+          var allChecked = indices.every(function (idx) { return !!checklistState[idx]; });
+          progData[objKey] = allChecked;
+          
+          var cb = document.querySelector('input[data-ch="' + objKey + '"]');
+          if (cb) {
+            cb.checked = allChecked;
+            markCard(cb.closest('.ch-card'), allChecked);
+          }
+        } else {
+          var cb = document.querySelector('input[data-ch="' + objKey + '"]');
+          if (cb) {
+            cb.checked = !!progData[objKey];
+            markCard(cb.closest('.ch-card'), !!progData[objKey]);
+          }
+        }
+      });
+      saveProgress(progData);
+      updateProgress();
+
+    } catch (err) {
+      console.error('Inizializzazione sync fallita:', err);
+      setSyncStatus('error', 'fallito');
+      
+      // Fallback
+      var progData = loadProgress();
+      document.querySelectorAll('.ch-card-check input[type="checkbox"]').forEach(function (cb) {
+        var ch = cb.dataset.ch;
+        cb.checked = !!progData[ch];
+        markCard(cb.closest('.ch-card'), cb.checked);
+      });
+      updateProgress();
+    }
+  }
+
+  // Chiamata PUT debouncata verso JSONBin
+  function scheduleChecksSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async function () {
+      saveChecksLocal(checklistState);
+      var hasRemote = apiConfig.key && apiConfig.binId && !apiConfig.key.includes('INCOLLA') && !apiConfig.binId.includes('INCOLLA');
+      if (!hasRemote) return;
+
+      setSyncStatus('syncing', 'salvataggio…');
+      try {
+        var res = await fetch(apiBase + '/' + apiConfig.binId, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': apiConfig.key,
+            'X-Bin-Versioning': 'false'
+          },
+          body: JSON.stringify(checklistState)
+        });
+        if (res.ok) {
+          setSyncStatus('saved', 'salvato ✓');
+          setTimeout(function () { setSyncStatus('saved', 'sync cloud attivo ✓'); }, 2000);
+        } else {
+          setSyncStatus('error', 'salvataggio fallito');
+        }
+      } catch (e) {
+        setSyncStatus('error', 'errore sync');
+      }
+    }, 800);
+  }
+
+  // Collega i click sui checkbox della pagina principale all'aggiornamento della checklist
+  document.querySelectorAll('.ch-card-check input[type="checkbox"]').forEach(function (cb) {
+    var ch = cb.dataset.ch;
+
+    cb.addEventListener('change', function () {
+      var progData = loadProgress();
+      progData[ch] = cb.checked;
+      saveProgress(progData);
+      markCard(cb.closest('.ch-card'), cb.checked);
+      updateProgress();
+
+      // Aggiorna tutti gli elementi corrispondenti nella checklist
+      var indices = mapping[ch] || [];
+      if (indices.length > 0) {
+        indices.forEach(function (idx) {
+          checklistState[idx] = cb.checked;
+        });
+        scheduleChecksSave();
+      }
+    });
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!confirm('Azzerare tutti i progressi e svuotare la checklist?')) return;
+    saveProgress({});
+    checklistState = {};
+    saveChecksLocal({});
+    
+    document.querySelectorAll('.ch-card-check input').forEach(function (cb) {
+      cb.checked = false;
+      markCard(cb.closest('.ch-card'), false);
+    });
+    
+    updateProgress();
+    scheduleChecksSave();
+  });
+
+  // Gestione menu accordion del dominio
+  document.querySelectorAll('.domain-toggle').forEach(function (btn) {
+    var block = btn.closest('.domain-block');
+    var chev  = btn.querySelector('.domain-chevron');
+
+    if (block && block.classList.contains('open')) {
+      btn.setAttribute('aria-expanded', 'true');
+      if (chev) chev.textContent = '▾';
+    } else {
+      btn.setAttribute('aria-expanded', 'false');
+      if (chev) chev.textContent = '▸';
+    }
+
+    btn.addEventListener('click', function () {
+      if (!block) return;
+      var isOpen = block.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+      if (chev) chev.textContent = isOpen ? '▾' : '▸';
+    });
+  });
+
+  // Gestione delle schede della homepage (Intro vs Capitoli)
+  var tabBtnIntro = document.getElementById('tab-btn-intro');
+  var tabBtnCapitoli = document.getElementById('tab-btn-capitoli');
+  var viewIntro = document.getElementById('view-intro');
+  var viewChapters = document.getElementById('view-chapters');
+  var btnStartStudying = document.getElementById('btn-start-studying');
+
+  function selectTab(tabId) {
+    if (tabId === 'intro') {
+      tabBtnIntro.classList.add('active');
+      tabBtnIntro.setAttribute('aria-selected', 'true');
+      tabBtnCapitoli.classList.remove('active');
+      tabBtnCapitoli.setAttribute('aria-selected', 'false');
+      viewIntro.classList.add('active');
+      viewChapters.classList.remove('active');
+    } else if (tabId === 'capitoli') {
+      tabBtnCapitoli.classList.add('active');
+      tabBtnCapitoli.setAttribute('aria-selected', 'true');
+      tabBtnIntro.classList.remove('active');
+      tabBtnIntro.setAttribute('aria-selected', 'false');
+      viewChapters.classList.add('active');
+      viewIntro.classList.remove('active');
+    }
+  }
+
+  if (tabBtnIntro && tabBtnCapitoli) {
+    tabBtnIntro.addEventListener('click', function () { selectTab('intro'); });
+    tabBtnCapitoli.addEventListener('click', function () { selectTab('capitoli'); });
+  }
+
+  if (btnStartStudying) {
+    btnStartStudying.addEventListener('click', function () {
+      selectTab('capitoli');
+      viewChapters.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  function handleHash() {
+    if (window.location.hash === '#capitoli') {
+      selectTab('capitoli');
+      var tabsContainer = document.querySelector('.index-tabs');
+      if (tabsContainer) {
+        tabsContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      if (!window.location.hash || window.location.hash === '#intro') {
+        selectTab('intro');
+      }
+    }
+  }
+
+  // Handle on load
+  handleHash();
+
+  // Watch for hash changes on index.html
+  window.addEventListener('hashchange', handleHash);
+
+  // Avvio sincronizzazione
+  initSync();
+
+})();
+</script>
+
+<script src="script/global-nav-footer.js" defer></script>
+<script src="script/global-search.js" defer></script>
+</body>
+</html>

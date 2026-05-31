@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Incident Response Activities · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index_en.html">General Index</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.8 — Incident Response</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.8 — Incident Response Activities</h1>
+    </header>
+
+    <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 14: Monitoraggio e risposta agli incidenti</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
+      <p>
+        <strong>Official Objective (CompTIA):</strong>
+        <em>Explain appropriate incident response activities.</em>
+      </p>
+      <p>
+        <strong>Objectives covered:</strong>
+        <span class="objectives-tag">4.8</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisites:</strong>
+        <a href="en_obj4_5_incident_response.html">OBJ 4.5 — Configurare le capacità enterprise</a> ·
+        <a href="en_obj4_7_automation_orchestration.html">OBJ 4.7 — Automazione e Orchestrazione</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Fasi del Ciclo IR</div>
+        <a href="#ir_lifecycle">Fasi dell'Incident Response (NIST)</a>
+        <a href="#containment_limit">Contenimento ed Isolamento</a>
+        <a href="#lessons_learned_report">Lessons Learned e Reporting</a>
+
+        <div class="toc-section">Prevenzione e Test</div>
+        <a href="#tabletop_exercises">Esercitazioni Tabletop</a>
+        <a href="#threat_hunting_intro">Threat Hunting proattivo</a>
+
+        <div class="toc-section">Integrità e Investigazioni</div>
+        <a href="#chain_of_custody_pki">Catena di Custodia e Forensics</a>
+        <a href="#yellow_team">Yellow Team ed Integrazione</a>
+
+        <div class="toc-section">Verify & Quiz</div>
+        <a href="#quiz-section">Interactive Quiz (23 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — IL CICLO DI VITA IR NIST ═══════════════ -->
+        <section id="ir_lifecycle">
+          <h2>Fasi del Ciclo di Vita dell'Incident Response (NIST / CompTIA)</h2>
+          <p>
+            L'Incident Response (IR) è un insieme coordinato di attività, politiche e strumenti volto ad identificare, contenere e rimediare alle minacce di sicurezza. Un'organizzazione struttura la risposta secondo il modello standardizzato <strong>NIST SP 800-61</strong>.
+          </p>
+
+          <div class="critical">
+            <strong>Fasi Sequenziali d'Esame:</strong>
+            <ol>
+              <li><strong>Preparation (Preparazione)</strong>: Si stabiliscono preventivamente ruoli, responsabilità strutturate del personale, si redigono i playbook e si addestrano le persone.</li>
+              <li><strong>Detection and Analysis (Rilevamento e Analisi)</strong>: È la prima fase attiva volta a scoprire anomalie e confermare che l'evento costituisca formalmente una violazione attiva.</li>
+              <li><strong>Containment, Eradication, and Recovery (Contenimento, Eradicazione e Ripristino)</strong>: Sotto-fasi preposte prima a contenere il raggio d'azione del virus, poi a disinfettare i sistemi e infine a riportarli online.</li>
+              <li><strong>Post-Incident Activity (Attività Post-Incidente / Lessons Learned)</strong>: Analisi conclusiva per documentare l'accaduto e implementare difese strutturali aggiuntive.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 2 — CONTENIMENTO ED ISOLAMENTO ════════════ -->
+        <section id="containment_limit">
+          <h2>Contenimento vs Eradicazione</h2>
+          <p>
+            Nello svolgimento delle operazioni del SOC di fronte ad un attacco malware, discriminare tra isolamento iniziale e bonifica è di fondamentale importanza:
+          </p>
+          <ul>
+            <li>
+              <strong>Contenimento (Containment)</strong>: Colloca al primo posto l'obiettivo di <strong>limitare la propagazione del danno</strong> e minimizzare l'interruzione complessiva delle attività. Un'azione tipo consiste nell'usare il SIEM o l'EDR per disconnettere o isolare un server compromesso dalla rete.
+            </li>
+            <li>
+              <strong>Eradicazione (Eradication)</strong>: Subentra in seguito all'isolamento. Consiste nel neutralizzare integralmente il malware all'origine, rimuovendo le minacce e i file cloni residui.
+            </li>
+          </ul>
+
+          <div class="example-box">
+            <strong>Analisi di Scenario — Macchina Isolata ma non sanata:</strong><br>
+            Se il team del SOC individua un endpoint compromesso e il software SIEM riesce a disconnetterlo dall'ambiente di rete principale, ma i tecnici non hanno ancora eliminato i file maligni da quel computer, il team ha completato esclusivamente la fase di <strong>Contenimento (Containment)</strong>.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 3 — LESSONS LEARNED E REPORTING ════════════ -->
+        <section id="lessons_learned_report">
+          <h2>Attività Post-Incidente: Lessons Learned e Reporting</h2>
+          <p>
+            Al termine delle fasi di sanificazione ed espulsione degli aggressori, il team si riunisce per le attività conclusive di rendicontazione:
+          </p>
+          <dl class="termlist">
+            <dt>Generazione di Report Formali</dt>
+            <dd>Determinati audit o normative richiedono la formalizzazione e sottomissione di relazioni scritte (Incident reports). Tali report ufficiali descrivono l'intera sequenza temporale del breach e vengono scritti e generati solo durante la fase finale di <strong>Lessons learned</strong>.</dd>
+            
+            <dt>Ricerca delle cause di fondo (Root Cause Analysis - RCA)</dt>
+            <dd>Identifica sistematicamente la falla primaria che ha concesso l'accaduto. Ricercare la root cause ha il fine ultimo di <strong>prevenire futuri incidenti aventi la medesima origine</strong>, correggendo la vulnerabilità alla radice.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 4 — ADDESTRAMENTO E TESTING DEI PIANI ═══════ -->
+        <section id="tabletop_exercises">
+          <h2>Addestramento (Training) e Standard di Testing (Testing)</h2>
+          <p>
+            Un piano di risposta agli incidenti (Incident Response Plan - IRP) e i relativi playbook hanno scarso valore se il personale chiave non viene addestrato con continuità ad applicarli in condizioni di forte stress organizzativo.
+          </p>
+
+          <dl class="termlist">
+            <dt>Incident Response Training (Addestramento del Personale)</dt>
+            <dd>Il processo continuo che assicura che ciascun dipendente (sia tecnico che dirigenziale o di reparto esterno come l'ufficio legale, HR e PR) comprenda i propri compiti specifici e sappia come allertare o escalare un incidente informatico. Questo include l'onboarding di sicurezza, i briefing periodici e la familiarizzazione con la catena di comando.</dd>
+
+            <dt>Tabletop Exercises (Esercitazioni da Tavolo / Verbali)</dt>
+            <dd>Una discussione informale e facilitata in cui i rappresentanti dei dipartimenti chiave d'azienda (C-Level, legali, SOC manager, relazioni esterne) si riuniscono fisicamente o virtualmente attorno a un tavolo. Viene presentato uno scenario ipotetico di attacco e si discute verbalmente la risposta appropriata secondo il piano aziendale.
+              <ul>
+                <li><strong>Obiettivo</strong>: Familiarizzare i partecipanti con l'IRP e i rispettivi ruoli, svelando "buchi" di coordinamento o incomprensioni procedurali.</li>
+                <li><strong>Outcome</strong>: Si conclude con raccomandazioni formali usate per <strong>aggiornare e riallineare l'Incident Response Plan (IRP)</strong> senza testare attivamente server o impattare la produzione.</li>
+              </ul>
+            </dd>
+
+            <dt>Simulations (Simulazioni Interattive / Live-Fire)</dt>
+            <dd>Un test pratico operato su sistemi reali o in ambienti di laboratori "sandbox" dove il personale tecnico affronta attacchi simulati in tempo reale (ad esempio attività coordinate Red Team vs Blue Team o infezioni fittizie di malware attivo).
+              <ul>
+                <li><strong>Obiettivo</strong>: Misurare e valutare la prontezza tecnica, le capacità analitiche di isolamento, la rapidità d'esecuzione dei runbook e la reattività dei sistemi difensivi di fronte a minacce realistiche e non preannunciate.</li>
+                <li><strong>Differenza chiave</strong>: Mentre il <em>Tabletop</em> è prettamente teorico e verbale (strategico), la <em>Simulation</em> è un'attività hands-on ad alta fedeltà tecnologica (operativo).</li>
+              </ul>
+            </dd>
+
+            <dt>Walkthroughs (Scansioni Procedurali Guidate)</dt>
+            <dd>Incontri strutturati in cui i membri del team di risposta esaminano passo-passo ogni singola riga di un playbook per verificare se i comandi, i contatti e i flussi logici descritti siano tuttora applicabili e agganciati ai sistemi di produzione correnti.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 5 — THREAT HUNTING PROATTIVO ═══════════════ -->
+        <section id="threat_hunting_intro">
+          <h2>Caccia Attiva alle Minacce: Threat Hunting proattivo</h2>
+          <p>
+            Molti dei cybercriminali odierni permangono all'interno della rete bersaglio per mesi senza emettere segnali eclatanti. I tradizionali allarmi basati su firme fisse o SIEM non configurati per le ultime tendenze restano silenti. 
+          </p>
+          <p>
+            In questo scenario, l'analista di sicurezza adotta e mette in atto il <strong>Threat Hunting (Caccia alle minacce)</strong>.
+          </p>
+          <p>
+            A differenza della risposta reattiva subordinata a un allarme del SIEM, il Threat Hunting è una <strong>ricerca proattiva e sistematica</strong> avviata per identificare comportamenti ostili, anomalie silenti o tattiche cyber emergenti non ancora coperte dalle notifiche automatiche esistenti.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 6 — FORENSICS E PROCESSO INVESTIGATIVO ══════ -->
+        <section id="chain_of_custody_pki">
+          <h2>Integrità delle Prove e Investigazione Informatica (Digital Forensics)</h2>
+          <p>
+            Durante lo svolgimento delle investigazioni informatiche su endpoint o server manomessi, ogni azione svolta dagli analisti forensi deve preservare meticolosamente i reperti e la telemetria raccolti secondo standard rigorosi e ripetibili. Il processo forense si delinea attraverso sei sotto-fasi critiche:
+          </p>
+
+          <dl class="termlist">
+            <dt>1. Acquisition (Acquisizione)</dt>
+            <dd>Il processo di estrazione e cattura dei reperti digitali a caldo (RAM) o a freddo (hard disk fisici). Segue l'<strong>Order of Volatility (Ordine di volatilità)</strong>, partendo dai dati più labili come la memoria RAM (Memory Dump) prima dello spegnimento del computer, per concludersi con le copie logico-fisiche (Bit-stream Image) dei supporti tramite inibitori di scrittura hardware (Write Blockers).</dd>
+
+            <dt>2. Preservation (Preservazione)</dt>
+            <dd>Garantisce che la prova digitale non subisca modificazioni accidentali o dolose. Ogni immagine forense acquisita viene dotata di una firma crittografica univoca (MD5 o SHA-256) calcolata all'istante dell'acquisizione e verificata sistematicamente ad ogni successivo esame, assicurando l'integrità matematica assoluta.</dd>
+
+            <dt>3. Legal Hold (Conservazione Coattiva Legale)</dt>
+            <dd>Un'ingiunzione emessa dall'ufficio legale d'impresa o dalle autorità giudiziarie che ordina di sospendere immediatamente qualsiasi politica societaria o automatica di riciclo dati, archiviazione a rotazione o distruzione programmata di email, registrazioni e backup. Tutti i record correlati all'incidente vengono blindati indefinitamente per uso processuale.</dd>
+
+            <dt>4. Chain of Custody (Catena di Custodia)</dt>
+            <dd>Documento meticoloso che traccia cronologicamente l'intera "storia di vita" di una prova, dal momento esatto in cui viene reperita fino alla presentazione dinnanzi alle autorità. Specifica precisamente data e ora di ogni movimentazione, nome e firma del responsabile di custodia, finalità e luogo fisico di conservazione. Una catena di custodia inquinata o lacunosa inficia l'ammissibilità legale delle prove.</dd>
+
+            <dt>5. E-Discovery (Electronic Discovery)</dt>
+            <dd>Il processo sistematico di localizzazione, identificazione, raccolta e fornitura di informazioni memorizzate elettronicamente (ESI - Electronically Stored Information) in risposta a requisiti processuali o mandati legali legati a vertenze e data breach d'impresa.</dd>
+
+            <dt>6. Reporting (Rapporto Tecnico Forense)</dt>
+            <dd>La redazione finale di una relazione scritta formale, dettagliata, imparziale e adatta ai non-specialisti (C-Level, avvocati o giudici) che delinea con rigore scientifico le esecuzioni compite, la timeline dell'attacco cyber, le evidenze estratte e le conclusioni investigative certificate.</dd>
+          </dl>
+
+          <div class="focused-concept">
+            <strong>Esempio Dinamico d'Esame — Password in Chiarofila:</strong><br>
+            Nel momento in cui un analista si avvede (tramite sessioni remote o registri) che un utente ha erroneamente memorizzato sul proprio computer un file di testo contenente chiavi d'accesso private in chiaro, la prima misura pratica di rimedio consiste nel consigliare all'utente di <strong>cambiare immediatamente quelle password</strong>, prima di svolgere indagini post-mortem retrospettive.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 7 — YELLOW TEAM E SVILUPPO SICURO ═════════ -->
+        <section id="yellow_team">
+          <h2>Il Ruolo dello Yellow Team nel Modello dei Team di Sviluppo</h2>
+          <p>
+            Nelle moderne metodiche software DevSecOps, la collaborazione tra chi scrive codice e chi lo attacca e difende ha un ruolo trainante:
+          </p>
+          <dl class="termlist">
+            <dt>Yellow Team (I Costruttori)</dt>
+            <dd>Lo <strong>Yellow Team</strong> incarna il ruolo degli sviluppatori software, dei progettisti dell'architettura e degli ingegneri applicativi. Opera e coopera con l'apporto sia offensivo (Red Team) sia protettivo (Blue Team) al fine di recepire logiche d'attacco ed erigere software e applicazioni intrinsecamente robusti e privi di falle fin dall'inizio della fase di sviluppo.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.8</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>23 questions d'esame reali</strong> su fasi NIST, contenimento, Tabletop, Threat Hunting, Catena di Custodia, reazione d'emergenza e il ruolo del Yellow Team.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.8 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.8</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Qual è l'obiettivo centrale del Threat Hunting?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La ricerca proattiva e manuale di minacce cyber striscianti e silenti che abbiano raggirato i consueti sensori di rilevazione automatica o per cui non esistono specifiche regole del SIEM.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>In quale fase di IR si documentano raccomandazioni e report?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>In corrispondenza della fase finale di <strong>Lessons learned</strong> (Lezioni apprese).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cosa assicura l'integrità giuridica di una prova?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La rigorosa conformità alla <strong>Catena di Custodia</strong> (Chain of custody), volta a documentare cronologicamente ogni singola custodia o manipolazione del reperto.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

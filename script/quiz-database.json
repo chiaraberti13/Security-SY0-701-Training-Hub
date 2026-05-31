@@ -1,4 +1,4 @@
-window.quizDatabase = [
+[
   {
     "id": "SCREEN_027",
     "source": "TL",
@@ -22459,4 +22459,4 @@ window.quizDatabase = [
     "domain": 4,
     "objective": "4.7"
   }
-];
+]

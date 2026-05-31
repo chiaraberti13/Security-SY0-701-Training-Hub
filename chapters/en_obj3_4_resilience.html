@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Resilience and Recovery · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index_en.html">General Index</a>
+  <span>Dominio 3 — Security Architecture</span>
+  <span>OBJ 3.4 — Resilienza e recovery</span>
+</div>
+
+<header>
+  <h1>OBJ 3.4 — Resilience and Recovery</h1>
+</header>
+
+<div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 9: Resilienza e sicurezza fisica</p>
+  <p>CompTIA Security+ SY0-701 · Dominio 3 — Security Architecture · Exam weight: 18%</p>
+  <p><strong>Objective ufficiale:</strong> <em>Explain the importance of resilience and recovery in security architecture.</em></p>
+  <p><strong>Objectives covered:</strong> <span class="objectives-tag">3.4</span> <span class="weight-badge">D3 = 18%</span></p>
+  <p><strong>Prerequisites:</strong> <a href="en_obj3_1_architecture.html">OBJ 3.1 — Modelli architetturali</a> · <a href="en_obj3_2_infrastructure.html">OBJ 3.2 — Infrastruttura</a></p>
+  <p><strong>Correlati:</strong> <a href="en_obj1_2_fundamental_concepts.html">OBJ 1.2 — Availability, CIA</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Alta disponibilità</div>
+  <a href="#ha">High Availability</a>
+  <a href="#load-vs-cluster">Load balancing vs Clustering</a>
+  <a href="#spof">Single point of failure</a>
+
+  <div class="toc-section">Recovery sites</div>
+  <a href="#hot-site">Hot site</a>
+  <a href="#warm-site">Warm site</a>
+  <a href="#cold-site">Cold site</a>
+  <a href="#geo-dispersion">Geographic dispersion</a>
+
+  <div class="toc-section">Continuità</div>
+  <a href="#platform-diversity">Platform diversity</a>
+  <a href="#multi-cloud">Multi-cloud</a>
+  <a href="#continuity">Continuity of operations</a>
+  <a href="#capacity">Capacity planning</a>
+
+  <div class="toc-section">Backup e replica</div>
+  <a href="#backup-types">Tipi di backup</a>
+  <a href="#snapshot">Snapshot</a>
+  <a href="#replication">Replication</a>
+  <a href="#journaling">Journaling</a>
+
+  <div class="toc-section">Power</div>
+  <a href="#power">Generator / UPS</a>
+
+  <div class="toc-section">Testing</div>
+  <a href="#tabletop">Tabletop exercise</a>
+  <a href="#failover">Failover test</a>
+  <a href="#simulation">Simulation</a>
+  <a href="#parallel">Parallel processing</a>
+
+  <div class="toc-section">Piani</div>
+  <a href="#drp-bcp">DRP e BCP</a>
+  <a href="#rto-rpo">RTO e RPO</a>
+
+  <div class="toc-section">Verify</div>
+  <a href="#quiz-section">Interactive Quiz</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Resilienza: resistere, assorbire, riprendere</h2>
+  <p>
+    La <strong>Resilienza Cibernetica (Cyber Resilience)</strong> è la capacità di un'organizzazione o di un'infrastruttura IT di <strong>anticipare, resistere, assorbire l'impatto, riprendersi e infine adattarsi</strong> ad eventi avversi, sollecitazioni anomale, disastri ambientali o attacchi informatici distruttivi. 
+  </p>
+  <p>
+    Nell'esame CompTIA Security+, la resilienza non viene considerata una proprietà binaria e statica (funzionante vs non funzionante), bensì un continuum aziendale misurato su metriche rigorose: quanto tempo occorre per ripristinare il core business? Quanti dati transazionali siamo disposti a sacrificare? Quanto budget l'azienda intende allocare per ridurre queste metriche? 
+  </p>
+
+  <div class="example-box">
+    <strong>🛡️ CYBER RESILIENCE vs DISASTER RECOVERY (DR)</strong><br>
+    Mentre il <strong>Disaster Recovery</strong> si concentra prevalentemente sul ripristino tecnico "post-evento" (ovvero su come rimettere in piedi i server dopo che il desastro è avvenuto), la <strong>Cyber Resilienza</strong> ha una visione olistica e proattiva: include il design architetturale che impedisce all'attacco o al guasto di causare un'interruzione (assorbimento proattivo), i piani di continuità operativa per processi non-IT (Business Continuity) e l'apprendimento continuo finalizzato ad adattare le difese ed evitare il ripetersi di incidenti analoghi.
+  </div>
+
+  <p>
+    L'asse portante che traduce in pratica il concetto di resilienza all'interno dell'architettura di sicurezza è la <strong>Ridondanza di Sistema (System Redundancy)</strong>. Progettare la ridondanza significa implementare duplicazioni strategiche per fare in modo che l'eventuale guasto o compromissione di un singolo elemento non provochi un blackout catastrofico per l'azienda.
+  </p>
+
+  <h3>Le 4 Dimensioni Cardinali della Ridondanza (Redundancy):</h3>
+  <dl class="termlist">
+    <dt>Ridondanza Hardware (Hardware Redundancy)</dt>
+    <dd>
+      Consiste nel duplicare i componenti fisici all'interno di un singolo server o armadio rack. Gli esempi tipici includono l'utilizzo di <strong>Alimentatori Ridondanti Hot-Swappable</strong> (se un alimentatore brucia, il secondo subentra senza spegnere la macchina), schede madri con più socket di CPU indipendenti, e l'aggregazione di più schede di rete (NIC Teaming) per prevenire la rottura di una porta ethernet fisica.
+    </dd>
+
+    <dt>Ridondanza di Rete (Network Redundancy)</dt>
+    <dd>
+      Previene l'interruzione della connettività aziendale. Si realizza implementando percorsi di cablaggio di rete diversificati (ad es. percorsi fisici separati per i cavi in fibra ottica entrando nell'edificio), adottando switch in stack logico ridondante, e stipulando accordi con più fornitori di servizi Internet (<strong>Dual-ISP / Multihoming BGP</strong>) per instradare automaticamente il traffico della filiale su un provider secondario qualora il primario subisca un outage di zona.
+    </dd>
+
+    <dt>Ridondanza dell'Alimentazione (Power Redundancy)</dt>
+    <dd>
+      Fornisce una barriera protettiva contro blackout elettrici della rete di distribuzione nazionale. Si basa sull'integrazione accoppiata di batterie a tampone temporanee (<strong>UPS - Uninterruptible Power Supply</strong>) volte ad assorbire micro-interruzioni e sbalzi di tensione immediati, e di grossi motori di combustione ausiliari (<strong>Generators</strong>) in grado di erogare corrente continua bruciando gasolio per giorni interi in caso di blackout prolungati.
+    </dd>
+
+    <dt>Ridondanza dei Dati (Data Redundancy)</dt>
+    <dd>
+      La protezione assoluta contro il danneggiamento, la corruzione o la perdita permanente dei dati aziendali. Si articola sul piano logico tramite l'archiviazione parallela e distribuita delle informazioni su più dischi (tecnologie <strong>RAID 1, 5, 6, 10</strong>), sulla scrittura transazionale protetta con journal (Journaled Filesystem), e sulla replica continua remota in cloud (<strong>Real-time Synchronous Replication</strong>) geograficamente distante dal sito operativo primario.
+    </dd>
+  </dl>
+
+  <div class="critical">
+    <strong>🧠 LA DISTINZIONE PER L'ESAME: REDUNDANCY vs HIGH AVAILABILITY (HA)</strong><br>
+    Spesso confusi come sinonimi, CompTIA evidenzia un chiaro confine concettuale:
+    <ul style="margin-top: 5px;">
+      <li><strong>Ridondanza:</strong> È lo strumento tecnico (il "mezzo"). Rappresenta la presenza fisica o logica di componenti duplicati tenuti di riserva (es: avere due dischi speculari in RAID 1, avere un secondo generatore, avere un server secondario).</li>
+      <li><strong>Alta Disponibilità (HA):</strong> È il risultato sistemico (il "fine"). È la capacità dell'intera architettura di erogare il servizio in modo continuativo, trasparente e privo di latenze percepibili per l'utente finale mediante meccanismi di failover automatico (es. load balancing attivo-attivo, cluster di database, switchover dei DNS). La ridondanza è un prerequisito fondamentale dell'Alta Disponibilità, ma da sola non basta: serve una logica software in grado di rilevare istantaneamente il guasto sul componente primario e reindirizzare le transazioni sulla risorsa ridondante senza alcun intervento manuale.</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══ ALTA DISPONIBILITÀ ════════════════════════════════════════ -->
+<section id="high-availability">
+  <h2>Alta disponibilità (High Availability — HA)</h2>
+  <p>
+    L'<strong>alta disponibilità (high availability)</strong> è un'architettura
+    progettata per eliminare i single point of failure e garantire che i sistemi
+    rimangano operativi anche in caso di guasti parziali. Si misura in "nines":
+    99,9% = ~8,7h downtime/anno; 99,99% = ~52 minuti; 99,999% ("five nines") =
+    ~5 minuti/anno. Per progettare reti HA occorre considerare principalmente
+    <strong>ease of recovery</strong> e <strong>responsiveness</strong>.
+  </p>
+
+  <h3 id="load-vs-cluster">Load balancing vs Clustering</h3>
+  <dl class="termlist">
+    <dt>Load balancing (Bilanciamento del carico)</dt>
+    <dd>Distribuisce le richieste tra più server backend per evitare che un singolo server sia sovraccarico. Se un server cade, le richieste vengono redistribuite automaticamente tra i rimanenti. È la soluzione principale per garantire HA e performance nelle applicazioni web e nei database (: "high availability in a cloud environment" → load balancer). "Improve availability with minimal effort when adding/replacing servers" → load balancing. "Business-critical application during peak usage" → load balancer.</dd>
+    <dt>Clustering (Clustering)</dt>
+    <dd>Gruppo di server che lavorano come un sistema unico. A differenza del load balancing (dove i server operano indipendentemente), nel clustering i nodi condividono stato e risorse. Tipi: Active-Active (tutti i nodi gestiscono le richieste) e Active-Passive (nodo in standby pronto a subentrare). Il clustering garantisce failover trasparente: quando un nodo cade, un altro prende immediatamente il controllo senza interruzione del servizio.</dd>
+  </dl>
+
+  <h3 id="spof">Single point of failure (Singolo punto di guasto)</h3>
+  <p>
+    Un <strong>single point of failure (SPOF)</strong> è qualsiasi componente la cui
+    caduta causa l'interruzione dell'intero sistema. Identificare ed eliminare gli SPOF
+    è il fondamento della progettazione HA. L'esempio classico: un network
+    engineer deploya switch ridondanti (eliminando lo SPOF degli switch), ma il budget
+    copre solo <em>una</em> connessione ISP — quella connessione diventa il nuovo SPOF.
+    La ridondanza parziale non elimina i rischi se un componente critico rimane singolo.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — SPOF in scenari di ridondanza parziale</strong><br>
+    "Redundant switch stack deployed, but only one ISP connection. What is the risk?" →
+    <strong>Single point of failure</strong>. Identificare l'elemento
+    non ridondante che rimane como SPOF nonostante gli altri miglioramenti.
+    Non "unknown MTBF", non "no SLA", non "RPO not determined".
+  </div>
+
+  <h3 id="raid">RAID (Redundant Array of Independent Disks)</h3>
+  <p>
+    Il <strong>RAID</strong> è una tecnologia di virtualizzazione dello storage che combina più dischi rigidi fisici in un'unica unità logica. Il RAID viene utilizzato per aumentare le prestazioni dei dischi, la tolleranza ai guasti (fault tolerance) e la resilienza dello storage, eliminando il singolo disco fisico come single point of failure (SPOF).
+  </p>
+  <dl class="termlist">
+    <dt>RAID 0 (Striping)</dt>
+    <dd>I dati sono suddivisi equamente tra due o più dischi senza alcuna ridondanza. Offre massime prestazioni in lettura/scrittura, ma <em>nessuna fault tolerance</em>: se un singolo disco si guasta, tutti i dati vengono persi.</dd>
+    
+    <dt>RAID 1 (Mirroring)</dt>
+    <dd>I dati sono scritti in modo identico su due o più dischi. Offre un'eccellente tolleranza ai guasti (resiste alla perdita di N-1 dischi) ma dimezza lo spazio utile totale (efficienza dello storage del 50%). Prestazioni di lettura elevate, scrittura ordinaria.</dd>
+    
+    <dt>RAID 5 (Striping con parità distribuita)</dt>
+    <dd>I dati e le informazioni di parità sono distribuiti su tre o più dischi. Se un solo disco si guasta, i dati possono essere ricostruiti al volo usando i dati rimanenti e la parità intersecata. Offre un ottimo bilanciamento tra spazio utilizzabile, prestazioni e resilienza (resiste alla perdita di 1 disco). Richiede minimo 3 dischi.</dd>
+    
+    <dt>RAID 6 (Striping con doppia parità distribuita)</dt>
+    <dd>Estensione del RAID 5 che memorizza due blocchi di parità indipendenti distribuiti su tutti i dischi. Richiede un minimo di 4 dischi e può tollerare il guasto simultaneo di <em>due dischi</em> senza alcuna perdita di dati complessiva.</dd>
+    
+    <dt>RAID 10 (Striping di Mirror — RAID 1+0)</dt>
+    <dd>Combina la velocità di striping dello stripe (RAID 0) con la ridondanza speculare (RAID 1). Richiede almeno 4 dischi. I dischi sono configurati in coppie speculari e le coppie sono poi suddivise. Offre prestazioni eccezionali in lettura/scrittura e un'alta tolleranza ai guasti (può resistere alla rottura contemporanea di più dischi, purché non appartengano alla stessa coppia speculare).</dd>
+  </dl>
+  <div class="exam-tip">
+    <strong>EXAM TIP — Scelta della configurazione RAID</strong><br>
+    Un ingegnere di sistema deve progettare uno storage estremamente resiliente che protegga da guasti hardware imprevisti ai dischi:<br>
+    - Se l'obiettivo principale è massimizzare la velocità a svantaggio della tolleranza ai guasti (ad es. per cache temporanee) → <strong>RAID 0</strong>.<br>
+    - Se l'organizzazione desidera un'elevata resilienza potendo tollerare la perdita contemporanea di un massimo di due dischi dello storage → <strong>RAID 6</strong>.<br>
+    - Se l'obiettivo è massimizzare prestazioni e ridondanza contemporaneamente per database critici ad alta concorrenza → <strong>RAID 10</strong>.
+  </div>
+</section>
+
+
+<!-- ══ RECOVERY SITES ════════════════════════════════════════════ -->
+<section id="recovery-sites">
+  <h2>Siti di recovery (Recovery Sites)</h2>
+  <p>
+    I <strong>siti di recovery (recovery sites)</strong> sono strutture alternative
+    che un'organizzazione usa quando il sito primario diventa inaccessibile o non
+    operativo a causa di un disastro. La scelta del tipo di sito rappresenta un
+    trade-off fondamentale tra <em>costo</em> e <em>velocità di recovery</em>
+    (RTO/RPO). "Geographic site" non è un tipo di recovery site — è un distrattore.
+  </p>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Tipo</th><th>Stato</th><th>RTO</th><th>RPO</th><th>Costo</th><th>Quando usarlo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Hot site</td><td>Completamente operativo, sistemi sincronizzati in tempo reale</td><td>Minuti</td><td>Quasi zero</td><td>Molto alto</td><td>Operazioni critiche che non possono fermarsi</td></tr>
+      <tr><td class="label">Warm site</td><td>Hardware pronto, dati parzialmente aggiornati</td><td>Ore–giorni</td><td>Ore</td><td>Medio</td><td>Bilanciamento costo/recovery</td></tr>
+      <tr><td class="label">Cold site</td><td>Solo infrastruttura fisica (spazio, energia, rete), nessun hardware</td><td>Giorni–settimane</td><td>Alto</td><td>Basso</td><td>Budget limitato, RTO elevato accettabile</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="hot-site">Hot site (Sito caldo)</h3>
+  <p>
+    Un <strong>hot site</strong> è una struttura completamente operativa con hardware,
+    software e dati identici al sito primario, sincronizzati in tempo reale o
+    quasi-reale. È il recovery site più costoso ma offre il recovery più rapido:
+    in caso di disastro, il failover può avvenire in minuti. Usato quando il business
+    non può permettersi nemmeno ore di downtime.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Hot site: failover immediato</strong><br>
+    "Hurricane-prone area, immediate operations continuity" → <strong>Hot site</strong>.<br>
+    "Quick failover to identical site if primary goes down" → <strong>Hot site</strong>.<br>
+    "Lowest RTO and RPO for a database" → <strong>Hot site</strong>.<br>
+    Il hot site è sempre la risposta quando lo scenario richiede continuità <em>immediata</em>.
+  </div>
+
+  <h3 id="warm-site">Warm site (Sito tiepido)</h3>
+  <p>
+    Un <strong>warm site</strong> ha l'hardware pronto e configurato ma i dati non
+    sono aggiornati in tempo reale: i backup vengono ripristinati quando necessario,
+    richiedendo alcune ore o giorni per il ripristino completo. È il compromesso
+    ideale tra costo e recovery: costa meno del hot site ma offre recovery più
+    rapido del cold site.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Warm site: costo-beneficio con RTO ~2 giorni</strong><br>
+    "Cost-benefit primary requirement, RTO and RPO values around two days" →
+    <strong>Warm site</strong>.<br>
+    "No need for immediate failover, reduce workload for recovery" →
+    <strong>Warm site</strong>.
+  </div>
+
+  <h3 id="cold-site">Cold site (Sito freddo)</h3>
+  <p>
+    Un <strong>cold site</strong> fornisce solo l'infrastruttura fisica di base:
+    spazio fisico, alimentazione elettrica, connettività di rete. Non c'è hardware
+    pre-installato, non ci sono dati: l'organizzazione deve procurarsi e installare
+    tutto l'hardware e ripristinare tutti i dati quando necessario. È il recovery
+    site più economico ma con il recovery più lento (giorni o settimane).
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Cold site: budget minimo</strong><br>
+    "Minimum cost, no money for additional internet connections" →
+    <strong>Cold site</strong>.<br>
+    "Low-cost standby site with hardware and internet access" →
+    <strong>Cold site</strong>. La parola chiave è sempre il costo ridotto
+    e l'accettazione di RTO/RPO elevati.
+  </div>
+
+  <h3 id="geo-dispersion">Geographic dispersion (Dispersione geografica)</h3>
+  <p>
+    La <strong>dispersione geografica (geographic dispersion)</strong> distribuisce
+    le risorse IT (data center, backup, sistemi) in posizioni geografiche distanti
+    tra loro. L'obiettivo è garantire che un singolo evento catastrofico locale
+    (terremoto, uragano, alluvione, incendio) non possa eliminare simultaneamente
+    tutti i sistemi e tutti i backup dell'organizzazione.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Geographic dispersion: protezione da disastri naturali</strong><br>
+    "Weather events causing damage to the server room" → <strong>Geographic dispersion</strong>.<br>
+    "Single natural disaster must not result in complete loss of regulated backup data" →
+    <strong>Geographic dispersion</strong>.<br>
+    "Minimize data loss in earthquake-prone areas" → <strong>Off-site replication</strong> — variante della geographic dispersion focalizzata sulla replica.<br>
+    Non "clustering" (che gestisce la HA locale), non "load balancers" (che gestiscono
+    le performance), non "off-site backups" da soli (non sono sufficienti per continuità
+    immediata).
+  </div>
+</section>
+
+
+<!-- ══ CONTINUITÀ OPERATIVA ══════════════════════════════════════ -->
+<section id="continuity-section">
+  <h2>Continuità operativa e pianificazione</h2>
+
+  <h3 id="platform-diversity">Platform diversity (Diversità di piattaforma)</h3>
+  <p>
+    La <strong>diversità di piattaforma (platform diversity)</strong> usa tecnologie,
+    OS, hardware, fornitori e cloud provider diversi per ridurre il rischio che
+    una singola vulnerabilità o un singolo guasto comprometta l'intera infrastruttura.
+    Il beneficio principale è la <strong>resilienza agli zero-day</strong>: se tutti i sistemi usano lo stesso OS e viene scoperta una zero-day,
+    tutta l'infrastruttura è vulnerabile simultaneamente. Con piattaforme diverse,
+    una zero-day su Windows non compromette i sistemi Linux, e viceversa.
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Platform diversity: beneficio primario</strong><br>
+    "Benefit of vendor diversity?" → <strong>Zero-day resiliency</strong>.
+    Non "patch availability" (dipende dal vendor specifico, non dalla diversità),
+    non "load balancing" (che riguarda la distribuzione del carico). La diversità
+    aumenta la complessità di gestione ma riduce il rischio di compromissione totale.
+  </div>
+
+  <h3 id="multi-cloud">Multi-cloud systems</h3>
+  <p>
+    Un'architettura <strong>multi-cloud</strong> usa servizi di più provider cloud
+    (es. AWS + Azure + Google Cloud) per lo stesso workload o per workload diversi.
+    I benefici includono: riduzione del vendor lock-in, resilienza alla disponibilità
+    di un singolo provider (se AWS ha un outage, i sistemi su Azure restano operativi),
+    ottimizzazione dei costi (scegliere il provider più conveniente per ogni servizio),
+    e conformità geografica (alcuni provider hanno data center in paesi specifici).
+  </p>
+
+  <h3 id="continuity">Continuity of operations (Continuità operativa)</h3>
+  <p>
+    La <strong>continuità operativa (continuity of operations — COOP)</strong> è la
+    capacità di un'organizzazione di continuare a fornire servizi essenziali durante
+    e dopo un evento disruptivo. Non riguarda solo l'IT: include processi, personale,
+    comunicazioni e infrastrutture fisiche. Il <strong>BCP (Business Continuity Plan)</strong>
+    documenta le strategie per garantire la continuità operativa.
+  </p>
+
+  <h3 id="capacity">Capacity planning (Pianificazione della capacità)</h3>
+  <p>
+    Il <strong>capacity planning</strong> è il processo di determinazione delle
+    risorse necessarie per sostenere le operazioni attuali e future, inclusi gli
+    scenari di crisi. Nel contesto della resilienza, implica pianificare tre
+    dimensioni:
+  </p>
+  <dl class="termlist">
+    <dt>People (Persone)</dt>
+    <dd>Quanti dipendenti sono necessari per mantenere le operazioni essenziali in caso di disastro? Questo è il contenuto del capacity planning nello scenario : "how many staff would be required to sustain the business in case of disruption" → capacity planning. Non ridondanza, non tabletop exercise.</dd>
+    <dt>Technology (Tecnologia)</dt>
+    <dd>Quale capacità tecnologica (server, storage, rete) è necessaria per supportare le operazioni in scenari di disaster recovery? Include la pianificazione della capacità del sito di recovery.</dd>
+    <dt>Infrastructure (Infrastruttura)</dt>
+    <dd>Quale infrastruttura fisica (spazio, alimentazione, raffreddamento, connettività) è necessaria? Deve essere dimensionata per supportare sia le operazioni normali che le operazioni di recovery.</dd>
+  </dl>
+</section>
+
+
+<!-- ══ BACKUP E REPLICA ══════════════════════════════════════════ -->
+<section id="backup-recovery">
+  <h2>Backup e replica (Backup and Replication)</h2>
+
+  <h3 id="backup-types">Tipi di backup</h3>
+  <p>
+    I backup sono copie dei dati create per permettere il ripristino in caso di perdita.
+    La scelta del tipo di backup dipende dal trade-off tra spazio di storage, velocità
+    di backup e velocità di ripristino.
+  </p>
+  <dl class="termlist">
+    <dt>Full backup (Backup completo)</dt>
+    <dd>Copia completa di tutti i dati selezionati. Il ripristino è più semplice (un solo set di backup). Lo svantaggio è il tempo e lo spazio necessari: ogni backup completo richiede tutto lo spazio necessario per i dati.</dd>
+    <dt>Incremental backup (Backup incrementale)</dt>
+    <dd>Copia solo i file <em>modificati dall'ultimo backup</em> (sia esso full o incrementale). I backup sono piccoli e veloci. Il ripristino richiede l'ultimo full backup + <em>tutti</em> gli incrementali in sequenza. Ripristino più lento e complesso ma backup quotidiani efficienti.</dd>
+    <dt>Differential backup (Backup differenziale)</dt>
+    <dd>Copia tutti i file modificati dall'<em>ultimo backup completo</em> (ignora i backup differenziali precedenti). I backup crescono nel tempo fino al prossimo full backup. Il ripristino richiede l'ultimo full backup + solo l'<em>ultimo differenziale</em>. Più semplice del ripristino incrementale.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Confronto incrementale vs differenziale</strong><br>
+    Scenario: backup full lunedì, poi backup giornalieri fino a venerdì.<br>
+    <strong>Incrementale:</strong> Martedì backup piccolo (solo le modifiche di martedì),
+    mercoledì backup piccolo (solo mercoledì), giovedì... Se si ripristina venerdì:
+    servono il full di lunedì + tutti i backup martedì, mercoledì, giovedì, venerdì.<br>
+    <strong>Differenziale:</strong> Martedì backup piccolo (da lunedì), mercoledì più grande
+    (da lunedì), giovedì ancora più grande... Se si ripristina venerdì: servono il full
+    di lunedì + solo il differenziale di venerdì.
+  </div>
+
+  <h3 id="snapshot">Snapshot (Istantanea)</h3>
+  <p>
+    Uno <strong>snapshot</strong> è una <em>fotografia point-in-time</em> dello stato
+    di una macchina virtuale, di un volume di storage o di un database in un preciso
+    momento. A differenza di un backup tradizionale, uno snapshot è quasi istantaneo
+    e non richiede l'interruzione del sistema. Permette di tornare esattamente allo
+    stato del sistema nel momento in cui lo snapshot è stato creato.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Snapshot: point-in-time per VM e file server</strong><br>
+    "Create a point-in-time backup of a virtual machine" →
+    <strong>Snapshot</strong>.<br>
+    "Minimize loss of data on a file server in the event data needs to be restored" →
+    <strong>Snapshots</strong>.<br>
+    Non "replication" (che sincronizza su un altro sistema), non "simulation" (che è
+    un tipo di test DR), non "containerization" (che è un'architettura applicativa).
+  </div>
+
+  <h3 id="replication">Replication (Replica)</h3>
+  <p>
+    La <strong>replica (replication)</strong> è la copia continua o near-real-time
+    dei dati da un sito primario a uno secondario (o a più siti). A differenza
+    dei backup (che sono copie statiche a intervalli), la replica mantiene un sistema
+    secondario sempre sincronizzato o quasi-sincronizzato con il primario. Minimizza
+    il RPO (Recovery Point Objective): quando si passa al sito secondario, i dati
+    sono quasi identici a quelli del primario.
+  </p>
+  <p>
+    Per sistemi in aree geografiche soggette a disastri (: zone sismiche),
+    l'<strong>off-site replication</strong> garantisce il minimo loss di dati perché
+    la replica è continua. Un generatore UPS protegge dall'interruzione di corrente
+    ma non dal loss di dati fisici; i backup off-site richiedono tempi di ripristino
+    più lunghi.
+  </p>
+
+  <h3 id="journaling">Journaling</h3>
+  <p>
+    Il <strong>journaling</strong> è una tecnica del filesystem che registra le
+    modifiche pianificate in un journal (registro) <em>prima</em> di applicarle
+    effettivamente ai dati. In caso di interruzione (crash, blackout), il sistema
+    può consultare il journal per completare o annullare le operazioni interrotte,
+    garantendo la coerenza del filesystem. Il journaling protegge dalla corruzione
+    dei dati per guasti improvvisi ma non sostituisce i backup per la protezione
+    contro la perdita di dati.
+  </p>
+</section>
+
+
+<!-- ══ ALIMENTAZIONE ════════════════════════════════════════════ -->
+<section id="power-section">
+  <h2>Alimentazione (Power)</h2>
+
+  <h3 id="power">Generator e UPS</h3>
+  <dl class="termlist">
+    <dt>UPS (Uninterruptible Power Supply — Gruppo di continuità)</dt>
+    <dd>Fornisce alimentazione da batteria per un breve periodo (tipicamente minuti) quando viene meno l'alimentazione principale. L'obiettivo è permettere lo spegnimento ordinato dei sistemi o il switchover al generatore senza interruzione. Non è adatto per outage prolungati.</dd>
+    <dt>Generator (Generatore)</dt>
+    <dd>Genera autonomamente energia elettrica da carburante (diesel, gas naturale). Può sostenere le operazioni per giorni o settimane finché c'è carburante. È la soluzione per outage prolungati (: "multiday power outage" → generator). Non un UPS (che dura solo minuti). "Data center power outage → prevent in future" → generator.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — UPS vs Generator: durata e scopo diversi</strong><br>
+    <strong>UPS:</strong> batteria, durata minuti, per transizione breve o spegnimento ordinato.<br>
+    <strong>Generator:</strong> carburante, durata giorni/settimane, per outage prolungati.<br>
+    In un data center completo, si usano entrambi: l'UPS copre i secondi necessari al
+    generatore per avviarsi. La domanda specifica "multiday outage" → generator.
+    La domanda "graceful shutdown" o "brief outage" → UPS.
+  </div>
+</section>
+
+
+<!-- ══ TESTING ══════════════════════════════════════════════════ -->
+<section id="testing-section">
+  <h2>Testing della resilienza (Resilience Testing)</h2>
+  <p>
+    Avere un piano di disaster recovery non è sufficiente se non viene testato
+    regolarmente. I test verificano che il piano funzioni nella realtà, identificano
+    le lacune, e addestrano il personale a eseguire le procedure sotto pressione.
+    Esistono quattro tipi principali di test, con livelli crescenti di interruzione
+    e fedeltà alla realtà.
+  </p>
+
+  <h3 id="tabletop">Tabletop exercise (Esercizio da tavolo)</h3>
+  <p>
+    Un <strong>tabletop exercise</strong> è una sessione di discussione strutturata
+    in cui il team di sicurezza e il management simulano verbalmente uno scenario
+    di disastro, discutendo le azioni che ciascuno intraprederebbe. Non implica
+    l'uso di sistemi reali — è una simulazione "su carta" o in una sala riunioni.
+    Il valore principale è identificare gap nella pianificazione, chiarire i ruoli
+    e le responsabilità, e testare la comunicazione prima di un evento reale.
+    Costo molto basso, nessun rischio di interruzione dei sistemi, ma fedeltà
+    limitata rispetto a un test reale.
+  </p>
+
+  <h3 id="failover">Failover test (Test di failover)</h3>
+  <p>
+    Un <strong>failover test (production failover)</strong> esegue effettivamente
+    il trasferimento delle operazioni dal sito primario al sito di recovery,
+    verificando che il processo funzioni nella realtà. È il test più fedele alla
+    realtà ma anche il più rischioso: se qualcosa va storto durante il test,
+    il servizio potrebbe essere interrotto. È il metodo migliore per
+    <strong>testare la resilienza in caso di guasto dell'alimentazione primaria</strong>: si simula effettivamente il guasto e si verifica che il sistema
+    passi al backup senza interruzioni percepibili.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Failover vs Simulation vs Tabletop</strong><br>
+    "Best way to test resiliency in the event of a primary power failure" →
+    <strong>Production failover</strong>. Non tabletop (troppo teorico
+    per testare il comportamento reale dei sistemi). Non simulation (non coinvolge
+    i sistemi reali di produzione).<br>
+    "Validate integrity and availability of a disaster recovery site" →
+    <strong>Simulated failover</strong>. Un failover simulato testa
+    effettivamente i sistemi del DR site senza impattare la produzione.
+  </div>
+
+  <h3 id="simulation">Simulation (Simulazione)</h3>
+  <p>
+    Un test di <strong>simulazione (simulation)</strong> ricrea un ambiente di test
+    che imita il sistema di produzione per eseguire test di disaster recovery senza
+    coinvolgere i sistemi reali. È più realistico del tabletop (usa sistemi reali
+    o ambienti di test) ma meno rischioso del production failover (non tocca la
+    produzione). Ideale per testare procedure complesse prima di eseguirle in produzione.
+  </p>
+
+  <h3 id="parallel">Parallel processing (Elaborazione parallela)</h3>
+  <p>
+    Il <strong>parallel processing</strong> nel contesto del DR testing è l'esecuzione
+    contemporanea del sito primario e del sito di recovery, verificando che il sito
+    di recovery produca gli stessi risultati del primario prima di completare il
+    switchover. È il tipo di test più sicuro: entrambi i siti operano simultaneamente,
+    e il failover completo avviene solo dopo aver verificato la parità dei risultati.
+    Alto costo (operare due siti contemporaneamente) ma zero rischio di interruzione.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Scegliere il tipo di test giusto</strong><br>
+    Scenario A: nuovo piano DR, primo test in assoluto, team non ha mai eseguito le procedure
+    → <strong>Tabletop exercise</strong>: basso rischio, identifica le lacune di base.<br>
+    Scenario B: piano DR consolidato, si vuole verificare che il DR site funzioni davvero
+    → <strong>Simulated failover</strong>: test reale senza impattare la produzione.<br>
+    Scenario C: si vuole testare che la produzione passi al backup in caso di guasto
+    elettrico → <strong>Production failover</strong>: test effettivo del comportamento reale.
+  </div>
+</section>
+
+
+<!-- ══ PIANI DI RECOVERY ════════════════════════════════════════ -->
+<section id="plans">
+  <h2>Piani di recovery (Recovery Plans)</h2>
+
+  <h3 id="drp-bcp">DRP e BCP</h3>
+  <dl class="termlist">
+    <dt>DRP — Disaster Recovery Plan (Piano di ripristino da disastro)</dt>
+    <dd>Documenta le procedure tecniche per ripristinare i sistemi IT dopo un disastro. Include: sequenza di ripristino dei sistemi, procedure di failover ai siti di recovery, contatti di emergenza, RTO e RPO definiti. È il documento operativo per gestire il restore dei sistemi. Un tornado distrugge il data center → si attiva il DRP per ripristinare le operazioni IT.</dd>
+    <dt>BCP — Business Continuity Plan (Piano di continuità operativa)</dt>
+    <dd>Documento più ampio del DRP che copre la continuità di <em>tutte</em> le funzioni di business, non solo l'IT: personale, comunicazioni, processi operativi, fornitori alternativi, sede alternativa. Il BCP include il DRP come componente, ma va oltre: se l'edificio principale è inaccessibile, il BCP dice anche dove lavorano i dipendenti e come comunicano con i clienti.</dd>
+    <dt>IRP — Incident Response Plan (Piano di risposta agli incidenti)</dt>
+    <dd>Documenta le procedure per rispondere a incidenti di sicurezza informatica (violazioni, malware, attacchi). È diverso dal DRP (che gestisce la continuità dopo disastri fisici o gravi interruzioni IT) e dal BCP (che garantisce la continuità del business). Non si attiva per un tornado — si attiva per un data breach o un ransomware.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — DRP vs BCP vs IRP: il contesto decide</strong><br>
+    "System failure → manage restore process" → <strong>DRP</strong>.<br>
+    "Tornado destroys data center → handle essential public services" → <strong>DRP</strong>. Non BCP (che è più strategico), non IRP (che è per cyber-incidents).<br>
+    Un tornado che abbatte il data center è un disastro fisico che richiede il DRP,
+    non un incidente di sicurezza informatica.
+  </div>
+
+  <h3 id="rto-rpo">RTO e RPO</h3>
+  <dl class="termlist">
+    <dt>RTO — Recovery Time Objective (Obiettivo di tempo di ripristino)</dt>
+    <dd>Il tempo massimo accettabile per ripristinare un sistema dopo un'interruzione. "Quanto a lungo possiamo essere offline?" Un RTO di 4 ore significa che il sistema deve essere nuovamente operativo entro 4 ore dall'evento. Il hot site minimizza l'RTO (minuti); il cold site lo massimizza (giorni).</dd>
+    <dt>RPO — Recovery Point Objective (Obiettivo di punto di ripristino)</dt>
+    <dd>La quantità massima di dati che l'organizzazione può permettersi di perdere, espressa in tempo. "Quanti dati possiamo perdere?" Un RPO di 1 ora significa che i backup devono avvenire almeno ogni ora: nel peggiore dei casi si perdono i dati dell'ultima ora. La replica in tempo reale minimizza l'RPO (quasi zero); i backup settimanali lo massimizzano.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — RTO vs RPO: due dimensioni diverse del recovery</strong><br>
+    <strong>RTO:</strong> quanto <em>tempo</em> per ripristinare il sistema → misura il downtime.<br>
+    <strong>RPO:</strong> quanti <em>dati</em> (espressi come intervallo temporale) si possono perdere → misura il data loss.<br>
+    Un'organizzazione con RPO = 0 ha bisogno di replica sincrona in tempo reale.
+    Un'organizzazione con RTO = 0 ha bisogno di un hot site con failover automatico istantaneo.
+    "Lowest RTO and RPO" → hot site: è l'unico che offre entrambi al minimo.
+  </div>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 3.4</h2>
+  <div class="chapter-meta">
+    <p><strong>30 questions d'esame</strong> su resilienza, recovery sites, backup e testing DR, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 3.4 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 3.4</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Hot vs Warm vs Cold Recovery Sites</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Hot</strong>: sincr. real-time, RTO/RPO quasi zero (minimo downtime, massimo costo).<br><strong>Warm</strong>: backup regolari, RTO ore/giorni (medio).<br><strong>Cold</strong>: solo spazio, energia, rete, no hardware (basso).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Geographic Dispersion</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>La tecnica di dislocamento geografico distanziato delle risorse volta a garantire la resilienza totale a disastri meteorologici o territoriali estremi (tornado, alluvioni).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Incremental vs Differential Backup</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Incremental</strong>: archivia le sole modifiche dall'ultimo backup (di ogni tipo). Richiede full + tutti gli incrementali.<br><strong>Differential</strong>: archivia dall'ultimo FULL. Richiede full + ultimo differenziale.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Snapshot Point-in-Time</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Immagine virtuale istantanea e persistente dello stato di un server o VM in un preciso secondo, eseguibile at runtime sul file system senza richiedere alcun fermo macchina.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>UPS vs Backup Generator</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>UPS</strong>: batteria a tampone istantanea per assorbire micro-interruzioni e sbalzi.<br><strong>Generator</strong>: motore a combustione capace di erogare elettricità per blackout prolungati (giorni).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Recovery: RTO vs RPO</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>RTO (Recovery Time Objective)</strong>: il tempo massimo pianificato per rimettere in linea un server.<br><strong>RPO (Recovery Point Objective)</strong>: la perdita massima di dati tollerabile (espressa in tempo).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="en_obj3_3_data_protection.html">← OBJ 3.3 — Proteggere i dati</a>
+  <a href="../index_en.html" class="secondary">← General Index</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

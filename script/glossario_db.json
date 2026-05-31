@@ -528,6 +528,14 @@
     "source_link": "chapters/obj2_3_vulnerabilities.html"
   },
   {
+    "acronym": "ARF (Asset Reporting Format)",
+    "name": "Asset Reporting Format (ARF)",
+    "def": "Componente del framework SCAP. Definisce il formato XML standardizzato per la descrizione, la formattazione e la condivisione dei risultati delle scansioni di sicurezza e conformità tecnologiche.",
+    "category": "ops",
+    "source_name": "OBJ 4.4",
+    "source_link": "chapters/obj4_4_alerting_monitoring.html"
+  },
+  {
     "acronym": "ARO",
     "name": "Annualized Rate of Occurrence",
     "def": "La frequenza stimata con cui uno specifico scenario di minaccia o incidente di sicurezza si ripresenterà nell'arco di un singolo anno.",
@@ -1328,6 +1336,14 @@
     "source_link": "chapters/obj5_1_governance.html"
   },
   {
+    "acronym": "CCE (Common Configuration Enumeration)",
+    "name": "Common Configuration Enumeration (CCE)",
+    "def": "Componente del framework SCAP. Fornisce un dizionario di identificatori e riferimenti univoci per impostazioni, policy e configurazioni errate di sistema, agevolando la misurazione dell'hardening.",
+    "category": "ops",
+    "source_name": "OBJ 4.4",
+    "source_link": "chapters/obj4_4_alerting_monitoring.html"
+  },
+  {
     "acronym": "CCMP",
     "name": "Counter Mode with Cipher Block Chaining Message Authentication Code Protocol",
     "def": "Il protocollo crittografico standard impiegato originariamente in WPA2 per garantire riservatezza, integrità e autenticità alle trasmissioni wireless. Utilizza l'algoritmo AES a 128 bit ed è stato esteso o sostituito da GCMP in WPA3.",
@@ -2030,6 +2046,14 @@
     "category": "net",
     "source_name": "OBJ 4.1",
     "source_link": "chapters/obj4_1_computing_resources.html"
+  },
+  {
+    "acronym": "CPE (Common Platform Enumeration)",
+    "name": "Common Platform Enumeration (CPE)",
+    "def": "Componente del framework SCAP. Schema strutturato di denominazione basato su URI per identificare in modo univoco ed esatto piattaforme hardware, sistemi operativi e software installati.",
+    "category": "ops",
+    "source_name": "OBJ 4.4",
+    "source_link": "chapters/obj4_4_alerting_monitoring.html"
   },
   {
     "acronym": "CR",
@@ -7257,11 +7281,11 @@
   },
   {
     "acronym": "OpenSCAP",
-    "name": "Open Source Security Content Automation Protocol (OpenSCAP)",
-    "def": "Insieme di strumenti open source dedicati a verificare la conformità e la sicurezza di sistemi Linux ed infrastrutture virtualizzate secondo gli standard SCAP (Security Content Automation Protocol). Consente di automatizzare scansioni periodiche di vulnerabilità e accertare l'allineamento dei server rispetto a baseline rigorose (CIS Benchmarks, STIGs).",
+    "name": "OpenSCAP Security Scanner",
+    "def": "Suite di strumenti open-source certificata NIST adibita al controllo automatizzato della conformità delle baseline di sicurezza (hardening) e alla gestione continuativa delle vulnerabilità.",
     "category": "ops",
-    "source_name": "OBJ 5.5",
-    "source_link": "chapters/obj5_5_audits_assessments.html"
+    "source_name": "OBJ 4.4",
+    "source_link": "chapters/obj4_4_alerting_monitoring.html"
   },
   {
     "acronym": "OpenSnitch",
@@ -9459,6 +9483,14 @@
     "acronym": "SCAP",
     "name": "Security Content Automation Protocol (SCAP)",
     "def": "Insieme di specifiche e standard aperti definiti dal NIST concepito per automatizzare la conformità, l'hardening e la scansione delle vulnerabilità.<br><strong>• Caratteristiche:</strong> Utilizza una denominazione comune per coordinare vulnerabilità (CVE), configurazioni (CCE) e metriche di impatto (CVSS), consentendo a strumenti di scansione di differenti produttori di comunicare e formattare i dati in modo integrato ed interoperabile.",
+    "category": "ops",
+    "source_name": "OBJ 4.4",
+    "source_link": "chapters/obj4_4_alerting_monitoring.html"
+  },
+  {
+    "acronym": "SCAP Workbench",
+    "name": "SCAP Workbench Graphical Utility",
+    "def": "Applicazione o utility grafica integrata per il framework SCAP che permette di aprire, personalizzare e visualizzare agevolmente i profili di sicurezza XCCDF e lanciare scansioni di conformità locali o remote tramite agenti OpenSCAP.",
     "category": "ops",
     "source_name": "OBJ 4.4",
     "source_link": "chapters/obj4_4_alerting_monitoring.html"
@@ -12390,6 +12422,14 @@
     "category": "tech",
     "source_name": "OBJ 3.1",
     "source_link": "chapters/obj3_1_architecture.html"
+  },
+  {
+    "acronym": "XCCDF (Extensible Configuration Checklist Description Format)",
+    "name": "Extensible Configuration Checklist Description Format (XCCDF)",
+    "def": "Componente chiave del framework SCAP. Consiste in un linguaggio standardizzato in formato XML per la stesura di checklist operative di hardening, guide e benchmark di sicurezza strutturati (es. profili CIS Benchmarks).",
+    "category": "ops",
+    "source_name": "OBJ 4.4",
+    "source_link": "chapters/obj4_4_alerting_monitoring.html"
   },
   {
     "acronym": "XDR",

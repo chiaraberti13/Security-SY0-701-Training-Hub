@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Architectural Models · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index_en.html">General Index</a>
+  <span>Dominio 3 — Security Architecture</span>
+  <span>OBJ 3.1 — Modelli architetturali</span>
+</div>
+
+<header>
+  <h1>OBJ 3.1 — Architectural Models</h1>
+</header>
+
+<div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 10: Sicurezza del cloud e della virtualizzazione</p>
+  <p>CompTIA Security+ SY0-701 · Dominio 3 — Security Architecture · Exam weight: 18%</p>
+  <p><strong>Objective ufficiale:</strong> <em>Compare and contrast security implications of different architecture models.</em></p>
+  <p><strong>Objectives covered:</strong> <span class="objectives-tag">3.1</span> <span class="weight-badge">D3 = 18%</span></p>
+  <p><strong>Prerequisites:</strong> <a href="en_obj1_2_fundamental_concepts.html">OBJ 1.2 — Zero Trust</a> · <a href="en_obj2_5_mitigation.html">OBJ 2.5 — Mitigazioni</a></p>
+  <p><strong>Correlati:</strong> <a href="en_obj3_2_infrastructure.html">OBJ 3.2 — Infrastruttura enterprise</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Cloud</div>
+  <a href="#cloud-models">Modelli cloud (IaaS/PaaS/SaaS)</a>
+  <a href="#shared-responsibility">Responsibility matrix</a>
+  <a href="#hybrid">Hybrid considerations</a>
+  <a href="#third-party">Third-party vendors</a>
+  <a href="#sase">SASE</a>
+
+  <div class="toc-section">Architetture moderne</div>
+  <a href="#iac">Infrastructure as Code (IaC)</a>
+  <a href="#serverless">Serverless</a>
+  <a href="#microservices">Microservices</a>
+  <a href="#containers">Containerization</a>
+  <a href="#virtualization">Virtualization</a>
+
+  <div class="toc-section">Infrastruttura di rete</div>
+  <a href="#air-gap">Physical isolation (Air-gapped)</a>
+  <a href="#segmentation">Logical segmentation</a>
+  <a href="#sdn">Software-defined networking (SDN)</a>
+
+  <div class="toc-section">Deployment models</div>
+  <a href="#on-premises">On-premises</a>
+  <a href="#centralized">Centralized vs. Decentralized</a>
+  <a href="#ha">High availability</a>
+
+  <div class="toc-section">Sistemi specializzati</div>
+  <a href="#iot">IoT</a>
+  <a href="#ics-scada">ICS / SCADA</a>
+  <a href="#rtos">RTOS</a>
+  <a href="#embedded">Embedded systems</a>
+
+  <div class="toc-section">Considerazioni</div>
+  <a href="#considerations">Matrice delle considerazioni</a>
+
+  <div class="toc-section">Verify</div>
+  <a href="#quiz-section">Interactive Quiz</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Architettura e sicurezza: ogni modello porta le sue implicazioni</h2>
+  <p>
+    La scelta dell'architettura IT non è solo una decisione tecnica o economica: è una
+    decisione di sicurezza. Ogni modello — cloud, on-premises, containerizzato, IoT,
+    ICS/SCADA — porta con sé un profilo di rischio specifico, vincoli di patching,
+    livelli di controllo e considerazioni di compliance diverse. L'obiettivo 3.1 chiede
+    di confrontare e contrapporre queste implicazioni per scegliere e difendere
+    architetture appropriate ai requisiti di sicurezza.
+  </p>
+</section>
+
+
+<!-- ══ CLOUD ════════════════════════════════════════════════════ -->
+<section id="cloud">
+  <h2>Cloud: modelli, responsabilità e rischi</h2>
+
+  <h3 id="cloud-models">Modelli di servizio cloud (IaaS · PaaS · SaaS)</h3>
+  <p>
+    Il cloud computing offre tre modelli di servizio principali, che differiscono per
+    il livello di astrazione fornito al cliente e, di conseguenza, per la distribuzione
+    delle responsabilità di sicurezza.
+  </p>
+
+  <dl class="termlist">
+    <dt>IaaS — Infrastructure as a Service</dt>
+    <dd>Il provider fornisce l'infrastruttura fisica: hardware, rete, storage, virtualizzazione. Il cliente gestisce sistemi operativi, middleware, runtime, applicazioni e dati. Massima flessibilità, massima responsabilità del cliente. Esempi: AWS EC2, Azure Virtual Machines, Google Compute Engine.</dd>
+    <dt>PaaS — Platform as a Service</dt>
+    <dd>Il provider fornisce IaaS + OS + runtime + middleware. Il cliente gestisce solo applicazioni e dati. Ideale per gli sviluppatori: non devono occuparsi dell'infrastruttura sottostante. Esempi: Heroku, AWS Elastic Beanstalk, Azure App Service.</dd>
+    <dt>SaaS — Software as a Service</dt>
+    <dd>Il provider fornisce l'intera stack: infrastruttura + piattaforma + applicazione. Il cliente usa solo il software. Minima responsabilità tecnica del cliente, massima dipendenza dal provider. Esempi: Microsoft 365, Salesforce, Google Workspace.</dd>
+    <dt>Public Cloud (Cloud pubblico)</dt>
+    <dd>Infrastruttura condivisa tra molti clienti (multi-tenant), gestita da un provider terzo. I clienti affittano "pezzi" della capacità totale. Il rischio principale è la condivisione fisica delle risorse con altri tenant.</dd>
+    <dt>Private Cloud (Cloud privato)</dt>
+    <dd>Infrastruttura cloud dedicata a una singola organizzazione. Maggiore controllo e sicurezza rispetto al cloud pubblico, ma costi molto più elevati. Può essere on-premises o hosted da un provider dedicato.</dd>
+    <dt>Hybrid Cloud (Cloud ibrido)</dt>
+    <dd>Combinazione di cloud pubblico e privato (o on-premises) con integrazione e orchestrazione tra i due ambienti. Permette di mantenere i dati sensibili on-premises/private cloud e usare il cloud pubblico per carichi di lavoro meno critici.</dd>
+    <dt>Community Cloud</dt>
+    <dd>Infrastruttura cloud condivisa tra organizzazioni con requisiti simili (es. settore sanitario, governo). A metà tra public e private: condivisa ma solo con un gruppo ristretto di organizzazioni con esigenze e requisiti di compliance compatibili.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Il maggior rischio del cloud computing</strong><br>
+    "Biggest risk in cloud computing?" → <strong>Lack of control</strong>.
+    Non mancanza di disponibilità (i cloud provider offrono SLA elevati), non mancanza
+    di accountability (i contratti definiscono le responsabilità), non mancanza di
+    responsabilità (il modello di responsabilità condivisa la definisce). Il rischio
+    fondamentale è che il cliente <em>cede il controllo</em> dell'infrastruttura
+    sottostante al provider.
+  </div>
+
+  <h3 id="shared-responsibility">Responsibility matrix (Matrice delle responsabilità)</h3>
+  <p>
+    Il modello di <strong>responsabilità condivisa (shared responsibility model)</strong>
+    definisce con precisione chi è responsabile di cosa in un ambiente cloud. È il
+    documento fondamentale per capire dove finisce la responsabilità del provider
+    e dove inizia quella del cliente. La <strong>responsibility matrix</strong>
+    è il documento specifico che formalizza questa divisione per un contratto
+    cloud specifico.
+  </p>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Livello</th><th>IaaS (cliente gestisce)</th><th>PaaS (cliente gestisce)</th><th>SaaS (cliente gestisce)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Applicazioni</td><td>Cliente ✓</td><td>Cliente ✓</td><td>Provider</td></tr>
+      <tr><td class="label">Dati</td><td>Cliente ✓</td><td>Cliente ✓</td><td>Cliente ✓</td></tr>
+      <tr><td class="label">Runtime/Middleware</td><td>Cliente ✓</td><td>Provider</td><td>Provider</td></tr>
+      <tr><td class="label">Sistema operativo</td><td>Cliente ✓</td><td>Provider</td><td>Provider</td></tr>
+      <tr><td class="label">Virtualizzazione</td><td>Provider</td><td>Provider</td><td>Provider</td></tr>
+      <tr><td class="label">Networking</td><td>Provider</td><td>Provider</td><td>Provider</td></tr>
+      <tr><td class="label">Hardware fisico</td><td>Provider</td><td>Provider</td><td>Provider</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — IaaS: il database è responsabilità del cliente</strong><br>
+    "In IaaS, chi è responsabile di proteggere il database dell'azienda?" →
+    <strong>Il cliente (client)</strong>. In IaaS il provider
+    gestisce hardware, rete e virtualizzazione. Il cliente gestisce OS, middleware,
+    applicazioni e dati — incluso il database. Il DBA è un ruolo interno al cliente,
+    non un'entità del modello. Il third-party vendor non è il cloud provider.
+  </div>
+
+  <h3 id="hybrid">Hybrid considerations (Considerazioni sul modello ibrido)</h3>
+  <p>
+    Un'architettura <strong>ibrida (hybrid)</strong> combina ambienti on-premises e
+    cloud, creando sfide di sicurezza specifiche legate all'integrazione tra i due
+    ambienti. Il principale punto di attenzione è la sicurezza dei canali di
+    connettività tra on-premises e cloud, la gestione delle identità cross-environment
+    (federazione delle identità), e la coerenza delle policy di sicurezza applicata
+    in entrambi gli ambienti.
+  </p>
+  <p>
+    La geolocation policy è uno strumento tipico degli ambienti cloud
+    ibridi e SaaS: limita l'accesso a risorse cloud in base alla posizione geografica
+    dell'utente, bloccando accessi da paesi ad alto rischio. È più efficace della
+    semplice cifratura o del data masking per prevenire accessi non autorizzati
+    da specifiche giurisdizioni.
+  </p>
+
+  <h3 id="third-party">Third-party vendors (Fornitori terzi)</h3>
+  <p>
+    L'uso di fornitori cloud terzi introduce rischi di <strong>supply chain</strong>
+    e di <strong>dipendenza dal vendor</strong>. Le considerazioni di sicurezza includono:
+    la revisione del contratto (SLA, responsabilità, diritto di audit), la verifica
+    delle certificazioni di sicurezza del provider (ISO 27001, SOC 2, FedRAMP),
+    la gestione del vendor lock-in (difficoltà a cambiare provider), e la supervisione
+    continua della postura di sicurezza del provider tramite audit periodici.
+  </p>
+
+  <h3 id="sase">SASE — Secure Access Service Edge</h3>
+  <p>
+    <strong>SASE (Secure Access Service Edge)</strong> è un'architettura cloud-native
+    che converge le funzionalità di rete (SD-WAN) e di sicurezza (CASB, FWaaS, ZTNA,
+    SWG) in un unico servizio cloud distribuito. È progettata specificamente per
+    organizzazioni con workforce distribuita o completamente remota: invece di fare
+    passare tutto il traffico remoto attraverso un VPN concentrator centrale
+    (collo di bottiglia), ogni utente si connette al nodo SASE più vicino che applica
+    le policy di sicurezza localmente.
+  </p>
+  <dl class="termlist">
+    <dt>Componenti chiave di SASE</dt>
+    <dd>SD-WAN: ottimizzazione del routing del traffico. SWG (Secure Web Gateway): filtraggio web. CASB (Cloud Access Security Broker): visibilità e controllo sull'uso dei SaaS. ZTNA (Zero Trust Network Access): accesso alle applicazioni basato su identità. FWaaS (Firewall as a Service): regole firewall distribuite nel cloud.</dd>
+    <dt>Quando usare SASE vs VPN</dt>
+    <dd>SASE è la risposta quando: workforce completamente o prevalentemente remota, necessità di ridurre il carico sul VPN concentrator, necessità di web filtering integrato, scalabilità automatica. La VPN tradizionale è adatta a connettività site-to-site con traffico prevedibile.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — SASE: i tre scenari chiave</strong><br>
+    (1) "Branch offices, encrypted access, web filtering, firewall capabilities, existing cloud connections" → <strong>SASE</strong>.<br>
+    (2) "VPN concentrator overloaded, remote workforce, encrypted access + web monitoring" → <strong>SASE</strong>.<br>
+    (3) "Fully remote workforce, redundant, VPN + integrated software firewall" → <strong>SASE</strong>.<br>
+    SD-WAN ottimizza solo il routing; non include le funzioni di sicurezza integrate (web filtering, ZTNA). VPN site-to-site non si scala facilmente per workforce distribuita.
+  </div>
+</section>
+
+
+<!-- ══ ARCHITETTURE MODERNE ══════════════════════════════════════ -->
+<section id="modern-arch">
+  <h2>Architetture moderne</h2>
+
+  <h3 id="iac">Infrastructure as Code (IaC)</h3>
+  <p>
+    <strong>Infrastructure as Code (IaC)</strong> è la pratica di gestire e
+    provisionare l'infrastruttura IT attraverso file di configurazione leggibili
+    dalla macchina invece di processi manuali. Con IaC, la configurazione di server,
+    reti, database e altri componenti è definita come codice (Terraform, Ansible,
+    CloudFormation, Puppet, Chef) che può essere versionato, testato, revisionato
+    e riutilizzato.
+  </p>
+  <p>
+    Dal punto di vista della sicurezza, IaC permette di standardizzare rapidamente
+    la configurazione di molti server, ridurre il configuration drift, e applicare
+    automaticamente le secure baseline a ogni nuovo deployment. Un'organizzazione
+    con grandi operazioni IT che vuole controllare, standardizzare e ridurre i tempi
+    di provisioning dei server → <strong>IaC</strong>.
+  </p>
+
+  <h3 id="serverless">Serverless (Senza server)</h3>
+  <p>
+    L'architettura <strong>serverless</strong> permette di eseguire codice applicativo
+    senza gestire alcuna infrastruttura server: il provider cloud gestisce
+    automaticamente il provisioning, la scalabilità e la disponibilità dell'infrastruttura
+    sottostante. Il cliente scrive solo le funzioni applicative (AWS Lambda, Azure
+    Functions, Google Cloud Functions) e paga solo per il tempo di esecuzione effettivo.
+  </p>
+  <p>
+    È la soluzione di hosting cloud-based a basso costo: non si paga
+    per server idle, non si gestisce l'OS, non si applicano patch all'infrastruttura.
+    Dal punto di vista della sicurezza, riduce drasticamente la superficie di attacco
+    infrastrutturale (nessun OS da hardenire), ma introduce nuove sfide: gestione
+    delle autorizzazioni per le funzioni, protezione delle variabili d'ambiente
+    (che spesso contengono credenziali), e visibilità limitata sull'infrastruttura
+    sottostante.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Serverless: basso costo + riduzione patch OS</strong><br>
+    "Cloud-based application hosting, low cost" → <strong>Serverless framework</strong>. "Reduce code deployment time and expense" → <strong>Serverless
+    architecture</strong>. Non confondere con IaC (che è per standardizzare
+    il provisioning), né con containers (che riducono le patch OS ma non le eliminano).
+  </div>
+
+  <h3 id="microservices">Microservices (Microservizi)</h3>
+  <p>
+    L'architettura a <strong>microservizi (microservices)</strong> decompone
+    un'applicazione monolitica in servizi piccoli, indipendenti e debolmente
+    accoppiati, ognuno responsabile di una singola funzionalità di business e
+    comunicante con gli altri tramite API. Ogni microservizio può essere sviluppato,
+    deployato, scalato e aggiornato indipendentemente.
+  </p>
+  <dl class="termlist">
+    <dt>Vantaggi di sicurezza dei microservizi vs monolitici</dt>
+    <dd>Scalabilità migliorata (ogni servizio scala indipendentemente) e compartimentazione aumentata: un microservizio compromesso non compromette necessariamente l'intera applicazione, come invece avverrebbe con un monolite. Il blast radius di una vulnerabilità è limitato al singolo servizio.</dd>
+    <dt>Svantaggi di sicurezza</dt>
+    <dd>La comunicazione inter-service (via API, spesso HTTP/gRPC) aumenta la superficie di attacco. La gestione delle identità e delle autorizzazioni inter-service è più complessa. Il monitoring e il debugging sono più difficili ( esclude "easier debugging").</dd>
+    <dt>Microservizi e JSON/API</dt>
+    <dd>Quando si ha bisogno di trasferire dati velocemente via richieste JSON esternamente: microservizi con API è la risposta. SFTP è file-based e non supporta JSON natively; email e cloud storage non sono pensati per trasferimento dati strutturati ad alta velocità.</dd>
+  </dl>
+
+  <h3 id="containers">Containerization (Containerizzazione)</h3>
+  <p>
+    La <strong>containerizzazione (containerization)</strong>, di cui <strong>Docker</strong> rappresenta la tecnologia e la piattaforma standard industriale di riferimento, impacchetta un'applicazione
+    con tutte le sue dipendenze (librerie, runtime, configurazioni) in un container
+    isolato che gira sullo stesso kernel del sistema operativo host, condividendolo
+    con altri container. A differenza delle VM (che virtualizzano l'intero hardware),
+    i container (come quelli gestiti tramite Docker e orchestrati con Kubernetes) virtualizzano solo a livello di OS process — sono più leggeri, più
+    veloci da avviare e più efficienti nelle risorse.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio — Container vs VM: analogia pratica</strong><br>
+    Una VM è un appartamento in un palazzo: ogni appartamento ha le sue mura, il suo
+    impianto elettrico, il suo riscaldamento (kernel separato, OS separato).
+    Un container è una stanza in un appartamento condiviso: ognuno ha il suo spazio
+    privato ma condivide le infrastrutture comuni (kernel del host). I container
+    sono più efficienti ma condividono più superficie: se il kernel host ha una
+    vulnerabilità, potenzialmente tutti i container sono esposti.
+  </div>
+
+  <dl class="termlist">
+    <dt>Vantaggi per la sicurezza</dt>
+    <dd>Isolamento applicativo, immutabilità (un container viene ricreato, non modificato), riduzione delle patch OS necessarie: l'OS host gestisce le patch, le applicazioni nel container non devono essere patchate separatamente. Ambienti costantemente mutevoli → containers.</dd>
+    <dt>Svantaggi per la sicurezza</dt>
+    <dd>Condivisione del kernel host: una vulnerabilità a livello di kernel impatta tutti i container. Container escape (equivalente del VM escape). Il codice monolitico non può essere containerizzato direttamente: un'architettura monolitica deve essere prima decomposta in microservizi per beneficiare pienamente della containerizzazione.</dd>
+  </dl>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Container vs VM: differenze chiave</strong><br>
+    <strong>VM:</strong> virtualizza hardware, kernel e OS separato per ogni VM.
+    Isolamento più forte. Più pesante (overhead maggiore). Riduce l'hardware attack
+    surface (: virtualization per ridurre server fisici).<br>
+    <strong>Container:</strong> virtualizza a livello di processo OS, kernel condiviso.
+    Più leggero. Meglio per ambienti variabili e riduzione patch. Non adatto a codice
+    monolitico senza refactoring.
+  </div>
+
+  <h3 id="virtualization">Virtualization (Virtualizzazione)</h3>
+  <p>
+    La <strong>virtualizzazione (virtualization)</strong> crea macchine virtuali (VM)
+    che emulano hardware completo su un sistema fisico, tramite un hypervisor.
+    Permette di far girare più sistemi operativi sullo stesso hardware fisico,
+    riducendo il numero di server fisici necessari e quindi la superficie di
+    attacco hardware.
+  </p>
+  <p>
+    La principale minaccia specifica alla virtualizzazione è il <strong>VM escape</strong>:
+    un attaccante che sfrutta una vulnerabilità nell'hypervisor per uscire
+    dall'isolamento della VM e accedere all'hypervisor o ad altre VM (:
+    patch zero-day sull'hypervisor previene VM escape/escaping). In ambienti cloud,
+    il VM escape rompe l'isolamento multi-tenant.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Virtualizzazione per ridurre server fisici</strong><br>
+    "Reduce number of physical servers" → <strong>Virtualization</strong>. "Decrease hardware attack surface" → <strong>Virtualization</strong>. Non confondere con containers (che riducono le patch OS), né con
+    serverless (che elimina la gestione dell'infrastruttura). La virtualizzazione
+    riduce il numero di server fisici consolidando più workload su meno hardware.
+  </div>
+</section>
+
+
+<!-- ══ INFRASTRUTTURA DI RETE ════════════════════════════════════ -->
+<section id="network-infra">
+  <h2>Infrastruttura di rete</h2>
+
+  <h3 id="air-gap">Physical isolation — Air-gapped (Isolamento fisico)</h3>
+  <p>
+    Un sistema <strong>air-gapped (con gap d'aria)</strong> è fisicamente isolato da
+    qualsiasi rete esterna: non è connesso ad internet, non è connesso alla rete
+    aziendale interna, e non ha interfacce di rete attive. È il massimo livello di
+    isolamento fisico possibile, usato per i sistemi più critici e sensibili:
+    sistemi di controllo di armi nucleari, reti classificate governative, sistemi di
+    controllo industriale in infrastrutture critiche.
+  </p>
+  <p>
+    Un consulente che vuole fisicamente isolare i sistemi sicuri del cliente →
+    <strong>air gapped</strong>. Non è SDN (che è virtualizzazione della
+    rete), non è containerizzato (isolamento software), non è high availability
+    (che riguarda la ridondanza).
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Air-gap ≠ isolamento totale</strong><br>
+    Anche i sistemi air-gapped hanno subito attacchi: Stuxnet ha raggiunto il sistema
+    air-gapped delle centrifughe iraniane tramite chiavette USB infette. Un sistema
+    air-gapped ha ancora superfici di attacco fisiche: porte USB, interfacce seriali,
+    ingegneria sociale sul personale che ha accesso fisico. L'air-gap elimina i vettori
+    di rete ma non tutti i vettori di attacco.
+  </div>
+
+  <h3 id="segmentation">Logical segmentation (Segmentazione logica)</h3>
+  <p>
+    La <strong>segmentazione logica (logical segmentation)</strong> divide la rete
+    in zone virtuali (VLAN, subnet, zone di sicurezza) senza richiedere separazione
+    fisica dei cavi. Permette di applicare policy di sicurezza diverse a gruppi diversi
+    di dispositivi sullo stesso switch fisico, e di limitare il movimento laterale degli
+    attaccanti anche se sono riusciti a compromettere un segmento.
+  </p>
+
+  <h3 id="sdn">Software-defined networking (SDN)</h3>
+  <p>
+    Il <strong>Software-Defined Networking (SDN)</strong> separa il piano di controllo
+    (che decide come il traffico deve essere instradato) dal piano dati (che esegue
+    fisicamente l'instradamento). Il controllo è centralizzato in un controller software
+    che programma i dispositivi di rete fisici tramite API. Questo permette una gestione
+    centralizzata e programmabile della rete, con policy di sicurezza applicate
+    dinamicamente.
+  </p>
+  <p>
+    La centralizzazione del controller SDN crea però un single point of failure e
+    un bersaglio di alto valore: se il controller viene compromesso, l'attaccante
+    può riprogrammare l'intera rete. La sicurezza del controller SDN è quindi
+    critica.
+  </p>
+</section>
+
+
+<!-- ══ DEPLOYMENT MODELS ═════════════════════════════════════════ -->
+<section id="deployment">
+  <h2>Modelli di deployment</h2>
+
+  <h3 id="on-premises">On-premises (In sede)</h3>
+  <p>
+    Un'architettura <strong>on-premises</strong> mantiene l'intera infrastruttura IT
+    fisicamente all'interno dell'organizzazione: hardware, software, dati e personale
+    IT sono tutti sotto il controllo diretto dell'organizzazione. Dal punto di vista
+    della sicurezza, è il modello con il <strong>massimo livello di controllo</strong>: nessun terzo ha accesso fisico all'infrastruttura, non ci sono
+    dipendenze da provider esterni per la disponibilità, e le policy di sicurezza
+    possono essere applicate senza vincoli contrattuali.
+  </p>
+  <p>
+    Il costo operativo è elevato (CAPEX per hardware, personale IT specializzato,
+    spazio fisico, energia), e la scalabilità richiede acquisti di hardware con
+    tempi lunghi. Per espansioni internazionali che richiedono il massimo livello
+    di sicurezza → on-premises.
+  </p>
+
+  <h3 id="centralized">Centralized vs. Decentralized (Centralizzato vs. Decentralizzato)</h3>
+  <dl class="termlist">
+    <dt>Architettura centralizzata</dt>
+    <dd>Tutte le risorse e i controlli di sicurezza sono gestiti da un punto centrale. Vantaggi: visibilità completa, policy coerenti, gestione semplificata, minor costo operativo. Svantaggi: single point of failure, latenza per utenti distanti, se il centro è compromesso è tutto compromesso.</dd>
+    <dt>Architettura decentralizzata</dt>
+    <dd>Le risorse e i controlli sono distribuiti tra più nodi o sedi. Vantaggi: resilienza (nessun single point of failure), latenza ridotta per utenti distribuiti, blast radius limitato in caso di compromissione. Svantaggi: maggiore complessità di gestione, policy meno coerenti, difficoltà nel garantire visibilità uniforme.</dd>
+  </dl>
+
+  <h3 id="ha">High availability (Alta disponibilità)</h3>
+  <p>
+    L'<strong>alta disponibilità (high availability — HA)</strong> è un'architettura
+    ridondante progettata per eliminare i single point of failure e garantire che
+    i sistemi rimangano operativi anche in caso di guasto di uno o più componenti.
+    Si misura in "nines": 99,9% = ~8,7 ore/anno di downtime; 99,999% = ~5 minuti/anno.
+  </p>
+  <p>
+    Un'architettura <strong>cloud-native</strong> è la risposta quando
+    si cerca ridondanza per processi di business critici: sfrutta nativamente la
+    ridondanza geografica dei cloud provider (multi-AZ, multi-region), il load balancing
+    automatico e il failover gestito. La migrazione a IaaS risolve
+    il problema di scalabilità di storage con resilienza ai guasti di circuito singolo.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Architettura sicura per applicazione di pagamento</strong><br>
+    Una web application di pagamento in cloud richiede: <strong>Internet Gateway</strong>
+    → <strong>WAF</strong> (filtra traffico malevolo prima che raggiunga l'applicazione)
+    → <strong>Load Balancer</strong> (in subnet pubblica, distribuisce il carico e
+    garantisce HA) → <strong>due istanze applicazione</strong> in private subnet
+    (non esposte direttamente a internet) → <strong>database</strong> in private subnet
+    (mai in subnet pubblica). Questo schema garantisce: disponibilità, ridondanza,
+    filtro degli attacchi web e isolamento del database.
+  </div>
+</section>
+
+
+<!-- ══ SISTEMI SPECIALIZZATI ════════════════════════════════════ -->
+<section id="specialized">
+  <h2>Sistemi specializzati (Specialized Systems)</h2>
+
+  <h3 id="iot">IoT — Internet of Things</h3>
+  <p>
+    I dispositivi <strong>IoT (Internet of Things)</strong> sono dispositivi fisici
+    connessi a internet che raccolgono e trasmettono dati: sensori industriali, telecamere
+    IP, dispositivi medici, termostati smart, sistemi di controllo degli accessi fisici.
+    Le loro caratteristiche intrinseche creano sfide di sicurezza significative:
+  </p>
+  <dl class="termlist">
+    <dt>Risorse computazionali limitate</dt>
+    <dd>CPU lenta, poca RAM, batteria limitata. Non possono eseguire agenti di sicurezza tradizionali, crittografia pesante, o aggiornamenti OS complessi. La crittografia deve essere leggera (ECC invece di RSA).</dd>
+    <dt>Firmware rarement aggiornato</dt>
+    <dd>Molti dispositivi IoT non ricevono mai aggiornamenti firmware dal produttore, o gli aggiornamenti richiedono intervento fisico. Vulnerabilità note rimangono aperte indefinitamente.</dd>
+    <dt>Comunicazione spesso non cifrata</dt>
+    <dd>Molti dispositivi IoT a basso costo trasmettono dati in chiaro (: IoT è dove si trova più probabilmente traffico non cifrato). La connessione cifrata è il requisito principale per IoT in cloud.</dd>
+    <dt>Data storage insicuro</dt>
+    <dd>I dispositivi IoT a basso costo spesso memorizzano dati localmente senza cifratura (: concern principale = storage of data). Credenziali predefinite hardcoded nel firmware.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — IoT: traffico non cifrato e storage non sicuro</strong><br>
+    "Where is unencrypted traffic most likely found?" → <strong>IoT</strong>.
+    Non in SDN (che è gestione centralizzata della rete), non in VPN (cifrata per definizione),
+    non in SCADA (che usa protocolli industriali spesso proprietari).<br>
+    "Security concern for low-cost IoT in infrastructure?" → <strong>Storage of data</strong>. Non il paese di origine, non la reattività, non la facilità di deployment.
+  </div>
+
+  <h3 id="ics-scada">ICS / SCADA (Sistemi di controllo industriale)</h3>
+  <p>
+    I sistemi <strong>ICS (Industrial Control Systems)</strong> e <strong>SCADA
+    (Supervisory Control and Data Acquisition)</strong> controllano infrastrutture
+    fisiche critiche: reti elettriche, acquedotti, impianti chimici, reti del gas,
+    sistemi di controllo del traffico, impianti di produzione. A differenza dei sistemi
+    IT tradizionali, in questi sistemi la sicurezza fisica ha priorità sulla sicurezza
+    informatica: un guasto può avere conseguenze fisiche catastrofiche (esplosioni,
+    blackout, contaminazione dell'acqua).
+  </p>
+  <dl class="termlist">
+    <dt>Sfide di sicurezza ICS/SCADA</dt>
+    <dd>Sistemi legacy con cicli di vita di decenni, spesso impossibili da patchare senza fermare la produzione. Protocolli industriali proprietari (Modbus, DNP3, OPC) non progettati con la sicurezza in mente. Connettività OT-IT sempre più comune (convergenza IT/OT) che espone sistemi precedentemente air-gapped.</dd>
+    <dt>Priorità di sicurezza invertite rispetto all'IT</dt>
+    <dd>In IT: Confidentiality > Integrity > Availability. In ICS/SCADA: Availability > Integrity > Confidentiality. Un sistema SCADA che controlla una rete elettrica non può permettersi downtime per applicare patch: la disponibilità è la priorità assoluta.</dd>
+  </dl>
+
+  <h3 id="rtos">RTOS — Real-Time Operating System</h3>
+  <p>
+    Un <strong>RTOS (Real-Time Operating System)</strong> è un sistema operativo
+    progettato per rispondere a eventi entro un tempo garantito (deadline). È usato
+    in sistemi dove il timing è critico: sistemi di controllo di volo, dispositivi
+    medici (pacemaker, pompe insulina), automotive (ABS, airbag), robotica industriale.
+    Non ha filesystem standard, non supporta software convenzionale, e spesso
+    non può essere aggiornato facilmente. La mitigazione più efficace per attacchi
+    a RTOS è la memory injection (OBJ 2.3), che non richiede filesystem.
+  </p>
+
+  <h3 id="embedded">Embedded systems (Sistemi embedded)</h3>
+  <p>
+    I <strong>sistemi embedded (embedded systems)</strong> sono sistemi informatici
+    integrati in dispositivi fisici con una funzione specifica e dedicata: router,
+    switch, stampanti, firewall hardware, ATM, sistemi di navigazione, elettrodomestici
+    smart. Le implicazioni di sicurezza sono simili all'IoT: firmware raramente
+    aggiornato, risorse limitate, spesso con credenziali predefinite hardcoded.
+    La differenza principale è che i sistemi embedded sono tipicamente dispositivi
+    singolo-funzione in infrastrutture specifiche, non sensori IoT distribuiti.
+  </p>
+</section>
+
+
+<!-- ══ CONSIDERAZIONI ════════════════════════════════════════════ -->
+<section id="considerations-section">
+  <h2>Considerazioni architetturali (Architecture Considerations)</h2>
+  <p>
+    Ogni scelta architetturale implica trade-off tra questi fattori. Non esiste
+    un'architettura universalmente superiore: la scelta dipende dai requisiti
+    specifici dell'organizzazione.
+  </p>
+
+  <dl class="termlist" id="considerations">
+    <dt>Availability (Disponibilità)</dt>
+    <dd>La capacità del sistema di essere operativo quando necessario. Alta disponibilità richiede ridondanza: load balancer, failover, multi-region deployment. Trade-off con il costo (ridondanza è cara) e la complessità.</dd>
+    <dt>Resilience (Resilienza)</dt>
+    <dd>La capacità di recuperare rapidamente da un guasto o da un attacco. Include backup e DR plan, architetture fault-tolerant, capacità di degradarsi in modo controllato (graceful degradation).</dd>
+    <dt>Cost (Costo)</dt>
+    <dd>Il costo totale di proprietà (TCO): non solo il costo iniziale ma anche operatività, personale, licenze. Il cloud riduce il CAPEX ma aumenta l'OPEX; on-premises ha alti CAPEX ma OPEX prevedibile.</dd>
+    <dt>Responsiveness (Reattività)</dt>
+    <dd>La velocità di risposta del sistema agli utenti. La latenza aumenta con la distanza geografica (risposta al cloud lontano vs on-premises locale) e con la complessità dell'architettura (molti hop di rete).</dd>
+    <dt>Scalability (Scalabilità)</dt>
+    <dd>La capacità di espandere le risorse per soddisfare la domanda crescente. Il cloud offre scalabilità elastica automatica; on-premises richiede acquisti hardware anticipatori. I microservizi scalano i singoli componenti indipendentemente.</dd>
+    <dt>Ease of deployment (Facilità di deployment)</dt>
+    <dd>Quanto è semplice e veloce deployare nuove istanze o aggiornamenti. IaC e container massimizzano la facilità di deployment; on-premises la minimizza.</dd>
+    <dt>Risk transference (Trasferimento del rischio)</dt>
+    <dd>La capacità di spostare il rischio su terzi: cyber insurance, cloud provider (che assumono la responsabilità dell'infrastruttura), MSP. Non elimina il rischio ma lo redistribuisce.</dd>
+    <dt>Ease of recovery (Facilità di recovery)</dt>
+    <dd>Quanto velocemente si può recuperare da un guasto o da un attacco. Cloud-native e IaC massimizzano la facilità di recovery (si ri-deploya da zero in minuti); on-premises richiede restore da backup con tempi più lunghi.</dd>
+    <dt>Patch availability (Disponibilità di patch)</dt>
+    <dd>Quanto velocemente il vendor rilascia patch per vulnerabilità note. I sistemi moderni (cloud, container) ricevono patch frequenti; IoT, RTOS e sistemi EOL spesso non ne ricevono.</dd>
+    <dt>Inability to patch (Impossibilità di patchare)</dt>
+    <dd>Sistemi che non possono essere patchati: IoT EOL, RTOS, ICS/SCADA durante operazioni critiche. Richiedono controlli compensativi: segmentazione, monitoring rinforzato, deny list.</dd>
+    <dt>Power (Energia)</dt>
+    <dd>Il consumo energetico dell'architettura. I data center on-premises richiedono sistemi UPS, generatori, HVAC. Il cloud trasferisce questo onere al provider. Critico per dispositivi IoT a batteria: influenza la scelta degli algoritmi crittografici.</dd>
+    <dt>Compute (Potenza di calcolo)</dt>
+    <dd>La capacità di elaborazione disponibile. Limita la scelta degli algoritmi di sicurezza per IoT e sistemi embedded. Il cloud offre potenza di calcolo virtualmente illimitata su richiesta (elasticità).</dd>
+  </dl>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Architettura</th><th>Availability</th><th>Costo</th><th>Scalabilità</th><th>Patch</th><th>Controllo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">On-premises</td><td>Media</td><td>Alto CAPEX</td><td>Limitata</td><td>Totale controllo</td><td>Massimo</td></tr>
+      <tr><td class="label">IaaS</td><td>Alta</td><td>OPEX variabile</td><td>Alta</td><td>OS = cliente</td><td>Medio</td></tr>
+      <tr><td class="label">SaaS</td><td>Molto alta</td><td>Basso</td><td>Automatica</td><td>Provider</td><td>Minimo</td></tr>
+      <tr><td class="label">Serverless</td><td>Automatica</td><td>Minimo</td><td>Automatica</td><td>Provider</td><td>Basso</td></tr>
+      <tr><td class="label">IoT</td><td>Variabile</td><td>Basso dispositivo</td><td>N/A</td><td>Spesso impossibile</td><td>Medio</td></tr>
+      <tr><td class="label">ICS/SCADA</td><td>Critica</td><td>Molto alto</td><td>Limitata</td><td>Difficile</td><td>Alto</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+
+<!-- ══ JUMP SERVER ═══════════════════════════════════════════════ -->
+<section id="jump-server">
+  <h2>Jump server / Jump host</h2>
+  <p>
+    Un <strong>jump server (jump host o bastion host)</strong> è un sistema dedicato
+    posizionato in una zona di sicurezza specifica (tipicamente una shared services
+    security zone) che funge da unico punto di accesso per amministrare sistemi in
+    zone più protette. Gli amministratori si connettono prima al jump server (autenticato),
+    e da lì raggiungono i sistemi interni. Il jump server registra tutte le sessioni
+    amministrative fornendo audit trail completo.
+  </p>
+  <p>
+    Quando un amministratore configura l'accesso VPN a un ambiente cloud e vuole
+    facilitare l'amministrazione remota sicura → <strong>jump host nella shared
+    services security zone</strong>. Non un SSH server nella LAN (che
+    non sarebbe nella zona corretta per l'accesso cloud), non un reverse proxy
+    sul firewall (non è progettato per sessioni amministrative).
+  </p>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 3.1</h2>
+  <div class="chapter-meta">
+    <p><strong>35 questions d'esame</strong> su modelli architetturali e loro implicazioni di sicurezza, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 3.1 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 3.1</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Shared Responsibility: IaaS vs SaaS</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>IaaS</strong>: il cliente gestisce OS, app, dati e sicurezza database virtualizzati.<br><strong>SaaS</strong>: il provider cloud gestisce praticamente tutto eccetto dati inseriti e policy d'accesso.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Definizione di SASE in cloud</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Convergenza integrata di SD-WAN con funzionalità di sicurezza avanzate (SWG, CASB, ZTNA, FWaaS) erogata interamente tramite architetture di rete cloud-native.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Infrastructure as Code (IaC)</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Definizione e provisioning di infrastrutture IT tramite codice strutturato (Terraform, Ansible), azzerando l'errore umano e prevenendo il configuration drift.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Serverless: principali vantaggi</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Nessun server da manutenere, pagamenti basati su esecuzione delle sole chiamate attive (pay-per-use), e tempi di deployment del codice drasticamente ridotti.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>VM Escape vs Container Escape</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>VM Escape</strong>: evasione logica da VM verso l'hypervisor fisico.<br><strong>Container Escape</strong>: evasione logica da container verso il kernel host condiviso.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Priorità IT vs Priorità ICS/SCADA</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>IT Tradizionale</strong>: Confidentiality (Primo) → Integrity → Availability (Ultimo).<br><strong>SCADA/ICS</strong>: Availability (Primo) → Integrity → Confidentiality (Ultimo).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="en_obj2_5_mitigation.html">← OBJ 2.5 — Mitigazioni</a>
+  <a href="en_obj3_2_infrastructure.html" class="secondary">OBJ 3.2 — Infrastruttura →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

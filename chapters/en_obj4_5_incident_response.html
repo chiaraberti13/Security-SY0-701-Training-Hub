@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Enterprise Security Capabilities · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index_en.html">General Index</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.5 — Configurare le capacità enterprise</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.5 — Enterprise Security Capabilities</h1>
+    </header>
+
+    <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 12: Sicurezza della rete</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
+      <p>
+        <strong>Official Objective (CompTIA):</strong>
+        <em>Given a scenario, modify enterprise capabilities to enhance security.</em>
+      </p>
+      <p>
+        <strong>Objectives covered:</strong>
+        <span class="objectives-tag">4.5</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisites:</strong>
+        <a href="en_obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
+        <a href="en_obj4_4_alerting_monitoring.html">OBJ 4.4 — Allarmistica e monitoraggio</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Contenimento di Rete</div>
+        <a href="#firewall_acls">ACL dei Firewall & Regole Inbound/Outbound</a>
+        <a href="#dns_containment">Limitazioni DNS & DNS Sinkhole</a>
+        <a href="#web_filters">Proxy Web & Filtro URL</a>
+
+        <div class="toc-section">Active Protection</div>
+        <a href="#ids_ips">IDS vs IPS: Rilevazione e Prevenzione</a>
+        <a href="#waf_hardening">WAF, Hardening Locale e PAM</a>
+
+        <div class="toc-section">Inganno (Deception)</div>
+        <a href="#deception">Honeypots, Honeyfiles & Insider Threats</a>
+
+        <div class="toc-section">Accessi e VPN</div>
+        <a href="#vpn_quarantine">IPSec VPN & Quarantena Host Guest</a>
+
+        <div class="toc-section">Email & OS Security</div>
+        <a href="#email_security">Sicurezza Email (SPF, DKIM, DMARC)</a>
+        <a href="#os_security">OS Hardening (GPO, SELinux)</a>
+        <a href="#detection_control">NAC, EDR/XDR & DLP</a>
+
+        <div class="toc-section">Verify & Quiz</div>
+        <a href="#quiz-section">Interactive Quiz (35 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — CONTENIMENTO DI RETE & ACL ══════════════ -->
+        <section id="firewall_acls">
+          <h2>Contenimento di Rete: ACL dei Firewall, Ispezione e Regole Inbound/Outbound</h2>
+          <p>
+            Durante la gestione di un attacco cyber, una delle attività cardine della fase di contenimento consiste nell'utilizzare il <strong>Firewall</strong> per bloccare tempestivamente il traffico ostile. L'efficacia di questi interventi dipende dalla formulazione rigorosa delle <strong>Liste di Controllo degli Accessi (Access Control Lists - ACL)</strong>.
+          </p>
+
+          <h3>Filtraggio e Blocco dell'IP Sorgente (Inbound Denial)</h3>
+          <p>
+            Se l'analista identifica attività ostile continuativa proveniente da un preciso indirizzo Internet malevolo (es: <code>10.1.4.9</code>), deve istituire una regola di blocco perimetrale in ingresso (inbound firewall rule).
+          </p>
+          <p class="focused-concept">
+            <strong>Sintassi ACL d'Esame — Inbound Block:</strong><br>
+            Per bloccare univocamente l'host malevolo verso l'intera ditta, la regola corretta ricorre a una subnet mask di host (/32) per la sorgente e una maschera jolly o totale per la destinazione:
+            <br>
+            <code>access-list inbound deny ip source 10.1.4.9/32 destination 0.0.0.0/0</code>
+          </p>
+
+          <h3>Selettività dei Segmenti Isolati (Isolated Segment ACLs)</h3>
+          <p>
+            Nei progetti di consolidamento della sicurezza volti a proteggere apparecchiature obsolete o vulnerabili (Legacy devices), l'ingegnere isola la porzione di rete (es: la subnet <code>10.9.8.14/27</code>) ammettendo la connessione di unicamente due host fidati, l'Host A (<code>10.2.2.7</code>) e l'Host B (<code>10.3.9.9</code>), e sbarrando la strada a tutte le altre sorgenti.
+          </p>
+          <div class="example-box">
+            <strong>Regola ACL di Segmentazione Rigida:</strong>
+            <pre>
+Permit 10.2.2.7/32 to 10.9.8.14/27
+Permit 10.3.9.9/32 to 10.9.8.14/27
+Deny 0.0.0.0/0 to 10.9.8.14/27</pre>
+            <em>Nota Bene:</em> La regola di rifiuto universale (Deny 0.0.0.0/0) deve sempre trovarsi in fondo alla lista per non tagliare fuori preventivamente gli host autorizzati.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 2 — LIMITAZIONI DNS & DNS SINKHOLE ═════════ -->
+        <section id="dns_containment">
+          <h2>Limitazioni del Traffico DNS e Meccanismi di Sinkhole</h2>
+          <p>
+            Il protocollo <strong>DNS (Domain Name System)</strong> è frequentemente abusato dagli aggressori sia per scopi di comando e controllo (C2) che per sottrarre abusivamente dati aziendali scavando clandestinamente tunnel web (DNS Tunneling) sulla porta 53.
+          </p>
+
+          <h3>Contenimento del Traffico Interno Outbound (DNS Outbound Restrictions)</h3>
+          <p>
+            Per impedire che macchine compromesse contattino server DNS arbitrari e potenzialmente nocivi all'esterno della Intranet, un'organizzazione deve forzare tutto il traffico DNS in uscita a convergere verso un unico resolver autorizzato (es: l'indirizzo IP <code>10.50.10.25</code>).
+          </p>
+          <p class="focused-concept">
+            <strong>Sintassi ACL d'Esame — DNS Outbound Limit:</strong><br>
+            <code>Access list outbound permit 10.50.10.25/32 0.0.0.0/0 port 53</code><br>
+            <code>Access list outbound deny 0.0.0.0/0 0.0.0.0/0 port 53</code>
+            <br><br>
+            Questa composizione assicura che solo l'host fidato converga query web all'esterno sulla porta 53, rifiutando istantaneamente qualunque altro router o client locale tenti di comunicare in aggiramento.
+          </p>
+
+          <h3 id="tunneling_detection">Rilevamento del Protocol Tunneling</h3>
+          <p>
+            Nel corso di investigazioni da parte del CIRT (Computer Incident Response Team), si scopre occasionalmente che impiegati infedeli o attaccanti esportano documenti riservati celandoli dentro sessioni **HTTP veicolate in modo surrettizio sulla porta 53** (usata comunemente per query DNS testuali minime).
+          </p>
+          <p>
+            Un comune firewall a pacchetti o un filtro web ordinario non esaminerebbe questo transito poiché si limita a verificare la porta d'uscita 53 convalidandola. Lo strumento di sicurezza capace di evidenziare e intercettare questa frode è un <strong>Next-Generation Firewall (NGFW) dotato di Ispezione Applicativa (Application Inspection)</strong>. L'ispezione analizza il payload nel dettaglio, scoprendo che la grammatica scambiata è HTTP e bloccando l'azione ostile.
+          </p>
+
+          <h3>Il Ruolo Strategico del DNS Sinkhole</h3>
+          <p>
+            Il <strong>DNS Sinkhole (Incanalamento DNS controllato)</strong> è una tecnica fantastica utilizzata per interrompere le infezioni da virus che cercano di connettersi ai domini del server di comando e controllo (C2 - Command & Control) della botnet.
+          </p>
+          <div class="example-box">
+            <strong>Funzionamento di un DNS Sinkhole:</strong><br>
+            Quando un computer locale infettato effettua una risoluzione DNS per contattare il dominio malevolo dell'attaccante, il DNS Sinkhole controllato dall'azienda intercetta la richiesta e risponde fornendo un <strong>indirizzo IP fantoccio non funzionante o isolato</strong>. Questo garantisce due risultati forensi di rilievo:
+            <ol>
+              <li>Spezza la comunicazione e neutralizza l'attività del malware.</li>
+              <li>Consente all'analista di raccogliere le query catturate per localizzare precisamente qual è l'host affetto all'interno della Intranet.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 3 — PROXY WEB & CONTROLLI EMAIL ════════════ -->
+        <section id="web_filters">
+          <h2>Proxy Web, Filtri Email e Classificazione dei Contenuti</h2>
+          <p>
+            Molti incidenti nascono dal transito su vettori ad alta diffusione: posta elettronica e pagine web sprovviste di criteri di restrizione applicativi.
+          </p>
+
+          <h3>Gestione di Attacchi tramite URL Shorteners</h3>
+          <p>
+            Dinanzi a una pioggia improvvisa di e-mail fraudolente recanti subject differenti e dirette a innumerevoli caselle postali, ciascuna arricchita da un collegamento accorciato tramite <strong>URL Shortener (Accorciatore di URL)</strong> che reindirizza a indirizzi morti o temporanei, qual è la contromisura immediata del SOC?
+          </p>
+          <div class="critical">
+            <strong>DIPEFESA TATTICA — URL Shorteners:</strong><br>
+            Anziché prodigarsi nella vana rincorsa manuale di ciascun soggetto mail (le subject cambiano continuamente) o dei singoli domini finali (che vengono generati e rimossi dinamicamente dall'hacker), l'esperto interviene sul perimetro web della ditta <strong>bloccando l'intero dominio del servizio accorciatore di URL (URL shortener domain) all'interno del Web Proxy aziendale</strong>.
+          </div>
+
+          <h3>Blocco dei Siti Web in Chiaro (Plaintext HTTP URL Filtration)</h3>
+          <p>
+            Per far rispettare le policy corporative costringendo gli utenti a navigare unicamente su siti crittografati sicuri (HTTPS port 443), l'analista imposta il web content filter per rigettare i siti interamente privi di cifratura SSL/TLS. La stringa mirata da cercare e contrassegnare con una regola di diniego (deny search string) è la dicitura <code>http://</code>.
+          </p>
+
+          <h3>Classificazione per Categoria (Content Categorization)</h3>
+          <p>
+            Se in una ditta si nota che gli impiegati si espongono sistematicamente all'infezione visitando URL malevoli in grado di aggirare le restrizioni perimetrali in vigore, la prima verifica strategica richiede il controllo meticoloso della <strong>Classificazione dei Contenuti (Content Categorization)</strong> del proxy. Un errato ordinamento logico delle directory ammette bypass involontari. Altresì, se un portale utile (es: una nuova vetrina retail) fosse inibito erroneamente poiché catalogato come gioco d'azzardo (gambling), la correzione consiste nell'aggiornare la categoria corretta del filtro.
+          </p>
+
+          <h3>Ispezione delle Email in Linea (Inline Email Scanning)</h3>
+          <p>
+            Per tutelare la ditta ostacolando alla radice l'arrivo di allegati e malware tossici via posta elettronica, l'architettura sicura prescrive di <strong>Scansionare in linea il traffico email (Scan email traffic inline)</strong> prima del riversamento nella mailbox dell'impiegato.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 4 — IDS VS IPS / RILEVAZIONE E PREVENZIONE ══ -->
+        <section id="ids_ips">
+          <h2>Rilevamento e Prevenzione Attiva delle Intrusioni: IDS vs IPS</h2>
+          <p>
+            La distinzione strutturale tra il rilevamento passivo e la schermatura attiva segna l'efficacia tattica dell'Incident Response:
+          </p>
+          <dl class="termlist">
+            <dt>Intrusion Detection System / IDS (Passive Mode)</dt>
+            <dd>Agisce tramite una porta di specchiamento del traffico (SPAN/TAP). Escogita allerte e traccia record forensi degli incidenti ma <strong>non modifica in alcun modo i flussi circostanti</strong>, risultando inabile a prevenire l'intrusione in tempo reale.</dd>
+            <dt>Intrusion Prevention System / IPS (Active Mode)</dt>
+            <dd>Si colloca fisicamente in linea (in-line) all'interno del transito dei cavi di rete. Questo gli permette di agire in **Modalità Attiva (Active Mode)** per sopprimere all'istante l'attività basata su firme d'attacco nocive tagliando le sessioni abusive prima che colpiscano la rete aziendale.</dd>
+          </dl>
+
+          <h3>Classificazione NIDS: Firme vs Anomalie</h3>
+          <ul>
+            <li><strong>Rilevamento basato su Firme (Signature-based)</strong>: Ideale per minacce note e stringhe immutate. Quando un analista vede che l'IDS non intercetta un attacco anomalo emergente, deve integrare il sistema caricando nuove specifiche <strong>Firme (Signatures)</strong> d'attacco.</li>
+            <li><strong>Rilevamento delle anomalie di rete (Anomaly-based NIDS)</strong>: Si avvale di motori di intelligenza artificiale, modellazione statistica ed evoluti pattern di data mining per stabilire la baseline aziendale e intercettare comportamenti anomali di rete mai visti prima.</li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 5 — WAF & ENDPOINT HARDENING ════════════════ -->
+        <section id="waf_hardening">
+          <h2>Protezione ad Alto Livello: WAF, Hardening e PAM</h2>
+          <p>
+            L'integrazione di scudi specializzati su specifici strati dello stack ISO/OSI riduce significativamente la superficie di attacco dell'organizzazione durante uno scenario di emergenza.
+          </p>
+
+          <h3>Web Application Firewall (WAF)</h3>
+          <p>
+            Qualora l'organizzazione decida di ospitare portali web accessibili dal pubblico su Internet (Client-Facing Web Portals) contenenti database o dati sensibili sul protocollo HTTP/HTTPS (Port 443), la misura perimetrale corretta è l'introduzione di un <strong>Web Application Firewall (WAF)</strong>. Il WAF ispeziona accuratamente i pacchetti a livello 7 (Applicazione), disinnescando specificamente minacce complesse quali SQL Injection e Cross-Site Scripting (XSS).
+          </p>
+
+          <h3>Paragone: Host-based Firewall vs Network Firewall</h3>
+          <p>
+            Qual è il vantaggio primario di un firewall installato localmente sull'host (host-based firewall) rispetto a un apparato di rete perimetrale?
+          </p>
+          <p class="focused-concept">
+            <strong>Risposta d'Esame — Host-Based Firewall Profit:</strong><br>
+            Il firewall host-based vanta una **conoscenza granulare delle funzioni e dei processi in corso sull'endpoint locale**, potendo così modellare in tempo reale le regole del traffico di rete e i canali per concordare precisamente con i programmi autorizzati.
+          </p>
+
+          <h3>Hardening Iniziale (Endpoint Hardening First Step)</h3>
+          <p>
+            Al ricevimento di una nuova tranche di server presso il Network Operations Center (NOC), subito dopo aver steso l'installazione del sistema operativo d'origine (OS), il primo impiego logico verso la blindatura (Hardening) consiste nel <strong>Rifiutare l'accesso chiudendo tutte le porte inutilizzate e disabilitando i servizi obsoleti o non necessari</strong>.
+          </p>
+
+          <h3>Privileged Access Management (PAM)</h3>
+          <p>
+            Se un'azienda recluta terzi o consulenti esterni provvisori deputati a eseguire operazioni di upgrade o diagnostica di sistema su sistemi informatici sensibili, l'amministratore distribuisce e li incanala tramite suite <strong>PAM (Privileged Access Management)</strong>. Questo consente di monitorare, circoscrivere granularmente i poteri, e revocare automaticamente privilegi elevati al concludersi dell'incarico.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 6 — TECNICHE DI INGANNO (DECEPTION) ═════════ -->
+        <section id="deception">
+          <h2>Tecniche d'Inganno e Decezione (Deception Technologies)</h2>
+          <p>
+            Con l'emergere di sofisticate minacce interne (Insider Threats), i classici meccanismi difensivi perimetrali faticano a rilevare azioni anomale compiute da dipendenti con account regolari. In questi scenari, si impiegano le <strong>Deception Technologies (Tecniche di Inganno)</strong>.
+          </p>
+
+          <dl class="termlist">
+            <dt>Honeypot (Sistema Civetta)</dt>
+            <dd>Una macchina virtuale o fisica non destinata alla produzione, dotata di falle intenzionali per distogliere l'Hacker dagli asset critici, raccogliendo preziose telemetrie d'aggressione in totale sicurezza.</dd>
+            
+            <dt>Honeyfile (File Esca)</dt>
+            <dd>Un file fittizio appositamente collocato in una share di rete o directory sensibile, progettato per **identificare un insider malizioso attirandone l'attenzione**. 
+            <br>
+            Ad esempio, creare un falso file di testo denominato <code>/docs/salaries</code> attirerebbe istantaneamente la bramosia di curiosità degli impiegati infedeli. 
+            <br>
+            Altresì, salvare credenziali fittizie in un foglio di calcolo (spreadsheet) all'interno di una cartella poco accessibile, impostando allerte istantanee al SOC alla sua minima apertura, costituisce l'esatta esecuzione di un <strong>Honeyfile</strong>.</dd>
+            
+            <dt>Honeytoken</dt>
+            <dd>Una credenziale d'accesso, stringa o blocco database fittizio utilizzato per individuare la profilazione dei dati e il momento della fuga d'informazioni.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 7 — ACCESSI CRITTOGRAFATI E VPN ════════════ -->
+        <section id="vpn_quarantine">
+          <h2>Accessi Sicuri e Connettività VPN</h2>
+          <p>
+            Il transito e l'interconnessione geografica impongono l'utilizzo di canali schermati a livello IP:
+          </p>
+          <ul>
+            <li><strong>IPSec per Cloud e VPN</strong>: Per schermare comunicazioni sensibili all'interno di un private cloud della ditta o blindare il transito verso l'esterno per dipendenti legati fittiziamente a client software in smart working (Remote Access VPN Agent), la suite d'elezione a livello di rete IP è rappresentata da <strong>IPSec</strong>.</li>
+            <li><strong>Quarantena e Attestazione di Conformità (Compliance Attestation)</strong>: Disporre di una sottorete chiusa di quarantena per raccogliere dispositivi guest sconosciuti impone la conformità degli stessi prima della liberazione sui canali enterprise. Questo controllo è assicurato tramite processi di <strong>Compliance Attestation (Attestazione di Conformità)</strong>.</li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 8 — SICUREZZA EMAIL E MITIGAZIONE SPOOFING ════ -->
+        <section id="email_security">
+          <h2>Misure di Sicurezza Email e Mitigazione dello Spoofing</h2>
+          <p>
+            La posta elettronica è il vettore d'attacco primario sia per truffe finanziarie sofisticate sia per la propagazione di malware. Proteggere questa infrastruttura richiede controlli multilivello che spaziano dalla validazione crittografica e di paternità del dominio sul DNS, fino ad architetture Gateway collocate in linea per l'ispezione di flussi in transito.
+          </p>
+
+          <h3 style="margin-top: 20px; color: var(--ink); font-size: 1.15rem; font-weight: 600; border-bottom: 1.5px solid var(--light-slate); padding-bottom: 6px;">1. Minacce Principali alla Sicurezza e-mail (Email Threats)</h3>
+          <p style="margin-top: 8px;">
+            Le campagne dannose trasmesse tramite messaggistica si dividono in diverse macro-categorie, ognuna con precisi target e modus operandi:
+          </p>
+          <dl class="termlist" style="margin-top: 10px;">
+            <dt>Email Compromise Attacks (Attacchi ai Danni della Posta Aziendale)</dt>
+            <dd>Conosciuti primariamente come <strong>Business Email Compromise (BEC)</strong>, rappresentano attacchi mirati ad alto impatto. Un attaccante, camuffando la propria identità da dirigente apicale (CEO) o fornitore di fiducia tramite spoofing del dominio, induce gli uffici contabili ad effettuare pagamenti urgenti o trasferimenti monetari su conti fraudolenti. Non richiedendo l'uso di link nocivi o allegati malevoli, questi attacchi aggirano i classici controlli antivirus puntando interamente sulla violazione dell'autorità e dello spoofing d'identità.<br><strong>• Mitigazione principale:</strong> Configurazione rigorosa dei criteri SPF, DKIM e DMARC con policy di rigetto (<code>p=reject</code>) per bloccare lo spoofing del dominio aziendale; adozione obbligatoria di MFA per impedire il takeover di account legittimi; utilizzo di soluzioni anti-spoofing avanzate basate su AI per analizzare la reputazione dei mittenti e deviazioni nel linguaggio comunicativo; ed esecuzione tassativa di verifiche out-of-band (es. canali alternativi confermati o contatti telefonici diretti) prima di convalidare transazioni monetarie eccezionali.</dd>
+
+            <dt>Phishing Emails (E-mail di Phishing)</dt>
+            <dd>Campagne massive o mirate (Spear Phishing) progettate per ingannare i riceventi facendosi passare per soggetti legittimi (es. banche, corrieri, gestori di utenze). L'obiettivo primario è estorcere credenziali sensibili mediante pagine web clone fraudolente o provocare l'infezione del sistema inducendo la vittima ad aprire allegati portatori di script o malware.<br><strong>• Mitigazione principale:</strong> Distribuzione di un Secure Email Gateway (SEG) con motori di scansione euristica e ambienti isolati (Sandboxing) per disarmare macro e file dannosi; integrazione di controlli sul flusso in uscita (DLP) per sventare fughe di dati; implementazione di chiavi di autenticazione hardware resistenti al phishing (FIDO2/WebAuthn); ed esecuzione periodica di addestramenti interattivi e finte campagne di phishing controllate per addestrare il personale.</dd>
+
+            <dt>Email Scams (Truffe via E-mail)</dt>
+            <dd>Messaggi ingannevoli diffusi in blocco che fanno leva sulla psicologia della vittima (paura, vincite improvvise, minacce di ricatto o richieste di aiuto umanitario) per estorcere denaro, buoni regalo o informazioni sensibili senza l'ausilio di carichi crittografici nocivi o exploits tecnici.<br><strong>• Mitigazione principale:</strong> Attivazione di filtri di reputazione e motori antispam globali a livello e-mail gateway per sopprimere botnet ed e-mail spazzatura; adozione di banner informativi ed evidenti a bordo pagina (es: <em>"[E-mail Esterna] Attenzione a transazioni insolite"</em>) per ogni messaggio proveniente da domini esterni; e formazione costante d'aula ed esercizi pratici di Security Awareness per sensibilizzare i dipendenti contro i vettori tipici delle card regalo e dei raggiri emotivi.</dd>
+          </dl>
+
+          <h3 style="margin-top: 24px; color: var(--ink); font-size: 1.15rem; font-weight: 600; border-bottom: 1.5px solid var(--light-slate); padding-bottom: 6px;">2. Protocolli di Autenticazione e-mail (Email Authentication)</h3>
+          <p style="margin-top: 8px;">
+            Per contrastare l'Email Spoofing (falsificazione dell'intestazione del mittente), l'architettura internet globale si affida a tre record DNS cooperativi, che permettono di verificare l'origine e l'integrità del messaggio:
+          </p>
+          <dl class="termlist" style="margin-top: 10px;">
+            <dt>SPF (Sender Policy Framework)</dt>
+            <dd>Un record testuale (TXT) pubblicato nel DNS di un'organizzazione che <strong>autorizza esplicitamente quali indirizzi IP o server di posta sono legittimati a inviare email</strong> per conto di quel dominio aziendale. I server dei destinatari controllano questo record per rifiutare messaggi non autorizzati.</dd>
+
+            <dt>DKIM (DomainKeys Identified Mail)</dt>
+            <dd>Aggiunge un'<strong>impronta o firma crittografica digitale (Cryptographic Signature) all'header dei messaggi email inviati</strong>. Consente al server ricevente di fare una verifica asimmetrica tramite la chiave pubblica pubblicata nel DNS del mittente, accertando che il contenuto non sia stato modificato in transito e che provenga realmente dal detentore del dominio.</dd>
+
+            <dt>DMARC (Domain-based Message Authentication, Reporting, and Conformance)</dt>
+            <dd>La norma cardine di governance e coordinamento che <strong>unisce, convalida e armonizza i risultati di SPF e DKIM</strong>. Consente di dichiarare regole severe destinate ai server riceventi globali su come reagire qualora le verifiche SPF e/o DKIM e i loro allineamenti falliscano:</dd>
+          </dl>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong><code>p=none</code> (Monitoraggio)</strong>: Consente il passaggio del messaggio ma l'evento fallito viene segnalato nei report DMARC periodici diretti all'amministratore del dominio.</li>
+            <li><strong><code>p=quarantine</code> (Quarantena)</strong>: Sposta automaticamente l'e-mail sospetta nella cartella spam/quarantena del destinatario.</li>
+            <li><strong><code>p=reject</code> (Rigetto forzato)</strong>: Ordina la distruzione e il blocco incondizionato e immediato della mail illegittima alla sorgente, impedendo l'accesso alla casella.</li>
+          </ul>
+
+          <h4 style="margin-top: 14px; color: var(--ink); font-size: 1rem; font-weight: 600;">Benefici dell'Autenticazione e-mail (Benefits of Email Authentication):</h4>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>Prevenzione dello Spoofing e-mail (Preventing Email Spoofing)</strong>: Inibisce in radice agli spammer la possibilità di apporre fraudulentemente il nome del dominio aziendale legittimo nell'intestazione "Da:" (From Header), disarmando attacchi di impersonificazione BEC rivolti a partner esterni o interni.</li>
+            <li><strong>Miglioramento del Recapito e-mail (Improving Email Deliverability)</strong>: I server dei principali operatori di posta (es. Microsoft, Google) penalizzano per impostazione predefinita le mail sprovviste di signatures SPF/DKIM valide. L'allineamento dei protocolli incrementa drasticamente la probabilità che le communications e-mail legittime dei dipendenti vengano consegnate correttamente nell'Inbox principale del destinatario anziché finire nello spam.</li>
+            <li><strong>Rafforzamento della Reputazione del Dominio (Enhanced Domain Reputation)</strong>: L'invio e il blocco di posta illegittima a nome dell'azienda previene il "domain blacklisting". Mantenerne intatta la bontà impedisce alle autorità mondiali antispam di declassare la firma aziendale.</li>
+          </ul>
+
+          <h3 style="margin-top: 24px; color: var(--ink); font-size: 1.15rem; font-weight: 600; border-bottom: 1.5px solid var(--light-slate); padding-bottom: 6px;">3. Secure Email Gateway (SEG) & Protocolli</h3>
+          <p style="margin-top: 8px;">
+            Al di l&agrave; dei record DNS, le reti si dotano di un <strong>Secure Email Gateway (SEG)</strong>, che intercetta e analizza attivamente la posta transitata adoperando definiti protocolli e meccanismi di protezione in linea:
+          </p>
+          <dl class="termlist" style="margin-top: 10px;">
+            <dt>Email Gateway Protocol (SMTP, SMTPS e STARTTLS)</dt>
+            <dd>L'instradamento di base impiega il protocollo standard <strong>SMTP (porta TCP 25)</strong>, intrinsecamente non sicuro. I gateway implementano quindi <strong>STARTTLS</strong> per effettuare l'upgrade opportunistico della connessione esistente ad un tunnel crittografato SSL/TLS (opportunistic encryption), oppure predispongono canali <strong>SMTPS (SMTP Secure, su porta TCP 465)</strong> per imporre la crittografia SSL/TLS end-to-end fin dall'inizio della sessione.</dd>
+
+            <dt>Spam Filtering (Filtraggio Antispam)</dt>
+            <dd>Il modulo integrato del Gateway incaricato di bloccare la posta indesiderata e nociva in base a regole euristiche, firme di spam noti, reputazione degli IP di origine, analisi degli allegati (con annesso sandboxing) ed ispezione del testo (per individuare dizionari tipici di truffe o phishing).</dd>
+          </dl>
+
+          <h4 style="margin-top: 14px; color: var(--ink); font-size: 1rem; font-weight: 600;">Funzionalità ed Operazioni Critiche dell'Email Gateway:</h4>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>Email Routing (Instradamento della Posta)</strong>: Il SEG funge da intermediario MX (Mail Exchanger) nel DNS. Riceve tutta la posta destinata al dominio dall'esterno, la esamina, ed effettua l'instradamento ordinato solo della posta pulita verso i server e-mail interni dell'azienda.</li>
+            <li><strong>Email Security (Controllo Contenuti e Integrità)</strong>: Blocco automatico di malware, scansione attiva dei link esterni contenuti nei messaggi per verificarne la reputazione prima e durante l'accesso del dipendente (Scansione URL), ed estrapolazione degli allegati rischiosi per sottoporli a controlli in ambienti virtuali isolati (Sandboxing).</li>
+            <li><strong>Policy Enforcement (Applicazione dei Criteri di Sicurezza)</strong>: Blocco proattivo dei messaggi in uscita contenenti dati riservati non strutturati (Data Loss Prevention - DLP) per impedire la fuga di numeri di carte di credito, file sensibili, brevetti o dati tutelati GDPR, conformemente alle politiche dell'impresa.</li>
+            <li><strong>Encryption and Decryption (Crittografia e Decifratura dei Messaggi)</strong>: Crittografia centralizzata ad alta intensità del flusso uscente per messaggi contenenti informazioni sanitarie o finanziarie sensibili verso partner terzi esterni, e parallela decifratura e ispezione dei messaggi in entrata precedentemente cifrati.</li>
+          </ul>
+
+          <h4 style="margin-top: 14px; color: var(--ink); font-size: 1rem; font-weight: 600;">Modelli di Distribuzione dell'Email Gateway (Email Gateway Deployment Models):</h4>
+          <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>On-Premise (In Locale)</strong>: Una appliance fisica o virtuale dedicata installata direttamente dentro il data center proprietario dell'organizzazione, dietro la demilitarized zone (DMZ). Garantisce il totale controllo directo sulle code dei messaggi e sulla sovranità fisica sui flussi di posta aziendale, ma richiede investimenti e oneri continui di manutenzione e aggiornamento delle definizioni.</li>
+            <li><strong>Cloud-Based (Su Cloud)</strong>: Un servizio gestito esterno (SaaS) ad alta disponibilità distribuito interamente in cloud (es. Google Workspace, Microsoft Defender for Office 365, Proofpoint). Non richiede hardware locale, gode di aggiornamenti sulle minacce mondiali in tempo reale, si adatta all'istante all'aumento dei volumi (scalabilità illimitata) ed intercetta gli attacchi prima ancora que penetrino nel perimetro fisico aziendale.</li>
+            <li><strong>Hybrid (Ibrido)</strong>: Soluzione coordinata che impiega una scansione e pre-filtraggio globali ad alta efficienza in Cloud ed esegue parallelamente un secondo passaggio approfondito di ispezione dei contenuti e dei criteri sui server dislocati On-Premise nel perimetro locale, unendo rigidità del controllo di conformità con i vantaggi d'efficienza del cloud computing.</li>
+          </ul>
+
+          <div class="focused-concept">
+            <strong>Sintesi d'Esame — SPF vs DKIM vs DMARC:</strong><br>
+            Mentre <strong>SPF</strong> valida l'<em>IP d'origine</em> del mittente e <strong>DKIM</strong> convalida l'<em>integrità crittografica</em> della mail, <strong>DMARC</strong> coordina entrambe fornendo precise <strong>politiche prescrittive di blocco</strong> ed aggregando report storici delle sorgenti d'attacco nel mondo.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 9 — OS HARDENING E REGOLE DI ACCESSO OPERATIVO ═ -->
+        <section id="os_security">
+          <h2>OS Hardening ed Implementazione di Standard Sicuri</h2>
+          <p>
+            Modificare le impostazioni dei singoli sistemi operativi e strutturare regole di transito logico è vitale per arrestare gli attacchi laterali:
+          </p>
+          <dl class="termlist">
+            <dt>Group Policy (GPO / Criteri di Gruppo) & Windows Enforcement</dt>
+            <dd>
+              Strumento centralizzato di spicco in ambiente Microsoft Active Directory (AD). Consente agli amministratori di imporre a livello centralizzato, uniforme e automatico criteri di configurazione, restrizioni e controlli su migliaia di postazioni e server aziendali. Le politiche più importanti gestite tramite GPO per lo standard Security+ comprendono:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Password requirements (Requisiti della password)</strong>: Regole forzate che dettano la lunghezza minima della password, i vincoli di complessità (simboli, maiuscole, numeri), il ciclo massimo e minimo di vita (password age) e la cronologia storica (password history) per sventare il riutilizzo di password vecchie o deboli.</li>
+                <li style="margin-bottom: 6px;"><strong>Account lockout policies (Criteri di blocco dell'account)</strong>: Parametri per limitare gli attacchi di brute force e limitare il lockout. Definiscono il <em>Lockout threshold</em> (soglia massima di tentativi falliti permessi), il <em>Lockout duration</em> (minuti di blocco dell'account) e il tempo di reset del contatore. Se configurati impropriamente, costringono gli utenti a continui fermi in caso di spruzzi massivi (Password Spraying).</li>
+                <li style="margin-bottom: 6px;"><strong>Software restrictions / Application restrictions (Restrizioni del Software)</strong>: Tecnologie come Software Restriction Policies (SRP) e AppLocker che impediscono l'esecuzione di file non autorizzati. Funzionano creando regole basate sull'impronta (Hash rule), sul percorso di cartella (Path rule) o sul certificato del produttore (Publisher rule) per attuare un rigoroso modello di <em>Application Allow List</em> (permettendo di eseguire solo codice esplicitamente approvato) e sopprimere file nocivi.</li>
+                <li style="margin-bottom: 6px;"><strong>Security Template (Modello di Sicurezza)</strong>: File di configurazione preconfezionati e strutturati che raccolgono una combinazione di impostazioni di sicurezza logiche (registri, patch enforcement, diritti d'utenza, politiche password e audit). Questi modelli possono essere importati nelle GPO o analizzati tramite tool di conformità per verificare l'allineamento istantaneo di un host ad una baseline approvata.</li>
+              </ul>
+            </dd>
+
+            <dt>Mandatory Access Control (MAC) vs Discretionary Access Control (DAC)</dt>
+            <dd>
+              I due principali modelli di controllo dell'accesso esaminati a livello di sistema operativo ed OS hardening:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Discretionary Access Control (DAC)</strong>: Modello in cui il proprietario della risorsa (file o directory) ha la facoltà (discrezione) di decidere chi può accedervi e con quali diritti (es: <code>chmod 777 file.txt</code> in Linux). Vulnerabile per eccellenza: se un hacker compromette o infetta un processo in esecuzione sotto un'utenza con privilegi elevati (come root o un utente amministratore), eredita i suoi interi permessi operativi, espugnando l'intero sistema.</li>
+                <li style="margin-bottom: 6px;"><strong>Mandatory Access Control (MAC)</strong>: Il modello più rigido e protetto (utilizzato in scenari militari e governativi). Il sistema operativo impone le regole di accesso basandosi esclusivamente su policy e <strong>livelli di classificazione (security labels/labels d'integrità o contesti)</strong> predefiniti. L'utente o il proprietario del file non ha alcuna autorità per alterare o aggirare le regole. Se un demone web viene bucato, il MAC gli impedisce di scrivere fuori dalla sua area di competenza, anche se il demone agisce con credenziali di root.</li>
+              </ul>
+            </dd>
+
+            <dt>SELinux (Security-Enhanced Linux) & Context-based Permissions</dt>
+            <dd>
+              Un'implementazione di riferimento del modello MAC integrata nel kernel Linux. SELinux impone politiche di sicurezza basate su <strong>Context-based Permissions (Permessi guidati dal contesto)</strong>. Ogni risorsa del sistema — utenti, file fisici, cartelle, processi in esecuzione, porte di rete logiche — riceve un'etichetta crittografata detta <strong>Security Context</strong> (es: <code>unconfined_u:object_r:httpd_sys_content_t:s0:c0.c1023</code>). I controlli sul contesto analizzano tre proprietà essenziali e si appoggiano a precise modalità e criteri di configurazione:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Type (Tipo)</strong>: Nel tipo d'imposizione (<em>Type Enforcement</em>), questa è la proprietà di massima importanza. Si definiscono etichette per i processi (es: dicitura <code>http_t</code> per Apache) e per i file (es: dicitura <code>httpd_sys_content_t</code> per i file HTML). Le policy del kernel stabiliscono rigorosamente che solo un processo identificato dal tipo <code>http_t</code> può leggere file etichettati come <code>httpd_sys_content_t</code>, bloccando preventivamente qualsiasi tentativo di lettura di file di sistema critici ad opera del server compromesso.</li>
+                <li style="margin-bottom: 6px;"><strong>Role (Ruolo)</strong>: Gestito nel modello RBAC (Role-Based Access Control) di SELinux. Determina quali domini di tipi di processo un determinato utente può risvegliare o gestire, fungendo da ponte di interconnessione protetta.</li>
+                <li style="margin-bottom: 6px;"><strong>Level (Livello)</strong>: Proprietà opzionale ma di cruciale importanza correlata alla classificazione della sensibilità e dei compartimenti (es: <code>s0</code>, <code>s0-s15:c0.c1023</code>). Esprime requisiti di <strong>Multi-Level Security (MLS)</strong> o <strong>Multi-Category Security (MCS)</strong>, dove l'accesso viene concesso solo se il processo possiede un livello di autorizzazione (Clearance) compatibile con l'etichetta di sensibilità (Sensitivity Level) della risorsa.</li>
+              </ul>
+              <strong style="display:block; margin: 10px 0 5px 0;">Le tre modalità d'esercizio (SELinux Modes):</strong>
+              <ul style="padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Enforcing (Forzata / Blocco attivo)</strong>: La modalità di default e raccomandata per la sicurezza dell'host. Le regole di accesso MAC vengono applicate attivamente dal kernel Linux, modificando i comportamenti anomali, rigettando le azioni non permesse dal Security Context ed inserendo i dettagli nei file di log di ispezione.</li>
+                <li style="margin-bottom: 6px;"><strong>Permissive (Tollerante / Solo report)</strong>: SELinux non impedisce le azioni illegittime dei processi e degli utenti, ma ne documenta e registra in modo dettagliato le violazioni nei log (denials). Ottimale in fase di troubleshooting o baselining per profilare le regole di un software personalizzato senza interromperne le funzionalità amministrative.</li>
+                <li style="margin-bottom: 6px;"><strong>Disabled (Disabilitato / Spento)</strong>: Il framework SELinux è interamente inattivo nel kernel, lasciando la sicurezza dell'host unicamente alle tradizionali (e meno profilate) restrizioni discrezionali DAC dello user space. Richiede il riavvio completo della macchina per essere riattivato.</li>
+              </ul>
+              <strong style="display:block; margin: 10px 0 5px 0;">Le politiche operative principali (SELinux Policies):</strong>
+              <ul style="padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Targeted (Mirata)</strong>: La policy più comune ed equilibrata ad uso enterprise. Protegge e isola esclusivamente un insieme definito di demoni e processi di sistema sensibili esposti in rete (es. Apache, Bind, Squid), lasciando gli utenti locali ed altri moduli d'utenza ordinari nel dominio <code>unconfined_t</code>. Riduce drasticamente le complessità d'uso e i falsi positivi.</li>
+                <li style="margin-bottom: 6px;"><strong>Strict (Rigorosa)</strong>: Politica ad altissima protezione dove ogni singolo processo, porta, utente e risorsa di sistema all'interno dell'OS viene mappato da una specifica e inflessibile regola di SELinux. Ciascun soggetto deve possedere una specifica autorizzazione esplicita, massimizzando l'hardening ma richiedendo un ingente sforzo manutentivo continuativo.</li>
+              </ul>
+            </dd>
+
+            <dt>SELinux Utenze d'Imposizione (Linux Users Classification)</dt>
+            <dd>
+              SELinux isola le utenze di sistema mappandole in categorie a controllo differenziato:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>`unconfined_u` (All users/Processi liberi)</strong>: Identifica i processi e gli utenti non soggetti ad eccessive restrizioni di SELinux. Pur non essendo schermati nel dettaglio dalle policy MAC e ricadendo sotto le tradizionali e deboli regole DAC, rappresenta il default per gli utenti locali locali allo scopo di garantire operabilità basica alle utilità locali.</li>
+                <li style="margin-bottom: 6px;"><strong>`user_u` (Unprivileged users/Utenze senza privilegi)</strong>: Contesto rigido applicato a utenti corporativi non privilegiati. Non possono compiere transizioni verso ruoli di sistema o di root, garantendo che un eventuale dipendente malizioso sia severamente impossibilitato a danneggiare altre sezioni o esfiltrare file del kernel.</li>
+                <li style="margin-bottom: 6px;"><strong>`sysadmin_u` (System administrators/Amministratori di sistema)</strong>: Contesto d'amministrazione confinabile (confined admin context). Ha il potere logico di compiere le necessarie attività sistemiche e manutenzioni ad alta priorità, ma rimane soggetto alle regole di contenimento del MAC per mitigare l'impatto di un furto di credenziali sistemistiche.</li>
+                <li style="margin-bottom: 6px;"><strong>`root` (Root user in MAC context)</strong>: Nel controllo MAC, l'onnipotenza del superuser `root` viene revocata. Anche se un atacante ottiene una shell operante come Root, se quella shell risiede in un contesto logico limitato, il kernel gli rigetta l'accesso a directory non mappate della policy, impedendo la compromissione totale dell'host.</li>
+              </ul>
+            </dd>
+
+            <dt>AppArmor — Alternativa MAC basata su Path</dt>
+            <dd>
+              Un framework MAC alternativo a SELinux, integrato di serie in distribuzioni Linux come Ubuntu e Debian, noto per essere considerevolmente più semplice da impostare. A differenza di SELinux, che è basato su etichette e metadati (label-based), AppArmor è <strong>path-based (basato sui percorsi del filesystem)</strong>: le sue policy delimitano i privilegi di un'applicazione associando profili direttamente al percorso assoluto dell'eseguibile (es: <code>/usr/bin/tcpdump</code>). Opera in due modalità distinte:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                <li style="margin-bottom: 6px;"><strong>Enforce Mode (Pratica/Blocco attivo)</strong>: AppArmor applica rigidamente le direttive del profilo logico, bloccando e registrando nei log (syslog) qualsiasi azione non espressamente consentita.</li>
+                <li style="margin-bottom: 6px;"><strong>Complain Mode (Ascolto/Diagnostica)</strong>: Le azioni non permesse non vengono interrotte ma vengono unicamente documentate nei log di sistema come allarmi. Utilizzato ampiamente dagli ingegneri in fase di testing e baselining per profilare il comportamento di un software custom prima di attivare la protezione totale.</li>
+              </ul>
+            </dd>
+
+            <dt>Concept della Comunicazione e dei Protocolli di Rete (Network Communication Concepts)</dt>
+            <dd>Per comprendere approfonditamente la postura di sicurezza e applicare contromisure efficaci, è indispensabile padroneggiare i tre pilastri della comunicazione digitale:
+              <ul style="margin-top: 8px; padding-left: 20px; list-style-type: disc;">
+                <li style="margin-bottom: 6px;"><strong>Protocols (Protocolli)</strong>: Insiemi predefiniti e standardizzati di regole formali che normalizzano, strutturano e coordinano i flussi informativi scambiati tra due nodi di rete. Definiscono le regole sintattiche, il formato dei dati e la sequenza temporale dei messaggi.</li>
+                <li style="margin-bottom: 6px;"><strong>Ports (Porte)</strong>: Identificativi numerici logici espressi a 16 bit (con un intervallo dinamico che si estende da 0 a 65535) utilizzati a livello del Layer 4 (Trasporto) per canalizzare i flussi verso processi, applicazioni o demoni specifici operativi sul sistema.</li>
+                <li style="margin-bottom: 6px;"><strong>Transport Methods (Metodi di Trasporto)</strong>: La logica di consegna dei blocchi informativi all'interno dell'infrastruttura di Layer 4. I due modelli principali sono: il modello orientato alla connessione (Connection-oriented) basato su conferme e controllo strutturato del flusso, e il modello non orientato alla connessione (Connectionless) basato sull'invio istantaneo e snello senza conferme di ricezione.</li>
+              </ul>
+            </dd>
+
+            <dt>Transmission Control Protocol (TCP) — Il Protocollo di Trasporto Affidabile</dt>
+            <dd>Il <strong>TCP (Transmission Control Protocol)</strong> è l'indiscusso standard nei protocolli di trasporto orientati alla connessione (Connection-oriented Transport Method):
+              <ul style="margin-top: 8px; padding-left: 20px; list-style-type: square;">
+                <li style="margin-bottom: 6px;"><strong>Natura e Funzionamento:</strong> Stabilisce un canale logico bidirezionale e sicuro tra client e server applicando il processo rigoroso della <strong>stretta di mano a tre vie (3-way handshake)</strong>, guidato dai pacchetti di sincronizzazione ed assenso <code>SYN</code>, <code>SYN-ACK</code> e infine <code>ACK</code>.</li>
+                <li style="margin-bottom: 6px;"><strong>Tratti Distintivi d'Affidabilità:</strong> Garantisce che tutti i segmenti inviati raggiungano l'host di destinazione nell'ordine esatto di partenza senza duplicati, provvedendo alla ritrasmissione automatica e guidata dei segmenti persi per via di congestioni ed implementando il controllo del flusso (flow control) per non saturare la CPU del server bersaglio.</li>
+              </ul>
+            </dd>
+
+            <dt>Implementazione di Protocolli Sicuri & Hardening delle Porte (Secure Protocols)</dt>
+            <dd>Rappresenta una delle attività primarie di hardening sistemistico. Consiste nello spegnere, smantellare e interdire l'utilizzo di protocolli non cifrati legacy (che trasmettono in chiaro dati o password, esponendosi a banali attacchi di sniffing), per sostituirli con controparti blindate ed impregnate di crittografia TLS (Transport Layer Security) o tunnel SSH asimmetrici:
+              <ul style="margin-top: 8px; padding-left: 20px; list-style-type: decimal;">
+                <li style="margin-bottom: 6px;"><strong>Secure Shell (SSH) [Porta TCP 22]</strong>: Protocollo di sicurezza e amministrazione remota crittografato. Sostituisce integralmente il vecchio Telnet (Porta TCP 23), garantendo la totale cifratura delle sessioni interattive CLI e l'autenticazione tramite solidi scambi di chiavi asimmetriche protette.</li>
+                <li style="margin-bottom: 6px;"><strong>HTTPS (HyperText Transfer Protocol Secure) [Porta TCP 443]</strong>: L'estensione sicura del protocollo HTTP (Porta TCP 80) adibita all'interazione web. Fornisce l'ispezione, la cifratura del traffico transazionale del browser ed il mutuo riconoscimento del server web d'origine tramite l'utilizzo sistematico di certificati digitali e suite crittografiche SSL/TLS.</li>
+                <li style="margin-bottom: 6px;"><strong>SFTP (SSH File Transfer Protocol) [Porta TCP 22]</strong>: Protocollo di trasferimento file sicuro studiato per superare lo standard non cifrato FTP (Porte TCP 20/21). Opera interamente canalizzato nel tunnel protetto di SSH, impiegando una singola porta (la porta 22) sia per l'autenticazione sia per il transito asincrono dei dati, semplificando sensibilmente la strutturazione preventiva dei firewall aziendali rispetto a soluzioni come FTPS.</li>
+                <li style="margin-bottom: 6px;"><strong>IMAPS (Internet Message Access Protocol Secure) [Porta TCP 993]</strong>: Protocollo di accesso ai messaggi di posta elettronica protetto da cifratura SSL/TLS. Consente al dipendente di consultare, organizzare e gestire le e-mail memorizzate permanentemente sul server centralizzato in totale riservatezza.</li>
+                <li style="margin-bottom: 6px;"><strong>POP3S (Post Office Protocol 3 Secure) [Porta TCP 995]</strong>: Protocollo crittografato mediante TLS adibito al download sicuro e locale delle e-mail dal mail server d'origine sul client di destinazione, ripulendo l'archivio del cloud dopo il downloading.</li>
+                <li style="margin-bottom: 6px;"><strong>SMTPS (Simple Mail Transfer Protocol Secure) [Porta TCP 465 o STARTTLS sulla porta 587]</strong>: Versione blindata e crittografata del protocollo SMTP (Porta TCP 25). Protegge la trasmissione d'uscita e l'instradamento delle e-mail da client a server o tra diversi gateway di posta da sniffing passivi e corruzioni.</li>
+                <li style="margin-bottom: 6px;"><strong>SNMPS (Simple Network Management Protocol Secure / SNMPv3) [Porte UDP 161/162]</strong>: Protocollo finalizzato alla gestione, monitoraggio e telemetria degli apparati hardware (es. switch, stampanti d'ufficio, router) in piena sicurezza. Sostituisce le versioni legacy insicure SNMPv1/v2 introduce la cifratura crittografica e l'autenticazione ad hash per l'integrità del payload dei messaggi, bloccando le letture arbitrarie di configurazioni basate su chiavi in chiaro.</li>
+              </ul>
+            </dd>
+
+            <dt>Screened Subnet (Subnet Schermata - ex DMZ)</dt>
+            <dd>La denominazione ufficiale moderna definita da CompTIA per la classica DMZ (Demilitarized Zone). Rappresenta una porzione o segmento di rete fisica isolata interposta ed incapsolata tra la rete Internet mondiale pubblica e la fidata rete Intranet aziendale privata, adibita a ospitare i soli server che devono essere contattabili dall'esterno (es. Web server pubblici o server mail).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 10 — NAC, RILEVAMENTO ENDPOINT E DLP ══════════ -->
+        <section id="detection_control">
+          <h2>Sicurezza Avanzata degli Accessi e degli Endpoint</h2>
+          <p>
+            L'ottimizzazione del perimetro richiede il tracciamento continuo dei dispositivi connessi e analisi in tempo reale:
+          </p>
+          <dl class="termlist">
+            <dt>Network Access Control (NAC / Controllo degli Accessi alla Rete)</dt>
+            <dd>Una tecnologia strutturale di adempimento che <strong>analizza e intercetta qualsiasi endpoint o laptop (anche BYOD o dispositivi guest esterni d'ufficio) che tenti di agganciarsi fisicamente o via wireless alla rete aziendale</strong>. Il NAC effettua una scansione pre-connessione (Posture assessment) accertando che il laptop ospiti un antivirus attivo, che gli aggiornamenti di sistema siano installati ed escluda la presenza di malware. Se il laptop devia da questa baseline, il NAC gli <strong>rifiuta l'accesso</strong> o lo relega in una sottorete chiusa di quarantena.</dd>
+
+            <dt>EDR vs XDR (Threat Hunting e Risposta Estesa)</dt>
+            <dd>
+              <ul>
+                <li><strong>EDR (Endpoint Detection and Response)</strong>: Agente software installato che esamina visivamente e continuamente l'attività comportamentale della CPU e dei file sull'host specifico, isolandolo all'istante dall'intera LAN se incontra pattern anomali deviation-based.</li>
+                <li><strong>XDR (Extended Detection and Response)</strong>: L'evoluzione olistica che unisce e armonizza la telemetria non solo degli endpoint, ma anche dei log di rete, delle identità cloud e della sicurezza email, consentendo indagini proattive di <strong>Threat Hunting</strong> ad ampio spettro integrato.</li>
+              </ul>
+            </dd>
+
+            <dt>DLP (Data Loss Prevention / Prevenzione della Fuga dei Dati)</dt>
+            <dd>Soluzione atta ad ispezionare granularmente l'uso delle informazioni. Si declina in DLP di rete (Network DLP - monitora mail, upload web e cloud), DLP dell'host (Endpoint DLP - impedisce la copia verso USB o stampanti non permesse) e DLP di storage (scansiona archivi). Opera tramite fingerprinting dei file sensibili.</dd>
+
+            <dt>DNS Filtering (Filtro a Livello DNS)</dt>
+            <dd>La configurazione di filtri sui resolver DNS aziendali che rigettano la risoluzione dei nomi per i siti web categorizzati come canali malevoli, adware, gambling o phishing, bloccando la navigazione ad un livello preventivo primario rispetto alle regole HTTP dei proxy.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.5</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>35 questions d'esame</strong> su contenimento, ACL, DNS Sinkhole, connettività protetta IPSec e tecnologie d'inganno, con feedback immediato e spiegazione in italiano per ogni risposta.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.5 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.5</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Come agisce un DNS Sinkhole contro le Botnet?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Intercetta le query DNS dei client locali infetti dirette ai domini C2 fittizi, restituendo un IP di loopback/isolato. Così blocca la botnet e localizza gli host infettivi interni alla LAN.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Differenza terminologica: Honeyfile vs Honeytoken</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>L'<strong>Honeyfile</strong> è un file esca completo (es: un foglio excel <code>salaries.xlsx</code>); l'<strong>Honeytoken</strong> è un singolo elemento di dato (es: una falsa chiave API o credenziale) usato per tracciarne l'utilizzo abusivo.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale firewall blocca HTTP surrettizio sulla porta DNS 53?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Un <strong>Next-Generation Firewall (NGFW)</strong> con ispezione profonda di livello applicativo (Application Inspection), in grado di rilevare l'abuso semanticamente a prescindere dal numero di porta impiegato.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Third-Party Security · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index_en.html">General Index</a>
+      <span>Dominio 5 — Governance, Program Management and Oversight</span>
+      <span>OBJ 5.3 — Third-Party Risk Management</span>
+    </div>
+
+    <header>
+      <h1>OBJ 5.3 — Third-Party Security</h1>
+    </header>
+
+    <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 17: Gestione dei rischi e privacy</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 5 — Governance, Program Management and Oversight · Exam weight: 20%</p>
+      <p>
+        <strong>Official Objective (CompTIA):</strong>
+        <em>Explain the processes associated with third-party risk assessment and management.</em>
+      </p>
+      <p>
+        <strong>Objectives covered:</strong>
+        <span class="objectives-tag">5.3</span>
+        <span class="weight-badge">D5 = 20%</span>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Vendor Assessment</div>
+        <a href="#vendor_assessment">Valutazione delle Terze Parti</a>
+        <a href="#supply_chain">Sicurezza della Catena di Fornitura</a>
+
+        <div class="toc-section">Vendor Selection</div>
+        <a href="#vendor_selection">Criteri di Selezione e Investigazione</a>
+
+        <div class="toc-section">Agreement Types</div>
+        <a href="#agreement_types">I 7 Contratti e Accordi Chiave</a>
+        <a href="#sla_focus">SLA: Metriche e Response Time</a>
+
+        <div class="toc-section">Vendor Monitoring</div>
+        <a href="#monitoring">Monitoraggio e Regole di Ingaggio</a>
+
+        <div class="toc-section">Verify & Quiz</div>
+        <a href="#quiz-section">Interactive Quiz (21 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 1 — VENDOR ASSESSMENT ══════════════════════ -->
+        <section id="vendor_assessment">
+          <h2>La Gestione e Valutazione dei Fornitori (Vendor Management &amp; Vendor Assessment)</h2>
+          <p>
+            Nel panorama informatico moderno, le organizzazioni non sono entità isolate: utilizzano costantemente servizi in cloud (SaaS/IaaS), integrano software di sviluppatori indipendenti e delegano porzioni della propria operatività a partner industriali esterni. Questo amplia enormemente la superficie d'attacco ed espone i sistemi a gravi minacce esterne.
+          </p>
+          <p>
+            Per mitigare questi rischi, le aziende adottano un programma strutturato di <strong>Vendor Management (Gestione dei Fornitori)</strong>. Questa disciplina organizza l'intero ciclo di vita delle collaborazioni esterne, dalla fase di selezione iniziale (pre-boarding), alla negoziazione contrattuale, fino al costante monitoraggio prestazionale e alla dismissione sicura delle credenziali di accesso (off-boarding). La <strong>Valutazione dei Fornitori (Vendor Assessment)</strong> rappresenta il pilastro tecnologico e di conformità del Vendor Management, deputato a indagare proattivamente la postura di sicurezza delle terze parti.
+          </p>
+
+          <div class="critical">
+            <strong>Come acquisire fiducia e conformità senza sforzi insostenibili?</strong><br>
+            Condurre audit diretti e ispezioni invasive presso ciascuno dei propri fornitori risulterebbe estremamente laborioso e proibitivo sotto l’aspetto economico. L’approccio in assoluto più veloce ed efficiente dal punto di vista dei costi consiste nel richiedere e collezionare un <strong>Rapporto di Attestazione di Terza Parte (Third-Party Attestation Report)</strong>.<br><br>
+            Tali documenti (quali le certificazioni ISO/IEC 27001, le perizie formali o le attestazioni SOC) rappresentano evidenze redatte da organismi di certificazione esterni ed indipendenti accreditati, offrendo una prova inconfutabile dei controlli di rete e della postura informatica adottata dallo sviluppatore o partner.
+          </div>
+
+          <p>La CompTIA indica cinque canali preferenziali per la corretta valutazione del rischio tecnologico introdotto dalle relazioni esterne:</p>
+
+          <dl class="termlist">
+            <dt>Test di Penetrazione (Penetration Testing)</dt>
+            <dd>
+              Esecuzione controllata ed autorizzata di attacchi simulati sull'infrastruttura informatica esposta del fornitore, per scoprirne eventuali punti ciechi logici o sistemici prima della stipula dei patti d'integrazione.
+            </dd>
+
+            <dt>Clausola del Diritto di Audit (Right-to-Audit Clause)</dt>
+            <dd>
+              Una clausola legale vincolante, inserita esplicitamente nel contratto di fornitura, che attribuisce <strong>all'azienda cliente il diritto insindacabile di ispezionare visivamente o documentalmente</strong> i sistemi informatici, i processi lavorativi e i controlli fisici o logici eseguiti dal venditore per certificarne l’aderenza agli impegni pattuiti.
+            </dd>
+
+            <dt>Evidenza di Audit Interni (Evidence of Internal Audits)</dt>
+            <dd>
+              La formalizzazione e condivisione di documentazione riservata comprovante lo svolgimento regolare di verifiche periodiche intraprese dagli auditor interni del fornitore stesso.
+            </dd>
+
+            <dt>Valutazioni Indipendenti (Independent Assessments)</dt>
+            <dd>
+              Utilizzate quando un potenziale business partner di sviluppo software (es. nel settore medico/ospedaliero) richiede garanzie concrete del rispetto delle normative sulla privacy. In questo frangente si fornisce una <strong>Attestazione di Sicurezza (Security Attestation)</strong> di terzi indipendenti che provi formalmente la conformità aziendale con i regolamenti di settore (come HIPAA per la privacy sanitaria).
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 2 — CATENA DI FORNITURA / SUPPLY CHAIN ════ -->
+        <section id="supply_chain">
+          <h2>La Sicurezza della Catena di Fornitura (Supply Chain Security)</h2>
+          <p>
+            Un'organizzazione può disporre di firewall invalicabili e difese centrali impenetrabili, ma rimane esposta se i dispositivi hardware o i software utilizzati nascondono difetti nativi o alterazioni malevole introdotte durante il loro transito produttivo.
+          </p>
+
+          <div class="exam-tip">
+            <strong>IL RISCHIO DI HARDWARE CONTRAFFATTO</strong><br>
+            Il pericolo di incorrere ed integrare inconsapevolmente dell'<strong>Hardware Contraffatto (Counterfeit Hardware)</strong> — ad esempio schede di rete modificate o chip provvisti di micro-backdoor inserite durante l'assemblaggio di fabbrica — si combatte efficacemente per mezzo di una <strong>Analisi Approfondita della Catena di Fornitura (Thorough Supply Chain Analysis)</strong>. <br><br>
+            Per facilitare questa mappatura totale e raccogliere visibilità sui passaggi logistici di terzi, i team impiegano speciali suite di catalogazione denominate <strong>Strumenti di Illuminazione (Illumination Tools)</strong>, capaci di scandagliare le interrelazioni geolocalizzate, le dipendenze software latenti e l’affidabilità finanziaria di tutti i sub-fornitori profondi a livello industriale.
+          </div>
+
+          <dl class="termlist">
+            <dt>Distinta Base del Software (SBOM — Software Bill of Materials)</dt>
+            <dd>
+              La <strong>Software Bill of Materials (SBOM)</strong> costituisce l'equivalente digitale della distinta base o elenco degli ingredienti per un prodotto software. È un inventario formale, altamente strutturato, gerarchico e nidificato che dichiara la provenienza, la versione e il codice identificativo di <strong>ogni singolo componente, modulo, framework e libreria di terze parti</strong> (commerciali o open-source) utilizzati per compilare o far funzionare un'applicazione aziendale.
+              <br><br>
+              <strong>• Le 3 Dimensioni Critiche della SBOM nella Supply Chain Security (Catena di Fornitura):</strong>
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>Tracciamento delle Dipendenze Transitive (Transitive Dependencies):</strong> Una vulnerabilità non risiede quasi mai nel codice scritto direttamente dagli sviluppatori aziendali, bensì nelle librerie incorporate passivamente da altre librerie esterne (es. l'applicazione interna usa la libreria "A", che richiama a sua volta "B", che importa "C" in cui dimora lo zero-day). La SBOM documenta l'intero <strong>albero gerarchico delle dipendenze</strong> di profondità, portando alla luce i rischi annidati e altrimenti invisibili (Blind Spots).</li>
+                <li><strong>I due Standard Machine-Readable di Settore:</strong> Per consentire ai sistemi logici e di monitoraggio di consumare i dati senza passaggi manuali, le SBOM vengono compilate e scambiate esclusivamente in formati automatici standardizzati:
+                  <ul style="margin-top: 3px; margin-left: 15px;">
+                    <li><strong>CycloneDX (OWASP):</strong> Uno standard leggero e moderno, concepito nativamente per scopi di cyber-security, audit continuo delle vulnerabilità ed integrazione rapida nei flussi di CI/CD.</li>
+                    <li><strong>SPDX (Software Package Data Exchange - Linux Foundation):</strong> Uno standard standardizzato ISO (ISO/IEC 5962:2021) robusto, eccellente per mappare sia la cyber-security sia gli aspetti legali di compliance, copyright e licenze d'uso del software.</li>
+                  </ul>
+                </li>
+                <li><strong>Integrazione nel Ciclo CI/CD (DevSecOps):</strong> Le SBOM non sono documenti statici scritti su fogli di calcolo. Vengono generate automaticamente e dinamicamente ad ogni compilazione (Build Phase) del software tramite plug-in integrati nella pipeline (es. plugin Maven, Gradle o npm). Successivamente, la SBOM viene firmata digitalmente con chiavi crittografiche per certificarne l'integrità e accoppiata al pacchetto finale che viene distribuito.</li>
+              </ul>
+              <strong>• Scenari d'Uso Analitici (Analisi d'Impatto & Compliance):</strong>
+              <ul style="margin-top: 5px; margin-left: 20px;">
+                <li><strong>Incident Response e Triage Zero-Day Istantaneo:</strong> Quando viene resa pubblica una vulnerabilità ad altissimo impatto strategico (es: una falla critica RCE in una determinata versione del parser log4j), gli analisti di sicurezza aziendali non devono avviare scansioni penetranti e distruttive su tutti i server di produzione. È sufficiente <strong>eseguire una semplice query di ricerca centralizzata sul repository delle SBOM aziendali</strong> per verificare in pochissimi secondi quali software in uso contengano quel componente e procedere tempestivamente con il de-provisioning o l'hot-patching.</li>
+                <li><strong>Valutazione di Diligenza dei Vendor (Due Diligence):</strong> Prima di stipulare contratti di acquisto di software commerciali, l'acquirente esige contrattualmente la consegna di una SBOM formalizzata per condurre analisi statiche ed assicurarsi di non installare programmi basati su librerie obsolete o affette da vulnerabilità critiche note non risolte.</li>
+                <li><strong>Gestione del Rischio Legale e Proprietà Intellettuale:</strong> Identifica l'uso inconsapevole di porzioni di codice open-source protette da licenze "copyleft" virali (es: GPLv3). L'integrazione di tali licenze in pacchetti commerciali proprietari esporrebbe l'azienda al rischio legale di dover divulgare pubblicamente il proprio codice sorgente brevettato.</li>
+              </ul>
+              <div class="exam-tip">
+                <strong>🎯 SCENARIO D'ESAME CLASSICO</strong><br>
+                Se una domanda d'esame CompTIA chiede quale risorsa o documento consenta di identificare istantaneamente se una <strong>nuova vulnerabilità appena pubblicata su una specifica libreria open-source d'esterno</strong> (terze parti/fornitore) metta a rischio le applicazioni possedute o vendute dall'azienda, la risposta corretta è l'inventario <strong>Software Bill of Materials (SBOM)</strong>.
+              </div>
+            </dd>
+
+            <dt>Interconnection Security Agreement (ISA)</dt>
+            <dd>
+              Rappresenta un accordo tecnologico ed organizzativo vincolante, essenziale per disciplinare le interconnessioni di dati. Un <strong>ISA</strong> documenta accuratamente i **requisiti di sicurezza tecnici, fisici e logici necessari per connettere in via diretta due o più sistemi informatici indipendenti** appartenenti ad organizzazioni diverse (es. il network interno della ditta e i server di reportistica di un partner logistico locale). 
+              <br><br>
+              Nello specifico, l'ISA descrive minuziosamente i protocolli di comunicazione autorizzati sul tragitto, i cifrari impiegati per crittografare la linea, i requisiti di autenticazione e controllo d'accesso, i tempi d'uptime, i processi di monitoraggio congiunto ed i flussi operativi di scollegamento o de-commissionamento immediato dei link in caso di intrusione rilevata.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 3 — VENDOR SELECTION ══════════════════════ -->
+        <section id="vendor_selection">
+          <h2>Criteri di Rilevazione e Selezione dei Fornitori (Vendor Selection)</h2>
+          <p>
+            Prima di accordare fiducia o integrare flussi di lavoro, l'azienda deve eseguire attività di triage formale incentrate su due capisaldi operativi:
+          </p>
+
+          <dl class="termlist">
+            <dt>Dovuta Diligenza (Due Diligence)</dt>
+            <dd>
+              Raffigura lo sforzo proattivo di indagine e investigazione rigorosa intrapreso dalla ditta prima di formalizzare un accordo commerciale. L'esempio proverbiale d'esame vede l'analista di sicurezza impegnato a <strong>esaminare e valutare un’applicazione cloud SaaS (ad esempio per l'ufficio risorse umane) richiedendo formali rapporti di attestazione SOC 2 (Sytem and Organization Controls Type II) del fornitore</strong>. Questo passaggio permette di validare le reali protezioni relative a sicurezza, confidenzialità e disponibilità del dato affidato.
+            </dd>
+
+            <dt>Conflitto di Interessi (Conflict of Interest)</dt>
+            <dd>
+              Investigazione tesa ad accertare che soggetti decisionali dell'azienda o del fornitore non abbiano interessi personali, o ruoli finanziari latenti in diretta frizione con l'obiettività professionale ed etica richiesta dalla partnership d'impresa.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 4 — AGREEMENT TYPES ═════════════════════════ -->
+        <section id="agreement_types">
+          <h2>I 7 Contratti e Accordi Chiave del Rischio di Terze Parti</h2>
+          <p>
+            I patti di collaborazione, i doveri operativi e i limiti di riservatezza tra clienti e società partners devono trovare un ancoraggio legale in contratti ed intese ben strutturati:
+          </p>
+
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Accordo d'Esame</th>
+                  <th>Descrizione Tecnica CompTIA</th>
+                  <th>Dettaglio Operativo / Esempio Core</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="label" style="color: #0F766E;">SLA</td>
+                  <td><strong>Accordo sul Livello di Servizio</strong> (Service-Level Agreement)</td>
+                  <td>
+                    Documento quantitativo rigido che stabilisce i requisiti operativi, come le tolleranze di <strong>Uptime (disponibilità) dei sistemi (es: 99.99%)</strong> e le <strong>finestre temporali massime per la risposta del fornitore ai ticket d'incidente (Response Time)</strong>.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0B1F3A;">MSA</td>
+                  <td><strong>Accordo Quadro di Servizio</strong> (Master Service Agreement)</td>
+                  <td>
+                    Accordo macroscopico destinato a <strong>semplificare i processi di business ricorrenti e pluriennali, fissando i termini e condizioni legali generali valevoli per ogni rapporto</strong>. Consente di rinegoziare tali termini generali a intervalli lunghi (es. ogni tre anni), velocizzando l'operatività ordinaria.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0B1F3A;">SOW / WO</td>
+                  <td><strong>Dichiarazione di Lavoro / Ordine di Lavoro</strong> (Statement of Work / Work Order)</td>
+                  <td>
+                    La descrizione analitica ed operativa del singolo incarico mirato concordato tra le ditte. Identifica in modo dettagliato <strong>il progetto specifico, i relativi costi totali, i requisiti di completamento ed i tempi precisi stimati</strong>, inclusa la specifica del <strong>carico del monte ore previsto per il pen-test o per lo sviluppo coordinato</strong>.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0B1F3A;">NDA</td>
+                  <td><strong>Accordo di Riservatezza / Non Divulgazione</strong> (Non-Disclosure Agreement)</td>
+                  <td>
+                    Patto legale costrittivo firmato per <strong>impedire tassativamente l'esposizione o divulgazione illegittima di dati protetti o formule proprietarie a terzi</strong>. La sua omissione causa immediate denunce ed incidenti quando ad auditor esterni o dipendenti in uscita viene consentito l'accesso non presidiato a segreti d'azienda.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0D9488;">MOU</td>
+                  <td><strong>Protocollo d'Intesa</strong> (Memorandum of Understanding)</td>
+                  <td>
+                    Dichiarazione d'intenti formale non vincolante a livello legale, siglata all'inizio delle relazioni per allineare gli obiettivi comuni e i propositi operativi generali prima dei contratti definitivi.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #0D9488;">MOA</td>
+                  <td><strong>Memorando di Accordo</strong> (Memorandum of Agreement)</td>
+                  <td>
+                    Un legame pre-contrattuale più strutturato e vincolante rispetto al MOU, che circoscrive azioni concordate e responsabilità condivise in attesa dei contratti quadro.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label" style="color: #4B5563;">BPA</td>
+                  <td><strong>Accordo tra Partner Commerciali</strong> (Business Partners Agreement)</td>
+                  <td>
+                    Accordo aziendale formale che regolamenta profitti eccezionali, oneri contabili operativi, governance decisionale ed eventuali tutele legali interne relative alla costituzione ed esercizio di una joint venture o s.r.l.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- ══ SEZIONE 5 — SLA IN-DEPTH ═════════════════════════════ -->
+        <section id="sla_focus">
+          <h2>Approfondimento didattico: Le Metriche Cardinali degli SLA</h2>
+          <p>
+            Per l'esame non è sufficiente riconoscere l'acronimo SLA, ma è fondamentale comprendere l'applicazione reale delle sue metriche operative d'ingaggio:
+          </p>
+
+          <dl class="termlist">
+            <dt>Garanzia di Disponibilità (Uptime Guarantee)</dt>
+            <dd>
+              Espressa in valore percentuale (es. 99%, 99.9% o la classica "regola dei quattro nove" di importo pari a <strong>99.99%</strong>). Misura l’arco di funzionamento ininterrotto concesso ad ogni software cloud o infrastruttura ospitata.
+            </dd>
+
+            <dt>Tempo di Risposta all'Incidente (Incident Response Time)</dt>
+            <dd>
+              Il lasso temporale esatto e contrattualizzato concesso ai tecnici del service provider per prendere in carico e notificare un’interruzione d'esercizio o difetto ravvisato, calcolato sulla base dei livelli di priorità dell'incidente (da severo a minore).
+            </dd>
+
+            <dt>Penali Contrattuali (Penalty Credits)</dt>
+            <dd>
+              Meccanismo di sanzione finanziaria che obbliga l'IT provider a risarcire parzialmente l'acquirente (attraverso crediti di servizio o rimborsi spesa diretti) qualora le metriche pattuite di uptime o response window vengano disattese.
+            </dd>
+          </dl>
+        </section>
+
+
+        <!-- ══ SEZIONE 6 — MONITORAGGIO E ROE ══════════════════════ -->
+        <section id="monitoring">
+          <h2>Il Monitoraggio Continuo e le Regole d'Ingaggio</h2>
+          <p>
+            L'approvazione formale iniziale non protegge l'azienda da cambiamenti futuri della postura informatica del fornitore:
+          </p>
+
+          <dl class="termlist">
+            <dt>Monitoraggio del Fornitore (Vendor Monitoring)</dt>
+            <dd>
+              Pratica integrativa di vigilanza perpetua sul comportamento informatico ed organizzativo delle terze parti. Si avvale di indici esterni di punteggio di credito cyber (cybersecurity credit ratings), scanner automatici delle porte dell'infrastruttura ed audit di compliance trimestrali.
+            </dd>
+
+            <dt>Questionari di Valutazione (Security Questionnaires)</dt>
+            <dd>
+              Moduli standardizzati (es. basati su framework CAIQ o SIG) inviati periodicamente al fornitore per interrogarlo sulla strutturazione dei propri controlli d'accesso, conformità legislative ed eventuale adozione del principio di minimo privilegio.
+            </dd>
+
+            <dt>Regole di Ingaggio (Rules of Engagement — RoE)</dt>
+            <dd>
+              Documento formale che prescrive e definisce in modo granitico i confini, gli orari ammessi di test, gli indirizzi IP esenti da attacchi e le metodologie distruttive vietate prima che un team di specialisti inizi l'analisi penetrativa (Penetration Test) della rete.
+            </dd>
+          </dl>
+
+          <div class="pitfall">
+            <strong>COMPORTAMENTO NEI CASI DI COMPROMISSIONE DATI DI TERZE PARTI</strong><br>
+            Cosa fare se un database gestito da una terza parte subisce un attacco o le informazioni d'impresa finiscono in vendita nel mercato sommerso?<br>
+            <ul>
+              <li><strong>Notifica delle Parti Impattate:</strong> Non appena accertata la proprietà del dato compromesso esposto in bacheca nel Dark Web, la priorità assoluta risiede nella <strong>notifica tempestiva immediata a tutti i soggetti coinvolti e colpiti dalla violazione (Notify the applicable parties)</strong>, per consentire loro l’adozione tempestiva di misure preventive individuali.</li>
+              <li><strong>Esempio SQL Injection:</strong> In caso di intrusioni legate a log di tentativi SQL Injection tesi all'inserimento di account estranei (es: <code>INSERT INTO users VALUES('temp','pass123')</code>), l'analista avvia l'attività di contenimento <strong>controllando istantaneamente se tali record sono comparsi nella tabella users</strong> del database per misurare l'avvenuta violazione.</li>
+            </ul>
+          </div>
+        </section>
+
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 5.3</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>21 questions d’esame ufficiali</strong> estratte e catalogate con cura sull'Obiettivo 5.3 (Gestione del Rischio di Terze Parti) in lingua inglese, con feedback istantaneo e spiegazione chiarificatrice in italiano per ciascun quesito.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 5.3 →</button>
+          </div>
+        </section>
+
+
+        <!-- ── FLASHCARD ───────────────────────────────────────────── -->
+        <section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+          <h2>Flashcard rapide OBJ 5.3</h2>
+          <p>Utilizza queste schede dinamiche per memorizzare la terminologia bilingue ufficiale ed i contratti d'esame del Domain 5.3 (Clicca sulla scheda per girarla).</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Right-to-audit clause</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Clausola vincolante che conferisce legalmente al cliente acquirente il diritto formale di esaminare i registri e ispezionare sul posto i controlli informatici del fornitore esterno.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SLA (Service-Level Agreement)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Accordo quantitativo metrico teso a normare <strong>Uptime minimi (es. 99.99%)</strong> e massime finestre di tolleranza di reazione / risposta ai ticket d'incidente (Response Time).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>MSA (Master Service Agreement)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Accordo quadro stabilito ad ampio raggio (re-visitato es. ogni tre anni) che fissa i patti legali ed economici ricorrenti generali, accelerando i successivi singoli passaggi operativi (Work Orders).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SOW (Statement of Work)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Descrizione di lavoro atomica focalizzata su una singola fornitura/progetto. Specifica rigidamente i <strong>costi previsti, la tempistica concordata e le stime sul monte ore di impegno erogativo</strong>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>SaaS Due Diligence (SOC 2)</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Attività d'indagine preliminare intrapresa prima dell'acquisto (es: valutare un SaaS per l'ufficio HR richiedendo i report d'esame formali SOC 2 del produttore).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Counterfeit Hardware Countermeasure</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La barriera fondamentale contro i circuiti contraffatti è l'esercizio regolare di una **thorough supply chain analysis** (analisi approfondita della catena di fornitura), supportata da **illumination tools**.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="chapter-nav">
+          <a href="../index_en.html">← General Index</a>
+          <a href="en_obj5_2_risk_management.html" class="secondary">← OBJ 5.2 — Risk Management Process</a>
+        </div>
+
+      </main>
+    </div><!-- /.layout -->
+  </div><!-- /.page -->
+</div><!-- /.container -->
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

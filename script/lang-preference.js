@@ -40,7 +40,7 @@
       return langAttr;
     }
 
-    if (window.location.pathname.indexOf('/chapters/en/') !== -1 || /\/index_en\.html$/i.test(window.location.pathname)) {
+    if (window.location.pathname.indexOf('/chapters/en_') !== -1 || window.location.pathname.indexOf('/chapters/en/') !== -1 || /\/index_en\.html$/i.test(window.location.pathname)) {
       return 'en';
     }
 
@@ -52,15 +52,17 @@
     var path = url.pathname;
 
     if (targetLang === 'en') {
-      if (/\/chapters\/(?!en\/)([^/]+\.html)$/i.test(path)) {
-        path = path.replace(/\/chapters\/([^/]+\.html)$/i, '/chapters/en/$1');
+      if (/\/chapters\/(?!en_)(?!en\/)([^/]+\.html)$/i.test(path)) {
+        path = path.replace(/\/chapters\/([^/]+\.html)$/i, '/chapters/en_$1');
       } else if (/\/index\.html$/i.test(path)) {
         path = path.replace(/\/index\.html$/i, '/index_en.html');
       } else {
         return null;
       }
     } else if (targetLang === 'it') {
-      if (/\/chapters\/en\/([^/]+\.html)$/i.test(path)) {
+      if (/\/chapters\/en_([^/]+\.html)$/i.test(path)) {
+        path = path.replace(/\/chapters\/en_([^/]+\.html)$/i, '/chapters/$1');
+      } else if (/\/chapters\/en\/([^/]+\.html)$/i.test(path)) {
         path = path.replace(/\/chapters\/en\/([^/]+\.html)$/i, '/chapters/$1');
       } else if (/\/index_en\.html$/i.test(path)) {
         path = path.replace(/\/index_en\.html$/i, '/index.html');

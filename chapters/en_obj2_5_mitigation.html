@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Mitigation Techniques · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index_en.html">General Index</a>
+  <span>Dominio 2 — Threats, Vulnerabilities and Mitigations</span>
+  <span>OBJ 2.5 — Tecniche di mitigazione</span>
+</div>
+
+<header>
+  <h1>OBJ 2.5 — Mitigation Techniques</h1>
+</header>
+
+<div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 11: Sicurezza degli endpoint</p>
+  <p>CompTIA Security+ SY0-701 · Dominio 2 — Threats, Vulnerabilities and Mitigations · Exam weight: 22%</p>
+  <p><strong>Objective ufficiale:</strong> <em>Explain the purpose of mitigation techniques used to secure the enterprise.</em></p>
+  <p><strong>Objectives covered:</strong> <span class="objectives-tag">2.5</span> <span class="weight-badge">D2 = 22%</span></p>
+  <p><strong>Prerequisites:</strong> <a href="en_obj2_3_vulnerabilities.html">OBJ 2.3 — Tipi di vulnerabilità</a> · <a href="en_obj2_4_malicious_activity.html">OBJ 2.4 — Indicatori di attività malevola</a></p>
+  <p><strong>Correlati:</strong> <a href="en_obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> · <a href="en_obj1_2_fundamental_concepts.html">OBJ 1.2 — Zero Trust</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Architettura</div>
+  <a href="#segmentation">Segmentation</a>
+  <a href="#isolation">Isolation</a>
+  <a href="#decommissioning">Decommissioning</a>
+
+  <div class="toc-section">Accesso</div>
+  <a href="#acl">Access control (ACL / Permissions)</a>
+  <a href="#allowlist">Application allow list</a>
+  <a href="#least-privilege">Least privilege</a>
+
+  <div class="toc-section">Operazioni</div>
+  <a href="#patching">Patching</a>
+  <a href="#encryption-mit">Encryption</a>
+  <a href="#monitoring">Monitoring</a>
+  <a href="#config-enforcement">Configuration enforcement</a>
+  <a href="#mitre">MITRE ATT&amp;CK</a>
+
+  <div class="toc-section">Hardening</div>
+  <a href="#endpoint-protection">Endpoint protection</a>
+  <a href="#host-firewall">Host-based firewall</a>
+  <a href="#hips">HIPS</a>
+  <a href="#disable-ports">Disabling ports/protocols</a>
+  <a href="#default-pwd">Default password changes</a>
+  <a href="#remove-software">Removal of unnecessary software</a>
+  <a href="#baselines">Secure baselines</a>
+  <a href="#waf">WAF</a>
+
+  <div class="toc-section">Verify</div>
+  <a href="#quiz-section">Interactive Quiz</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+
+<!-- ══ INTRO ════════════════════════════════════════════════════ -->
+<section id="intro">
+  <h2>Dalla vulnerabilità alla mitigazione: la logica della difesa</h2>
+  <p>
+    Nessun sistema è privo di vulnerabilità. Il concetto di <strong>mitigazione
+    (mitigation)</strong> riconosce questa realtà: l'obiettivo non è eliminare ogni
+    rischio — impossibile — ma ridurlo a un livello accettabile attraverso controlli
+    appropriati. L'OBJ 2.5 chiede di comprendere <em>perché</em> ogni tecnica esiste,
+    <em>quando</em> applicarla, e <em>come</em> si inserisce in una strategia di
+    difesa stratificata (defense in depth).
+  </p>
+  <p>
+    Le tecniche di mitigazione si articolano su tre livelli: <strong>architetturale</strong>
+    (come si struttura la rete e i sistemi), <strong>operativo</strong> (cosa si fa
+    regolarmente per mantenere la sicurezza), e <strong>di hardening</strong>
+    (come si configurano i singoli sistemi per ridurre la loro superficie di attacco).
+    Una strategia robusta li applica tutti e tre in modo coordinato.
+  </p>
+</section>
+
+
+<!-- ══ ARCHITETTURA ══════════════════════════════════════════════ -->
+<section id="architettura">
+  <h2>Tecniche architetturali</h2>
+
+  <h3 id="segmentation">Segmentation (Segmentazione)</h3>
+  <p>
+    La <strong>segmentazione (segmentation)</strong> divide la rete in zone logiche o
+    fisiche distinte, limitando la comunicazione tra di esse e riducendo il raggio
+    d'impatto di una compromissione. Se un attaccante ottiene accesso a un segmento,
+    non può muoversi liberamente verso gli altri (prevenzione del <em>lateral movement</em>).
+    È la risposta architettonica fondamentale al problema dei sistemi legacy e IoT
+    non patchabili.
+  </p>
+  <dl class="termlist">
+    <dt>VLAN (Virtual Local Area Network)</dt>
+    <dd>Segmentazione logica a livello 2: dispositivi sulla stessa VLAN comunicano direttamente, dispositivi su VLAN diverse devono passare per un router/firewall con policy esplicite. Economica da implementare su infrastrutture esistenti.</dd>
+    <dt>DMZ (Demilitarized Zone)</dt>
+    <dd>Zona di rete intermedia tra internet e la rete interna che ospita i servizi pubblici (web server, mail server). Il traffico internet raggiunge solo la DMZ, non la rete interna. Anche se un server in DMZ viene compromesso, l'attaccante non accede direttamente alla rete interna.</dd>
+    <dt>Microsegmentazione</dt>
+    <dd>Segmentazione granulare a livello di singolo workload o container: ogni applicazione comunica solo con le altre applicazioni con cui deve effettivamente interagire, secondo policy esplicite. È il principio Zero Trust applicato alla rete.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Segmentation per legacy IoT: la risposta rapida</strong><br>
+    "Network access vulnerability found in legacy IoT devices. Best mitigation quickly?"
+    → <strong>Segmentation</strong>. Non il patching (non disponibile per
+    dispositivi EOL), non la sostituzione (non rapida), non l'assicurazione (non tecnica).
+    La segmentazione isola i dispositivi vulnerabili limitando il danno potenziale senza
+    richiedere modifiche ai dispositivi stessi.<br>
+    "Best way to handle a critical business application on a legacy server?" →
+    <strong>Segmentation</strong>: non si può dismettere (è critica),
+    non si può facilmente hardenire (è legacy), l'isolamento è più drastico del necessario.
+    La segmentazione mantiene la funzionalità limitando l'esposizione.
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Segmentation vs Isolation</strong><br>
+    <strong>Segmentation:</strong> la risorsa rimane accessibile, ma solo da segmenti
+    di rete specifici con policy esplicite. Mantiene la funzionalità operativa.
+    Esempio: server legacy in VLAN separata raggiungibile solo dai client che ne hanno
+    bisogno.<br>
+    <strong>Isolation:</strong> la risorsa viene completamente disconnessa dalla rete
+    (air-gap) o da qualsiasi comunicazione esterna. Massima protezione ma perdita totale
+    di connettività. Usata per sistemi critici sotto incidente attivo o per lab di
+    analisi malware.
+  </div>
+
+  <h3 id="isolation">Isolation (Isolamento)</h3>
+  <p>
+    L'<strong>isolamento (isolation)</strong> è la disconnessione completa di un
+    sistema dalla rete o da altri sistemi. È più drastico della segmentazione: mentre
+    la segmentazione limita la comunicazione, l'isolamento la elimina del tutto.
+    Si usa in situazioni che richiedono la massima protezione: sistemi sotto incidente
+    attivo (per contenere la compromissione), sistemi di ricerca malware (sandboxing
+    fisico), o sistemi con dati talmente sensibili da non poter avere alcuna connettività
+    di rete (<em>air-gap</em>). Il prezzo è la perdita di connettività e spesso di
+    funzionalità operative.
+  </p>
+
+  <h3 id="decommissioning">Decommissioning (Dismissione)</h3>
+  <p>
+    Il <strong>decommissioning (dismissione)</strong> è la rimozione pianificata e
+    sicura di un sistema dall'infrastruttura attiva. Non si tratta semplicemente di
+    spegnere una macchina: include la bonifica sicura dei dati (distruzione fisica
+    dei supporti, o sovrascrittura certificata), la revoca di credenziali e certificati,
+    la rimozione dalle policy di rete e dai sistemi di monitoring, e la documentazione
+    del processo.
+  </p>
+  <p>
+    Il decommissioning è la risposta corretta quando un sistema non può essere
+    adeguatamente protetto e non è critico per il business. Se è critico, la risposta
+    è invece la segmentazione o i controlli compensativi. La distinzione è operativa:
+    si dismette ciò che non si ha più bisogno di usare, si segmenta ciò di cui si
+    ha ancora bisogno ma che non può essere patchato.
+  </p>
+</section>
+
+
+<!-- ══ CONTROLLO DEGLI ACCESSI ══════════════════════════════════ -->
+<section id="access-control">
+  <h2>Controllo degli accessi</h2>
+
+  <h3 id="acl">Access control list (ACL) e Permissions (Permessi)</h3>
+  <p>
+    Le <strong>Access Control List (ACL)</strong> sono liste associate a una risorsa
+    (file, directory, interfaccia di rete, porta di switch) che specificano quali
+    soggetti (utenti, gruppi, indirizzi IP) possono accedervi e con quale livello di
+    accesso (lettura, scrittura, esecuzione, deny). Sono il meccanismo fondamentale
+    con cui si implementa l'autorizzazione a livello di sistema operativo, filesystem
+    e rete.
+  </p>
+  <dl class="termlist">
+    <dt>ACL di rete (Network ACL)</dt>
+    <dd>Regole su router, firewall e switch che controllano quale traffico IP è permesso o bloccato tra segmenti di rete. La valutazione avviene in sequenza: la prima regola che corrisponde viene applicata. La regola implicita finale è tipicamente "deny all" (allow list approach).</dd>
+    <dt>ACL del filesystem</dt>
+    <dd>Permessi su file e directory: specifica quali utenti/gruppi possono leggere, scrivere o eseguire ciascun file. Nei sistemi Unix si esprimono come owner/group/other (rwx); in Windows con NTFS ACL più granulari.</dd>
+    <dt>Permissions (Permessi)</dt>
+    <dd>L'insieme dei diritti concessi a un soggetto su una risorsa specifica. Devono seguire il principio del least privilege: ogni soggetto dovrebbe avere esattamente i permessi necessari per svolgere la sua funzione, né di più né di meno.</dd>
+  </dl>
+
+  <h3 id="allowlist">Application allow list (Lista delle applicazioni autorizzate)</h3>
+  <p>
+    L'<strong>application allow list</strong> (precedentemente nota come <em>whitelist</em>)
+    è una policy che permette l'esecuzione <em>solo</em> delle applicazioni esplicitamente
+    autorizzate, bloccando tutto il resto per default (<em>deny by default</em>). È uno
+    dei controlli preventivi più efficaci contro il malware: qualsiasi software non
+    approvato — incluso malware di nuova generazione sconosciuto alle firme AV — non
+    può essere eseguito.
+  </p>
+  <p>
+    Il costo operativo è elevato: ogni nuova applicazione legittima deve essere esplicitamente
+    approvata e aggiunta alla lista. Per questo l'allow list è più comune in ambienti
+    ad alta sicurezza (sistemi SCADA, terminali POS, kiosk) dove il set di applicazioni
+    è fisso e limitato, piuttosto che nei desktop aziendali generici.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Allow list vs Deny list</strong><br>
+    <strong>Allow list (whitelist):</strong> default deny — tutto bloccato tranne ciò
+    che è esplicitamente permesso. Massima sicurezza, alto costo di gestione.<br>
+    <strong>Deny list (blacklist):</strong> default allow — tutto permesso tranne ciò
+    che è esplicitamente bloccato. Più facile da gestire, meno sicuro perché nuove
+    minacce bypassano la lista finché non vengono aggiunte.<br>
+    L'esame SY0-701 usa esclusivamente "allow list" e "deny list" — mai
+    "whitelist"/"blacklist".
+  </div>
+
+  <h3 id="least-privilege">Least privilege (Principio del minimo privilegio)</h3>
+  <p>
+    Il <strong>principio del minimo privilegio (principle of least privilege — PoLP)</strong>
+    stabilisce che ogni soggetto (utente, processo, servizio, dispositivo) dovrebbe
+    avere esattamente e soltanto i permessi necessari per svolgere la sua funzione
+    legittima — niente di più. È uno dei principi fondamentali della sicurezza
+    informatica e la base concettuale di RBAC, ACL e Zero Trust.
+  </p>
+  <p>
+    Il suo valore è nella limitazione del danno: se un account con least privilege viene
+    compromesso, l'attaccante eredita solo i permessi limitati di quell'account.
+    Un account con privilegi eccessivi compromesso permette all'attaccante di fare
+    molto di più. In pratica: gli utenti normali non devono essere amministratori locali,
+    i servizi non devono girare come SYSTEM/root, le applicazioni non devono avere
+    accesso all'intero database ma solo alle tabelle che usano.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — Least privilege in un database</strong><br>
+    Un'applicazione web ha bisogno di leggere e scrivere nella tabella <code>orders</code>
+    del database. Con least privilege: l'account applicazione ha permessi SELECT e INSERT
+    solo su quella tabella. Se un SQL injection compromette l'account applicazione,
+    l'attaccante può leggere/scrivere solo la tabella <code>orders</code>, non eseguire
+    <code>DROP DATABASE</code>, non leggere la tabella <code>users</code>, non
+    eseguire <code>xp_cmdshell</code>. Il danno è contenuto dal least privilege.
+  </div>
+</section>
+
+
+<!-- ══ OPERAZIONI ═══════════════════════════════════════════════ -->
+<section id="operations">
+  <h2>Tecniche operative</h2>
+
+  <h3 id="patching">Patching e Patch Management (Applicazione delle patch)</h3>
+  <p>
+    Il <strong>patching</strong> è il processo di applicazione di aggiornamenti software
+    che correggono vulnerabilità di sicurezza note. È la mitigazione più diretta ed efficace per
+    la maggior parte delle vulnerabilità: elimina permanentemente la causa alla radice invece di
+    aggiungere controlli esterni intorno ad essa. Una patch disponibile e non applicata rappresenta un serio fattore di rischio:
+    gli attaccanti spesso iniziano a sfruttare le debolezze corrette entro pochissime ore dal rilascio pubblico, poiché i bollettini
+    di sicurezza dei vendor e i dettagli dei CVE descrivono esattamente cosa è stato corretto, fornendo una mappa di attacco implicita per tutti i sistemi non aggiornati.
+  </p>
+  <dl class="termlist">
+    <dt>Fase 1: Planning (Pianificazione)</dt>
+    <dd>Consiste nell'identificazione sistematica delle vulnerabilità (ad esempio, tramite scansioni periodiche o report di minaccia) e nella pianificazione della bonifica. In questa fase si stabilisce l'ordine di priorità in base alla gravità dei CVE, si definisce la finestra di manutenzione (maintenance window) ottimale per ridurre i disservizi aziendali, si redige una richiesta formale di modifica (change control request) e, fondamentale per la salvaguardia aziendale, si progetta un dettagliato <strong>backout / rollback plan</strong> per ripristinare lo stato di funzionamento originale della macchina qualora l'aggiornamento causi crash o instabilità impreviste.</dd>
+    
+    <dt>Fase 2: Testing (Collaudo)</dt>
+    <dd>Prima di toccare qualsiasi macchina di produzione reale, la patch deve essere distribuita e testata all'interno di un ambiente non produttivo (Staging o Sandbox) che replichi fedelmente l'hardware, le dipendenze e il carico della rete reale. Lo scopo del testing è quantificare la stabilità della patch, monitorare l'eventuale degrado delle performance e verificare l'assenza di incompatibilità logiche che potrebbero causare la rottura (breakage) o l'interruzione di applicazioni legacy o software custom critici per il business.</dd>
+
+    <dt>Fase 3: Implementing (Implementazione / Deployment)</dt>
+    <dd>Rappresenta l'applicazione materiale e lo spiegamento della patch sui sistemi di produzione dell'azienda, rigorosamente all'interno della finestra di manutenzione concordata. Per garantire l'uniformità, minimizzare l'errore umano e scalare su migliaia di host, l'implementazione deve fare uso di strumenti di automazione e configurazione centralizzata, quali Group Policy Objects (GPO) in Active Directory, orchestratori come Ansible, Chef o Puppet, e sistemi integrati di data center management come <strong>Cisco UCS Manager</strong> per l'hardening e il firmware patching unificato dell'infrastruttura sottostante.</dd>
+
+    <dt>Fase 4: Auditing (Verifica e Ispezione)</dt>
+    <dd>L'ultima fase del ciclo di gestione garantisce che la vulnerabilità sia stata definitivamente neutralizzata e che la patch sia attiva ed efficace. Si realizza mediante l'esecuzione di scansioni di sicurezza confermative focalizzate (vulnerability re-scanning con Nessus o simili applicando credenziali o sonde locali), controlli storici dei log nei registri eventi della macchina, ispezioni automatiche di conformità della baseline e il monitoraggio continuo contro il configuration drift (deriva delle configurazioni).</dd>
+
+    <dt>Patch di sicurezza vs aggiornamenti funzionali</dt>
+    <dd>Le patch di sicurezza correggono falle logiche e CVE specifici, pertanto hanno sempre la massima priorità e richiedono canali di distribuzione accelerati. Al contrario, gli aggiornamenti funzionali (feature updates) aggiungono nuove funzionalità o modificano l'interfaccia utente; avendo un impatto sul business meno urgente e un potenziale di rottura più elevato, seguono cicli di approvazione e test molto più conservativi in sede di change management.</dd>
+    
+    <dt>Limitazioni del patching</dt>
+    <dd>Il patching soffre di limiti strutturali severi: non è applicabile a sistemi End-of-Life/End-of-Service-Life (EOL/EOSL) per l'indisponibilità fisica di patch di sicurezza da parte del vendor, o su dispositivi sensibili (es: controllori industriali ICS/SCADA) dove il fermo macchina comporta interruzioni d'altissimo costo finanziario. In tali contesti si adottano necessariamente <strong>controlli compensativi</strong> (VLAN di microsegmentazione, firewall ostativi di rete o host-based, e sistemi WAF dedicati).</dd>
+  </dl>
+
+  <h3 id="encryption-mit">Encryption (Cifratura come mitigazione)</h3>
+  <p>
+    La <strong>cifratura (encryption)</strong> come tecnica di mitigazione protegge
+    i dati rendendoli illeggibili a chiunque non abbia la chiave di decifratura —
+    anche se l'attaccante riesce ad accedere fisicamente ai supporti o a intercettare
+    il traffico. Applicata come mitigazione, risponde a minacce specifiche:
+  </p>
+  <dl class="termlist">
+    <dt>At rest (a riposo)</dt>
+    <dd>FDE sui laptop protegge i dati se il dispositivo viene rubato. TDE sui database protegge i file del database anche se l'attaccante accede al filesystem. Cifratura dei backup protegge i dati anche se i nastri o i cloud bucket vengono esfiltrati.</dd>
+    <dt>In transit (in transito)</dt>
+    <dd>TLS 1.3 su tutte le comunicazioni web e API. SSH invece di Telnet per le connessioni di amministrazione. SFTP invece di FTP per i trasferimenti file. VPN per le connessioni remote dei dipendenti.</dd>
+    <dt>In use (in uso)</dt>
+    <dd>Secure Enclave / TEE per operazioni crittografiche su dati sensibili in memoria. Più difficile da implementare, ma rilevante per sistemi ad alta sensibilità.</dd>
+  </dl>
+
+  <h3 id="monitoring">Monitoring (Monitoraggio)</h3>
+  <p>
+    Il <strong>monitoring (monitoraggio)</strong> è il processo continuo di raccolta,
+    correlazione e analisi dei dati di sicurezza — log, traffico di rete, eventi di
+    sistema, metriche di performance — per rilevare attività anomale o malevole
+    il prima possibile. Non è una misura preventiva ma <em>detective</em>: il suo
+    valore è ridurre il dwell time (il tempo che un attaccante trascorre inosservato
+    nel sistema prima di essere rilevato).
+  </p>
+  <dl class="termlist">
+    <dt>SIEM (Security Information and Event Management)</dt>
+    <dd>Centralizza e correla log da sorgenti multiple (firewall, endpoint, server, applicazioni) e applica regole di correlazione per identificare pattern sospetti che nessun log singolo rivelerebbe. Genera alert su anomalie e supporta le indagini forensi.</dd>
+    <dt>EDR (Endpoint Detection and Response)</dt>
+    <dd>Monitora in tempo reale il comportamento degli endpoint: processi avviati, file modificati, connessioni di rete, chiavi di registro modificate. Rileva comportamenti sospetti anche per malware sconosciuto (fileless malware, LOLbins) e permette il response automatico (isolamento dell'host).</dd>
+    <dt>Log management</dt>
+    <dd>I log devono essere: centralizzati (non solo sull'host che li genera — un attaccante comprometterebbe i log locali), integri (firmati crittograficamente o su write-once storage), conservati abbastanza a lungo (tipicamente 90-365 giorni) per permettere indagini forensi retroattive.</dd>
+  </dl>
+
+  <h3 id="config-enforcement">Configuration enforcement (Applicazione delle configurazioni)</h3>
+  <p>
+    Il <strong>configuration enforcement (applicazione delle configurazioni)</strong>
+    garantisce che i sistemi mantengano nel tempo le configurazioni di sicurezza
+    approvate, prevenendo il <em>configuration drift</em> — la deriva graduale verso
+    configurazioni meno sicure causata da modifiche non gestite, errori umani o
+    aggiornamenti che ripristinano valori predefiniti.
+  </p>
+  <dl class="termlist">
+    <dt>Configuration Management Database (CMDB)</dt>
+    <dd>Repository centralizzato che traccia lo stato di configurazione atteso per ogni sistema. Le deviazioni dalla baseline vengono rilevate e corrette.</dd>
+    
+    <dt>Cisco UCS Manager (Hardware & Infrastructure Configuration Enforcement)</dt>
+    <dd>Esempio d'eccellenza industriale per il controllo unificato dell'infrastruttura d'impatto (Cisco Unified Computing System). Consente di definire in modo forzato <em>Service Profiles</em> e <strong>Security Templates</strong> (unificando parametri di sicurezza come versioni di firmware ammesse, policies di account lockout, cifratura e protocolli di rete protetti come SSH e LDAPS) applicandoli in modo simultaneo e non-drifting su tutti i blade server, nodi ed interconnect hardware tramite una singola console logica.</dd>
+    
+    <dt>Infrastructure as Code (IaC)</dt>
+    <dd>Le configurazioni vengono definite come codice (Terraform, Ansible, CloudFormation). Ogni deployment è deterministico: stesso codice = stessa configurazione. Previene la deriva e permette il rollback immediato.</dd>
+    
+    <dt>Secure baselines</dt>
+    <dd>Configurazioni di sicurezza minime predefinite per ogni tipo di sistema. L'ordine corretto è: <strong>establish → deploy → maintain</strong>. Prima si definisce la baseline sicura, poi la si implementa, poi la si mantiene nel tempo tramite monitoring e enforcement.</dd>
+  </dl>
+
+  <h3 id="mitre">MITRE ATT&amp;CK Framework</h3>
+  <p>
+    Il framework <strong>MITRE ATT&amp;CK</strong> (Adversarial Tactics, Techniques &amp; Common Knowledge) è una matrice di riferimento universale, di tipo tassonomico e open-source, sviluppata da MITRE. Documenta in modo sistematico i comportamenti reali degli attori di minaccia (adversaries) osservati sul campo in base a attacchi reali e incidenti storici.
+  </p>
+  <p>
+    Per superare l'esame CompTIA e applicare questo framework nelle aziende, è essenziale comprendere la gerarchia strutturale delle <strong>TTPs (Tactics, Techniques, and Procedures)</strong> che compongono la matrice:
+  </p>
+
+  <dl class="termlist">
+    <dt>Tactics (Tattiche — Il "Perché" / "Why")</dt>
+    <dd>
+      Rappresentano gli <strong>obiettivi operativi immediati di alto livello</strong> dell'attaccante durante un'intrusione. La matrice Enterprise definisce attualmente 14 tattiche ordinate secondo il ciclo di vita logico dello sfruttamento, tra cui:
+      <ul style="margin-top: 5px; margin-left: 15px;">
+        <li><em>Initial Access:</em> Come l'attaccante tenta di fare breccia nel perimetro (es. e-mail di phishing).</li>
+        <li><em>Execution:</em> Far sì che il codice maligno venga eseguito sulla macchina target.</li>
+        <li><em>Persistence:</em> Mantenere l'accesso sul sistema anche dopo riavvii o cambiate di sessione (es. chiavi di registro di avvio).</li>
+        <li><em>Privilege Escalation:</em> Ottenere permessi più elevati (es. passare da utente standard a Local System / Domain Admin).</li>
+        <li><em>Credential Access:</em> Sottrarre password o hash di autenticazione (es. dumping della memoria di LSASS).</li>
+        <li><em>Lateral Movement:</em> Spostarsi all'interno della rete interna aziendale da un PC compromesso ad altri server critici.</li>
+        <li><em>Exfiltration:</em> Trafugare e rubare dati riservati fuori dal perimetro di rete aziendale.</li>
+      </ul>
+    </dd>
+
+    <dt>Techniques (Tecniche — Il "Come" / "How")</dt>
+    <dd>
+      Descrivono i <strong>metodi tecnologici specifici</strong> adoperati dall'attaccante per soddisfare l'obiettivo di una determinata tattica. Ad esempio, per soddisfare la tattica di <em>Credential Access</em>, l'attaccante può usare la tecnica di <strong>Brute Force</strong> (T1110) o di <strong>OS Credential Dumping</strong> (T1003).
+    </dd>
+
+    <dt>Sub-techniques (Sotto-tecniche — La Granularità del "Come")</dt>
+    <dd>
+      Forniscono una descrizione ancora più granulare e specializzata di una tecnica principale. Ad esempio, la tecnica principale <em>OS Credential Dumping</em> si scompone in sotto-tecniche come:
+      <ul style="margin-top: 3px; margin-left: 15px;">
+        <li><code>T1003.001</code> — LSASS Memory (dumping dei segreti in memoria).</li>
+        <li><code>T1003.002</code> — Security Account Manager (SAM) (estrazione del database SAM locale).</li>
+      </ul>
+    </dd>
+
+    <dt>Procedures (Procedure — L'Esecuzione Dettagliata)</dt>
+    <dd>
+      La <strong>particolare implementazione empirica</strong> ed effettiva agita da uno specifico gruppo APT o software di attacco. Le procedure documentano le stringhe di comando esatte, il codice o le API adoperate. Ad esempio, una procedura è: <em>"Il gruppo APT29 (Cozy Bear) ha utilizzato lo strumento Mimikatz per estrarre le password in chiaro dalla memoria di LSASS registrate sulla workstation bersaglio."</em>
+    </dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>📋 CASO D'USO REALE: THREAT HUNTING E MAPPA DEI CONTROLLI (GAP ANALYSIS)</strong><br>
+    Un amministratore della sicurezza non si limita a leggere la matrice: la adopera attivamente per eseguire un <strong>Gap Analysis difensivo</strong>:
+    <ol style="margin-top: 10px; padding-left: 20px;">
+      <li style="margin-bottom: 6px;">L'organizzazione individua quali attori di minaccia (APT) prendono storicamente di mira il loro settore (es: APT38 per il settore Finance).</li>
+      <li style="margin-bottom: 6px;">Il team analizza il profilo delle tecniche (TTP) note adoperate da quel gruppo tramite la banca dati di MITRE ATT&amp;CK.</li>
+      <li style="margin-bottom: 6px;">La Security controlla se i propri strumenti (SIEM, EDR, antivirus, host firewalls) dispongono di regole per rilevare quelle specifiche tecniche (es: la creazione di un servizio di persistenza o l'esecuzione di comandi PowerShell offuscati).</li>
+      <li style="margin-bottom: 6px;">Le tecniche non rilevate costituiscono un <strong>gap di visibilità</strong> (blind spot). Il team prioritizza l'assegnazione di budget e di effort tecnico per creare nuove regole di rilevamento e rimediare alle lacune prima che avvenga un attacco reale.</li>
+    </ol>
+  </div>
+</section>
+
+
+<!-- ══ HARDENING ════════════════════════════════════════════════ -->
+<section id="hardening">
+  <h2>Tecniche di hardening dei sistemi (Hardening Techniques)</h2>
+  <p>
+    L'<strong>hardening (indurimento)</strong> è il processo di configurazione sicura
+    di un sistema per ridurne la superficie di attacco: si rimuove tutto ciò che non
+    è necessario, si disabilitano i servizi non usati, si cambiano le configurazioni
+    predefinite non sicure, e si aggiungono controlli di sicurezza a livello di host.
+    Un sistema hardened non è necessariamente invulnerabile, ma offre molte meno
+    superfici di attacco rispetto a un sistema con configurazione predefinita.
+  </p>
+
+  <h3 id="endpoint-protection">Installation of endpoint protection</h3>
+  <p>
+    L'<strong>installazione di endpoint protection</strong> comprende l'insieme di
+    soluzioni di sicurezza deployate sugli endpoint (workstation, server, dispositivi
+    mobili) per rilevare e rispondere alle minacce. La generazione attuale — EPP
+    (Endpoint Protection Platform) + EDR (Endpoint Detection and Response) — va oltre
+    il semplice antivirus signature-based: include behavioral analysis, machine learning,
+    threat hunting proattivo e response automatica.
+  </p>
+
+  <h3 id="host-firewall">Host-based firewall (Firewall basato sull'host)</h3>
+  <p>
+    Un <strong>host-based firewall</strong> è un firewall software installato
+    direttamente sul singolo host (workstation o server) che controlla il traffico
+    in ingresso e in uscita specificamente per quel sistema. A differenza del firewall
+    di rete (che protegge il perimetro), il host-based firewall protegge l'host anche
+    da traffico proveniente dalla rete interna — critico in scenari di compromissione
+    laterale. Esempi: Windows Defender Firewall, iptables/nftables su Linux, pf su macOS.
+  </p>
+  <p>
+    Il valore è nel <em>defense in depth</em>: anche se un attaccante bypassa il
+    firewall perimetrale (tramite VPN, accesso fisico o compromissione di un sistema
+    interno), il host-based firewall agisce come ultima linea di difesa prima della
+    compromissione del singolo sistema.
+  </p>
+
+  <h3 id="hips">HIPS — Host-based Intrusion Prevention System</h3>
+  <p>
+    Un <strong>HIPS (Host-based Intrusion Prevention System)</strong> è un software di agente di sicurezza installato direttamente sull'endpoint (host) deputato a proteggere il nucleo del sistema operativo da manomissioni e attacchi logici in tempo reale. Agisce ad un livello molto più profondo rispetto a un comune software antivirus signature-based.
+  </p>
+  <p>
+    <strong>• Come funziona e rileva le minacce (Architettura Intrinseca):</strong><br>
+    HIPS agisce inserendo intercettori di chiamata sistemici (chiamati <strong>API Hooks / Hooking di sistema</strong>) direttamente all'interno delle API critiche del sistema operativo. Nel momento in cui un processo compie un'azione, l'HIPS analizza se tale comportamento viola la baseline o le policy e blocca l'azione <em>prima</em> che venga effettivamente completata. I monitoraggi chiave comprendono:
+    <ul style="margin-top: 5px; margin-left: 20px;">
+      <li><strong>Integrità del Filesystem:</strong> Tentativi di riscrittura o cancellazione massiva di file in cartelle protette di sistema (es. <code>C:\Windows\System32</code> o <code>/etc/</code>), tipico comportamento da ransomware o worm.</li>
+      <li><strong>Modifiche al Registro di Configurazione (o file .conf):</strong> Blocca tentativi non autorizzati di registrare nuove chiavi d'avvio (es. chiavi <code>Run/RunOnce</code> in Windows) che verrebbero sfruttate per ottenere <em>Persistence</em>.</li>
+      <li><strong>Memory Injection / Escapology:</strong> Intercettazione di comportamenti in cui un processo tenta di allocare o mappare spazio di memoria virtuale dentro un altro processo fidato (es. usando <code>VirtualAllocEx</code> o <code>WriteProcessMemory</code> su <code>explorer.exe</code> o <code>lsass.exe</code>), sventando tentativi di <em>Process Injection</em>.</li>
+      <li><strong>Traffico di Rete Locale:</strong> Analisi dei pacchetti inviati/ricevuti dall'host singolo per intercettare pattern di worm interni in cerca di scansione porte o propagazione laterale.</li>
+    </ul>
+  </p>
+
+  <div class="critical">
+    <strong>🧠 LA DIFFERENZA CHIAVE SECONDO COMPTIA: HIPS vs HIDS vs EDR</strong><br>
+    All'esame, capire quale strumento consigliare nello scenario dipende dal tipo di controllo richiesto:
+    <ul style="margin-top: 5px;">
+      <li><strong>HIDS (Detection-only / Detective):</strong> Monitora i file log, i filesystem ed i registri cercando tracce di intrusione avvenuta. Genera alert e record di audit, ma <strong>NON blocca</strong> l'attacco. È un controllo puramente investigativo.</li>
+      <li><strong>HIPS (Prevention / Preventive):</strong> Intercetta attivamente l'azione dannosa e la <strong>blocherebbe istantaneamente</strong> (es: spegne il processo sospetto, nega la scrittura sul disco o chiude la connessione socket). È un controllo preventivo/reattivo locale.</li>
+      <li><strong>EDR (Advanced Behavioral Analytics &amp; Correction):</strong> Registra telemetria continua in cloud, applica logiche di intelligenza artificiale per rilevare attacchi sconosciuti o privi di file (Fileless malware) e permette all'analista del SOC di compiere azioni correttive remote centralizzate, come l'<strong>isolamento logico dell'host</strong> dalla rete per contenere l'infezione.</li>
+    </ul>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Strumento</th><th>Ambito</th><th>Funzione Principale</th><th>Tipo di Controllo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Host-based Firewall</td><td>Traffico di rete del singolo host</td><td>Filtra pacchetti logici per porta ed IP sorgente/destinatario</td><td>Preventive</td></tr>
+      <tr><td class="label">HIDS</td><td>Sistema operativo, filesystem, log</td><td>Analizza i dati passati per generare report di violazione</td><td>Detective</td></tr>
+      <tr><td class="label">HIPS</td><td>Sistema operativo, filesystem, interfacce</td><td>Intercetta le API di sistema e blocca la transazione dannosa in tempo reale</td><td>Preventive</td></tr>
+      <tr><td class="label">EDR</td><td>Infrastruttura globale, telemetrie in cloud</td><td>Mappa comportamenti anomali, esegue threat hunting e isola l'endpoint</td><td>Detective + Corrective</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="disable-ports">Hardening delle Porte: Porte Fisiche vs Porte Logiche</h3>
+  <p>
+    Il principio del <strong>Least Functionality (Funzionalità Minima)</strong> afferma che un computer deve eseguire esclusivamente i servizi indispensabili a supportare le facoltà di business. Ridurre la superficie di attacco significa blindare sia le porte fisiche (hardware) che quelle logiche (software).
+  </p>
+
+  <h4>1. Hardening e Disabilitazione delle Porte Fisiche (Physical Port Hardening)</h4>
+  <p>
+    Previene l'accesso non autorizzato e la compromissione hardware derivante dalla presenza fisica di un potenziale attaccante o di un insider malizioso:
+  </p>
+  <dl class="termlist">
+    <dt>Disattivazione dei Jack di Rete RJ-45 inutilizzati (Wall Jack Disablement)</dt>
+    <dd>
+      Ogni presa ethernet a parete situata negli uffici comuni, sale d'attesa o corridoi che non è attivamente connessa a una workstation aziendale deve essere fisicamente scollegata dagli switch di distribuzione o spenta a livello software sullo switch (porta in stato <code>Administrative Down</code>). Impedisce a visitatori o intrusi di collegare un laptop abusivo (Rogue Device) della propria rete interna.
+    </dd>
+    <dt>Limitazione dei Portali USB (USB Port Blocking &amp; DLP)</dt>
+    <dd>
+      I controller USB logici sulle workstation dei dipendenti standard vengono disattivati o messi in stato di sola lettura tramite criteri di gruppo (GPO/MDM). Questa misura mitiga:
+      <ul style="margin-top: 3px; margin-left: 15px;">
+        <li><em>Data Exfiltration (DLP):</em> Copia abusiva di dati segreti aziendali su pen-drive terze.</li>
+        <li><em>BadUSB / Rubber Ducky:</em> Chiavette USB modificate hardware che emulano tastiere ultraveloci e iniettano malware nell'istante in cui vengono connesse.</li>
+      </ul>
+    </dd>
+  </dl>
+
+  <h4>2. Hardening delle Porte Logiche e Disabilitazione dei Protocolli (Logical Port/Protocol Hardening)</h4>
+  <p>
+    Ogni servizio software in ascolto (Listening State) su un computer è un server potenziale che attende transazioni. Se quel servizio contiene un bug di programmazione, l'attaccante può inviare un pacchetto web modificato ed eseguire codice da remoto (Remote Code Execution).
+  </p>
+  <p>
+    <strong>• Sostituzione dei Protocolli Insicuri e Legacy:</strong><br>
+    Un pilastro critico consiste nel disabilitare i protocolli storici che trasmettono dati in chiaro (Plaintext) sostituiti obbligatoriamente con alternative crittografate (Tavola di riferimento d'esame CompTIA):
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px;">
+    <thead>
+      <tr style="background-color: var(--navy); color: white;">
+        <th style="padding: 6px; border: 1px solid var(--border-color);">Protocollo Insicuro (Plaintext)</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color);">Porta Legata</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color);">Rischio Associato</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color); background-color: #16a34a;">Alternativa Sicura (Cifrata)</th>
+        <th style="padding: 6px; border: 1px solid var(--border-color); background-color: #16a34a;">Porta Protetta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">Telnet</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">23</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Credenziali trasmesse in chiaro; intercettabili con wiretaps/sniffing.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SSH</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">22</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">HTTP</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">80</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Traffico non protetto; violazione di confidenzialità (MitM).</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">HTTPS (TLS)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">443</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">FTP</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">20 / 21</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">File e comandi di amministrazione visibili sulla linea.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SFTP (SSH) / FTPS</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">22 / 989-990</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">LDAP</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">389</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Interrogazione del database degli utenti di dominio in chiaro.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">LDAPS (TLS)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">636</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">SNMPv1 / SNMPv2</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">161 / 162</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">Password comunitari in chiaro; interruzione di apparati di rete.</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SNMPv3 (AuthPriv)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">161 / 162</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px; border: 1px solid var(--border-color); font-weight: bold;">SMBv1</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color);">445</td>
+        <td style="padding: 1x; border: 1px solid var(--border-color);">Protocollo obsoleto vulnerabile a bug catastrofici (WannaCry).</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">SMBv3 (Signed)</td>
+        <td style="padding: 6px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">445</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <dl class="termlist" style="margin-top: 15px;">
+    <dt>Disattivazione dei Demoni di Servizio inattesi (De-provisioning of Daemons)</dt>
+    <dd>
+      Hardening significa fermare e rimuovere l'eseguibile di base. Ad esempio, se un server Linux funge da database, si compiono comandi per interrompere e mascherare servizi come il server web integrato Apache (<code>systemctl disable --now httpd</code>).
+    </dd>
+    <dt>Rilevamento e verifica tramite Port Scanning proattivo (Nmap)</dt>
+    <dd>
+      La verifica finale non negoziabile. Il Security Specialist lancia scansioni sistematiche (es: <code>nmap -sT -p- &lt;target_IP&gt;</code>) contro la baseline approvata per assicurarsi che i firewall d'host e le politiche centrali abbiano bloccato ogni porta eccetto quelle indispensabili.
+    </dd>
+  </dl>
+
+  <h3 id="default-pwd">Default password changes (Cambio delle password predefinite)</h3>
+  <p>
+    Le <strong>password predefinite (default passwords)</strong> di dispositivi di rete,
+    sistemi IoT, server e applicazioni sono pubblicamente note — i vendor le documentano
+    nei manuali, e gli attaccanti le raccolgono in database online. Un dispositivo
+    con la password predefinita non cambiata è praticamente non autenticato.
+  </p>
+  <p>
+    Il cambio delle password predefinite è una delle prime azioni di hardening e una
+    delle più trascurate: molte violazioni di alto profilo hanno avuto origine da
+    dispositivi IoT, telecamere IP o router con credenziali predefinite. La buona
+    pratica è verificare che <em>nessun</em> dispositivo nell'ambiente usi ancora
+    credenziali predefinite tramite scansioni regolari.
+  </p>
+
+  <h3 id="remove-software">Removal of unnecessary software (Rimozione del software non necessario)</h3>
+  <p>
+    Ogni applicazione installata è una superficie di attacco: può contenere
+    vulnerabilità, può avere servizi in ascolto, può avere permessi eccessivi.
+    La <strong>rimozione del software non necessario</strong> riduce la superficie
+    di attacco al minimo indispensabile. Questo include: applicazioni non usate dagli
+    utenti, servizi di sistema non necessari per il ruolo del sistema, utility di
+    sviluppo o debug che non dovrebbero essere presenti in produzione (es. compilatori,
+    debugger, curl su server di produzione).
+  </p>
+  <p>
+    Il <strong>bloatware</strong> — software pre-installato dal produttore che non viene
+    usato — rientra in questa categoria: consuma risorse, introduce vulnerabilità, e
+    non offre valore. La prima operazione su un nuovo sistema dovrebbe includere la
+    rimozione di tutto il software non necessario prima del deployment in produzione.
+  </p>
+
+  <h3 id="baselines">Secure baselines (Baseline di sicurezza)</h3>
+  <p>
+    Una <strong>secure baseline</strong> è un insieme documentato di impostazioni di configurazione e controlli di sicurezza minimi obbligatori e approvati per un tipo specifico di risorsa o sistema (es: workstation Windows, server web Linux, router di rete). L'andamento sequenziale corretto per progettare e gestire le baseline è: <strong>Establish → Deploy → Maintain</strong>:
+  </p>
+  <dl class="termlist">
+    <dt>1. Establish (Stabilire)</dt>
+    <dd>
+      Consiste nel definire formalmente la configurazione ottimale e sicura degli host basandosi su standard e benchmark industriali noti (come CIS Benchmarks, DISA STIGs e NIST SP 800-70). In sede di esame, i <strong>quattro ingredienti fondamentali e imprescindibili</strong> che compongono una secure baseline per un host sicuro comprendono:
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <strong>Firewalls (Configurazione Firewall locale)</strong>: L'attivazione e la configurazione forzata di un software firewall host-based (es: Windows Defender Firewall, iptables o ufw su Linux) con policy di tipo "default-deny", la quale consente il traffico unicamente sulle porte strettamente necessarie al ruolo logico del server (es. bloccando l'inbound a eccezione della porta 443 su un server Web).
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>User Permissions (Gestione e restrizione dei permessi utente)</strong>: L'applicazione del principio del minimo privilegio (Least Privilege). Questo si ottiene eliminando diritti eccessivi o account non censiti, disabilitando gli account ospite (Guest), limitando severamente l'appartenenza a gruppi ad alti privilegi (come gli Administrator o i Sudoers) ed eseguendo i servizi applicativi tramite account di servizio non privilegiati dedicati.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Encryption Protocols (Protocolli di cifratura sicuri)</strong>: L'imposizione forzata di canali e protocolli crittografati moderni e robusti per qualsiasi interazione con il sistema (es: SSHv2, TLS 1.3, HTTPS, LDAPS, SFTP, WPA3), assicurandosi al contempo di disabilitare e deprecare protocolli legacy intrinsecamente insicuri o che trasmettono dati in chiaro (es: SMBv1, SSLv3, WEP, FTP o Telnet).
+        </li>
+        <li style="margin-bottom: 6px;">
+          <strong>Up-to-Date Antivirus and Antimalware (Soluzioni Antivirus aggiornate)</strong>: L'allestimento di motori di protezione contro minacce locali ed esecuzioni di codice malevolo. La baseline richiede che l'antivirus sia attivo sul sistema, configurato per scansioni periodiche ed euristica attiva, e provvisto di aggiornamenti in tempo reale e automatici del database delle firme (signature updates) per contrastare attivamente virus, malware, worm ed exploit noti.
+        </li>
+      </ul>
+    </dd>
+    
+    <dt>2. Deploy (Implementare)</dt>
+    <dd>Applicare la baseline a tutti i sistemi corrispondenti tramite strumenti centralizzati e processi di automazione (es: Group Policy Objects (GPO) in Active Directory o tool di Configuration Management quali Ansible, Chef e Puppet). Ciò riduce l'incidenza di errori umani legati a configurazioni manuali e assicura uniformità su scala aziendale.</dd>
+    
+    <dt>3. Maintain (Mantenere)</dt>
+    <dd>Monitorare con costanza l'ambiente per rilevare l'insorgenza di deviazioni nei parametri concordati (configuration drift). Richiede periodiche verifiche di vulnerabilità, aggiornamenti periodici delle regole in base all'evoluzione delle minacce reali e l'applicazione tempestiva di remediation strutturate.</dd>
+  </dl>
+
+  <h3 id="waf">WAF — Web Application Firewall</h3>
+  <p>
+    Un <strong>WAF (Web Application Firewall)</strong> è un firewall applicativo
+    specializzato per il traffico HTTP/HTTPS che ispeziona il contenuto delle richieste
+    web e blocca quelle che corrispondono a pattern di attacco noti (SQL injection,
+    XSS, buffer overflow su parametri web, directory traversal, CSRF). A differenza
+    di un NGFW (che opera a livello 3-4 e non comprende il payload applicativo HTTP),
+    il WAF opera a livello 7 (applicazione) e capisce la semantica delle richieste web.
+  </p>
+
+  <div class="example-box">
+    <strong>Esempio pratico — WAF vs NGFW per buffer overflow su web app</strong><br>
+    Un server web è stato compromesso tramite buffer overflow in un parametro HTTP.
+    La risposta corretta è il <strong>WAF</strong>, non il NGFW. Perché: il NGFW vede
+    una richiesta HTTP legittima verso la porta 443 — non c'è niente da bloccare a
+    livello di rete. Il WAF analizza il <em>contenuto</em> della richiesta: un parametro
+    con caratteri o lunghezza anomala viene bloccato prima di raggiungere l'applicazione.
+    Il WAF "capisce" HTTP; il NGFW no.
+  </div>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — WAF: il difensore delle applicazioni web</strong><br>
+    Qualsiasi scenario che parla di attacchi a un'applicazione web — SQLi, XSS, buffer
+    overflow su web form, JavaScript injection — e chiede la mitigazione migliore →
+    <strong>WAF</strong>. Il NGFW protegge a livello di rete (porta, IP, protocollo), non capisce
+    il payload HTTP. TLS cifra il traffico ma non filtra il contenuto malevolo.
+    SD-WAN è per la gestione WAN, non per la sicurezza applicativa.
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — WAF vs NGFW: a quale livello operano?</strong><br>
+    <strong>NGFW (Next-Generation Firewall):</strong> livello 3–7, ispeziona protocolli
+    ma principalmente per bloccare traffico di rete non autorizzato. Non analizza
+    il payload semantico delle richieste HTTP.<br>
+    <strong>WAF:</strong> livello 7 specifico per HTTP/HTTPS. Analizza headers, parametri,
+    cookie, corpo della richiesta. Conosce i pattern di SQLi, XSS, OWASP Top 10.
+    Non sostituisce il NGFW: i due operano a livelli diversi e si completano.<br>
+    Scenario di attacco a <em>web application</em>: WAF. Scenario di blocco traffico
+    di rete: NGFW.
+  </div>
+</section>
+
+
+<!-- ══ MATRICE RIEPILOGATIVA ═════════════════════════════════════ -->
+<section id="matrice">
+  <h2>Matrice: vulnerabilità → mitigazione</h2>
+  <p>Mappa le vulnerabilità dell'OBJ 2.3 alle tecniche di mitigazione dell'OBJ 2.5.</p>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Vulnerabilità / Scenario</th><th>Mitigazione primaria</th><th>Razionale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Web app (SQLi, XSS, buffer overflow)</td><td>WAF</td><td>Opera a livello 7, filtra contenuto HTTP malevolo</td></tr>
+      <tr><td class="label">Legacy IoT non patchabile</td><td>Segmentazione</td><td>Isola i dispositivi senza richiedere modifiche</td></tr>
+      <tr><td class="label">App legacy critica su server vecchio</td><td>Segmentazione</td><td>Mantiene la funzionalità limitando l'esposizione</td></tr>
+      <tr><td class="label">Brute-force su account web</td><td>MFA</td><td>Anche se la password è indovinata, il secondo fattore blocca l'accesso</td></tr>
+      <tr><td class="label">CVE noto con patch disponibile</td><td>Patching</td><td>Elimina la causa alla radice</td></tr>
+      <tr><td class="label">Password predefinite su dispositivi</td><td>Default password changes</td><td>Rimuove credenziali pubblicamente note</td></tr>
+      <tr><td class="label">Porta/servizio non necessario aperto</td><td>Disabling ports/protocols</td><td>Riduce la superficie di attacco</td></tr>
+      <tr><td class="label">Movimento laterale dopo compromissione</td><td>Segmentazione / Least privilege</td><td>Limita dove l'attaccante può spostarsi e cosa può fare</td></tr>
+      <tr><td class="label">Malware non rilevato da AV tradizionale</td><td>EDR / HIPS</td><td>Behavioral analysis rileva anomalie senza firme</td></tr>
+      <tr><td class="label">Drift di configurazione</td><td>Configuration enforcement</td><td>Garantisce coerenza con la baseline sicura nel tempo</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+
+<!-- ══ QUIZ ══════════════════════════════════════════════════════ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 2.5</h2>
+  <div class="chapter-meta">
+    <p><strong>11 questions d'esame</strong> su tecniche di mitigazione enterprise, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 2.5 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 2.5</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Segmentation vs Isolation</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Segmentation</strong>: la risorsa resta in rete ma limitata solo a canali/IP rigorosamente autorizzati.<br><strong>Isolation</strong>: rimozione completa e totale (fisica o logica - airgap) del sistema dalla rete.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Application Allow List (Default Deny)</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Solo ed esclusivamente i file eseguibili approvati possono avviarsi sul sistema. Consigliatissimo per kiosk interattivi, POS e ambienti SCADA/ICS stabili.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>WAF (Layer 7) vs NGFW Firewall</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>WAF</strong>: opera sull'Application Layer 7 esaminando payload semantico di query HTTP (SQLi, XSS).<br><strong>NGFW</strong>: filtra a blocchi su porte, IP e firme IPS, senza decifrare flussi HTTP profondi.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>HIPS vs HIDS vs EDR agenti</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>HIDS</strong>: solo monitoraggio e logging (Detective).<br><strong>HIPS</strong>: monitora e contrasta attivamente (Preventive).<br><strong>EDR</strong>: analisi comportamentale avanzata + isolamento host da remoto (Corrective).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>La secure baseline in tre passi</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Richiede rigorosamente di: <strong>Establish</strong> (definire la configurazione) → <strong>Deploy</strong> (applicarla via GPO/Ansible) → <strong>Maintain</strong> (monitorare e sanare il configuration drift).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Perchè mappare con MITRE ATT&CK?</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Fornisce un framework strutturato e aggiornato per mappare le difese aziendali rispetto ai reali comportamenti (TTP) degli attaccanti nel mondo reale.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="en_obj2_4_malicious_activity.html">← OBJ 2.4 — Attività malevola</a>
+  <a href="../index_en.html" class="secondary">← General Index</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

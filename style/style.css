@@ -1226,6 +1226,40 @@ nav.toc-sticky a[href="#flashcard"] {
   outline: none;
   font-family: inherit;
 }
+.global-nav-toggle-btn {
+  background: var(--surface);
+  border: 1px solid var(--light-slate);
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease-in-out;
+  outline: none;
+  font-family: inherit;
+  user-select: none;
+}
+.global-nav-toggle-btn:hover {
+  background: var(--surface-alt);
+  border-color: var(--muted);
+  color: var(--ink);
+}
+.global-nav-toggle-btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+.nav-lang-icon {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: color 0.15s ease-in-out;
+}
+.global-nav-toggle-btn:hover .nav-lang-icon {
+  color: var(--teal);
+}
 .global-nav-search-btn:hover {
   background: var(--surface-alt);
   border-color: var(--muted);

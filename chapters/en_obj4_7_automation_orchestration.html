@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Automation and Orchestration · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index_en.html">General Index</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.7 — Automazione e Orchestrazione</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.7 — Automation and Orchestration</h1>
+    </header>
+
+    <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 14: Monitoraggio e risposta agli incidenti</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
+      <p>
+        <strong>Official Objective (CompTIA):</strong>
+        <em>Explain the importance of automation and orchestration related to secure operations.</em>
+      </p>
+      <p>
+        <strong>Objectives covered:</strong>
+        <span class="objectives-tag">4.7</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisites:</strong>
+        <a href="en_obj4_4_alerting_monitoring.html">OBJ 4.4 — Allertamento e Monitoraggio</a> ·
+        <a href="en_obj4_5_incident_response.html">OBJ 4.5 — Attività di Incident Response</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Fondamenti</div>
+        <a href="#fondamenti">Automazione vs Orchestrazione</a>
+
+        <div class="toc-section">SOAR & SIEM</div>
+        <a href="#soar_concept">Funzionamento del SOAR</a>
+        <a href="#nextgen_siem">SIEM di Nuova Generazione</a>
+
+        <div class="toc-section">Procedure operative</div>
+        <a href="#playbooks_runbooks">Playbook e Runbook</a>
+        <a href="#alert_tuning">Tuning delle Regole & Log Applicativi</a>
+
+        <div class="toc-section">Casi d'Uso & Benefici</div>
+        <a href="#automation_usecases">Casi d'Uso dell'Automazione</a>
+        <a href="#automation_benefits">Benefici dell'Automazione</a>
+        <a href="#automation_considerations">Sfide e Considerazioni</a>
+
+        <div class="toc-section">Casi di Cleanup</div>
+        <a href="#ca_patching">Patching di Emergenza della CA</a>
+        <a href="#wpa3_sae">WPA3 e Sicurezza Password-Based</a>
+
+        <div class="toc-section">Verify & Quiz</div>
+        <a href="#quiz-section">Interactive Quiz (8 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 0 — FONDAMENTI: AUTOMAZIONE VS ORCHESTRAZIONE ══ -->
+        <section id="fondamenti">
+          <h2>Automazione vs Orchestrazione: la distinzione fondamentale</h2>
+          <p>
+            Il titolo di questo obiettivo unisce due concetti distinti che l'esame chiede spesso di separare. Confonderli è uno degli errori più comuni: l'automazione riguarda <em>il singolo compito</em>, l'orchestrazione riguarda <em>il flusso completo</em>.
+          </p>
+          <dl class="termlist">
+            <dt>Scripting (Lo Strumento di Base)</dt>
+            <dd>La scrittura di codice (es. Python, PowerShell, Bash) che esegue un'azione senza intervento umano. È il mattone elementare: una singola istruzione eseguibile a comando o su trigger.</dd>
+
+            <dt>Automation (Automazione — Il Singolo Compito)</dt>
+            <dd>L'esecuzione automatica di <strong>un'attività ripetitiva e ben definita</strong>, dall'inizio alla fine, senza che un operatore la avvii o la sorvegli (es. uno script che disabilita un account ogni volta che scatta un determinato alert). L'automazione risponde alla domanda «come eseguo <em>questo passaggio</em> senza un umano?».</dd>
+
+            <dt>Orchestration (Orchestrazione — Il Flusso Coordinato)</dt>
+            <dd>Il coordinamento di <strong>più compiti automatizzati e strumenti diversi</strong> (SIEM, EDR, firewall, ticketing) in un unico flusso di lavoro end-to-end. L'orchestrazione concatena, condiziona e sincronizza le singole automazioni tra prodotti di vendor differenti. Risponde alla domanda «come faccio collaborare <em>tutti questi pezzi</em> in un'unica risposta?».</dd>
+          </dl>
+          <div class="focused-concept">
+            <strong>Analogia d'esame:</strong><br>
+            L'automazione è il singolo musicista che suona il proprio spartito alla perfezione; l'orchestrazione è il direttore d'orchestra che fa entrare ogni strumento al momento giusto perché insieme producano una sinfonia coerente. La piattaforma <strong>SOAR</strong> è il «direttore d'orchestra» tecnologico del SOC.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 1 — IL PARADIGMA SOAR ═════════════════════ -->
+        <section id="soar_concept">
+          <h2>Security Orchestration, Automation, and Response (SOAR)</h2>
+          <p>
+            Nei Security Operations Center (SOC) enterprise, l'enorme volume di avvisi giornalieri impedisce un'efficace gestione manuale. La risposta a questa sfida risiede nell'implementazione di piattaforme <strong>SOAR (Security Orchestration, Automation, and Response)</strong>.
+          </p>
+          <p>
+            Il SOAR funge da collettore centrale in grado di intercettare gli alert emessi dal SIEM o dai sistemi EDR/firewall, ed eseguire flussi di risposta automatizzati senza che un operatore debba compiere decine di passaggi manuali nel terminale.
+          </p>
+
+          <div class="focused-concept">
+            <strong>Il Fornitore di Efficienza — Workforce Multiplier:</strong><br>
+            La primaria utilità derivante dall'inclusione di processi di automazione e orchestrazione all'interno dei motori di sicurezza SOC risiede nella sua funzione di <strong>workforce multiplier (moltiplicatore della forza lavoro)</strong>. Questo consente ai pochissimi analisti umani del SOC di sovrintendere a migliaia di incidenti simultanei con tempi di reazione sub-secondo, delegando i flussi ripetitivi e di routine ai motori automatizzati.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 2 — SIEM DI NUOVA GENERAZIONE ══════════════ -->
+        <section id="nextgen_siem">
+          <h2>SIEM di Nuova Generazione e Azioni di Risposta</h2>
+          <p>
+            I SIEM tradizionali (legacy) si limitavano a raccogliere, aggregare, correlare storicamente e archiviare passivamente i registri di sistema per scopi di auditing o compliance fiscale. 
+          </p>
+          <p>
+            I <strong>SIEM di Nuova Generazione (Next-Gen SIEM)</strong> superano questa limitazione integrando in un'unica interfaccia l'analisi del comportamento degli utenti (UBA) e apposite funzionalità di <strong>risposta automatica all'incidente (Automated response actions)</strong>. Tali reazioni possono includere l'isolamento istantaneo in quarantena di una macchina compromessa segnalata dall'EDR, o la revoca automatica di una sessione utente anomala.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 3 — PLAYBOOKS E RUNBOOKS ═══════════════════ -->
+        <section id="playbooks_runbooks">
+          <h2>Standardizzazione: Playbook e Runbook</h2>
+          <p>
+            Le strategie incidentali devono essere pianificate a freddo per evitare errori umani sotto pressione:
+          </p>
+          <dl class="termlist">
+            <dt>Playbook (Guida Strategica al Contenimento)</dt>
+            <dd>È una guida o matrice procedurale di alto livello che delinea l'intera logica di gestione dell'incidente. Ad esempio, indica chi deve essere notificato legalmente, quando isolare un server critico, quali autorizzazioni sono indispensabili e come allertare il PR Manager in presenza di data breach. I SOC adoperano i <strong>playbook</strong> per guidare e standardizzare la reazione coordinata del team.</dd>
+            
+            <dt>Runbook (Procedura Tecnica Esecutiva)</dt>
+            <dd>Contiene la sequenza restrittiva e granulare di comandi tecnici o script esatti adoperati per eseguire materialmente una determinata porzione di automazione (es: stringhe PowerShell o configurazioni router da lanciare per bloccare una porta IP).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 4 — ALLERTA TUNING E LOG APPLICATIVI ═══════ -->
+        <section id="alert_tuning">
+          <h2>Tuning delle Regole & Audit dei registri Software</h2>
+          <p>
+            Nel normale flusso delle Security Operations, la ridondanza di allerte errate (falsi positivi) rischia di indurre la sindrome di 'alert fatigue' (assuefazione agli allarmi) negli analisti.
+          </p>
+
+          <h3>Il Processo del Tuning (Sintonizzazione delle Assunzioni)</h3>
+          <p>
+            Quando un analista del SOC rileva che determinati comportamenti anomali (es: un software gestionale interno che interpella porte non standard) sono in realtà da considerarsi sani e operativi per il ciclo lavorativo corrente, compie un'attività di <strong>Tuning (Tuning delle Regole)</strong>. Il tuning modifica i filtri d'allarme per ignorare formalmente tale attività d'ora in avanti.
+          </p>
+
+          <h3>L'Importanza dei Registri Software specifici (Application Logs)</h3>
+          <p>
+            Molti degli incidenti più dannosi avvengono non sulla infrastruttura di rete o a livello di firewall, bensì per via di transazioni logiche di backend. 
+          </p>
+          <div class="critical">
+            <strong>Esempio Chiave — Audit della Frode Contabile:</strong><br>
+            Se un utente usa illegittimamente il software di fatturazione interna della ditta per emettere clandestinamente check e pagamenti fraudolenti, i tecnici che indagano non troveranno evidenza di questa infrazione nei log dei firewall, delle porte IDS o dello scanner di vulnerabilità di sistema. L'amministratore dovrà procedere analizzando con massima cura i <strong>log applicativi (Application logs)</strong> del gestionale per tracciare la cronologia esatta delle transazioni abusive.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 5 — CASI D'USO DELL'AUTOMAZIONE E SCRIPTING ══ -->
+        <section id="automation_usecases">
+          <h2>Casi d'Uso dell'Automazione e dello Scripting</h2>
+          <p>
+            L'integrazione di script e processi orchestrati a livello centrale consente alle organizzazioni di supportare operazioni di sicurezza massive e immuni all'errore umano. Di seguito si analizzano i principali casi d'uso:
+          </p>
+          <dl class="termlist">
+            <dt>User Provisioning (Provisioning degli Utenti)</dt>
+            <dd>Creazione, profilazione e popolamento automatico degli account utente e dei gruppi di sicurezza (es. in Active Directory o Azure/Entra ID) sincronizzati con i sistemi HR di onboarding di impresa. Elimina le configurazioni errate manuali.</dd>
+
+            <dt>Resource Provisioning (Provisioning delle Risorse)</dt>
+            <dd>Allocazione programmata e sicura di macchine virtuali, database e storage nel cloud in base a template pre-validati di hardening, riducendo le falle introdotte da deploy improvvisati.</dd>
+
+            <dt>Guard Rails (Guard rail logici strutturali)</dt>
+            <dd>Criteri automatici di configurazione e policy restrittive che vigilano l'ambiente cloud e applicativo. Se una risorsa devia dalle regole stabilite (es. se un utente apre accidentalmente un bucket S3 ad accesso pubblico), il guard rail interviene in millisecondi ri-configurando e blindando la risorsa.</dd>
+
+            <dt>Security Groups (Aggiornamento dinamico dei Gruppi di Sicurezza)</dt>
+            <dd>Modifica automatica delle regole firewall cloud (Security Groups) o delle ACL di rete quando un allarme (es. trigger EDR) individua un host anomalo. Il sistema esclude l'host isolando i flussi di rete vulnerabili.</dd>
+
+            <dt>Ticket Creation (Creazione automatica dei Ticket)</dt>
+            <dd>Apertura automatica di incidenti gestionali (es. su Jira Service Desk, ServiceNow) non appena un allarme severo scatta nel SIEM, precompilando tutti i dettagli tecnici cruciali dell'IoC (IP, hash, host).</dd>
+
+            <dt>Escalation (Escalation automatica delle Allarmistiche)</dt>
+            <dd>Inoltro progressivo e tempestivo dell'allarme ad analisti L2, L3 o al team IR se un incidente non riceve riscontro entro i limiti temporali concordati (SLA) o se la gravità dell'IoC scala oltre determinate soglie di minaccia.</dd>
+
+            <dt>Enabling/Disabling Services & Access (Abilitazione/Disabilitazione di Servizi e Accessi)</dt>
+            <dd>Disattivazione proattiva di porte fisiche di switch, rimozione di chiavi API sospette e blocco sistematico (disabling) di account utente reputati sotto attacco per arrestare tentativi di esfiltrazione dati.</dd>
+
+            <dt>Continuous Integration and Testing (CI/CD - Integrazione e Test Continui)</dt>
+            <dd>Scansione automatica e dinamica del codice sorgente di un'applicazione (SAST/DAST/Dependency Scanning) inserita all'interno della pipeline di sviluppo del software, approvando il deploy in produzione esclusivamente se esente da falle di sicurezza note.</dd>
+
+            <dt>Integrations & APIs (Integrazioni e Interfacce di Programmazione)</dt>
+            <dd>L'uso di interfacce standardizzate API costituisce il collante indispensabile per consentire l'interazione tra differenti vendor e sili informativi (es. far comunicare il firewall di rete aziendale con il database di Threat Intelligence globale tramite chiamate API esterne).</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 6 — BENEFICI DELL'AUTOMAZIONE NELLE SECURITY OPERATIONS ══ -->
+        <section id="automation_benefits">
+          <h2>Benefici dell'Automazione nel SOC</h2>
+          <p>
+            Riconfigurare e sbloccare flussi di lavoro automatici produce miglioramenti tangibili per la postura complessiva di sicurezza dell'azienda:
+          </p>
+          <dl class="termlist">
+            <dt>Efficiency/Time Saving (Efficienza e risparmio di tempo)</dt>
+            <dd>Sgravare gli ingegneri SOC da compiti logico-ripetitivi consente di velocizzare la lavorazione delle attività amministrative e concentrare l'attenzione su investigazioni complesse.</dd>
+
+            <dt>Enforcing Baselines (Applicazione rigida delle Baseline)</dt>
+            <dd>Assicura che qualsiasi server o laptop configurato in azienda rispetti fedelmente le baseline di hardening stabilite, correggendo in modo proattivo le configurazioni difformi.</dd>
+
+            <dt>Standard Infrastructure Configurations (Configurazioni infrastrutturali standard)</dt>
+            <dd>L'adozione dell'<strong>Infrastructure as Code (IaC)</strong> consente di definire reti, VLAN e firewall tramite file di configurazione, eliminando adempimenti non conformi o differenze strutturali imprevedibili o "configuration drift".</dd>
+
+            <dt>Scaling in a Secure Manner (Scalabilità Sicura)</dt>
+            <dd>Permette a un'infrastruttura di ampliare a dismisura le proprie risorse in cloud (es. picchi stagionali di carico) ereditando automaticamente tutte le regole e i controlli protettivi preimpostati.</dd>
+
+            <dt>Employee Retention (Fidelizzazione dei dipendenti e prevenzione del Burnout)</dt>
+            <dd>I tassi di abbandono dei SOC sono storicamente alti a causa del burnout da compiti noiosi e alert fatigue. L'automazione elimina la polvere del lavoro ripetitivo, migliorando la soddisfazione professionale dello staff.</dd>
+
+            <dt>Reaction Time (Abbattimento dei tempi di reazione)</dt>
+            <dd>Un analista umano impiega decine di minuti per leggere un allarme, investigare, loggarsi sul firewall o Active Directory ed isolare una macchina compromessa. L'automazione esegue questa severa risposta in **millesimi di secondo**, contenendo l'infezione sul nascere.</dd>
+
+            <dt>Workforce Multiplier (Moltiplicatore delle forze)</dt>
+            <dd>Elemento cardine che trasforma un piccolo team SOC sguarnito in uno scudo impenetrabile, rendendolo capace di monitorare e neutralizzare migliaia di attacchi paralleli senza dover triplicare gli organici fisici.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 7 — SFIDE E CONSIDERAZIONI SULL'AUTOMAZIONE ════ -->
+        <section id="automation_considerations">
+          <h2>Sfide e Considerazioni nell'uso dell'Automazione</h2>
+          <p>
+            L'adozione di script ed automazioni non è esente da pericoli strutturali, rischi operativi e limitazioni sistematiche:
+          </p>
+          <dl class="termlist">
+            <dt>Complexity (Complessità ed Errori logici)</dt>
+            <dd>I playbook e le pipeline automatizzate creano un ecosistema contorto. Un difetto logico di programmazione in un playbook può bloccare il traffico legittimo aziendale scambiandolo per un attacco informatico, paralizzando l'impresa (es. quarantene di massa accidentali).</dd>
+
+            <dt>Cost (Costi di adozione ed esercizio)</dt>
+            <dd>Adottare piattaforme di orchestrazione (SOAR) e ingegnerizzare playbook validati richiede elevati costi vivi iniziali di licenza, consulenza professionale e formazione del personale.</dd>
+
+            <dt>Single Point of Failure (SPOF - Singolo Punto di Vulnerabilità)</dt>
+            <dd>Se il server di automazione centrale o l'account privilegiato di orchestrazione (che detiene credenziali amministrative straordinarie su switch, cloud e macchine client) viene compromesso, l'attaccante acquisisce all'istante le chiavi dell'intero regno, oppure se va offline, disabilita ogni capacità di reazione del SOC.</dd>
+
+            <dt>Technical Debt (Debito Tecnico residuale)</dt>
+            <dd>Si accumula quando si impiegano script e codici scritti in fretta per contenere minacce contingenti, senza documentarli o normalizzarli. Con il tempo, questi script diventano moduli orfani ingovernabili.</dd>
+
+            <dt>Ongoing Supportability (Supportabilità e Manutenzione continuativa)</dt>
+            <dd>I vendor cloud e gli standard cambiano costantemente. Le integrazioni API e i runbook tecnici devono essere continuativamente monitorati, testati e manutenuti per evitare che smettano di funzionare proprio nel momento critico d'emergenza.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 8 — CASI DI CLEANUP E INDAGINI PKI ════════ -->
+        <section id="ca_patching">
+          <h2>Gestione Post-Attacco: Patching della CA</h2>
+          <p>
+            Al termine di un attacco accertato o di un penetration test in cui un cybercriminale è penetrato nel perimetro AD usando certificati fittizi abilmente contraffatti a causa di una debolezza della Certification Authority, è necessario avviare il ripristino sicuro (Cleanup Phase).
+          </p>
+          <p class="focused-concept">
+            <strong>Cleanup Task — Patching the CA:</strong><br>
+            Fintanto che la debolezza del codice o della configurazione della Certification Authority rimane aperta sul server, l'attaccante potrà ritornare forgiando nuove identità. Per questo motivo, il principale e immediato remediation task da compiere durante la fase di cleanup consiste nel <strong>patchare il server CA (Patching the CA)</strong> per sradicare la vulnerabilità all'origine, prima di attuare modifiche accessorie come il reintegro delle password.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 6 — PROTOCOLLI EVOLUTI: WPA3 SAE ═════════ -->
+        <section id="wpa3_sae">
+          <h2>WPA3 e Sicurezza Password-Based (SAE)</h2>
+          <p>
+            Un'ulteriore applicazione di tecniche crittografiche moderne preposte a rendere sicuro lo scambio di chiavi sul perimetro fisico (Wi-Fi) riguarda l'introduzione dello standard <strong>WPA3</strong>.
+          </p>
+          <dl class="termlist">
+            <dt>Simultaneous Authentication of Equals (SAE)</dt>
+            <dd>SAE è l'algoritmo di scambio di chiavi impiegato in WPA3 Personal per sostituire il vulnerabile protocollo basato su PSK d'era WPA2. Funge da <strong>scambio di chiavi basato su password (password-based key exchange)</strong> progettato per resistere intrinsecamente ad attacchi a dizionario o intercettazioni offline. SAE garantisce la generazione di solidi segreti di crittografia condivisi escludendo lo scambio in chiaro dell'handshake.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.7</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>8 questions d'esame</strong> su SOAR, playbook, SIEM next-gen, tuning delle allerte, registri applicativi e scambio chiavi SAE, con feedback immediato e spiegazione strutturata in italiano.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.7 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.7</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Cos'è il Tuning nell'ambito del SOC?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Il <strong>Tuning</strong> è il processo di affinamento e calibrazione delle regole del SIEM o dell'IDS per escludere eventi benigni e azzerare la nascita di falsi positivi futuri.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale caratteristica distingue un SIEM Next-Gen?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La disponibilità integrata di <strong>funzionalità di risposta automatizzata (Automated response actions)</strong> sui dispositivi di infrastruttura.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>In quale file di log cercheresti prove di ricatti o frodi sul gestionale contabile?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Nei <strong>Log Applicativi (Application logs)</strong> specifici della piattaforma di contabilità violata, non nei log di rete o del firewall.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

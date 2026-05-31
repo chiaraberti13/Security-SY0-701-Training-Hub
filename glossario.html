@@ -540,6 +540,110 @@
       border-radius: 4px;
       background: #fef08a;
     }
+
+    /* Collapsible dashboard panel */
+    .approach-board {
+      margin: 24px 0 32px;
+    }
+    .approach-details {
+      background: var(--surface-alt);
+      border: 1.5px solid var(--light-slate);
+      border-radius: var(--radius-lg);
+      padding: 0;
+      overflow: hidden;
+      box-shadow: var(--shadow-1);
+    }
+    .approach-summary {
+      background: var(--surface-alt);
+      color: var(--ink);
+      font-weight: 700;
+      padding: 16px 24px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      list-style: none; /* Hide default arrow */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s ease, border-color 0.2s;
+      user-select: none;
+    }
+    .approach-summary:hover {
+      background: var(--light-slate);
+      border-color: var(--slate);
+    }
+    .approach-summary::-webkit-details-marker {
+      display: none; /* Hide Safari arrow */
+    }
+    .approach-summary::after {
+      content: '▶';
+      font-size: 0.8rem;
+      color: var(--teal);
+      transition: transform 0.25s ease;
+    }
+    .approach-details[open] .approach-summary::after {
+      transform: rotate(90deg);
+    }
+    .approach-content {
+      padding: 24px;
+      border-top: 1.5px solid var(--light-slate);
+      background: var(--white);
+    }
+    /* Inner table enhancements */
+    .approach-table-container {
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      border: 1px solid var(--light-slate);
+      border-radius: var(--radius-md);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.01);
+    }
+    .approach-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    .approach-table th {
+      background: var(--surface-alt);
+      color: var(--ink);
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--light-slate);
+    }
+    .approach-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--light-slate);
+      color: var(--slate);
+      line-height: 1.5;
+    }
+    .approach-table tr:hover td {
+      background: rgba(13, 148, 136, 0.02);
+      color: var(--ink);
+    }
+    .approach-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge-phase { background: #e0f2fe; color: #0369a1; }
+    .badge-tech { background: #f0fdf4; color: #15803d; }
+    .badge-tools { background: #fef3c7; color: #b45309; }
+
+    /* ASCII / Map style */
+    .scap-map-container {
+      background: var(--surface-alt);
+      border: 1.5px dashed var(--teal-soft);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 20px;
+      font-family: 'Consolas', 'Courier New', 'JetBrains Mono', monospace;
+      color: var(--ink);
+      overflow-x: auto;
+      line-height: 1.6;
+      font-size: 0.9rem;
+      white-space: pre;
+    }
   </style>
 </head>
 <body>
@@ -551,6 +655,194 @@
   <div class="ig-header">
     <h1 data-i18n="glossary_title">Glossario &amp; Acronimi Fondamentali</h1>
     <p data-i18n="glossary_subtitle">Il dizionario tecnico definitivo per l'esame CompTIA Security+ (SY0-701). Memorizza gli acronimi essenziali e i vocaboli chiave ordinati alfabeticamente.</p>
+  </div>
+
+  <!-- ══ COLLAPSIBLE SECURITY APPROACH & SCAP MAPPING DASHBOARD ══ -->
+  <div class="approach-board" id="operational-framework-board">
+    <details class="approach-details">
+      <summary class="approach-summary">
+        <span>🛠️ Mappatura Operativa dei Controlli &amp; Ecosistema SCAP (Approfondimento d'Esame)</span>
+      </summary>
+      <div class="approach-content">
+        <p style="margin: 0 0 16px 0; line-height: 1.6; color: var(--slate); font-size: 0.95rem;">
+          Questo quadro operativo e metodologico riassume l'organizzazione difensiva e i relativi controlli tecnologici e standard analizzati per affrontare l'esame CompTIA Security+, classificando le tecnologie d'ispezione ed i principali tool in base alle reali fasi operative della cybersecurity:
+        </p>
+
+        <h3 style="color: var(--navy); border-bottom: 2px solid var(--teal-soft); padding-bottom: 6px; margin: 24px 0 12px 0; font-size: 1.1rem; font-weight: 700;">1. Relazione tra Fasi Operative, Tecnologie e Strumenti di Sicurezza</h3>
+        <div class="approach-table-container">
+          <table class="approach-table">
+            <thead>
+              <tr>
+                <th>Fase di Controllo</th>
+                <th>Tecnologie / Standard</th>
+                <th>Strumenti Principali d'Esempio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Reconnaissance</strong> (Ricognizione)</td>
+                <td><span class="approach-badge badge-tech">OSINT, Asset Discovery</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">theHarvester, Amass, Nmap</code></td>
+              </tr>
+              <tr>
+                <td><strong>Enumeration</strong> (Enumerazione)</td>
+                <td><span class="approach-badge badge-tech">Service Discovery</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Gobuster, Dirsearch</code></td>
+              </tr>
+              <tr>
+                <td><strong>Vulnerability Assessment</strong></td>
+                <td><span class="approach-badge badge-tech">CVE, CVSS</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Nessus, OpenVAS</code></td>
+              </tr>
+              <tr>
+                <td><strong>Compliance Assessment</strong></td>
+                <td><span class="approach-badge badge-tech">SCAP</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">OpenSCAP, SCAP Workbench</code></td>
+              </tr>
+              <tr>
+                <td><strong>Exploitation</strong> (Sfruttamento)</td>
+                <td><span class="approach-badge badge-tech">Penetration Testing</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Metasploit Framework, SQLmap</code></td>
+              </tr>
+              <tr>
+                <td><strong>Credential Attacks</strong></td>
+                <td><span class="approach-badge badge-tech">Password Testing</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Hashcat, Hydra, John the Ripper</code></td>
+              </tr>
+              <tr>
+                <td><strong>Detection</strong> (Rilevamento)</td>
+                <td><span class="approach-badge badge-tech">NIDS</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Snort, Suricata</code></td>
+              </tr>
+              <tr>
+                <td><strong>Prevention</strong> (Prevenzione)</td>
+                <td><span class="approach-badge badge-tech">NIPS</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Suricata, Next Generation Firewall</code></td>
+              </tr>
+              <tr>
+                <td><strong>Host Monitoring</strong></td>
+                <td><span class="approach-badge badge-tech">HIDS</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">OSSEC, Wazuh</code></td>
+              </tr>
+              <tr>
+                <td><strong>Network Monitoring</strong></td>
+                <td><span class="approach-badge badge-tech">NSM</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Zeek</code></td>
+              </tr>
+              <tr>
+                <td><strong>Log Collection</strong></td>
+                <td><span class="approach-badge badge-tech">Centralized Logging</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Syslog, Windows Event Forwarding, Log Collectors</code></td>
+              </tr>
+              <tr>
+                <td><strong>Log Analysis</strong></td>
+                <td><span class="approach-badge badge-tech">Event Analysis</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Kibana, Graylog</code></td>
+              </tr>
+              <tr>
+                <td><strong>SIEM</strong> (Event Correlation)</td>
+                <td><span class="approach-badge badge-tech">Correlation &amp; Alerting</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Splunk, Elastic Security, Wazuh, IBM QRadar</code></td>
+              </tr>
+              <tr>
+                <td><strong>Threat Hunting</strong></td>
+                <td><span class="approach-badge badge-tech">IOC Search</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Splunk SPL, QRadar AQL, ELK Query DSL</code></td>
+              </tr>
+              <tr>
+                <td><strong>Incident Response</strong></td>
+                <td><span class="approach-badge badge-tech">Containment</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Velociraptor</code></td>
+              </tr>
+              <tr>
+                <td><strong>Forensics</strong> (RAM)</td>
+                <td><span class="approach-badge badge-tech">Memory Analysis</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Volatility</code></td>
+              </tr>
+              <tr>
+                <td><strong>Forensics</strong> (Disco)</td>
+                <td><span class="approach-badge badge-tech">Disk Analysis</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">Autopsy, The Sleuth Kit</code></td>
+              </tr>
+              <tr>
+                <td><strong>Reporting</strong></td>
+                <td><span class="approach-badge badge-tech">Audit &amp; Compliance</span></td>
+                <td><code style="color: var(--teal); font-weight: 600;">OpenSCAP, CIS-CAT, Audit Reports</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="color: var(--navy); border-bottom: 2px solid var(--teal-soft); padding-bottom: 6px; margin: 24px 0 12px 0; font-size: 1.1rem; font-weight: 700;">2. Dettaglio dei Componenti SCAP e delle relative Funzioni</h3>
+        <p style="margin: 0 0 12px 0; line-height: 1.5; color: var(--slate); font-size: 0.92rem;">
+          Lo standard <strong>SCAP (Security Content Automation Protocol)</strong> armonizza diversi linguaggi per consentire il monitoraggio automatizzato della postura di sicurezza:
+        </p>
+        <div class="approach-table-container">
+          <table class="approach-table">
+            <thead>
+              <tr>
+                <th>Componente SCAP</th>
+                <th>Funzione Specifica nel Protocollo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>XCCDF</strong></td>
+                <td>Definisce in formato XML benchmark d'ispezione, checklist operative ed indicazioni strutturate di hardening (es. profili CIS Benchmarks).</td>
+              </tr>
+              <tr>
+                <td><strong>OVAL</strong></td>
+                <td>Linguaggio XML per definire i test ed i controlli tecnici precisi da eseguire sul sistema operativo (verificare registri, file DLL, ecc.).</td>
+              </tr>
+              <tr>
+                <td><strong>ARF</strong></td>
+                <td>Asset Reporting Format, il formato XML standardizzato dei risultati per memorizzare e scambiare gli esiti finali delle scansioni compiute.</td>
+              </tr>
+              <tr>
+                <td><strong>CPE</strong></td>
+                <td>Common Platform Enumeration, formato URI standard per identificare univocamente l'hardware di rete, l'OS o il software installato.</td>
+              </tr>
+              <tr>
+                <td><strong>CVE</strong></td>
+                <td>Common Vulnerabilities and Exposures, dizionario mondiale per registrare ed etichettare univocamente anomalie e falle software note.</td>
+              </tr>
+              <tr>
+                <td><strong>CVSS</strong></td>
+                <td>Common Vulnerability Scoring System, calcola un punteggio oggettivo del livello di gravità (severity index) da 0 a 10 per ciascun baco.</td>
+              </tr>
+              <tr>
+                <td><strong>CCE</strong></td>
+                <td>Common Configuration Enumeration, indice di riferimento per identificare univocamente le impostazioni errate e le violazioni delle baseline di configurazione.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="color: var(--navy); margin: 24px 0 8px 0; font-size: 1.1rem; font-weight: 700;">3. Relazione e Gerarchia operativa delle componenti in OpenSCAP</h3>
+        <p style="margin: 0 0 12px 0; line-height: 1.5; color: var(--slate); font-size: 0.92rem;">
+          L'analisi sintattica e il flusso operativo delle componenti all'interno del motore di scansione coordinato (es: OpenSCAP) seguono questo schema integrato:
+        </p>
+        <div class="scap-map-container">OpenSCAP
+│
+├── XCCDF
+│     └── "Cosa controllare"
+│
+├── OVAL
+│     └── "Come controllarlo"
+│
+├── CPE
+│     └── "Su quale sistema"
+│
+├── CVE
+│     └── "Quale vulnerabilità"
+│
+├── CVSS
+│     └── "Quanto è grave"
+│
+└── ARF
+      └── "Risultato finale"</div>
+      </div>
+    </details>
   </div>
 
   <div class="glossary-controls">
@@ -753,6 +1045,27 @@
       "def": "Architettura standard di protocolli aperti di livello Network (Layer 3) per crittografare, autenticare e blindare l'integrità dei flussi di rete IP. Comunemente sfruttato per innalzare robusti tunnel VPN (Virtual Private Network) permanenti ed esenti da spionaggio.",
       "category": "net",
       "source_name": "OBJ 3.2"
+    },
+    {
+      "acronym": "XCCDF",
+      "name": "Extensible Configuration Checklist Description Format",
+      "def": "Componente chiave di SCAP. Standard XML per definire checklist operative di hardening, guide e benchmark di sicurezza strutturati (es. profili CIS Benchmarks).",
+      "category": "ops",
+      "source_name": "OBJ 4.4"
+    },
+    {
+      "acronym": "OVAL",
+      "name": "Open Vulnerability and Assessment Language",
+      "def": "Componente di SCAP. Linguaggio XML per descrivere e automatizzare l'esecuzione di controlli tecnici (es. chiavi di registro, versioni software) per determinare l'integrità di un sistema.",
+      "category": "ops",
+      "source_name": "OBJ 4.4"
+    },
+    {
+      "acronym": "ARF",
+      "name": "Asset Reporting Format",
+      "def": "Componente di SCAP. Formato XML standardizzato dei risultati per archiviare, descrivere e condividere l'esito finale delle scansioni dei benchmark e controlli di sicurezza eseguiti.",
+      "category": "ops",
+      "source_name": "OBJ 4.4"
     }
   ];
 

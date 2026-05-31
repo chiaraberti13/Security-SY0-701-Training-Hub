@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Identity and Access Management · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#contenuto-principale" class="skip-link">Salta al contenuto</a>
+
+<div class="container">
+  <div class="page">
+
+    <div class="breadcrumb">
+      <a href="../index_en.html">General Index</a>
+      <span>Dominio 4 — Security Operations</span>
+      <span>OBJ 4.6 — Gestione Identità e Accessi (IAM)</span>
+    </div>
+
+    <header>
+      <h1>OBJ 4.6 — Identity and Access Management</h1>
+    </header>
+
+    <div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 8: Gestione delle identità e degli accessi</p>
+      <p>CompTIA Security+ SY0-701 · Dominio 4 — Security Operations · Exam weight: 28%</p>
+      <p>
+        <strong>Official Objective (CompTIA):</strong>
+        <em>Given a scenario, implement and maintain identity and access management.</em>
+      </p>
+      <p>
+        <strong>Objectives covered:</strong>
+        <span class="objectives-tag">4.6</span>
+        <span class="weight-badge">D4 = 28%</span>
+      </p>
+      <p>
+        <strong>Prerequisites:</strong>
+        <a href="en_obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a> ·
+        <a href="en_obj1_2_fundamental_concepts.html">OBJ 1.2 — Concetti fondamentali</a>
+      </p>
+    </div>
+
+    <div class="layout">
+
+      <!-- ══ TOC SIDEBAR ══════════════════════════════════════════ -->
+      <nav class="toc-sticky" aria-label="Indice del capitolo">
+        <div class="toc-section">Standard &amp; Fondamenti</div>
+        <a href="#aaa_fundamentals">Ciclo AAA &amp; Ciclo di Vita IAM</a>
+        <a href="#account_security">Tipologie di Account &amp; Least Privilege</a>
+
+        <div class="toc-section">Credenziali &amp; MFA</div>
+        <a href="#mfa_factors">Fattori ed Attributi MFA</a>
+        <a href="#password_policies">Politiche delle Password &amp; Passwordless</a>
+        <a href="#password_attacks">Attacchi alle Password &amp; Mitigazioni</a>
+
+        <div class="toc-section">IdP &amp; Federazione</div>
+        <a href="#sso_federation">Directory Services, IdP, SSO &amp; Federazione</a>
+        <a href="#auth_protocols">Protocolli: SAML, OAuth, OIDC</a>
+
+        <div class="toc-section">Controlli d'Accesso</div>
+        <a href="#access_models">Modelli d'Accesso: RBAC, ABAC, DAC, MAC</a>
+        <a href="#time_access">Restrizioni Temporali &amp; Geolocation</a>
+
+        <div class="toc-section">Strumenti &amp; Hardening</div>
+        <a href="#pam_gpo">PAM (Privileged Access) &amp; GPO (Active Directory)</a>
+
+        <div class="toc-section">Verify &amp; Quiz</div>
+        <a href="#quiz-section">Interactive Quiz (38 quiz)</a>
+        <a href="#flashcard">Flashcard di riepilogo</a>
+      </nav>
+
+      <!-- ══ CONTENUTO PRINCIPALE ════════════════════════════════ -->
+      <main class="content" id="contenuto-principale">
+
+        <!-- ══ SEZIONE 0 — FONDAMENTI AAA & CICLO DI VITA IAM ══════ -->
+        <section id="aaa_fundamentals">
+          <h2>Fondamenti dell'Identity &amp; Access Management (IAM) e il Ciclo AAA</h2>
+          <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 8: Gestione delle identità e degli accessi</p>
+          <p>
+            L'<strong>Identity and Access Management (IAM)</strong> è il framework di processi aziendali, politiche e tecnologie preposto a garantire che le entità autorizzate (utenti, dispositivi, servizi) abbiano l'accesso corretto alle risorse corrette al momento corretto e per i motivi corretti. Il cuore di qualsiasi architettura IAM si basa sul celebre ciclo <strong>AAA (Identification, Authentication, Authorization, Accounting)</strong>:
+          </p>
+          <dl class="termlist">
+            <dt>Identification (Identificazione)</dt>
+            <dd>L'atto iniziale in cui un soggetto dichiara la propria identità unica al sistema (es: inserendo un username, digitando un indirizzo e-mail o presentando un ID digitale). Non garantisce alcuna prova di validità o possesso autentico.</dd>
+            
+            <dt>Authentication (Autenticazione)</dt>
+            <dd>Il processo di verifica e convalida delle credenziali presentate per accertare che il soggetto corrisponda effettivamente all'identità digitale precedentemente dichiarata (es: tramite immissione di password, esibizione di smart card, token o riscontri biometrici).</dd>
+            
+            <dt>Authorization (Autorizzazione)</dt>
+            <dd>Consiste nello stabilire quali azioni, servizi e risorse l'utente autenticato sia formalmente autorizzato a compiere o utilizzare sulla base delle politiche aziendali e dei modelli di controllo degli accessi impostati (es: privilegi di lettura, scrittura o modifica dei database).</dd>
+            
+            <dt>Accounting (Tracciamento, Registrazione e Responsabilità)</dt>
+            <dd>L'attività di monitoraggio e registrazione cronologica (logging dei log di controllo o audit logs) di tutte le azioni e transazioni avviate dal soggetto durante l'uso del sistema. È essenziale per scopi di analisi forense, conformità normativa ed esclude la negazione del compimento dell'azione (non-ripudio).</dd>
+          </dl>
+
+          <h3>Processi Chiave del Ciclo di Vita delle Identità (Identity Lifecycle)</h3>
+          <p>
+            Il corretto governo della forza lavoro e delle identità impone la formalizzazione di rigorosi controlli dal momento dell'onboarding fino all'interruzione del rapporto:
+          </p>
+          <ul>
+            <li><strong>Identity Proofing (Verifica dell'identità)</strong>: Il processo col quale un'organizzazione o un Identity Provider (IdP) verifica e convalida in via preventiva l'identità del mondo reale di una persona (es: tramite esibizione di documenti d'identità validi come passaporto o patente, controlli incrociati notarili o questions contestuali di background) <em>prima</em> di registrare e creare ufficialmente il suo account nei sistemi digitali aziendali.</li>
+            <li><strong>Provisioning and Deprovisioning (Fornitura e Revoca degli accessi)</strong>:
+              <ul>
+                <li><em>User Provisioning</em>: Il processo centralizzato di creazione, configurazione, fornitura di caselle postali e assegnazione tempestiva dei relativi privilegi d'accesso iniziali a un nuovo collaboratore.</li>
+                <li><em>User Deprovisioning</em>: L'immediato e sistematico azzeramento, disabilitazione o cancellazione di tutti gli account e permessi di sicurezza associati a una risorsa aziendale nel momento dell'offboarding o del licenziamento. Questo processo è vitale per prevenire il formarsi di "account silenti" (account orfani di ex-collaboratori) ampiamente cercati dai black-hat hacker per infiltrarsi.</li>
+              </ul>
+            </li>
+            <li><strong>Interoperability (Interoperabilità)</strong>: La capacità di diversi sistemi complessi IAM (anche appartenenti a software vendor differenti o installati presso società partner) di interfacciarsi e scambiare asserzioni d'identità e permessi d'accesso in modo nativo e sicuro, grazie all'adozione concordata di standard aperti protocollari (come SAML 2.0, OpenID Connect e SCIM per il provisioning).</li>
+            <li><strong>Attestation / Access Certification (Attestazione / Verifica periodica)</strong>: Il controllo periodico di sicurezza in cui manager, amministratori di sistema o proprietari dei dati esaminano, convalidano e documentano formalmente che le autorizzazioni assegnate ai singoli utenti siano tuttora giustificate dalle loro mansioni lavorative attuali. Previene l'accumulo incontrollato di privilegi residuali (privilege creep) e garantisce il Least Privilege.</li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 0.5 — TIPOLOGIE DI ACCOUNT & MINIMO PRIVILEGIO ════ -->
+        <section id="account_security">
+          <h2>Tipologie di Account, Gestione dei Privilegi e Controllo degli Accessi</h2>
+          <p>
+            Un'efficace gestione delle identità richiede un'attenta classificazione dei profili d'accesso e l'applicazione sistematica delle barriere di protezione del sistema operativo e delle architetture aziendali.
+          </p>
+
+          <h3>Il Principio del Minimo Privilegio (Principle of Least Privilege)</h3>
+          <p class="focused-concept">
+            Il <strong>Principio del Minimo Privilegio (Principle of Least Privilege)</strong> stabilisce che a qualsiasi utente, programma o processo debbano essere concessi esclusivamente i diritti di accesso e i privilegi minimi strettamente necessari per svolgere le proprie mansioni o funzioni lavorative, e per la durata più breve possibile. Questa misura riduce l'esposizione o il danno in caso di compromissione o errore.
+          </p>
+
+          <h4>Attuazione Pratica del Minimo Privilegio (Implementation of least privilege)</h4>
+          <p>
+            L'implementazione concreta di questo principio fondamentale si articola attraverso molteplici controlli e configurazioni:
+          </p>
+          <ul>
+            <li><strong>Separazione dei Ruoli e dei Gruppi (RBAC)</strong>: Gli utenti ordinari non vengono inseriti in gruppi amministrativi a meno che non sia strettamente indispensabile.</li>
+            <li><strong>Doppio Account Amministrativo</strong>: Gli utenti con funzioni sistemistiche utilizzano un account standard per le attività di routine (consultazione e-mail, navigazione e stesura documenti) e un account amministrativo separato esclusivamente per l'esecuzione di compiti configurativi e di manutenzione.</li>
+            <li><strong>Temporal Accounts (Account Temporanei)</strong>: Account configurati con una data di scadenza definita, progettati appositamente per consulenti esterni, partner temporanei o lavoratori stagionali. Questo previene che gli account rimangano perennemente attivi (account silenti) una volta terminata la mansione.</li>
+            <li><strong>Verifica Periodica dei Permessi (Attestation)</strong>: Fornisce un riesame formale delle autorizzazioni per correggere anomalie insorte nel tempo.</li>
+          </ul>
+
+          <div class="critical">
+            <strong>Permission or Authorization Creep (Accumulo di Privilegi):</strong><br>
+            Il <strong>Permission or Authorization Creep</strong> (noto anche come <em>Privilege Creep</em>) <strong>occurs when a user gains excessive rights during their career progression in the company</strong> (si verifica quando un utente accumula diritti eccessivi nel corso della sua progressione di carriera all'interno dell'azienda). <br>
+            Quando un dipendente cambia dipartimento o ruolo, spesso gli vengono concessi nuovi privilegi d'accesso senza revocare sistematicamente quelli vecchi legati al precedente incarico. La mitigazione primaria consiste nell'eseguire rigorose e regolari verifiche periodiche (Access Reviews / Attestation) per azzerare i permessi ridondanti.
+          </div>
+
+          <h3>Sistemi di Account: Amministratore vs standard e Account Locali vs Cloud</h3>
+          
+          <h4>Administrator and User Accounts (Account Amministrativi e Utente)</h4>
+          <p>
+            Una corretta gestione separa rigorosamente i ruoli di utilizzo:
+          </p>
+          <ul>
+            <li><strong>User Accounts (Account Utente)</strong>: Profili ordinari spogliati di permessi di modifica del sistema operativo. Possono far girare software autorizzati, ma non possono modificare file di sistema, porte o impostazioni globali.</li>
+            <li><strong>Administrator Accounts (Account Amministratore / root)</strong>: Profili ad altissimo privilegio con controllo completo sul sistema (installazione driver, modifica chiavi di registro, ripristino intera infrastruttura). Devono essere protetti con MFA forte e monitorati costantemente.</li>
+          </ul>
+
+          <h4>Local Accounts vs Microsoft Accounts</h4>
+          <p>
+            La provenienza logica della sorgente d'identità definisce la portata del login:
+          </p>
+          <ul>
+            <li><strong>Local Accounts (Account Locali)</strong>: Identità digitali memorizzate e convalidate esclusivamente sul singolo database locale d'uso (es. il database SAM in ambiente Windows o il file <code>/etc/passwd</code> in Unix/Linux). Hanno valenza esclusivamente all'interno del computer locale e non sono sincronizzati su server esterni o cloud.</li>
+            <li><strong>Microsoft Accounts (Account Microsoft / Cloud-based Accounts)</strong>: Identità centralizzate e integrate nell'ecosistema cloud (Microsoft Live, Microsoft 365, Entra ID). Consente il Single Sign-On nativo dell'utente, la sincronizzazione multipiattaforma automatica delle preferenze, delle password nel vault cloud, dell'archiviazione OneDrive e delle licenze applicative su più terminali diversi in sicurezza.</li>
+          </ul>
+
+          <h3>Windows User Account Control (UAC)</h3>
+          <p>
+            In ambiente Windows, il componente di sicurezza <strong>User Account Control (UAC)</strong> impedisce l'esecuzione non autorizzata di codice dannoso con privilegi elevati. <br>
+            Anche se un utente ha effettuato l'accesso con un account amministrativo, Windows esegue la maggior parte delle applicazioni con token standard (privilegi ridotti). Nel momento in cui un processo richiede un'operazione amministrativa (es. installazione di un software, modifica di un file sensibile), l'UAC blocca lo schermo chiedendo una conferma interattiva (se l'utente è amministratore) o l'immissione esplicita delle credenziali di amministrazione (se l'utente è standard). <br>
+            Questo impedisce che script silenti o virus scaricati in background possano infettare il sistema operativo ad insaputa dell'utente.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 1 — UNIVERSI MFA & FATTORI ════════════════ -->
+        <section id="mfa_factors">
+          <h2>Credenziali d'Autenticazione e Protocolli Multi-Fattore (MFA)</h2>
+          <p>
+            Al fine di irrobustire l'autenticazione oltre la semplice password singola (detta <strong>Single-factor Authentication</strong>, ad altissimo rischio di compromissione in assenza di passaggi addizionali), si impone l'impiego dell'autenticazione a due fattori (<strong>Two-factor Authentication - 2FA</strong>) o in generale a più fattori (<strong>Multifactor Authentication - MFA</strong>). Ciò richiede che il richiedente superi sfide appartenenti a categorie indipendenti tra loro.
+          </p>
+
+          <h3>Identificazione vs Autenticazione: I Pilastri d'Accesso</h3>
+          <p>
+            Per accedere a un sistema sicuro, il processo richiede tre elementi distinti e sequenziali:
+          </p>
+          <ul>
+            <li><strong>Usernames (Nomi Utente)</strong>: Costituiscono l'elemento primario di <strong>Identificazione (Identification)</strong>. Il nome utente è un identificatore pubblico o semi-pubblico che dichiara l'identità del soggetto al sistema, ma non fornisce alcuna prova formale di veridicità.</li>
+            <li><strong>Passwords (Password)</strong>: Rappresentano il fattore classico di autenticazione basato sulla conoscenza (Knowledge-based). Le password vengono utilizzate nella fase di <strong>Autenticazione (Authentication)</strong> per convalidare e verificare che il soggetto conosca il segreto associato allo specifico Username dichiarato.</li>
+            <li><strong>Biometrics (Biometria / Autenticazione Biometrica)</strong>: Rappresenta il fattore basato sull'inerenza (Inherence-based, qualcosa che l'utente è). Tecnologie come l'impronta digitale, la fisionomia facciale o la scansione della retina permettono di autenticare l'utente attestando le sue caratteristiche biologiche uniche, minimizzando i furti d'identità determinati da credenziali testuali smarrite.</li>
+          </ul>
+
+          <h3>I 5 Fattori di Autenticazione Avanzati (MFA)</h3>
+          <p>
+            Perché un sistema si possa considerare rigorosamente MFA, i requisiti presentati dall'utente devono provenire da <strong>almeno due categorie indipendenti</strong> dei seguenti fattori:
+          </p>
+          <dl class="termlist">
+            <dt>Knowledge-based Factor — Qualcosa che conosci</dt>
+            <dd>Si basa sulla conoscenza esclusiva di informazioni astratte archiviate nella mente del soggetto. Esempi chiave: <strong>Password</strong>, <strong>PIN personali</strong>, questions di sicurezza di backup personali.</dd>
+            
+            <dt>Possession-based Factor — Qualcosa che possiedi</dt>
+            <dd>Elementi materiali o elettronici detenuti fisicamente dall'impiegato. Esempi chiave: <strong>Smart card</strong>, <strong>Hardware tokens</strong> (chiavette crittografiche come YubiKey), <strong>Software token</strong> (applicazioni di generazione codici OTP come Google Authenticator su smartphone), chiavi di sicurezza fisiche o dispositivi certificati registrati (Trusted Devices).</dd>
+            
+            <dt>Inherence-based Factor — Qualcosa che sei (Biometria / Biometric Authentication)</dt>
+            <dd>Parametri biologici e tratti fisiologici statici intrinsechi dell'individuo. Esempi chiave: Scansione dell'iride, <strong>Retina scan</strong>, riscontro tridimensionale della fisionomia facciale (facial recognition) e <strong>Fingerprint scan</strong> (impronta digitale).</dd>
+
+            <dt>Behavior-based Factor — Qualcosa che fai</dt>
+            <dd>Include la cadenza e la dinamica temporale di battitura sulla tastiera (keystroke dynamics), la velocità o l'angolazione tipica di spostamento del mouse, o pattern ricorrenti d'uso della rete.</dd>
+
+            <dt>Location-based Factor — Dove sei</dt>
+            <dd>Rileva la posizione fisica del terminale a livello geografico ordinario o topologico. Esempi chiave: Indirizzo IP di provenienza geografica (<strong>IP Geolocation</strong>) o coordinate GPS precise.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio Dinamico d'Esame — Scenario MFA VPN:</strong><br>
+            Per proteggere una rete VPN ad alto rischio aziendale combinando più fattori fondamentali senza violare l'indipendenza strutturale, il manager deve prescrivere contemporaneamente una <strong>Password</strong> (conoscenza), un <strong>Hardware Token fisico</strong> (possesso), e un'<strong>Impronta digitale (Thumbprint)</strong> (essere).
+          </div>
+
+          <h3>Attributi Avanzati di Contesto</h3>
+          <p>
+            Oltre ai fattori classici, i moderni motori IAM valutano attributi situazionali per decidere se bloccare un login o richiedere prove addizionali tramite l'<strong>Accesso Condizionale</strong>: una richiesta proveniente dalla rete interna o in orari regolari viene ammessa rapidamente, mentre accessi dal perimetro esterno o da localizzazioni insolite innescano l'interdizione automatica o flussi MFA integrativi.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 2 — PASSWORD POLICIES & ACCESSI PASSWORDLESS ════ -->
+        <section id="password_policies">
+          <h2>Politiche di Sicurezza delle Password (Password Security) &amp; Passwordless</h2>
+          <p>
+            In seguito a violazioni e account takeover dovuti a credenziali banali o facilmente indovinabili degli amministratori o degli utenti, un analista di sicurezza interviene riformando la <strong>politica di autenticazione</strong> aziendale.
+          </p>
+
+          <div class="critical">
+            <strong>Parametri Cardine della Password Policy:</strong>
+            <p style="margin-top: 10px; margin-bottom: 8px;">
+              Per garantire l'efficacia delle credenziali contro tecniche di cracking digitali, le ditte impongono l'uso di <strong>long, strong, and complex passwords (password lunghe, forti e complesse)</strong>, governate dai seguenti controlli:
+            </p>
+            <ul>
+              <li><strong>Lunghezza della password (Password length)</strong>: È l'elemento critico assoluto per aumentare l'entropia logica e resistere alle scansioni automatiche. Incrementare il requisito minimo di lunghezza a 14 o più caratteri garantisce l'entropia ideale di una "strong password" (NIST consiglia l'uso di passphrases lunghe).</li>
+              <li><strong>Complessità della password (Password complexity)</strong>: Forza l'adozione collettiva di una miscela casuale di lettere maiuscole, minuscole, cifre numeriche e <strong>caratteri speciali</strong> (@, #, $, %, ecc.).</li>
+              <li><strong>Riutilizzo della password (Password reuse / History)</strong>: Impedisce ai colleghi di riutilizzare all'infinito la stessa password costringendo il sistema Active Directory a memorizzare un database storico delle vecchie credenziali vietate.</li>
+              <li><strong>Scadenza delle password (Password expiration)</strong>: Impone la scadenza programmata dell'account (es: 90 giorni) per inibire l'uso di chiavi sottratte di nascosto.</li>
+              <li><strong>Età della password (Password age)</strong>:
+                <ul>
+                  <li><em>Età Massima (Maximum password age)</em>: Definisce il periodo di tempo massimo dopo il quale il sistema richiede inderogabilmente l'impostazione di nuove credenziali.</li>
+                  <li><em>Età Minima (Minimum password age)</em>: Impedisce agli utenti di cambiare la password molte volte consecutivamente in pochi secondi per aggirare la memoria storica.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <h3>Sistemi di Gestione Centralizzata delle Password (Password Managers)</h3>
+          <p>
+            Per consentire il rispetto di password complesse e distinte per ogni singolo servizio senza indurre l'affaticamento cognitivo degli utenti, le organizzazioni diffondono l'uso di Password Manager integrati che garantiscono:
+          </p>
+          <ul>
+            <li><strong>Password Generation (Generazione automatica)</strong>: Strumenti in grado di produrre istantaneamente lunghe stringhe pseudocasuali ad elevato carattere di imprevedibilità (entropia).</li>
+            <li><strong>Autofill (Compilazione automatica sicura)</strong>: Inserimento istantaneo delle credenziali validato rigorosamente solo sull'effettiva corrispondenza del dominio DNS d'origine della pagina, azzerando i tentativi fraudolenti di cattura tramite phishing.</li>
+            <li><strong>Secure Sharing (Condivisione sicura)</strong>: Casseforti (vaults) crittografate condivise nell'ecosistema aziendale per distribuire in modo controllato credenziali di dipartimento senza mai rivelarle in chiaro su chat o e-mail.</li>
+            <li><strong>Cross-Platform Access (Accesso multipiattaforma)</strong>: La sincronizzazione protetta di password, chiavi e note cifrate tra svariati sistemi d'uso (mobile, desktop, estensioni browser) per favorire la fluidità operativa del personale in mobilità.</li>
+          </ul>
+
+          <h3>L'evoluzione verso il Passwordless</h3>
+          <p>
+            Per escludere alla radice i vettori di phishing legati all'impiego delle parole chiave ordinarie, l'architettura aziendale evolve verso meccanismi passwordless:
+          </p>
+          <ul>
+            <li><strong>One-Time Passwords (OTP)</strong>: Codici monouso dinamici generati in tempo reale (come i token basati su tempo <em>TOTP</em> o contatore <em>HOTP</em>) tramite apposite applicazioni o dispositivi standalone fisici.</li>
+            <li><strong>Magic Links (Link magici)</strong>: Link di accesso sicuro inviati alla casella protetta dell'utente contenenti un token asseverato temporalmente che autentica l'utente con un singolo clic, saltando del tutto l'inserimento di credenziali.</li>
+            <li><strong>Passkeys</strong>: Il gold standard moderno dell'autenticazione passwordless promosso dall'alleanza FIDO. Le passkey si basano sull'uso di chiavi crittografiche pubbliche/private legate indissolubilmente all'hardware dell'utente (TPM, smartphone o chip di sicurezza). La chiave privata non lascia mai il dispositivo dell'utente, rendendo questo protocollo strutturalmente immune a qualsiasi tentativo di phishing.</li>
+          </ul>
+        </section>
+
+        <!-- ══ SEZIONE 2.5 — PASSWORD ATTACKS & SUGGESTED MITIGATIONS ════ -->
+        <section id="password_attacks">
+          <h2>Attacchi alle Password (Password Attacks) e Tecniche di Mitigazione</h2>
+          <p>
+            Gli attaccanti mettono a punto molteplici tipologie di attacchi per identificare e compromettere le parole chiave dei profili utente, sfruttando debolezze comportamentali o lacune algoritmiche:
+          </p>
+          <dl class="termlist">
+            <dt>Brute Force Attacks (Attacchi a forza bruta)</dt>
+            <dd>L'attaccante utilizza software automatici ad alte prestazioni per testare ininterrottamente qualsiasi permutazione ordinata e combinazione di caratteri fino a indovinare la password esatta. È matematicamente limitato solo dalla lunghezza complessiva della chiave.</dd>
+            
+            <dt>Dictionary Attacks (Attacchi basati su dizionario)</dt>
+            <dd>Prevede l'impiego continuo di un file preconfezionato ad hoc (dizionario delle password) contenente centinaia di migliaia di parole di uso comune, gerghi, codici banali e varianti regionali o storiche già violate.</dd>
+            
+            <dt>Spraying Attacks (Password Spraying)</dt>
+            <dd>Un attacco furtivo finalizzato ad eludere il blocco degli account (Account Lockout). L'attaccante seleziona poche password estremamente deboli e diffuse (es: "Password2026!" o "123456") e le "spruzza" a turno provandole una ad una contro <em>migliaia di account aziendali diversi</em>, muovendosi al di sotto dei radar di allarme del SIEM.</dd>
+            
+            <dt>Hybrid Attacks (Attacchi Ibridi)</dt>
+            <dd>Una sofisticata modalità combinata che unisce i concetti del dizionario con la forza bruta: il software prende le parole ordinarie presenti nel dizionario e applica sistematicamente modifiche algoritmiche parametriche (es: inserimento di numeri finali, sostituzione di lettere con simboli o leet speak tipo "E" in "3").</dd>
+          </dl>
+
+          <div class="critical">
+            <strong>Le 5 Tecniche di Mitigazione degli Attacchi alle Password d'Esame:</strong>
+            <p>
+              Gli amministratori di sicurezza neutralizzano gli attacchi descritti ricorrendo a controlli normativi e difese proattive:
+            </p>
+            <ol>
+              <li><strong>Increasing password length (Aumento della lunghezza)</strong>: È l'attività protettiva primaria. Incrementare la lunghezza minima arresta gli attacchi a forza bruta grazie al fattore di crescita esponenziale dello spazio di ricerca necessario all'attaccante.</li>
+              <li><strong>Increasing password complexity (Aumento della complessità)</strong>: Forza l'inclusione di caratteri alternativi rendendo inefficaci i dizionari di parole semplici e ampliando ulteriormente il tempo richiesto per le violazioni.</li>
+              <li><strong>Limiting the number of login attempts (Limitazione dei tentativi d'accesso)</strong>: L'implementazione di una rigorosa <strong>Account Lockout Policy</strong> che blocca temporaneamente l'account (es. dopo 5 tentativi consecutivi falliti in 15 minuti) uccide gli attacchi rapidi a forza bruta e a dizionario, arrestando i tentativi futuri.</li>
+              <li><strong>Using multifactor authentication (Uso del Multi-Fattore - MFA)</strong>: Rappresenta la difesa definitiva. Anche qualora l'hacker indovinasse la password esatta via dizionario o forza bruta, il login verrebbe inesorabilmente respinto a causa della mancanza dell'hardware token o dell'asserzione biometrica.</li>
+              <li><strong>Using CAPTCHAs</strong>: L'integrazione di verifiche visivo-cognitive tese a dimostrare che l'interazione è governata da un operatore umano. Rende inapplicabile l'esecuzione automatica di script massivi di brute-forcing da remoto.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 3 — SSO & FEDERAZIONE ═════════════════════════ -->
+        <section id="sso_federation">
+          <h2>Servizi Directory, IdP, Single Sign-On (SSO) & Federazione</h2>
+          <p>
+            Man mano che le ditte espandono i propri operati impiegando moltitudini di applicazioni Web SaaS slegate tra loro, il proliferare di database di account e credenziali separate espone la rete a notevoli criticità operative e di sicurezza.
+          </p>
+
+          <h3>I Servizi Directory e il Protocollo LDAP / LDAPS</h3>
+          <p>
+            Un'infrastruttura d'identità aziendale si basa tipicamente su un <strong>Servizio Directory (Directory Service)</strong>, come Microsoft Active Directory (AD), che funge da database gerarchico centralizzato contenente le informazioni su tutte le risorse di rete, inclusi account utente, computer, stampanti e gruppi organizzativi.
+          </p>
+          <ul>
+            <li><strong>LDAP (Lightweight Directory Access Protocol)</strong>: È il protocollo industriale client-server standard aperto utilizzato per interrogare, modificare e gestire directory centralizzate a livello di rete locale (porta in chiaro 389).</li>
+            <li><strong>LDAPS (LDAP Secure)</strong>: Variante protetta che incapsula le query e lo scambio di credenziali LDAP all'interno di un canale cifrato TLS/SSL (porta standard 636) per neutralizzare l'intercettazione dei segreti in transito.</li>
+          </ul>
+
+          <h3>I Vantaggi Chiave dell'adozione del Single Sign-On (SSO)</h3>
+          <p>
+            L'adozione del Single Sign-On (SSO) consente agli utenti di autenticarsi una sola volta tramite un portale centrale per ottenere l'accesso sicuro e immediato a tutti i servizi coordinati dell'azienda. Gli obiettivi e benefici di questa tecnologia sono cruciali nei quesiti dell'esame CompTIA Security+:
+          </p>
+          <dl class="termlist">
+            <dt>Improved user experience (Esperienza utente migliorata)</dt>
+            <dd>L'utente finale deve ricordare ed inserire una sola password forte. Evita il fastidio del blocco frequente degli account e l'inserimento ripetuto di credenziali ad ogni cambio pagina o applicazione, garantendo fluidità.</dd>
+
+            <dt>Increased productivity (Aumento della produttività)</dt>
+            <dd>Eliminando i continui passaggi e interruzioni dovuti al login separato, gli impiegati risparmiano tempo prezioso ad ogni sessione lavorativa e rimangono concentrati sulle proprie attività, aumentando l'efficienza complessiva.</dd>
+
+            <dt>Reduced information technology support costs (Riduzione dei costi di supporto IT)</dt>
+            <dd>La grandissima maggioranza delle richieste di assistenza (helpdesk ticket) in un'azienda tradizionale riguarda lo sblocco di credenziali e il ripristino di password dimenticate. SSO riduce drasticamente l'esigenza di password multiple, abbattendo i ticket di supporto e i relativi costi amministrativi IT.</dd>
+
+            <dt>Enhanced security (Sicurezza accresciuta e robusta)</dt>
+            <dd>Meno password da scrivere riduce il rischio di annotazioni cartacee ("sticky notes") o riutilizzo di password banali su più portali. Consente inoltre all'amministratore di implementare e governare in modo rigoroso, tempestivo e centralizzato l'autenticazione a più fattori (MFA) e criteri di password forte dall'unico portale d'ingresso (IdP).</dd>
+          </dl>
+
+          <h3>Selezionare l'Identity Provider (IdP) come Primo Passo</h3>
+          <p class="focused-concept">
+            <strong>Punto d'Esame IAM — SaaS Consolidation:</strong><br>
+            Se un'azienda desidera consolidare e abbassare il numero di credenziali destinate ai propri interni adottando un pilastro Single Sign-On (SSO), il <strong>primo passo logico</strong> consiste nel <strong>selezionare e configurare l'Identity Provider (IdP)</strong> centralizzato della ditta. L'IdP fungerà da autoritativo centrale preposto a validare e custodire le identità digitali, propagando le autorizzazioni alle singole applicazioni esterne (Service Providers - SP).
+          </p>
+
+          <h3>La Federazione delle Identità (Federation)</h3>
+          <p>
+            La <strong>Federazione delle Identità (Identity Federation)</strong> è un sistema che collega le identità digitali degli utenti tra molteplici sistemi informativi, confini di sicurezza e domini aziendali distinti. Consente a un utente di autenticarsi nel proprio dominio nativo interno (es. rete aziendale) e di accedere istantaneamente e in modo sicuro ad applicazioni, servizi o portali esterni gestiti da fornitori terzi o ditte partner, senza la necessità di creare un nuovo account locale o reinserire le credenziali.
+          </p>
+
+          <div class="note-box">
+            <strong>Concetto Cardine per il superamento dell'esame:</strong><br>
+            Nella federazione, <strong>la password o le credenziali dell'utente non vengono MAI trasmesse, memorizzate o condivise con il sistema partner esterno</strong>. L'autenticazione avviene interamente sul server nativo dell'utente (Identity Provider), il quale emette semplicemente un <em>token digitale firmato crittograficamente</em> (asserzione) che attesta l'identità dell'utente al server esterno (Service Provider).
+          </div>
+
+          <h4>I Due Attori Principali della Federazione</h4>
+          <p>
+            Qualsiasi architettura di federazione si basa su una transazione a fiducia stabilita tra due figure principali:
+          </p>
+          <dl class="termlist">
+            <dt>1. Identity Provider / IdP (Fornitore d'Identità)</dt>
+            <dd>È l'entità autoritativa proprietaria del database delle utenze (es. Active Directory della tua ditta). Si occupa di identificare, verificare e autenticare gli utenti (tramite password, MFA, passkey, ecc.) ed emette un'asserzione/token d'accesso crittograficamente sicura e firmata.</dd>
+
+            <dt>2. Service Provider / SP (Fornitore di Servizi / Relying Party)</dt>
+            <dd>È l'applicazione esterna o la risorsa cloud partner (es. Salesforce, un portale partner, Office 365, un portale di e-learning) a cui l'utente desidera accedere. Il Service Provider non conosce l'utente e non possiede le sue credenziali, ma si fida ciecamente delle asserzioni digitali emesse dall'IdP partner.</dd>
+          </dl>
+
+          <div class="example-box">
+            <strong>Esempio Pratico e Flusso della Transazione di Federazione (Step-by-Step Federated SSO Transaction):</strong><br>
+            La <strong>Ditta A (il tuo datore di lavoro / Identity Provider)</strong> stabilisce un accordo con la <strong>Ditta B (un partner / Service Provider)</strong>. Il flusso tecnico si articola esattamente in 6 passaggi standardizzati, ampiamente testati negli esami CompTIA:
+            
+            <ol class="step-list" style="margin-top: 15px; padding-left: 20px;">
+              <li style="margin-bottom: 10px;">
+                <strong>Login initiation (Inizio del login)</strong>:<br>
+                L'utente desidera accedere a una risorsa protetta sul cloud o sul portale esterno del partner (Service Provider, es. Ditta B). Il tentativo di accesso innesca l'inizio della transazione SAML o OIDC.
+              </li>
+              <li style="margin-bottom: 10px;">
+                <strong>Redirection to an identity provider (Reindirizzamento all'IdP)</strong>:<br>
+                Il portale esterno (Service Provider) rileva che l'utente appartiene a una ditta partner e genera una richiesta di autenticazione, reindirizzando in background la sessione del browser dell'utente verso il portale di login protetto dell'Identity Provider (IdP, es. Ditta A).
+              </li>
+              <li style="margin-bottom: 10px;">
+                <strong>Authenticating the user (Autenticazione dell'utente)</strong>:<br>
+                L'utente visualizza la schermata di login sicura sul server della propria azienda (IdP). Qui viene sfidato ad autenticarsi inserendo le proprie credenziali ordinarie, smart card, MFA o chiavette di sicurezza. L'autenticazione avviene interamente all'interno dell'IdP; l'esterno non vede mai la password.
+              </li>
+              <li style="margin-bottom: 10px;">
+                <strong>Generation of an assertion (Generazione dell'asserzione)</strong>:<br>
+                Una volta superata con successo l'autenticazione, l'Identity Provider genera un'<strong>asserzione digitale (SAML Assertion)</strong> o un token di sicurezza (JWT) firmato crittograficamente con la propria chiave privata. Questo pacchetto di dati attesta formalmente le informazioni d'identità, il ruolo dell'utente ed eventuali attributi autorizzativi.
+              </li>
+              <li style="margin-bottom: 10px;">
+                <strong>Returning to a service provider (Ritorno al Service Provider)</strong>:<br>
+                L'Identity Provider reindirizza il browser dell'utente indietro al Service Provider, inviando contestualmente l'asserzione o il token sicuro firmato crittograficamente all'endpoint concordato del Service Provider (Assertion Consumer Service).
+              </li>
+              <li style="margin-bottom: 15px;">
+                <strong>Verification and access (Verifica e concessione dell'accesso)</strong>:<br>
+                Il Service Provider riceve l'asserzione, ne verifica la firma crittografica utilizzando la chiave pubblica pre-condivisa dell'IdP (confermando che proviene realmente dall'IdP fidato e non è stata alterata in transito) e stabilisce una sessione d'accesso sicura, garantendo all'utente l'accesso immediato alla risorsa o all'applicazione.
+              </li>
+            </ol>
+          </div>
+
+          <h4>Relazioni di Fiducia (Trust Relationships)</h4>
+          <p>
+            Affinché la federazione funzioni, gli amministratori delle due organizzazioni devono preventivamente configurare una <strong>Relazione di Fiducia (Trust Relationship)</strong> scambiandosi certificati digitali pubblici e chiavi di crittografia. Esistono due modalità principali per regolare questi flussi fiduciari:
+          </p>
+          <ul>
+            <li><strong>Fiducia Monodirezionale (One-Way Trust)</strong>: Il Dominio A si fida del Dominio B, ma il Dominio B non si fida del Dominio A. Gli utenti del Dominio B possono accedere alle risorse del Dominio A, ma non viceversa.</li>
+            <li><strong>Fiducia Bidirezionale (Two-Way Trust)</strong>: Entrambi i domini si fidano l'uno dell'altro reciprocamente. Gli utenti del Dominio A possono accedere alle risorse del Dominio B e gli utenti del Dominio B possono accedere alle risorse del Dominio A.</li>
+            <li><strong>Fiducia Transitiva (Transitive Trust)</strong>: Se il Dominio A si fida del Dominio B, e il Dominio B si fida del Dominio C, allora il Dominio A si fida transitivamente anche del Dominio C.</li>
+            <li><strong>Fiducia Non Transitiva (Non-Transitive Trust)</strong>: La relazione fiduciaria è strettamente confinata tra due soli domini specifici e non si estende ad altre diramazioni o sussidiarie terze collegate ai domini.</li>
+          </ul>
+
+          <p>
+            I protocolli industriali standard di riferimento per regolare lo scambio sicuro e firmato digitalmente di queste identità federate includono <strong>SAML</strong> (per l'ecosistema enterprise basato su XML), <strong>OAuth</strong> (focalizzato sull'autorizzazione API con token JSON Bearer) e <strong>OIDC / OpenID Connect</strong> (il framework di autenticazione costruito sopra OAuth 2.0).
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 4 — SAML VS OAUTH VS OIDC ════════════════════ -->
+        <section id="auth_protocols">
+          <h2>Differenze Chiave tra Protocolli d'Autenticazione d'Esame</h2>
+          <p>
+            Saper discriminare quando utilizzare uno standard rispetto a un altro è oggetto di innumerevoli scenari pratici CompTIA:
+          </p>
+
+          <table class="standard-table">
+            <thead>
+              <tr>
+                <th>Protocollo</th>
+                <th>Focus Principale</th>
+                <th>Standard dei Messaggi</th>
+                <th>Scenari Tipici d'Esame</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>SAML</strong> (Security Assertion Markup Language)</td>
+                <td>Autenticazione & SSO Aziendale</td>
+                <td>XML-based Assertions</td>
+                <td>Federazione SSO con applicazioni web SaaS cloud esterne (es: portali finanziari o contabili partner).</td>
+              </tr>
+              <tr>
+                <td><strong>OAuth 2.0</strong> (Open Authorization)</td>
+                <td>Autorizzazione API (Access Tokens)</td>
+                <td>JSON / Bearer Tokens</td>
+                <td>Focus specifico sull'autorizzazione dell'applicazione client per agire sul cloud al posto dell'utente, senza gestire l'autenticazione delle credenziali.</td>
+              </tr>
+              <tr>
+                <td><strong>OIDC</strong> (OpenID Connect)</td>
+                <td>Autenticazione Utente su Web</td>
+                <td>JSON Web Tokens (JWT)</td>
+                <td>Strato d'autenticazione web moderno e responsive montato direttamente al di sopra dei token autorizzativi di OAuth 2.0.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="critical">
+            <strong>RADIUS per Infrastrutture Cisco/VPN:</strong><br>
+            A differenza dei protocolli per l'ambiente web e SaaS descritti sopra, la connessione fisica della forza lavoro da remoto tramite VPN e client router richiede l'espletamento di flussi di sicurezza interni di tipo <strong>AAA (Authentication, Authorization, Accounting)</strong>. Lo standard di riferimento in questo ambito è la configurazione di un server <strong>RADIUS</strong> integrato con tunnel VPN <strong>IPSec</strong>.
+          </div>
+        </section>
+
+        <!-- ══ SEZIONE 5 — MODELLI DI CONTROLLO D'ACCESSO ════════════ -->
+        <section id="access_models">
+          <h2>Modelli di Controllo d'Accesso (Access Control Models)</h2>
+          <p>
+            Definiscono il formalismo matematico e logico adottato dal sistema operativo o dall'applicazione per concedere o rifiutare le autorizzazioni:
+          </p>
+          <dl class="termlist">
+            <dt>Role-Based Access Control / RBAC (Accesso basato sui Ruoli)</dt>
+            <dd>I permessi vengono rigidamente associati a gruppi o ruoli di lavoro (es: Gruppo Ingegneria, Gruppo HR), anziché a singoli utenti. Quando un dipendente cambia mansione o reparto (engineer move), è sufficiente aggiornare la sua associazione di gruppo per allineare all'istante i suoi privilegi d'accesso.</dd>
+            
+            <dt>Attribute-Based Access Control / ABAC (Accesso basato sugli Attributi)</dt>
+            <dd>Offre la massima flessibilità granulare. Valuta molteplici attributi contestuali simultaneamente (es: dipartimento dell'utente, indirizzo IP, tipo di connessione, ora del giorno, stato di integrità del sistema).</dd>
+            
+            <dt>Discretionary Access Control / DAC (Accesso Discrezionale)</dt>
+            <dd>Il proprietario della risorsa (Owner) detiene il potere discrezionale di stabilire chi può leggere o modificare i propri dati. I permessi risiedono sul file system sotto forma di <strong>ACL (Access Control Lists)</strong>.</dd>
+            
+            <dt>Mandatory Access Control / MAC (Accesso Mandatorio)</dt>
+            <dd>Configurazione ultrasicura di isolamento militare. Il sistema operativo associa in modo inderogabile <strong>Etichette di sicurezza (Labels)</strong> alle risorse e livelli d'accesso (Clearance) agli utenti. L'utente non può alterare o propagare i permessi in alcun modo.</dd>
+
+            <dt>Rule-Based Access Control / Rule-BAC (Accesso basato su Regole)</dt>
+            <dd>Da non confondere con l'accesso basato sui ruoli (RBAC). Nel Rule-BAC, l'accesso viene governato e concesso sulla base di un insieme rigido di regole e filtri logici definiti centralmente dagli amministratori di sistema applicati a livello globale o di risorsa (es. ACL di router/firewall, restrizioni orarie o restrizioni di porta), indipendentemente dalle mansioni lavorative individuali. Ad esempio: <em>"L'accesso a questo server è vietato dalle 22:00 alle 06:00 per chiunque"</em> o <em>"L'applicazione accetta connessioni solo se provengono dalla sottorete aziendale predefinita"</em>.</dd>
+          </dl>
+        </section>
+
+        <!-- ══ SEZIONE 6 — CONTROLLO TEMPORALE & GEOLOCATION ════════ -->
+        <section id="time_access">
+          <h2>Filtri basati sul Tempo e sulla Geolocalizzazione</h2>
+          <p>
+            Molti incidenti occorrono in orari notturni a seguito del dirottamento di credenziali. La mitigazione consiste nel limitare la finestra operativa dei profili degli utenti ordinari o esterni in base a criteri oggettivi:
+          </p>
+
+          <h3>Restrizioni Temporali d'Accesso (Time-Of-Day Restrictions)</h3>
+          <p class="focused-concept">
+            <strong>Applicazione d'Esame — Contract Employees Lockout:</strong><br>
+            Per impedire categoricamente che un consulente esterno o un dipendente acceda ai sistemi aziendali o esporti file al di fuori del proprio orario di lavoro (es: dal lunedì al venerdì, dalle 9:00 alle 17:00), l'amministratore configura ed invia sui sistemi una specifica <strong>Group Policy (GPO) recante "Restrizioni sull'orario di accesso" (time-of-day login restrictions)</strong>.
+          </p>
+
+          <h3>Accesso Condizionale (Conditional Access)</h3>
+          <p>
+            I moderni sistemi azionano politiche condizionali intelligenti: una connessione proveniente dalla rete locale aziendale viene ammessa con sola password, mentre una connessione da rete esterna, o proveniente da paesi insoliti riscontrati via <strong>IP Geolocation</strong>, fa scattare l'interdizione perimetrale immediata o l'obbligo di convalida MFA supplementare.
+          </p>
+        </section>
+
+        <!-- ══ SEZIONE 7 — PAM & GPO HARDENING ═════════════════════ -->
+        <section id="pam_gpo">
+          <h2>Strumenti e Tecnologie IAM: PAM e Group Policy Objects (GPO)</h2>
+          <p>
+            Nelle grandi infrastrutture enterprise di rete Active Directory, la centralizzazione del controllo è vitale per prevenire minacce trasversali:
+          </p>
+
+          <h3>Privileged Access Management (PAM)</h3>
+          <p>
+            Il <strong>PAM (Privileged Access Management)</strong> è una suite software avanzata preposta a presidiare, controllare, ruotare e registrare l'accesso ai soli <strong>account amministrativi ed elevate credenziali (Privileged Accounts)</strong>.
+          </p>
+          <dl class="termlist">
+            <dt>PIM (Privileged Identity Management - Gestione delle Identità Privilegiate)</dt>
+            <dd>Una specifica tecnologia ed estensione dell'IAM (fondamentale negli ecosistemi Cloud e ed Entra ID/Azure) deputata a governare, tracciare e monitorare il ciclo di vita e l'attribuzione di ruoli ad alto livello e risorse critiche. Il PIM gestisce la visibilità delle utenze, tiene traccia di chi detiene ruoli sensibili (come Global Admin) e impone flussi di approvazione per l'attivazione di tali privilegi.</dd>
+            <dt>JIT Access &amp; Just-In-Time Permissions (Accesso e Autorizzazioni Just-In-Time)</dt>
+            <dd>Il principio operativo di sicurezza che consiste nel concedere privilegi elevati o permessi d'accesso (<strong>Just-In-Time Permissions</strong>) a un utente <strong>esclusivamente al momento dell'effettivo bisogno e per una finestra temporale rigorosamente limitata</strong> (es. 2 ore per compiere una manutenzione sul database), trascorsa la quale l'accesso e i permessi vengono revocati automaticamente dall'infrastruttura. Questo paradigma riduce drasticamente la superficie d'attacco, riducendo a zero la persistenza degli "account silenti" costantemente abilitati ad operare come amministratori. È implementato nativamente dai sistemi PAM e PIM.</dd>
+            
+            <dt>Password Vaulting (Archiviazione sicura in Casseforti digitali)</dt>
+            <dd>L'attività e la pratica di memorizzare, cifrare e gestire in modo centralizzato tutte le credenziali e le chiavi aziendali all'interno di una cassaforte digitale protetta (un <em>Password Vault</em> gestito dal PAM o da password manager d'impresa). Il password vaulting previene l'annotazione insicura di password in chiaro e permette la rotazione automatica e periodica delle password amministrative senza l'intervento manuale dei sistemisti.</dd>
+          </dl>
+          <div class="critical">
+            <strong>Prevenzione dei pass-the-hash con soluzioni PAM, PIM e JIT:</strong><br>
+            Gli hacker mirano ad acquisire gli hash delle password amministrative memorizzati localmente ed effettuare spostamenti laterali (Pivoting) per prender possesso della ditta. L'implementazione di un motore PAM sopprime l'impiego di account locali non censiti, introduce permessi "Just-In-Time" (esauriti dopo la sessione singola), isola le sessioni dei sistemisti e ruota continuamente le chiavi d'accesso impedendo l'abuso degli hash residui.
+          </div>
+
+          <h3>Centralizzazione tramite Group Policy Objects (GPO)</h3>
+          <p>
+            Nel sistema Microsoft Active Directory, una <strong>Group Policy (GPO)</strong> consente l'amministrazione centralizzata, uniforme e automatica delle impostazioni di sicurezza dell'OS su migliaia di macchine.
+          </p>
+          <div class="example-box">
+            <strong>Mitigazione Rapida - Disabilitare SMBv1 via GPO:</strong><br>
+            Le vulnerabilità del protocollo SMB di vecchia generazione (come SMBv1) espongono l'intera ditta a micidiali invasioni ransomware orizzontali. L'intervento sistemico più efficiente consiste nell'utilizzare un'unica <strong>GPO centralizzata</strong> per disabilitare istantaneamente il protocollo obsoleto su tutti i server della ditta.
+          </div>
+        </section>
+
+        <!-- ══ QUIZ ═══════════════════════════════════════════════════ -->
+        <section id="quiz-section">
+          <h2>Test di verifica — OBJ 4.6</h2>
+          <div class="chapter-meta">
+            <p>
+              <strong>38 questions d'esame</strong> su MFA, criteri di sicurezza, IdP, SAML, OAuth, modelli d'accesso e Privileged Access, con feedback immediato e spiegazione strutturata in italiano.
+            </p>
+            <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 4.6 →</button>
+          </div>
+        </section>
+
+        <!-- ══ FLASHCARD SECTION ═══════════════════════════════════ -->
+        <section id="flashcard" class="card">
+          <h2>Flashcard rapide OBJ 4.6</h2>
+          <p>Gira la carta per saggiare la tua memorizzazione della terminologia ufficiale bilingue.</p>
+          <div class="flashcard-deck">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Principale differenza tra SAML ed OAuth 2.0?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p><strong>SAML</strong> è un protocollo basato su XML focalizzato sull'autenticazione accoppiato all'SSO per applicazioni aziendali e partner.<br><strong>OAuth 2.0</strong> si focalizza sui token JSON Bearer ed è finalizzato all'autorizzazione delle applicazioni (API).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Quale scenario richiede specificamente PAM?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>La protezione degli account con elevati privilegi (es: backup d'emergenza o credenziali d'amministratore di dominio) per prevenire movimenti laterali (Pass-the-Hash) e mantenere tracciamento e audit delle sessioni sistemistiche.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+              <div class="flashcard-inner">
+                <div class="flashcard-front">
+                  <span>Come si blocca l'accesso dei consulenti ad orari insoliti?</span>
+                  <small>Clicca per girare</small>
+                </div>
+                <div class="flashcard-back">
+                  <p>Implementando una Group Policy (GPO) specifica per gli account interessati e abilitando restrizioni di accesso granulari sul dominio (<strong>time-of-day log-in restrictions</strong>).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>

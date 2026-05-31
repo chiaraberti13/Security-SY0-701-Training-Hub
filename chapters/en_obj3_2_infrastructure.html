@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBJ — Secure Enterprise Infrastructure · Security+ SY0-701</title>
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+<nav class="global-nav" aria-label="Navigazione principale">
+  <a href="../index_en.html" class="global-nav-brand">
+    <span>🛡️ CompTIA Security+ SY0-701</span>
+  </a>
+  <div class="global-nav-links">
+    <a href="../index_en.html" class="global-nav-link">Home</a>
+    <a href="../quizzes.html" class="global-nav-link">Quiz</a>
+    <a href="../glossario.html" class="global-nav-link">Glossario</a>
+  </div>
+</nav>
+
+<a href="#main" class="skip-link">Salta al contenuto</a>
+<div class="container"><div class="page">
+
+<div class="breadcrumb">
+  <a href="../index_en.html">General Index</a>
+  <span>Dominio 3 — Security Architecture</span>
+  <span>OBJ 3.2 — Infrastruttura enterprise sicura</span>
+</div>
+
+<header>
+  <h1>OBJ 3.2 — Secure Enterprise Infrastructure</h1>
+</header>
+
+<div class="chapter-meta">
+  <p class="manual-reference-line"><span>📖</span> <strong>Manual Reference:</strong> Chapter 12: Sicurezza della rete &amp; Chapter 13: Sicurezza wireless e mobile</p>
+  <p>CompTIA Security+ SY0-701 · Dominio 3 — Security Architecture · Exam weight: 18%</p>
+  <p><strong>Objective ufficiale:</strong> <em>Given a scenario, apply security principles to secure enterprise infrastructure.</em></p>
+  <p><strong>Objectives covered:</strong> <span class="objectives-tag">3.2</span> <span class="weight-badge">D3 = 18%</span></p>
+  <p><strong>Prerequisites:</strong> <a href="en_obj3_1_architecture.html">OBJ 3.1 — Modelli architetturali</a> · <a href="en_obj2_5_mitigation.html">OBJ 2.5 — Mitigazioni</a></p>
+  <p><strong>Correlati:</strong> <a href="en_obj1_1_security_controls.html">OBJ 1.1 — Controlli di sicurezza</a></p>
+</div>
+
+<div class="layout">
+
+<nav class="toc-sticky" aria-label="Indice">
+  <div class="toc-section">Infrastruttura</div>
+  <a href="#device-placement">Device placement</a>
+  <a href="#security-zones">Security zones / DMZ</a>
+  <a href="#failure-modes">Failure modes</a>
+  <a href="#active-passive">Active vs Passive / Inline vs Tap</a>
+
+  <div class="toc-section">Appliance</div>
+  <a href="#jump-server">Jump server</a>
+  <a href="#proxy">Proxy server</a>
+  <a href="#ips-ids">IPS / IDS</a>
+  <a href="#load-balancer">Load balancer</a>
+
+  <div class="toc-section">Port security</div>
+  <a href="#port-security">Port security / MAC filtering</a>
+  <a href="#8021x">802.1X e EAP</a>
+
+  <div class="toc-section">Firewall</div>
+  <a href="#firewall-types">WAF · UTM · NGFW · L4/L7</a>
+
+  <div class="toc-section">Accesso sicuro</div>
+  <a href="#vpn">VPN e Remote access</a>
+  <a href="#tunneling">TLS / IPSec</a>
+  <a href="#protocols">Protocolli sicuri vs non sicuri</a>
+
+  <div class="toc-section">Verify</div>
+  <a href="#quiz-section">Interactive Quiz</a>
+  <a href="#flashcard">Flashcard</a>
+</nav>
+
+<main class="content" id="main">
+
+<section id="intro">
+  <h2>Dalla teoria alla configurazione: applicare la sicurezza all'infrastruttura</h2>
+  <p>
+    L'OBJ 3.2 è pratico: dato uno scenario reale, scegliere e applicare i controlli
+    di sicurezza corretti all'infrastruttura enterprise. Ogni strumento ha un ruolo
+    preciso, un posizionamento ottimale e un contesto d'uso specifico. L'esame
+    mette alla prova la capacità di distinguere strumenti simili in scenari concreti.
+  </p>
+</section>
+
+<!-- INFRASTRUTTURA -->
+<section id="infra">
+  <h2>Considerazioni infrastrutturali</h2>
+
+  <h3 id="device-placement">Device placement (Posizionamento dei dispositivi)</h3>
+  <p>
+    Il <strong>posizionamento dei dispositivi (device placement)</strong> determina
+    l'efficacia di ogni controllo. I dispositivi di sicurezza devono essere nel
+    <em>percorso del traffico</em> che devono controllare. Un firewall dopo il traffico
+    da filtrare è inutile. La regola: posizionare ogni controllo nel punto che massimizza
+    visibilità ed efficacia con il minimo impatto sulle prestazioni.
+  </p>
+
+  <h3 id="security-zones">Security zones e DMZ</h3>
+  <p>
+    Le <strong>zone di sicurezza (security zones)</strong> sono segmenti di rete con
+    policy specifiche basate sul livello di fiducia. Il modello classico a tre zone:
+  </p>
+  <dl class="termlist">
+    <dt>Internet (Zona non fidata)</dt>
+    <dd>Traffico non controllato. Nessun accesso diretto alle risorse interne. Tutto il traffico deve attraversare almeno un firewall.</dd>
+    <dt>DMZ (Demilitarized Zone)</dt>
+    <dd>Zona tampone tra internet e rete interna. Ospita servizi pubblici (web, mail, DNS). Protetta da firewall su entrambi i lati. Anche se un server DMZ viene compromesso, l'attaccante non accede direttamente alla rete interna.</dd>
+    <dt>Rete interna (Zona fidata)</dt>
+    <dd>Workstation, server interni, database. Accesso da DMZ/internet regolato da policy esplicite.</dd>
+    <dt>Shared services zone</dt>
+    <dd>Zone dedicata a servizi condivisi: DNS interno, AD, jump server, monitoring. Raggiungibile da tutte le zone con policy restrittive.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Scopo primario della DMZ</strong><br>
+    "Primary purpose of implementing a DMZ?" → <strong>Isolare e aggiungere un layer
+    di sicurezza tra rete interna ed esterna</strong>. Non per migliorare
+    le performance, non per il backup sicuro.
+  </div>
+
+  <h3 id="failure-modes">Failure modes: Fail-open vs Fail-closed</h3>
+  <dl class="termlist">
+    <dt>Fail-open</dt>
+    <dd>In caso di guasto permette tutto il traffico. Priorità: disponibilità. Usato per controlli fisici di emergenza (porte antincendio) dove un blocco mette a rischio la vita.</dd>
+    <dt>Fail-closed</dt>
+    <dd>In caso di guasto blocca tutto il traffico. Priorità: sicurezza. Standard per firewall e IPS: meglio interrompere il servizio che lasciare passare traffico non controllato.</dd>
+  </dl>
+
+  <h3 id="active-passive">Active vs Passive / Inline vs Tap</h3>
+  <dl class="termlist">
+    <dt>Active / Inline</dt>
+    <dd>Il dispositivo è nel percorso del traffico e può intervenire (bloccare, modificare). Esempi: IPS, firewall, load balancer, WAF. Impatto diretto sulla disponibilità se si guasta.</dd>
+    <dt>Passive / Tap</dt>
+    <dd>Riceve una copia del traffico (via SPAN/mirror port). Solo osserva, non può bloccare. Nessun impatto sulle prestazioni. Esempi: IDS, packet sniffer, SIEM collector.</dd>
+    <dt>Dropped Packets (Pacchetti Scartati / Perdita di Pacchetti)</dt>
+    <dd>Pacchetti di rete scartati deliberatamente o accidentalmente a livello hardware o software. Un firewall inline può eseguire il "drop" (filtraggio silenzioso) di frame ritenuti malevoli o non autorizzati, facendoli sparire senza notificare l'host mittente. Può anche indicare congestione fisica sulla linea di rete o buffers dei socket saturi.</dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio — IPS inline per bloccare pacchetti malevoli</strong><br>
+    Un team vuole proteggere la rete da pacchetti malevoli esterni. Serve un
+    <strong>IPS inline</strong>: deve essere nel percorso del traffico per poterlo
+    bloccare prima che raggiunga la rete interna. Un IDS passivo rileva ma non blocca.
+    Anti-malware e host-based firewall agiscono sull'endpoint, non sul flusso di rete.
+  </div>
+</section>
+
+<!-- APPLIANCE -->
+<section id="appliances">
+  <h2>Appliance di rete</h2>
+
+  <h3 id="jump-server">Jump server / Bastion host</h3>
+  <p>
+    Un <strong>jump server (bastion host)</strong> è l'<em>unico</em> punto di accesso
+    amministrativo a zone di rete protette. Gli amministratori si autenticano sul
+    jump server e da lì raggiungono i sistemi interni. Centralizza e audita tutte
+    le sessioni amministrative.
+  </p>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — Jump server: cinque scenari</strong><br>
+    (1) "Admin workstations cannot access DB segment directly" → <strong>Jump server</strong> (, 121, 133).<br>
+    (2) "Layer of security preventing unauthorized access to internal resources" → <strong>Jump server</strong>.<br>
+    (3) "Minimize admin traffic through security boundary" → <strong>Bastion host</strong>.<br>
+    (4) "RDP exposed, secure setup" → <strong>VPN + jump server inside firewall</strong>.<br>
+    (5) "Servers segmented, reachable only from authorized internal systems" → <strong>Internal jump server</strong>.
+  </div>
+
+  <h3 id="proxy">Proxy server</h3>
+  <dl class="termlist">
+    <dt>Forward proxy</dt>
+    <dd>Media le richieste degli utenti interni verso internet. Funzioni: web filtering, caching, logging, anonimizzazione degli IP interni. Il client è configurato per usarlo.</dd>
+    <dt>Reverse proxy</dt>
+    <dd>Media le richieste esterne verso server interni. Il client non sa che esiste. Funzioni: load balancing, TLS termination, caching, protezione identità server. Spesso implementa il WAF.</dd>
+  </dl>
+
+  <h3 id="ips-ids">IPS e IDS</h3>
+  <dl class="termlist">
+    <dt>IDS (Intrusion Detection System)</dt>
+    <dd>Passivo/tap. Genera alert ma non blocca il traffico. Nessun impatto sulle prestazioni. Utile per visibilità e analisi forense.</dd>
+    <dt>IPS (Intrusion Prevention System)</dt>
+    <dd>Inline. Blocca attivamente il traffico malevolo. Introduce latenza e rischio di falsi positivi. Necessario per prevenire attacchi in tempo reale.</dd>
+    <dt>Signature-based vs Anomaly-based</dt>
+    <dd>Signature: alta accuratezza per attacchi noti, zero per zero-day. Anomaly/Behavioral: rileva deviazioni dalla baseline, più falsi positivi ma cattura attacchi nuovi.</dd>
+  </dl>
+
+  <h3 id="load-balancer">Load balancer</h3>
+  <p>
+    Distribuisce il traffico tra più server backend per performance e HA. Funzionalità chiave:
+  </p>
+  <dl class="termlist">
+    <dt>Affinity scheduling (Sticky session)</dt>
+    <dd>Stesso utente sempre allo stesso server durante la sessione. Critico per app stateful: senza affinity, ogni richiesta va a un server diverso che non ha la sessione dell'utente.</dd>
+    <dt>Health checks</dt>
+    <dd>Monitora i server backend. Se uno cade, ridistribuisce automaticamente il traffico tra i rimanenti.</dd>
+    <dt>SSL offloading (TLS termination)</dt>
+    <dd>Il load balancer gestisce TLS, riducendo il carico computazionale sui server backend.</dd>
+  </dl>
+</section>
+
+<!-- PORT SECURITY -->
+<section id="port-sec">
+  <h2>Sicurezza delle porte</h2>
+
+  <h3 id="port-security">Port security e MAC filtering</h3>
+  <p>
+    La <strong>port security</strong> controlla quali dispositivi possono connettersi
+    a una porta fisica dello switch basandosi sul MAC address. Previene che utenti
+    non autorizzati colleghino dispositivi non approvati alla rete.
+  </p>
+  <p>
+    <strong>MAC filtering</strong>: la porta accetta solo MAC address pre-approvati. Forma più semplice di port security. Agirabile con MAC spoofing
+    (cambiare il MAC del proprio dispositivo), quindi non è robusta contro attaccanti
+    determinati. La soluzione più robusta è 802.1X.
+  </p>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — Port security vs 802.1X</strong><br>
+    <strong>Port security/MAC filtering:</strong> blocca dispositivi con MAC non
+    approvati. Semplice ma aggirabile con MAC spoofing.<br>
+    <strong>802.1X:</strong> autenticazione crittograficamente forte (certificati,
+    credenziali) prima dell'accesso alla rete. Non aggirabile con MAC spoofing.
+    "Visitor plugs into lobby jack" → port security o 802.1X.
+  </div>
+
+  <h3 id="8021x">802.1X e EAP</h3>
+  <p>
+    <strong>IEEE 802.1X</strong> è lo standard per il controllo degli accessi basato
+    su porta: il dispositivo deve autenticarsi prima di comunicare sulla rete.
+    Tre componenti:
+  </p>
+  <dl class="termlist">
+    <dt>Supplicant</dt>
+    <dd>Il dispositivo client con software 802.1X che gestisce l'autenticazione.</dd>
+    <dt>Authenticator</dt>
+    <dd>Lo switch o AP Wi-Fi che controlla l'accesso fisico: blocca tutto finché il supplicant non si autentica.</dd>
+    <dt>Authentication server</dt>
+    <dd>Server RADIUS che verifica le credenziali e autorizza/nega l'accesso, integrando AD o certificati digitali.</dd>
+    <dt>EAP (Extensible Authentication Protocol)</dt>
+    <dd>
+      Framework flessibile di autenticazione usato da 802.1X. Le principali varianti (metodi di autenticazione 802.1X) comprendono:
+      <ul style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">
+        <li><strong>EAP-TLS (Transport Layer Security)</strong>: Il metodo in assoluto più sicuro e raccomandato. Implementa la mutua autenticazione crittografica e richiede certificati digitali X.509 dal lato server *e* su tutti i singoli client (supplicant).</li>
+        <li><strong>PEAP (Protected Extensible Authentication Protocol)</strong>: Protegge lo scambio incapsulando la transazione di autenticazione all'interno di un tunnel TLS sicuro cifrato. Richiede un certificato digitale solo sul server. Per autenticare il client scompone l'autenticazione tramite un protocollo interno (tipicamente una password utente con MS-CHAPv2).</li>
+        <li><strong>EAP-TTLS (Tunneled Transport Layer Security)</strong>: Molto simile a PEAP (crea un tunnel TLS protetto con certificato server-side), ma offre una flessibilità notevolmente superiore per i canali interni della convalida client (supportando altri tipi di credenziali secondarie oltre a MS-CHAPv2).</li>
+        <li><strong>EAP-FAST (Flexible Authentication via Secure Tunneling)</strong>: Sviluppato da Cisco in alternativa a PEAP. Stabilisce un canale protetto senza ricorrere a complessi certificati digitali sui server, impiegando invece chiavi simmetriche denominate <strong>PAC (Protected Access Credential)</strong> per negoziare la sicurezza.</li>
+      </ul>
+    </dd>
+  </dl>
+
+  <div class="example-box">
+    <strong>Esempio — Wi-Fi heat map: i primi passi</strong><br>
+    Per sviluppare una heat map Wi-Fi: (1) <strong>ottenere/creare la pianta dell'ufficio</strong>
+    (base cartografica per mappare i dati) e (2) <strong>girare metodicamente nell'ufficio
+    misurando la potenza del segnale</strong> (raccolta dati sul campo). Non si inizia
+    accedendo agli AP né si misurano i cavi.
+  </div>
+</section>
+
+<!-- FIREWALL -->
+<section id="firewall-types">
+  <h2>Tipi di firewall ed Evoluzione Tecnologica</h2>
+  <p>
+    Il <strong>firewall</strong> rappresenta la barriera logica e il punto di controllo perimetrale d'eccellenza per la segmentazione e la difesa della rete. Per l'esame CompTIA, è cruciale non solo distinguere tra le diverse tipologie di appliance sul mercato, ma confrontare nel dettaglio i livelli di funzionamento logici ed i modelli di deployment architetturali.
+  </p>
+
+  <h3>Confronto Architetturale: Layer 4 vs Layer 7</h3>
+  <p>
+    La distinzione tra difese operanti al <strong>Livello di Trasporto (Layer 4)</strong> e al <strong>Livello Applicativo (Layer 7)</strong> del modello OSI delinea un solco profondo in termini di visibilità del traffico, consumo di risorse CPU e capacità protettive:
+  </p>
+
+  <div style="overflow-x:auto; margin: 15px 0;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+      <thead>
+        <tr style="background-color: var(--navy); color: white;">
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Caratteristica</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Layer 4 (Stateful Packet Inspection)</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Layer 7 (Application-Aware / DPI)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Visibilità del Pacchetto</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Limitata all'intestazione (Header):</strong> Indirizzi IP sorgente/destinazione, Porte TCP/UDP, flag TCP (SYN, ACK, FIN) e stato della sessione.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Totale (Payload &amp; Canale):</strong> Analizza l'intero payload applicativo, decodifica il protocollo specifico, identifica comandi, moduli e dati interni.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Comprensione del Protocollo</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>None:</strong> Se la porta 80 è aperta, permette il transito di qualsiasi traffico, anche se si tratta di SSH o malware camuffato su quella porta.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Profonda:</strong> Distingue l'applicazione reale (es. riconosce che è un tunnel BitTorrent o un traffico Skype in esecuzione sulla porta HTTP standard 80).</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Sovraccarico Hardware (Overhead)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #16a34a; font-weight: bold;">Basso</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #dc2626; font-weight: bold;">Elevato</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Decrittazione del Traffico SSL/TLS</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Impossibile:</strong> Vede solo flussi indistinti e imperscrutabili diretti alla porta TCP 443 del server.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Supportata (SSL/TLS Inspection):</strong> Agisce da proxy intermedio, decifra il flusso TLS, ispeziona il payload e lo ricifra prima di spedirlo.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Regole di Accesso (Rules)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Basate esclusivamente su Tuple IP/Porta (es. "Permetti da 10.0.0.5 a port 443").</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Basate sulle identità dell'utente o su singoli comandi (es. "Permetti a Chiara di vedere Facebook, ma vietale di postare").</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Mitigazione degli Attacchi</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Blocca attacchi di connessione elementari, port scan e pacchetti illegittimi (out-of-state).</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Intercetta attacchi complessi al codice: injection (SQLi, XSS), tentativi di malware injection, comandi dannosi o exploit applicativi.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Confronto Filosofico ed Operativo: UTM vs NGFW</h3>
+  <p>
+    Nel definire l'architettura perimetrale di una rete aziendale, la scelta tra un dispositivo <strong>UTM (Unified Threat Management)</strong> e un <strong>NGFW (Next-Generation Firewall)</strong> è determinata primariamente dalla complessità organizzativa e dai requisiti di throughput prestazionali:
+  </p>
+
+  <div style="overflow-x:auto; margin: 15px 0;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+      <thead>
+        <tr style="background-color: var(--navy); color: white;">
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">Dimensione d'Analisi</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">UTM (Unified Threat Management)</th>
+          <th style="padding: 8px; border: 1px solid var(--border-color); text-align: left;">NGFW (Next-Generation Firewall)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Architettura Interna ed Esecuzione</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Esecuzione Sequenziale Multi-Modulo:</strong> Costruito aggregando insieme moduli software differenti (un firewall L4, un client antivirus delegato, un modulo di content filtering). Spesso il pacchetto passa in sequenza attraverso ciascun modulo separato, rallentando la trasmissione.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Esecuzione a Motore Unico Parallelo (Single-Pass Architecture):</strong> Progettato fin dall'inizio per ispezionare il traffico a livello applicativo in un unico passaggio hardware integrato, identificando simultaneamente applicazione, utente e minaccia.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Integrazione con Infrastrutture Enterprise</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Base:</strong> Gestione interna locale tramite pannello integrato semplificato, adatta a chi non dispone di specialisti dedicati.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Avanzata:</strong> Supporto massivo a server LDAP/Active Directory di grandi dimensioni, orchestratori cloud, integrazione API con SOC, e console di aggregazione dei log globali (SIEM).</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Rilevamento delle Minacce (Features)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Garantisce un ventaglio amplissimo di servizi "all-in-one" inclusi: anti-spam, filtro url di base, antivirus di gateway (signature-based) ed IPS integrato.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);">Si concentra su funzionalità d'elite: Deep Packet Inspection (DPI) avanzata, analisi dinamica di minacce in sandbox protette (Zero-day detection), SSL/TLS offloading dedicated chips e threat intelligence globale integrata.</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Destinazione d'Uso (Target)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #d97706; font-weight: bold;">PMI (Piccole e Medie Imprese) ed Uffici Periferici (Branches)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color); color: #1e40af; font-weight: bold;">Grandi Organizzazioni Enterprise, Data Center e Sedi Centrali</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid var(--border-color); font-weight: bold;">Punti di Debolezza (Trade-offs)</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Single Point of Failure ed Effetto Collo di Bottiglia:</strong> Abilitare tutte le funzioni contemporaneamente può dimezzare il throughput della linea a causa dell'ingente carico computazionale dei motori separati.</td>
+          <td style="padding: 8px; border: 1px solid var(--border-color);"><strong>Costo di acquisizione e gestione:</strong> Richiede licensing separati costosi per ciascuna feature avanzata e un team IT o SOC qualificato per la manutenzione delle policy.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Mappatura sintetica dei concetti (Tolleranza all'esame)</h3>
+  <dl class="termlist">
+    <dt>WAF (Web Application Firewall)</dt>
+    <dd>L7 HTTP/HTTPS. Filtra attacchi web: SQLi, XSS, CSRF, buffer overflow su parametri HTTP. Prima linea di difesa per applicazioni web pubbliche. Scenario d'esame: attacco specifico alle web application o chiamate API web → si risponde implementando il WAF, mai il NGFW o UTM.</dd>
+    <dt>Stateful Packet Inspection (L4 Firewall)</dt>
+    <dd>Conserva in una tabella interna dinamica (State Table) lo stato delle connessioni attive (es. se la stretta di mano TCP a tre vie è stata completata). È in grado di mappare se un pacchetto ACK in ingresso appartiene a una sessione legittima nata dall'interno permettendone il passaggio senza necessità di configurare regole statiche di ritorno.</dd>
+  </dl>
+
+  <div style="overflow-x:auto; margin-top: 15px;">
+  <table>
+    <thead>
+      <tr><th>Tipo</th><th>Livello OSI</th><th>Visibilità Principale</th><th>Uso tipico consigliato</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">Packet Filter (Stateless)</td><td>L3</td><td>IP mittente/destinatario</td><td>Router ACL base e pre-routing veloci</td></tr>
+      <tr><td class="label">Stateful Inspection</td><td>L4</td><td>IP, porta, tabelle di stato TCP</td><td>Protezione perimetrale di rete classica</td></tr>
+      <tr><td class="label">NGFW</td><td>L4-L7</td><td>Payload completo, firme applicative, utenti</td><td>Grandi reti aziendali ad alte prestazioni</td></tr>
+      <tr><td class="label">WAF</td><td>L7 HTTP</td><td>Intestazioni HTTP, query string, cookie, body JSON/XML</td><td>Fronteggiamento di web server ed e-commerce pubblici</td></tr>
+      <tr><td class="label">UTM</td><td>L3-L7</td><td>Tutto-in-uno (routing, anti-spam, VPN, AV)</td><td>Sedi commerciali secondarie e piccole imprese</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ACCESSO SICURO -->
+<section id="secure-access">
+  <h2>Comunicazioni e accesso sicuro</h2>
+
+  <h3 id="vpn">VPN e Remote access</h3>
+  <p>
+    Una <strong>VPN</strong> crea un tunnel cifrato su internet per connettere
+    dispositivi remoti alla rete aziendale. Tipi principali:
+  </p>
+  <dl class="termlist">
+    <dt>Client-to-site (Remote access VPN)</dt>
+    <dd>Singolo dispositivo si connette alla rete aziendale tramite client VPN. Per lavoratori remoti.</dd>
+    <dt>Site-to-site VPN</dt>
+    <dd>Connessione permanente tra due reti (es. sede + filiale). Gestita da VPN gateway, non da client software.</dd>
+    <dt>Split tunneling</dt>
+    <dd>Solo il traffico verso la rete aziendale usa la VPN; il traffico internet esce direttamente. Riduce il carico sul concentrator ma riduce la visibilità dell'IT.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — VPN + Jump server per accesso sicuro</strong><br>
+    "RDP esposto su internet" → <strong>VPN + jump server inside firewall</strong>. La VPN cifra il canale; il jump server è il punto di accesso
+    controllato. Non cambiare solo la porta RDP (security through obscurity).<br>
+    "Accesso remoto sicuro minimizzando l'esposizione della rete interna" →
+    <strong>VPN</strong>.
+  </div>
+
+  <h3 id="tunneling">TLS vs IPSec</h3>
+  <dl class="termlist">
+    <dt>TLS (Transport Layer Security)</dt>
+    <dd>L5-L6. Protegge singole connessioni applicative (HTTPS, SMTP/TLS). Semplice da configurare. Non protegge l'intero stack IP.</dd>
+    <dt>IPSec (Internet Protocol Security)</dt>
+    <dd>L3. Protegge l'intero payload IP, incluse le informazioni di routing. Modalità Tunnel: cifra il pacchetto IP completo con nuovo header. Per VPN site-to-site con tutto il traffico cifrato.</dd>
+  </dl>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — IPSec per traffico inter-rete</strong><br>
+    "Third party access between two networks, encryption on ALL traffic traversing" →
+    <strong>IPSec</strong>. EAP è per autenticazione. SD-WAN ottimizza
+    il routing. TLS protegge singole connessioni, non tutto il traffico IP.
+  </div>
+
+  <h3 id="protocols">Concetti di Comunicazione di Rete e Protocolli Sicuri</h3>
+  <p>
+    La comprensione di come i dati viaggino all'interno di un'infrastruttura d'impresa e di come la crittografia protegga questi flussi è fondamentale per qualsiasi professionista della sicurezza informatica. Questa sezione analizza i concetti cardine, i metodi di trasporto e la distinzione tra protocolli sicuri e insicuri per l'esame CompTIA Security+ SY0-701.
+  </p>
+
+  <h4 style="color: var(--navy); margin-top: 24px; margin-bottom: 8px; font-weight: 700;">1. Concetti Fondamentali delle Comunicazioni di Rete (Network Communication Concepts)</h4>
+  <p>
+    Qualsiasi interazione all'interno di una rete LAN, WAN o Internet si basa sull'intersezione di tre componenti logico-strutturali essenziali del Layer 4 (Transport) e Layer 3 (Network) del modello OSI:
+  </p>
+  <dl class="termlist" style="margin-bottom: 20px;">
+    <dt>Protocolli (Protocols)</dt>
+    <dd>Insiemi di regole formali e standardizzate che governano il formato, la sintassi, il sequenziamento, il layout dell'header (intestazione) e il controllo degli errori durante lo scambio di pacchetti tra nodi di rete. Senza protocolli comuni, macchine con architetture differenti non potrebbero interpretare il traffico reciproco.</dd>
+    
+    <dt>Porte (Ports)</dt>
+    <dd>Identificatori logici numerati a 16 bit (da 0 a 65535) utilizzati a livello di trasporto per indirizzare e mappare i flussi di dati verso lo specifico processo o servizio software in ascolto su una determinata macchina (Socket = IP + Porta). Lo IANA (Internet Assigned Numbers Authority) suddivide le porte in:
+      <ul style="margin-left: 20px; margin-top: 5px; list-style-type: disc;">
+        <li><strong>Well-Known Ports (0-1023)</strong>: Riservate a servizi di sistema e infrastrutturali fondamentali (es. SSH sulla 22, HTTPS sulla 443).</li>
+        <li><strong>Registered Ports (1024-49151)</strong>: Utilizzate da applicazioni del vendor o database specifici (es. Microsoft SQL Server sulla 1433).</li>
+        <li><strong>Dynamic/Ephemeral Ports (49152-65535)</strong>: Assegnate dinamicamente dal sistema operativo del client come porta sorgente temporanea per gestire le sessioni in uscita.</li>
+      </ul>
+    </dd>
+    
+    <dt>Metodi di Trasporto (Transport Methods)</dt>
+    <dd>La logica operativa utilizzata per convogliare i dati lungo la rete. Le due macro-categorie fondamentali sono:
+      <ul style="margin-left: 20px; margin-top: 5px; list-style-type: disc;">
+        <li><strong>Connection-oriented (Orientato alla connessione)</strong>: Richiede una negoziazione iniziale per stabilire una sessione solida tra client e server, tiene traccia dei pacchetti inviati, ne verifica la consegna integrata e ordina di rispedire eventuali blocchi persi o corrotti (es. TCP).</li>
+        <li><strong>Connectionless (Privo di connessione)</strong>: Invia i pacchetti ("best-effort") verso la destinazione senza stabilire una sessione né attendere conferme di ricezione, riducendo al minimo l'overhead e massimizzando la velocità di trasmissione (es. UDP, ideale per flussi real-time come VoIP o streaming).</li>
+      </ul>
+    </dd>
+  </dl>
+
+  <h4 style="color: var(--navy); margin-top: 24px; margin-bottom: 8px; font-weight: 700;">2. Deep Dive: Transmission Control Protocol (TCP)</h4>
+  <p>
+    Il <strong>TCP (Transmission Control Protocol)</strong> è il protocollo di rete standard di livello 4 (Trasporto) orientato alla connessione (Connection-oriented) ed estremamente affidabile. È progettato per garantire che i messaggi siano recapitati senza errori, integralmente e nello stesso esatto ordine dell'invio originale.
+  </p>
+  
+  <h5 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px; font-weight: 600;">L'Handshake a Tre Vie (3-Way Handshake)</h5>
+  <p>
+    Prima di trasmettere qualsiasi dato, il TCP stabilisce una sessione logica bidirezionale sincronizzata tra client e server attraverso una precisa e rigorosa sequenza di messaggi conosciuta come <strong>3-way handshake</strong>:
+  </p>
+  <div style="background-color: var(--bg); border-left: 4px solid var(--teal); padding: 16px; border-radius: 4px; margin: 15px 0;">
+    <ol style="margin-left: 20px; line-height: 1.6;">
+      <li style="margin-bottom: 8px;"><strong>Passo 1: Client → Server (SYN)</strong>: Il client, intenzionato ad aprire la sessione, invia un pacchetto d'inizializzazione impostando il flag logico <code>SYN</code> (Synchronize) e proponendo un proprio numero di sequenza iniziale casuale (<em>Sequence Number = X</em>).</li>
+      <li style="margin-bottom: 8px;"><strong>Passo 2: Server → Client (SYN-ACK)</strong>: Il server riceve il SYN e risponde allocando risorse in memoria. Invia un pacchetto impostando contemporaneamente i flag <code>SYN</code> e <code>ACK</code> (Acknowledgment). Conferma la ricezione del pacchetto del client incrementandone il numero (<em>Ack Number = X + 1</em>) e invia il suo numero iniziale casuale di sequenza (<em>Sequence Number = Y</em>).</li>
+      <li><strong>Passo 3: Client → Server (ACK)</strong>: Il client riceve la risposta del server e invia l'ultimo pacchetto di conferma con il flag <code>ACK</code> attivo. Incrementa il valore di sequenza del server (<em>Ack Number = Y + 1</em>). Da questo momento, la connessione TCP è considerata <strong>Established (Stabilita)</strong> e i dati possono transitare.</li>
+    </ol>
+  </div>
+
+  <h5 style="color: var(--navy); margin-top: 15px; margin-bottom: 5px; font-weight: 600;">TCP Flags ed Elementi di Sicurezza</h5>
+  <p>
+    I flag TCP sono bit di controllo situati nell'header del pacchetto che indicano lo stato logico del flusso o impartiscono comandi urgenti al socket ricevente:
+  </p>
+  <ul style="margin-left: 20px; list-style-type: square; margin-bottom: 15px; line-height: 1.6;">
+    <li><strong>SYN (Synchronize)</strong>: Avvia l'handshake e sincronizza i numeri di sequenza originari.</li>
+    <li><strong>ACK (Acknowledgment)</strong>: Conferma la ricezione sicura di dati precedentemente inoltrati dal mittente.</li>
+    <li><strong>FIN (Finish)</strong>: Conclude in modo ordinato e consensuale la connessione quando non vi sono più dati da inviare.</li>
+    <li><strong>RST (Reset)</strong>: Interrompe bruscamente e forzatamente una sessione causa anomalie o pacchetti rifiutati dal firewall/host.</li>
+    <li><strong>Sequence Numbers (Numeri di Sequenza)</strong>: Strumento cardine per monitorare l'ordine reale dei segmenti e rilevare blocchi duplicati. Obbligare client e server ad assecondare valori numerici incrementali (Sequence numbers) previene attacchi di on-path replay di pacchetti vecchi catturati.</li>
+  </ul>
+
+  <h4 style="color: var(--navy); margin-top: 24px; margin-bottom: 8px; font-weight: 700;">3. Protocolli Sicuri vs Insicuri (Secure Protocols Mapping)</h4>
+  <p>
+    Il cardine dell'<strong>Hardening di Rete</strong> risiede nel disabilitare in modo sistematico e forzato l'uso di protocolli legacy che trasmettono credenziali e informazioni applicative in chiaro (testo leggibile senza cifratura) sul canale fisico, sostituendoli con equivalenti protocolli moderni dotati di robuste capacità crittografiche (TLS, SSH, IPSec).
+  </p>
+
+  <div style="overflow-x:auto; margin: 20px 0;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+      <thead>
+        <tr style="background-color: var(--navy); color: var(--white); text-align: left;">
+          <th style="padding: 12px; border: 1px solid var(--light-slate);">Servizio / Funzione</th>
+          <th style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEE2E2; color: #991B1B;">❌ Protocollo Insicuro (In chiaro)</th>
+          <th style="padding: 12px; border: 1px solid var(--light-slate); background-color: #D1FAE5; color: #065F46;">✅ Sostituzione Sicura (Cifrato)</th>
+          <th style="padding: 12px; border: 1px solid var(--light-slate);">Caratteristiche &amp; Hardening Meccanismi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Accesso Amministrativo CLI</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>Telnet</strong> (Porta TCP 23)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SSH (Secure Shell)</strong><br>(Porta TCP 22)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">SSH impiega crittografia simmetrica per cifrare interamente il flusso di comando e credenziali, abbinandoli a chiavi asimmetriche per l'autenticazione a prova di spoofing. Telnet espone sessioni intere a sniffing passivi di rete.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Navigazione &amp; API Web</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>HTTP</strong> (Porta TCP 80)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>HTTPS (HTTP Secure)</strong><br>(Porta TCP 443)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">HTTPS incapsula il traffico web standard HTTP entro tunnel cifrati regolati da certificati attivi in <strong>TLS 1.3</strong> per assicurare l'integrità, il non ripudio e la confidenzialità assoluta dei dati.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Trasferimento File</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>FTP</strong> (Porte TCP 20/21)<br><strong>TFTP</strong> (Porta UDP 69)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SFTP (SSH File Transfer)</strong><br>(Porta TCP 22)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">SFTP esegue lo scambio file facendolo passare come sottosistema integrato di SSH (porta 22). Rispetto a FTPS (FTP over TLS, porte 989/990), SFTP è preferito in quanto richiede l'apertura di un'unica porta sul firewall invece di range complessi per il canale di trasmissione ed i dati.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Ricezione E-Mail sul Client</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>IMAP</strong> (Porta TCP 143)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>IMAPS (IMAP Secure)</strong><br>(Porta TCP 993)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">Consente a client locali di recuperare ed organizzare messaggi custoditi permanentemente sul server e-mail aziendale in modo sicuro, schermati e protetti tramite wrap in TLS.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Download Locale E-Mail</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>POP3</strong> (Porta TCP 110)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>POP3S (POP3 Secure)</strong><br>(Porta TCP 995)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">Scarica la casella direttamente nel local storage del computer blindando lo scaricamento e l'autenticazione tramite una connessione cifrata in TLS.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Invio / Relay Posta</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>SMTP</strong> (Porta TCP 25)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SMTPS (SMTP Secure)</strong><br>(Porta TCP 465 o 587 con STARTTLS)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">Asscura il routing e il trasporto e-mail in uscita tra client e gateway o tra mail server autorizzati eludendo falsificazioni d'origine.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-weight: 600;">Gestione &amp; Monitoraggio Rete</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #FEF2F2; color: #991B1B;"><strong>SNMPv1/v2</strong> (UDP 161/162)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); background-color: #ECFDF5; color: #065F46;"><strong>SNMPS / SNMPv3</strong><br>(Porte UDP 161/162)</td>
+          <td style="padding: 12px; border: 1px solid var(--light-slate); font-size: 0.9rem;">SNMPv1/v2 scambiavano 'Community Strings' (password amministrative d'accesso) in chiaro. SNMPv3 (chiamato anche SNMPS) introduce robuste funzionalità di autenticazione basata su utente, verifiche di integrità crittografica (hashed) e cifratura simmetrica completa (payload encryption) dei log e degli SNMP Traps.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam-tip">
+    <strong>EXAM TIP — SSH vs Telnet &amp; SFTP vs FTP</strong><br>
+    Un amministratore IT ha configurato un server remoto e deve proteggere sia le sessioni di manutenzione (CLI) che il caricamento e scaricamento di grandi quantità di database aziendali in transito. Le due scelte obbligate per l'hardening robusto sono:<br>
+    • Utilizzare <strong>SSH (Porta TCP 22)</strong> al posto di Telnet per l'amministrazione, sfruttando chiavi asimmetriche per l'autenticazione e la connessione cifrata.<br>
+    • Adottare <strong>SFTP (Porta TCP 22)</strong> anziché il vecchio FTP o TFTP, poiché canalizzando tutti i passaggi dati all'interno dello stesso tunnel sicuro monodirezionale di SSH si evita anche di creare fastidiose ed ampie falle nel configurare le ACL dei firewall dell'impresa.
+  </div>
+
+  <div class="pitfall">
+    <strong>ATTENZIONE — VoIP e PBX: i protocolli e l'infrastruttura fonica</strong><br>
+    RTP, SIP, H.323, SRTP sono tutti protocolli <strong>VoIP (Voice over IP)</strong>. Le regole del firewall che aprono o ispezionano queste porte sono adibite al traffico voce.
+    <br><br>
+    Un componente centrale di questa architettura è il <strong>PBX (Private Branch Exchange)</strong>, ossia il centralino telefonico aziendale. Un tempo sistema puramente analogico e isolato, oggi il PBX è interamente basato su IP (IP-PBX) ed integrato nella Intranet. Di conseguenza, eredita tutte le vulnerabilità di rete tradizionali, richiedendo specifiche misure di hardening (es. forti regole di autenticazione SIP, blocco del traffico internazionale non pianificato e crittografia forzata tramite SRTP) per evitare intrusioni e frodi telefoniche ad alto impatto economico.
+    <br><br>
+    Non confondere questi servizi telefonici ed enterprise con RTOS, SoC o HVAC.
+  </div>
+
+  <h3 id="sd-wan-sase">SD-WAN e SASE (Software-Defined WAN &amp; Secure Access Service Edge)</h3>
+  <p>
+    Nelle moderne architetture d'impresa, la connettività geografica si è evoluta oltre le tradizionali VPN site-to-site e i costosi circuiti MPLS:
+  </p>
+  <dl class="termlist">
+    <dt>SD-WAN (Software-Defined Wide Area Network)</dt>
+    <dd>Tecnologia che separa il piano di controllo (control plane) dal piano dati (data plane) nella gestione delle connessioni WAN. Invece di affidarsi ad hardware proprietario statico, SD-WAN gestisce dinamicamente il traffico instradandolo attraverso canali differenti (Fibra, LTE/5G, Internet commerciale) in base a criteri di costo, latenza e qualità del servizio (QoS). Ottimizza il routing del traffico, ma di per sé non implementa funzionalità di sicurezza avanzate come il filtraggio dei contenuti.</dd>
+
+    <dt>SASE (Secure Access Service Edge)</dt>
+    <dd>Modello di sicurezza che esegue la convergenza di funzionalità di rete avanzate (SD-WAN) e di sicurezza cloud-native (come FWaaS, CASB, ZTNA e SWG) all'interno di un unico servizio edge distribuito a livello globale nel cloud. Ideale per aziende con laboratori o workforce altamente decentralizzata, in quanto instrada e analizza il traffico localmente verso il nodo SASE più vicino invece di congestionare un concentratore VPN centrale.</dd>
+  </dl>
+  <div class="exam-tip">
+    <strong>EXAM TIP — SD-WAN vs SASE</strong><br>
+    Se lo scenario d'esame vi propone una forza lavoro totalmente distribuita e remota che necessita di filtraggio web e ispezione di sicurezza senza sovraccaricare la VPN centrale aziendale, pensate immediatamente a <strong>SASE</strong>. Se lo scenario menziona solo la necessità di ottimizzare e instradare in modo flessibile ed economico il traffico tra diverse succursali d'ufficio senza accennare a politiche integrate L7 di sicurezza web, la risposta corretta è <strong>SD-WAN</strong>.
+  </div>
+
+  <h3 id="zero-trust-net">Zero Trust per la rete enterprise</h3>
+  <p>
+    Il paradigma <strong>Zero Trust Architecture (ZTA)</strong> si basa sul presupposto fondamentale che nessuna risorsa, utente o dispositivo debba godere di fiducia implicita, a prescindere dal fatto che si trovi all'interno o all'esterno del perimetro di rete dell'organizzazione.
+  </p>
+  <ul>
+    <li><strong>Principi Chiave</strong>: Verifica esplicita e continuativa di ogni connessione (basata su identità, postura del dispositivo, posizione), adozione rigorosa del Least Privilege (privilegio minimo) e presupposto continuo di compromissione (Assume Breach), dividendo la rete in micro-segmenti difendibili.</li>
+    <li><strong>ZTNA (Zero Trust Network Access)</strong>: Fornisce agli utenti l'accesso esclusivo e granulare solo alle specifiche applicazioni di cui hanno bisogno, nascondendo completamente l'IP e il resto dell'infrastruttura di rete a chiunque si colleghi.</li>
+  </ul>
+
+  <h3 id="control-selection">Selezione dei controlli di sicurezza efficaci (Selection of Effective Controls)</h3>
+  <p>
+    La messa in sicurezza dell'infrastruttura enterprise richiede all'analista di saper selezionare il controllo (preventivo, investigativo, correttivo o compensativo) più adatto in relazione alle minacce ed ai vincoli operativi specifici del contesto:
+  </p>
+  <dl class="termlist">
+    <dt>Punti di decisione strategica</dt>
+    <dd>
+      <ul>
+        <li><strong>Proteggere siti Web esposti ad attacchi applicativi (SQLi, XSS)</strong>: La scelta d'elezione ricade su un <strong>WAF (Web Application Firewall)</strong> a livello 7, anziché su un semplice firewall di rete stateful a livello 4 o su un IDS/IPS generico.</li>
+        <li><strong>Isolare e tracciare le azioni degli hacker a scopi conoscitivi</strong>: Prediligere l'implementazione di <strong>Honeypots</strong> (sistemi esca), <strong>Honeynets</strong> (reti fittizie) o l'inserimento strategico di <strong>Honeyfiles / Honeytokens</strong> (finti record o file contenenti dati tracciabili) per catturare l'attività degli intrusi senza esporre i sistemi di produzione.</li>
+        <li><strong>Autenticazione all'accesso fisico in ambienti ad alto rischio (es: hall d'ingresso o reception)</strong>: Impiegare politiche di <strong>802.1X</strong> abbinate a server RADIUS o <strong>Port Security</strong> per bloccare preventivamente le porte ethernet inutilizzate.</li>
+        <li><strong>Protezione dei dati aziendali in uscita (Data Exfiltration)</strong>: Scegliere sistemi <strong>DLP (Data Loss Prevention)</strong> a livello di rete e macchine host, configurando filtri che riconoscono pattern sensibili o impronte protette (watermarking).</li>
+      </ul>
+    </dd>
+  </dl>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz-section">
+  <h2>Test di verifica — OBJ 3.2</h2>
+  <div class="chapter-meta">
+    <p><strong>29 questions d'esame</strong> su infrastruttura enterprise sicura, con feedback immediato e spiegazione in italiano.</p>
+    <button class="quiz-launch-btn" id="quiz-open-btn">Avvia quiz OBJ 3.2 →</button>
+  </div>
+</section>
+
+
+<!-- ── FLASHCARD ───────────────────────────────────────────── -->
+<section id="flashcard" class="card" style="border: 1px solid var(--light-slate); padding: 24px; border-radius: 8px; margin-top: 40px; background-color: var(--white);">
+  <h2>Flashcard rapide OBJ 3.2</h2>
+  <p>Ripassa velocemente i concetti fondamentali con flashcard dinamiche ed autocontrollo sui termini d'esame (Clicca su ciascuna card per girarla o svelare la spiegazione).</p>
+  <div class="flashcard-deck">
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>DMZ (De-Militarized Zone)</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>La zona tampone isolata da firewall per l'esposizione di database o servizi pubblici, per evitare che la compromissione di un server esterno garantisca accessi diretti alla rete aziendale.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Fail-Open vs Fail-Closed</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Fail-Open</strong>: privilegia l'Availability (disponibilità, porte tagliafuoco che si aprono in assenza di corrente).<br><strong>Fail-Closed</strong>: privilegia la Security (firewall che blocca tutto).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>802.1X Network Authentication</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Protocollo ubiquo client-switch-RADIUS. Richiede imperativamente autenticazione formale (identità sicura) prima che la porta fisica dello switch venga abilitata sul server.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Active/Inline vs Passive/Tap</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p><strong>Active/Inline</strong>: il sensore è collocato sul canale di traffico e può decidere di droppare pacchetti (IPS).<br><strong>Passive/Tap</strong>: riceve una copia del traffico silente, senza poter mai bloccare (IDS).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>IPSec per flussi inter-rete</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Protocollo a Layer 3 (Network) ideale per stabilire tunnel VPN site-to-site sicuri che crittografano interamente l'intiero payload IP tra due reti geografiche.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span>Zero Trust per il network design</span>
+          <small>Clicca per girare</small>
+        </div>
+        <div class="flashcard-back">
+          <p>Metodo architetturale granulare privo di perimetri fiduciari impliciti, focalizzato sulla segmentazione provonda dei server tramite ACL per contenere il threat scope.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-nav">
+  <a href="en_obj3_1_architecture.html">← OBJ 3.1 — Modelli architetturali</a>
+  <a href="en_obj3_3_data_protection.html" class="secondary">OBJ 3.3 — Protezione dei dati →</a>
+</div>
+
+</main>
+</div>
+</div></div>
+
+<!-- QUIZ MODAL -->
+
+
+<!-- ══ CENTRALIZED QUIZ & HYBRID LAYOUT MODULES ══════════════ -->
+<script src="../script/quiz-database.js" defer></script>
+<script src="../script/chapter-quiz-loader.js" defer></script>
+<script src="../script/global-nav-footer.js" defer></script>
+
+<script src="../script/global-search.js" defer></script>
+</body>
+</html>
